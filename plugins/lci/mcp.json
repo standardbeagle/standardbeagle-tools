@@ -1,5 +1,5 @@
 {
-  "cs": {
+  "lci": {
     "command": "lci",
     "args": ["mcp"],
     "env": {}

@@ -4,7 +4,7 @@
     "args": ["mcp"],
     "env": {}
   },
-  "cs": {
+  "lci": {
     "command": "lci",
     "args": ["mcp"],
     "env": {}

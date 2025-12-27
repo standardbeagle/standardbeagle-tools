@@ -5,7 +5,7 @@ allowed-tools:
   - mcp__agnt__detect
   - mcp__agnt__run
   - mcp__agnt__proxy
-  - mcp__cs__code_insight
+  - mcp__lci__code_insight
   - Read
   - Write
   - Glob
@@ -18,7 +18,7 @@ Configure your project for optimal development with agnt and lci.
 ## Instructions
 
 1. **Detect project type**: Use `mcp__agnt__detect` to identify the project
-2. **Analyze codebase**: Use `mcp__cs__code_insight mode="overview"` to understand structure
+2. **Analyze codebase**: Use `mcp__lci__code_insight mode="overview"` to understand structure
 3. **Configure auto-start**: Set up dev servers and proxies based on detected scripts
 4. **Save configuration**: Write `.agnt.kdl` with appropriate settings
 
