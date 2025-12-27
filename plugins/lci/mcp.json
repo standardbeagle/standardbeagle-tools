@@ -1,0 +1,7 @@
+{
+  "cs": {
+    "command": "lci",
+    "args": ["mcp"],
+    "env": {}
+  }
+}

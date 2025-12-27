@@ -1,0 +1,33 @@
+{
+  "name": "tools",
+  "version": "1.0.0",
+  "description": "Complete Standard Beagle toolkit - combines agnt (browser superpowers) and lci (code intelligence) for the ultimate AI coding experience",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "agnt",
+    "lci",
+    "toolkit",
+    "code-intelligence",
+    "browser-debugging",
+    "process-management",
+    "semantic-search"
+  ],
+  "mcpServers": "./mcp.json",
+  "commands": [
+    "./commands/setup-project.md",
+    "./commands/dev-proxy.md",
+    "./commands/search.md",
+    "./commands/explore.md"
+  ],
+  "agents": [
+    "./agents/browser-debugger.md",
+    "./agents/code-explorer.md"
+  ]
+}
