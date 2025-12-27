@@ -1,7 +1,7 @@
 {
   "lci": {
-    "command": "lci",
-    "args": ["mcp"],
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/lci@latest", "mcp"],
     "env": {}
   }
 }
