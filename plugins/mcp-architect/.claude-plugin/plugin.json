@@ -1,0 +1,22 @@
+{
+  "name": "mcp-architect",
+  "version": "0.1.0",
+  "description": "Design high-quality MCP servers with progressive discovery, context compression, and token-efficient responses. Includes patterns for multi-tool MCPs, the info tool pattern, cross-tool IDs, and automation-friendly JSON formats.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "progressive-discovery",
+    "context-compression",
+    "mcp-design",
+    "mcp-patterns",
+    "api-design",
+    "token-optimization"
+  ]
+}

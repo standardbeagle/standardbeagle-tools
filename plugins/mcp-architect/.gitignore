@@ -1,0 +1,17 @@
+# Local settings
+.claude/*.local.md
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test output
+test-results/
+*.log
