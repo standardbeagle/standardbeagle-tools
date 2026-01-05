@@ -105,6 +105,85 @@
         "api-design",
         "token-optimization"
       ]
+    },
+    {
+      "name": "ux-design",
+      "source": "./plugins/ux-design",
+      "description": "UX design principles, color theory, typography systems, component library design, and usability heuristics. Comprehensive design guidance for creating exceptional user experiences with Adobe Color-inspired palette creation, type system design, and accessibility-first thinking.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "ux-design",
+        "color-theory",
+        "typography",
+        "component-library",
+        "design-system",
+        "accessibility",
+        "heuristics",
+        "visual-hierarchy",
+        "responsive-design",
+        "iconography"
+      ],
+      "category": "design"
+    },
+    {
+      "name": "ux-developer",
+      "source": "./plugins/ux-developer",
+      "description": "UX-driven development toolkit for building accessible, user-centered websites and applications. Integrates UX principles, accessibility verification (WCAG 2.2), Nielsen's heuristics, and usability best practices directly into the development workflow. Includes agents for comprehensive audits and component design.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "ux-development",
+        "accessibility",
+        "wcag",
+        "usability",
+        "heuristics",
+        "a11y",
+        "inclusive-design",
+        "keyboard-navigation",
+        "screen-reader",
+        "mobile-first",
+        "component-design"
+      ],
+      "category": "development"
+    },
+    {
+      "name": "dartai",
+      "source": "./plugins/dartai",
+      "description": "Dart task management integration with automated task execution, code quality pipeline, and documentation updates. Features Ralph Wiggum-style continuous execution loop with code review, testing, linting, LCI evaluation, and deprecated code cleanup.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "dart",
+        "task-management",
+        "automation",
+        "code-quality",
+        "code-review",
+        "testing",
+        "linting",
+        "documentation",
+        "ralph-wiggum",
+        "continuous-execution"
+      ],
+      "category": "development"
     }
   ]
 }

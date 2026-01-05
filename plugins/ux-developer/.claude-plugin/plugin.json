@@ -1,0 +1,53 @@
+{
+  "name": "ux-developer",
+  "version": "0.1.0",
+  "description": "UX-driven development toolkit for building accessible, user-centered websites and applications. Integrates UX principles, accessibility verification, and usability heuristics directly into the development workflow.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "ux-development",
+    "accessibility",
+    "wcag",
+    "usability",
+    "heuristics",
+    "user-centered-design",
+    "a11y",
+    "inclusive-design",
+    "web-development",
+    "component-design"
+  ],
+  "commands": [
+    "./commands/ux-review.md",
+    "./commands/a11y-check.md",
+    "./commands/component-ux.md",
+    "./commands/user-flow.md",
+    "./commands/ux-verify.md",
+    "./commands/form-ux.md"
+  ],
+  "skills": [
+    "./skills/nielsen-heuristics.md",
+    "./skills/wcag-guidelines.md",
+    "./skills/mobile-first.md",
+    "./skills/form-design.md",
+    "./skills/error-handling.md",
+    "./skills/loading-states.md",
+    "./skills/navigation-patterns.md",
+    "./skills/content-hierarchy.md",
+    "./skills/touch-targets.md",
+    "./skills/keyboard-navigation.md",
+    "./skills/screen-reader.md",
+    "./skills/cognitive-load.md"
+  ],
+  "agents": [
+    "./agents/ux-auditor.md",
+    "./agents/a11y-specialist.md",
+    "./agents/component-designer.md",
+    "./agents/flow-analyst.md"
+  ],
+  "mcpServers": "./mcp.json"
+}

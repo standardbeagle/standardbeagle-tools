@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "agnt": {
+      "command": "npx",
+      "args": ["-y", "@standardbeagle/agnt@latest", "mcp"],
+      "env": {}
+    }
+  }
+}
