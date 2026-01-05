@@ -1,5 +1,5 @@
 ---
-name: status
+name: loop-status
 description: Show current Ralph Wiggum loop status and task progress
 ---
 
@@ -64,7 +64,7 @@ Use mcp__Dart__get_task to fetch full task info
 ## Usage
 
 ```
-/dartai:status
+/dartai:loop-status
 ```
 
 ## Related Commands

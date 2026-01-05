@@ -1,5 +1,5 @@
 ---
-name: config
+name: dartai-config
 description: Configure dartai settings for the current project
 ---
 
@@ -104,7 +104,7 @@ Ensure `.claude/dartai.local.md` is in `.gitignore`:
 ## Usage
 
 ```
-/dartai:config
+/dartai:dartai-config
 ```
 
 ## Configuration File Location

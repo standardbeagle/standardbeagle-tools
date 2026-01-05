@@ -24,6 +24,6 @@
   "commands": [
     "./commands/search.md",
     "./commands/explore.md",
-    "./commands/context.md"
+    "./commands/code-context.md"
   ]
 }

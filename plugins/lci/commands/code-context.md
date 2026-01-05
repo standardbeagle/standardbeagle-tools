@@ -1,5 +1,5 @@
 ---
-name: context
+name: code-context
 description: Get detailed context for code symbols using Lightning Code Index
 allowed-tools:
   - mcp__lci__get_context

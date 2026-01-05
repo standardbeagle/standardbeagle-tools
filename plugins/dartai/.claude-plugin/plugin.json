@@ -22,9 +22,9 @@
   "commands": [
     "./commands/start.md",
     "./commands/task.md",
-    "./commands/status.md",
+    "./commands/loop-status.md",
     "./commands/sync.md",
-    "./commands/config.md"
+    "./commands/dartai-config.md"
   ],
   "skills": [
     "./skills/task-execution.md",
