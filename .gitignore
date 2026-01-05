@@ -9,6 +9,9 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Claude Code local settings
+.claude/
+
 # Build artifacts
 *.exe
 *.dll
