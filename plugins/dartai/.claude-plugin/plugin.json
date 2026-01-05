@@ -1,0 +1,39 @@
+{
+  "name": "dartai",
+  "version": "0.1.0",
+  "description": "Dart task management integration with automated task execution, code quality pipeline, and documentation updates. Includes Ralph Wiggum-style continuous execution loop.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "dart",
+    "task-management",
+    "automation",
+    "code-quality",
+    "testing",
+    "documentation",
+    "ralph-wiggum",
+    "continuous-execution"
+  ],
+  "commands": [
+    "./commands/start.md",
+    "./commands/task.md",
+    "./commands/status.md",
+    "./commands/sync.md",
+    "./commands/config.md"
+  ],
+  "skills": [
+    "./skills/task-execution.md",
+    "./skills/code-quality.md",
+    "./skills/doc-templates.md"
+  ],
+  "agents": [
+    "./agents/task-executor.md",
+    "./agents/doc-updater.md"
+  ],
+  "hooks": "./hooks/hooks.json"
+}
