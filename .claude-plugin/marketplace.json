@@ -184,6 +184,33 @@
         "continuous-execution"
       ],
       "category": "development"
+    },
+    {
+      "name": "mcp-tester",
+      "source": "./plugins/mcp-tester",
+      "description": "MCP server testing and debugging toolkit using mcp-tui and mcp-debug. Interactive TUI for exploring tools/resources, hot-swap development, session recording/replay, and automated CI/CD testing workflows.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "mcp",
+        "testing",
+        "debugging",
+        "tui",
+        "mcp-tui",
+        "mcp-debug",
+        "hot-swap",
+        "session-recording",
+        "json-rpc",
+        "ci-cd",
+        "automation"
+      ],
+      "category": "development"
     }
   ]
 }

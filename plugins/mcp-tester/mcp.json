@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "mcp-debug": {
+      "command": "npx",
+      "args": ["-y", "mcp-debug", "--proxy"],
+      "env": {}
+    }
+  }
+}
