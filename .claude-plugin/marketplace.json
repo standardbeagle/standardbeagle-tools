@@ -211,6 +211,31 @@
         "automation"
       ],
       "category": "development"
+    },
+    {
+      "name": "slop-mcp",
+      "source": "./plugins/slop-mcp",
+      "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers through SLOP's unified REST API with sandboxed scripting.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "slop",
+        "mcp",
+        "migration",
+        "orchestration",
+        "rest-api",
+        "tool-execution",
+        "resource-management",
+        "code-execution",
+        "sandboxed-scripting"
+      ],
+      "category": "development"
     }
   ]
 }
