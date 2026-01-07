@@ -236,6 +236,36 @@
         "sandboxed-scripting"
       ],
       "category": "development"
+    },
+    {
+      "name": "prompt-engineer",
+      "source": "./plugins/prompt-engineer",
+      "description": "State-of-the-art prompt and context engineering toolkit for 2026. Includes DSPy-inspired optimization, Claude 4.x patterns, context engineering, chain-of-thought design, RAG prompting, multi-agent orchestration, and model-specific guidelines for GPT, DeepSeek, Qwen, Grok, Kimi K2, and more.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "prompt-engineering",
+        "context-engineering",
+        "dspy",
+        "opro",
+        "chain-of-thought",
+        "few-shot",
+        "rag",
+        "multi-agent",
+        "prompt-optimization",
+        "claude",
+        "gpt",
+        "deepseek",
+        "qwen",
+        "reasoning-models"
+      ],
+      "category": "ai"
     }
   ]
 }

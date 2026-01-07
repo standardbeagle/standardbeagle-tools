@@ -1,0 +1,50 @@
+{
+  "name": "prompt-engineer",
+  "version": "0.1.0",
+  "description": "State-of-the-art prompt and context engineering toolkit for 2026. Includes DSPy-inspired optimization, Claude 4.x patterns, context engineering, chain-of-thought design, RAG prompting, and multi-agent orchestration techniques.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "prompt-engineering",
+    "context-engineering",
+    "dspy",
+    "chain-of-thought",
+    "few-shot",
+    "rag",
+    "multi-agent",
+    "prompt-optimization",
+    "claude-patterns",
+    "llm-optimization"
+  ],
+  "commands": [
+    "./commands/analyze-prompt.md",
+    "./commands/optimize-prompt.md",
+    "./commands/create-system-prompt.md",
+    "./commands/context-audit.md",
+    "./commands/few-shot-design.md",
+    "./commands/eval-prompt.md",
+    "./commands/scaffold-prompt.md",
+    "./commands/compress-context.md"
+  ],
+  "skills": [
+    "./skills/prompt-patterns.md",
+    "./skills/context-engineering.md",
+    "./skills/claude-optimization.md",
+    "./skills/rag-prompting.md",
+    "./skills/multi-agent-prompts.md",
+    "./skills/chain-of-thought.md",
+    "./skills/prompt-scaffolding.md",
+    "./skills/automatic-optimization.md",
+    "./skills/model-specific.md"
+  ],
+  "agents": [
+    "./agents/prompt-optimizer.md",
+    "./agents/context-architect.md",
+    "./agents/eval-specialist.md"
+  ]
+}
