@@ -1,0 +1,33 @@
+{
+  "name": "slop-coder",
+  "version": "0.1.0",
+  "description": "SLOP language coding assistant - teaches LLMs how to write SLOP code with comprehensive language reference, patterns, and best practices for building AI agents and orchestration workflows.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "slop",
+    "dsl",
+    "ai-agents",
+    "llm-orchestration",
+    "coding-assistant",
+    "language-reference",
+    "code-generation"
+  ],
+  "commands": [
+    "./commands/slop-write.md",
+    "./commands/slop-explain.md"
+  ],
+  "skills": [
+    "./skills/language-reference.md",
+    "./skills/patterns.md",
+    "./skills/builtins.md",
+    "./skills/modules.md"
+  ],
+  "agents": [
+    "./agents/slop-coder.md"
+  ]
+}
