@@ -23,7 +23,8 @@
     "./commands/slop-add.md",
     "./commands/slop-list.md",
     "./commands/slop-search.md",
-    "./commands/slop-exec.md"
+    "./commands/slop-exec.md",
+    "./commands/slop-skills.md"
   ],
   "skills": [
     "./skills/migration-guide.md",
