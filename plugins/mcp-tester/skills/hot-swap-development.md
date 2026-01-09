@@ -1,11 +1,18 @@
 ---
 name: hot-swap-development
-description: Hot-swap MCP server development workflow
+description: Use this skill when developing MCP servers with hot-swap workflow for rapid iteration
 ---
 
-# Hot-Swap Development
+# Hot-Swap MCP Development Workflow
 
-Develop MCP servers rapidly using hot-swap capabilities without disconnecting clients.
+You are guiding a developer through the hot-swap development workflow using mcp-debug.
+
+## Overview
+
+Hot-swap development enables replacing MCP server implementations without:
+- Restarting Claude Code or other MCP clients
+- Losing debug session history
+- Changing tool names or prefixes
 
 ## The Problem
 
@@ -22,257 +29,156 @@ Each iteration wastes time on reconnection and state restoration.
 
 ## The Solution
 
-mcp-debug proxy enables hot-swap:
+mcp-debug enables hot-swap:
 1. Make code change
 2. Rebuild server
-3. Call `server_reconnect`
+3. Call `server_disconnect` then `server_reconnect`
 4. Test change immediately
 
 Client stays connected, state preserved.
 
-## Setup
+## Workflow Steps
 
-### 1. Create Proxy Config
+### 1. Initial Setup
 
-```yaml
-# dev-proxy.yaml
-servers:
-  myserver:
-    command: ./bin/myserver
-    args: ["--dev-mode"]
+Start by adding your development server:
+
+```
+Use server_add tool:
+- name: "myserver"
+- command: "go run ./cmd/server" (or your dev command)
 ```
 
-### 2. Start Proxy
+### 2. Development Cycle
 
-```bash
-mcp-debug --proxy --config dev-proxy.yaml --log dev.log
-```
+When you make code changes:
 
-### 3. Connect Client
+1. **Build new version**
+   ```bash
+   go build -o ./bin/server-v2 ./cmd/server
+   # or: npm run build
+   # or: cargo build --release
+   ```
 
-Point Claude Desktop or your client to the proxy.
+2. **Disconnect current server**
+   ```
+   Use server_disconnect tool:
+   - name: "myserver"
+   ```
+   Tools remain registered but calls will queue.
 
-### 4. Development Loop
+3. **Reconnect with new binary**
+   ```
+   Use server_reconnect tool:
+   - name: "myserver"
+   - command: "./bin/server-v2"
+   ```
 
-```bash
-# Terminal 1: Watch and rebuild
-watchexec -e go -- go build -o bin/myserver ./cmd/server
+4. **Verify tools work**
+   ```
+   Use server_list tool to confirm connection
+   Test a tool to verify functionality
+   ```
 
-# Terminal 2: Monitor proxy
-tail -f dev.log
+### 3. Debugging Changes
 
-# In client: After each rebuild
-# Call the server_reconnect tool
-```
+Use debug tools to verify behavior:
 
-## Proxy Management Tools
+- `debug_logs` - View request/response traffic
+- `debug_status` - Check connection health
+- `schema_validate` - Verify schema changes
 
-### server_reconnect
-
-Restart server with updated binary, preserving client connection:
-
-```json
-{
-  "name": "server_reconnect",
-  "arguments": {
-    "server": "myserver",
-    "command": "./bin/myserver",  // optional: new path
-    "args": ["--new-flag"]        // optional: new args
-  }
-}
-```
-
-### server_disconnect
-
-Temporarily disable server (tools return errors):
-
-```json
-{
-  "name": "server_disconnect",
-  "arguments": {
-    "server": "myserver"
-  }
-}
-```
-
-Useful for testing error handling in clients.
-
-### server_list
-
-Show all servers and their status:
-
-```json
-{
-  "name": "server_list"
-}
-```
-
-Returns:
-```json
-{
-  "servers": [
-    {
-      "name": "myserver",
-      "status": "connected",
-      "tools": 5,
-      "uptime": "2h30m"
-    }
-  ]
-}
-```
+## Server Management Tools
 
 ### server_add
 
 Add a new server dynamically:
+```
+server_add with:
+- name: "myserver"
+- command: "python server.py"
+```
 
-```json
-{
-  "name": "server_add",
-  "arguments": {
-    "name": "newserver",
-    "command": "python",
-    "args": ["server.py"]
-  }
-}
+### server_disconnect
+
+Temporarily disable server (tools remain registered):
+```
+server_disconnect with:
+- name: "myserver"
+```
+
+### server_reconnect
+
+Reconnect with new binary:
+```
+server_reconnect with:
+- name: "myserver"
+- command: "./new-binary"
+```
+
+### server_list
+
+Show all servers and their status:
+```
+server_list
 ```
 
 ### server_remove
 
 Completely remove a server:
-
-```json
-{
-  "name": "server_remove",
-  "arguments": {
-    "server": "newserver"
-  }
-}
+```
+server_remove with:
+- name: "myserver"
 ```
 
 ## Workflow Patterns
 
-### Pattern 1: Single Server Development
+### Pattern 1: Watch and Rebuild
 
 ```bash
-# Start proxy
-mcp-debug --proxy --config single.yaml
+# Terminal 1: Watch and rebuild
+watchexec -e go -- go build -o bin/myserver ./cmd/server
 
-# Development loop
-while true; do
-    # Wait for code change
-    inotifywait -e modify src/
-
-    # Rebuild
-    go build -o bin/server ./cmd/server
-
-    # Hot-swap (via client or curl)
-    echo "Rebuilt - use server_reconnect in client"
-done
+# In Claude Code: After each rebuild
+# Call server_disconnect then server_reconnect
 ```
 
-### Pattern 2: Multi-Server Development
+### Pattern 2: A/B Testing
 
-```yaml
-# multi.yaml
-servers:
-  auth:
-    command: ./auth-server
-  data:
-    command: ./data-server
-  search:
-    command: ./search-server
+1. Test version A
+2. Hot-swap to version B with server_reconnect
+3. Test version B
+4. Compare behavior using debug_logs
+
+### Pattern 3: Debug Mode Toggle
+
 ```
-
-Develop each server independently, hot-swap as needed.
-
-### Pattern 3: A/B Testing
-
-```bash
-# Start with version A
-mcp-debug --proxy --config config.yaml
-
-# Test version A
-# ...
-
-# Hot-swap to version B
-# Use server_reconnect with new binary path
-
-# Test version B
-# Compare behavior
-```
-
-### Pattern 4: Debug Mode Toggle
-
-```bash
 # Normal mode
-server_reconnect myserver command="./server"
+server_reconnect with command="./server"
 
 # Debug mode with extra logging
-server_reconnect myserver command="./server" args='["--debug", "--verbose"]'
+server_reconnect with command="./server --debug --verbose"
 ```
 
 ## Best Practices
 
-### 1. Fast Rebuilds
-
-Use incremental compilation:
-```bash
-# Go
-go build -o bin/server ./cmd/server
-
-# Rust (debug builds)
-cargo build
-
-# TypeScript
-tsc --incremental
-```
-
-### 2. State Management
-
-Design servers to handle reconnection:
-- Stateless tools when possible
-- Persistent state in external stores
-- Graceful shutdown handling
-
-### 3. Logging
-
-Enable proxy logging for debugging:
-```bash
-mcp-debug --proxy --config config.yaml --log /tmp/proxy.log
-tail -f /tmp/proxy.log
-```
-
-### 4. Error Recovery
-
-If hot-swap fails:
-1. Check server logs
-2. Verify binary exists and is executable
-3. Test server standalone first
-4. Use `server_remove` and `server_add` to reset
+1. **Use versioned binaries** - Name binaries with version for rollback
+2. **Check logs after swap** - Verify no errors in traffic
+3. **Test critical tools first** - Confirm key functionality works
+4. **Keep previous binary** - Enable quick rollback if issues
 
 ## Troubleshooting
 
-### Server Won't Reconnect
+**Server won't reconnect:**
+- Check command path is correct
+- Verify binary has execute permissions
+- Check for port conflicts if using network
 
-```bash
-# Check if binary exists
-ls -la ./bin/server
-
-# Test server standalone
-./bin/server --help
-
-# Check proxy logs
-grep "reconnect" dev.log
-```
-
-### Tools Missing After Reconnect
-
+**Tools missing after swap:**
 - Server may have changed tool definitions
-- Client may need to re-fetch tool list
-- Check for initialization errors in logs
+- Use `server_list` to see current tools
+- Check server logs for initialization errors
 
-### State Lost
-
-- Design for statelessness
-- Use external state stores
-- Implement state persistence if needed
+**Unexpected behavior:**
+- Use `debug_logs` to compare before/after requests
+- Validate schemas haven't changed incompatibly

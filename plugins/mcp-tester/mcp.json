@@ -2,7 +2,7 @@
   "mcpServers": {
     "mcp-debug": {
       "command": "npx",
-      "args": ["-y", "mcp-debug", "--proxy"],
+      "args": ["-y", "@standardbeagle/mcp-debug@latest"],
       "env": {}
     }
   }

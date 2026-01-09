@@ -1,0 +1,6 @@
+plugins/slop-mcp/mcp.json filter=slop-mcp-local
+plugins/agnt/mcp.json filter=agnt-local
+plugins/lci/mcp.json filter=lci-local
+plugins/tools/mcp.json filter=tools-local
+plugins/ux-developer/mcp.json filter=ux-developer-local
+plugins/mcp-tester/mcp.json filter=mcp-debug-local

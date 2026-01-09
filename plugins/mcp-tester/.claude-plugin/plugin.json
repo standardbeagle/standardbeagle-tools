@@ -1,37 +1,37 @@
 {
   "name": "mcp-tester",
-  "version": "0.1.0",
-  "description": "MCP server testing and debugging toolkit. Interactive TUI for exploring tools/resources, hot-swap development, session recording/replay, and automated testing workflows.",
+  "version": "0.2.0",
+  "description": "MCP server testing and debugging toolkit. Dynamic server management, traffic analysis, schema validation, and hot-swap development workflows.",
   "author": {
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
   },
-  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "homepage": "https://github.com/standardbeagle/mcp-debug",
   "repository": "https://github.com/standardbeagle/standardbeagle-tools",
   "license": "MIT",
   "keywords": [
     "mcp",
     "testing",
     "debugging",
-    "tui",
+    "schema-validation",
     "hot-swap",
-    "session-recording",
+    "traffic-analysis",
     "json-rpc",
     "development-proxy",
-    "automation",
-    "ci-cd"
+    "protocol-debugging"
   ],
   "commands": [
-    "./commands/test-server.md",
-    "./commands/record-session.md",
-    "./commands/replay-session.md",
-    "./commands/proxy-start.md",
-    "./commands/explore-mcp.md"
+    "./commands/add-server.md",
+    "./commands/debug-logs.md",
+    "./commands/validate-schema.md",
+    "./commands/server-status.md",
+    "./commands/hot-swap.md",
+    "./commands/send-raw.md"
   ],
   "skills": [
-    "./skills/mcp-testing-patterns.md",
-    "./skills/session-recording.md",
-    "./skills/hot-swap-development.md"
+    "./skills/hot-swap-development.md",
+    "./skills/debug-mcp-traffic.md",
+    "./skills/validate-mcp-server.md"
   ],
   "agents": [
     "./agents/mcp-debugger.md",
