@@ -24,7 +24,6 @@
     "session"
   ],
   "hooks": "./hooks/hooks.json",
-  "mcpServers": "./mcp.json",
   "commands": [
     "./commands/setup-project.md",
     "./commands/dev-proxy.md",
@@ -44,7 +43,8 @@
     "./commands/schedule.md"
   ],
   "skills": [
-    "./skills/schedule.md"
+    "./skills/schedule.md",
+    "./skills/setup-mcp.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "mcp-debug": {
+      "command": "mcp-debug",
+      "args": [],
+      "env": {}
+    }
+  }
+}

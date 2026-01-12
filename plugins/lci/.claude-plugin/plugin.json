@@ -20,10 +20,13 @@
     "codebase-navigation",
     "indexing"
   ],
-  "mcpServers": "./mcp.json",
   "commands": [
     "./commands/search.md",
     "./commands/explore.md",
     "./commands/code-context.md"
+  ],
+  "skills": [
+    "./skills/setup-mcp.md",
+    "./skills/mcp-status.md"
   ]
 }

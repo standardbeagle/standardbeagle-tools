@@ -41,13 +41,13 @@
     "./skills/touch-targets.md",
     "./skills/keyboard-navigation.md",
     "./skills/screen-reader.md",
-    "./skills/cognitive-load.md"
+    "./skills/cognitive-load.md",
+    "./skills/setup-mcp.md"
   ],
   "agents": [
     "./agents/ux-auditor.md",
     "./agents/a11y-specialist.md",
     "./agents/component-designer.md",
     "./agents/flow-analyst.md"
-  ],
-  "mcpServers": "./mcp.json"
+  ]
 }

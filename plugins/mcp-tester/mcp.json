@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "mcp-debug": {
-      "command": "npx",
-      "args": ["-y", "@standardbeagle/mcp-debug@latest"],
-      "env": {}
-    }
-  }
-}

@@ -31,11 +31,11 @@
   "skills": [
     "./skills/hot-swap-development.md",
     "./skills/debug-mcp-traffic.md",
-    "./skills/validate-mcp-server.md"
+    "./skills/validate-mcp-server.md",
+    "./skills/setup-mcp.md"
   ],
   "agents": [
     "./agents/mcp-debugger.md",
     "./agents/test-automation.md"
-  ],
-  "mcpServers": "./mcp.json"
+  ]
 }

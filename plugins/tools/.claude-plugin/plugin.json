@@ -19,12 +19,14 @@
     "process-management",
     "semantic-search"
   ],
-  "mcpServers": "./mcp.json",
   "commands": [
     "./commands/setup-project.md",
     "./commands/dev-proxy.md",
     "./commands/search.md",
     "./commands/explore.md"
+  ],
+  "skills": [
+    "./skills/setup-mcp.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",

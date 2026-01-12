@@ -1,0 +1,12 @@
+{
+  "agnt": {
+    "command": "agnt",
+    "args": ["mcp"],
+    "env": {}
+  },
+  "lci": {
+    "command": "lci",
+    "args": ["mcp"],
+    "env": {}
+  }
+}
