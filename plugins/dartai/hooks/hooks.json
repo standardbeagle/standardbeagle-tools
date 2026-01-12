@@ -23,6 +23,26 @@
         ]
       },
       {
+        "matcher": "mcp__Dart__list_tasks|mcp__Dart__create_task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_dartboard.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__plugin_slop-mcp_slop-mcp__execute_tool",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_dartboard.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {

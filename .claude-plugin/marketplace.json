@@ -162,8 +162,8 @@
     {
       "name": "dartai",
       "source": "./plugins/dartai",
-      "description": "Dart task management integration with automated task execution, code quality pipeline, and documentation updates. Features Ralph Wiggum-style continuous execution loop with code review, testing, linting, LCI evaluation, and deprecated code cleanup.",
-      "version": "0.1.0",
+      "description": "Dart task management with adversarial cooperation loops - automated task execution through quality, test, security, and refactoring verification pipelines. Features dartboard memory for project defaults, plan adjustment at each phase, and context-sized tasks with verifiable outcomes.",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -175,13 +175,17 @@
         "dart",
         "task-management",
         "automation",
+        "adversarial-cooperation",
+        "quality-verification",
         "code-quality",
-        "code-review",
+        "security-audit",
         "testing",
-        "linting",
-        "documentation",
+        "refactoring",
         "ralph-wiggum",
-        "continuous-execution"
+        "plan-adjustment",
+        "continuous-execution",
+        "dartboard-memory",
+        "project-defaults"
       ],
       "category": "development"
     },
@@ -214,8 +218,8 @@
     {
       "name": "slop-mcp",
       "source": "./plugins/slop-mcp",
-      "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers through SLOP's unified REST API with sandboxed scripting.",
-      "version": "0.1.0",
+      "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers. Includes Dart MCP tool reference skills for reduced get_metadata calls.",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -231,8 +235,9 @@
         "rest-api",
         "tool-execution",
         "resource-management",
-        "code-execution",
-        "sandboxed-scripting"
+        "dart-tools",
+        "task-management",
+        "skill-generation"
       ],
       "category": "development"
     },

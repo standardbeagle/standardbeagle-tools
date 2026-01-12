@@ -21,6 +21,16 @@ Use Read tool to check if config exists
 Guide user through settings:
 
 #### Default Dartboard
+
+First fetch available dartboards:
+```
+Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
+  mcp_name: "dart"
+  tool_name: "get_config"
+  parameters: {}
+```
+
+Then present options:
 ```
 Available dartboards:
 1. Personal/standardbeagle-tools
@@ -58,41 +68,44 @@ Ralph Wiggum loop settings:
 
 ### 3. Write Configuration
 
-Create `.claude/dartai.local.md`:
+Create `.claude/dartai.local.md` with YAML frontmatter:
 
 ```markdown
-# DartAI Configuration
+---
+# Dartboard Memory (auto-managed)
+default_dartboard: "Personal/standardbeagle-tools"
+last_dartboard: null
+last_dartboard_used_at: null
 
-## Default Dartboard
-[selected dartboard name]
+# Quality Pipeline
+linting: true
+testing: true
+lci_evaluation: true
+deprecated_cleanup: true
+auto_refactor: false
 
-## Quality Pipeline
-- linting: true
-- testing: true
-- lci_evaluation: true
-- deprecated_cleanup: true
-- auto_refactor: false
+# Documentation
+changelog: true
+readme: false
+dart_comments: true
 
-## Documentation
-- changelog: true
-- readme: false
-- dart_comments: true
+# Loop Settings
+max_tasks: null  # null = unlimited
+pause_between: false
+auto_commit: false
 
-## Loop Settings
-- max_tasks: unlimited
-- pause_between: false
-- auto_commit: false
+# Custom Commands
+lint_command: "npm run lint"
+test_command: "npm test"
+build_command: "npm run build"
+---
 
-## Custom Commands
-### Linting
-`npm run lint` or `go vet ./...`
+# DartAI Project Notes
 
-### Testing
-`npm test` or `go test ./...`
-
-### Build
-`npm run build` or `go build ./...`
+Add any project-specific notes here. This content is preserved when settings are updated.
 ```
+
+**Important:** The `last_dartboard` and `last_dartboard_used_at` fields are automatically updated when you use Dart operations. The `default_dartboard` is manually set and used as fallback when no last_dartboard is available.
 
 ### 4. Add to .gitignore
 

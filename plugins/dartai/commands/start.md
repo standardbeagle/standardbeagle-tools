@@ -19,14 +19,34 @@ This loop uses adversarial cooperation where:
 
 ### 1. Determine Target Dartboard
 
-If dartboard name provided as argument, use it. Otherwise:
+If dartboard name provided as argument, use it and save as last used. Otherwise:
 
-1. Check for `.claude/dartai.local.md` config file for default dartboard
-2. Try to match current directory name to a dartboard
-3. Ask user to select from available dartboards via Dart MCP
+**Priority order for dartboard selection:**
 
+1. **Check last used dartboard** from `.claude/dartai.local.md` frontmatter (`last_dartboard` field)
+2. **Check default dartboard** from `.claude/dartai.local.md` frontmatter (`default_dartboard` field)
+3. **Try directory name matching** - match current directory name to a dartboard
+4. **Interactive selection** - ask user to select from available dartboards
+
+**To read the config file:**
 ```
-Use mcp__Dart__get_config to get available dartboards
+Read .claude/dartai.local.md and parse YAML frontmatter between --- markers
+Look for: last_dartboard, default_dartboard fields
+```
+
+**If no dartboard found in config, fetch available dartboards:**
+```
+Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
+  mcp_name: "dart"
+  tool_name: "get_config"
+  parameters: {}
+```
+
+**After selecting a dartboard, save it as last used:**
+```python
+# Update .claude/dartai.local.md frontmatter with:
+# last_dartboard: "Selected/Dartboard"
+# last_dartboard_used_at: "ISO timestamp"
 ```
 
 ### 2. Select Loop Type
@@ -41,15 +61,20 @@ Available loops:
 
 ### 3. Fetch Active Tasks
 
-Query Dart for tasks in the dartboard:
+Query Dart for tasks in the dartboard using SLOP:
 
 ```
-Use mcp__Dart__list_tasks with:
-- dartboard: [selected dartboard]
-- is_completed: false
-- status: "To-do" or "In Progress"
-- limit: 20
+Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
+  mcp_name: "dart"
+  tool_name: "list_tasks"
+  parameters: {
+    "dartboard": "[selected dartboard]",
+    "is_completed": false,
+    "limit": 20
+  }
 ```
+
+Filter results by status "To-do" or "In Progress".
 
 ### 4. Initialize Loop State
 

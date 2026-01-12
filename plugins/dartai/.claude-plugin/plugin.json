@@ -1,7 +1,7 @@
 {
   "name": "dartai",
-  "version": "0.2.0",
-  "description": "Dart task management with adversarial cooperation loops - automated task execution through quality verification pipelines with plan adjustment, context-sized tasks, and verifiable outcomes.",
+  "version": "0.3.0",
+  "description": "Dart task management with adversarial cooperation loops - automated task execution through quality verification pipelines with plan adjustment, context-sized tasks, and verifiable outcomes. Now with dartboard memory for automatic project-specific defaults.",
   "author": {
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
@@ -45,5 +45,6 @@
     "./agents/task-executor.md",
     "./agents/doc-updater.md",
     "./agents/quality-verifier.md"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }
