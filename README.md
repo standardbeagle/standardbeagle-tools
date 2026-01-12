@@ -84,6 +84,22 @@ standardbeagle-tools/
 
 ## Development
 
+### Local Development Setup
+
+After cloning, run the setup script to configure git filters for local development:
+
+```bash
+./scripts/setup-dev.sh
+```
+
+This configures git smudge/clean filters so that:
+- **Locally**: `mcp.json` files use local binaries (`agnt`, `slop-mcp`)
+- **In commits**: `mcp.json` files use npx commands for deployment
+
+The filters are stored in your local git config. If you clone fresh, re-run the setup script.
+
+**How it works**: Git's smudge filter transforms files on checkout (repo → local), and the clean filter transforms on stage (local → repo). This lets you develop with local binaries while commits always contain the npx versions.
+
 ### Testing Plugins Locally
 
 ```bash
