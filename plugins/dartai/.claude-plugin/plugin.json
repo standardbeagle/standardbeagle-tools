@@ -1,7 +1,7 @@
 {
   "name": "dartai",
-  "version": "0.1.0",
-  "description": "Dart task management integration with automated task execution, code quality pipeline, and documentation updates. Includes Ralph Wiggum-style continuous execution loop.",
+  "version": "0.2.0",
+  "description": "Dart task management with adversarial cooperation loops - automated task execution through quality verification pipelines with plan adjustment, context-sized tasks, and verifiable outcomes.",
   "author": {
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
@@ -13,27 +13,37 @@
     "dart",
     "task-management",
     "automation",
+    "adversarial-cooperation",
+    "quality-verification",
     "code-quality",
     "testing",
-    "documentation",
+    "security-audit",
+    "refactoring",
     "ralph-wiggum",
-    "continuous-execution"
+    "continuous-execution",
+    "plan-adjustment"
   ],
   "commands": [
     "./commands/start.md",
     "./commands/task.md",
     "./commands/loop-status.md",
     "./commands/sync.md",
-    "./commands/dartai-config.md"
+    "./commands/dartai-config.md",
+    "./commands/verify.md"
   ],
   "skills": [
     "./skills/task-execution.md",
     "./skills/code-quality.md",
-    "./skills/doc-templates.md"
+    "./skills/doc-templates.md",
+    "./skills/simple-planning.md",
+    "./skills/adversarial-quality-loop.md",
+    "./skills/adversarial-test-loop.md",
+    "./skills/adversarial-security-loop.md",
+    "./skills/adversarial-refactor-loop.md"
   ],
   "agents": [
     "./agents/task-executor.md",
-    "./agents/doc-updater.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+    "./agents/doc-updater.md",
+    "./agents/quality-verifier.md"
+  ]
 }
