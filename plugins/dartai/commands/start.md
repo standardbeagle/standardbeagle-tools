@@ -89,17 +89,55 @@ Track:
 
 ### 5. Execute Adversarial Loop
 
+**CRITICAL: Each task MUST run in a subagent for fresh context.**
+
 For each task in queue:
 
-#### 5.1 Task Sizing Check
-Verify task is context-sized:
+#### 5.1 Spawn Task Executor Subagent
+
+**Each task iteration MUST use the Task tool with subagent_type="dartai:task-executor":**
+
+```yaml
+subagent_execution:
+  why: "Fresh context prevents accumulated state/confusion"
+  how: |
+    Use the Task tool with:
+      subagent_type: "dartai:task-executor"
+      prompt: |
+        Execute task [TASK_ID] from dartboard [DARTBOARD_NAME].
+
+        Task Details:
+        - Title: [title]
+        - Description: [description]
+        - Acceptance Criteria: [criteria]
+
+        Loop Type: [quality|test|security|refactor]
+
+        Use the [LOOP_TYPE] adversarial loop pattern.
+        Report success or failure with full details.
+
+  result_handling:
+    on_success: "Mark complete, continue to next task"
+    on_failure: "Log failure, stop loop"
+```
+
+**Example Task tool invocation:**
+```
+Task tool call:
+  subagent_type: "dartai:task-executor"
+  description: "Execute task: [short task title]"
+  prompt: "Execute task QiXCNniu7OQY from dartboard Personal/project-name..."
+```
+
+#### 5.2 Task Sizing Check (done by subagent)
+The task-executor subagent will verify task is context-sized:
 - Maximum 3-5 files per task
 - Clear acceptance criteria
 - Bounded scope
 
-**If task too large**: Split into subtasks before proceeding
+**If task too large**: Subagent will request split and return
 
-#### 5.2 Execute Selected Loop
+#### 5.3 Execute Selected Loop (done by subagent)
 
 **Quality Loop** (adversarial-quality-loop skill):
 ```yaml
@@ -166,26 +204,32 @@ phases:
   # PLAN ADJUSTMENT after each phase and each step
 ```
 
-#### 5.3 Handle Result
+#### 5.4 Handle Subagent Result
+
+After the task-executor subagent returns:
 
 **On Success:**
-- Update task to "Done" via Dart MCP
-- Add completion comment with summary
-- Log plan adjustments made
-- Continue to next task
+- The subagent already updated task to "Done" via Dart MCP
+- Log the completion summary from subagent result
+- Continue to next task with a NEW subagent (fresh context)
 
 **On Failure:**
-- Add failure comment with details
-- Log which phase failed
-- Create follow-up fix tasks
+- The subagent already added failure comment
+- Log which phase failed from subagent result
+- Create follow-up fix tasks if needed
 - STOP loop
 
-#### 5.4 Documentation Update
+**IMPORTANT: Never reuse subagent context - each task gets fresh execution.**
 
-Use doc-updater agent to:
-- Update CHANGELOG if applicable
-- Update README if applicable
-- Add inline documentation
+#### 5.5 Documentation Update (optional)
+
+If significant changes were made, spawn doc-updater agent:
+```
+Task tool call:
+  subagent_type: "dartai:doc-updater"
+  description: "Update docs for completed task"
+  prompt: "Update documentation for task [TASK_ID]..."
+```
 
 ### 6. Plan Adjustment Protocol
 
@@ -209,6 +253,24 @@ plan_adjustment:
 ```
 
 ### 7. Loop Control
+
+**Subagent Execution Pattern:**
+```yaml
+loop_execution:
+  for_each_task:
+    action: "Spawn new dartai:task-executor subagent"
+    context: "Fresh - no accumulated state from previous tasks"
+    isolation: "Each task runs independently"
+
+  between_tasks:
+    action: "Main loop orchestrates, spawns next subagent"
+    state: "Only loop metadata persists (completed count, etc.)"
+
+  never_do:
+    - "Execute multiple tasks in same subagent"
+    - "Pass accumulated context between task subagents"
+    - "Resume previous subagent for new task"
+```
 
 The loop continues until:
 - All tasks completed successfully
@@ -236,6 +298,33 @@ Completed Tasks:
 
 Plan Adjustments This Session: [count]
 Time elapsed: [duration]
+```
+
+## Loop Iteration Example
+
+Here's a concrete example of how the loop executes:
+
+```yaml
+main_loop_iteration:
+  task_1:
+    - action: "Spawn dartai:task-executor subagent"
+      prompt: "Execute task ABC123 from dartboard Project/tasks using quality loop"
+    - wait: "Subagent completes (success or failure)"
+    - result: "Task completed successfully"
+    - continue: "To task_2 with NEW subagent"
+
+  task_2:
+    - action: "Spawn NEW dartai:task-executor subagent"  # Fresh context!
+      prompt: "Execute task DEF456 from dartboard Project/tasks using quality loop"
+    - wait: "Subagent completes"
+    - result: "Task failed at testing phase"
+    - stop: "Loop ends, report failure"
+
+key_points:
+  - "Each Task tool call creates isolated execution"
+  - "Subagent has no memory of previous tasks"
+  - "Main loop only tracks: which tasks done, which failed"
+  - "All detailed work happens inside subagent"
 ```
 
 ## Usage Examples
