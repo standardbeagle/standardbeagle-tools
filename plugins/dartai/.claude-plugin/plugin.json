@@ -45,6 +45,5 @@
     "./agents/task-executor.md",
     "./agents/doc-updater.md",
     "./agents/quality-verifier.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }
