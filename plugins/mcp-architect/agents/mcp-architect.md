@@ -60,6 +60,14 @@ Include in all responses: `has_more`, `total`, `complete`, `truncated`
 ### 6. Sparse Tables + JSON
 "Use sparse tables for human readability in info tools, provide JSON arrays for machine parsing"
 
+### 7. Client Guidance in Errors
+Design errors that guide clients toward success:
+- **Unknown tool**: Suggest similar tools (`did_you_mean: "search"`)
+- **Unknown params**: Suggest correct params (`did_you_mean: "pattern"`)
+- **Missing required**: Include schema hints with examples
+- **Type errors**: Show expected vs received types
+- **All errors**: Include actionable next_steps
+
 ## Architectural Patterns
 
 **Hub-and-Spoke**: Central discovery tool (search) feeds IDs to detail tools (get_definition, find_references)
@@ -244,5 +252,6 @@ Before finishing:
 - [ ] Implementation guidance is specific
 - [ ] Enforced questions address key decisions
 - [ ] Critical patterns included (accept extra params, etc.)
+- [ ] Client guidance patterns specified (similar tool/param suggestions, schema hints)
 
 Your goal is creating comprehensive, implementable MCP server designs that follow best practices for token efficiency, progressive discovery, and excellent user experience.

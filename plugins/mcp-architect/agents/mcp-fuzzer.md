@@ -138,6 +138,106 @@ Test invalid inputs produce clear, actionable error messages:
 }
 ```
 
+### 5. Similar Tool Suggestions (CLIENT GUIDANCE)
+
+When calling an unknown tool, the server should suggest similar tools:
+
+```json
+// Test Case: Unknown tool with typo
+Input: serach(pattern: "User")
+
+// Expected: Suggest similar tools
+{
+  "error": {
+    "code": "UNKNOWN_TOOL",
+    "message": "Tool 'serach' not found",
+    "suggestions": {
+      "did_you_mean": "search",
+      "similar_tools": ["search", "search_code", "search_files"],
+      "hint": "Try: search(pattern: \"User\")"
+    }
+  }
+}
+
+// FAILURE: Error without suggestions
+{
+  "error": "Unknown tool: serach"
+}
+```
+
+**Why critical**: AI agents frequently make typos or hallucinate tool names. Helpful suggestions enable self-correction.
+
+### 6. Similar Parameter Suggestions (CLIENT GUIDANCE)
+
+When unknown parameters are provided, suggest correct ones:
+
+```json
+// Test Case: Parameter typo
+Input: search(patern: "User", filtr: "*.ts")
+
+// Expected: Suggest corrections, still execute
+{
+  "results": [...],
+  "warnings": [
+    "Unknown param 'patern', did you mean 'pattern'?",
+    "Unknown param 'filtr', did you mean 'filter'?"
+  ],
+  "suggestions": {
+    "patern": {"did_you_mean": "pattern"},
+    "filtr": {"did_you_mean": "filter"}
+  }
+}
+
+// FAILURE: Just "unknown parameter" without suggestions
+```
+
+### 7. Schema Hints in Errors (CLIENT GUIDANCE)
+
+Missing required parameters should include schema information:
+
+```json
+// Test Case: Missing required parameter
+Input: search()  // no parameters
+
+// Expected: Error with schema hint
+{
+  "error": {
+    "code": "MISSING_REQUIRED",
+    "message": "Required parameter 'pattern' is missing",
+    "schema_hint": {
+      "required": ["pattern"],
+      "optional": ["filter", "max", "offset"],
+      "example": {"pattern": "authenticate", "filter": "*.ts"}
+    }
+  }
+}
+
+// FAILURE: Just "missing required parameter" without schema
+```
+
+### 8. Preemptive Guidance (CLIENT GUIDANCE)
+
+Successful responses should include helpful next steps:
+
+```json
+// Test Case: Query with results
+Input: search(pattern: "User")
+
+// Expected: Include next_steps
+{
+  "results": [...],
+  "has_more": true,
+  "total": 127,
+  "next_steps": {
+    "get_details": "Use get_definition(id) for full code",
+    "get_more": "Use offset: 10 for next page",
+    "refine": "Add filter: \"*.ts\" to narrow results"
+  }
+}
+
+// Not required but valuable for AI agent guidance
+```
+
 ## Test Case Generation Process
 
 ### Step 1: Analyze MCP Structure
@@ -181,6 +281,13 @@ Create test cases for each tool covering:
 - Add 1-3 hallucinated parameters to every test
 - Mix of different types
 - Realistic-looking names
+
+**Client Guidance Tests:**
+- Typos in tool names (serach → search)
+- Typos in parameter names (patern → pattern)
+- Missing required fields (verify schema hints)
+- Empty responses (verify next_steps guidance)
+- Tool name hallucinations (realistic but wrong names)
 
 ### Step 3: Execute Tests
 
@@ -228,6 +335,14 @@ For each test case, check:
 - [ ] Error codes are consistent and documented
 - [ ] Suggestions provided for common mistakes
 - [ ] Extra parameters accepted with warnings (not errors)
+
+**Client Guidance:**
+- [ ] Unknown tools suggest similar tools (did_you_mean)
+- [ ] Unknown params suggest similar params
+- [ ] Missing required params include schema_hint
+- [ ] Type errors show expected vs received
+- [ ] Successful queries include next_steps (recommended)
+- [ ] Errors include actionable hints
 
 **ID References:**
 - [ ] IDs are unique within response
@@ -497,6 +612,14 @@ Before generating final report:
 - [ ] Next steps clearly outlined
 - [ ] Report formatted in markdown
 
+**Client Guidance Checks:**
+- [ ] Similar tool suggestions on unknown tool calls
+- [ ] Similar parameter suggestions on unknown params
+- [ ] Schema hints in missing required field errors
+- [ ] Type mismatch errors show expected vs received
+- [ ] Out of range errors show valid range
+- [ ] Preemptive guidance in successful responses (recommended)
+
 ## Output Style
 
 **Use markdown tables** for test results:
@@ -509,9 +632,9 @@ Before generating final report:
 
 **Use severity indicators:**
 - ⚠️ CRITICAL - Tool rejects extra params, crashes, security issues
-- ⚠️ HIGH - Missing automation flags, poor error handling
-- ⚠️ MEDIUM - Inconsistent formats, weak messages
-- ℹ️ LOW - Documentation, minor inconsistencies
+- ⚠️ HIGH - Missing automation flags, poor error handling, no similar tool suggestions
+- ⚠️ MEDIUM - Inconsistent formats, weak messages, missing schema hints
+- ℹ️ LOW - Documentation, minor inconsistencies, missing next_steps
 
 **Provide code examples** for fixes:
 ```typescript

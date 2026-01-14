@@ -249,7 +249,9 @@ Ask user:
 
 **Savings:** ~85% token reduction
 
-### Step 5: Add Error Handling
+### Step 5: Add Error Handling with Client Guidance
+
+Errors should guide clients toward success, not just reject:
 
 ```json
 {
@@ -260,7 +262,51 @@ Ask user:
       "pattern": "([unclosed",
       "position": 2
     },
-    "suggestion": "Check syntax. Example: \"function.*User\""
+    "suggestion": "Check syntax. Example: \"function.*User\"",
+    "schema_hint": {
+      "pattern": {"type": "string", "required": true}
+    }
+  }
+}
+```
+
+**Similar tool suggestions:**
+```json
+{
+  "error": {
+    "code": "UNKNOWN_TOOL",
+    "message": "Tool 'serach' not found",
+    "suggestions": {
+      "did_you_mean": "search",
+      "similar_tools": ["search", "search_code", "search_files"]
+    }
+  }
+}
+```
+
+**Similar parameter suggestions:**
+```json
+{
+  "results": [...],
+  "warnings": ["Unknown param 'patern', did you mean 'pattern'?"],
+  "suggestions": {
+    "patern": {"did_you_mean": "pattern"}
+  }
+}
+```
+
+**Missing required with schema:**
+```json
+{
+  "error": {
+    "code": "MISSING_REQUIRED",
+    "message": "Required parameter 'pattern' is missing",
+    "schema_hint": {
+      "required": ["pattern"],
+      "optional": ["filter", "max"],
+      "example": {"pattern": "User", "filter": "*.ts"}
+    },
+    "next_steps": "Add pattern parameter: search(pattern: \"your query\")"
   }
 }
 ```
@@ -271,6 +317,8 @@ Ask user:
 - PERMISSION_DENIED
 - TIMEOUT
 - INTERNAL_ERROR
+- UNKNOWN_TOOL (with similar suggestions)
+- MISSING_REQUIRED (with schema hints)
 
 ## Token Budget Guidelines
 
@@ -372,5 +420,12 @@ Before finishing:
 - [ ] Error handling defined
 - [ ] Accept extra params with warnings
 - [ ] Examples provided
+
+**Client guidance checks:**
+- [ ] Unknown tool errors suggest similar tools
+- [ ] Unknown params suggest correct names
+- [ ] Missing required errors include schema hints
+- [ ] Type errors show expected vs received
+- [ ] All errors include actionable next_steps
 
 Your goal is creating optimal individual MCP tools with maximum information value per token while remaining human and LLM readable.

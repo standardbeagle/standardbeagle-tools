@@ -114,6 +114,8 @@ function search(params) {
 
 ## Error Handling
 
+> **See also:** [Client Guidance](../client-guidance/SKILL.md) for comprehensive error-as-progressive-enhancement patterns including similar tool suggestions, parameter corrections, and schema hints.
+
 ### Error Response Structure
 
 ```json
@@ -126,7 +128,10 @@ function search(params) {
       "position": 2,
       "expected": "]"
     },
-    "suggestion": "Check regex syntax. Example: \"function.*User\""
+    "suggestion": "Check regex syntax. Example: \"function.*User\"",
+    "schema_hint": {
+      "pattern": {"type": "string", "required": true}
+    }
   }
 }
 ```
@@ -140,6 +145,8 @@ PERMISSION_DENIED   - Access denied
 TIMEOUT             - Operation timed out
 INTERNAL_ERROR      - Server error
 RATE_LIMITED        - Too many requests
+UNKNOWN_TOOL        - Tool name not found (suggest similar)
+MISSING_REQUIRED    - Required parameter missing (include schema)
 ```
 
 ### Graceful Degradation
@@ -150,6 +157,37 @@ RATE_LIMITED        - Too many requests
   "warnings": ["Timeout after 5s, showing partial results"],
   "complete": false,
   "partial": true
+}
+```
+
+### Client Guidance in Errors
+
+Errors should guide clients toward success:
+
+```json
+{
+  "error": {
+    "code": "UNKNOWN_TOOL",
+    "message": "Tool 'serach' not found",
+    "suggestions": {
+      "did_you_mean": "search",
+      "similar_tools": ["search", "search_code"]
+    }
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "code": "MISSING_REQUIRED",
+    "message": "Required parameter 'pattern' is missing",
+    "schema_hint": {
+      "required": ["pattern"],
+      "optional": ["filter", "max"],
+      "example": {"pattern": "User", "filter": "*.ts"}
+    }
+  }
 }
 ```
 
@@ -236,6 +274,15 @@ function validateInput(params) {
 - [ ] Token budget appropriate for tool type
 - [ ] Automation flags included
 - [ ] Next steps provided to user
+
+**Client guidance checklist:**
+
+- [ ] Unknown tool errors suggest similar tools
+- [ ] Unknown params suggest correct names
+- [ ] Missing required errors include schema hints
+- [ ] Type errors show expected vs received
+- [ ] Errors include actionable next_steps
+- [ ] High-confidence typos can be auto-corrected
 
 **Token budgets by tool type:**
 
