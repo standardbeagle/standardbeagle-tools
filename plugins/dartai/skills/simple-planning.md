@@ -138,7 +138,113 @@ unbounded_scope:
 
 ---
 
+## Request Complexity Classification
+
+Before planning, classify the request to set appropriate validation depth.
+
+```yaml
+complexity_tiers:
+  minimal:
+    indicators:
+      - Single file change
+      - Clear, bounded request
+      - No clarification needed
+      - Trivial scope (typo, text change, add button)
+    examples:
+      - "Fix typo in README"
+      - "Update error message text"
+      - "Add margin to header"
+    validation_depth: quick_scan
+    validation_time: "~30 seconds"
+
+  standard:
+    indicators:
+      - 2-5 files affected
+      - Single feature or fix
+      - Minor clarification needed
+      - Moderate scope (new function, bug fix)
+    examples:
+      - "Add logout button to header"
+      - "Fix null pointer in login"
+      - "Refactor parseConfig function"
+    validation_depth: standard_review
+    validation_time: "~2 minutes"
+
+  comprehensive:
+    indicators:
+      - 5+ files or multiple components
+      - Multiple acceptance criteria
+      - Significant user discussion
+      - Substantial scope (new feature, module)
+    examples:
+      - "Implement user authentication"
+      - "Add search functionality"
+      - "Create settings page"
+    validation_depth: deep_analysis
+    validation_time: "~5 minutes"
+
+  architectural:
+    indicators:
+      - Cross-cutting concerns
+      - Multiple subsystems affected
+      - New patterns or abstractions needed
+      - Large scope (application, redesign)
+    examples:
+      - "Build 30-screen dashboard app"
+      - "Redesign data layer"
+      - "Implement plugin system"
+    validation_depth: full_adversarial
+    validation_time: "~10 minutes"
+
+tier_detection:
+  rules:
+    - "Count files mentioned or implied"
+    - "Count acceptance criteria"
+    - "Measure user discussion length"
+    - "Detect cross-cutting keywords"
+
+  escalation_triggers:
+    - user_clarification_count: ">= 3 → bump tier"
+    - files_affected: ">= 5 → comprehensive minimum"
+    - subsystems_affected: ">= 2 → architectural"
+    - new_patterns_needed: "true → architectural"
+
+  user_response_impact:
+    - "Each clarification question adds context"
+    - "Stated preferences become constraints"
+    - "Explicit scope limits respected"
+```
+
+---
+
 ## Planning Process
+
+### Step 0: Classify Complexity (15 seconds)
+
+```yaml
+classify:
+  assess:
+    - How many files will this touch?
+    - How many acceptance criteria exist?
+    - How much clarification was needed?
+    - Does this cross system boundaries?
+
+  assign_tier:
+    minimal: "1 file, clear request, trivial change"
+    standard: "2-5 files, single feature, bounded"
+    comprehensive: "5+ files, multiple criteria, significant"
+    architectural: "cross-cutting, new patterns, large scope"
+
+  record:
+    - Note the tier for validation phase
+    - Tier affects validation depth, not planning depth
+    - All plans follow same minimal structure
+
+  user_responses_matter:
+    - "User stated 'keep it simple' → respect scope limit"
+    - "User clarified 'just X, not Y' → exclude Y from plan"
+    - "User gave specific approach → use that approach"
+```
 
 ### Step 1: Capture Request (30 seconds)
 
@@ -361,6 +467,200 @@ checklist:
     - [ ] Follows existing code patterns
     - [ ] Uses existing utilities
     - [ ] Changes blend with codebase
+```
+
+---
+
+## Adversarial Plan Validation
+
+After creating a plan, validate it adversarially. Validation depth matches the complexity tier from Step 0.
+
+### Validation Categories
+
+```yaml
+categories:
+  missing:
+    description: "Required tasks omitted from plan"
+    scan_for:
+      - Feature without test task
+      - Schema change without migration
+      - API change without docs update
+      - New component without integration
+      - Error path without handling
+    severity: high
+    action: "Add missing task"
+
+  overbuilt:
+    description: "Tasks exceeding the request"
+    scan_for:
+      - Abstractions for single use
+      - Config systems for one value
+      - Features not in acceptance criteria
+      - "While we're at it" additions
+      - Future-proofing not requested
+    severity: high
+    action: "Remove from plan"
+
+  conflicting:
+    description: "Tasks that contradict each other or request"
+    scan_for:
+      - Task undoes previous task's work
+      - Approach differs from user preference
+      - Steps assume incompatible states
+      - Competing implementations
+    severity: critical
+    action: "Resolve before proceeding"
+
+  partial:
+    description: "Incomplete or vague tasks"
+    scan_for:
+      - "Implement feature" (too vague)
+      - "Handle errors" (which ones?)
+      - "Update tests" (which tests?)
+      - Missing acceptance criteria
+      - Undefined boundaries
+    severity: medium
+    action: "Make specific"
+
+  research_needed:
+    description: "Unknowns blocking confident planning"
+    scan_for:
+      - Unknown existing patterns
+      - Unclear dependencies
+      - Ambiguous requirements
+      - Untested assumptions
+    severity: medium
+    action: "Add research task first"
+```
+
+### Validation by Tier
+
+#### Minimal Tier (~30 seconds)
+
+```yaml
+quick_scan:
+  trigger: "Single file, clear request, trivial change"
+  checks:
+    - request_match: "Plan delivers exactly what was asked"
+    - obvious_gaps: "No glaring omissions"
+    - scope_fit: "Change matches request size"
+  skip:
+    - pattern_analysis
+    - dependency_mapping
+    - architecture_review
+```
+
+#### Standard Tier (~2 minutes)
+
+```yaml
+standard_review:
+  trigger: "2-5 files, single feature, minor clarification"
+  checks:
+    - all_minimal_checks
+    - acceptance_coverage: "Each criterion has a task"
+    - task_atomicity: "Each task is clear and bounded"
+    - pattern_check: "Similar patterns exist (LCI search)"
+    - user_alignment: "Plan matches user responses"
+  skip:
+    - full_architecture_review
+    - security_modeling
+    - performance_analysis
+```
+
+#### Comprehensive Tier (~5 minutes)
+
+```yaml
+deep_analysis:
+  trigger: "5+ files, multiple criteria, significant discussion"
+  checks:
+    - all_standard_checks
+    - dependency_order: "Task sequence makes sense"
+    - integration_points: "All touchpoints identified"
+    - edge_cases: "Known edge cases addressed"
+    - test_strategy: "Coverage approach defined"
+    - rollback_path: "Changes can be reverted"
+```
+
+#### Architectural Tier (~10 minutes)
+
+```yaml
+full_adversarial:
+  trigger: "Cross-cutting, multiple systems, new patterns"
+  checks:
+    - all_comprehensive_checks
+    - architecture_fit: "Plan fits existing architecture"
+    - cross_system: "All affected systems identified"
+    - research_complete: "Unknowns resolved or explicitly flagged"
+    - risk_assessment: "High-risk tasks identified"
+    - incremental_delivery: "Can ship in phases"
+    - seamless_integration: "New code will blend with existing"
+```
+
+### Validation Verdicts
+
+```yaml
+verdicts:
+  pass:
+    condition: "No critical issues, <=2 medium issues"
+    action: "Proceed to execution"
+
+  adjust:
+    condition: "Fixable issues found"
+    action: "Update plan inline, re-validate, continue"
+
+  reject:
+    condition: "Critical issues or >3 medium issues"
+    action: "Rework plan before proceeding"
+
+  escalate:
+    condition: "Cannot resolve without user input"
+    action: "Present issues to user, await guidance"
+```
+
+### Auto-Adjustment Rules
+
+```yaml
+plan_adjustment:
+  automatic:
+    missing_test_task: "Add test task, continue"
+    vague_step: "Make specific, continue"
+    minor_scope_creep: "Trim to request, continue"
+    research_gap: "Add research task first, continue"
+
+  stop_and_report:
+    conflicting_tasks: "Cannot proceed with contradictions"
+    user_preference_mismatch: "Approach differs from stated preference"
+    scope_explosion: "Plan exceeds limits, must split"
+    fundamental_unknown: "Cannot plan without more information"
+
+  never_ask:
+    - "Should I continue with this plan?"
+    - "Is this validation okay?"
+    - "Do you approve these adjustments?"
+```
+
+### Validation Report Format
+
+```yaml
+plan_validation:
+  tier: "[minimal|standard|comprehensive|architectural]"
+  request_summary: "One-line original request"
+  user_constraints: "Preferences/limits stated by user"
+
+  issues:
+    - category: "[missing|overbuilt|conflicting|partial|research]"
+      severity: "[critical|high|medium|low]"
+      description: "What's wrong"
+      location: "Which task/step"
+      fix: "How to resolve"
+
+  adjustments_made:
+    - "Added test task for new function"
+    - "Trimmed unrequested caching feature"
+    - "Made 'handle errors' specific to validation errors"
+
+  verdict: "[pass|adjust|reject|escalate]"
+  recommendation: "Proceed|Rework|Await user input"
 ```
 
 ---
