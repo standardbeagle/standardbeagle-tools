@@ -1,0 +1,59 @@
+{
+  "name": "figma-query",
+  "version": "0.1.0",
+  "description": "Token-efficient Figma integration with query-based data shaping, image export, design tokens, and adversarial design library extraction. Build production-ready component libraries with exact CSS, assets, HTML mockups, and comprehensive documentation.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/figma-query",
+  "repository": "https://github.com/standardbeagle/figma-query",
+  "license": "MIT",
+  "keywords": [
+    "figma",
+    "design-system",
+    "design-tokens",
+    "css-extraction",
+    "component-library",
+    "asset-export",
+    "html-mockups",
+    "documentation",
+    "adversarial-quality",
+    "ralph-wiggum",
+    "mcp",
+    "query-dsl"
+  ],
+  "commands": [
+    "./commands/setup-figma.md",
+    "./commands/design-sync.md",
+    "./commands/extract-library.md"
+  ],
+  "skills": [
+    "./skills/setup-mcp.md",
+    "./skills/figma-info.md",
+    "./skills/figma-sync.md",
+    "./skills/figma-export-assets.md",
+    "./skills/figma-export-tokens.md",
+    "./skills/figma-download.md",
+    "./skills/figma-query.md",
+    "./skills/figma-search.md",
+    "./skills/figma-tree.md",
+    "./skills/figma-components.md",
+    "./skills/figma-styles.md",
+    "./skills/figma-node.md",
+    "./skills/figma-css.md",
+    "./skills/figma-tokens.md",
+    "./skills/figma-wireframe.md",
+    "./skills/figma-diff.md",
+    "./skills/common-patterns.md",
+    "./skills/component-extraction.md",
+    "./skills/page-extraction.md",
+    "./skills/adversarial-design-library.md"
+  ],
+  "agents": [
+    "./agents/library-extractor.md",
+    "./agents/component-documenter.md",
+    "./agents/asset-verifier.md",
+    "./agents/html-generator.md"
+  ]
+}

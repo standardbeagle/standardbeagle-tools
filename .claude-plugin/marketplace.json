@@ -294,6 +294,34 @@
         "reasoning-models"
       ],
       "category": "ai"
+    },
+    {
+      "name": "figma-query",
+      "source": "./plugins/figma-query",
+      "description": "Token-efficient Figma integration with query-based data shaping, image export, design tokens, and adversarial design library extraction. Build production-ready component libraries with exact CSS, assets, HTML mockups, and comprehensive documentation using the Ralph Wiggum quality loop.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/figma-query",
+      "repository": "https://github.com/standardbeagle/figma-query",
+      "license": "MIT",
+      "keywords": [
+        "figma",
+        "design-system",
+        "design-tokens",
+        "css-extraction",
+        "component-library",
+        "asset-export",
+        "html-mockups",
+        "documentation",
+        "adversarial-quality",
+        "ralph-wiggum",
+        "mcp",
+        "query-dsl"
+      ],
+      "category": "design"
     }
   ]
 }
