@@ -322,6 +322,38 @@
         "query-dsl"
       ],
       "category": "design"
+    },
+    {
+      "name": "workflow",
+      "source": "./plugins/workflow",
+      "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "workflow",
+        "automation",
+        "adversarial-cooperation",
+        "ralph-wiggum",
+        "context-management",
+        "subagent-isolation",
+        "quality-verification",
+        "security-audit",
+        "refactoring",
+        "continuous-execution",
+        "loop-tracking",
+        "memory-management",
+        "knowledge-preservation",
+        "process-improvement",
+        "goose",
+        "g3"
+      ],
+      "category": "development"
     }
   ]
 }
