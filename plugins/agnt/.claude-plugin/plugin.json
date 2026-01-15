@@ -1,6 +1,6 @@
 {
   "name": "agnt",
-  "version": "0.7.12",
+  "version": "0.8.0",
   "description": "MCP server for AI coding agents: process management, reverse proxy with traffic logging, frontend instrumentation with 50+ diagnostic functions, sketch mode for wireframing, and session scheduling",
   "author": {
     "name": "Standard Beagle",
@@ -44,7 +44,14 @@
   ],
   "skills": [
     "./skills/schedule.md",
-    "./skills/setup-mcp.md"
+    "./skills/setup-mcp.md",
+    "./skills/mcp-tools.md",
+    "./skills/browser-diagnostics.md",
+    "./skills/accessibility-audit.md",
+    "./skills/quality-audits.md",
+    "./skills/interaction-tracking.md",
+    "./skills/sketch-visual.md",
+    "./skills/process-proxy.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",

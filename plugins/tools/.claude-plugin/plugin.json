@@ -26,7 +26,9 @@
     "./commands/explore.md"
   ],
   "skills": [
-    "./skills/setup-mcp.md"
+    "./skills/setup-mcp.md",
+    "./skills/browser-debug.md",
+    "./skills/full-audit.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",
