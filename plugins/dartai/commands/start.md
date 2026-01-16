@@ -76,16 +76,151 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
 
 Filter results by status "To-do" or "In Progress".
 
-### 4. Initialize Loop State
+### 4. Initialize Loop State in Dart
 
-Track:
-- Current dartboard
-- Selected loop type
-- Tasks queue (ordered by priority)
-- Completed tasks count
-- Failed tasks count
-- Plan adjustments made
-- Start time
+**Create a Loop Task** as the parent for all loop operations:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "create_task"
+  parameters:
+    item:
+      title: "🔄 Loop: [loop-type] on [dartboard-name]"
+      description: |
+        ## Ralph Wiggum Loop Session
+
+        **Loop Type:** [quality|test|security|refactor]
+        **Dartboard:** [dartboard-name]
+        **Started:** [ISO timestamp]
+        **Status:** Running
+
+        ### Configuration
+        - Max iterations per task: 3
+        - Stop on critical security: true
+
+        ### Progress
+        - Tasks processed: 0
+        - Tasks completed: 0
+        - Tasks failed: 0
+        - Replans: 0
+      dartboard: "[dartboard-name]"
+      status: "In Progress"
+      priority: "High"
+      tags: ["loop-session", "loop-active", "loop-type:[type]"]
+```
+
+Save the returned `loop_task_id` for linking subtasks.
+
+### Loop-Specific Tags
+
+Use these tags to track loop state on tasks:
+
+| Tag | Meaning |
+|-----|---------|
+| `loop-session` | This is the parent loop task |
+| `loop-active` | Loop is currently running |
+| `loop-task` | Task is being processed by loop |
+| `loop-iteration:N` | Current iteration number |
+| `loop-phase:X` | Current phase (implementation, testing, etc.) |
+| `loop-blocked` | Task is blocked, needs replan |
+| `loop-replanned` | Task was replanned |
+| `loop-complete` | Loop finished |
+
+### Architecture: Loop Task vs Work Tasks
+
+**IMPORTANT:** The Loop task tracks Claude subagent execution state. It does NOT become a parent of existing work tasks.
+
+```
+Dart Dartboard: Personal/fit-track
+├── Task A: "Add user auth"          ← Existing work (keeps its structure)
+│   └── Subtask A1: "Setup JWT"      ← Existing subtask (unchanged)
+├── Task B: "Fix login"              ← Existing work
+├── Task C: "Add logout"             ← Existing work
+│
+└── 🔄 Loop: quality on fit-track    ← Loop tracking task (NEW)
+    ├── 📊 Iter 1: Task A            ← Tracks Claude subagent #1
+    ├── 📊 Iter 2: Task B (failed)   ← Tracks Claude subagent #2
+    └── 🔧 Fix: Test failure         ← Fix task (created by loop)
+```
+
+### Tag Work Tasks (Don't Reparent)
+
+Work tasks get TAGGED to associate with the loop, but keep their original parent/structure:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "update_task"
+  parameters:
+    id: "[work-task-id]"
+    tags: ["loop-task", "loop-id:[loop_task_id]", "loop-iteration:1"]
+    # NOTE: Do NOT set parentId - work task keeps its original structure
+```
+
+### Create Iteration Tracking Subtasks
+
+For each Claude subagent execution, create a tracking subtask UNDER the loop task:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "create_task"
+  parameters:
+    item:
+      title: "📊 Iter [N]: [work-task-title]"
+      description: |
+        ## Iteration Tracking
+
+        **Work Task:** [work-task-title] ([work-task-id])
+        **Claude Subagent:** dartai:task-executor
+        **Started:** [timestamp]
+        **Status:** In Progress
+      dartboard: "[dartboard-name]"
+      parentId: "[loop_task_id]"  # Subtask of LOOP task
+      status: "In Progress"
+      tags: ["loop-iteration", "tracks:[work-task-id]"]
+```
+
+Update this iteration subtask when the subagent completes:
+```yaml
+# On success
+update_task:
+  id: "[iteration-subtask-id]"
+  title: "📊 Iter [N]: [work-task-title] ✅"
+  status: "Done"
+
+# On failure
+update_task:
+  id: "[iteration-subtask-id]"
+  title: "📊 Iter [N]: [work-task-title] ❌"
+  status: "Done"  # Iteration is done, even if work task failed
+```
+
+### Loop Progress Updates
+
+Update the loop task description with progress after each iteration:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "add_task_comment"
+  parameters:
+    taskId: "[loop_task_id]"
+    text: |
+      ## Iteration [N] Complete
+
+      **Task:** [task-title]
+      **Result:** [success|failed|blocked]
+      **Phase:** [phase-name]
+      **Duration:** [time]
+
+      **Next Action:** [continue|replan|stop]
+```
 
 ### 5. Execute Adversarial Loop
 
@@ -93,7 +228,22 @@ Track:
 
 For each task in queue:
 
-#### 5.1 Spawn Task Executor Subagent
+#### 5.1 Tag Task as Loop-Active
+
+Before spawning subagent, tag the task:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "update_task"
+  parameters:
+    id: "[task-id]"
+    status: "In Progress"
+    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting"]
+```
+
+#### 5.2 Spawn Task Executor Subagent
 
 **Each task iteration MUST use the Task tool with subagent_type="dartai:task-executor":**
 
@@ -106,27 +256,48 @@ subagent_execution:
       prompt: |
         Execute task [TASK_ID] from dartboard [DARTBOARD_NAME].
 
-        Task Details:
+        ## Loop Context
+        Loop Task ID: [loop_task_id]
+        Loop Type: [quality|test|security|refactor]
+        Iteration: [N]
+
+        ## Task Details
         - Title: [title]
         - Description: [description]
         - Acceptance Criteria: [criteria]
 
-        Loop Type: [quality|test|security|refactor]
-
-        Use the [LOOP_TYPE] adversarial loop pattern.
-        Report success or failure with full details.
+        ## Instructions
+        1. Use the [LOOP_TYPE] adversarial loop pattern
+        2. Update task tags with phase progress: loop-phase:[phase]
+        3. On completion: mark task Done, add summary comment
+        4. On failure: leave In Progress, add failure comment with:
+           - Which phase failed
+           - Recommended fix (create subtask if needed)
+           - What tasks are blocked
+        5. Add completion comment to loop task [loop_task_id]
 
   result_handling:
-    on_success: "Mark complete, continue to next task"
-    on_failure: "Log failure, stop loop"
+    on_success: "Task marked Done in Dart, continue to next"
+    on_failure: "Task stays In Progress with failure comment, replan"
 ```
 
 **Example Task tool invocation:**
 ```
 Task tool call:
   subagent_type: "dartai:task-executor"
-  description: "Execute task: [short task title]"
-  prompt: "Execute task QiXCNniu7OQY from dartboard Personal/project-name..."
+  description: "Execute task: Add user authentication"
+  prompt: |
+    Execute task QiXCNniu7OQY from dartboard Personal/project-name.
+
+    ## Loop Context
+    Loop Task ID: abc123def456
+    Loop Type: quality
+    Iteration: 1
+
+    ## Task Details
+    - Title: Add user authentication
+    - Description: Implement JWT-based auth...
+    ...
 ```
 
 #### 5.2 Task Sizing Check (done by subagent)
@@ -204,20 +375,118 @@ phases:
   # PLAN ADJUSTMENT after each phase and each step
 ```
 
-#### 5.4 Handle Subagent Result
+#### 5.4 Handle Subagent Result (SubagentStop Hook Fires Here)
 
-After the task-executor subagent returns:
+After the task-executor subagent returns, the `SubagentStop` hook fires and updates `.claude/dartai-loop-state.json`.
+
+**Dart is the source of truth for task state.** After SubagentStop fires:
+
+1. **Query Dart for updated task list:**
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "list_tasks"
+     parameters:
+       dartboard: "[dartboard]"
+       is_completed: false
+       limit: 20
+   ```
+
+2. **Check task statuses in Dart:**
+   - If task marked "Done" → success, get next task
+   - If task still "In Progress" with failure comment → replan
+   - Read failure details from task comments
+
+3. **Local loop file is just metrics:**
+   ```python
+   # .claude/dartai-loop.json - orchestration only, not task state
+   {
+     "iterations": N,
+     "last_iteration_at": "...",
+     "started_at": "..."
+   }
+   ```
 
 **On Success:**
 - The subagent already updated task to "Done" via Dart MCP
 - Log the completion summary from subagent result
-- Continue to next task with a NEW subagent (fresh context)
+- **CONTINUE to next task** with a NEW subagent (fresh context)
 
-**On Failure:**
-- The subagent already added failure comment
-- Log which phase failed from subagent result
-- Create follow-up fix tasks if needed
-- STOP loop
+**On Failure (REPLAN, DO NOT STOP):**
+
+1. **Read failure details from task comment**
+2. **Tag task as blocked:**
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "update_task"
+     parameters:
+       id: "[task-id]"
+       status: "Blocked"
+       tags: ["loop-task", "loop-blocked", "loop-iteration:[N]"]
+   ```
+
+3. **Create fix task as subtask of LOOP task** (not the work task):
+   ```yaml
+   # Fix tasks are NEW work created by the loop, so they belong under the loop task
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "create_task"
+     parameters:
+       item:
+         title: "🔧 Fix: [issue from failure comment]"
+         description: |
+           ## Fix Task (Auto-created by Loop)
+
+           **Blocked Work Task:** [task-title] ([task-id])
+           **Failed Phase:** [phase]
+           **Error:** [error details]
+
+           ## Suggested Fix
+           [recommendation from failure comment]
+
+           ## Acceptance Criteria
+           - [ ] Error resolved
+           - [ ] Blocked work task can proceed
+         dartboard: "[dartboard-name]"
+         parentId: "[loop_task_id]"  # Subtask of LOOP, not work task
+         status: "To-do"
+         priority: "High"
+         tags: ["loop-fix", "unblocks:[work-task-id]"]
+   ```
+
+   **Note:** Fix tasks are subtasks of the Loop task because:
+   - They're generated by the loop (not pre-existing work)
+   - They track loop remediation efforts
+   - Work tasks keep their original structure
+
+4. **Add replan comment to loop task:**
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "add_task_comment"
+     parameters:
+       taskId: "[loop_task_id]"
+       text: |
+         ## 🔄 Replan at Iteration [N]
+
+         **Task Failed:** [task-title]
+         **Phase:** [phase]
+         **Action:** Created fix task [fix-task-id]
+         **Next:** Processing fix task
+   ```
+
+5. **CONTINUE to fix task or next actionable task**
+
+**Only STOP if:**
+- All tasks completed (check Dart for remaining To-do/In Progress)
+- User explicitly says "stop"
+- Critical security vulnerability found (tag: `security-critical`)
+- No remaining tasks can be executed (all Blocked with no fix tasks)
 
 **IMPORTANT: Never reuse subagent context - each task gets fresh execution.**
 
@@ -272,14 +541,83 @@ loop_execution:
     - "Resume previous subagent for new task"
 ```
 
+**The loop NEVER stops on task failure. It replans and continues.**
+
 The loop continues until:
 - All tasks completed successfully
-- A task fails (stops with report)
 - Critical security issue found (immediate stop)
 - User says "stop", "cancel", or "pause"
+- No actionable tasks remain (all blocked on external dependencies)
 - Session ends
 
-### 8. Status Reporting
+**On task failure, the loop:**
+1. Logs the failure details
+2. Creates fix tasks if the failure is fixable
+3. Moves to the next actionable task
+4. Reports progress: "Task X failed, created fix task, continuing with Task Y"
+
+### 8. Loop Completion
+
+When loop ends (all tasks done OR user stops OR critical issue):
+
+**Mark loop task complete:**
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "update_task"
+  parameters:
+    id: "[loop_task_id]"
+    status: "Done"
+    tags: ["loop-session", "loop-complete", "loop-type:[type]"]
+```
+
+**Add final summary comment:**
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "add_task_comment"
+  parameters:
+    taskId: "[loop_task_id]"
+    text: |
+      ## 🏁 Loop Complete
+
+      **Duration:** [total time]
+      **Total Iterations:** [N]
+
+      ### Results
+      | Metric | Count |
+      |--------|-------|
+      | Tasks Completed | X |
+      | Tasks Failed | Y |
+      | Fix Tasks Created | Z |
+      | Replans | W |
+
+      ### Completed Tasks
+      - ✅ [task-1-title]
+      - ✅ [task-2-title]
+
+      ### Blocked Tasks (if any)
+      - ⚠️ [blocked-task-title] - [reason]
+
+      ### Notes
+      [Any important observations]
+```
+
+**Query for final state:**
+```yaml
+# Get all loop-related tasks for summary
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "list_tasks"
+  parameters:
+    dartboard: "[dartboard-name]"
+    tag: "loop-task"
+```
+
+### 9. Status Reporting
 
 Display ongoing progress:
 ```
@@ -302,29 +640,41 @@ Time elapsed: [duration]
 
 ## Loop Iteration Example
 
-Here's a concrete example of how the loop executes:
+Here's a concrete example of how the loop executes with replanning:
 
 ```yaml
 main_loop_iteration:
   task_1:
     - action: "Spawn dartai:task-executor subagent"
       prompt: "Execute task ABC123 from dartboard Project/tasks using quality loop"
-    - wait: "Subagent completes (success or failure)"
+    - wait: "Subagent completes (SubagentStop hook fires)"
     - result: "Task completed successfully"
     - continue: "To task_2 with NEW subagent"
 
   task_2:
     - action: "Spawn NEW dartai:task-executor subagent"  # Fresh context!
       prompt: "Execute task DEF456 from dartboard Project/tasks using quality loop"
-    - wait: "Subagent completes"
+    - wait: "Subagent completes (SubagentStop hook fires)"
     - result: "Task failed at testing phase"
-    - stop: "Loop ends, report failure"
+    - replan: |
+        1. Log: "Task DEF456 failed at testing phase"
+        2. Create fix task: "Fix test failures in DEF456"
+        3. Add fix task to queue with high priority
+        4. Continue to task_3 (or fix task if it's next)
+
+  task_3_or_fix:
+    - action: "Spawn NEW dartai:task-executor subagent"  # Fresh context!
+      prompt: "Execute next actionable task"
+    - wait: "Subagent completes"
+    - result: "Continue processing..."
 
 key_points:
   - "Each Task tool call creates isolated execution"
   - "Subagent has no memory of previous tasks"
-  - "Main loop only tracks: which tasks done, which failed"
-  - "All detailed work happens inside subagent"
+  - "SubagentStop hook updates .claude/dartai-loop-state.json"
+  - "Main loop reads state file and decides next action"
+  - "Failure triggers REPLAN, not STOP"
+  - "Loop continues until all tasks done or user stops"
 ```
 
 ## Usage Examples

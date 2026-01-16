@@ -32,6 +32,19 @@ Execute the assigned task using adversarial cooperation:
 1. **Implementer role**: Execute tasks following positive/negative instructions
 2. **Self-verifier role**: Challenge your own work to find flaws
 3. **Plan adjuster role**: Update plan based on discoveries
+4. **Loop participant**: Update task tags and loop task with progress
+
+## Loop Context (Required)
+
+You will receive loop context in your prompt:
+- **Loop Task ID**: Parent task tracking the loop session
+- **Loop Type**: quality|test|security|refactor
+- **Iteration**: Current iteration number
+
+Use this to:
+- Update task tags with phase progress
+- Add comments to the loop task for tracking
+- Create fix subtasks under the loop task when needed
 
 ## Execution Flow (Automatic - Never Stop for Confirmation)
 ```yaml
@@ -198,7 +211,36 @@ integration_requirements:
 
 ---
 
+## Phase Tag Updates
+
+At the start of each phase, update the task tag to track progress:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart"
+  tool_name: "update_task"
+  parameters:
+    id: "[task-id]"
+    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:[phase-name]"]
+```
+
+Phase names:
+- `understanding` - Phase 1
+- `implementing` - Phase 2
+- `reviewing` - Phase 3
+- `linting` - Phase 4
+- `testing` - Phase 5
+- `lci-eval` - Phase 6
+- `refactoring` - Phase 7
+- `deprecated-cleanup` - Phase 8
+- `final-validation` - Phase 9
+
+---
+
 ## Phase 1: Understand Task
+
+**Update tag:** `loop-phase:understanding`
 
 ### Task: Analyze Task Scope
 
@@ -591,48 +633,154 @@ quality_check:
 
 ## On Success
 
-1. **Update task status**:
-   ```
-   mcp__Dart__update_task(id, {status: "Done"})
+1. **Update task status and tags**:
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "update_task"
+     parameters:
+       id: "[task-id]"
+       status: "Done"
+       tags: ["loop-task", "loop-iteration:[N]", "loop-complete"]
    ```
 
-2. **Add completion comment**:
-   ```
-   mcp__Dart__add_task_comment({
-     taskId: id,
-     text: "## Task Completed\n\n**Summary**: [what was done]\n\n**Changes**: [files changed]\n\n**Plan Adjustments**: [count]\n\n**Tests**: All passing"
-   })
+2. **Add completion comment to task**:
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "add_task_comment"
+     parameters:
+       taskId: "[task-id]"
+       text: |
+         ## ✅ Task Completed
+
+         **Summary**: [what was done]
+         **Changes**: [files changed]
+         **Plan Adjustments**: [count]
+         **Tests**: All passing
    ```
 
-3. **Report success** with summary of work and adjustments made
+3. **Add progress comment to loop task**:
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "add_task_comment"
+     parameters:
+       taskId: "[loop_task_id]"
+       text: |
+         ## ✅ Iteration [N] - Success
+
+         **Task:** [task-title] ([task-id])
+         **Duration:** [time]
+         **Files Changed:** [count]
+   ```
+
+4. **Report success** with summary of work and adjustments made
 
 ## On Failure
 
-1. **Do NOT update status to Done**
-
-2. **Add failure comment**:
+1. **Update task tags to blocked** (do NOT mark Done):
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "update_task"
+     parameters:
+       id: "[task-id]"
+       status: "Blocked"
+       tags: ["loop-task", "loop-iteration:[N]", "loop-blocked", "loop-phase:[failed-phase]"]
    ```
-   mcp__Dart__add_task_comment({
-     taskId: id,
-     text: "## Task Blocked\n\n**Issue**: [problem]\n\n**Phase Failed**: [which phase]\n\n**Error**: [details]\n\n**Suggested Fix**: [recommendation]"
-   })
+
+2. **Add failure comment to task** with actionable details:
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "add_task_comment"
+     parameters:
+       taskId: "[task-id]"
+       text: |
+         ## ❌ Task Blocked at Phase [N]
+
+         **Phase Failed:** [phase-name]
+         **Error:** [specific error]
+
+         ### Suggested Fix
+         [detailed recommendation]
+
+         ### Impact
+         - **Create Fix Task:** [yes/no]
+         - **Blocked Tasks:** [list of task IDs that depend on this]
+         - **Severity:** [low/medium/high/critical]
    ```
 
-3. **Report failure** with:
-   - Which phase failed
-   - Specific error message
-   - Suggested fix
-   - Files affected
+3. **Add failure comment to loop task**:
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "add_task_comment"
+     parameters:
+       taskId: "[loop_task_id]"
+       text: |
+         ## ❌ Iteration [N] - Failed
 
-4. **STOP** - do not continue to next task
+         **Task:** [task-title] ([task-id])
+         **Phase:** [failed-phase]
+         **Error:** [brief error]
+         **Action Needed:** [create fix task / replan / investigate]
+   ```
+
+4. **If fix task needed, create as subtask of LOOP task** (not the work task):
+   ```yaml
+   # Fix tasks belong under the Loop task, not the work task
+   # Work tasks keep their original structure
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart"
+     tool_name: "create_task"
+     parameters:
+       item:
+         title: "🔧 Fix: [specific issue]"
+         description: |
+           ## Fix Task (Auto-created)
+
+           **Blocked Work Task:** [task-title] ([task-id])
+           **Failed Phase:** [phase]
+
+           ### Problem
+           [error details]
+
+           ### Suggested Solution
+           [recommendation]
+
+           ### Acceptance Criteria
+           - [ ] Error resolved
+           - [ ] Blocked work task can proceed
+         dartboard: "[dartboard-name]"
+         parentId: "[loop_task_id]"  # Subtask of LOOP, not work task
+         status: "To-do"
+         priority: "High"
+         tags: ["loop-fix", "unblocks:[work-task-id]"]
+   ```
+
+5. **RETURN to main loop** (do NOT stop the loop)
+   - The main loop will read task status from Dart
+   - The main loop will process fix tasks or continue
+   - You are just ONE iteration - the loop decides what's next
 
 ---
 
 ## Important Rules
 
-- Stop on first failure in any phase
+- **RETURN on failure, don't stop the whole loop** - you are one iteration
 - Never skip quality checks
 - Report progress at each phase
 - Adjust plan when discoveries warrant
 - Keep changes focused on task
 - Document all plan adjustments
+- **Provide actionable failure reports** - main loop needs to know how to replan
+- **You own the task, the main loop owns the loop**

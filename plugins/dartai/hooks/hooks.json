@@ -53,6 +53,38 @@
         ]
       }
     ],
+    "SubagentStop": [
+      {
+        "matcher": "dartai:task-executor",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_iteration.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "dartai:quality-verifier",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_verification.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "dartai:doc-updater",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_docs.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [

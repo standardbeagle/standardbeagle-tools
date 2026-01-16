@@ -1,0 +1,58 @@
+{
+  "hooks": {
+    "SubagentStop": [
+      {
+        "matcher": "figma-query:library-extractor",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-extraction.sh\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "figma-query:component-documenter",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-documentation.sh\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "figma-query:asset-verifier",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-verification.sh\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "figma-query:html-generator",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-html-gen.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-subagent-spawn.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

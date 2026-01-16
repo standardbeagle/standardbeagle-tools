@@ -26,8 +26,14 @@
   "commands": [
     "./commands/setup-figma.md",
     "./commands/design-sync.md",
-    "./commands/extract-library.md"
+    "./commands/extract-library.md",
+    "./commands/build-docs.md",
+    "./commands/extract-components.md",
+    "./commands/extract-pages.md",
+    "./commands/extract-assets.md"
   ],
+  "mcpServers": "./mcp.json",
+  "hooks": "./hooks/hooks.json",
   "skills": [
     "./skills/setup-mcp.md",
     "./skills/figma-info.md",
@@ -51,7 +57,8 @@
     "./skills/adversarial-design-library.md",
     "./skills/preflight-check.md",
     "./skills/validate-extraction.md",
-    "./skills/complete-extraction.md"
+    "./skills/complete-extraction.md",
+    "./skills/comprehensive-assets.md"
   ],
   "agents": [
     "./agents/library-extractor.md",

@@ -668,13 +668,18 @@ After Phase 5 completes:
    - Update task status to Done
    - Add completion comment with summary
    - Log metrics (time, issues found, fixes made)
-   - Fetch next task and restart at Phase 1
+   - **RETURN to main loop** - it will spawn next task subagent
 
-2. **On Failure:**
+2. **On Failure (RETURN, not STOP):**
    - Document specific failure point
    - Add failure comment with details
-   - Create follow-up fix task if needed
-   - STOP loop - do not continue to next task
+   - **Recommend whether fix task should be created**
+   - **Identify what tasks are blocked by this failure**
+   - **RETURN to main loop** - it decides whether to:
+     - Create fix tasks
+     - Continue to next actionable task
+     - Stop (only if user requested or critical security issue)
+   - **You are one iteration - the loop owns continuation decisions**
 
 3. **Plan Adjustment Summary:**
    ```yaml
@@ -684,6 +689,13 @@ After Phase 5 completes:
      phase_3_adjustments: "verification findings"
      phase_4_adjustments: "quality gate results"
      phase_5_adjustments: "final validation notes"
+
+   failure_report:  # Include if task failed
+     phase_failed: "Phase N"
+     reason: "Specific error"
+     recommended_fix: "What to try next"
+     blocks_tasks: ["list of blocked task IDs"]
+     create_fix_task: true/false
    ```
 
 ---
