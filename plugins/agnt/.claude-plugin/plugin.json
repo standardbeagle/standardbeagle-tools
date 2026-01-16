@@ -23,7 +23,6 @@
     "scheduler",
     "session"
   ],
-  "hooks": "./hooks/hooks.json",
   "commands": [
     "./commands/setup-project.md",
     "./commands/dev-proxy.md",

@@ -87,7 +87,7 @@
         ]
       }
     ],
-    "ToolError": [
+    "PostToolUseFailure": [
       {
         "matcher": ".*",
         "hooks": [
