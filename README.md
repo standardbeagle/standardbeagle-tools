@@ -4,13 +4,23 @@ AI coding agent toolkit - browser superpowers, code intelligence, and developmen
 
 ## Plugins
 
-This marketplace contains three plugins for Claude Code:
+This marketplace contains 13 plugins for Claude Code:
 
-| Plugin | Description | Version |
-|--------|-------------|---------|
-| **agnt** | Browser superpowers for AI agents: process management, reverse proxy, frontend debugging, sketch mode, design mode | 0.7.12 |
-| **lci** | Lightning Code Index: sub-millisecond semantic code search and code intelligence | 0.3.0 |
-| **tools** | Complete toolkit combining both agnt and lci | 1.0.0 |
+| Plugin | Description | Version | Category |
+|--------|-------------|---------|----------|
+| **agnt** | Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode | 0.7.12 | development |
+| **lci** | Lightning Code Index: sub-millisecond semantic code search | 0.3.0 | development |
+| **tools** | Complete toolkit combining agnt and lci | 1.0.0 | development |
+| **mcp-architect** | Design high-quality MCP servers with progressive discovery and token efficiency | 0.1.0 | development |
+| **mcp-tester** | MCP server testing and debugging with mcp-debug | 0.2.0 | development |
+| **slop-mcp** | SLOP integration for MCP management and orchestration | 0.2.0 | development |
+| **slop-coder** | SLOP language coding assistant and reference | 0.1.0 | development |
+| **dartai** | Dart task management with adversarial cooperation loops | 0.3.0 | development |
+| **workflow** | General-purpose adversarial workflow automation | 0.1.0 | development |
+| **figma-query** | Token-efficient Figma integration with design library extraction | 0.1.0 | design |
+| **ux-design** | UX design principles, color theory, typography, and accessibility | 0.1.0 | design |
+| **ux-developer** | UX-driven development with WCAG 2.2 and usability best practices | 0.1.0 | development |
+| **prompt-engineer** | State-of-the-art prompt and context engineering for 2026 | 0.1.0 | ai |
 
 ## Quick Install
 
