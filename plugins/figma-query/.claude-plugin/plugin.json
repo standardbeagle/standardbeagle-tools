@@ -48,7 +48,10 @@
     "./skills/common-patterns.md",
     "./skills/component-extraction.md",
     "./skills/page-extraction.md",
-    "./skills/adversarial-design-library.md"
+    "./skills/adversarial-design-library.md",
+    "./skills/preflight-check.md",
+    "./skills/validate-extraction.md",
+    "./skills/complete-extraction.md"
   ],
   "agents": [
     "./agents/library-extractor.md",

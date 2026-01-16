@@ -40,49 +40,71 @@ https://www.figma.com/design/ABC123xyz/My-Design-System
 
 ## Extraction Process
 
-This command spawns the **library-extractor** agent which runs the adversarial extraction loop:
+This command uses the **complete-extraction** skill which runs a validated, dependency-aware extraction workflow:
 
-### Phase 1: Analysis
-- Sync Figma file locally
-- Analyze file structure
-- List all components and variants
-- List all styles
-- Create extraction queue
+### Phase 0: Pre-Flight Check ⚠️
+**CRITICAL:** Validates prerequisites before starting
+- Check Figma access (token, API, permissions)
+- Verify file has components/styles
+- Confirm output directory is writable
+- Estimate extraction time and size
 
-### Phase 2: Token Extraction
-- Export CSS custom properties
-- Export JSON tokens
-- Export Tailwind config
+**Skill:** `preflight-check`
 
-### Phase 3: Component Extraction
-For each component:
-- Extract structure (wireframe)
-- Extract CSS
-- Export assets (icons, images)
-- Get token references
-- Generate HTML mockup
-- Create documentation
-- Adversarial verification
+### Phase 1: Sync File
+- Download complete Figma file structure locally
+- Create `figma-export/` directory with all nodes
+- Extract metadata, components, and styles
 
-### Phase 4: Page Extraction
-For each page:
-- Analyze section structure
-- Extract layout CSS
-- Document component usage
-- Generate page HTML mockup
-- Create documentation
+### Phase 2: Export Design Tokens ⚠️ CRITICAL
+**CRITICAL:** HTML examples depend on tokens.css existing
+- Export `tokens/tokens.css` with CSS custom properties
+- Export `tokens/tokens.json` (optional)
+- Export `tokens/tailwind.tokens.js` (optional)
 
-### Phase 5: Library Assembly
-- Create library manifest
-- Generate master CSS
-- Create component/page indexes
-- Generate getting started guide
+**Without this phase:** HTML will have undefined CSS variables
 
-### Phase 6: Final Verification
-- Full adversarial verification
-- CSS accuracy check
-- Asset completeness check
-- Documentation completeness
+### Phase 3: Component CSS Extraction
+For each component category:
+- Extract exact Figma CSS
+- Save to category files (buttons.css, cards.css, etc.)
+- Use design tokens (not hardcoded values)
+- Follow BEM naming convention
+
+### Phase 4: Asset Export ⚠️ CRITICAL
+**CRITICAL:** HTML examples reference these assets
+- Search for all exportable assets (icons, images, logos)
+- Export SVG for vectors/icons
+- Export PNG (1x, 2x) for images
+- Save to `assets/` directory
+
+**Without this phase:** HTML will have broken image links
+
+### Phase 5: HTML Example Generation
+**Dependencies:** Phases 2, 3, 4 must complete first
+- Create component showcase HTML
+- Create page example HTML
+- Link to tokens.css and component CSS
+- Reference exported assets
+- Validate all links resolve
+
+### Phase 6: Documentation Generation
+- Create main README with getting started guide
+- Create component index
+- Document design tokens
+- Document usage examples
+
+### Phase 7: Final Validation ⚠️
+**CRITICAL:** Verify extraction is complete and correct
+- Check directory structure
+- Validate tokens.css exists and is valid
+- Verify assets directory is populated
+- Check HTML has no broken links
+- Ensure documentation is complete
+
+**Skill:** `validate-extraction`
+
+**Auto-fix:** If validation fails, automatically fix common issues
 
 ## Output Structure
 
@@ -204,6 +226,88 @@ Open any `mockup.html` to see implementation-ready HTML.
 ### CSS Differences
 - Run adversarial verification again
 - Check for Figma features not supported (e.g., variables in expressions)
+
+### ⚠️ CRITICAL: Missing tokens.css
+**Problem:** HTML files reference `var(--color-primary)` but `tokens/tokens.css` doesn't exist
+
+**Cause:** Phase 2 (token export) was skipped or failed
+
+**Fix:**
+```bash
+# Export tokens manually
+figma-query export_tokens \
+  file_key="YOUR_FILE_KEY" \
+  output_path="./docs/tokens/tokens.css" \
+  format="css"
+```
+
+**Prevention:** Always run complete extraction workflow, don't skip phases
+
+### ⚠️ CRITICAL: Empty assets/ Directory
+**Problem:** HTML files reference `<img src="../assets/logo.svg">` but assets/ is empty
+
+**Cause:** Phase 4 (asset export) was skipped or failed
+
+**Fix:**
+```bash
+# First, find assets to export
+figma-query search \
+  file_key="YOUR_FILE_KEY" \
+  pattern="*logo*"
+
+# Then export them
+figma-query export_assets \
+  file_key="YOUR_FILE_KEY" \
+  node_ids=["NODE_ID_1", "NODE_ID_2"] \
+  output_dir="./docs/assets" \
+  formats=["svg", "png"]
+```
+
+**Prevention:** Always run complete extraction workflow, validate after each phase
+
+### HTML Examples Have Broken Links
+**Problem:** Opening HTML shows missing CSS or images
+
+**Cause:** Phases completed out of order or incompletely
+
+**Fix:**
+```bash
+# Run validation to see what's missing
+Use validate-extraction skill with:
+  output_dir: "./docs"
+  file_key: "YOUR_FILE_KEY"
+
+# It will provide specific fix commands for each issue
+```
+
+### How to Verify Extraction is Complete
+
+After extraction, check these files exist:
+```bash
+# Critical files that MUST exist:
+docs/tokens/tokens.css           # Design tokens
+docs/components/css/*.css         # At least 1 CSS file
+docs/assets/*                     # At least 1 asset file
+docs/examples/*.html              # At least 1 HTML file
+docs/README.md                    # Documentation
+
+# Validation command:
+ls -lh docs/tokens/tokens.css
+ls -lh docs/components/css/
+ls -lh docs/assets/
+ls -lh docs/examples/
+```
+
+### Incomplete Extraction - How to Resume
+
+If extraction stops mid-way:
+```bash
+# Check extraction state
+cat docs/.extraction-state.json
+
+# Resume from last checkpoint
+/extract-library --resume-from="./docs/.extraction-state.json"
+```
 
 ## Next Steps
 
