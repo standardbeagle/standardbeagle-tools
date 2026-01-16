@@ -40,7 +40,8 @@
     "./skills/adversarial-quality-loop.md",
     "./skills/adversarial-test-loop.md",
     "./skills/adversarial-security-loop.md",
-    "./skills/adversarial-refactor-loop.md"
+    "./skills/adversarial-refactor-loop.md",
+    "./skills/hook-doctor.md"
   ],
   "agents": [
     "./agents/task-executor.md",
