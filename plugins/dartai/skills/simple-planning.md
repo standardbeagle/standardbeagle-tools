@@ -686,6 +686,44 @@ split_action: "Create separate Dart tasks for each deliverable"
 
 ---
 
+## Deep Plan Validation
+
+For **comprehensive** and **architectural** tier tasks, use the **adversarial-planning-loop** skill for thorough validation:
+
+```yaml
+adversarial_planning_integration:
+  when_to_use:
+    - "Comprehensive tier: 5+ files, multiple criteria"
+    - "Architectural tier: cross-cutting, new patterns"
+    - "Multiple unknowns identified"
+    - "External integrations planned"
+
+  what_it_adds:
+    hierarchy_validation:
+      - "Every acceptance criterion has a task"
+      - "Every unknown has research/spike task"
+      - "Every integration point has a task"
+
+    research_task_creation:
+      - "Identifies genuine unknowns"
+      - "Creates time-boxed research tasks"
+      - "Creates spike tasks for feasibility"
+      - "Prevents analysis paralysis"
+
+    adversarial_challenge:
+      - "Challenges every research task's necessity"
+      - "Questions every abstraction"
+      - "Verifies minimality of plan"
+      - "Ensures actionability"
+
+  skip_for:
+    - "Minimal tier: single file, trivial change"
+    - "Standard tier: when plan is obviously complete"
+    - "Simple bug fixes with clear root cause"
+```
+
+---
+
 ## Summary
 
 ```yaml
@@ -695,4 +733,5 @@ planning_mantras:
   - "Simple now beats flexible later"
   - "One task, one deliverable, one plan"
   - "Plans adjust automatically, never ask"
+  - "Research unknowns, not fears"
 ```

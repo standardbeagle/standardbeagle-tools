@@ -36,6 +36,7 @@
     "./skills/code-quality.md",
     "./skills/doc-templates.md",
     "./skills/simple-planning.md",
+    "./skills/adversarial-planning-loop.md",
     "./skills/adversarial-quality-loop.md",
     "./skills/adversarial-test-loop.md",
     "./skills/adversarial-security-loop.md",
