@@ -90,6 +90,11 @@
         "hooks": [
           {
             "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/check_remaining_tasks.py\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
             "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/session_cleanup.py\"",
             "timeout": 10
           }
