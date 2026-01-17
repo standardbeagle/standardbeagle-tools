@@ -250,9 +250,11 @@ params:
 ```yaml
 subagent_execution:
   why: "Fresh context prevents accumulated state/confusion"
+  max_turns: 50  # Timeout mechanism - agent returns after 50 API round-trips
   how: |
     Use the Task tool with:
       subagent_type: "dartai:task-executor"
+      max_turns: 50  # Ensures agent returns even if stuck
       prompt: |
         Execute task [TASK_ID] from dartboard [DARTBOARD_NAME].
 
@@ -286,6 +288,7 @@ subagent_execution:
 Task tool call:
   subagent_type: "dartai:task-executor"
   description: "Execute task: Add user authentication"
+  max_turns: 50  # Timeout - ensures agent returns even if stuck
   prompt: |
     Execute task QiXCNniu7OQY from dartboard Personal/project-name.
 
@@ -497,6 +500,7 @@ If significant changes were made, spawn doc-updater agent:
 Task tool call:
   subagent_type: "dartai:doc-updater"
   description: "Update docs for completed task"
+  max_turns: 20  # Doc updates are simpler, shorter timeout
   prompt: "Update documentation for task [TASK_ID]..."
 ```
 

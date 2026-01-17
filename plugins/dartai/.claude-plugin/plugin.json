@@ -1,6 +1,6 @@
 {
   "name": "dartai",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Dart task management with adversarial cooperation loops - automated task execution through quality verification pipelines with plan adjustment, context-sized tasks, and verifiable outcomes. Now with dartboard memory for automatic project-specific defaults.",
   "author": {
     "name": "Standard Beagle",

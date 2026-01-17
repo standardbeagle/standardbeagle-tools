@@ -33,7 +33,20 @@ Display task details and confirm:
 
 ### 3. Execute Pipeline
 
-Use the task-executor agent to run the full quality pipeline:
+Use the task-executor agent to run the full quality pipeline.
+
+**Task tool invocation:**
+```yaml
+Task tool call:
+  subagent_type: "dartai:task-executor"
+  max_turns: 50  # Timeout - ensures agent returns even if stuck
+  description: "Execute task: [task-title]"
+  prompt: |
+    Execute task [TASK_ID] through the quality pipeline.
+    ...task details...
+```
+
+**Pipeline phases:**
 
 1. **Understand task**: Read task description, identify scope
 2. **Implement changes**: Make necessary code changes
@@ -60,7 +73,18 @@ Use mcp__Dart__add_task_comment with failure details
 
 ### 5. Update Documentation
 
-Use doc-updater agent to:
+Use doc-updater agent to update documentation:
+
+```yaml
+Task tool call:
+  subagent_type: "dartai:doc-updater"
+  max_turns: 20  # Doc updates are simpler, shorter timeout
+  description: "Update docs for: [task-title]"
+  prompt: |
+    Update documentation for completed task [TASK_ID]...
+```
+
+Actions:
 - Add entry to CHANGELOG if feature/fix
 - Update README if applicable
 - Add Dart task comment with summary

@@ -71,11 +71,41 @@ def get_active_dartboard():
     return config.get("last_dartboard") or config.get("default_dartboard")
 
 
+def determine_next_action(loop_data):
+    """
+    Determine what action to take based on loop state.
+
+    Returns: tuple of (action, reason)
+    Actions: continue, replan, redo, stop
+    """
+    last_result = loop_data.get("last_result", {})
+    status = last_result.get("status", "unknown")
+
+    if status == "success":
+        # Last task succeeded - continue to next task
+        return "continue", "last task completed successfully"
+    elif status == "failed":
+        # Last task failed - check if there's a fix task or need replan
+        if last_result.get("fix_task_created"):
+            return "continue", "fix task created, processing it next"
+        else:
+            return "replan", f"task failed at phase {last_result.get('failed_phase', 'unknown')}"
+    elif status == "blocked":
+        # Task is blocked - try to replan or pick different task
+        return "replan", f"task blocked: {last_result.get('blocker', 'unknown reason')}"
+    elif status == "uncertain":
+        # Agent stopped due to uncertainty - redo with more context or replan
+        return "redo", f"agent uncertain: {last_result.get('uncertainty', 'unspecified')}"
+    else:
+        # Unknown state - continue to check for more tasks
+        return "continue", "checking for remaining tasks"
+
+
 def check_remaining_tasks():
     """
     Check if there are remaining tasks in an active loop.
 
-    Returns a signal for Claude to check Dart and continue if tasks remain.
+    Issues a directive for Claude to continue the loop with appropriate action.
     """
     loop_data = check_active_loop()
 
@@ -93,17 +123,43 @@ def check_remaining_tasks():
             "reason": "no_dartboard"
         }
 
-    # Active loop found - signal Claude to check for remaining tasks
+    # Determine what action to take
+    action, reason = determine_next_action(loop_data)
+    iterations = loop_data.get("iterations", 0)
+    loop_task_id = loop_data.get("loop_task_id")
+
+    # Build the directive based on action
+    if action == "continue":
+        directive = (
+            f"CONTINUE LOOP: Query Dart for remaining tasks on '{dartboard}' "
+            f"(is_completed=false, status 'To-do' or 'In Progress'). "
+            f"Spawn dartai:task-executor for the next task."
+        )
+    elif action == "replan":
+        directive = (
+            f"REPLAN REQUIRED: {reason}. "
+            f"Query Dart for task state, check for fix tasks or blocked tasks. "
+            f"Create fix task if needed, then continue with next actionable task."
+        )
+    elif action == "redo":
+        directive = (
+            f"REDO LAST TASK: {reason}. "
+            f"Re-read the task requirements and spawn dartai:task-executor again "
+            f"with additional context about what was uncertain."
+        )
+    else:
+        directive = f"CHECK LOOP STATE: {reason}"
+
     return {
         "continue_loop": True,
+        "action": action,
+        "reason": reason,
         "dartboard": dartboard,
-        "iterations_completed": loop_data.get("iterations", 0),
+        "loop_task_id": loop_task_id,
+        "iterations_completed": iterations,
         "last_iteration_at": loop_data.get("last_iteration_at"),
-        "message": f"ACTIVE DARTAI LOOP DETECTED on '{dartboard}'. "
-                   f"Before stopping, check Dart for remaining tasks: "
-                   f"Use list_tasks with dartboard='{dartboard}' and is_completed=false. "
-                   f"If tasks remain (status 'To-do' or 'In Progress'), continue the loop. "
-                   f"Only stop if all tasks are completed or user explicitly requested stop."
+        "directive": directive,
+        "command": f"DO NOT STOP. {directive}"
     }
 
 

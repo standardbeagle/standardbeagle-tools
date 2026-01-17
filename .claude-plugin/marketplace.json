@@ -163,7 +163,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops - automated task execution through quality, test, security, and refactoring verification pipelines. Features dartboard memory for project defaults, plan adjustment at each phase, and context-sized tasks with verifiable outcomes.",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
