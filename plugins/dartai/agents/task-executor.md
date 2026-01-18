@@ -102,13 +102,7 @@ flow_rules:
       - "Task requires split (>5 files)"
       - "Access denied to required resource"
       - "Impossible requirement detected"
-
-  impulse_to_ask:
-    trigger: "If you feel the urge to ask for confirmation or clarification"
-    action: "STOP and RETURN immediately with 'uncertain' status"
-    reason: "The impulse to ask means you're uncertain - stop rather than ask"
-    report: "Include what you were uncertain about in your return message"
-    result: "Stop hook will trigger replan or redo automatically"
+    important: "Make a decision and proceed. If unclear, make reasonable assumption and document it in task comment. Only fail if truly impossible."
 ```
 
 ## Context-Sized Task Requirements
@@ -656,9 +650,51 @@ quality_check:
 
 ---
 
+## Before Termination: Update Loop State File
+
+Before returning (success or failure), write complete execution results to `.claude/dartai-loop-state.json`:
+
+```json
+{
+  "iterations": 3,
+  "last_iteration_at": "ISO timestamp",
+  "last_subagent": "subagent-id",
+  "tasks": [
+    {
+      "task_id": "abc123",
+      "iteration": 3,
+      "status": "completed|failed",
+      "started_at": "ISO timestamp",
+      "completed_at": "ISO timestamp",
+      "phase_completed": "phase-9",
+      "failed_phase": null,
+      "files_changed": 3,
+      "tests_added": 5,
+      "plan_adjustments": 2,
+      "completion_summary": "One sentence what was done",
+      "failure_reason": null,
+      "fix_task_created": false,
+      "fix_task_id": null
+    }
+  ]
+}
+```
+
+**CRITICAL**: This state file enables the Stop hook and main loop to:
+- Know exactly what happened without string parsing
+- Resume loop after interruption
+- Track iteration history
+- Make autonomous decisions
+
+Write this file IMMEDIATELY BEFORE your return statement.
+
+---
+
 ## On Success
 
-1. **Update task status and tags**:
+1. **Update loop state file** (see above)
+
+2. **Update task status and tags**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -670,7 +706,7 @@ quality_check:
        tags: ["loop-task", "loop-iteration:[N]", "loop-complete"]
    ```
 
-2. **Add completion comment to task**:
+3. **Add completion comment to task**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -687,7 +723,7 @@ quality_check:
          **Tests**: All passing
    ```
 
-3. **Add progress comment to loop task**:
+4. **Add progress comment to loop task**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -703,11 +739,13 @@ quality_check:
          **Files Changed:** [count]
    ```
 
-4. **Report success** with summary of work and adjustments made
+5. **Report success** with summary of work and adjustments made
 
 ## On Failure
 
-1. **Update task tags to blocked** (do NOT mark Done):
+1. **Update loop state file** (see "Before Termination" section above)
+
+2. **Update task tags to blocked** (do NOT mark Done):
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -719,7 +757,7 @@ quality_check:
        tags: ["loop-task", "loop-iteration:[N]", "loop-blocked", "loop-phase:[failed-phase]"]
    ```
 
-2. **Add failure comment to task** with actionable details:
+3. **Add failure comment to task** with actionable details:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -742,7 +780,7 @@ quality_check:
          - **Severity:** [low/medium/high/critical]
    ```
 
-3. **Add failure comment to loop task**:
+4. **Add failure comment to loop task**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -759,7 +797,7 @@ quality_check:
          **Action Needed:** [create fix task / replan / investigate]
    ```
 
-4. **If fix task needed, create as subtask of LOOP task** (not the work task):
+5. **If fix task needed, create as subtask of LOOP task** (not the work task):
    ```yaml
    # Fix tasks belong under the Loop task, not the work task
    # Work tasks keep their original structure
@@ -792,7 +830,7 @@ quality_check:
          tags: ["loop-fix", "unblocks:[work-task-id]"]
    ```
 
-5. **RETURN to main loop** (do NOT stop the loop)
+6. **RETURN to main loop** (do NOT stop the loop)
    - The main loop will read task status from Dart
    - The main loop will process fix tasks or continue
    - You are just ONE iteration - the loop decides what's next

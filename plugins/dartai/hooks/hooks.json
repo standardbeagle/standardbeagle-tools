@@ -13,6 +13,16 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_subagent_spawn.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
         "matcher": "mcp__Dart__update_task",
         "hooks": [
           {
@@ -89,9 +99,9 @@
       {
         "hooks": [
           {
-            "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/check_remaining_tasks.py\"",
-            "timeout": 10
+            "type": "prompt",
+            "prompt": "You are evaluating whether the dartai Ralph Wiggum loop should stop.\n\n## Your Task\n\n1. Read `.claude/dartai-loop-state.json` to check for an active loop\n2. If a loop is active (iterations > 0), query Dart for remaining tasks:\n   - Use tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool\n   - MCP: \"dart\"\n   - Tool: \"list_tasks\"\n   - Parameters: {\"dartboard\": \"<from loop state file>\", \"is_completed\": false, \"limit\": 20}\n3. Filter results for status \"To-do\" or \"In Progress\"\n\n## Decision Logic\n\nReturn `{\"ok\": false, \"reason\": \"X tasks remaining on dartboard Y\"}` if:\n- Loop state file exists with iterations > 0\n- Dart query returns tasks with status \"To-do\" or \"In Progress\"\n\nReturn `{\"ok\": true}` if:\n- No loop state file exists\n- Loop state file shows 0 iterations\n- Dart query returns no incomplete tasks\n- Unable to query Dart (assume user wants to stop)\n\n## Important\n\n- When returning `ok: false`, the reason should guide the main loop: \"Continue to next task: <task-title>\"\n- Read the actual state from files and Dart - don't assume\n- The loop should continue autonomously without asking the user",
+            "timeout": 30
           },
           {
             "type": "command",

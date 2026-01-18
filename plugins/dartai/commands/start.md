@@ -228,9 +228,29 @@ params:
 
 For each task in queue:
 
-#### 5.1 Tag Task as Loop-Active
+#### 5.1 Pre-Spawn Validation
 
-Before spawning subagent, tag the task:
+Before spawning subagent, verify prerequisites:
+
+```yaml
+pre_spawn_checks:
+  - task_is_context_sized: "Max 5 files"
+  - clear_acceptance_criteria: "Task has acceptance criteria"
+  - previous_subagent_terminated: "No overlapping subagents"
+  - loop_state_persisted: ".claude/dartai-loop-state.json exists and is valid"
+```
+
+**If validation fails:**
+- Context too large: Request task split, skip to next task
+- Missing criteria: Add clarification comment to task, skip
+- Previous subagent running: Wait or error (should not happen)
+- State file corrupt: Reinitialize state file
+
+**Only proceed to spawn if all checks pass.**
+
+#### 5.2 Tag Task as Loop-Active
+
+Tag the task before spawning:
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -243,7 +263,7 @@ params:
     tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting"]
 ```
 
-#### 5.2 Spawn Task Executor Subagent
+#### 5.3 Spawn Task Executor Subagent
 
 **Each task iteration MUST use the Task tool with subagent_type="dartai:task-executor":**
 
@@ -303,7 +323,7 @@ Task tool call:
     ...
 ```
 
-#### 5.2 Task Sizing Check (done by subagent)
+#### 5.4 Task Sizing Check (done by subagent)
 The task-executor subagent will verify task is context-sized:
 - Maximum 3-5 files per task
 - Clear acceptance criteria
@@ -311,7 +331,7 @@ The task-executor subagent will verify task is context-sized:
 
 **If task too large**: Subagent will request split and return
 
-#### 5.3 Execute Selected Loop (done by subagent)
+#### 5.5 Execute Selected Loop (done by subagent)
 
 **Quality Loop** (adversarial-quality-loop skill):
 ```yaml
@@ -378,7 +398,7 @@ phases:
   # PLAN ADJUSTMENT after each phase and each step
 ```
 
-#### 5.4 Handle Subagent Result (SubagentStop Hook Fires Here)
+#### 5.6 Handle Subagent Result (SubagentStop Hook Fires Here)
 
 After the task-executor subagent returns, the `SubagentStop` hook fires and updates `.claude/dartai-loop-state.json`.
 
@@ -401,15 +421,40 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
    - If task still "In Progress" with failure comment → replan
    - Read failure details from task comments
 
-3. **Local loop file is just metrics:**
-   ```python
-   # .claude/dartai-loop.json - orchestration only, not task state
+3. **Local loop file contains orchestration metrics AND task results:**
+   ```json
+   # .claude/dartai-loop-state.json - written by subagent before termination
    {
-     "iterations": N,
-     "last_iteration_at": "...",
-     "started_at": "..."
+     "iterations": 3,
+     "spawns": 3,
+     "started_at": "ISO timestamp",
+     "last_iteration_at": "ISO timestamp",
+     "last_subagent": "subagent-id",
+     "loop_task_id": "dart-task-id",
+     "dartboard": "Personal/project",
+     "tasks": [
+       {
+         "task_id": "abc123",
+         "iteration": 1,
+         "status": "completed",
+         "started_at": "ISO timestamp",
+         "completed_at": "ISO timestamp",
+         "phase_completed": "phase-9",
+         "failed_phase": null,
+         "files_changed": 3,
+         "tests_added": 5,
+         "plan_adjustments": 2,
+         "completion_summary": "Implemented user auth with JWT",
+         "failure_reason": null,
+         "fix_task_created": false,
+         "fix_task_id": null
+       }
+     ]
    }
    ```
+
+   **Key change**: Subagents write structured completion data to this file BEFORE terminating.
+   This eliminates string parsing and enables reliable autonomous continuation.
 
 **On Success:**
 - The subagent already updated task to "Done" via Dart MCP
@@ -493,7 +538,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
 
 **IMPORTANT: Never reuse subagent context - each task gets fresh execution.**
 
-#### 5.5 Documentation Update (optional)
+#### 5.7 Documentation Update (optional)
 
 If significant changes were made, spawn doc-updater agent:
 ```
@@ -526,6 +571,27 @@ plan_adjustment:
 ```
 
 ### 7. Loop Control
+
+**How Autonomous Continuation Works:**
+
+The loop continues autonomously via a **prompt-based Stop hook**:
+
+```json
+{
+  "type": "prompt",
+  "prompt": "Check .claude/dartai-loop-state.json and query Dart for remaining tasks.
+            If tasks remain with status 'To-do' or 'In Progress', return
+            {\"ok\": false, \"reason\": \"X tasks remaining\"} to block stopping."
+}
+```
+
+When Claude attempts to stop:
+1. Stop hook fires and invokes Haiku
+2. Haiku reads loop state file and queries Dart for tasks
+3. If tasks remain: Returns `{"ok": false}` → **Blocks stopping**, Claude continues
+4. If all done: Returns `{"ok": true}` → Allows stopping
+
+This is the key difference from command-based hooks which only output messages but can't actually prevent stopping.
 
 **Subagent Execution Pattern:**
 ```yaml

@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 STATE_DIR = Path.home() / ".dartai"
-LOOP_FILE = Path(".claude/dartai-loop.json")
+LOOP_FILE = Path(".claude/dartai-loop-state.json")
 CONFIG_FILE = Path(".claude/dartai.local.md")
 
 
@@ -76,26 +76,28 @@ def determine_next_action(loop_data):
     Determine what action to take based on loop state.
 
     Returns: tuple of (action, reason)
-    Actions: continue, replan, redo, stop
+    Actions: continue, replan, stop
     """
-    last_result = loop_data.get("last_result", {})
-    status = last_result.get("status", "unknown")
+    # Get most recent task result from structured state
+    tasks = loop_data.get("tasks", [])
 
-    if status == "success":
+    if not tasks:
+        # No tasks processed yet, continue
+        return "continue", "no tasks processed yet"
+
+    last_task = tasks[-1]
+    status = last_task.get("status", "unknown")
+
+    if status == "completed":
         # Last task succeeded - continue to next task
         return "continue", "last task completed successfully"
     elif status == "failed":
         # Last task failed - check if there's a fix task or need replan
-        if last_result.get("fix_task_created"):
+        if last_task.get("fix_task_created"):
             return "continue", "fix task created, processing it next"
         else:
-            return "replan", f"task failed at phase {last_result.get('failed_phase', 'unknown')}"
-    elif status == "blocked":
-        # Task is blocked - try to replan or pick different task
-        return "replan", f"task blocked: {last_result.get('blocker', 'unknown reason')}"
-    elif status == "uncertain":
-        # Agent stopped due to uncertainty - redo with more context or replan
-        return "redo", f"agent uncertain: {last_result.get('uncertainty', 'unspecified')}"
+            failed_phase = last_task.get("failed_phase", "unknown")
+            return "replan", f"task failed at {failed_phase}"
     else:
         # Unknown state - continue to check for more tasks
         return "continue", "checking for remaining tasks"
@@ -140,12 +142,6 @@ def check_remaining_tasks():
             f"REPLAN REQUIRED: {reason}. "
             f"Query Dart for task state, check for fix tasks or blocked tasks. "
             f"Create fix task if needed, then continue with next actionable task."
-        )
-    elif action == "redo":
-        directive = (
-            f"REDO LAST TASK: {reason}. "
-            f"Re-read the task requirements and spawn dartai:task-executor again "
-            f"with additional context about what was uncertain."
         )
     else:
         directive = f"CHECK LOOP STATE: {reason}"
