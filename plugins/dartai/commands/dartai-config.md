@@ -25,7 +25,7 @@ Guide user through settings:
 First fetch available dartboards:
 ```
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "get_config"
   parameters: {}
 ```

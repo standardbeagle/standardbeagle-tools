@@ -14,12 +14,12 @@ Run the full quality pipeline on a single Dart task without starting the continu
 
 If argument looks like a Dart task ID (12 alphanumeric chars):
 ```
-Use mcp__Dart__get_task with id: [argument]
+Use mcp__dart-query__get_task with id: [argument]
 ```
 
 Otherwise, search by title:
 ```
-Use mcp__Dart__list_tasks with title: [argument]
+Use mcp__dart-query__list_tasks with title: [argument]
 ```
 
 ### 2. Confirm Task
@@ -61,14 +61,14 @@ Task tool call:
 
 On success:
 ```
-Use mcp__Dart__update_task to set status: "Done"
-Use mcp__Dart__add_task_comment with completion summary
+Use mcp__dart-query__update_task to set status: "Done"
+Use mcp__dart-query__add_task_comment with completion summary
 ```
 
 On failure:
 ```
-Use mcp__Dart__update_task to set status: "Blocked" or keep "In Progress"
-Use mcp__Dart__add_task_comment with failure details
+Use mcp__dart-query__update_task to set status: "Blocked" or keep "In Progress"
+Use mcp__dart-query__add_task_comment with failure details
 ```
 
 ### 5. Update Documentation

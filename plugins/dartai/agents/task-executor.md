@@ -2,7 +2,7 @@
 name: task-executor
 description: Execute a Dart task through the adversarial quality pipeline with plan adjustment at each phase
 model: opus
-tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context", "mcp__Dart__get_task", "mcp__Dart__update_task", "mcp__Dart__add_task_comment"]
+tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context", "mcp__dart-query__get_task", "mcp__dart-query__update_task", "mcp__dart-query__add_task_comment"]
 whenToUse: |
   Use this agent when the user wants to execute a task through the adversarial quality pipeline.
 
@@ -237,7 +237,7 @@ At the start of each phase, update the task tag to track progress:
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
     id: "[task-id]"
@@ -264,7 +264,7 @@ Phase names:
 ### Task: Analyze Task Scope
 
 **DO (Positive Instructions):**
-- Fetch full task details using `mcp__Dart__get_task`
+- Fetch full task details using `mcp__dart-query__get_task`
 - Read the task description completely
 - List explicit acceptance criteria
 - Identify ALL files that will be modified (max 5)
@@ -698,7 +698,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "update_task"
      parameters:
        id: "[task-id]"
@@ -710,7 +710,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
        taskId: "[task-id]"
@@ -727,7 +727,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
        taskId: "[loop_task_id]"
@@ -749,7 +749,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "update_task"
      parameters:
        id: "[task-id]"
@@ -761,7 +761,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
        taskId: "[task-id]"
@@ -784,7 +784,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
        taskId: "[loop_task_id]"
@@ -803,7 +803,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
    # Work tasks keep their original structure
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "create_task"
      parameters:
        item:

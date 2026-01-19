@@ -49,8 +49,8 @@ Apply these updates? (yes/no)
 
 If confirmed (or --force flag):
 ```
-Use mcp__Dart__update_task for each status change
-Use mcp__Dart__add_task_comment for each completion note
+Use mcp__dart-query__update_task for each status change
+Use mcp__dart-query__add_task_comment for each completion note
 ```
 
 ### 5. Report Results

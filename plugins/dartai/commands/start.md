@@ -37,7 +37,7 @@ Look for: last_dartboard, default_dartboard fields
 **If no dartboard found in config, fetch available dartboards:**
 ```
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "get_config"
   parameters: {}
 ```
@@ -65,7 +65,7 @@ Query Dart for tasks in the dartboard using SLOP:
 
 ```
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "list_tasks"
   parameters: {
     "dartboard": "[selected dartboard]",
@@ -83,7 +83,7 @@ Filter results by status "To-do" or "In Progress".
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters:
     item:
@@ -152,7 +152,7 @@ Work tasks get TAGGED to associate with the loop, but keep their original parent
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
     id: "[work-task-id]"
@@ -167,7 +167,7 @@ For each Claude subagent execution, create a tracking subtask UNDER the loop tas
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters:
     item:
@@ -207,7 +207,7 @@ Update the loop task description with progress after each iteration:
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "add_task_comment"
   parameters:
     taskId: "[loop_task_id]"
@@ -255,7 +255,7 @@ Tag the task before spawning:
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
     id: "[task-id]"
@@ -408,7 +408,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "list_tasks"
      parameters:
        dartboard: "[dartboard]"
@@ -468,7 +468,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "update_task"
      parameters:
        id: "[task-id]"
@@ -481,7 +481,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
    # Fix tasks are NEW work created by the loop, so they belong under the loop task
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "create_task"
      parameters:
        item:
@@ -515,7 +515,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
-     mcp_name: "dart"
+     mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
        taskId: "[loop_task_id]"
@@ -634,7 +634,7 @@ When loop ends (all tasks done OR user stops OR critical issue):
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
     id: "[loop_task_id]"
@@ -646,7 +646,7 @@ params:
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "add_task_comment"
   parameters:
     taskId: "[loop_task_id]"
@@ -680,7 +680,7 @@ params:
 # Get all loop-related tasks for summary
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "list_tasks"
   parameters:
     dartboard: "[dartboard-name]"

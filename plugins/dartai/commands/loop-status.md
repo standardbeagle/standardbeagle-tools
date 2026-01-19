@@ -58,7 +58,7 @@ To run single task: /dartai:task <task-id>
 
 If user asks for more details on a specific task:
 ```
-Use mcp__Dart__get_task to fetch full task info
+Use mcp__dart-query__get_task to fetch full task info
 ```
 
 ## Usage

@@ -20,7 +20,7 @@ Fetch incomplete tasks from a specific project.
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "list_tasks"
   parameters: {
     "dartboard": "YOUR_DARTBOARD_NAME",
@@ -53,7 +53,7 @@ Full workflow from fetching task details to marking complete.
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "get_task"
   parameters: {"id": "TASK_ID"}
 ```
@@ -62,7 +62,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters: {
     "id": "TASK_ID",
@@ -81,7 +81,7 @@ Execute the task requirements...
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters: {
     "id": "TASK_ID",
@@ -96,7 +96,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "add_task_comment"
   parameters: {
     "item": {
@@ -116,7 +116,7 @@ Create a parent task and its subtasks.
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters: {
     "item": {
@@ -136,7 +136,7 @@ Save the returned `id` as `PARENT_ID`.
 ```
 # Subtask 1
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters: {
     "item": {
@@ -148,7 +148,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 # Subtask 2
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters: {
     "item": {
@@ -160,7 +160,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 # Subtask 3
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters: {
     "item": {
@@ -181,7 +181,7 @@ Get your assigned tasks and recent activity.
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "list_tasks"
   parameters: {
     "assignee": "your.email@example.com",
@@ -195,7 +195,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "list_tasks"
   parameters: {
     "assignee": "your.email@example.com",
@@ -214,7 +214,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters: {
     "id": "TASK_ID",
@@ -226,7 +226,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 # Add blocker comment
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "add_task_comment"
   parameters: {
     "item": {
@@ -240,7 +240,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters: {
     "id": "TASK_ID",
@@ -252,7 +252,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 # Add unblock comment
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "add_task_comment"
   parameters: {
     "item": {
@@ -272,7 +272,7 @@ If you don't know the exact dartboard name, use `get_config`:
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "get_config"
   parameters: {}
 ```

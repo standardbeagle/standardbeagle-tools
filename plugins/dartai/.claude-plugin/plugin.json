@@ -24,6 +24,7 @@
     "plan-adjustment"
   ],
   "commands": [
+    "./commands/setup-dart.md",
     "./commands/start.md",
     "./commands/task.md",
     "./commands/loop-status.md",
@@ -31,6 +32,7 @@
     "./commands/dartai-config.md",
     "./commands/verify.md"
   ],
+  "mcpServers": "./mcp.json",
   "skills": [
     "./skills/task-execution.md",
     "./skills/code-quality.md",

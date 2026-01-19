@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "dart-query": {
+      "command": "npx",
+      "args": ["-y", "@standardbeagle/dart-query@latest"],
+      "env": {
+        "DART_TOKEN": "${DART_TOKEN}"
+      }
+    }
+  }
+}

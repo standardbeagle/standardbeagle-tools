@@ -2,7 +2,7 @@
 """
 On Task Update - Hook triggered after Dart task updates.
 
-This hook runs after mcp__Dart__update_task to track task progress
+This hook runs after mcp__dart-query__update_task to track task progress
 and trigger documentation updates when tasks are completed.
 """
 

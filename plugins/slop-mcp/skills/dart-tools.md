@@ -44,7 +44,7 @@ Get information about the user's workspace, including all available dartboards, 
 **Usage:**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "get_config"
   parameters: {}
 ```
@@ -87,7 +87,7 @@ List tasks with powerful filtering options. Supports pagination with limit/offse
 **Usage:**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "list_tasks"
   parameters: {
     "dartboard": "Personal/my-project",
@@ -108,7 +108,7 @@ Retrieve full details for a specific task.
 **Usage:**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "get_task"
   parameters: {"id": "abc123def456"}
 ```
@@ -135,7 +135,7 @@ Create a new task. Defaults to current user as assignee and default dartboard.
 **Usage:**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters: {
     "item": {
@@ -167,7 +167,7 @@ Update properties of an existing task. Only specified fields are changed.
 **Usage:**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters: {
     "id": "abc123def456",
@@ -239,7 +239,7 @@ Add a comment to a task.
 **Usage:**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "add_task_comment"
   parameters: {
     "item": {
@@ -378,7 +378,7 @@ Search Dart help center articles.
 ```
 # 1. Update status to Done
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "update_task"
   parameters: {
     "id": "TASK_ID",
@@ -387,7 +387,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 # 2. Add completion comment
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "add_task_comment"
   parameters: {
     "item": {
@@ -401,7 +401,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "list_tasks"
   parameters: {
     "dartboard": "Personal/project-name",
@@ -415,7 +415,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
-  mcp_name: "dart"
+  mcp_name: "dart-query"
   tool_name: "create_task"
   parameters: {
     "item": {
