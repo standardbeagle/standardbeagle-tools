@@ -1,6 +1,6 @@
 ---
 name: setup-mcp
-description: Install lci MCP server with intelligent detection - uses ~/.local/bin if available, falls back to npx, supports slop-mcp
+description: Install lci MCP server with intelligent detection - uses local binary if available, falls back to npx
 ---
 
 # LCI MCP Server Setup
@@ -11,11 +11,11 @@ This skill provides adaptive installation of the LCI (Lightning Code Index) MCP 
 
 LCI can be registered in two ways:
 1. **Via slop-mcp** - Centralized management with search, discovery, and orchestration
-2. **Via standard mcp.json** - Direct plugin-based configuration (already included)
+2. **Via standard mcp.json** - Direct configuration in Claude Code settings
 
 The MCP server command resolution follows this priority:
-1. **~/.local/bin/lci** - Preferred if exists (local installation)
-2. **npx @standardbeagle/lci@latest** - Fallback (always available via npm)
+1. **Local binary** - `~/.local/bin/lci`, `~/go/bin/lci`, or in PATH
+2. **npx @standardbeagle/lci** - Fallback (always available via npm)
 
 ## Installation Flow
 
@@ -24,17 +24,27 @@ The MCP server command resolution follows this priority:
 First, check if lci is installed locally:
 
 ```bash
-if [ -x "$HOME/.local/bin/lci" ]; then
-  echo "FOUND: ~/.local/bin/lci"
-  "$HOME/.local/bin/lci" --version
+# Check common installation locations
+for loc in "$HOME/.local/bin/lci" "$HOME/go/bin/lci"; do
+  if [ -x "$loc" ]; then
+    echo "FOUND: $loc"
+    "$loc" --version
+    exit 0
+  fi
+done
+
+# Check PATH
+if command -v lci &> /dev/null; then
+  echo "FOUND: $(which lci)"
+  lci --version
 else
-  echo "NOT FOUND: ~/.local/bin/lci - will use npx"
+  echo "NOT FOUND locally - will use npx"
 fi
 ```
 
 **Record the result** for use in registration:
-- If found: Use `~/.local/bin/lci` as command
-- If not found: Use `npx` with args `["-y", "@standardbeagle/lci@latest", "mcp"]`
+- If found: Use the full path as command
+- If not found: Use `npx` with args `["-y", "@standardbeagle/lci", "mcp"]`
 
 ### Step 2: Detect slop-mcp Availability
 
@@ -70,27 +80,27 @@ Default recommendation: `user` for persistent personal installation.
 
 #### Register LCI
 
-**If ~/.local/bin/lci exists:**
+**If local binary exists:**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
   "action": "register",
   "name": "lci",
-  "command": "/home/<user>/.local/bin/lci",
+  "command": "<full-path-to-lci>",
   "args": ["mcp"],
   "scope": "<user's choice>"
 }
 ```
-Note: Expand `~` to full path (e.g., `/home/username/.local/bin/lci`)
+Note: Use full path (e.g., `/home/username/.local/bin/lci` or `/home/username/go/bin/lci`)
 
-**If ~/.local/bin/lci does NOT exist (use npx):**
+**If no local binary (use npx):**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
   "action": "register",
   "name": "lci",
   "command": "npx",
-  "args": ["-y", "@standardbeagle/lci@latest", "mcp"],
+  "args": ["-y", "@standardbeagle/lci", "mcp"],
   "scope": "<user's choice>"
 }
 ```
@@ -104,71 +114,68 @@ Parameters: { "query": "search", "mcp_name": "lci" }
 
 If tools are returned, registration was successful.
 
-#### Handle Duplicate Prevention
-
-If lci was registered via slop-mcp, inform the user that:
-- The plugin's built-in mcp.json may create duplicate tool registrations
-- They can optionally rename `mcp.json` to `mcp.json.disabled` in the lci plugin directory
-- Or simply be aware that slop-mcp registration takes precedence
-
 ### Step 3B: Standard Installation (No slop-mcp)
 
-When slop-mcp is not available, verify the standard plugin configuration.
+When slop-mcp is not available, configure via mcp.json.
 
-#### Verify LCI Binary
+#### Install LCI Binary (Optional)
 
-Check installation locations in order:
-
-```bash
-# Check ~/.local/bin first (preferred)
-if [ -x "$HOME/.local/bin/lci" ]; then
-  echo "Found: ~/.local/bin/lci"
-  "$HOME/.local/bin/lci" --version
-# Check system PATH
-elif command -v lci &> /dev/null; then
-  echo "Found: $(which lci)"
-  lci --version
-else
-  echo "lci not found locally - mcp.json uses npx fallback"
-fi
-```
-
-If not found and user wants local installation:
+For better performance, install lci locally:
 
 ```bash
-# Via npm (installs to ~/.local/bin with proper npm config)
+# Via npm (recommended)
 npm install -g @standardbeagle/lci
 
-# Or via direct download (recommended)
-curl -sSL https://github.com/standardbeagle/lci/releases/latest/download/lci-linux-x64 -o ~/.local/bin/lci
-chmod +x ~/.local/bin/lci
+# Via pip
+pip install lightning-code-index
+
+# Via Go
+go install github.com/standardbeagle/lci/cmd/lci@latest
+
+# Via GitHub releases (manual)
+# Download from: https://github.com/standardbeagle/lci/releases
+# Extract the tarball and move binary to ~/.local/bin/
 ```
 
-#### Verify MCP Configuration
+#### Configure mcp.json
 
-The plugin's `mcp.json` should already be loaded by Claude Code. Verify by testing a tool:
+Add to your Claude Code `.mcp.json` (or create it):
+
+**With local binary:**
+```json
+{
+  "lci": {
+    "command": "lci",
+    "args": ["mcp"]
+  }
+}
+```
+
+**With npx (no local install needed):**
+```json
+{
+  "lci": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/lci", "mcp"]
+  }
+}
+```
+
+#### Verify Configuration
+
+Restart Claude Code to reload MCP servers, then test:
 
 ```
-Call: mcp__plugin_lci_lci__info
+Call: mcp__lci__info
 Parameters: {}
 ```
-
-If this succeeds, lci is properly configured.
-
-#### Troubleshooting
-
-If tools are not available:
-1. Ensure the lci plugin is installed: `claude plugin list`
-2. Check plugin source: `claude plugin info lci`
-3. Verify mcp.json exists in plugin directory
-4. Restart Claude Code to reload MCP servers
 
 ## Post-Installation Verification
 
 Regardless of installation method, verify lci is working:
 
 ```
-Call: mcp__plugin_lci_lci__info
+Call: mcp__lci__info
 Parameters: { "tool": "search" }
 ```
 
@@ -179,7 +186,7 @@ This should return information about the search tool.
 Run a simple search to confirm everything works:
 
 ```
-Call: mcp__plugin_lci_lci__search
+Call: mcp__lci__search
 Parameters: { "pattern": "main", "max": 5 }
 ```
 
@@ -187,8 +194,8 @@ Parameters: { "pattern": "main", "max": 5 }
 
 After setup, provide the user with:
 
-1. **Binary location**: ~/.local/bin/lci or npx fallback
-2. **Installation method used**: slop-mcp or standard
+1. **Binary location**: Local path or npx fallback
+2. **Installation method used**: slop-mcp or standard mcp.json
 3. **Scope** (if slop-mcp): user/project/memory
 4. **Verification status**: tools available and working
 5. **Available tools**: List of lci tools now accessible

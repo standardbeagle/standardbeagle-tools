@@ -1,6 +1,6 @@
 {
   "name": "lci",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents",
   "author": {
     "name": "Standard Beagle",

@@ -20,20 +20,41 @@ The complete Standard Beagle toolkit combining **agnt** (browser superpowers) an
 
 ## Installation
 
-```bash
-# Install from marketplace (recommended)
-claude mcp add tools --plugin tools@standardbeagle-tools
+### Install the binaries
 
-# Or install individual plugins
-claude mcp add agnt --plugin agnt@standardbeagle-tools
-claude mcp add lci --plugin lci@standardbeagle-tools
+```bash
+# Via npm (recommended)
+npm install -g @standardbeagle/agnt @standardbeagle/lci
+
+# Via pip
+pip install agnt lightning-code-index
+
+# Via Go (lci only)
+go install github.com/standardbeagle/lci/cmd/lci@latest
 ```
 
-## Requirements
+### Register MCP servers
 
-Both binaries must be installed and in PATH:
-- `agnt` - Browser superpowers ([installation](https://github.com/standardbeagle/agnt))
-- `lci` - Code intelligence ([installation](https://github.com/standardbeagle/lci))
+**Option 1: Via slop-mcp** (if available)
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+{ "action": "register", "name": "agnt", "command": "npx", "args": ["-y", "@standardbeagle/agnt", "mcp"], "scope": "user" }
+{ "action": "register", "name": "lci", "command": "npx", "args": ["-y", "@standardbeagle/lci", "mcp"], "scope": "user" }
+```
+
+**Option 2: Add to `.mcp.json`**
+```json
+{
+  "agnt": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/agnt", "mcp"]
+  },
+  "lci": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/lci", "mcp"]
+  }
+}
+```
 
 ## Commands
 
@@ -50,6 +71,16 @@ Both binaries must be installed and in PATH:
 |-------|-------------|
 | `browser-debugger` | Debug browser issues using agnt diagnostics |
 | `code-explorer` | Explore codebases using lci |
+
+## Skills
+
+- `/tools:setup-mcp` - Install and configure both agnt and lci MCP servers
+
+## Requirements
+
+- Node.js 14+ (for npx) or local binary installation
+- agnt: For browser features, requires Chrome/Chromium
+- lci: Codebase indexed automatically on first use
 
 ## License
 

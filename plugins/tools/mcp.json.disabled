@@ -1,12 +1,10 @@
 {
   "agnt": {
-    "command": "agnt",
-    "args": ["mcp"],
-    "env": {}
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/agnt", "mcp"]
   },
   "lci": {
-    "command": "lci",
-    "args": ["mcp"],
-    "env": {}
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/lci", "mcp"]
   }
 }

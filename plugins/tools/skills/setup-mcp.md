@@ -1,6 +1,6 @@
 ---
 name: setup-mcp
-description: Install agnt and lci MCP servers with intelligent detection - uses ~/.local/bin if available, falls back to npx
+description: Install agnt and lci MCP servers with intelligent detection - uses local binary if available, falls back to npx
 ---
 
 # Tools Plugin MCP Setup
@@ -16,8 +16,8 @@ The tools plugin combines:
 Both can be registered via slop-mcp for centralized management.
 
 The MCP server command resolution follows this priority:
-1. **~/.local/bin/<binary>** - Preferred if exists (local installation)
-2. **npx @standardbeagle/<package>@latest** - Fallback (always available via npm)
+1. **Local binary** - `~/.local/bin/<binary>`, `~/go/bin/<binary>`, or in PATH
+2. **npx @standardbeagle/<package>** - Fallback (always available via npm)
 
 ## Installation Flow
 
@@ -27,22 +27,32 @@ Check if binaries are installed locally:
 
 ```bash
 # Check agnt
-if [ -x "$HOME/.local/bin/agnt" ]; then
-  echo "FOUND: ~/.local/bin/agnt"
-  AGNT_CMD="$HOME/.local/bin/agnt"
-else
-  echo "NOT FOUND: ~/.local/bin/agnt - will use npx"
-  AGNT_CMD="npx"
+for loc in "$HOME/.local/bin/agnt" "$HOME/go/bin/agnt"; do
+  if [ -x "$loc" ]; then
+    echo "FOUND agnt: $loc"
+    AGNT_CMD="$loc"
+    break
+  fi
+done
+if [ -z "$AGNT_CMD" ] && command -v agnt &> /dev/null; then
+  AGNT_CMD="$(which agnt)"
+  echo "FOUND agnt: $AGNT_CMD"
 fi
+[ -z "$AGNT_CMD" ] && echo "agnt NOT FOUND - will use npx"
 
 # Check lci
-if [ -x "$HOME/.local/bin/lci" ]; then
-  echo "FOUND: ~/.local/bin/lci"
-  LCI_CMD="$HOME/.local/bin/lci"
-else
-  echo "NOT FOUND: ~/.local/bin/lci - will use npx"
-  LCI_CMD="npx"
+for loc in "$HOME/.local/bin/lci" "$HOME/go/bin/lci"; do
+  if [ -x "$loc" ]; then
+    echo "FOUND lci: $loc"
+    LCI_CMD="$loc"
+    break
+  fi
+done
+if [ -z "$LCI_CMD" ] && command -v lci &> /dev/null; then
+  LCI_CMD="$(which lci)"
+  echo "FOUND lci: $LCI_CMD"
 fi
+[ -z "$LCI_CMD" ] && echo "lci NOT FOUND - will use npx"
 ```
 
 **Record the results** for use in registration.
@@ -72,109 +82,117 @@ Look for "agnt" and "lci" in the list response.
 
 For agnt (if not registered):
 
-**If ~/.local/bin/agnt exists:**
+**If local binary exists:**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
   "action": "register",
   "name": "agnt",
-  "command": "/home/<user>/.local/bin/agnt",
+  "command": "<full-path-to-agnt>",
   "args": ["mcp"],
   "scope": "<scope>"
 }
 ```
 
-**If ~/.local/bin/agnt does NOT exist (use npx):**
+**If no local binary (use npx):**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
   "action": "register",
   "name": "agnt",
   "command": "npx",
-  "args": ["-y", "@standardbeagle/agnt@latest", "mcp"],
+  "args": ["-y", "@standardbeagle/agnt", "mcp"],
   "scope": "<scope>"
 }
 ```
 
 For lci (if not registered):
 
-**If ~/.local/bin/lci exists:**
+**If local binary exists:**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
   "action": "register",
   "name": "lci",
-  "command": "/home/<user>/.local/bin/lci",
+  "command": "<full-path-to-lci>",
   "args": ["mcp"],
   "scope": "<scope>"
 }
 ```
 
-**If ~/.local/bin/lci does NOT exist (use npx):**
+**If no local binary (use npx):**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
   "action": "register",
   "name": "lci",
   "command": "npx",
-  "args": ["-y", "@standardbeagle/lci@latest", "mcp"],
+  "args": ["-y", "@standardbeagle/lci", "mcp"],
   "scope": "<scope>"
 }
 ```
 
-Note: Expand `~` to full path (e.g., `/home/username/.local/bin/agnt`)
+Note: Use full paths (e.g., `/home/username/.local/bin/lci`)
 
 #### Verify Both
 
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
-Parameters: { "action": "list" }
+Parameters: { "action": "status" }
 ```
 
 Both agnt and lci should show as connected.
 
 ### Step 3B: Standard Installation
 
-If slop-mcp is not available:
+If slop-mcp is not available, configure via mcp.json.
 
-1. Verify binaries are installed:
-   ```bash
-   # Check ~/.local/bin first (preferred)
-   if [ -x "$HOME/.local/bin/agnt" ]; then
-     echo "Found: ~/.local/bin/agnt"
-     "$HOME/.local/bin/agnt" --version
-   elif command -v agnt &> /dev/null; then
-     echo "Found: $(which agnt)"
-     agnt --version
-   else
-     echo "agnt not found locally - mcp.json uses npx fallback"
-   fi
+#### Install Binaries (Optional)
 
-   if [ -x "$HOME/.local/bin/lci" ]; then
-     echo "Found: ~/.local/bin/lci"
-     "$HOME/.local/bin/lci" --version
-   elif command -v lci &> /dev/null; then
-     echo "Found: $(which lci)"
-     lci --version
-   else
-     echo "lci not found locally - mcp.json uses npx fallback"
-   fi
-   ```
+For better performance, install locally:
 
-2. If not found and user wants local installation:
-   ```bash
-   # Via direct download (recommended)
-   curl -sSL https://github.com/standardbeagle/agnt/releases/latest/download/agnt-linux-x64 -o ~/.local/bin/agnt
-   curl -sSL https://github.com/standardbeagle/lci/releases/latest/download/lci-linux-x64 -o ~/.local/bin/lci
-   chmod +x ~/.local/bin/agnt ~/.local/bin/lci
-   ```
+```bash
+# Via npm (recommended)
+npm install -g @standardbeagle/agnt @standardbeagle/lci
 
-3. Enable mcp.json:
-   ```bash
-   mv plugins/tools/mcp.json.disabled plugins/tools/mcp.json
-   ```
+# Via pip
+pip install agnt lightning-code-index
 
-4. Update plugin.json to add `"mcpServers": "./mcp.json"`
+# Via Go (lci only)
+go install github.com/standardbeagle/lci/cmd/lci@latest
+```
+
+#### Configure mcp.json
+
+Add to your Claude Code `.mcp.json`:
+
+**With local binaries:**
+```json
+{
+  "agnt": {
+    "command": "agnt",
+    "args": ["mcp"]
+  },
+  "lci": {
+    "command": "lci",
+    "args": ["mcp"]
+  }
+}
+```
+
+**With npx (no local install needed):**
+```json
+{
+  "agnt": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/agnt", "mcp"]
+  },
+  "lci": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/lci", "mcp"]
+  }
+}
+```
 
 ## Available Tools After Setup
 
@@ -205,8 +223,8 @@ Should return tools from both agnt and lci.
 
 After setup, provide the user with:
 
-1. **Binary locations**: Which are at ~/.local/bin vs npx fallback
-2. **Installation method used**: slop-mcp or standard
+1. **Binary locations**: Which are local vs npx fallback
+2. **Installation method used**: slop-mcp or standard mcp.json
 3. **Scope** (if slop-mcp): user/project/memory
 4. **Verification status**: tools available and working
 5. **Available tools**: List of tools from both MCPs

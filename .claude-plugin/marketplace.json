@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -40,7 +40,7 @@
       "name": "lci",
       "source": "./plugins/lci",
       "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents. Provides instant codebase navigation, symbol lookup, and call hierarchy analysis",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/lci"

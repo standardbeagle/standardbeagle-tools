@@ -12,12 +12,40 @@ Sub-millisecond semantic code search and code intelligence for AI coding agents.
 
 ## Installation
 
-```bash
-# Install from marketplace
-claude mcp add lci --plugin lci@standardbeagle-tools
+### Via npm (recommended)
 
-# Or install lci binary directly
+```bash
+npm install -g @standardbeagle/lci
+```
+
+### Via pip
+
+```bash
+pip install lightning-code-index
+```
+
+### Via Go
+
+```bash
 go install github.com/standardbeagle/lci/cmd/lci@latest
+```
+
+### MCP Registration
+
+**Option 1: Via slop-mcp** (if available)
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+{ "action": "register", "name": "lci", "command": "npx", "args": ["-y", "@standardbeagle/lci", "mcp"], "scope": "user" }
+```
+
+**Option 2: Add to `.mcp.json`**
+```json
+{
+  "lci": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/lci", "mcp"]
+  }
+}
 ```
 
 ## Available Tools
@@ -37,12 +65,17 @@ go install github.com/standardbeagle/lci/cmd/lci@latest
 
 - `/lci:search` - Search the codebase
 - `/lci:explore` - Explore codebase structure
-- `/lci:context` - Get detailed symbol context
+- `/lci:code-context` - Get detailed symbol context
+
+## Skills
+
+- `/lci:setup-mcp` - Install and configure LCI MCP server
+- `/lci:mcp-status` - Check MCP server registration status
 
 ## Requirements
 
-- `lci` binary must be installed and in PATH
-- Codebase should be indexed (happens automatically on first use)
+- Node.js 14+ (for npx) or Python 3.8+ (for pip)
+- Codebase is indexed automatically on first use
 
 ## License
 

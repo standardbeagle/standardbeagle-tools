@@ -9,7 +9,7 @@ This marketplace contains 13 plugins for Claude Code:
 | Plugin | Description | Version | Category |
 |--------|-------------|---------|----------|
 | **agnt** | Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode | 0.7.12 | development |
-| **lci** | Lightning Code Index: sub-millisecond semantic code search | 0.3.0 | development |
+| **lci** | Lightning Code Index: sub-millisecond semantic code search | 0.4.0 | development |
 | **tools** | Complete toolkit combining agnt and lci | 1.0.0 | development |
 | **mcp-architect** | Design high-quality MCP servers with progressive discovery and token efficiency | 0.1.0 | development |
 | **mcp-tester** | MCP server testing and debugging with mcp-debug | 0.2.0 | development |
@@ -22,15 +22,55 @@ This marketplace contains 13 plugins for Claude Code:
 | **ux-developer** | UX-driven development with WCAG 2.2 and usability best practices | 0.1.0 | development |
 | **prompt-engineer** | State-of-the-art prompt and context engineering for 2026 | 0.1.0 | ai |
 
-## Quick Install
+## Installation
+
+### Step 1: Install the binaries
+
+```bash
+# Via npm (recommended)
+npm install -g @standardbeagle/agnt @standardbeagle/lci
+
+# Via pip
+pip install agnt lightning-code-index
+
+# Via Go (lci only)
+go install github.com/standardbeagle/lci/cmd/lci@latest
+```
+
+### Step 2: Register MCP servers
+
+**Option A: Via slop-mcp** (recommended if available)
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+{ "action": "register", "name": "agnt", "command": "npx", "args": ["-y", "@standardbeagle/agnt", "mcp"], "scope": "user" }
+{ "action": "register", "name": "lci", "command": "npx", "args": ["-y", "@standardbeagle/lci", "mcp"], "scope": "user" }
+```
+
+**Option B: Add to `.mcp.json`**
+```json
+{
+  "agnt": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/agnt", "mcp"]
+  },
+  "lci": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/lci", "mcp"]
+  }
+}
+```
+
+### Step 3 (Optional): Install Claude Code plugins
+
+The plugins provide commands, skills, and agents that help you use the MCP tools:
 
 ```bash
 # Install the complete toolkit (recommended)
-claude mcp add tools --plugin tools@standardbeagle-tools
+claude plugin add tools@standardbeagle-tools
 
 # Or install individual plugins
-claude mcp add agnt --plugin agnt@standardbeagle-tools
-claude mcp add lci --plugin lci@standardbeagle-tools
+claude plugin add agnt@standardbeagle-tools
+claude plugin add lci@standardbeagle-tools
 ```
 
 ## Plugin Details
@@ -46,7 +86,7 @@ Give your AI coding agent browser superpowers:
 - **Design Mode**: AI-assisted UI iteration with live preview
 - **Error Capture**: JavaScript errors automatically available to agent
 
-**Requirements**: `agnt` binary ([install](https://github.com/standardbeagle/agnt))
+**Requirements**: `agnt` binary via npm/pip or [GitHub releases](https://github.com/standardbeagle/agnt)
 
 ### lci - Lightning Code Index
 
@@ -59,7 +99,7 @@ Sub-millisecond semantic code search and code intelligence:
 - **Context Manifests**: Save/load code context for agent handoff
 - **Side Effect Analysis**: Function purity and mutation tracking
 
-**Requirements**: `lci` binary ([install](https://github.com/standardbeagle/lci))
+**Requirements**: `lci` binary via npm/pip/go or [GitHub releases](https://github.com/standardbeagle/lci)
 
 ### tools - Complete Toolkit
 
@@ -79,18 +119,21 @@ standardbeagle-tools/
 │   │   ├── commands/
 │   │   ├── skills/
 │   │   ├── agents/
-│   │   └── mcp.json
+│   │   └── mcp.json.disabled
 │   ├── lci/                  # Code intelligence plugin
 │   │   ├── .claude-plugin/
 │   │   ├── commands/
-│   │   └── mcp.json
+│   │   ├── skills/
+│   │   └── mcp.json.disabled
 │   └── tools/                # Combined plugin
 │       ├── .claude-plugin/
 │       ├── commands/
 │       ├── agents/
-│       └── mcp.json
+│       └── mcp.json.disabled
 └── README.md
 ```
+
+Note: The `mcp.json.disabled` files contain example configurations. MCP servers should be registered via slop-mcp or your personal `.mcp.json` to avoid duplicate registrations.
 
 ## Development
 
@@ -103,21 +146,19 @@ After cloning, run the setup script to configure git filters for local developme
 ```
 
 This configures git smudge/clean filters so that:
-- **Locally**: `mcp.json` files use local binaries (`agnt`, `slop-mcp`)
+- **Locally**: `mcp.json` files use local binaries (`agnt`, `lci`)
 - **In commits**: `mcp.json` files use npx commands for deployment
 
 The filters are stored in your local git config. If you clone fresh, re-run the setup script.
-
-**How it works**: Git's smudge filter transforms files on checkout (repo → local), and the clean filter transforms on stage (local → repo). This lets you develop with local binaries while commits always contain the npx versions.
 
 ### Testing Plugins Locally
 
 ```bash
 # Add marketplace from local directory
-claude mcp add-dir /path/to/standardbeagle-tools
+claude plugin add-dir /path/to/standardbeagle-tools
 
 # Or test individual plugin
-claude mcp add agnt --source ./plugins/agnt
+claude plugin add agnt --source ./plugins/agnt
 ```
 
 ### Publishing
