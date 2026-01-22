@@ -28,10 +28,12 @@
   "skills": [
     "./skills/setup-mcp.md",
     "./skills/browser-debug.md",
-    "./skills/full-audit.md"
+    "./skills/full-audit.md",
+    "./skills/force-lci.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",
     "./agents/code-explorer.md"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

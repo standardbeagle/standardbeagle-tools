@@ -27,6 +27,8 @@
   ],
   "skills": [
     "./skills/setup-mcp.md",
-    "./skills/mcp-status.md"
-  ]
+    "./skills/mcp-status.md",
+    "./skills/force-lci.md"
+  ],
+  "hooks": "./hooks/hooks.json"
 }

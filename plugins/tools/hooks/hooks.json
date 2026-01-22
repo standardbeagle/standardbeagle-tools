@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/block-search-tools.sh",
+            "timeout": 5,
+            "description": "Block Grep and Glob when force-LCI mode is enabled"
+          }
+        ]
+      }
+    ]
+  }
+}
