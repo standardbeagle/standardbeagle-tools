@@ -25,6 +25,7 @@
   ],
   "commands": [
     "./commands/setup-dart.md",
+    "./commands/setup-roles.md",
     "./commands/start.md",
     "./commands/task.md",
     "./commands/loop-status.md",

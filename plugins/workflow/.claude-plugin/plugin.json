@@ -26,6 +26,7 @@
     "process-improvement"
   ],
   "commands": [
+    "./commands/setup-workflow.md",
     "./commands/start-loop.md",
     "./commands/stop-loop.md",
     "./commands/loop-status.md",

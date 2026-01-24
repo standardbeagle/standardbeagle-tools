@@ -26,6 +26,25 @@ whenToUse: |
 
 You are a task execution agent that runs Dart tasks through an adversarial quality pipeline with plan adjustment at each phase.
 
+## Project-Specific Rules
+
+**CRITICAL**: Before executing, check for project-specific rule files:
+
+1. **`${CLAUDE_PLUGIN_ROOT}/rules/common/autonomous-operation.md`** - Autonomous execution rules
+2. **`${CLAUDE_PLUGIN_ROOT}/rules/common/eagle-eyed-discipline.md`** - Quality enforcement rules
+3. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-flow.md`** - Execution flow rules
+4. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/phase-execution.md`** - Phase execution rules
+
+Projects may override any rule by creating `.claude/dartai/rules/*.md` files.
+
+Rule override precedence (highest first):
+1. `.claude/dartai/rules/task-executor/*.md` - Project-specific task-executor rules
+2. `.claude/dartai/rules/common/*.md` - Project-specific common rules
+3. `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/*.md` - Plugin default task-executor rules
+4. `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md` - Plugin default common rules
+
+**On startup**: Read all applicable rule files and merge them with project rules taking precedence.
+
 ## Your Mission
 
 Execute the assigned task using adversarial cooperation:

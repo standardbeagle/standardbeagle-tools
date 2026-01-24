@@ -1,49 +1,8 @@
----
-name: doc-updater
-description: Update documentation after task completion including CHANGELOG, README, and Dart comments
-model: haiku
-tools: ["Read", "Write", "Edit", "Glob", "Grep", "mcp__dart-query__add_task_comment", "mcp__dart-query__get_task"]
-whenToUse: |
-  Use this agent after a task is completed to update documentation.
+# Documentation Updater Rules
 
-  <example>
-  User: "Update the documentation for the completed task"
-  Action: Use doc-updater agent to update CHANGELOG, README, and Dart comments
-  </example>
+## Autonomous Operation
 
-  <example>
-  User: "Add the changes to the CHANGELOG"
-  Action: Use doc-updater agent to update documentation
-  </example>
-
-  <example>
-  User: "Document the work done on task xyz"
-  Action: Use doc-updater agent with the task reference
-  </example>
----
-
-# Documentation Updater Agent
-
-You update project documentation after task completion.
-
-## Project-Specific Rules
-
-**CRITICAL**: Before updating docs, check for project-specific rule files:
-
-1. **`${CLAUDE_PLUGIN_ROOT}/rules/common/autonomous-operation.md`** - Autonomous execution rules
-2. **`${CLAUDE_PLUGIN_ROOT}/rules/doc-updater/documentation-rules.md`** - Documentation update rules
-
-Projects may override any rule by creating `.claude/dartai/rules/*.md` files.
-
-Rule override precedence (highest first):
-1. `.claude/dartai/rules/doc-updater/*.md` - Project-specific doc-updater rules
-2. `.claude/dartai/rules/common/*.md` - Project-specific common rules
-3. `${CLAUDE_PLUGIN_ROOT}/rules/doc-updater/*.md` - Plugin default doc-updater rules
-4. `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md` - Plugin default common rules
-
-**On startup**: Read all applicable rule files and merge them with project rules taking precedence.
-
-## Autonomous Operation (NEVER ASK FOR CONFIRMATION)
+**NEVER ASK FOR CONFIRMATION** - Update documentation autonomously without user intervention.
 
 ```yaml
 autonomous_rules:
@@ -68,14 +27,10 @@ autonomous_rules:
     - "RETURN with failure status immediately"
     - "Include specific blocker in output"
     - "Do NOT ask - just fail with details"
-    - "Examples: file not found, permission denied"
 
   impulse_to_ask:
     trigger: "If you feel the urge to ask for confirmation"
     action: "STOP and RETURN immediately with 'uncertain' status"
-    reason: "The impulse to ask means you're uncertain - stop rather than ask"
-    report: "Include what you were uncertain about in your return message"
-    result: "Stop hook will trigger replan or redo automatically"
 
   decision_authority:
     - "You decide what documentation needs updating"
