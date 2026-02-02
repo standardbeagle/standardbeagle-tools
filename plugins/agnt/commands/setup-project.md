@@ -15,6 +15,16 @@ First, detect the project to find available scripts:
 detect {path: "."}
 ```
 
+Check the response for:
+- `type`: Project type (go, node, python)
+- `metadata.framework`: Framework detection (e.g., "wails" for Go desktop apps)
+- `commands`: Available commands with their descriptions
+
+**Framework-specific defaults:**
+- **Wails** (`metadata.framework == "wails"`): Recommend `dev` script with `url-matchers "Using DevServer URL:\\s*{url}"` (must include "Using" to avoid matching "Frontend DevServer URL")
+- **Next.js** (node with next in scripts): Use `url-matchers "(Local|Network):\\s*{url}"`
+- **Vite/Astro** (node projects): Use `url-matchers "Local\\s+{url}"`
+
 ### 2. Ask About Scripts to Auto-Start
 
 Based on the detected scripts, use AskUserQuestion to ask:
@@ -28,16 +38,35 @@ Based on the detected scripts, use AskUserQuestion to ask:
 
 Use AskUserQuestion to ask:
 
-**Question**: "Do you want to auto-start a debugging proxy?"
+**Question**: "Do you want to create debugging proxies for your scripts?"
 
 If yes, ask:
 - **Proxy ID**: A short name (e.g., "dev", "app")
-- **Port detection**: "auto" to detect from script output, or a specific port number
-- **Which script**: Which script's port to monitor (usually the dev server)
+- **Which script**: Which script to link the proxy to (usually the dev server)
+- Note: Proxies will automatically start when the script outputs URLs
 
-### 4. Write .agnt.kdl Configuration
+### 4. Ask About Browser Notifications
 
-Create or update `.agnt.kdl` in the project root with KDL format:
+Use AskUserQuestion to ask:
+
+**Question**: "Do you want browser notifications when your AI agent responds?"
+
+Options:
+- **Toast notifications**: Show popup messages in the browser
+- **Indicator flash**: Flash the floating bug indicator
+- **Sound alerts**: Play notification sounds (requires browser permission)
+
+### 5. Write .agnt.kdl Configuration
+
+Create or update `.agnt.kdl` in the project root with KDL format.
+
+**Strict Parsing**: The KDL parser rejects unknown or misspelled fields with a clear error message. If you typo `autstart` instead of `autostart`, you'll see:
+```
+failed to parse KDL config: no struct field into which to unmarshal node "autstart"
+```
+This prevents silent failures from configuration mistakes.
+
+**Important**: Use the appropriate `url-matchers` pattern based on the detected framework (see Step 1).
 
 ```kdl
 // .agnt.kdl - agnt project configuration
@@ -45,34 +74,56 @@ Create or update `.agnt.kdl` in the project root with KDL format:
 
 // Scripts to auto-start on session open
 scripts {
-    // script-name auto-start=true|false
-    dev auto-start=true
+    dev {
+        autostart true
+        // URL matchers filter which URLs to create proxies for
+        // Use framework-appropriate pattern from Step 1
+        url-matchers "(Local|Network):\\s*{url}"  // Next.js example
+    }
 }
 
-// Proxy configuration
-proxy "dev" {
-    // Which script to watch for port detection
-    script "dev"
-
-    // Port detection: "auto" or specific port number
-    port-detect "auto"
-
-    // Fallback port if auto-detection fails
-    fallback-port 3000
-
-    // Optional: specific target host (default: localhost)
-    // host "localhost"
+// Proxy configuration - automatically created when script outputs URLs
+proxies {
+    dev {
+        // Link to script - proxy will be created when URLs are detected
+        script "dev"
+    }
 }
+
+// Hook configuration for browser notifications
+hooks {
+    on-response {
+        toast true      // Show toast notification in browser
+        indicator true  // Flash the bug indicator
+        sound false     // Play notification sound
+    }
+}
+
+// Toast notification settings
+toast {
+    duration 4000           // Duration in ms
+    position "bottom-right" // top-right, top-left, bottom-right, bottom-left
+    max-visible 3           // Max simultaneous toasts
+}
+
+// For fully-specified proxies (explicit port/URL), use autostart:
+// proxies {
+//     api {
+//         port 8080
+//         autostart true
+//     }
+// }
 ```
 
-### 5. Explain What Happens
+### 6. Explain What Happens
 
 After creating the config, inform the user:
 
 1. **Starting your dev environment**: Run `agnt run claude` to start your AI coding session. This will:
    - Load your `.agnt.kdl` configuration
    - Auto-start all scripts with `autostart: true` in the background
-   - Auto-start all proxies with `autostart: true`
+   - Monitor script output for URLs
+   - Automatically create proxies when URLs are detected from linked scripts
    - Display running services in the status bar at the bottom of your terminal
 
 2. **Status bar information**: The bottom status bar shows:
@@ -96,39 +147,202 @@ After creating the config, inform the user:
 
 7. **To restart a service**: Use the MCP tool `proc {action: "restart", process_id: "dev"}` or access via CTRL+Y menu
 
-## Example Configuration
+## Example Configurations
 
-For a typical Node.js project:
+### Next.js Project
 
 ```kdl
 scripts {
-    dev auto-start=true
+    dev {
+        autostart true
+        url-matchers "(Local|Network):\\s*{url}"
+    }
 }
 
-proxy "dev" {
-    script "dev"
-    port-detect "auto"
-    fallback-port 3000
+proxies {
+    dev {
+        script "dev"
+    }
+}
+
+hooks {
+    on-response {
+        toast true
+        indicator true
+    }
 }
 ```
 
-For a project with multiple services:
+### Multiple Services (Frontend + API)
 
 ```kdl
 scripts {
-    dev auto-start=true
-    api auto-start=true
+    dev {
+        run "npm run dev"
+        autostart true
+        url-matchers "(Local|Network):\\s*{url}"
+    }
+
+    api {
+        command "go"
+        args "run" "./cmd/server"
+        autostart true
+        env {
+            GIN_MODE "debug"
+        }
+    }
 }
 
-proxy "frontend" {
-    script "dev"
-    port-detect "auto"
-    fallback-port 3000
+proxies {
+    frontend {
+        script "dev"
+    }
+
+    backend {
+        target "http://localhost:8080"
+        autostart true
+        max-log-size 2000
+    }
+}
+```
+
+### Explicit Proxy Ports
+
+```kdl
+scripts {
+    dev {
+        run "npm run dev"
+        autostart true
+    }
 }
 
-proxy "backend" {
-    script "api"
-    port-detect "auto"
-    fallback-port 8080
+proxies {
+    api {
+        port 8080
+        autostart true
+    }
+}
+
+toast {
+    duration 5000
+    position "top-right"
+}
+```
+
+### Python Development
+
+```kdl
+scripts {
+    serve {
+        run "python3 -m http.server 9500"
+        autostart true
+    }
+
+    flask {
+        command "flask"
+        args "run" "--debug"
+        autostart true
+        env {
+            FLASK_APP "app.py"
+            FLASK_ENV "development"
+        }
+        cwd "./backend"
+    }
+}
+
+proxies {
+    app {
+        target "http://localhost:5000"
+        autostart true
+    }
+}
+```
+
+### Wails (Go Desktop App)
+
+```kdl
+scripts {
+    dev {
+        run "wails dev"
+        autostart true
+        // Wails outputs both "Using DevServer URL" (backend) and "Using Frontend DevServer URL" (Vite)
+        // Pattern must include "Using" to avoid matching frontend URL
+        url-matchers "Using DevServer URL:\\s*{url}"
+    }
+}
+
+proxies {
+    app {
+        script "dev"
+        // Optional: filter which URL triggers proxy (useful when script outputs multiple URLs)
+        // url-pattern ":34115"  // Only match URLs containing :34115 (backend port)
+    }
+}
+
+hooks {
+    on-response {
+        toast true
+        indicator true
+    }
+}
+```
+
+### Wails with URL Pattern Filter
+
+When Wails outputs both backend and frontend URLs, use `url-pattern` to select which one creates the proxy:
+
+```kdl
+scripts {
+    dev {
+        run "wails dev"
+        autostart true
+        url-matchers "Using DevServer URL:\\s*{url}"
+    }
+}
+
+proxies {
+    backend {
+        script "dev"
+        // Only create proxy for backend URL (port 34115), not frontend (port 5174)
+        url-pattern ":34115"
+    }
+}
+```
+
+### Astro
+
+```kdl
+scripts {
+    dev {
+        run "npm run dev"
+        autostart true
+        // Astro outputs: "┃ Local    http://localhost:4321/"
+        url-matchers "Local\\s+{url}"
+    }
+}
+
+proxies {
+    site {
+        script "dev"
+    }
+}
+```
+
+### Jekyll
+
+```kdl
+scripts {
+    serve {
+        run "bundle exec jekyll serve"
+        autostart true
+        // Jekyll outputs: "Server address: http://127.0.0.1:4000/"
+        url-matchers "Server address:\\s*{url}"
+    }
+}
+
+proxies {
+    docs {
+        script "serve"
+    }
 }
 ```
