@@ -56,7 +56,22 @@ Options:
 - **Indicator flash**: Flash the floating bug indicator
 - **Sound alerts**: Play notification sounds (requires browser permission)
 
-### 5. Write .agnt.kdl Configuration
+### 5. Ask About AI Configuration (Optional)
+
+Use AskUserQuestion to ask:
+
+**Question**: "Do you want to customize the AI system prompt for this project?"
+
+Options:
+- **Default prompt**: Use agnt's built-in prompt describing available tools
+- **Append custom context**: Add project-specific context to the default prompt
+- **Full custom prompt**: Replace the entire system prompt
+
+If appending or custom:
+- Ask for the prompt content or project-specific instructions
+- Common append examples: "Focus on security", "This is a React TypeScript project", "Use conventional commits"
+
+### 6. Write .agnt.kdl Configuration
 
 Create or update `.agnt.kdl` in the project root with KDL format.
 
@@ -106,6 +121,23 @@ toast {
     max-visible 3           // Max simultaneous toasts
 }
 
+// AI configuration (optional)
+// ai {
+//     // Skill/persona name
+//     // skill "debugging"
+//
+//     // Append to the default system prompt (recommended)
+//     // append-system-prompt "This is a React TypeScript project. Focus on type safety."
+//
+//     // Full system prompt override (replaces default)
+//     // system-prompt "You are a helpful assistant..."
+//
+//     // Environment variables for AI commands
+//     // env {
+//     //     ANTHROPIC_API_KEY "sk-..."
+//     // }
+// }
+
 // For fully-specified proxies (explicit port/URL), use autostart:
 // proxies {
 //     api {
@@ -115,7 +147,7 @@ toast {
 // }
 ```
 
-### 6. Explain What Happens
+### 7. Explain What Happens
 
 After creating the config, inform the user:
 
@@ -163,6 +195,35 @@ proxies {
     dev {
         script "dev"
     }
+}
+
+hooks {
+    on-response {
+        toast true
+        indicator true
+    }
+}
+```
+
+### Project with AI Context
+
+```kdl
+scripts {
+    dev {
+        autostart true
+        url-matchers "(Local|Network):\\s*{url}"
+    }
+}
+
+proxies {
+    dev {
+        script "dev"
+    }
+}
+
+// Add project-specific AI context
+ai {
+    append-system-prompt "This is a Next.js 14 app using the App Router with TypeScript. Focus on React Server Components and type safety. Use Tailwind CSS for styling."
 }
 
 hooks {
