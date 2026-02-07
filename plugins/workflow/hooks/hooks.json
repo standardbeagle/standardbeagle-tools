@@ -70,12 +70,14 @@
       {
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-memories.sh\""
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-memories.sh\"",
+            "timeout": 10
           },
           {
-            "type": "prompt",
-            "prompt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-process-improvements.sh\""
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-process-improvements.sh\"",
+            "timeout": 10
           }
         ]
       }
