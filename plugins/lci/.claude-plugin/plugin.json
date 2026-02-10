@@ -28,7 +28,12 @@
   "skills": [
     "./skills/setup-mcp.md",
     "./skills/mcp-status.md",
-    "./skills/force-lci.md"
+    "./skills/force-lci.md",
+    "./skills/search-code.md",
+    "./skills/explore-codebase.md",
+    "./skills/trace-symbol.md",
+    "./skills/pre-commit-review.md",
+    "./skills/context-handoff.md"
   ],
   "hooks": "./hooks/hooks.json"
 }
