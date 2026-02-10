@@ -13,7 +13,7 @@
       "name": "agnt",
       "source": "./plugins/agnt",
       "description": "Browser superpowers for AI coding agents: process management, reverse proxy with traffic logging, frontend instrumentation with 50+ diagnostic functions, sketch mode for wireframing, and design mode for UI iteration",
-      "version": "0.7.12",
+      "version": "0.8.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/agnt"
@@ -352,6 +352,31 @@
         "process-improvement",
         "goose",
         "g3"
+      ],
+      "category": "development"
+    },
+    {
+      "name": "photino",
+      "source": "./plugins/photino",
+      "description": "Photino.NET desktop app development: build workflows, cross-platform packaging, PowerShell SDK integration, dual-service development, and agent configuration for AI-assisted .NET desktop projects.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "photino",
+        "dotnet",
+        "desktop",
+        "webview",
+        "cross-platform",
+        "powershell",
+        "svelte",
+        "vite",
+        "message-passing"
       ],
       "category": "development"
     }
