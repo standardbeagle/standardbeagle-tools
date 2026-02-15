@@ -162,8 +162,8 @@
     {
       "name": "dartai",
       "source": "./plugins/dartai",
-      "description": "Dart task management with adversarial cooperation loops - automated task execution through quality, test, security, and refactoring verification pipelines. Features dartboard memory for project defaults, plan adjustment at each phase, and context-sized tasks with verifiable outcomes.",
-      "version": "0.3.2",
+      "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines.",
+      "version": "0.4.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -184,8 +184,10 @@
         "ralph-wiggum",
         "plan-adjustment",
         "continuous-execution",
-        "dartboard-memory",
-        "project-defaults"
+        "dart-query",
+        "dartql",
+        "batch-operations",
+        "filtering"
       ],
       "category": "development"
     },
