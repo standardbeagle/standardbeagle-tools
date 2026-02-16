@@ -2,7 +2,7 @@
 name: doc-updater
 description: Update documentation after task completion including CHANGELOG, README, and Dart comments
 model: haiku
-tools: ["Read", "Write", "Edit", "Glob", "Grep", "mcp__dart-query__add_task_comment", "mcp__dart-query__get_task"]
+tools: ["Read", "Write", "Edit", "Glob", "Grep", "mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 whenToUse: |
   Use this agent after a task is completed to update documentation.
 

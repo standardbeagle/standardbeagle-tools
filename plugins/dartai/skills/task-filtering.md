@@ -7,6 +7,16 @@ description: Master dart-query filtering - list_tasks filters, search_tasks quer
 
 dart-query provides two complementary query tools: `list_tasks` for structured filtering and `search_tasks` for full-text discovery. This skill covers how to use them effectively.
 
+> **Access Pattern**: Always call dart-query through slop-mcp:
+> ```yaml
+> tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+> params:
+>   mcp_name: "dart-query"
+>   tool_name: "list_tasks"  # or "search_tasks"
+>   parameters: { ... }
+> ```
+> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
 ## list_tasks - Structured Filtering
 
 ### Available Filters

@@ -7,6 +7,16 @@ description: Manage dart-query task relationships - subtasks, blockers, blocking
 
 dart-query supports 5 relationship types between tasks. All use **full replacement semantics** - you must send the complete desired array on every update.
 
+> **Access Pattern**: Always call dart-query through slop-mcp:
+> ```yaml
+> tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+> params:
+>   mcp_name: "dart-query"
+>   tool_name: "update_task"  # or "get_task", "create_task"
+>   parameters: { ... }
+> ```
+> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
 ## Relationship Types
 
 ```yaml

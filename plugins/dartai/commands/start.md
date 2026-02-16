@@ -59,9 +59,42 @@ Available loops:
 - **security**: Security audit with OWASP patterns (adversarial-security-loop)
 - **refactor**: Safe refactoring with behavior verification (adversarial-refactor-loop)
 
+### 2.5. Resolve Runner Identity
+
+Identify this runner instance for multi-runner concurrency:
+
+1. **Generate runner instance ID:**
+   ```bash
+   # hostname-pid format for uniqueness across terminals
+   RUNNER_ID="$(hostname)-$$"
+   ```
+
+2. **Resolve Dart identity:**
+   ```bash
+   RUNNER_EMAIL=$(git config user.email)
+   ```
+
+3. **Match email to Dart assignee:**
+   ```
+   Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
+     mcp_name: "dart-query"
+     tool_name: "get_config"
+     parameters: {"include": ["assignees"]}
+   ```
+   Match `runner_email` against assignee emails to find `runner_dart_id`.
+
+4. **Check `.claude/dartai.local.md`** for cached `runner_dart_id`. If cached and still valid, use it. Otherwise update the config with the matched value.
+
+5. **Store in loop state** (written later in Section 4):
+   - `runner_instance_id`: the hostname-pid value
+   - `runner_email`: from git config
+   - `runner_dart_id`: matched Dart assignee (or null)
+
+6. **If no email match found:** Warn and proceed without claiming. Tasks will still execute but without concurrency protection. Log: "No Dart assignee matches git email [email]. Running without claim protocol."
+
 ### 3. Fetch Active Tasks
 
-Query Dart for tasks in the dartboard using SLOP:
+Query Dart for **To-do tasks only** (not "In Progress"):
 
 ```
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
@@ -69,12 +102,17 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
   tool_name: "list_tasks"
   parameters: {
     "dartboard": "[selected dartboard]",
-    "is_completed": false,
+    "status": "To-do",
     "limit": 20
   }
 ```
 
-Filter results by status "To-do" or "In Progress".
+**Filter returned tasks by claim status:**
+
+Read `.dartai-locks.json` from the repo and check each task's `dart_id` against the `claims` map:
+- **Not in claims** → eligible (unclaimed)
+- **In claims with own `runner_instance_id`** → eligible (stale self-claim from crash, reclaim it)
+- **In claims with different `runner_instance_id`** → skip (claimed by another runner)
 
 ### 4. Initialize Loop State in Dart
 
@@ -108,7 +146,7 @@ params:
       dartboard: "[dartboard-name]"
       status: "In Progress"
       priority: "High"
-      tags: ["loop-session", "loop-active", "loop-type:[type]"]
+      tags: ["loop-session", "loop-active", "loop-type:[type]", "runner:[runner_instance_id]"]
 ```
 
 Save the returned `loop_task_id` for linking subtasks.
@@ -248,9 +286,73 @@ pre_spawn_checks:
 
 **Only proceed to spawn if all checks pass.**
 
+#### 5.1.5 Claim Task (Git-Locked)
+
+The claim protocol uses **git push as an atomic compare-and-swap**. The lock file `.dartai-locks.json` is tracked in git — a successful push means the claim is exclusive.
+
+**Step 1: Git pull and read lock file:**
+```bash
+git pull --rebase
+```
+
+Read `.dartai-locks.json` and check if `[task-id]` is already claimed:
+- Key exists with a different `runner_instance_id` → skip task, move to next
+- Key exists with own `runner_instance_id` → stale self-claim from crash, reclaim
+- Key absent → proceed to claim
+
+**On rebase conflict:** `git rebase --abort`, skip to next task.
+
+**Step 2: Write claim to lock file + commit + push:**
+
+Write the claim entry to `.dartai-locks.json`:
+```json
+{
+  "claims": {
+    "[task-id]": {
+      "runner_instance_id": "[hostname-pid]",
+      "runner_email": "[email]",
+      "claimed_at": "[ISO timestamp]"
+    }
+  }
+}
+```
+
+Then atomically commit and push:
+```bash
+git add .dartai-locks.json
+git commit -m "claim: [task-id] by [runner_instance_id]"
+git push
+```
+
+**Step 3: Handle push result:**
+- **Push succeeds** → claim acquired, proceed to Step 4
+- **Push fails** (another runner pushed first):
+  1. `git pull --rebase`
+  2. Re-read `.dartai-locks.json`
+  3. If task now claimed by another runner → remove own entry, amend commit, push, skip to next task
+  4. If task still unclaimed (other runner claimed a different task) → push again
+  5. If second push fails → skip task (avoid infinite retry)
+
+**Step 4: Update Dart for human visibility:**
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "update_task"
+  parameters:
+    dart_id: "[task-id]"
+    updates:
+      assignees: ["[runner_dart_id]"]
+      status: "In Progress"
+```
+
+If `runner_dart_id` is null (no Dart identity match), skip the assignee update but still set status.
+
+**Note:** The Dart update is best-effort for UI visibility. The git lock file is the source of truth for concurrency.
+
 #### 5.2 Tag Task as Loop-Active
 
-Tag the task before spawning:
+Tag the task with loop metadata (status already set to "In Progress" in 5.1.5):
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -258,9 +360,9 @@ params:
   mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
-    id: "[task-id]"
-    status: "In Progress"
-    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting"]
+    dart_id: "[task-id]"
+    updates:
+      tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting"]
 ```
 
 #### 5.3 Spawn Task Executor Subagent
@@ -404,7 +506,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
 
 **Dart is the source of truth for task state.** After SubagentStop fires:
 
-1. **Query Dart for updated task list:**
+1. **Query Dart for remaining To-do tasks:**
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -412,13 +514,16 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
      tool_name: "list_tasks"
      parameters:
        dartboard: "[dartboard]"
-       is_completed: false
+       status: "To-do"
        limit: 20
    ```
 
-2. **Check task statuses in Dart:**
-   - If task marked "Done" → success, get next task
-   - If task still "In Progress" with failure comment → replan
+   Apply the same claim filter as Section 3: read `.dartai-locks.json` and skip tasks claimed by other runners.
+
+2. **Check completed task status in Dart:**
+   - Re-read the just-processed task via `get_task`
+   - If task marked "Done" → success, proceed to git commit/push (5.6.5), then get next task
+   - If task still "In Progress" with failure comment → replan, proceed to git stash (5.6.5)
    - Read failure details from task comments
 
 3. **Local loop file contains orchestration metrics AND task results:**
@@ -432,6 +537,9 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
      "last_subagent": "subagent-id",
      "loop_task_id": "dart-task-id",
      "dartboard": "Personal/project",
+     "runner_instance_id": "hostname-pid",
+     "runner_email": "user@example.com",
+     "runner_dart_id": "dart-assignee-id or null",
      "tasks": [
        {
          "task_id": "abc123",
@@ -531,12 +639,46 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
 5. **CONTINUE to fix task or next actionable task**
 
 **Only STOP if:**
-- All tasks completed (check Dart for remaining To-do/In Progress)
+- No claimable To-do tasks remain (all completed, blocked, or claimed by other runners)
 - User explicitly says "stop"
 - Critical security vulnerability found (tag: `security-critical`)
 - No remaining tasks can be executed (all Blocked with no fix tasks)
 
 **IMPORTANT: Never reuse subagent context - each task gets fresh execution.**
+
+#### 5.6.5 Release Lock, Git Commit and Push After Task
+
+**On success (task marked Done):**
+
+1. **Release the claim** — remove the task entry from `.dartai-locks.json`
+2. **Stage and commit all changes** (including the updated lock file):
+   ```bash
+   git add -A
+   git commit -m "[DART-{task_id}] {task_title}" || true
+   git push
+   ```
+3. If push fails (another runner pushed first):
+   ```bash
+   git pull --rebase && git push
+   ```
+4. If pull-rebase-push still fails: log error, continue (committed locally). Next iteration's git pull resolves it.
+5. If nothing to commit: still update and push `.dartai-locks.json` to release the claim.
+
+**On failure (task blocked/failed):**
+
+1. **Release the claim** — remove the task entry from `.dartai-locks.json`
+2. **Stash partial work** to keep working tree clean:
+   ```bash
+   git stash push -m "dartai: partial work on {task_id} {task_title}"
+   ```
+3. **Commit and push the lock release:**
+   ```bash
+   git add .dartai-locks.json
+   git commit -m "release: [task_id] by [runner_instance_id] (failed)"
+   git push
+   ```
+4. If push fails: `git pull --rebase && git push`. If still fails, log and continue.
+5. If nothing to stash: skip silently.
 
 #### 5.7 Documentation Update (optional)
 
@@ -579,9 +721,10 @@ The loop continues autonomously via a **prompt-based Stop hook**:
 ```json
 {
   "type": "prompt",
-  "prompt": "Check .claude/dartai-loop-state.json and query Dart for remaining tasks.
-            If tasks remain with status 'To-do' or 'In Progress', return
-            {\"ok\": false, \"reason\": \"X tasks remaining\"} to block stopping."
+  "prompt": "Check .claude/dartai-loop-state.json for active loop and runner_instance_id.
+            Query Dart for 'To-do' tasks on the dartboard. Read .dartai-locks.json
+            and skip tasks claimed by other runners. If claimable tasks remain, return
+            {\"ok\": false, \"reason\": \"X claimable tasks remaining\"} to block stopping."
 }
 ```
 

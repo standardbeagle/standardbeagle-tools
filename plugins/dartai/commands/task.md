@@ -13,13 +13,23 @@ Run the full quality pipeline on a single Dart task without starting the continu
 ### 1. Find the Task
 
 If argument looks like a Dart task ID (12 alphanumeric chars):
-```
-Use mcp__dart-query__get_task with id: [argument]
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "get_task"
+  parameters:
+    dart_id: "[argument]"
 ```
 
 Otherwise, search by title:
-```
-Use mcp__dart-query__list_tasks with title: [argument]
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "search_tasks"
+  parameters:
+    query: "[argument]"
 ```
 
 ### 2. Confirm Task
@@ -60,15 +70,45 @@ Task tool call:
 ### 4. Update Task Status
 
 On success:
-```
-Use mcp__dart-query__update_task to set status: "Done"
-Use mcp__dart-query__add_task_comment with completion summary
+```yaml
+# Update status
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "update_task"
+  parameters:
+    dart_id: "[task-id]"
+    updates: { status: "Done" }
+
+# Add completion comment
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "add_task_comment"
+  parameters:
+    dart_id: "[task-id]"
+    text: "[completion summary]"
 ```
 
 On failure:
-```
-Use mcp__dart-query__update_task to set status: "Blocked" or keep "In Progress"
-Use mcp__dart-query__add_task_comment with failure details
+```yaml
+# Update status
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "update_task"
+  parameters:
+    dart_id: "[task-id]"
+    updates: { status: "Blocked" }
+
+# Add failure comment
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "add_task_comment"
+  parameters:
+    dart_id: "[task-id]"
+    text: "[failure details]"
 ```
 
 ### 5. Update Documentation

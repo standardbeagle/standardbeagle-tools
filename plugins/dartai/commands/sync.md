@@ -48,9 +48,24 @@ Apply these updates? (yes/no)
 ### 4. Apply Updates
 
 If confirmed (or --force flag):
-```
-Use mcp__dart-query__update_task for each status change
-Use mcp__dart-query__add_task_comment for each completion note
+```yaml
+# Update task status
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "update_task"
+  parameters:
+    dart_id: "[task-id]"
+    updates: { status: "[new-status]" }
+
+# Add completion comment
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "add_task_comment"
+  parameters:
+    dart_id: "[task-id]"
+    text: "[completion note]"
 ```
 
 ### 5. Report Results

@@ -15,6 +15,7 @@ from pathlib import Path
 STATE_DIR = Path.home() / ".dartai"
 LOOP_FILE = Path(".claude/dartai-loop-state.json")
 CONFIG_FILE = Path(".claude/dartai.local.md")
+LOCKS_FILE = Path(".dartai-locks.json")
 
 
 def parse_config():
@@ -108,6 +109,7 @@ def check_remaining_tasks():
     Check if there are remaining tasks in an active loop.
 
     Issues a directive for Claude to continue the loop with appropriate action.
+    Uses runner_instance_id to filter tasks claimable by this runner.
     """
     loop_data = check_active_loop()
 
@@ -129,17 +131,33 @@ def check_remaining_tasks():
     action, reason = determine_next_action(loop_data)
     iterations = loop_data.get("iterations", 0)
     loop_task_id = loop_data.get("loop_task_id")
+    runner_instance_id = loop_data.get("runner_instance_id", "unknown")
+
+    # Read lock file to report claim state
+    locks = {}
+    if LOCKS_FILE.exists():
+        try:
+            with open(LOCKS_FILE) as f:
+                locks = json.load(f).get("claims", {})
+        except Exception:
+            pass
+    other_claims = sum(
+        1 for c in locks.values()
+        if c.get("runner_instance_id") != runner_instance_id
+    )
 
     # Build the directive based on action
     if action == "continue":
         directive = (
-            f"CONTINUE LOOP: Query Dart for remaining tasks on '{dartboard}' "
-            f"(is_completed=false, status 'To-do' or 'In Progress'). "
-            f"Spawn dartai:task-executor for the next task."
+            f"CONTINUE LOOP (runner {runner_instance_id}): "
+            f"Query Dart for 'To-do' tasks on '{dartboard}'. "
+            f"Read .dartai-locks.json, skip tasks claimed by other runners "
+            f"({other_claims} other claims active). "
+            f"Claim next eligible task via git lock and spawn dartai:task-executor."
         )
     elif action == "replan":
         directive = (
-            f"REPLAN REQUIRED: {reason}. "
+            f"REPLAN REQUIRED (runner {runner_instance_id}): {reason}. "
             f"Query Dart for task state, check for fix tasks or blocked tasks. "
             f"Create fix task if needed, then continue with next actionable task."
         )
@@ -152,6 +170,7 @@ def check_remaining_tasks():
         "reason": reason,
         "dartboard": dartboard,
         "loop_task_id": loop_task_id,
+        "runner_instance_id": runner_instance_id,
         "iterations_completed": iterations,
         "last_iteration_at": loop_data.get("last_iteration_at"),
         "directive": directive,

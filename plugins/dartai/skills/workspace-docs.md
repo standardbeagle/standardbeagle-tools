@@ -7,6 +7,16 @@ description: dart-query workspace management - documents, config, dartboards, fo
 
 Beyond task CRUD and batch operations, dart-query provides tools for workspace configuration, documents, comments, time tracking, attachments, and task positioning.
 
+> **Access Pattern**: Always call dart-query through slop-mcp:
+> ```yaml
+> tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+> params:
+>   mcp_name: "dart-query"
+>   tool_name: "<tool-name>"  # e.g. "get_config", "create_doc", "add_task_comment"
+>   parameters: { ... }
+> ```
+> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
 ## Workspace Configuration
 
 ### get_config - Discover Your Workspace

@@ -62,7 +62,7 @@ Make the necessary code changes:
 2. Make changes following project patterns
 3. Add/update tests for changes
 4. Update related documentation
-5. Commit with task reference: "[DART-taskId] Description"
+5. Save all changes (main loop handles git commit/push)
 ```
 
 ### Step 3: Code Review (Self)
@@ -179,6 +179,8 @@ When pipeline completes:
 3. **Update documentation** (CHANGELOG, etc.)
 4. **Report success** with summary
 5. **Continue to next task** (if in loop)
+
+**Note:** Git commit and push are handled by the main loop, not the subagent. The subagent should leave changes staged/unstaged for the main loop to commit.
 
 ## Quality Gates
 

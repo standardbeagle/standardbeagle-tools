@@ -66,6 +66,16 @@ Ralph Wiggum loop settings:
 - Auto-commit changes: (yes/no) [default: no]
 ```
 
+#### Runner Identity
+
+Auto-detect runner identity for multi-runner concurrency:
+
+1. Run `git config user.email` to get local email
+2. Fetch Dart assignees: `get_config(include: ["assignees"])`
+3. Match email against assignee list to find `dart_id`
+4. If match found: store `runner_email` + `runner_dart_id`
+5. If no match: warn user, proceed without claiming (graceful degradation)
+
 ### 3. Write Configuration
 
 Create `.claude/dartai.local.md` with YAML frontmatter:
@@ -93,6 +103,10 @@ dart_comments: true
 max_tasks: null  # null = unlimited
 pause_between: false
 auto_commit: false
+
+# Runner Identity (for multi-runner concurrency)
+runner_email: null       # auto-detected from git config user.email
+runner_dart_id: null     # Dart assignee dart_id matching runner_email
 
 # Custom Commands
 lint_command: "npm run lint"

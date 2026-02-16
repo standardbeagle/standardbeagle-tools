@@ -7,7 +7,7 @@
 ### Task: Analyze Task Scope
 
 **DO:**
-- Fetch full task details using `mcp__dart-query__get_task`
+- Fetch full task details using dart-query `get_task` through slop-mcp (`mcp__plugin_slop-mcp_slop-mcp__execute_tool`)
 - Read the task description completely
 - List explicit acceptance criteria
 - Identify ALL files that will be modified (max 5)

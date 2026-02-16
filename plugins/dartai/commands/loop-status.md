@@ -24,6 +24,7 @@ If loop is running:
 Ralph Wiggum Loop: ACTIVE
 =========================
 Dartboard: [name]
+Runner: [runner_instance_id] ([runner_email])
 Started: [timestamp] ([duration] ago)
 
 Progress: [completed] / [total] tasks
@@ -58,7 +59,14 @@ To run single task: /dartai:task <task-id>
 
 If user asks for more details on a specific task:
 ```
-Use mcp__dart-query__get_task to fetch full task info
+Use dart-query get_task through slop-mcp to fetch full task info:
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "get_task"
+  parameters:
+    dart_id: "<task_dart_id>"
+    include_comments: true
 ```
 
 ## Usage

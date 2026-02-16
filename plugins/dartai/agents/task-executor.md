@@ -2,7 +2,7 @@
 name: task-executor
 description: Execute a Dart task through the adversarial quality pipeline with plan adjustment at each phase
 model: opus
-tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context", "mcp__dart-query__get_task", "mcp__dart-query__update_task", "mcp__dart-query__add_task_comment"]
+tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context", "mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 whenToUse: |
   Use this agent when the user wants to execute a task through the adversarial quality pipeline.
 
@@ -283,7 +283,7 @@ Phase names:
 ### Task: Analyze Task Scope
 
 **DO (Positive Instructions):**
-- Fetch full task details using `mcp__dart-query__get_task`
+- Fetch full task details via slop-mcp: `mcp__plugin_slop-mcp_slop-mcp__execute_tool` with `mcp_name: "dart-query"`, `tool_name: "get_task"`
 - Read the task description completely
 - List explicit acceptance criteria
 - Identify ALL files that will be modified (max 5)
@@ -678,6 +678,9 @@ Before returning (success or failure), write complete execution results to `.cla
   "iterations": 3,
   "last_iteration_at": "ISO timestamp",
   "last_subagent": "subagent-id",
+  "runner_instance_id": "hostname-pid",
+  "runner_email": "user@example.com",
+  "runner_dart_id": "dart-assignee-id or null",
   "tasks": [
     {
       "task_id": "abc123",

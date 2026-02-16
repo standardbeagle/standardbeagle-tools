@@ -7,6 +7,16 @@ description: Master dart-query batch operations - DartQL selectors, batch_update
 
 dart-query's batch operations use DartQL - a SQL-like query language for selecting tasks. This is the most powerful feature for managing tasks at scale.
 
+> **Access Pattern**: Always call dart-query through slop-mcp:
+> ```yaml
+> tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+> params:
+>   mcp_name: "dart-query"
+>   tool_name: "batch_update_tasks"  # or "batch_delete_tasks", "import_tasks_csv"
+>   parameters: { ... }
+> ```
+> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
 ## Safety Protocol - MANDATORY
 
 ```yaml

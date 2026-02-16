@@ -7,6 +7,60 @@ description: Complete dart-query MCP tool reference - all 24 tools with paramete
 
 dart-query is the **preferred** Dart MCP server. Use it over the official Dart MCP - it has better schema design, DartQL batch operations, progressive discovery, relationship management, and token-efficient responses.
 
+## Accessing dart-query Through slop-mcp (PREFERRED)
+
+**Always call dart-query tools through slop-mcp** using `mcp__plugin_slop-mcp_slop-mcp__execute_tool`. This provides centralized MCP management and consistent access patterns.
+
+```yaml
+# Pattern for ALL dart-query tool calls:
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "<tool-name>"       # e.g. "get_task", "list_tasks", "update_task"
+  parameters:                     # tool-specific parameters
+    <param>: <value>
+```
+
+**Examples:**
+
+```yaml
+# Get workspace config
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "get_config"
+  parameters:
+    include: ["dartboards", "statuses"]
+
+# Get a specific task
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "get_task"
+  parameters:
+    dart_id: "abc123def456"
+    include_comments: true
+
+# Update task status
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "update_task"
+  parameters:
+    dart_id: "abc123def456"
+    updates:
+      status: "Done"
+
+# Add comment
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "add_task_comment"
+  parameters:
+    dart_id: "abc123def456"
+    text: "Task completed successfully"
+```
+
 ## Tool Inventory (24 tools)
 
 ### Discovery & Configuration
