@@ -7,71 +7,97 @@ description: Set up dart-query MCP server with SLOP management and configure Dar
 
 This command configures the dart-query MCP server for use with Claude Code and the dartai plugin.
 
-## Setup Steps
+## Your Task
+
+Follow these steps to set up dart-query:
 
 ### Step 1: Check Prerequisites
 
-1. **Dart API Token**
-   - Log in to your Dart workspace at https://app.itsdart.com
-   - Go to Settings > API
-   - Generate an API token
-   - Copy the token
+**REQUIRED**: First, ensure the user has a Dart API token configured.
 
-2. **Set Environment Variable**
-   Add to your shell profile (`~/.bashrc`, `~/.zshrc`):
+Ask the user if they have set the `DART_TOKEN` environment variable. If not, instruct them:
+
+1. Log in to your Dart workspace at https://app.itsdart.com
+2. Go to Settings > API
+3. Generate an API token
+4. Add to shell profile (`~/.bashrc`, `~/.zshrc`):
    ```bash
    export DART_TOKEN="your-token-here"
    ```
+5. Restart the terminal or run `source ~/.bashrc` (or `~/.zshrc`)
 
-### Step 2: Register with SLOP
+Verify the token is set by checking: `echo $DART_TOKEN`
 
-Register the dart-query MCP server with SLOP for centralized management:
+### Step 2: Install MCP Server
 
-```yaml
-mcp_name: slop-mcp
-tool_name: manage_mcps
-parameters:
-  action: register
-  name: dart-query
-  type: command
-  command: npx
-  args:
-    - "-y"
-    - "@standardbeagle/dart-query@latest"
-  env:
-    DART_TOKEN: "${DART_TOKEN}"
-  scope: user
+**Try SLOP-MCP first (preferred):**
+
+Check if slop-mcp is available by calling:
+```
+mcp__plugin_slop-mcp_slop-mcp__get_metadata
+```
+
+If slop-mcp is available, register dart-query with SLOP:
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+action: register
+name: dart-query
+type: command
+command: npx
+args: ["-y", "@standardbeagle/dart-query@latest"]
+env: {DART_TOKEN: "${DART_TOKEN}"}
+scope: user
+```
+
+**If slop-mcp is NOT available, use direct install:**
+
+If the slop-mcp tool call fails (tool not found), fall back to direct Claude MCP install:
+```bash
+claude mcp add dart-query --command "npx" --args "-y @standardbeagle/dart-query@latest" --env "DART_TOKEN=${DART_TOKEN}"
 ```
 
 ### Step 3: Verify Setup
 
-Test the connection:
+Test the connection by calling `get_config`:
 
-```yaml
+**If using slop-mcp:**
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
 mcp_name: dart-query
 tool_name: get_config
 parameters: {}
 ```
 
-This should return your workspace configuration including available dartboards, statuses, and assignees.
+**If using direct install:**
+```
+mcp__plugin_dartai_dart-query__get_config
+```
 
-## Quick Reference
+This should return the workspace configuration including available dartboards, statuses, and assignees.
 
-After setup, use these tools via SLOP:
+If it fails, help the user troubleshoot token configuration.
+
+## Available Tools
+
+After setup, the following dart-query tools are available:
 
 | Tool | Purpose |
 |------|---------|
+| `info` | Progressive discovery help system |
 | `get_config` | Get workspace configuration |
 | `list_tasks` | List/filter tasks |
 | `get_task` | Get task details |
 | `create_task` | Create new task |
 | `update_task` | Update task properties |
 | `delete_task` | Move task to trash |
+| `batch_update_tasks` | Bulk update tasks with DartQL |
+| `batch_delete_tasks` | Bulk delete tasks with DartQL |
 | `move_task` | Reorder task position |
 | `add_task_comment` | Add comment to task |
 | `list_comments` | List task comments |
-| `add_task_attachment_from_url` | Attach file from URL |
-| `add_task_time_tracking` | Track time on task |
+| `attach_url` | Attach file from URL |
+| `add_time_tracking` | Track time on task |
+| `search_tasks` | Full-text task search |
 | `list_docs` | List documents |
 | `get_doc` | Get document details |
 | `create_doc` | Create new document |
@@ -79,46 +105,46 @@ After setup, use these tools via SLOP:
 | `delete_doc` | Move doc to trash |
 | `get_dartboard` | Get dartboard info |
 | `get_folder` | Get folder info |
-| `get_view` | Get view info |
+
+**Access Pattern:**
+- SLOP: `mcp__plugin_slop-mcp_slop-mcp__execute_tool` with `mcp_name: dart-query, tool_name: <tool>`
+- Direct: `mcp__plugin_dartai_dart-query__<tool>`
 
 ## Troubleshooting
 
 ### Token Not Found
+Help the user verify their token:
 ```bash
-# Check token is set
 echo $DART_TOKEN
-
-# Should show your token (dsa_...)
+# Should show their token (dsa_...)
 ```
 
-### Server Not Responding
-```bash
-# Test npx directly
-npx @standardbeagle/dart-query info
+If not set, guide them to add it to their shell profile and restart the terminal.
 
-# Check SLOP status
-# Use manage_mcps with action: status, name: dart-query
+### Server Not Responding
+Test the server directly:
+```bash
+npx @standardbeagle/dart-query info
+```
+
+If using SLOP, check server status:
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+action: status
+name: dart-query
 ```
 
 ### Authentication Errors
-- Verify your token is valid and not expired
-- Check that the token has appropriate permissions
-- Regenerate the token if needed
+- Verify token is valid and not expired
+- Check token has appropriate workspace permissions
+- Guide user to regenerate token if needed at https://app.itsdart.com/settings/api
 
-## Migration from Official Dart MCP
-
-If you were previously using the official `@itsdart/mcp-server-dart`:
-
-1. Register dart-query as shown above
-2. Unregister the old server:
-   ```yaml
-   mcp_name: slop-mcp
-   tool_name: manage_mcps
-   parameters:
-     action: unregister
-     name: dart
-   ```
-3. Update any scripts or configurations referencing `dart` to use `dart-query`
+### Tool Not Found Errors
+If dart-query tools are not available:
+1. Verify installation completed successfully
+2. Check if server is registered: `claude mcp list` or use SLOP's `manage_mcps` with `action: list`
+3. Try reconnecting: use SLOP's `manage_mcps` with `action: reconnect, name: dart-query`
+4. Reinstall if necessary
 
 ## Next Steps
 

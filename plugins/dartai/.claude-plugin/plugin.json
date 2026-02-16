@@ -37,7 +37,6 @@
     "./commands/dartai-config.md",
     "./commands/verify.md"
   ],
-  "mcpServers": "./mcp.json",
   "skills": [
     "./skills/dart-query-reference.md",
     "./skills/task-filtering.md",

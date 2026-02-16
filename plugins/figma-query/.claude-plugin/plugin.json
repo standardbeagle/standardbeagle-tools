@@ -32,7 +32,6 @@
     "./commands/extract-pages.md",
     "./commands/extract-assets.md"
   ],
-  "mcpServers": "./mcp.json",
   "hooks": "./hooks/hooks.json",
   "skills": [
     "./skills/setup-mcp.md",
