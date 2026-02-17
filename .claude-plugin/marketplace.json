@@ -163,7 +163,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines.",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -329,7 +329,7 @@
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
