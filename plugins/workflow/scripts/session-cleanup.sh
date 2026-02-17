@@ -20,5 +20,7 @@ if [ -f "$SESSION_FILE" ]; then
   cp "$SESSION_FILE" "$HISTORY_DIR/session-${SESSION_ID}.json" 2>/dev/null || true
 fi
 
-# Success
+# Output JSON response for Claude Code hook system
+echo '{"ok": true}'
+
 exit 0
