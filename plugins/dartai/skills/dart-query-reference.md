@@ -48,8 +48,7 @@ params:
   tool_name: "update_task"
   parameters:
     dart_id: "abc123def456"
-    updates:
-      status: "Done"
+    status: "Done"
 
 # Add comment
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -130,16 +129,21 @@ optional:
 #### `update_task` - Partial Update
 ```yaml
 required:
-  dart_id: string
-  updates: object  # Only changed fields
+  dart_id: string  # NOT "task_id" or "id"
 
-updates fields:
+# Pass fields to change directly alongside dart_id (flat, NO "updates" wrapper):
+optional:
   title, description, status, priority, size,
   start_at, due_at, assignees, tags, dartboard, parent_task,
   subtask_ids, blocker_ids, blocking_ids, duplicate_ids, related_ids
 ```
 
-**CRITICAL**: Relationship arrays use **full replacement semantics**. To add one blocker, you must GET current blockers, append, then UPDATE with the complete array. Setting `[]` clears all.
+**CRITICAL**: All fields go at the top level alongside `dart_id` - do NOT nest inside an `updates` object. Relationship arrays use **full replacement semantics**. To add one blocker, you must GET current blockers, append, then UPDATE with the complete array. Setting `[]` clears all.
+
+**Common mistakes detected with helpful errors:**
+- `task_id` or `id` instead of `dart_id`
+- Wrapping fields in `updates: {...}` instead of flat
+- Misspelled field names like `due_date` instead of `due_at`
 
 #### `delete_task` - Soft Delete
 ```yaml

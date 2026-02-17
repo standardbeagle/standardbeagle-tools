@@ -259,7 +259,7 @@ params:
   mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
-    id: "[task-id]"
+    dart_id: "[task-id]"
     tags: ["loop-task", "loop-iteration:[N]", "loop-phase:[phase-name]"]
 ```
 
@@ -723,7 +723,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
      mcp_name: "dart-query"
      tool_name: "update_task"
      parameters:
-       id: "[task-id]"
+       dart_id: "[task-id]"
        status: "Done"
        tags: ["loop-task", "loop-iteration:[N]", "loop-complete"]
    ```
@@ -735,7 +735,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
      mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
-       taskId: "[task-id]"
+       dart_id: "[task-id]"
        text: |
          ## ✅ Task Completed
 
@@ -752,7 +752,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
      mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
-       taskId: "[loop_task_id]"
+       dart_id: "[loop_task_id]"
        text: |
          ## ✅ Iteration [N] - Success
 
@@ -774,7 +774,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
      mcp_name: "dart-query"
      tool_name: "update_task"
      parameters:
-       id: "[task-id]"
+       dart_id: "[task-id]"
        status: "Blocked"
        tags: ["loop-task", "loop-iteration:[N]", "loop-blocked", "loop-phase:[failed-phase]"]
    ```
@@ -786,7 +786,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
      mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
-       taskId: "[task-id]"
+       dart_id: "[task-id]"
        text: |
          ## ❌ Task Blocked at Phase [N]
 
@@ -809,7 +809,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
      mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
-       taskId: "[loop_task_id]"
+       dart_id: "[loop_task_id]"
        text: |
          ## ❌ Iteration [N] - Failed
 

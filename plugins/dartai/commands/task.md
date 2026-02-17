@@ -78,7 +78,7 @@ params:
   tool_name: "update_task"
   parameters:
     dart_id: "[task-id]"
-    updates: { status: "Done" }
+    status: "Done"
 
 # Add completion comment
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -99,7 +99,7 @@ params:
   tool_name: "update_task"
   parameters:
     dart_id: "[task-id]"
-    updates: { status: "Blocked" }
+    status: "Blocked"
 
 # Add failure comment
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool

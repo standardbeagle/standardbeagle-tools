@@ -485,7 +485,7 @@ step_3: list_tasks(dartboard: "current sprint", status: "In Progress", detail_le
 
 ### Task Completion Flow
 ```yaml
-step_1: update_task(dart_id: task_id, updates: { status: "Done" })
+step_1: update_task(dart_id: task_id, status: "Done")
 step_2: add_task_comment(dart_id: task_id, text: completion_summary)
 step_3: add_time_tracking(dart_id: task_id, started_at: start, duration_minutes: elapsed)
 step_4: # Optional: attach_url for build artifacts

@@ -247,6 +247,95 @@ batch_update_tasks:
   dry_run: true
 ```
 
+#### Bulk Relationship Management
+```yaml
+# Make all tasks on a dartboard subtasks of a parent
+batch_update_tasks:
+  selector: "dartboard = 'Sprint 5' AND status = 'Todo' AND parent_task IS NULL"
+  updates:
+    parent_task: "epic_task_dart_id"
+  dry_run: true
+
+# Clear all duplicate links from archived tasks
+batch_update_tasks:
+  selector: "status = 'Archived' AND dartboard = 'Backlog'"
+  updates:
+    duplicate_ids: []
+    related_ids: []
+  dry_run: true
+
+# Add blocking relationship to all high-priority tasks
+# (they block a release gate task)
+batch_update_tasks:
+  selector: "dartboard = 'Sprint 5' AND priority >= 4 AND status != 'Done'"
+  updates:
+    blocking_ids: ["release_gate_task_id"]
+  dry_run: true
+```
+
+**NOTE on batch blocker updates:** `batch_update_tasks` uses **full replacement** for relationship arrays just like `update_task`. When updating `blocker_ids` or `blocking_ids` in bulk, the same array is applied to ALL matched tasks. This works well for:
+- Clearing relationships: `blocker_ids: []`
+- Setting a shared blocker: `blocker_ids: ["shared_blocker_id"]`
+- Setting a shared blocking target: `blocking_ids: ["release_task_id"]`
+
+It does NOT work for per-task relationship values (each task needing different blockers). For that, use individual `update_task` calls with the read-modify-write pattern.
+
+---
+
+### Advanced DartQL Patterns
+
+#### Complex Date + Priority Queries
+```sql
+-- Overdue high-priority tasks that aren't blocked
+(due_at < '2026-02-15' AND priority >= 4 AND status != 'Done' AND status != 'Blocked')
+
+-- Tasks started but not finished within 2 weeks
+(start_at < '2026-02-01' AND status = 'In Progress' AND completed_at IS NULL)
+
+-- Unscheduled work in active sprints
+(dartboard = 'Sprint 5' AND due_at IS NULL AND start_at IS NULL AND status = 'Todo')
+```
+
+#### Multi-Status Transitions
+```yaml
+# Move all review tasks to done
+batch_update_tasks:
+  selector: "status = 'In Review' AND dartboard = 'Sprint 5'"
+  updates:
+    status: "Done"
+  dry_run: true
+
+# Escalate stale in-progress tasks
+batch_update_tasks:
+  selector: "status = 'In Progress' AND updated_at < '2026-02-01' AND dartboard = 'Sprint 5'"
+  updates:
+    priority: 5
+    tags: ["needs-attention"]
+  dry_run: true
+```
+
+#### Combined Field + Relationship Updates
+```yaml
+# Archive completed sprint tasks and clear relationships
+batch_update_tasks:
+  selector: "dartboard = 'Sprint 4' AND status = 'Done'"
+  updates:
+    dartboard: "Archive"
+    status: "Archived"
+    blocker_ids: []
+    blocking_ids: []
+    related_ids: []
+  dry_run: true
+
+# Prepare tasks for new sprint - reset status and set dates
+batch_update_tasks:
+  selector: "dartboard = 'Sprint 5' AND status = 'Todo'"
+  updates:
+    start_at: "2026-02-17T00:00:00Z"
+    due_at: "2026-02-28T23:59:59Z"
+  dry_run: true
+```
+
 ---
 
 ## batch_delete_tasks

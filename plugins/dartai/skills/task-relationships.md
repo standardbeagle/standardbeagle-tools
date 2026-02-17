@@ -71,7 +71,8 @@ safe_remove_pattern:
   step_4: "UPDATE with filtered array"
 
 clear_all:
-  update: { blocker_ids: [] }  # Empty array clears relationship
+  # update_task(dart_id: "task_X", blocker_ids: [])
+  # Empty array clears all relationships of that type
 ```
 
 ---
@@ -110,8 +111,7 @@ create_task:
 
 update_task:
   dart_id: "parent_123"
-  updates:
-    subtask_ids: ["child_1", "child_2"]
+  subtask_ids: ["child_1", "child_2"]
 ```
 
 ### Query Subtasks
@@ -153,8 +153,7 @@ create_task:
 # Step 3: Update parent's subtask list
 update_task:
   dart_id: "parent_123"
-  updates:
-    subtask_ids: ["child_1", "child_2", "child_3"]
+  subtask_ids: ["child_1", "child_2", "child_3"]
 ```
 
 ### Remove Subtask
@@ -169,8 +168,7 @@ get_task:
 # Step 2: Remove child_2 from list
 update_task:
   dart_id: "parent_123"
-  updates:
-    subtask_ids: ["child_1", "child_3"]
+  subtask_ids: ["child_1", "child_3"]
 ```
 
 ---
@@ -183,14 +181,12 @@ update_task:
 # Task B is blocked by Task A
 update_task:
   dart_id: "task_B"
-  updates:
-    blocker_ids: ["task_A"]
+  blocker_ids: ["task_A"]
 
 # Equivalently, Task A is blocking Task B
 update_task:
   dart_id: "task_A"
-  updates:
-    blocking_ids: ["task_B"]
+  blocking_ids: ["task_B"]
 ```
 
 ### Add Blocker to Task with Existing Blockers
@@ -205,8 +201,7 @@ get_task:
 # Step 2: Add task_B as additional blocker
 update_task:
   dart_id: "task_C"
-  updates:
-    blocker_ids: ["task_A", "task_B"]
+  blocker_ids: ["task_A", "task_B"]
 ```
 
 ### Resolve Blocker (Remove from List)
@@ -222,8 +217,7 @@ get_task:
 # Step 2: Remove task_A
 update_task:
   dart_id: "task_C"
-  updates:
-    blocker_ids: ["task_B"]
+  blocker_ids: ["task_B"]
 ```
 
 ### Find All Blocked Tasks
@@ -248,20 +242,17 @@ list_tasks:
 # Set B blocked by A
 update_task:
   dart_id: "task_B"
-  updates:
-    blocker_ids: ["task_A"]
+  blocker_ids: ["task_A"]
 
 # Set C blocked by B
 update_task:
   dart_id: "task_C"
-  updates:
-    blocker_ids: ["task_B"]
+  blocker_ids: ["task_B"]
 
 # Set D blocked by C
 update_task:
   dart_id: "task_D"
-  updates:
-    blocker_ids: ["task_C"]
+  blocker_ids: ["task_C"]
 ```
 
 ---
@@ -274,15 +265,13 @@ update_task:
 # Bidirectional: both tasks reference each other
 update_task:
   dart_id: "task_1"
-  updates:
-    duplicate_ids: ["task_2"]
+  duplicate_ids: ["task_2"]
 
 # Often paired with closing one:
 update_task:
   dart_id: "task_2"
-  updates:
-    status: "Duplicate"
-    duplicate_ids: ["task_1"]
+  status: "Duplicate"
+  duplicate_ids: ["task_1"]
 ```
 
 ### Find Duplicates
@@ -297,8 +286,7 @@ search_tasks:
 # If duplicates found, link them
 update_task:
   dart_id: "new_task"
-  updates:
-    duplicate_ids: ["existing_task"]
+  duplicate_ids: ["existing_task"]
 ```
 
 ---
@@ -311,8 +299,7 @@ update_task:
 # Loosely connected tasks (shared context, not dependent)
 update_task:
   dart_id: "frontend_task"
-  updates:
-    related_ids: ["backend_task", "design_task"]
+  related_ids: ["backend_task", "design_task"]
 ```
 
 ### Use Case: Feature Cluster
@@ -324,8 +311,7 @@ update_task:
 for_each_task_in_feature:
   update_task:
     dart_id: "${task_id}"
-    updates:
-      related_ids: ["${all_other_task_ids_in_feature}"]
+    related_ids: ["${all_other_task_ids_in_feature}"]
 ```
 
 ---
@@ -429,4 +415,9 @@ mistake_4:
   what: "Expecting append behavior"
   result: "Lost relationships"
   fix: "ALWAYS read-modify-write for relationship arrays"
+
+mistake_5:
+  what: "Wrapping fields in updates: {...} or using task_id/id instead of dart_id"
+  result: "API error - update_task uses flat parameters"
+  fix: "Pass fields directly: update_task(dart_id: X, blocker_ids: [Y]) not update_task(dart_id: X, updates: {blocker_ids: [Y]})"
 ```

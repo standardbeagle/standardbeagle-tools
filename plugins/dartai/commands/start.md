@@ -193,9 +193,9 @@ params:
   mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
-    id: "[work-task-id]"
+    dart_id: "[work-task-id]"
     tags: ["loop-task", "loop-id:[loop_task_id]", "loop-iteration:1"]
-    # NOTE: Do NOT set parentId - work task keeps its original structure
+    # NOTE: Do NOT set parent_task - work task keeps its original structure
 ```
 
 ### Create Iteration Tracking Subtasks
@@ -227,13 +227,13 @@ Update this iteration subtask when the subagent completes:
 ```yaml
 # On success
 update_task:
-  id: "[iteration-subtask-id]"
+  dart_id: "[iteration-subtask-id]"
   title: "📊 Iter [N]: [work-task-title] ✅"
   status: "Done"
 
 # On failure
 update_task:
-  id: "[iteration-subtask-id]"
+  dart_id: "[iteration-subtask-id]"
   title: "📊 Iter [N]: [work-task-title] ❌"
   status: "Done"  # Iteration is done, even if work task failed
 ```
@@ -341,9 +341,8 @@ params:
   tool_name: "update_task"
   parameters:
     dart_id: "[task-id]"
-    updates:
-      assignees: ["[runner_dart_id]"]
-      status: "In Progress"
+    assignees: ["[runner_dart_id]"]
+    status: "In Progress"
 ```
 
 If `runner_dart_id` is null (no Dart identity match), skip the assignee update but still set status.
@@ -361,8 +360,7 @@ params:
   tool_name: "update_task"
   parameters:
     dart_id: "[task-id]"
-    updates:
-      tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting"]
+    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting"]
 ```
 
 #### 5.3 Spawn Task Executor Subagent
@@ -579,7 +577,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
      mcp_name: "dart-query"
      tool_name: "update_task"
      parameters:
-       id: "[task-id]"
+       dart_id: "[task-id]"
        status: "Blocked"
        tags: ["loop-task", "loop-blocked", "loop-iteration:[N]"]
    ```
@@ -626,7 +624,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
      mcp_name: "dart-query"
      tool_name: "add_task_comment"
      parameters:
-       taskId: "[loop_task_id]"
+       dart_id: "[loop_task_id]"
        text: |
          ## 🔄 Replan at Iteration [N]
 
@@ -780,7 +778,7 @@ params:
   mcp_name: "dart-query"
   tool_name: "update_task"
   parameters:
-    id: "[loop_task_id]"
+    dart_id: "[loop_task_id]"
     status: "Done"
     tags: ["loop-session", "loop-complete", "loop-type:[type]"]
 ```
