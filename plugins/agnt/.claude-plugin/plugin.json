@@ -39,7 +39,9 @@
     "./commands/analyze-frontend.md",
     "./commands/qa-test.md",
     "./commands/review-api.md",
-    "./commands/schedule.md"
+    "./commands/schedule.md",
+    "./commands/chain.md",
+    "./commands/workflow.md"
   ],
   "skills": [
     "./skills/schedule.md",
@@ -50,7 +52,12 @@
     "./skills/quality-audits.md",
     "./skills/interaction-tracking.md",
     "./skills/sketch-visual.md",
-    "./skills/process-proxy.md"
+    "./skills/process-proxy.md",
+    "./skills/browser-debug.md",
+    "./skills/current-page.md",
+    "./skills/error-monitor.md",
+    "./skills/responsive-check.md",
+    "./skills/visual-diagnostics.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",

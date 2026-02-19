@@ -51,22 +51,51 @@ Returns compact output:
 
 **Recent errors only:**
 ```
-get_errors {since: "5m"}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "since": "5m"
+  }
+}
 ```
 
 **Errors only, no warnings:**
 ```
-get_errors {include_warnings: false}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "include_warnings": false
+  }
+}
 ```
 
 **Specific proxy:**
 ```
-get_errors {proxy_id: "dev"}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "proxy_id": "dev"
+  }
+}
 ```
 
 **Full JSON for analysis:**
 ```
-get_errors {raw: true, limit: 50}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "raw": true,
+    "limit": 50
+  }
+}
 ```
 
 ---
@@ -105,23 +134,66 @@ Parameters: {
 
 1. **Start dev environment:**
    ```
-   run {script_name: "dev", id: "app"}
-   proxy {action: "start", target: "http://localhost:3000", id: "dev"}
+   mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   Parameters: {
+     "mcp_name": "agnt",
+     "tool_name": "run",
+     "parameters": {
+       "script_name": "dev",
+       "id": "app"
+     }
+   }
+   ```
+
+   ```
+   mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   Parameters: {
+     "mcp_name": "agnt",
+     "tool_name": "proxy",
+     "parameters": {
+       "action": "start",
+       "id": "dev",
+       "target_url": "http://localhost:3000"
+     }
+   }
    ```
 
 2. **Check errors after changes:**
    ```
-   get_errors {since: "1m"}
+   mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   Parameters: {
+     "mcp_name": "agnt",
+     "tool_name": "get_errors",
+     "parameters": {
+       "since": "1m"
+     }
+   }
    ```
 
 3. **Deep dive into browser errors:**
    ```
-   get_errors {proxy_id: "dev", raw: true}
+   mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   Parameters: {
+     "mcp_name": "agnt",
+     "tool_name": "get_errors",
+     "parameters": {
+       "proxy_id": "dev",
+       "raw": true
+     }
+   }
    ```
 
 4. **Check process compilation errors:**
    ```
-   get_errors {process_id: "app", include_warnings: false}
+   mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   Parameters: {
+     "mcp_name": "agnt",
+     "tool_name": "get_errors",
+     "parameters": {
+       "process_id": "app",
+       "include_warnings": false
+     }
+   }
    ```
 
 ---
@@ -143,7 +215,14 @@ Parameters: {
 Check errors first:
 
 ```
-get_errors {include_warnings: false}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "include_warnings": false
+  }
+}
 ```
 
 If errors exist, fix them before auditing layout.
@@ -153,7 +232,15 @@ If errors exist, fix them before auditing layout.
 After running `checkResponsiveRisk()`, check for console errors that may indicate responsive JS failures:
 
 ```
-get_errors {proxy_id: "dev", since: "2m"}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "proxy_id": "dev",
+    "since": "2m"
+  }
+}
 ```
 
 ### With Current Page
@@ -161,7 +248,15 @@ get_errors {proxy_id: "dev", since: "2m"}
 When inspecting a page, also check for errors:
 
 ```
-get_errors {proxy_id: "dev", include_warnings: false}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "proxy_id": "dev",
+    "include_warnings": false
+  }
+}
 ```
 
 ### With Full Audit
@@ -169,8 +264,14 @@ get_errors {proxy_id: "dev", include_warnings: false}
 Include error check in comprehensive audit:
 
 ```
-get_errors {limit: 50}
-__devtool_audit.auditPageQuality()
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "limit": 50
+  }
+}
 ```
 
 ---
@@ -180,12 +281,39 @@ __devtool_audit.auditPageQuality()
 For detailed investigation:
 
 ```
-// Aggregated errors
-get_errors {proxy_id: "dev"}
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_errors",
+  "parameters": {
+    "proxy_id": "dev"
+  }
+}
+```
 
-// Raw traffic for context
-proxylog {proxy_id: "dev", types: ["http"], status_codes: [500]}
-proxylog {proxy_id: "dev", types: ["error"]}
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proxylog",
+  "parameters": {
+    "proxy_id": "dev",
+    "types": ["http"],
+    "status_codes": [500]
+  }
+}
+```
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proxylog",
+  "parameters": {
+    "proxy_id": "dev",
+    "types": ["error"]
+  }
+}
 ```
 
 ---
