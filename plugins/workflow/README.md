@@ -4,7 +4,7 @@ General-purpose adversarial workflow automation with Ralph Wiggum loops for Clau
 
 ## Overview
 
-The workflow plugin provides a robust framework for executing tasks with:
+The workflow plugin provides a framework for executing tasks with:
 - **Clean context isolation** - Each task runs in a fresh subagent
 - **Adversarial cooperation** - Implementer + Verifier roles
 - **Multiple loop types** - Quality, Security, Refactor, Test

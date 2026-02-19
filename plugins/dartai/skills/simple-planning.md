@@ -593,7 +593,7 @@ full_adversarial:
     - research_complete: "Unknowns resolved or explicitly flagged"
     - risk_assessment: "High-risk tasks identified"
     - incremental_delivery: "Can ship in phases"
-    - seamless_integration: "New code will blend with existing"
+    - codebase_integration: "New code will blend with existing"
 ```
 
 ### Validation Verdicts

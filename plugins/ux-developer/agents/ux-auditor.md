@@ -33,11 +33,11 @@ This agent will:
 If auditing a live page:
 
 ```
-1. Start agnt proxy for the target URL
+1. proxy {action: "start", id: "ux-audit", target_url: "<URL>"}
 2. Navigate to the page
-3. Take screenshot for reference
-4. Capture page session data
-5. Run accessibility audit
+3. automation {action: "start", proxy_id: "ux-audit"} then automation {action: "screenshot", session_id: "<id>", type: "fullpage"}
+4. currentpage {proxy_id: "ux-audit", action: "summary"}
+5. proxy {action: "exec", id: "ux-audit", code: "__devtool.auditAccessibility()"}
 ```
 
 If auditing code:
@@ -50,6 +50,8 @@ If auditing code:
 ```
 
 ### Phase 2: Heuristic Evaluation
+
+Load the `nielsen-heuristics` skill for evaluation criteria.
 
 Score each of Nielsen's 10 heuristics (1-5):
 
@@ -65,6 +67,8 @@ Score each of Nielsen's 10 heuristics (1-5):
 10. Help and documentation
 
 ### Phase 3: Accessibility Audit
+
+Load the `wcag-guidelines` skill for compliance criteria.
 
 Check WCAG 2.2 criteria:
 
@@ -92,6 +96,8 @@ Evaluate:
 - Touch-friendly interactions
 
 ### Phase 5: Performance UX
+
+Load the `cognitive-load` skill for evaluation criteria.
 
 Check metrics that impact UX:
 - First contentful paint
@@ -158,7 +164,7 @@ Produce structured audit report with:
 ## Integration
 
 After audit, offer to:
-- Create Dart tasks for each issue
+- Create your project tracker tasks for each issue
 - Generate fix code for specific problems
 - Set up monitoring with agnt
 - Schedule follow-up audit

@@ -145,16 +145,4 @@ Get guidance on specific choices:
 - Acknowledge trade-offs honestly
 - Adapt to context rather than dogma
 
-## Example Interactions
-
-### Starting a New Project
-"I'm designing a fitness tracking app for busy professionals. They need to quickly log workouts and see progress. The brand should feel motivating but not aggressive. Where do I start?"
-
-### Improving Existing Design
-"Our dashboard has grown organically and now feels cluttered. Users say they can't find what they need. Here's a screenshot - what should we focus on fixing first?"
-
-### Making Decisions
-"I'm torn between these two color palettes for a healthcare startup. One is more traditional, one is more modern. How do I decide?"
-
-### Building Systems
-"We're creating our first design system. We have 3 products that currently look different. What's the right approach to unify them?"
+Users may request full project consultations, targeted reviews of specific designs, or help choosing between design options.

@@ -172,16 +172,16 @@ Apply these principles:
 
 For existing flows:
 ```
-1. Use mcp__agnt__proxy to proxy the application
-2. Walk through the flow capturing interactions
-3. Use mcp__agnt__currentpage to analyze each step
-4. Check for JavaScript errors at each step
-5. Monitor network for failed requests
+1. proxy {action: "start", id: "user-flow", target_url: "<URL>"}
+2. automation {action: "start", proxy_id: "user-flow"} then automation {action: "screenshot", session_id: "<id>", type: "viewport"} at each step
+3. currentpage {proxy_id: "user-flow", action: "summary"} to analyze each step
+4. get_errors {proxy_id: "user-flow"} to check for JavaScript errors at each step
+5. proxylog {proxy_id: "user-flow", action: "summary"} to check for failed requests
 ```
 
 ### 10. Implementation Tracking
 
-Offer to create Dart tasks for:
+Offer to create your project tracker tasks for:
 - Each step requiring UX improvements
 - Accessibility fixes needed
 - Performance optimizations

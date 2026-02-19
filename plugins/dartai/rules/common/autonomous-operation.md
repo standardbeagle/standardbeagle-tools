@@ -30,10 +30,8 @@ autonomous_rules:
 
   impulse_to_ask:
     trigger: "If you feel the urge to ask for confirmation"
-    action: "STOP and RETURN immediately with 'uncertain' status"
-    reason: "The impulse to ask means you're uncertain - stop rather than ask"
-    report: "Include what you were uncertain about in your return message"
-    result: "Stop hook will trigger replan or redo automatically"
+    action: "Make a reasonable decision, document your assumption, and continue"
+    reason: "Stopping breaks the autonomous loop - decide and move forward"
 
   decision_authority:
     - "You have full authority to make decisions"
@@ -44,9 +42,6 @@ autonomous_rules:
 
 ## Key Principle
 
-**The impulse to ask is a signal you're uncertain.** Instead of asking, RETURN with an 'uncertain' status and explain what blocked you. The system will either:
-- Adjust the plan and retry
-- Ask the user for clarification
-- Move to the next task
+**When uncertain, decide and document.** Make a reasonable decision, note your assumption in a comment or commit message, and continue. The quality verifier will catch mistakes.
 
 You are autonomous. Make decisions and execute.

@@ -1,241 +1,158 @@
 ---
 name: scripting
-description: Scripting and automation with SLOP's REST API
+description: SLOP scripting language guide for automating MCP tool workflows
 ---
 
-# SLOP Scripting and Automation
+# SLOP Scripting Guide
 
-Use SLOP's REST API to script MCP interactions from any language or tool.
+The SLOP language lets you automate multi-tool workflows across all registered MCP servers. Scripts run via the `run_slop` tool and have access to every registered MCP.
 
-## SLOP Endpoints
+## Running Scripts
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/info` | GET | Server info and capabilities |
-| `/tools` | GET | List all available tools |
-| `/tools` | POST | Execute a tool |
-| `/resources` | GET | List all resources |
-| `/resources` | POST | Read a resource |
-| `/memory` | GET | Get memory entries |
-| `/memory` | POST | Store memory entry |
-| `/chat` | POST | Chat with context |
+### Inline Script
 
-## cURL Examples
-
-### List Tools
-
-```bash
-curl http://localhost:8080/tools | jq '.tools[].name'
+```
+mcp__plugin_slop-mcp_slop-mcp__run_slop
+  script: "tools.list()"
 ```
 
-### Execute Tool
+### Script File
 
-```bash
-curl -X POST http://localhost:8080/tools \
-  -H "Content-Type: application/json" \
-  -d '{
-    "tool": "filesystem.read_file",
-    "arguments": {"path": "/etc/hosts"}
-  }'
+```
+mcp__plugin_slop-mcp_slop-mcp__run_slop
+  file_path: "/path/to/script.slop"
 ```
 
-### Search Tools
+## SLOP Language Basics
 
-```bash
-curl "http://localhost:8080/tools?q=search" | jq '.tools'
+SLOP is a scripting language with built-in functions for data manipulation, string processing, and MCP tool execution.
+
+### Exploring Built-in Functions
+
+List function categories:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__slop_reference
+  list_categories: true
 ```
 
-### Store Memory
+Categories: math, string, list, map, random, type, json, regex, time, encoding, functional, crypto, slop.
 
-```bash
-curl -X POST http://localhost:8080/memory \
-  -H "Content-Type: application/json" \
-  -d '{
-    "key": "user_preference",
-    "value": {"theme": "dark", "language": "en"}
-  }'
+Search for functions:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__slop_reference
+  query: "split"
+  verbose: true
 ```
 
-### Read Resource
+Get details for a specific function:
 
-```bash
-curl -X POST http://localhost:8080/resources \
-  -H "Content-Type: application/json" \
-  -d '{
-    "uri": "file:///home/user/README.md"
-  }'
+```
+mcp__plugin_slop-mcp_slop-mcp__slop_help
+  name: "map"
 ```
 
-## Shell Scripts
+### Calling MCP Tools from SLOP
 
-### Execute Tool and Process Output
+SLOP scripts can call any tool on any registered MCP server. The exact syntax depends on how tools are exposed in the SLOP runtime. Use `slop_reference` with `category: "slop"` to find the MCP integration functions:
 
-```bash
-#!/bin/bash
-# search-code.sh - Search code using lci via SLOP
-
-PATTERN="$1"
-MAX="${2:-10}"
-
-curl -s -X POST http://localhost:8080/tools \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"tool\": \"lci.search\",
-    \"arguments\": {\"pattern\": \"$PATTERN\", \"max\": $MAX}
-  }" | jq -r '.result.matches[] | "\(.file):\(.line): \(.text)"'
+```
+mcp__plugin_slop-mcp_slop-mcp__slop_reference
+  category: "slop"
+  verbose: true
 ```
 
-### Batch Tool Execution
+### Example: Sequential Workflow
 
-```bash
-#!/bin/bash
-# read-files.sh - Read multiple files
-
-for file in "$@"; do
-  echo "=== $file ==="
-  curl -s -X POST http://localhost:8080/tools \
-    -H "Content-Type: application/json" \
-    -d "{\"tool\": \"filesystem.read_file\", \"arguments\": {\"path\": \"$file\"}}" \
-    | jq -r '.result.content'
-done
+```slop
+// Read a file, process it, write the result
+content = tools.call("filesystem", "read_file", { "path": "input.txt" })
+lines = split(content, "\n")
+filtered = filter(lines, fn(line) { contains(line, "TODO") })
+result = join(filtered, "\n")
+tools.call("filesystem", "write_file", { "path": "todos.txt", "content": result })
 ```
 
-## Python Integration
+### Example: Search and Aggregate
 
-```python
-import requests
-import json
-
-class SlopClient:
-    def __init__(self, base_url="http://localhost:8080"):
-        self.base_url = base_url
-
-    def list_tools(self, query=None):
-        params = {"q": query} if query else {}
-        resp = requests.get(f"{self.base_url}/tools", params=params)
-        return resp.json()["tools"]
-
-    def call_tool(self, tool, arguments):
-        resp = requests.post(
-            f"{self.base_url}/tools",
-            json={"tool": tool, "arguments": arguments}
-        )
-        return resp.json()
-
-    def get_memory(self, key=None):
-        params = {"key": key} if key else {}
-        resp = requests.get(f"{self.base_url}/memory", params=params)
-        return resp.json()
-
-    def set_memory(self, key, value):
-        resp = requests.post(
-            f"{self.base_url}/memory",
-            json={"key": key, "value": value}
-        )
-        return resp.json()
-
-# Usage
-slop = SlopClient()
-
-# List all search tools
-tools = slop.list_tools("search")
-print(f"Found {len(tools)} search tools")
-
-# Execute tool
-result = slop.call_tool("lci.search", {"pattern": "TODO", "max": 5})
-for match in result.get("result", {}).get("matches", []):
-    print(f"{match['file']}:{match['line']}")
+```slop
+// Search across multiple servers
+results = tools.call("lci", "search", { "query": "error handling" })
+count = len(results)
+print("Found " + str(count) + " matches")
 ```
 
-## JavaScript/Node.js Integration
+### Example: Data Processing Pipeline
 
-```javascript
-const fetch = require('node-fetch');
-
-class SlopClient {
-  constructor(baseUrl = 'http://localhost:8080') {
-    this.baseUrl = baseUrl;
-  }
-
-  async listTools(query) {
-    const params = query ? `?q=${encodeURIComponent(query)}` : '';
-    const resp = await fetch(`${this.baseUrl}/tools${params}`);
-    const data = await resp.json();
-    return data.tools;
-  }
-
-  async callTool(tool, args) {
-    const resp = await fetch(`${this.baseUrl}/tools`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tool, arguments: args })
-    });
-    return resp.json();
-  }
-}
-
-// Usage
-const slop = new SlopClient();
-
-async function main() {
-  // Search for files
-  const result = await slop.callTool('filesystem.search_files', {
-    path: '/home/user',
-    pattern: '*.md'
-  });
-  console.log('Found files:', result.result);
-}
-
-main();
+```slop
+// Use built-in functions for data transformation
+data = json_parse(tools.call("filesystem", "read_file", { "path": "data.json" }))
+names = map(data, fn(item) { item.name })
+sorted = sort(names)
+json_stringify(sorted)
 ```
 
-## CI/CD Integration
+## Built-in Function Reference
 
-### GitHub Actions
+Use these tools to explore the full standard library:
 
-```yaml
-name: MCP Validation
+| Tool | Purpose |
+|------|---------|
+| `slop_reference` with `list_categories: true` | See all function categories |
+| `slop_reference` with `query: "..."` | Search functions by name/description |
+| `slop_reference` with `category: "string"` | List functions in a category |
+| `slop_help` with `name: "fn_name"` | Full docs for one function |
 
-on: [push]
+### Common Categories
 
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+- **string**: split, join, trim, replace, contains, starts_with, ends_with, upper, lower
+- **list**: map, filter, reduce, sort, reverse, flatten, unique, zip
+- **map**: keys, values, entries, merge, get, set
+- **json**: json_parse, json_stringify
+- **regex**: regex_match, regex_replace, regex_find
+- **time**: now, format_time, parse_time
+- **type**: type_of, to_string, to_number, to_bool
+- **functional**: map, filter, reduce, compose, pipe
 
-      - name: Start SLOP
-        run: |
-          npm install -g @agnt-gg/slop
-          slop start --config slop.yaml &
-          sleep 5
+## Script Files
 
-      - name: Validate Tools
-        run: |
-          curl -s http://localhost:8080/tools | jq -e '.tools | length > 0'
+Save scripts as `.slop` files and run them with `run_slop`:
 
-      - name: Run Tool Tests
-        run: |
-          for tool in $(curl -s http://localhost:8080/tools | jq -r '.tools[].name'); do
-            echo "Testing $tool..."
-            curl -s "http://localhost:8080/tools?name=$tool" | jq -e '.tools[0].inputSchema'
-          done
+```
+mcp__plugin_slop-mcp_slop-mcp__run_slop
+  file_path: "./scripts/my-workflow.slop"
 ```
 
-## Error Handling
+The script's final expression value is returned as the result.
 
-```python
-def safe_call(slop, tool, args):
-    try:
-        result = slop.call_tool(tool, args)
-        if "error" in result:
-            print(f"Tool error: {result['error']['message']}")
-            return None
-        return result.get("result")
-    except requests.exceptions.ConnectionError:
-        print("SLOP server not running")
-        return None
-    except Exception as e:
-        print(f"Unexpected error: {e}")
-        return None
+## Practical Patterns
+
+### Tool Discovery Script
+
+```slop
+// Find all file-related tools
+tools.search("file")
+```
+
+### Multi-Server Coordination
+
+```slop
+// Get data from one server, process with another
+raw = tools.call("api-server", "fetch_data", { "endpoint": "/users" })
+parsed = json_parse(raw)
+tools.call("filesystem", "write_file", {
+  "path": "users.json",
+  "content": json_stringify(parsed, 2)
+})
+```
+
+### Error Handling
+
+SLOP scripts should handle errors from MCP tool calls. Check the SLOP reference for error handling constructs:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__slop_reference
+  query: "error"
+  verbose: true
 ```

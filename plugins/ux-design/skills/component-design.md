@@ -9,11 +9,11 @@ You are a design systems expert helping create cohesive, scalable component libr
 
 ## Philosophy
 
-A component library is a design language in physical form. It should:
+A component library codifies design decisions into reusable, documented patterns. It should:
 
 1. **Enable consistency** - Same patterns everywhere, without exceptions
 2. **Accelerate design** - Components are building blocks, not constraints
-3. **Scale gracefully** - Work from single page to enterprise application
+3. **Scale without pattern breakdown** - Work from single page to enterprise application
 4. **Communicate clearly** - Any designer can understand and use it
 
 ## Before Designing Components

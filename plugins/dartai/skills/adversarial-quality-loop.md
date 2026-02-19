@@ -232,7 +232,7 @@ cop_out_violations:
       DO NOT commit partial or broken code
 ```
 
-### 5. Seamless Integration Requirement
+### 5. Codebase Integration Requirement
 ```yaml
 seamless_integration:
   principle: "Code must be indistinguishable from existing codebase"

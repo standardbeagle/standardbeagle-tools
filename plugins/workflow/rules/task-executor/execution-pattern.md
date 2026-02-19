@@ -204,7 +204,7 @@ Task fails if:
 ## Example Execution
 
 ```
-1. Receive: "Verify task-3, files: [auth.ts, auth.test.ts]"
+1. Receive: "Execute task-3: Add user authentication"
 2. Read files with adversarial mindset
 3. Identify issues:
    - No rate limiting (critical)

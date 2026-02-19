@@ -5,7 +5,7 @@ description: Adversarial cooperation loop for creating a complete design library
 
 # Adversarial Design Library Loop (Ralph Wiggum Pattern)
 
-A continuous execution loop where an extractor and verifier cooperate adversarially to create a production-ready design library from Figma. The verifier actively challenges every extraction while the extractor defends and improves.
+A continuous execution loop where an extractor and verifier work in a challenge-and-verify cycle to create a production-ready design library from Figma. The verifier actively challenges every extraction while the extractor defends and improves.
 
 ## Mission
 
@@ -60,7 +60,7 @@ plan_adjustment_rules:
 
 ## Eagle-Eyed Violations (IMMEDIATE REJECTION)
 
-The verifier must be **ruthlessly vigilant** for these violations.
+The verifier must be **strict about rejecting** for these violations.
 
 ### 1. CSS Accuracy Violations
 ```yaml

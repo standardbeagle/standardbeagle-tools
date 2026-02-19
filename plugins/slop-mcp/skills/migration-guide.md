@@ -1,19 +1,19 @@
 ---
 name: migration-guide
-description: Guide for migrating MCP configurations to SLOP management
+description: Guide for migrating MCP configurations to slop-mcp management
 ---
 
-# MCP to SLOP Migration Guide
+# MCP to slop-mcp Migration Guide
 
-Complete guide for migrating existing MCP server configurations to SLOP-based management.
+Migrate existing MCP server configurations from Claude Desktop, VS Code, or other clients to slop-mcp managed configs using KDL.
 
-## Why Migrate to SLOP?
+## Why Migrate to slop-mcp?
 
-1. **Unified Interface** - Single REST API for all MCP servers
-2. **Tool Discovery** - Search across all servers at once
-3. **Resource Aggregation** - Unified resource namespace
-4. **Session Management** - Persistent memory across tools
-5. **Easier Scripting** - REST endpoints vs stdio pipes
+1. **Unified tool discovery** -- search across all MCP servers with `search_tools`
+2. **Dynamic management** -- register and unregister servers at runtime without restarting Claude Code
+3. **SLOP scripting** -- automate multi-tool workflows with the SLOP language via `run_slop`
+4. **Scope control** -- user-level, project-level, or memory-only configurations
+5. **KDL config** -- cleaner config format than scattered JSON files
 
 ## Migration Sources
 
@@ -37,130 +37,117 @@ Format:
 }
 ```
 
-### VS Code MCP Extension
+### VS Code
 
 Location: `.vscode/mcp.json` or workspace settings
 
-Format:
-```json
-{
-  "servers": {
-    "myserver": {
-      "command": "node",
-      "args": ["./server.js"]
-    }
-  }
-}
-```
+### Claude Code Settings
+
+Location: `~/.claude/settings.json` (mcpServers section)
 
 ### Cursor
 
 Location: `~/.cursor/mcp.json`
 
-Format similar to Claude Desktop.
-
 ## Migration Steps
 
-### Step 1: Initialize SLOP
+### Step 1: Check Current State
 
-```bash
-/slop-init
+Call `manage_mcps` to see what is already registered:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "list"
 ```
 
-Creates ~/slop-mcp/ with default configuration.
+### Step 2: Read Source Config
 
-### Step 2: Backup Existing Configs
+Read the source configuration file (e.g., Claude Desktop config) and parse each `mcpServers` entry.
 
-```bash
-cp ~/.config/claude/claude_desktop_config.json ~/slop-mcp/migrations/claude-$(date +%Y%m%d).json
+### Step 3: Register Each Server
+
+For each server in the source config, call `manage_mcps` with `action: "register"`:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "register"
+  name: "filesystem"
+  type: "command"
+  command: "npx"
+  args: ["-y", "@modelcontextprotocol/server-filesystem", "/path"]
+  env: {}
+  scope: "user"
 ```
 
-### Step 3: Run Migration
+### Step 4: Choose Scope
 
-```bash
-# Auto-detect all sources
-/slop-migrate auto
+- **user** -- `~/.config/slop-mcp/config.kdl` -- use for servers you want everywhere
+- **project** -- `.slop-mcp.kdl` -- use for project-specific servers
+- **memory** -- test first before persisting
 
-# Or specific source
-/slop-migrate claude-desktop
+### Step 5: Verify
+
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "list"
 ```
 
-### Step 4: Verify Servers
+Check all servers appear and are connected.
 
-```bash
-/slop-list
+### Step 6: Test a Tool
+
+```
+mcp__plugin_slop-mcp_slop-mcp__search_tools
+  query: "read"
 ```
 
-Check all servers migrated correctly.
-
-### Step 5: Test Execution
-
-```bash
-/slop-exec filesystem.list_directory path=/home
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+  mcp_name: "filesystem"
+  tool_name: "read_file"
+  parameters: { "path": "/etc/hostname" }
 ```
 
-## Post-Migration Configuration
+## KDL Config Format
 
-### Enable/Disable Servers
+After migration with `scope: "user"`, your `~/.config/slop-mcp/config.kdl` will look like:
 
-Edit ~/slop-mcp/config/slop.yaml:
+```kdl
+mcp "filesystem" {
+  command "npx"
+  args "-y" "@modelcontextprotocol/server-filesystem" "/home/user"
+}
 
-```yaml
-servers:
-  - name: filesystem
-    enabled: true   # Change to false to disable
+mcp "lci" {
+  command "npx"
+  args "-y" "@standardbeagle/lci@latest" "mcp"
+}
 
-  - name: github
-    enabled: false  # Disabled by default
-```
-
-### Add Environment Variables
-
-```yaml
-servers:
-  - name: github
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-github"]
-    env:
-      GITHUB_TOKEN: "${GITHUB_TOKEN}"  # Use env var
-```
-
-### Configure Logging
-
-```yaml
-logging:
-  level: debug  # info, warn, error
-  file: ~/slop-mcp/logs/slop.log
-  max_size: 10M
-  retain: 5
-```
-
-## Rollback
-
-If migration fails:
-
-1. Restore backup:
-```bash
-cp ~/slop-mcp/migrations/claude-YYYYMMDD.json ~/.config/claude/claude_desktop_config.json
-```
-
-2. Remove SLOP config:
-```bash
-rm -rf ~/slop-mcp
+mcp "github" {
+  command "npx"
+  args "-y" "@modelcontextprotocol/server-github"
+  env {
+    GITHUB_TOKEN "${GITHUB_TOKEN}"
+  }
+}
 ```
 
 ## Troubleshooting
 
-### Server Won't Start
-- Check command exists: `which npx`
-- Verify args are correct
-- Check env vars are set
+### Server Won't Connect
+- Verify the command exists: `which npx`
+- Try running the command directly in a terminal
+- Check `manage_mcps` with `action: "status"` and the server name
 
-### Tool Not Found
-- Ensure server is enabled
-- Check server started correctly
-- View logs: `tail -f ~/slop-mcp/logs/slop.log`
+### Duplicate Server Name
+- `manage_mcps` will reject a registration if the name already exists
+- Use `action: "unregister"` first, then re-register
 
-### Permission Denied
-- Check file permissions
-- Verify env vars for API tokens
+### Environment Variables
+- Pass env vars in the `env` parameter when registering
+- For secrets, set them in your shell environment and reference them in KDL config
+
+### Rollback
+- Unregister servers: `manage_mcps` with `action: "unregister"` and the server name
+- Delete KDL config file to remove all persistent registrations
+- Original config files are never modified

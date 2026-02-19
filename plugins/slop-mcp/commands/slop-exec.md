@@ -1,79 +1,49 @@
 ---
 name: slop-exec
-description: Execute an MCP tool through SLOP
+description: Execute a tool on a slop-mcp managed MCP server
 ---
 
-# Execute MCP Tool via SLOP
+# Execute MCP Tool
 
-Execute any tool from any SLOP-managed MCP server using a unified interface.
+Execute a tool on a specific MCP server using `execute_tool`.
 
-## Usage
+## Tool Call
 
 ```
-/slop-exec <server>.<tool> [arguments...]
-/slop-exec <tool> [arguments...]  # Auto-discovers server
-```
-
-## Argument Formats
-
-### Named Arguments
-```
-/slop-exec filesystem.read_file path=/etc/hosts
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+  mcp_name: "<server-name>"
+  tool_name: "<tool-name>"
+  parameters: { "param1": "value1", "param2": "value2" }
 ```
 
-### JSON Arguments
-```
-/slop-exec lci.search '{"pattern": "function", "max": 10}'
-```
+## Steps
 
-### Positional (if tool supports)
-```
-/slop-exec filesystem.read_file /etc/hosts
-```
+1. If the user specifies `server.tool` format, split into mcp_name and tool_name.
+2. If only a tool name is given, use `search_tools` to find which server provides it:
+   ```
+   mcp__plugin_slop-mcp_slop-mcp__search_tools
+     query: "<tool-name>"
+   ```
+3. If the tool's parameters are not clear, get the schema first:
+   ```
+   mcp__plugin_slop-mcp_slop-mcp__get_metadata
+     mcp_name: "<server-name>"
+     tool_name: "<tool-name>"
+     verbose: true
+   ```
+4. Call `execute_tool` with the resolved server, tool, and parameters.
+5. Present the result to the user.
 
 ## Examples
 
-```bash
-# Read a file
-/slop-exec filesystem.read_file path=/home/user/README.md
-
-# Search code
-/slop-exec lci.search pattern="TODO" max=20
-
-# Get GitHub issues
-/slop-exec github.list_issues owner=anthropics repo=claude-code state=open
-
-# Execute with JSON
-/slop-exec brave.search '{"query": "MCP protocol", "count": 5}'
 ```
+# Read a file via filesystem server
+mcp_name: "filesystem"
+tool_name: "read_file"
+parameters: { "path": "/home/user/README.md" }
 
-## Auto-Discovery
-
-If server is not specified, SLOP searches all servers for the tool:
-
-```bash
-# These are equivalent if only filesystem has read_file
-/slop-exec filesystem.read_file path=/etc/hosts
-/slop-exec read_file path=/etc/hosts
+# Search code via lci server
+mcp_name: "lci"
+tool_name: "search"
+parameters: { "query": "function", "limit": 10 }
 ```
-
-If multiple servers have the same tool name, you'll be prompted to choose.
-
-## SLOP Integration
-
-Executes via SLOP's `/tools` endpoint:
-
-```
-POST /tools
-{
-  "tool": "filesystem.read_file",
-  "arguments": {"path": "/etc/hosts"}
-}
-```
-
-## Output Handling
-
-- Text results displayed directly
-- JSON results pretty-printed
-- Binary results saved to file
-- Errors shown with context

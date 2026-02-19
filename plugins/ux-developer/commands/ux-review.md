@@ -19,9 +19,9 @@ First, understand what we're reviewing:
 ### 2. Start Development Proxy (if reviewing live page)
 
 ```
-Use mcp__agnt__proxy to start a proxy for the target URL
-Use mcp__agnt__proxy exec to take a screenshot
-Use mcp__agnt__currentpage to get page session data
+1. proxy {action: "start", id: "ux-review", target_url: "<URL>"}
+2. automation {action: "start", proxy_id: "ux-review"} then automation {action: "screenshot", session_id: "<id>", type: "fullpage"}
+3. currentpage {proxy_id: "ux-review", action: "summary"}
 ```
 
 ### 3. Apply Nielsen's 10 Heuristics
@@ -45,7 +45,7 @@ Evaluate against each heuristic and score 1-5:
 
 Run accessibility audit:
 ```
-Use mcp__agnt__proxy exec with __devtool.auditAccessibility()
+proxy {action: "exec", id: "ux-review", code: "__devtool.auditAccessibility()"}
 ```
 
 Flag critical issues:
@@ -67,7 +67,9 @@ Evaluate:
 
 Check via agnt:
 ```
-Use mcp__agnt__currentpage to get performance metrics
+1. get_errors {proxy_id: "ux-review"}
+2. proxylog {proxy_id: "ux-review", action: "summary"}
+3. currentpage {proxy_id: "ux-review", action: "summary"}
 ```
 
 Flag UX-impacting issues:
@@ -106,6 +108,6 @@ Provide structured report:
 ## Integration with Development
 
 After review, offer to:
-1. Create tasks in Dart for each issue
+1. Create tasks in your project tracker for each issue
 2. Generate fix suggestions with code examples
 3. Set up continuous monitoring with agnt proxy

@@ -148,7 +148,7 @@ Essential functional colors:
 
 ### Step 4: Define Neutrals
 
-Neutrals are the unsung heroes—where most content lives:
+Neutrals carry most content surface area:
 
 **Pure Gray** - Modern, digital, cold
 **Warm Gray** - Approachable, organic, cozy

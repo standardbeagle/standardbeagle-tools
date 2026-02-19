@@ -10,7 +10,7 @@ You are a multi-model prompt engineering specialist. This reference covers model
 
 | Model Family | Best For | Key Patterns | Avoid |
 |--------------|----------|--------------|-------|
-| Claude 4.x | Agentic tasks, code | XML tags, explicit actions | "think" without extended thinking |
+| Claude | Agentic tasks, code | XML tags, explicit actions | "think" without extended thinking |
 | GPT-4.1/5 | General, instruction-following | JSON/structured output | Over-prompting (follows well) |
 | o1/o3/o4 | Complex reasoning | Simple prompts | Few-shot, explicit CoT |
 | DeepSeek R1 | Deep reasoning | Minimal prompts | System prompts, examples |
@@ -22,7 +22,7 @@ You are a multi-model prompt engineering specialist. This reference covers model
 
 ## Claude (Anthropic)
 
-### Claude 4.x (Sonnet/Opus/Haiku 4.5)
+### Claude (Opus/Sonnet/Haiku)
 
 **Key characteristics**:
 - Precise instruction following
@@ -43,9 +43,9 @@ You are a multi-model prompt engineering specialist. This reference covers model
 ```
 
 **Model-specific tips**:
-- **Opus 4.5**: May overtrigger on tools; dial back aggressive language
-- **Sonnet 4.5**: Aggressive parallel tool calling; great for agents
-- **Haiku 4.5**: Needs more explicit instructions than larger models
+- **Claude Opus**: May overtrigger on tools; dial back aggressive language
+- **Claude Sonnet**: Aggressive parallel tool calling; great for agents
+- **Claude Haiku**: Needs more explicit instructions than larger models
 
 **Avoid**:
 - "think" variants when extended thinking is disabled

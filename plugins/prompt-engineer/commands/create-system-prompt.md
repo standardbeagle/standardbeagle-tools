@@ -190,7 +190,7 @@ When uncertain:
 </uncertainty_handling>
 ```
 
-### Step 7: Claude 4.x Specific Enhancements
+### Step 7: Claude-Specific Enhancements
 
 Add Claude-specific optimizations:
 

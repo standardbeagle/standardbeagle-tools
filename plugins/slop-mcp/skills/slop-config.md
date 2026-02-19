@@ -1,198 +1,166 @@
 ---
 name: slop-config
-description: SLOP configuration reference and best practices
+description: slop-mcp configuration reference using KDL format
 ---
 
-# SLOP Configuration Reference
+# slop-mcp Configuration Reference
 
-Complete reference for configuring SLOP and managed MCP servers.
+slop-mcp stores persistent configuration in KDL format at two scopes.
 
-## Configuration Files
+## Config File Locations
 
-### Main Config: ~/slop-mcp/config/slop.yaml
+| Scope | File | Purpose |
+|-------|------|---------|
+| User | `~/.config/slop-mcp/config.kdl` | Applies to all projects |
+| Project | `.slop-mcp.kdl` (project root) | Applies to this project only |
 
-```yaml
-version: "1.0"
+Project-scope configs are loaded in addition to user-scope. If the same MCP name appears in both, project scope takes precedence.
 
-# SLOP server settings
-host: localhost
-port: 8080
+## KDL Config Format
 
-# API endpoints
-endpoints:
-  chat: /chat
-  tools: /tools
-  memory: /memory
-  resources: /resources
-  pay: /pay
-  info: /info
+### Command-based MCP Server
 
-# Managed MCP servers
-servers:
-  - name: filesystem
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-filesystem", "/home/user"]
-    env: {}
-    enabled: true
-    timeout: 30000
-
-  - name: lci
-    command: npx
-    args: ["-y", "@standardbeagle/lci@latest", "mcp"]
-    env: {}
-    enabled: true
-
-# Memory settings (for /memory endpoint)
-memory:
-  backend: file  # file, redis, sqlite
-  path: ~/slop-mcp/cache/memory.json
-
-# Logging
-logging:
-  level: info
-  file: ~/slop-mcp/logs/slop.log
-  format: json  # json, text
-
-# Security
-security:
-  cors: true
-  allowed_origins:
-    - http://localhost:*
-    - https://*.example.com
+```kdl
+mcp "server-name" {
+  command "npx"
+  args "-y" "@namespace/package@latest" "mcp"
+}
 ```
 
-### Server Config: ~/slop-mcp/config/servers/<name>.yaml
+### Command with Environment Variables
 
-Individual server configurations for complex setups:
-
-```yaml
-name: my-custom-server
-command: /usr/local/bin/my-server
-args:
-  - --port
-  - "3000"
-  - --config
-  - /etc/my-server/config.yaml
-env:
-  API_KEY: "${MY_API_KEY}"
-  DEBUG: "true"
-enabled: true
-timeout: 60000
-retry:
-  max_attempts: 3
-  delay: 1000
-healthcheck:
-  interval: 30000
-  endpoint: /health
+```kdl
+mcp "github" {
+  command "npx"
+  args "-y" "@modelcontextprotocol/server-github"
+  env {
+    GITHUB_TOKEN "${GITHUB_TOKEN}"
+  }
+}
 ```
 
-## Environment Variables
+### Local Binary
 
-SLOP supports environment variable substitution:
-
-```yaml
-env:
-  GITHUB_TOKEN: "${GITHUB_TOKEN}"      # From environment
-  API_KEY: "${API_KEY:-default}"       # With default value
-  DEBUG: "${DEBUG:-false}"             # Boolean default
+```kdl
+mcp "my-server" {
+  command "/usr/local/bin/my-mcp-server"
+  args "--port" "3000"
+}
 ```
 
-## Server Lifecycle
+### SSE or Streamable HTTP
 
-### Startup Modes
+```kdl
+mcp "remote" type="sse" {
+  url "https://mcp.example.com/sse"
+}
 
-```yaml
-servers:
-  - name: always-on
-    startup: immediate  # Start with SLOP
-
-  - name: lazy
-    startup: on-demand  # Start on first tool call
-
-  - name: scheduled
-    startup: cron
-    schedule: "0 9 * * *"  # Start at 9 AM daily
+mcp "streamable" type="streamable" {
+  url "https://mcp.example.com/mcp"
+}
 ```
 
-### Health Checks
+### Dynamic Server (always re-fetch tools)
 
-```yaml
-healthcheck:
-  enabled: true
-  interval: 30000     # Check every 30s
-  timeout: 5000       # 5s timeout
-  retries: 3          # Restart after 3 failures
+```kdl
+mcp "evolving-server" dynamic=true {
+  command "npx"
+  args "-y" "@namespace/package@latest" "mcp"
+}
 ```
 
-## Tool Routing
+## manage_mcps Parameters
 
-### Prefixes
+The `manage_mcps` tool is the programmatic interface for managing servers.
 
-By default, tools are prefixed with server name:
-- `filesystem.read_file`
-- `lci.search`
+### Register
 
-Override with:
-
-```yaml
-servers:
-  - name: fs
-    command: npx -y @modelcontextprotocol/server-filesystem /
-    prefix: ""  # No prefix, use tool names directly
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "register"
+  name: "server-name"        # required, unique identifier
+  type: "command"             # "command" (default), "sse", "streamable"
+  command: "npx"              # executable (for command type)
+  args: ["-y", "pkg", "mcp"] # command arguments
+  url: "https://..."          # server URL (for sse/streamable)
+  env: { "KEY": "val" }       # environment variables
+  headers: { "K": "V" }      # HTTP headers (for sse/streamable)
+  scope: "user"               # "memory" (default), "user", "project"
+  dynamic: false              # true to always re-fetch tool list
 ```
 
-### Aliases
+### Unregister
 
-```yaml
-aliases:
-  read: filesystem.read_file
-  search: lci.search
-  find: lci.find_files
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "unregister"
+  name: "server-name"
 ```
 
-## Resource Routing
+### Reconnect
 
-```yaml
-resources:
-  routing:
-    "file://*": filesystem
-    "repo://*": github
-    "code://*": lci
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "reconnect"
+  name: "server-name"
 ```
 
-## Memory Configuration
+### List All
 
-### File Backend (default)
-
-```yaml
-memory:
-  backend: file
-  path: ~/slop-mcp/cache/memory.json
-  max_size: 100M
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "list"
 ```
 
-### SQLite Backend
+### Status of One
 
-```yaml
-memory:
-  backend: sqlite
-  path: ~/slop-mcp/cache/memory.db
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "status"
+  name: "server-name"
 ```
 
-### Redis Backend
+## Authentication
 
-```yaml
-memory:
-  backend: redis
-  url: redis://localhost:6379
-  prefix: slop:
+For MCP servers that require OAuth:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__auth_mcp
+  action: "login"
+  name: "server-name"
 ```
 
-## Best Practices
+Check auth status:
 
-1. **Use environment variables** for sensitive values
-2. **Enable health checks** for production servers
-3. **Set appropriate timeouts** based on tool complexity
-4. **Use lazy startup** for infrequently used servers
-5. **Configure logging** for debugging
-6. **Backup configs** before making changes
+```
+mcp__plugin_slop-mcp_slop-mcp__auth_mcp
+  action: "status"
+  name: "server-name"
+```
+
+List all authenticated servers:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__auth_mcp
+  action: "list"
+```
+
+## Metadata Inspection
+
+Get tool metadata for a server:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__get_metadata
+  mcp_name: "server-name"          # optional: filter to one server
+  tool_name: "tool-name"           # optional: filter to one tool
+  verbose: true                    # include full input schemas
+  file_path: "/tmp/metadata.json"  # optional: write to file
+```
+
+## Scope Behavior
+
+- **memory**: Server exists only for the current slop-mcp session. Good for testing.
+- **user**: Written to `~/.config/slop-mcp/config.kdl`. Survives restarts. Available in all projects.
+- **project**: Written to `.slop-mcp.kdl` in the current working directory. Survives restarts. Available only in this project.
+
+Servers from all scopes are merged at startup. Use `manage_mcps` with `action: "list"` to see the combined result.

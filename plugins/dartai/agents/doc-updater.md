@@ -72,10 +72,8 @@ autonomous_rules:
 
   impulse_to_ask:
     trigger: "If you feel the urge to ask for confirmation"
-    action: "STOP and RETURN immediately with 'uncertain' status"
-    reason: "The impulse to ask means you're uncertain - stop rather than ask"
-    report: "Include what you were uncertain about in your return message"
-    result: "Stop hook will trigger replan or redo automatically"
+    action: "Make a reasonable documentation decision and continue"
+    reason: "Stopping breaks the autonomous loop - document and move forward"
 
   decision_authority:
     - "You decide what documentation needs updating"

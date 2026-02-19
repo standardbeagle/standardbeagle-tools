@@ -1,7 +1,7 @@
 {
   "name": "slop-mcp",
   "version": "0.2.0",
-  "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers. Includes Dart MCP tool reference skills.",
+  "description": "SLOP MCP integration for dynamic MCP server management. Migrate existing configs, register servers at runtime, search and execute tools across servers, automate workflows with SLOP scripts, and orchestrate multi-server pipelines. Includes Dart MCP tool reference skills.",
   "author": {
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
@@ -13,9 +13,9 @@
     "mcp",
     "migration",
     "orchestration",
-    "rest-api",
+    "kdl-config",
     "tool-execution",
-    "resource-management",
+    "slop-scripting",
     "dart-tools",
     "task-management"
   ],

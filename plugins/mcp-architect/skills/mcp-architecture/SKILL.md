@@ -334,15 +334,12 @@ Use get_help(tool_name) for detailed tool documentation.
 
 For detailed patterns and advanced techniques, consult:
 - **`references/patterns.md`** - Comprehensive organizational patterns
-- **`references/naming.md`** - Extended naming conventions and examples
-- **`references/scaling.md`** - Strategies for scaling MCP servers
 
 ### Examples
 
 Working examples in `examples/`:
 - **`code-search-architecture.json`** - Complete code search MCP structure
 - **`browser-proxy-architecture.json`** - Browser integration MCP structure
-- **`process-manager-architecture.json`** - Process management MCP structure
 
 ## Quick Reference
 

@@ -1,66 +1,73 @@
 ---
 name: slop-add
-description: Add an MCP server to SLOP management
+description: Register an MCP server with slop-mcp
 ---
 
-# Add MCP Server to SLOP
+# Add MCP Server
 
-Register a new MCP server with SLOP for unified management and execution.
+Register a new MCP server with slop-mcp using `manage_mcps`.
 
-## Quick Add Patterns
-
-### NPX Package
-```
-/slop-add npx @namespace/package-name [args...]
-```
-
-### Local Binary
-```
-/slop-add /path/to/server [args...]
-```
-
-### Docker Container
-```
-/slop-add docker run image-name [args...]
-```
-
-### Python Package
-```
-/slop-add uvx package-name [args...]
-```
-
-## Full Syntax
+## Tool Call
 
 ```
-/slop-add --name <name> --command <cmd> [--args <args>] [--env <KEY=VALUE>...] [--disabled]
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "register"
+  name: "<server-name>"
+  type: "command"           # or "sse" or "streamable"
+  command: "<executable>"   # for command type
+  args: ["<arg1>", ...]     # command arguments
+  url: "<server-url>"       # for sse/streamable types
+  env: { "KEY": "value" }   # environment variables
+  headers: { "K": "V" }    # HTTP headers (for sse/streamable)
+  scope: "user"             # "memory" | "user" | "project"
+  dynamic: false            # true to always re-fetch tool list
 ```
 
-## Options
+## Scope Options
 
-| Option | Description |
-|--------|-------------|
-| `--name` | Unique server name (auto-generated if not provided) |
-| `--command` | Server command (npx, uvx, binary path, docker) |
-| `--args` | Command arguments (JSON array or space-separated) |
-| `--env` | Environment variables (repeatable) |
-| `--disabled` | Add but don't enable immediately |
+- **memory** (default) -- runtime only, lost on restart. Good for testing.
+- **user** -- saved to `~/.config/slop-mcp/config.kdl`. Persists across projects.
+- **project** -- saved to `.slop-mcp.kdl` in project root. Persists for this project.
 
 ## Examples
 
-```bash
-# Add filesystem server
-/slop-add --name fs npx -y @modelcontextprotocol/server-filesystem /home/user
+Ask the user for the server details, then register it. Common patterns:
 
-# Add with environment variables
-/slop-add --name github npx -y @modelcontextprotocol/server-github --env GITHUB_TOKEN=xxx
+**NPX package:**
+```
+name: "filesystem"
+command: "npx"
+args: ["-y", "@modelcontextprotocol/server-filesystem", "/home/user"]
+scope: "user"
+```
 
-# Add local server
-/slop-add --name custom /usr/local/bin/my-mcp-server --args '["--port", "3000"]'
+**Local binary:**
+```
+name: "my-server"
+command: "/usr/local/bin/my-mcp-server"
+args: ["mcp"]
+scope: "project"
+```
+
+**SSE server:**
+```
+name: "remote-server"
+type: "sse"
+url: "https://mcp.example.com/sse"
+headers: { "Authorization": "Bearer token" }
+scope: "user"
+```
+
+**Python package:**
+```
+name: "my-python-mcp"
+command: "uvx"
+args: ["my-mcp-package"]
+scope: "user"
 ```
 
 ## After Adding
 
-1. Server config added to ~/slop-mcp/config/servers/<name>.yaml
-2. Server registered in ~/slop-mcp/config/slop.yaml
-3. Use `/slop-list` to see all servers
-4. Use `/slop-exec <name> <tool>` to call tools
+- Use `/slop-list` to verify the server is registered
+- Use `/slop-search` to find its tools
+- Use `/slop-exec` to run a tool

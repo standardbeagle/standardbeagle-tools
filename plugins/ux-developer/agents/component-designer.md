@@ -43,6 +43,8 @@ Understand the component:
 
 ### Phase 2: Component Specification
 
+Load the `form-design`, `touch-targets`, and `keyboard-navigation` skills.
+
 Create comprehensive spec:
 
 ```markdown
@@ -271,4 +273,4 @@ After design, offer to:
 - Create Storybook stories
 - Write unit tests
 - Add to design system documentation
-- Create Dart tasks for implementation
+- Create your project tracker tasks for implementation

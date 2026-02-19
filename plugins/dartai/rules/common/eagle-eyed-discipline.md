@@ -147,7 +147,7 @@ cop_outs_to_reject:
     verdict: "REJECT - handle errors properly or let them propagate"
 ```
 
-## Seamless Integration Discipline
+## Codebase Integration Discipline
 
 ```yaml
 integration_requirements:

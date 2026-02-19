@@ -1,67 +1,44 @@
 ---
 name: slop-list
-description: List all MCP servers managed by SLOP
+description: List all MCP servers managed by slop-mcp
 ---
 
-# List SLOP-Managed MCP Servers
+# List slop-mcp Servers
 
-Display all MCP servers registered with SLOP along with their status and capabilities.
+Display all registered MCP servers and their status.
 
-## Output Format
-
-```
-SLOP MCP Servers
-================
-
-Server: filesystem
-  Status: enabled
-  Command: npx -y @modelcontextprotocol/server-filesystem /home/user
-  Tools: read_file, write_file, list_directory, search_files
-  Resources: file://*
-
-Server: lci
-  Status: enabled
-  Command: npx -y @standardbeagle/lci@latest mcp
-  Tools: search, get_context, find_files, code_insight
-  Resources: none
-
-Server: github [disabled]
-  Status: disabled
-  Command: npx -y @modelcontextprotocol/server-github
-  Tools: (not loaded)
-  Resources: (not loaded)
-```
-
-## Options
+## Tool Call
 
 ```
-/slop-list [--format <format>] [--filter <status>]
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "list"
 ```
 
-| Option | Values | Description |
-|--------|--------|-------------|
-| `--format` | table, json, yaml | Output format (default: table) |
-| `--filter` | all, enabled, disabled | Filter by status (default: all) |
+For detailed info about a specific server:
 
-## Examples
-
-```bash
-# List all servers
-/slop-list
-
-# List only enabled servers
-/slop-list --filter enabled
-
-# Export as JSON
-/slop-list --format json
-
-# Export as YAML for backup
-/slop-list --format yaml > servers-backup.yaml
+```
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+  action: "status"
+  name: "<server-name>"
 ```
 
-## Actions
+## Displaying Results
 
-After listing, you can:
-- `/slop-exec <server> <tool>` - Execute a tool
-- `/slop-search <query>` - Search across all tools
-- Edit ~/slop-mcp/config/slop.yaml to enable/disable servers
+Present the server list in a clear format showing:
+- Server name
+- Connection status
+- Transport type (command/sse/streamable)
+- Command or URL
+
+For each connected server, optionally call `get_metadata` to show available tools:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__get_metadata
+  mcp_name: "<server-name>"
+```
+
+## Related Commands
+
+- `/slop-add` -- register a new server
+- `/slop-search` -- search tools across all servers
+- `/slop-exec` -- execute a tool on a server

@@ -45,6 +45,8 @@ Understand the flow:
 
 ### Phase 2: Flow Mapping
 
+Load the `cognitive-load`, `form-design`, and `error-handling` skills.
+
 Create visual flow representation:
 
 ```
@@ -109,12 +111,12 @@ For each step, evaluate:
 Using agnt tools:
 
 ```
-1. Start proxy for application
-2. Walk through flow capturing each step
-3. Record interactions and timings
-4. Check for JavaScript errors
-5. Monitor network requests
-6. Capture performance metrics
+1. proxy {action: "start", id: "flow-test", target_url: "<URL>"}
+2. automation {action: "start", proxy_id: "flow-test"} then automation {action: "screenshot", session_id: "<id>", type: "viewport"} at each step
+3. currentpage {proxy_id: "flow-test", action: "summary"} to record interactions and timings
+4. get_errors {proxy_id: "flow-test"} to check for JavaScript errors
+5. proxylog {proxy_id: "flow-test", action: "query"} to monitor network requests
+6. proxylog {proxy_id: "flow-test", action: "summary"} to capture performance metrics
 ```
 
 Analyze:
@@ -242,7 +244,7 @@ Apply optimization principles:
 ## Integration
 
 After analysis, offer to:
-- Create Dart tasks for each improvement
+- Create your project tracker tasks for each improvement
 - Generate wireframes for optimized flow
 - Set up A/B tests via agnt
 - Create usability testing scripts

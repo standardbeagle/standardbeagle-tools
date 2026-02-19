@@ -424,4 +424,4 @@ quality_check:
 
 This skill is triggered by PreCompact hook and guides memory preservation process.
 
-See `suggest-memories.sh` script for implementation details.
+The hooks system handles memory suggestion automatically.

@@ -14,7 +14,7 @@ For rapid checks during development:
 ### 1. Start Verification Session
 
 ```
-Use mcp__agnt__proxy to start proxy for local dev server
+proxy {action: "start", id: "ux-verify", target_url: "<dev server URL>"}
 Navigate to the changed pages/components
 ```
 
@@ -22,15 +22,15 @@ Navigate to the changed pages/components
 
 Run these via agnt proxy:
 
-```javascript
+```
 // Accessibility audit
-__devtool.auditAccessibility()
+proxy {action: "exec", id: "ux-verify", code: "__devtool.auditAccessibility()"}
 
-// Check for console errors
-// (captured automatically by agnt)
+// Check for errors across processes and browser
+get_errors {proxy_id: "ux-verify"}
 
-// Performance check
-__devtool.getPerformanceMetrics()
+// Performance and traffic summary
+proxylog {proxy_id: "ux-verify", action: "summary"}
 ```
 
 ### 3. UX Verification Checklist

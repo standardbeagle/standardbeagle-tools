@@ -50,7 +50,7 @@ implementation_plan:
   estimated_complexity: "Low|Medium|High"
 ```
 
-**Checkpoint**: Write plan to state file, explicitly forget details.
+**Checkpoint**: Write plan to state file, In the next phase, read ONLY the checkpoint summary, not full implementation files.
 
 ### Phase 2: Positive Implementation (30-40% of time)
 

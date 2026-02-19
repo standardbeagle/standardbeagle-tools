@@ -3,7 +3,7 @@ description: "Analyze prompts for clarity, effectiveness, and optimization oppor
 allowed-tools: ["Read", "Write", "AskUserQuestion"]
 ---
 
-Analyze a prompt or system prompt for improvement opportunities using state-of-the-art prompt engineering principles from 2026.
+Analyze a prompt or system prompt for improvement opportunities using current prompt engineering principles from 2026.
 
 ## Analysis Framework
 
@@ -18,13 +18,13 @@ First, obtain the prompt to analyze:
 
 Evaluate the prompt structure using the **TCRTE Framework** (Task, Context, Role, Tone, Examples):
 
-| Component | Present? | Quality (1-5) | Notes |
-|-----------|----------|---------------|-------|
-| **Task** | Clear directive of what to do | | |
-| **Context** | Background information and constraints | | |
-| **Role** | Who the model should act as | | |
-| **Tone** | Style and voice guidance | | |
-| **Examples** | Few-shot demonstrations | | |
+| Component | Description | Present? | Quality (1-5) | Notes |
+|-----------|-------------|----------|---------------|-------|
+| **Task** | Clear directive of what to do | | | |
+| **Context** | Background information and constraints | | | |
+| **Role** | Who the model should act as | | | |
+| **Tone** | Style and voice guidance | | | |
+| **Examples** | Few-shot demonstrations | | | |
 
 ### 3. Clarity Assessment
 
@@ -36,9 +36,9 @@ Check for common clarity issues:
 - **Assumed context**: References to information not provided
 - **Implicit expectations**: Behaviors expected but not stated
 
-### 4. Claude 4.x Compatibility (2026)
+### 4. Claude Compatibility
 
-Claude 4.x models follow instructions precisely. Check for:
+Claude models follow instructions precisely. Check for:
 
 - [ ] **Explicit action requests**: "Create X" vs "Can you suggest X?"
 - [ ] **Specificity**: Exact format, length, and style specified

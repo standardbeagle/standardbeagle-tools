@@ -128,10 +128,12 @@ If slop-mcp not available:
 
 | Tool | UX Use Case |
 |------|-------------|
-| `screenshot` | Visual regression, design verification |
-| `browser_inject` | Inject a11y audit scripts |
-| `proxy_start` | Capture network requests for performance |
-| `console_errors` | Detect JS errors affecting UX |
+| `proxy` | Start reverse proxy to intercept traffic, execute JS in browser, send toast notifications |
+| `proxylog` | Query HTTP traffic logs, summarize errors, check performance metrics |
+| `currentpage` | Get page session data: resources, errors, interactions, DOM mutations |
+| `get_errors` | Collect all errors across processes and browser |
+| `automation` | Browser automation: screenshots (viewport/fullpage/element), navigation, JS evaluation |
+| `browser` | Launch and manage Chrome instances for testing |
 
 ## Integration with UX Commands
 
@@ -146,7 +148,7 @@ After setup, these commands will have full functionality:
 Call: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "info",
+  "tool_name": "detect",
   "parameters": {}
 }
 ```
@@ -159,4 +161,4 @@ After setup, provide the user with:
 2. **Installation method used**: slop-mcp or standard
 3. **Scope** (if slop-mcp): user/project/memory
 4. **Verification status**: tools available and working
-5. **UX tools available**: screenshot, browser_inject, etc.
+5. **UX tools available**: proxy, proxylog, currentpage, get_errors, automation, browser

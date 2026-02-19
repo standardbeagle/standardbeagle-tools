@@ -1,6 +1,6 @@
 ---
 name: visual-hierarchy
-description: Master layout composition, visual weight distribution, and attention flow. Create designs that guide users effortlessly through content with intentional hierarchy.
+description: Layout composition, visual weight distribution, and attention flow. Create designs that guide users effortlessly through content with intentional hierarchy.
 ---
 
 # Visual Hierarchy & Layout Composition

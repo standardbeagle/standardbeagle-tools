@@ -48,7 +48,7 @@ Check my dartai plugin hooks for issues
 
 ```bash
 # Find the plugin root
-PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-/home/beagle/work/standardbeagle-tools/plugins/dartai}"
+PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:?CLAUDE_PLUGIN_ROOT must be set}"
 
 # Check hooks.json exists
 test -f "$PLUGIN_ROOT/hooks/hooks.json" && echo "✓ hooks.json found" || echo "✗ hooks.json missing"

@@ -3,7 +3,7 @@ description: "Design effective few-shot examples for prompts"
 allowed-tools: ["Read", "Write", "AskUserQuestion"]
 ---
 
-Design high-quality few-shot examples that dramatically improve prompt effectiveness.
+Design few-shot examples matched to the task and target model.
 
 ## Few-Shot Design Process
 
@@ -45,7 +45,7 @@ Based on 2026 research, determine optimal example strategy:
 - Edge cases to include: [list]
 
 ### Format Sensitivity
-- Claude 4.x pays close attention to example formatting
+- Claude pays close attention to example formatting
 - Examples MUST match exact desired output format
 - Inconsistent examples cause inconsistent outputs
 ```
@@ -162,7 +162,7 @@ Check each example against quality criteria:
 - [ ] Each teaches one clear lesson
 - [ ] Together they cover key scenarios
 
-### Claude 4.x Compatibility
+### Claude Compatibility
 - [ ] Examples don't contradict instructions
 - [ ] Examples align with desired behaviors
 - [ ] No accidental patterns to avoid

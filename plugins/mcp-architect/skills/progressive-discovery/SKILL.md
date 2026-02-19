@@ -504,19 +504,6 @@ function info(category?: string, detail_level: "sparse" | "medium" | "full" = "s
 }
 ```
 
-## Additional Resources
-
-### Reference Files
-
-- **`references/info-tool-templates.md`** - Complete info tool templates for different MCP sizes
-- **`references/layered-help.md`** - Advanced multi-layer help systems
-
-### Examples
-
-- **`examples/info-tool-small.ts`** - Info tool for 5-10 tool MCP
-- **`examples/info-tool-large.ts`** - Info tool for 20+ tool MCP
-- **`examples/info-tool-modes.ts`** - Mode-based discovery implementation
-
 ## Quick Reference
 
 **Info tool checklist:**

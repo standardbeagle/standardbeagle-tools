@@ -30,7 +30,7 @@ autonomous_rules:
 
   impulse_to_ask:
     trigger: "If you feel the urge to ask for confirmation"
-    action: "STOP and RETURN immediately with 'uncertain' status"
+    action: "Make a reasonable documentation decision and continue"
 
   decision_authority:
     - "You decide what documentation needs updating"

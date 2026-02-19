@@ -35,13 +35,15 @@ This agent will:
 Using agnt tools:
 
 ```
-1. Start proxy for target page
-2. Run __devtool.auditAccessibility()
+1. proxy {action: "start", id: "a11y", target_url: "<URL>"}
+2. proxy {action: "exec", id: "a11y", code: "__devtool.auditAccessibility()"}
 3. Capture all violations with severity
 4. Identify affected elements
 ```
 
 ### Phase 2: WCAG 2.2 Criteria Check
+
+Load the `wcag-guidelines`, `screen-reader`, and `keyboard-navigation` skills.
 
 #### Perceivable
 
@@ -207,7 +209,7 @@ Check ARIA usage:
 ## Integration
 
 After audit, offer to:
-- Create Dart tasks for violations
+- Create your project tracker tasks for violations
 - Generate VPAT/ACR documentation
 - Provide code fixes for each issue
 - Set up automated accessibility CI checks

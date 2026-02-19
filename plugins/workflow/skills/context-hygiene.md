@@ -303,7 +303,4 @@ See `start-loop.md` command for concrete implementation of:
 - State file protocol
 - Verification checklist
 
-See `track-loop-iteration.sh` hook script for:
-- SubagentStop tracking
-- Context hygiene verification
-- Metrics collection
+The hooks system tracks these metrics automatically.

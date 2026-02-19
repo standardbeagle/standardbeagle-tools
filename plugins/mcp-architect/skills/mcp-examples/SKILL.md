@@ -321,14 +321,6 @@ Management: create_user, update_user
 - **Total:** 30 tokens (97% savings)
 - Use detail parameter for full arrays when needed
 
-## Additional Resources
-
-### Examples Directory
-
-- **`examples/lci-workflow.json`** - Complete lci search workflow
-- **`examples/agnt-workflow.json`** - Browser debugging workflow
-- **`examples/process-workflow.json`** - Process management workflow
-
 ## Quick Reference
 
 **Proven patterns:**

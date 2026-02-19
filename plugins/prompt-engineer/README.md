@@ -1,17 +1,17 @@
 # Prompt Engineer Plugin
 
-State-of-the-art prompt and context engineering toolkit for 2026.
+Prompt and context engineering toolkit for Claude, GPT, DeepSeek, and other models.
 
 ## Overview
 
-This plugin provides comprehensive tools for designing, optimizing, and evaluating prompts using the latest research and best practices from 2026.
+This plugin provides comprehensive tools for designing, optimizing, and evaluating prompts using current research and best practices.
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
 | `/analyze-prompt` | Analyze prompts for clarity, effectiveness, and optimization opportunities |
-| `/optimize-prompt` | Apply state-of-the-art optimization techniques to improve a prompt |
+| `/optimize-prompt` | Apply current optimization techniques to improve a prompt |
 | `/create-system-prompt` | Guided wizard for creating effective system prompts |
 | `/context-audit` | Audit context window usage and identify optimization opportunities |
 | `/few-shot-design` | Design effective few-shot examples using the DICE framework |
@@ -25,7 +25,7 @@ This plugin provides comprehensive tools for designing, optimizing, and evaluati
 |-------|-------------|
 | `prompt-patterns` | Comprehensive reference for prompt engineering patterns (zero-shot, few-shot, CoT, ToT, ReAct, etc.) |
 | `context-engineering` | Context window optimization, memory hierarchies, compression strategies |
-| `claude-optimization` | Claude 4.x specific patterns (XML structure, explicit actions, extended thinking) |
+| `claude-optimization` | Claude-specific patterns (XML structure, explicit actions, extended thinking) |
 | `rag-prompting` | RAG-specific techniques (retrieval optimization, grounding, citations) |
 | `multi-agent-prompts` | Multi-agent orchestration, task decomposition, context handoff |
 | `chain-of-thought` | CoT patterns for standard LLMs vs reasoning models (o1/o3/R1) |
@@ -43,18 +43,18 @@ This plugin provides comprehensive tools for designing, optimizing, and evaluati
 
 ## Key Features
 
-### 2026 Research Integration
+### Research Integration
 
-Based on the latest research including:
+Based on current research including:
 - Context engineering principles from Anthropic
 - DSPy and OPRO automatic optimization frameworks
 - Reasoning model best practices (o1/o3, DeepSeek R1)
-- Claude 4.x precise instruction following patterns
+- Claude precise instruction following patterns
 
 ### Model-Specific Optimization
 
 Covers major LLM families:
-- **Claude 4.x** (Anthropic): XML structure, explicit actions, extended thinking
+- **Claude** (Anthropic): XML structure, explicit actions, extended thinking
 - **GPT-4.1/5 & o1/o3** (OpenAI): Structured output, reasoning vs standard modes
 - **DeepSeek R1/V3.1**: Minimal prompts, thinking mode selection
 - **Qwen 2.5**: Math patterns, multilingual, structured output
@@ -62,7 +62,7 @@ Covers major LLM families:
 - **Grok**: Code optimization, XML/MD structure
 - **GLM-4.7**: Thinking mode, long context
 
-### Critical 2026 Findings
+### Key Findings
 
 **Reasoning Models Changed Everything:**
 - Explicit CoT prompting often DEGRADES performance in o1/o3/R1
@@ -106,7 +106,7 @@ Get a detailed analysis of how context is being used and optimization recommenda
 
 This plugin synthesizes research from:
 - [Anthropic: Effective Context Engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
-- [Claude 4.x Best Practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices)
+- [Claude Best Practices](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 - [OpenAI Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering)
 - [DSPy Framework](https://dspy.ai)
 - [DeepSeek Prompting Guide](https://docs.together.ai/docs/prompting-deepseek-r1)

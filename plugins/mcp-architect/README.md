@@ -34,7 +34,7 @@ Knowledge base for MCP server design patterns:
 ## Design Philosophy
 
 ### Accept Extra Parameters with Warnings
-**Critical Pattern:** Always accept extra/hallucinated parameters with warnings in the output, unless they cause severe security or functional issues. This makes MCP servers more robust and user-friendly.
+**Critical Pattern:** Always accept extra/hallucinated parameters with warnings in the output, unless they cause severe security or functional issues. This makes MCP servers more resilient to hallucinated inputs.
 
 ### Sparse Tables Over Object Lists
 Use concise table formats instead of verbose object listings for human readability while maintaining standard JSON arrays for machine parsing.

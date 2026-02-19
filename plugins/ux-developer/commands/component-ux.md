@@ -118,10 +118,10 @@ If reviewing existing code:
 
 2. **Test with agnt proxy**
    ```
-   Use proxy to view component in browser
-   Use __devtool.inspect() on the component
-   Run __devtool.auditAccessibility()
-   Test keyboard navigation
+   proxy {action: "start", id: "component-review", target_url: "<URL>"}
+   proxy {action: "exec", id: "component-review", code: "__devtool.inspect()"}
+   proxy {action: "exec", id: "component-review", code: "__devtool.auditAccessibility()"}
+   get_errors {proxy_id: "component-review"}
    ```
 
 3. **Generate improvement report**

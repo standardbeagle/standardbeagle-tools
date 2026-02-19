@@ -456,18 +456,6 @@ function search(params: any) {
 
 **Why critical:** AI agents hallucinate parameters. Be permissive unless severe issue (security, corruption).
 
-## Additional Resources
-
-### Reference Files
-
-- **`references/automation-flags.md`** - Comprehensive flag catalog
-- **`references/id-systems.md`** - ID generation and management patterns
-
-### Examples
-
-- **`examples/progressive-detail-search.json`** - Complete search response example
-- **`examples/cross-tool-ids.json`** - ID reference flow across multiple tools
-
 ## Quick Reference
 
 **Response optimization checklist:**

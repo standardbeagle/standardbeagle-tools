@@ -1,9 +1,9 @@
 ---
-description: "Apply state-of-the-art optimization techniques to improve a prompt"
+description: "Apply current optimization techniques to improve a prompt"
 allowed-tools: ["Read", "Write", "AskUserQuestion"]
 ---
 
-Optimize a prompt using state-of-the-art techniques from 2026 prompt engineering research.
+Optimize a prompt using current prompt engineering techniques.
 
 ## Optimization Process
 
@@ -120,12 +120,12 @@ Based on goals, apply relevant techniques:
    - Add: "Only respond to questions about [topic]. For other topics, say 'That's outside my scope'"
 ```
 
-### 4. Apply Claude 4.x Specific Optimizations
+### 4. Apply Claude-Specific Optimizations
 
 For Claude models, apply these specific patterns:
 
 ```markdown
-## Claude 4.x Optimizations (2026)
+## Claude Optimizations
 
 1. **Explicit Action Framing**
    - Change: "Can you suggest..." → "Make these changes..."

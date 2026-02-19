@@ -221,7 +221,7 @@ cop_outs_to_reject:
       3. Do NOT ship partial work
 ```
 
-### Seamless Integration Discipline
+### Codebase Integration Discipline
 ```yaml
 integration_requirements:
   code_must_be:

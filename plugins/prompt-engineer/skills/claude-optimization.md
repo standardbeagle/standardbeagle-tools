@@ -1,14 +1,14 @@
 ---
-description: "Claude 4.x and Anthropic-specific prompt optimization patterns"
+description: "Claude-specific prompt optimization patterns"
 ---
 
-# Claude 4.x Optimization Reference (2026)
+# Claude Optimization Reference
 
-You are a Claude optimization specialist. This reference covers Claude-specific patterns and best practices for Claude Sonnet 4.5, Opus 4.5, and Haiku 4.5.
+You are a Claude optimization specialist. This reference covers Claude-specific patterns and best practices for Claude Opus, Sonnet, and Haiku.
 
 ## Core Characteristics
 
-Claude 4.x models are trained for **precise instruction following**. They:
+Claude models are trained for **precise instruction following**. They:
 - Follow instructions literally and closely
 - Require explicit requests for "above and beyond" behavior
 - Respond well to context/motivation for instructions
@@ -18,7 +18,7 @@ Claude 4.x models are trained for **precise instruction following**. They:
 
 ### 1. Explicit Action Framing
 
-Claude 4.x takes instructions literally. Be explicit about actions.
+Claude takes instructions literally. Be explicit about actions.
 
 **Less effective** (Claude may only suggest):
 ```
@@ -141,17 +141,17 @@ and determine optimal next steps before proceeding. Use your
 thinking to plan and iterate based on this new information.
 ```
 
-**For Claude 4.x**: Extended thinking returns summarized thoughts (not full reasoning) to prevent misuse while maintaining intelligence benefits.
+**For Claude**: Extended thinking returns summarized thoughts (not full reasoning) to prevent misuse while maintaining intelligence benefits.
 
-**Interleaved thinking** (Claude 4.x only): Enables thinking between tool calls. Use beta header `interleaved-thinking-2025-05-14`.
+**Interleaved thinking** (Claude only): Enables thinking between tool calls. Use beta header `interleaved-thinking-2025-05-14`.
 
-**Avoid "think" triggers**: When extended thinking is disabled, Opus 4.5 is sensitive to "think" variants. Use "consider," "evaluate," "analyze" instead.
+**Avoid "think" triggers**: When extended thinking is disabled, Claude Opus is sensitive to "think" variants. Use "consider," "evaluate," "analyze" instead.
 
 ## Long-Horizon Task Optimization
 
 ### Context Awareness
 
-Claude 4.5 models track remaining context budget. For agent harnesses with compaction:
+Claude models track remaining context budget. For agent harnesses with compaction:
 
 ```
 Your context window will be automatically compacted as it approaches
@@ -201,7 +201,7 @@ Session 3:
 
 ### Parallel Tool Calling
 
-Claude 4.x, especially Sonnet 4.5, aggressively parallelizes tool calls.
+Claude, especially Sonnet, aggressively parallelizes tool calls.
 
 **Maximize parallelism**:
 ```xml
@@ -221,7 +221,7 @@ each step to ensure stability.
 
 ### Native Tool Calling
 
-Claude 4.x supports native tool calling. Prefer this over XML-based tool outputs.
+Claude supports native tool calling. Prefer this over XML-based tool outputs.
 
 ## Output Format Control
 
@@ -286,7 +286,7 @@ Give grounded, hallucination-free answers.
 
 ### File Creation Control
 
-Claude 4.x may create temporary files for iteration:
+Claude may create temporary files for iteration:
 
 ```
 If you create temporary files for iteration, clean them up
@@ -295,7 +295,7 @@ by removing them at the end of the task.
 
 ## Frontend Design
 
-Claude 4.x excels at frontend but can default to generic "AI aesthetics":
+Claude excels at frontend but can default to generic "AI aesthetics":
 
 ```xml
 <frontend_aesthetics>
@@ -315,19 +315,19 @@ Think outside the box!
 
 ## Model-Specific Notes
 
-### Opus 4.5
+### Claude Opus
 - Most capable, highest intelligence
 - More sensitive to "think" word when thinking disabled
 - May overtrigger on tools/skills due to system prompt responsiveness
 - Dial back aggressive language ("MUST", "CRITICAL") to normal prompting
 
-### Sonnet 4.5
+### Claude Sonnet
 - Best for most tasks
 - Aggressive parallel tool calling
 - Strong agentic capabilities
 - Context awareness for token budget tracking
 
-### Haiku 4.5
+### Claude Haiku
 - Fastest, most cost-efficient
 - Good for simple tasks
 - May need more explicit instructions than larger models

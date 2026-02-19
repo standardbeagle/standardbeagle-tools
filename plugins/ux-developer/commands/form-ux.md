@@ -122,15 +122,18 @@ Gather context:
 
 Using agnt proxy:
 
-```javascript
+```
+// Start proxy for the target URL
+proxy {action: "start", id: "form-review", target_url: "<URL>"}
+
 // Capture form structure
-__devtool.inspect('form')
+proxy {action: "exec", id: "form-review", code: "__devtool.inspect('form')"}
 
 // Check accessibility
-__devtool.auditAccessibility()
+proxy {action: "exec", id: "form-review", code: "__devtool.auditAccessibility()"}
 
-// Test form submission
-// (interact with form through proxy)
+// Check for errors
+get_errors {proxy_id: "form-review"}
 ```
 
 Evaluate:

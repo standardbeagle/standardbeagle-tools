@@ -13,9 +13,9 @@ Perform a thorough accessibility audit using agnt's browser tools and WCAG 2.2 g
 
 If reviewing a live page:
 ```
-1. Use mcp__agnt__proxy to start proxy for the target URL
+1. proxy {action: "start", id: "a11y", target_url: "<URL>"}
 2. Navigate to the page through the proxy
-3. Use mcp__agnt__proxy exec with __devtool.auditAccessibility()
+3. proxy {action: "exec", id: "a11y", code: "__devtool.auditAccessibility()"}
 ```
 
 If reviewing code:

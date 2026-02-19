@@ -131,12 +131,12 @@ If slop-mcp not available:
 
 | Tool | Description |
 |------|-------------|
-| `add_server` | Dynamically add an MCP server |
-| `remove_server` | Remove a managed server |
-| `list_servers` | Show all managed servers |
-| `get_logs` | Retrieve traffic logs |
-| `send_raw` | Send raw JSON-RPC messages |
-| `validate_schema` | Validate tool schemas |
+| `server_add` | Dynamically add an MCP server |
+| `server_remove` | Remove a managed server |
+| `server_list` | Show all managed servers |
+| `debug_logs` | Retrieve traffic logs |
+| `debug_send` | Send raw JSON-RPC messages |
+| `schema_validate` | Validate tool schemas |
 
 ## Integration with Commands
 

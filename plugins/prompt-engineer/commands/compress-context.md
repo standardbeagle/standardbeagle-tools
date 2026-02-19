@@ -266,4 +266,4 @@ Given only the compressed context, could someone:
 2. Test if critical information preserved
 3. Add back content if needed
 4. Re-compress different sections
-5. Find optimal balance
+5. Stop when the verification checklist passes and further compression would drop key facts

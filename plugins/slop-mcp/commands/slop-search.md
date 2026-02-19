@@ -1,63 +1,41 @@
 ---
 name: slop-search
-description: Search tools and resources across all SLOP-managed MCP servers
+description: Search tools across all slop-mcp managed MCP servers
 ---
 
-# Search SLOP Tools and Resources
+# Search MCP Tools
 
-Search across all registered MCP servers for tools and resources matching your query.
+Search across all registered MCP servers for tools matching a query.
 
-## Usage
-
-```
-/slop-search <query> [--type <type>] [--server <name>]
-```
-
-## Options
-
-| Option | Description |
-|--------|-------------|
-| `--type` | Filter by: tools, resources, all (default: all) |
-| `--server` | Search only specific server |
-
-## Examples
-
-```bash
-# Search for file-related tools
-/slop-search file
-
-# Search for search capabilities
-/slop-search search --type tools
-
-# Search specific server
-/slop-search read --server filesystem
-```
-
-## Output
+## Tool Call
 
 ```
-Search Results for "file"
-=========================
-
-Tools (5 matches):
-  filesystem.read_file - Read contents of a file
-  filesystem.write_file - Write content to a file
-  filesystem.search_files - Search for files by pattern
-  lci.find_files - Find files by name pattern
-  github.get_file_contents - Get file from repository
-
-Resources (2 matches):
-  filesystem: file://* - Local filesystem access
-  github: repo://*/files/* - Repository file access
+mcp__plugin_slop-mcp_slop-mcp__search_tools
+  query: "<search-query>"
+  mcp_name: "<server-name>"   # optional: filter to one server
+  limit: 20                   # max results (default 20, max 100)
+  offset: 0                   # pagination offset
 ```
 
-## SLOP Integration
+## Steps
 
-This command uses SLOP's `/tools` and `/resources` endpoints to aggregate capabilities from all managed servers.
+1. Ask the user what they are looking for if not provided as an argument.
+2. Call `search_tools` with the query.
+3. Present results showing tool name, server, and description.
+4. If results are paginated (has_more is true), offer to load more.
+
+## Getting Full Tool Details
+
+For detailed schema of a specific tool:
 
 ```
-GET /tools?q=file
-GET /resources?q=file
+mcp__plugin_slop-mcp_slop-mcp__get_metadata
+  mcp_name: "<server-name>"
+  tool_name: "<tool-name>"
+  verbose: true
 ```
 
-Results are cached for performance. Use `--refresh` to force reload.
+## Related Commands
+
+- `/slop-exec` -- execute a found tool
+- `/slop-list` -- see all registered servers
