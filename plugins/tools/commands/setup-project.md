@@ -73,6 +73,14 @@ toast {
 // }
 ```
 
+## KDL String Escaping
+
+KDL strings interpret backslash sequences. Unknown escapes like `\s`, `\d`, `\w` silently drop the backslash. Always double the backslash for regex metacharacters in `url-matchers`:
+```
+✗ url-matchers "Local\s+{url}"       // KDL drops \s → "Locals+{url}"
+✓ url-matchers "Local\\s+{url}"      // KDL keeps \\ → regex "Local\s+{url}"
+```
+
 ## Steps
 
 1. Detect project type and available scripts
