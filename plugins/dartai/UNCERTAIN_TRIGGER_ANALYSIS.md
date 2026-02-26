@@ -227,7 +227,7 @@ After investigation, the actual reason dartai stopped after a few tasks wasn't t
 ```json
 {
   "type": "command",
-  "command": "python3 check_remaining_tasks.py"
+  "command": "node check-remaining-tasks.js"
 }
 ```
 

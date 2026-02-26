@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/session_init.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-init.js\"",
             "timeout": 10
           }
         ]
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_subagent_spawn.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-subagent-spawn.js\"",
             "timeout": 5
           }
         ]
@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/on_task_update.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/on-task-update.js\"",
             "timeout": 30
           }
         ]
@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_dartboard.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-dartboard.js\"",
             "timeout": 5
           }
         ]
@@ -47,7 +47,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_dartboard.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-dartboard.js\"",
             "timeout": 5
           }
         ]
@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_changes.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-changes.js\"",
             "timeout": 5
           }
         ]
@@ -69,7 +69,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_iteration.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-iteration.js\"",
             "timeout": 10
           }
         ]
@@ -79,7 +79,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_verification.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-verification.js\"",
             "timeout": 10
           }
         ]
@@ -89,7 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/track_docs.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-docs.js\"",
             "timeout": 5
           }
         ]
@@ -100,7 +100,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/session_cleanup.py\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-cleanup.js\"",
             "timeout": 10
           }
         ]
