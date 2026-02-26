@@ -40,7 +40,8 @@
     "./commands/workflow.md",
     "./commands/search.md",
     "./commands/explore.md",
-    "./commands/code-context.md"
+    "./commands/code-context.md",
+    "./commands/current-page.md"
   ],
   "skills": [
     "./skills/setup-mcp.md",

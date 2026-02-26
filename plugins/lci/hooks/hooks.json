@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/block-search-tools.sh",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/block-search-tools.js\"",
             "timeout": 5,
             "description": "Block Grep and Glob when force-LCI mode is enabled"
           }

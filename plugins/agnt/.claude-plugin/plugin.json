@@ -41,7 +41,8 @@
     "./commands/review-api.md",
     "./commands/schedule.md",
     "./commands/chain.md",
-    "./commands/workflow.md"
+    "./commands/workflow.md",
+    "./commands/current-page.md"
   ],
   "skills": [
     "./skills/schedule.md",

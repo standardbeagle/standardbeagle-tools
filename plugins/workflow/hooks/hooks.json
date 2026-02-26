@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/session-init.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-init.js\"",
             "timeout": 5
           }
         ]
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-loop-iteration.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-loop-iteration.js\"",
             "timeout": 10
           }
         ]
@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-verification.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-verification.js\"",
             "timeout": 10
           }
         ]
@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-security-audit.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-security-audit.js\"",
             "timeout": 10
           }
         ]
@@ -49,7 +49,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/track-subagent-spawn.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-subagent-spawn.js\"",
             "timeout": 5
           }
         ]
@@ -60,7 +60,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/session-cleanup.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-cleanup.js\"",
             "timeout": 5
           }
         ]
@@ -71,12 +71,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-memories.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-memories.js\"",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-process-improvements.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/suggest-process-improvements.js\"",
             "timeout": 10
           }
         ]

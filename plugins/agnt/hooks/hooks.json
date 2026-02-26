@@ -5,12 +5,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.js\"",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-connect.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-connect.js\"",
             "timeout": 10
           }
         ]
@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-heartbeat.sh\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-heartbeat.js\"",
             "timeout": 5
           }
         ]
@@ -34,11 +34,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/notify-file-change.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/notify-file-change.js\""
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.js\""
           }
         ]
       },
@@ -47,11 +47,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/notify-command.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/notify-command.js\""
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.js\""
           }
         ]
       },
@@ -60,7 +60,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.js\""
           }
         ]
       },
@@ -69,11 +69,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.js\""
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-task-complete.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-task-complete.js\""
           }
         ]
       },
@@ -82,7 +82,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-activity.js\""
           }
         ]
       }
@@ -93,7 +93,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-error.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-error.js\""
           }
         ]
       }
@@ -103,11 +103,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/notify-stop.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/notify-stop.js\""
           },
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-disconnect.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-disconnect.js\""
           }
         ]
       }
@@ -117,7 +117,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/forward-notification.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/forward-notification.js\""
           }
         ]
       }
