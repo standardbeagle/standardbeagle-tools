@@ -204,9 +204,9 @@ All tools return responses in this format:
 
 | Operation | Typical Time |
 |-----------|--------------|
-| Search | <1ms |
-| Get context | <2ms |
-| Explore | <5ms |
+| Search | `<1ms` |
+| Get context | `<2ms` |
+| Explore | `<5ms` |
 | Reindex | ~100ms per 1000 files |
 
 ## Context Reduction

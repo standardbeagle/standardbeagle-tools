@@ -21,8 +21,8 @@ The Model Context Protocol (MCP) is an open standard for connecting AI assistant
 
 | Server | NPM Package | Description |
 |--------|-------------|-------------|
-| [agnt](./agnt-server) | `@standardbeagle/agnt` | Browser debugging and automation |
-| [lci](./lci-server) | `@standardbeagle/lci` | Lightning code intelligence |
+| [agnt](/docs/mcp/agnt-server) | `@standardbeagle/agnt` | Browser debugging and automation |
+| [lci](/docs/mcp/lci-server) | `@standardbeagle/lci` | Lightning code intelligence |
 
 ## Installation
 

@@ -198,7 +198,7 @@ Both MCP servers are optimized for speed:
 
 | Operation | Response Time |
 |-----------|---------------|
-| Semantic search | <1ms |
+| Semantic search | `<1ms` |
 | Browser screenshot | ~100ms |
 | Proxy connection | ~10ms |
 | Accessibility audit | ~2s |

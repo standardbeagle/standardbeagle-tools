@@ -17,7 +17,7 @@ lci reduces context needed by nearly 80% through intelligent semantic indexing. 
 
 ### Key Features
 
-- **⚡ Sub-Millisecond Search**: Find symbols in <1ms regardless of codebase size
+- **⚡ Sub-Millisecond Search**: Find symbols in `<1ms` regardless of codebase size
 - **🎯 Semantic Understanding**: Search by meaning, not just text matching
 - **📊 Context Reduction**: Get relevant context without noise
 - **🔗 Dependency Tracking**: Understand symbol relationships and call hierarchies
@@ -142,9 +142,9 @@ Instead of returning entire files, lci provides:
 
 | Codebase Size | Search Time | Context Reduction |
 |---------------|-------------|-------------------|
-| 10K lines | <0.5ms | 75% |
-| 100K lines | <1ms | 79% |
-| 1M lines | <2ms | 82% |
+| 10K lines | `<0.5ms` | 75% |
+| 100K lines | `<1ms` | 79% |
+| 1M lines | `<2ms` | 82% |
 
 ## Hooks
 

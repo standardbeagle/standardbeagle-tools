@@ -15,33 +15,33 @@ Standard Beagle Tools provides a curated collection of plugins that extend Claud
 
 | Plugin | Description |
 |--------|-------------|
-| [**lci**](./lci) | Lightning-fast semantic code search with sub-millisecond responses |
+| [**lci**](/docs/plugins/lci) | Lightning-fast semantic code search with sub-millisecond responses |
 
 ### 🌐 Browser & Frontend
 
 | Plugin | Description |
 |--------|-------------|
-| [**agnt**](./agnt) | Browser superpowers with reverse proxy, screenshots, and sketch mode |
-| [**tools**](./tools) | Combined agnt + lci in one package |
+| [**agnt**](/docs/plugins/agnt) | Browser superpowers with reverse proxy, screenshots, and sketch mode |
+| [**tools**](/docs/plugins/tools) | Combined agnt + lci in one package |
 
 ### ⚡ Workflow & Automation
 
 | Plugin | Description |
 |--------|-------------|
-| [**workflow**](./workflow) | Adversarial quality loops and task automation |
-| [**dartai**](./dartai) | Dart task management integration |
+| [**workflow**](/docs/plugins/workflow) | Adversarial quality loops and task automation |
+| [**dartai**](/docs/plugins/dartai) | Dart task management integration |
 
 ### 🎨 Design Tools
 
 | Plugin | Description |
 |--------|-------------|
-| [**figma-query**](./figma-query) | Extract designs from Figma for code generation |
+| [**figma-query**](/docs/plugins/figma-query) | Extract designs from Figma for code generation |
 
 ### 🛠️ Infrastructure
 
 | Plugin | Description |
 |--------|-------------|
-| [**slop-mcp**](./slop-mcp) | Unified MCP server management with SLOP |
+| [**slop-mcp**](/docs/plugins/slop-mcp) | Unified MCP server management with SLOP |
 
 ## Choosing the Right Plugin
 
