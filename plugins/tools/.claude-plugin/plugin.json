@@ -65,14 +65,20 @@
     "./skills/explore-codebase.md",
     "./skills/trace-symbol.md",
     "./skills/pre-commit-review.md",
-    "./skills/context-handoff.md"
+    "./skills/context-handoff.md",
+    "./skills/commit-all.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",
     "./agents/process-manager.md",
     "./agents/ui-designer.md",
     "./agents/tdd-refactor.md",
-    "./agents/code-explorer.md"
+    "./agents/code-explorer.md",
+    "./agents/context-gatherer.md",
+    "./agents/test-fixer.md",
+    "./agents/code-quality.md",
+    "./agents/doc-updater.md",
+    "./agents/marketing-seo.md"
   ],
   "hooks": "./hooks/hooks.json"
 }

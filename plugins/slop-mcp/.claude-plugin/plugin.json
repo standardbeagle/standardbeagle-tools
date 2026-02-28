@@ -33,7 +33,8 @@
     "./skills/slop-config.md",
     "./skills/scripting.md",
     "./skills/dart-tools.md",
-    "./skills/dart-task-workflow.md"
+    "./skills/dart-task-workflow.md",
+    "./skills/project-config.md"
   ],
   "agents": [
     "./agents/migration-assistant.md",
