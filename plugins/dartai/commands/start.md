@@ -736,25 +736,16 @@ plan_adjustment:
 
 **How Autonomous Continuation Works:**
 
-The loop continues autonomously via a **prompt-based Stop hook**:
+The loop continues autonomously via an **agent-based Stop hook** defined in `hooks.json`. When Claude attempts to stop:
 
-```json
-{
-  "type": "prompt",
-  "prompt": "Check .claude/dartai-loop-state.json for active loop and runner_instance_id.
-            Query Dart for 'To-do' tasks on the dartboard. Read .dartai-locks.json
-            and skip tasks claimed by other runners. If claimable tasks remain, return
-            {\"ok\": false, \"reason\": \"X claimable tasks remaining\"} to block stopping."
-}
-```
-
-When Claude attempts to stop:
-1. Stop hook fires and invokes Haiku
-2. Haiku reads loop state file and queries Dart for tasks
-3. If tasks remain: Returns `{"ok": false}` → **Blocks stopping**, Claude continues
+1. Stop hook spawns a subagent with Read/Grep/Glob access
+2. Subagent reads `.claude/dartai-loop-state.json` to check loop status
+3. If tasks remain: Returns `{"ok": false, "reason": "N remaining tasks..."}` → **Blocks stopping**, Claude continues
 4. If all done: Returns `{"ok": true}` → Allows stopping
 
-This is the key difference from command-based hooks which only output messages but can't actually prevent stopping.
+**Safety valve:** If `stop_hook_active` is `true` in the hook input, the agent allows stopping immediately to prevent infinite loops. This means the hook blocked once already and Claude still wants to stop.
+
+**Crash recovery:** A separate `SessionEnd` command hook runs `mark-interrupted.js` to mark the loop state as interrupted. This fires even on user interrupts (Ctrl+C). The next session detects this in Section 1.5 and offers to resume.
 
 **Subagent Execution Pattern:**
 ```yaml
