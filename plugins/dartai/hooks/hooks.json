@@ -1,37 +1,6 @@
 {
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-init.js\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
-      {
-        "matcher": "Task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-subagent-spawn.js\"",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__dart-query__update_task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/on-task-update.js\"",
-            "timeout": 30
-          }
-        ]
-      },
       {
         "matcher": "mcp__dart-query__list_tasks|mcp__dart-query__create_task",
         "hooks": [
@@ -49,59 +18,6 @@
             "type": "command",
             "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-dartboard.js\"",
             "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-changes.js\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "matcher": "dartai:task-executor",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-iteration.js\"",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "dartai:quality-verifier",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-verification.js\"",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "dartai:doc-updater",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-docs.js\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-cleanup.js\"",
-            "timeout": 10
           }
         ]
       }
