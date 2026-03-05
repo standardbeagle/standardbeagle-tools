@@ -37,6 +37,26 @@ roles:
 
 ## Process
 
+### 0. Check for Interrupted Loop
+
+Before starting, check if a previous session was interrupted:
+
+```
+Read .claude/workflow-loop-state.json if it exists.
+If status is "interrupted":
+  1. Show the user: "Previous loop was interrupted at [interrupted_at]"
+  2. Show completed/total task counts and current_task_index
+  3. Ask: "Resume the interrupted loop, or start fresh?"
+
+  If resume:
+    - Update loop state status back to "running"
+    - Skip to Section 4 (Execute Adversarial Loop) starting at current_task_index
+
+  If start fresh:
+    - Delete .claude/workflow-loop-state.json
+    - Continue normally
+```
+
 ### 1. Load Task List
 
 If task list file provided as argument, use it. Otherwise check for:

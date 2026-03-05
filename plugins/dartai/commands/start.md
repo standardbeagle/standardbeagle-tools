@@ -49,6 +49,28 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
 # last_dartboard_used_at: "ISO timestamp"
 ```
 
+### 1.5 Check for Interrupted Loop
+
+Before starting a new loop, check if a previous session was interrupted:
+
+```
+Read .claude/dartai-loop-state.json if it exists.
+If status is "interrupted":
+  1. Show the user: "Previous loop was interrupted at [interrupted_at]"
+  2. Show loop_task_id and dartboard if available
+  3. Ask: "Resume the interrupted loop, or start fresh?"
+
+  If resume:
+    - Reuse the existing loop_task_id
+    - Query Dart for remaining To-do tasks on the same dartboard
+    - Update loop state status back to "running"
+    - Skip to Section 3 (Fetch Active Tasks)
+
+  If start fresh:
+    - Delete .claude/dartai-loop-state.json
+    - Continue normally to create a new loop
+```
+
 ### 2. Select Loop Type
 
 If `--loop` argument provided, use it. Otherwise default to `quality` loop.

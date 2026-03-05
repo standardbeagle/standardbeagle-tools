@@ -21,6 +21,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/mark-interrupted.js\"",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   }
 }
