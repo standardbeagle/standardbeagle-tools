@@ -23,6 +23,26 @@ Parameters: {
 
 ---
 
+## ⚠️ Common Parameter Mistakes
+
+These are frequently confused parameters. Using wrong names causes validation errors.
+
+| Tool | ❌ WRONG | ✅ RIGHT | Notes |
+|------|----------|----------|-------|
+| `currentpage` | (no proxy_id) | `proxy_id: "dev"` | **Required** - always specify proxy_id |
+| `currentpage` | `action: "info"` | `action: "list"` | Valid actions: list, get, summary, clear |
+| `currentpage` | `include: [...]` | `detail: [...]` | Use `detail` for summary sections |
+| `currentpage` | `js: "..."` | Use `proxy exec` with `code` | currentpage has no JS execution |
+| `proxy` exec | `js: "..."` | `code: "..."` | Parameter is `code`, not `js` |
+| `proxy` exec | `proxy_id: "dev"` | `id: "dev"` | proxy uses `id`, not `proxy_id` |
+| `proxylog` | `last: 20` | `limit: 20` | Parameter is `limit`, not `last` |
+| `snapshot` | `proxy_id: "dev"` | (not a parameter) | snapshot doesn't take proxy_id |
+| `snapshot` | `pages: "page-10"` | `pages: [{url: "/", ...}]` | Must be array of objects |
+
+**Key difference**: `proxy` tool uses `id`, while `proxylog`, `currentpage`, and `get_errors` use `proxy_id`.
+
+---
+
 ## 1. detect
 
 Detect project type and available scripts.
@@ -630,6 +650,9 @@ Query and analyze proxy traffic logs.
 | `until` | string | No | End time (RFC3339) |
 | `limit` | int | No | Maximum results (default: 100) |
 | `detail` | string[] | No | For summary: sections to include full detail for |
+| `raw` | boolean | No | Return full raw data instead of compact format (default: false) |
+| `errors_only` | boolean | No | Filter to errors from all sources |
+| `diagnostic_levels` | string[] | No | Filter diagnostics by level: info, warning, error |
 
 ### Log Types
 
@@ -809,6 +832,7 @@ Get current page sessions with grouped resources and metrics.
 | `session_id` | string | No* | Specific session ID (required for get/summary) |
 | `detail` | string[] | No | For summary: sections to include (interactions, mutations, errors, resources) |
 | `limit` | int | No | For summary: max items per detailed section (default: 5, max: 100) |
+| `raw` | boolean | No | Return full raw data instead of compact format (default: false, for get action) |
 
 ### Output Schema
 
@@ -1253,6 +1277,82 @@ Parameters: {
   "parameters": {
     "raw": true,
     "limit": 50
+  }
+}
+```
+
+---
+
+## 10. snapshot
+
+Visual regression testing with baseline/compare screenshots.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `action` | string | Yes | Action: `baseline`, `compare`, `list`, `delete`, `get` |
+| `name` | string | No* | Baseline name (required for baseline/compare/delete/get) |
+| `baseline` | string | No | Baseline name to compare against (for compare action) |
+| `pages` | object[] | No | Pages to capture: array of `{url, viewport, screenshot_data}` |
+| `diff_threshold` | float | No | Diff sensitivity threshold 0.0-1.0 (default: 0.01) |
+
+**Note**: `snapshot` does NOT take a `proxy_id` parameter. Pages are specified via the `pages` array which must be an array of objects, not a string.
+
+### Actions
+
+| Action | Description | Required Parameters |
+|--------|-------------|---------------------|
+| `baseline` | Capture baseline screenshots | `name`, `pages` |
+| `compare` | Compare current state against baseline | `name`, `pages` (+ optional `baseline`, `diff_threshold`) |
+| `list` | List all saved baselines | - |
+| `delete` | Delete a baseline | `name` |
+| `get` | Get baseline details | `name` |
+
+### Examples
+
+**Capture a baseline:**
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "snapshot",
+  "parameters": {
+    "action": "baseline",
+    "name": "homepage-v1",
+    "pages": [
+      {"url": "http://localhost:12345/", "viewport": "1440x900", "screenshot_data": "<base64>"}
+    ]
+  }
+}
+```
+
+**Compare against baseline:**
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "snapshot",
+  "parameters": {
+    "action": "compare",
+    "name": "homepage-current",
+    "baseline": "homepage-v1",
+    "pages": [
+      {"url": "http://localhost:12345/", "viewport": "1440x900", "screenshot_data": "<base64>"}
+    ],
+    "diff_threshold": 0.05
+  }
+}
+```
+
+**List all baselines:**
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "snapshot",
+  "parameters": {
+    "action": "list"
   }
 }
 ```
