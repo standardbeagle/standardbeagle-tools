@@ -6,7 +6,7 @@ allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 
 # Process and Proxy Management Skill
 
-This skill provides deep workflow guidance for managing dev servers and reverse proxies using agnt's `run`, `proc`, `proxy`, and `proxylog` tools. These are the most commonly used tools in the agnt workflow.
+This skill provides deep workflow guidance for managing dev servers and reverse proxies using agnt's `run`, `proc`, `proxy`, `automation`, and `proxylog` tools. These are the most commonly used tools in the agnt workflow.
 
 ## Tool Invocation Format
 
@@ -23,6 +23,28 @@ Parameters: {
 
 ---
 
+## Script Auto-Detection
+
+Agnt auto-detects available scripts from your project's package manager or build system. When you use `run {script_name: "dev"}`, agnt looks for a script named "dev" in:
+
+- **Node.js**: `scripts` in `package.json` (npm/pnpm/yarn)
+- **Go**: targets in `Makefile`
+- **Python**: targets in `Makefile` or common entry points
+
+Scripts can also be configured in `.agnt.kdl` under the `scripts {}` block with `run`, `command/args`, `autostart`, `url-matchers`, `env`, `cwd`, `depends-on`, and `shell` fields. Scripts with `autostart true` are started automatically by the daemon. The `.agnt.kdl` file is the primary configuration for scripts, proxies, hooks, toast, alerts, and AI context.
+
+To see what scripts agnt can find, use the `detect` tool:
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "detect",
+  "parameters": {}
+}
+```
+
+---
+
 ## Run Tool - Starting Processes
 
 The `run` tool starts scripts and commands with three execution modes.
@@ -32,12 +54,13 @@ The `run` tool starts scripts and commands with three execution modes.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `path` | string | No | Project directory (defaults to current dir) |
-| `script_name` | string | No* | Script name from detect (e.g., dev, test, build) |
+| `script_name` | string | No* | Script name from package.json/Makefile (e.g., dev, test, build) |
 | `raw` | boolean | No | Raw mode: use command and args directly |
 | `command` | string | No* | Raw mode: executable to run |
 | `args` | string[] | No | Extra arguments |
 | `id` | string | No | Process ID (auto-generated if empty) |
 | `mode` | string | No | Execution mode (see below) |
+| `no_auto_restart` | boolean | No | Disable auto-restart on crash (default: false) |
 
 *Either `script_name` OR (`raw: true` + `command`) is required.
 
@@ -167,6 +190,23 @@ Parameters: {
 }
 ```
 
+### Start Without Auto-Restart
+
+By default, background processes auto-restart on crash. Disable this:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "run",
+  "parameters": {
+    "script_name": "dev",
+    "id": "dev-server",
+    "no_auto_restart": true
+  }
+}
+```
+
 ---
 
 ## Proc Tool - Process Management
@@ -187,6 +227,9 @@ The `proc` tool monitors and controls running processes.
 | `force` | boolean | No | Force kill immediately |
 | `port` | int | No* | Port number for cleanup_port |
 | `global` | boolean | No | Include all directories (default: false) |
+| `auto_restart_enable` | boolean | No | Enable/disable auto-restart (for autorestart action) |
+| `max_restarts` | int | No | Max restarts per minute (for autorestart action) |
+| `only_on_error` | boolean | No | Only restart on non-zero exit (for autorestart action) |
 
 ### Actions Reference
 
@@ -196,6 +239,8 @@ The `proc` tool monitors and controls running processes.
 | `status` | Get process state | `process_id` |
 | `output` | Get process output | `process_id` |
 | `stop` | Stop a process | `process_id` |
+| `restart` | Restart a process | `process_id` |
+| `autorestart` | Check/toggle auto-restart | `process_id` |
 | `cleanup_port` | Kill process on port | `port` |
 
 ### List Running Processes
@@ -388,6 +433,55 @@ Parameters: {
 
 **Behavior**: Immediate SIGKILL.
 
+### Restart Process
+
+Restart a running process (stop + start with same configuration):
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proc",
+  "parameters": {
+    "action": "restart",
+    "process_id": "dev-server"
+  }
+}
+```
+
+### Configure Auto-Restart
+
+Check or toggle auto-restart behavior for a process:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proc",
+  "parameters": {
+    "action": "autorestart",
+    "process_id": "dev-server",
+    "auto_restart_enable": false
+  }
+}
+```
+
+With full options:
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proc",
+  "parameters": {
+    "action": "autorestart",
+    "process_id": "dev-server",
+    "auto_restart_enable": true,
+    "max_restarts": 3,
+    "only_on_error": true
+  }
+}
+```
+
 ### Cleanup Port
 
 Kill any process using a specific port (useful when port is stuck):
@@ -410,6 +504,32 @@ Parameters: {
   "killed_pids": [12345, 12346],
   "message": "Killed 2 processes using port 3000"
 }
+```
+
+---
+
+## Auto-Restart Behavior
+
+Background processes auto-restart on crash by default. The restart is rate-limited to 5 restarts per minute to prevent crash loops.
+
+**Disable at launch**: Use `no_auto_restart: true` on the `run` tool:
+```
+run {script_name: "dev", id: "dev-server", no_auto_restart: true}
+```
+
+**Disable for a running process**: Use the `autorestart` action on the `proc` tool:
+```
+proc {action: "autorestart", process_id: "dev-server", auto_restart_enable: false}
+```
+
+**Restart only on errors** (not clean exits): Use `only_on_error: true`:
+```
+proc {action: "autorestart", process_id: "dev-server", auto_restart_enable: true, only_on_error: true}
+```
+
+**Adjust rate limit**: Use `max_restarts` to change the per-minute limit:
+```
+proc {action: "autorestart", process_id: "dev-server", max_restarts: 3}
 ```
 
 ---
@@ -448,6 +568,8 @@ The `proxy` tool manages reverse proxies that add browser debugging capabilities
 | `list` | List all proxies | - |
 | `exec` | Execute JavaScript | `id`, `code` |
 | `toast` | Show browser notification | `id`, `toast_message` |
+
+**Important**: Proxies can be configured in `.agnt.kdl` under the `proxies {}` block with `url`/`port`, `script` (link to script for URL detection), `url-pattern`, `bind`, `autostart`, and `fallback-port`. Proxies with explicit targets or `autostart true` start automatically. Script-linked proxies start when their script's URL is detected in output.
 
 ### Start Proxy
 
@@ -655,6 +777,76 @@ Parameters: {
 
 ---
 
+## Automation Tool - Headless Browser
+
+The `automation` tool starts headless Chrome sessions through a proxy for automated browser testing and interaction.
+
+### Start Automation Session
+
+Launch headless Chrome pointing at a proxy:
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "automation",
+  "parameters": {
+    "action": "start",
+    "proxy_id": "dev"
+  }
+}
+```
+
+**Response** includes a `session_id` for subsequent commands.
+
+### Take Screenshot
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "automation",
+  "parameters": {
+    "action": "screenshot",
+    "session_id": "abc123",
+    "type": "viewport",
+    "label": "homepage"
+  }
+}
+```
+
+### Navigate to URL
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "automation",
+  "parameters": {
+    "action": "navigate",
+    "session_id": "abc123",
+    "url": "http://localhost:3000/settings"
+  }
+}
+```
+
+### Evaluate JavaScript
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "automation",
+  "parameters": {
+    "action": "evaluate",
+    "session_id": "abc123",
+    "script": "document.querySelectorAll('.error').length"
+  }
+}
+```
+
+---
+
 ## Proxylog Tool - Traffic Analysis
 
 The `proxylog` tool queries and analyzes traffic logs from a proxy.
@@ -839,7 +1031,7 @@ Parameters: {
 
 ### Workflow 1: Start Development Environment
 
-The most common workflow - start dev server and proxy together:
+The most common workflow - start dev server and proxy together. Scripts are auto-detected from `package.json` (or equivalent).
 
 **Step 1: Detect project and available scripts**
 ```
@@ -851,7 +1043,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Start dev server in background**
+**Step 2: Start dev server in background** (uses script from package.json)
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -878,7 +1070,7 @@ Parameters: {
 }
 ```
 
-**Step 4: Start proxy once server is ready**
+**Step 4: Start proxy with target_url** (NOT via .agnt.kdl config)
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -899,6 +1091,21 @@ Parameters: {
 ### Workflow 2: Restart Dev Server
 
 When you need to restart after code changes:
+
+**Option A: Use the restart action** (preferred)
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proc",
+  "parameters": {
+    "action": "restart",
+    "process_id": "dev-server"
+  }
+}
+```
+
+**Option B: Manual stop + start**
 
 **Step 1: Stop running server**
 ```
@@ -1066,6 +1273,88 @@ Parameters: {
 
 ---
 
+### Workflow 6: Multi-Service Orchestration
+
+For projects with multiple processes (e.g., .NET backend + Vite frontend), use a shell script orchestrator.
+
+**Step 1: Create an orchestrator script** (e.g., `dev-ui.sh`):
+
+The script should:
+- Kill stale port listeners before starting
+- Start services in dependency order (backend first)
+- Wait for health checks before starting dependent services
+- Use `--no-hot-reload` for `dotnet watch` to prevent zombie listeners
+
+Example structure:
+```bash
+#!/bin/bash
+# Kill stale listeners
+for port in 5000 5173; do
+  lsof -ti:$port | xargs -r kill -9 2>/dev/null
+done
+
+# Start backend with --no-hot-reload (prevents zombie port listeners)
+dotnet watch --no-hot-reload --project src/MyApp &
+BACKEND_PID=$!
+
+# Wait for backend health check
+for i in $(seq 1 30); do
+  curl -sf http://localhost:5000/health && break
+  sleep 1
+done
+
+# Start frontend
+npx vite --port 5173 &
+FRONTEND_PID=$!
+
+wait -n
+kill $BACKEND_PID $FRONTEND_PID 2>/dev/null
+```
+
+**Step 2: Reference it in package.json** so agnt auto-detects it:
+```json
+{
+  "scripts": {
+    "dev": "bash ./dev-ui.sh"
+  }
+}
+```
+
+**Step 3: Start with run**
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "run",
+  "parameters": {
+    "script_name": "dev",
+    "id": "dev"
+  }
+}
+```
+
+**Step 4: Start proxy for the frontend**
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proxy",
+  "parameters": {
+    "action": "start",
+    "id": "dev",
+    "target_url": "http://localhost:5173"
+  }
+}
+```
+
+**Key points**:
+- `--no-hot-reload` on `dotnet watch` prevents hot-reload from creating zombie processes that hold ports
+- Kill stale ports at the start of the script to handle unclean shutdowns
+- Health check the backend before starting the frontend to avoid connection errors
+- The orchestrator script consolidates multiple services into a single `run` command
+
+---
+
 ## Troubleshooting Patterns
 
 ### Problem: Port Already in Use
@@ -1108,6 +1397,32 @@ Parameters: {
     "action": "stop",
     "process_id": "stuck-process",
     "force": true
+  }
+}
+```
+
+---
+
+### Problem: dotnet watch Zombie Listeners
+
+**Symptom**: After stopping `dotnet watch`, the port is still in use. New starts fail with "address already in use".
+
+**Cause**: `dotnet watch` with hot-reload enabled can spawn child processes that survive the parent being killed, holding onto the port.
+
+**Prevention**: Always use `--no-hot-reload` flag when running `dotnet watch` as a background process:
+```bash
+dotnet watch --no-hot-reload --project src/MyApp
+```
+
+**Fix**: Use `cleanup_port` to kill the zombie:
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proc",
+  "parameters": {
+    "action": "cleanup_port",
+    "port": 5000
   }
 }
 ```
