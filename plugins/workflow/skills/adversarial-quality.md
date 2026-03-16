@@ -20,6 +20,53 @@ This loop implements the full Ralph Wiggum adversarial cooperation pattern:
 
 ## Execution Phases
 
+### Phase 0: Git Hygiene & TDD Setup
+
+**Objective**: Start from the latest code and establish TDD discipline
+
+**Steps**:
+1. Pull latest changes and rebase onto main
+2. Resolve any merge conflicts
+3. Verify the project builds and all tests pass on the clean base
+4. Plan TDD approach — identify which tests to write first
+
+```yaml
+git_hygiene:
+  before_starting:
+    - "git fetch origin"
+    - "git rebase origin/main"
+    - "resolve any conflicts"
+    - "run full test suite - must be green"
+    - "build the project - must succeed"
+
+  during_work:
+    - "rebase often if main moves forward"
+    - "commit small, focused changes"
+    - "each commit should build and pass tests"
+    - "use conventional commit messages"
+
+  before_completion:
+    - "rebase onto latest main one final time"
+    - "verify all tests pass after rebase"
+
+tdd_cycle:
+  order: "test first, always"
+  steps:
+    1_red: "Write a test that describes the next behavior. Run it. It MUST fail."
+    2_green: "Write the minimum code to make the test pass. No more."
+    3_refactor: "Clean up duplication, improve names. Tests must stay green."
+
+  when_to_skip_tdd:
+    - "Pure UI layout changes with no logic"
+    - "Configuration-only changes"
+    - "Documentation-only changes"
+    - "NEVER skip for business logic or data transformations"
+```
+
+**Output**: Clean, up-to-date branch ready for TDD implementation
+
+**Checkpoint**: Record branch state, build status, test baseline count.
+
 ### Phase 1: Implementation Planning (5-10% of time)
 
 **Objective**: Understand scope and create verification checklist
@@ -72,7 +119,7 @@ implementation_plan:
 - Write clear variable names
 - Add type annotations
 - Handle edge cases
-- Write tests first (TDD when appropriate)
+- Write tests FIRST (TDD — red/green/refactor cycle from Phase 0)
 - Keep functions small and focused
 - Add comments for complex logic
 - Follow security best practices

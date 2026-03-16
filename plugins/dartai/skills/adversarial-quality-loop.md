@@ -340,6 +340,125 @@ eagle_eye_scan:
 
 ---
 
+## Phase 0: Git Hygiene & TDD Setup
+
+Before any implementation work begins, establish a clean foundation.
+
+### Task: Start from Latest Code
+
+**DO (Positive Instructions):**
+- Pull the latest changes from the main branch
+- Rebase your working branch onto the latest main
+- Resolve any conflicts before starting new work
+- Verify the project builds and all tests pass on the clean base
+- Check for any uncommitted work and stash or commit it first
+
+**DO NOT (Negative Instructions):**
+- Start work on a stale branch
+- Skip pulling latest changes
+- Ignore merge conflicts
+- Begin implementation with failing tests in the base
+
+```yaml
+git_hygiene:
+  before_starting:
+    - "git fetch origin"
+    - "git rebase origin/main (or merge if rebase not possible)"
+    - "resolve any conflicts"
+    - "run full test suite - must be green"
+    - "build the project - must succeed"
+
+  during_work:
+    - "rebase often if main moves forward"
+    - "commit small, focused changes"
+    - "each commit should build and pass tests"
+    - "use conventional commit messages"
+
+  before_completion:
+    - "rebase onto latest main one final time"
+    - "verify all tests pass after rebase"
+    - "squash fixup commits if appropriate"
+    - "never force-push to shared branches"
+```
+
+### Task: TDD Setup (Write Tests First)
+
+**DO (Positive Instructions):**
+- Write failing tests BEFORE writing implementation code
+- Start with the simplest test case that defines the expected behavior
+- Run the test to confirm it fails for the right reason
+- Write the minimum implementation to make the test pass
+- Refactor only after green, then re-run tests
+- Repeat: red → green → refactor for each behavior
+
+**DO NOT (Negative Instructions):**
+- Write implementation code before you have a failing test
+- Write all tests at once — go one behavior at a time
+- Skip the "verify it fails" step
+- Write tests that test implementation details instead of behavior
+- Mock internal code — only mock at system boundaries
+
+```yaml
+tdd_cycle:
+  order: "test first, always"
+  steps:
+    1_red: "Write a test that describes the next behavior. Run it. It MUST fail."
+    2_green: "Write the minimum code to make the test pass. No more."
+    3_refactor: "Clean up duplication, improve names. Tests must stay green."
+
+  what_to_test_first:
+    - "The core behavior described in acceptance criteria"
+    - "Edge cases identified during Phase 1 analysis"
+    - "Error handling paths"
+    - "Integration points with existing code"
+
+  when_to_skip_tdd:
+    - "Pure UI layout changes with no logic"
+    - "Configuration-only changes"
+    - "Documentation-only changes"
+    - "NEVER skip for business logic or data transformations"
+
+  test_quality:
+    - "Tests describe behavior, not implementation"
+    - "Each test has a single clear assertion"
+    - "Test names read as specifications"
+    - "No mocks for internal code — only external boundaries"
+```
+
+**Verification Criteria:**
+```yaml
+pass_if:
+  - base_branch_up_to_date: true
+  - project_builds_clean: true
+  - all_existing_tests_pass: true
+  - tdd_approach_planned: true
+fail_if:
+  - stale_branch: true
+  - build_failures: true
+  - pre_existing_test_failures_ignored: true
+```
+
+### Plan Adjustment Point 0 (Automatic - Do Not Stop)
+```yaml
+checkpoint:
+  validate:
+    - branch_rebased: true
+    - clean_build: true
+    - tests_green: true
+
+  auto_adjust:
+    merge_conflicts: "Resolve conflicts, rebuild, CONTINUE"
+    pre_existing_failures: "Fix or report as blocker, CONTINUE"
+    stale_dependencies: "Update and rebuild, CONTINUE"
+
+  stop_only_if:
+    critical_blocker: "Cannot build or base tests fundamentally broken"
+
+  then: "Proceed immediately to Phase 1"
+```
+
+---
+
 ## Phase 1: Implementation Review
 
 ### Task: Analyze Implementation Scope
