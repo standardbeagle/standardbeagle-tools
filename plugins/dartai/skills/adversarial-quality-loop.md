@@ -402,11 +402,22 @@ git_hygiene:
 tdd_cycle:
   order: "test first, always"
   steps:
-    1_red: "Write a test that describes the next behavior. Run it. It MUST fail."
-    2_green: "Write the minimum code to make the test pass. No more."
-    3_refactor: "Clean up duplication, improve names. Tests must stay green."
+    RED: "Write a test that describes the next behavior. Run it. It MUST FAIL (RED). If it passes, the test is wrong — delete or fix it."
+    GREEN: "Write the MINIMUM code to make the RED test pass. No more. Confirm GREEN."
+    REFACTOR: "Clean up code while tests stay GREEN. If any test goes RED, undo immediately."
+
+  violations:
+    - "Writing implementation before a RED test exists"
+    - "A test that was never seen RED"
+    - "Refactoring while any test is RED"
+    - "Writing multiple tests before going GREEN on the first"
+
+  smoke_tests:
+    rule: "Smoke tests ALWAYS use highest fidelity — full e2e, never mocked"
+    when: "Write smoke test first (RED), verify it last (GREEN)"
 
   what_to_test_first:
+    - "Smoke test for core user journey (highest fidelity e2e)"
     - "The core behavior described in acceptance criteria"
     - "Edge cases identified during Phase 1 analysis"
     - "Error handling paths"
@@ -423,6 +434,7 @@ tdd_cycle:
     - "Each test has a single clear assertion"
     - "Test names read as specifications"
     - "No mocks for internal code — only external boundaries"
+    - "Every test was seen RED before GREEN"
 ```
 
 **Verification Criteria:**

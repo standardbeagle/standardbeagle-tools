@@ -7,6 +7,64 @@ description: Three-tier testing strategy - e2e for product validation, integrati
 
 A disciplined approach to test selection. Not all code needs the same kind of test. The right test at the right level catches bugs efficiently without creating a brittle, slow test suite.
 
+## The RED/GREEN Discipline
+
+Every test follows the RED → GREEN → REFACTOR cycle:
+
+```yaml
+red_green_cycle:
+  RED:
+    definition: "Write a test that FAILS. Run it. Confirm it fails for the RIGHT reason."
+    why: "A test you've never seen fail is a test you can't trust."
+    rule: "If the test passes immediately, it's testing nothing — delete it or fix it."
+
+  GREEN:
+    definition: "Write the MINIMUM code to make the failing test pass. No more."
+    why: "Every line of code not demanded by a RED test is speculative."
+    rule: "Do not add error handling, edge cases, or abstractions until a RED test demands them."
+
+  REFACTOR:
+    definition: "Clean up code while ALL tests stay GREEN. If any test goes RED, undo."
+    why: "Refactoring under GREEN is safe. Refactoring under RED is gambling."
+    rule: "Run tests after every change. Any RED means the refactoring broke something."
+
+  violations:
+    - "Writing implementation before a RED test exists"
+    - "Writing multiple tests before going GREEN on the first"
+    - "Refactoring while a test is RED"
+    - "A test that was never seen RED"
+```
+
+## Smoke Tests: Highest Fidelity Always
+
+Smoke tests verify the system is fundamentally operational. They MUST use the highest fidelity available — real UI, real backend, real database. A smoke test that uses mocks or stubs is worthless.
+
+```yaml
+smoke_tests:
+  purpose: "Verify the system starts and core operations work end-to-end"
+  fidelity: "HIGHEST AVAILABLE — always e2e, never mocked"
+  when_to_run:
+    - "After every deployment"
+    - "Before marking any release candidate"
+    - "After infrastructure changes"
+    - "As the first test in CI/CD pipeline"
+
+  what_to_cover:
+    - "Application starts without errors"
+    - "User can authenticate"
+    - "Core CRUD operation succeeds end-to-end"
+    - "Primary navigation works"
+    - "Data displays correctly from real database"
+
+  what_NOT_to_do:
+    - "NEVER mock any dependency in a smoke test"
+    - "NEVER use in-memory substitutes"
+    - "NEVER skip the UI layer"
+    - "NEVER test against seeded data only — use real data flow"
+
+  failure_response: "STOP DEPLOYMENT — smoke failure means the system is broken"
+```
+
 ## Core Principle: Test at the Right Level
 
 ```yaml
@@ -80,8 +138,8 @@ decision_tree:
     no: "The existing tests probably cover it. Verify and move on."
 
   question_4: "Is this a bug fix?"
-    always: "Write a test at the level where the bug manifests"
-    principle: "The test must fail without the fix, pass with it"
+    always: "Write a test at the level where the bug manifests (RED without fix)"
+    principle: "The test MUST be RED without the fix, GREEN with it — this is non-negotiable"
 ```
 
 ## E2E Tests: Product Validation
@@ -199,38 +257,48 @@ quality_rules:
     example: "_eq, _gt, _gte must return different counts for the same value"
 
   never:
-    - "Write tests that pass whether the code works or not"
+    - "Write tests that are GREEN whether the code works or not"
+    - "Commit a test that was never seen RED"
     - "Test implementation details that change during refactoring"
     - "Use production data or credentials in tests"
-    - "Skip tests to make CI green"
+    - "Skip tests to make CI GREEN"
     - "Write tests after the fact that just assert current behavior"
+    - "Use mocks or stubs in smoke tests — highest fidelity only"
 ```
 
-## TDD Integration
+## TDD Integration: RED/GREEN at Every Tier
 
-This strategy integrates with the TDD cycle from the quality loop:
+This strategy integrates with the RED → GREEN → REFACTOR cycle from the quality loop:
 
 ```yaml
 tdd_with_tiers:
   for_new_features:
-    1: "Write an e2e test for the user journey (RED)"
-    2: "Write integration tests for the data layer (RED)"
-    3: "Write unit tests for complex logic (RED)"
-    4: "Implement until unit tests pass (GREEN)"
-    5: "Implement until integration tests pass (GREEN)"
-    6: "Implement until e2e test passes (GREEN)"
-    7: "Refactor with all tests green"
+    1: "Write a smoke test for the core journey — run it — confirm RED"
+    2: "Write an e2e test for the user journey — run it — confirm RED"
+    3: "Write integration tests for the data layer — run them — confirm RED"
+    4: "Write unit tests for complex logic — run them — confirm RED"
+    5: "Implement until unit tests are GREEN"
+    6: "Implement until integration tests are GREEN"
+    7: "Implement until e2e test is GREEN"
+    8: "Verify smoke test is GREEN"
+    9: "REFACTOR — all tests must stay GREEN after every change"
 
   for_bug_fixes:
-    1: "Write a test at the level where the bug manifests (RED)"
-    2: "Fix the bug (GREEN)"
-    3: "Add edge case tests if the bug reveals a pattern"
+    1: "Write a test at the level where the bug manifests — confirm RED"
+    2: "Fix the bug — confirm GREEN"
+    3: "If the bug reveals a pattern, add edge case tests (each RED then GREEN)"
 
   for_refactoring:
-    1: "Verify existing tests pass (characterization baseline)"
-    2: "Refactor incrementally"
-    3: "Tests must stay green after each step"
-    4: "Add tests if refactoring reveals untested paths"
+    1: "Run all tests — establish GREEN baseline"
+    2: "Refactor one thing — run tests — must stay GREEN"
+    3: "If any test goes RED, undo the refactoring immediately"
+    4: "Repeat until refactoring is complete"
+    5: "Add tests if refactoring reveals untested paths (RED then GREEN)"
+
+  smoke_test_rule:
+    principle: "Smoke tests are ALWAYS highest fidelity e2e"
+    when: "Write smoke test first, verify GREEN last"
+    never: "Never mock, stub, or simulate in a smoke test"
 ```
 
 ## Verification
@@ -238,10 +306,12 @@ tdd_with_tiers:
 Before marking any task complete:
 ```yaml
 test_verification:
-  - "All existing tests still pass"
+  - "All existing tests still pass (GREEN)"
+  - "Every new test was seen RED before GREEN"
+  - "Smoke tests pass at full e2e fidelity"
   - "New tests cover the acceptance criteria"
   - "Tests are at the right level (not all unit, not all e2e)"
   - "No skipped or disabled tests"
   - "Test names describe the behavior being verified"
-  - "Tests fail when the feature is removed (not vacuously passing)"
+  - "Tests go RED when the feature is removed (not vacuously passing)"
 ```
