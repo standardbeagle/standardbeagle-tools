@@ -27,7 +27,7 @@ context_management:
   main_loop: "Orchestrates only - no task memory"
   task_executor: "Fresh subagent per task"
   verifier: "Independent fresh subagent"
-  state_transfer: "Only via .claude/workflow-loop-state.json"
+  state_transfer: "Only via .workflow/loop-state.json"
 ```
 
 This prevents:
@@ -71,7 +71,7 @@ claude mcp add workflow --source /path/to/standardbeagle-tools/plugins/workflow
 
 ### 1. Create Task List
 
-Create `.claude/workflow-tasks.md`:
+Create `.workflow/tasks.md`:
 
 ```markdown
 # Task List
@@ -145,7 +145,7 @@ stop the loop
 Start an adversarial loop for task automation.
 
 **Arguments:**
-- `[task-list-file]` - Optional path to task list (default: `.claude/workflow-tasks.md`)
+- `[task-list-file]` - Optional path to task list (default: `.workflow/tasks.md`)
 - `--loop=type` - Loop type: quality|security|refactor|test (default: quality)
 
 **Example:**
@@ -259,7 +259,7 @@ Comprehensive testing with mutation testing.
 
 ### State Transfer
 
-**ONLY via `.claude/workflow-loop-state.json`:**
+**ONLY via `.workflow/loop-state.json`:**
 
 ```json
 {
@@ -304,7 +304,7 @@ Comprehensive testing with mutation testing.
 - Verification completions
 - Security audits
 
-Metrics stored in `.claude/workflow-session.json`.
+Metrics stored in `.workflow/session.json`.
 
 **PreCompact:**
 - Suggest memories to save before context compaction
@@ -395,7 +395,7 @@ categories:
    - Option to skip individual memories
 
 4. **Save approved memories**
-   - Store in `.claude/memories/` as markdown
+   - Store in `.workflow/memories/` as markdown
    - Or use slop-mcp if available
    - Tag for future retrieval
 
@@ -517,7 +517,7 @@ Use the review-memories command to search and manage memories:
   approve: "User approves/edits suggestions"
 
 3_storage:
-  location: ".claude/memories/ (or slop-mcp)"
+  location: ".workflow/memories/ (or slop-mcp)"
   format: "Markdown with YAML frontmatter"
   index: "JSON for fast searching"
 
@@ -624,21 +624,21 @@ context_sized_task:
 
 ### Context Issues
 - Verify SubagentStop hooks are firing
-- Check `.claude/workflow-session.json` metrics
+- Check `.workflow/session.json` metrics
 - Ensure subagents are terminating cleanly
 
 ## Files and Directories
 
 ```
-.claude/
-├── workflow-tasks.md              # Task list (default location)
-├── workflow-loop-state.json       # Current loop state
-├── workflow-session.json          # Session metrics
-├── workflow-completions.log       # Completion log
-├── workflow-verifications.log     # Verification log
-├── workflow-security.log          # Security audit log
-├── workflow-spawns.log            # Subagent spawn log
-└── workflow-history/              # Archived sessions
+.workflow/
+├── tasks.md                      # Task list (default location)
+├── loop-state.json               # Current loop state
+├── session.json                  # Session metrics
+├── completions.log               # Completion log
+├── verifications.log             # Verification log
+├── security.log                  # Security audit log
+├── spawns.log                    # Subagent spawn log
+└── history/                      # Archived sessions
     └── session-abc123.json
 ```
 
@@ -689,8 +689,8 @@ Quality loop can spawn verifier in parallel:
 
 ```
 Main Loop (Primary Agent)
-├── Reads: .claude/workflow-tasks.md
-├── Manages: .claude/workflow-loop-state.json
+├── Reads: .workflow/tasks.md
+├── Manages: .workflow/loop-state.json
 └── Spawns: workflow:task-executor (fresh subagent)
     ├── Executes: adversarial-quality skill
     ├── Spawns: workflow:quality-verifier (fresh subagent)

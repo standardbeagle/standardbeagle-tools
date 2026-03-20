@@ -20,10 +20,10 @@ Provide independent security audit with OWASP Top 10 focus.
 
 1. **`${CLAUDE_PLUGIN_ROOT}/rules/security-auditor/owasp-audit.md`** - OWASP audit rules
 
-Projects may override any rule by creating `.claude/workflow/rules/*.md` files.
+Projects may override any rule by creating `.workflow/rules/*.md` files.
 
 Rule override precedence (highest first):
-1. `.claude/workflow/rules/security-auditor/*.md` - Project-specific security-auditor rules
+1. `.workflow/rules/security-auditor/*.md` - Project-specific security-auditor rules
 2. `${CLAUDE_PLUGIN_ROOT}/rules/security-auditor/*.md` - Plugin default security-auditor rules
 
 **On startup**: Read all applicable rule files and merge them with project rules taking precedence.

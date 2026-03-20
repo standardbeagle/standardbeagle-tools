@@ -9,7 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const LOOP_FILE = path.join(process.cwd(), '.claude', 'workflow-loop-state.json');
+const LOOP_FILE = path.join(process.cwd(), '.workflow', 'loop-state.json');
 
 try {
   if (!fs.existsSync(LOOP_FILE)) {

@@ -11,7 +11,7 @@ Set up project-specific configuration for the dartai plugin.
 
 ### 1. Check Current Config
 
-Look for `.claude/dartai.local.md`:
+Look for `.dartai/config.local.md`:
 ```
 Use Read tool to check if config exists
 ```
@@ -78,7 +78,7 @@ Auto-detect runner identity for multi-runner concurrency:
 
 ### 3. Write Configuration
 
-Create `.claude/dartai.local.md` with YAML frontmatter:
+Create `.dartai/config.local.md` with YAML frontmatter:
 
 ```markdown
 ---
@@ -123,9 +123,9 @@ Add any project-specific notes here. This content is preserved when settings are
 
 ### 4. Add to .gitignore
 
-Ensure `.claude/dartai.local.md` is in `.gitignore`:
+Ensure `.dartai/config.local.md` is in `.gitignore`:
 ```
-.claude/*.local.md
+.dartai/*.local.md
 ```
 
 ## Usage
@@ -136,6 +136,6 @@ Ensure `.claude/dartai.local.md` is in `.gitignore`:
 
 ## Configuration File Location
 
-Config is stored at: `.claude/dartai.local.md`
+Config is stored at: `.dartai/config.local.md`
 
 This file is local and should not be committed (add to .gitignore).

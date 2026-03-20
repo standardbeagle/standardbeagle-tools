@@ -52,7 +52,7 @@ problems_without_hygiene:
 **Implementation:**
 ```yaml
 main_loop:
-  state_file: ".claude/workflow-loop-state.json"
+  state_file: ".workflow/loop-state.json"
 
   loop_logic: |
     while tasks_remaining:
@@ -140,7 +140,7 @@ barrier_2_between_stages:
 
 ```yaml
 state_file_protocol:
-  file: ".claude/workflow-loop-state.json"
+  file: ".workflow/loop-state.json"
 
   writer: "Subagent before termination"
   reader: "Main loop after subagent terminates"

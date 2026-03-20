@@ -22,7 +22,7 @@ Configure project-specific rules for DartAI roles. This allows customization of 
 
 ## How It Works
 
-1. **Checks for existing rules** at `.claude/dartai/rules/`
+1. **Checks for existing rules** at `.dartai/rules/`
 2. **Asks customization questions** for each role
 3. **Creates project-specific rule files** that override defaults
 
@@ -32,8 +32,8 @@ Rules are loaded in this order (later overrides earlier):
 
 1. Plugin defaults: `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md`
 2. Plugin defaults: `${CLAUDE_PLUGIN_ROOT}/rules/{role}/*.md`
-3. Project overrides: `.claude/dartai/rules/common/*.md`
-4. Project overrides: `.claude/dartai/rules/{role}/*.md`
+3. Project overrides: `.dartai/rules/common/*.md`
+4. Project overrides: `.dartai/rules/{role}/*.md`
 
 ## Available Roles
 
@@ -161,7 +161,7 @@ questions:
 
 ```bash
 # List existing project rules
-ls -la .claude/dartai/rules/
+ls -la .dartai/rules/
 ```
 
 ### Step 2: Ask Role Selection
@@ -184,7 +184,7 @@ Present questions for the selected role, show defaults, accept customizations.
 
 ### Step 4: Create Rule Files
 
-Create `.claude/dartai/rules/{role}/{rule-name}.md` with only the customized values:
+Create `.dartai/rules/{role}/{rule-name}.md` with only the customized values:
 
 ```markdown
 # Project-Specific {Rule Name} Rules
@@ -209,7 +209,7 @@ This file overrides the default rules at:
 Show what was created and how it changes behavior:
 
 ```
-✅ Created .claude/dartai/rules/task-executor/execution-flow.md
+✅ Created .dartai/rules/task-executor/execution-flow.md
 
 Changes from defaults:
 - Max files per task: 5 → 10
@@ -268,8 +268,8 @@ Should lint errors block completion?
 Default: Yes - zero tolerance
 Your choice: [Enter=accept, A=allow warnings] > Enter
 
-✅ Creating .claude/dartai/rules/task-executor/execution-flow.md
-✅ Creating .claude/dartai/rules/task-executor/phase-execution.md
+✅ Creating .dartai/rules/task-executor/execution-flow.md
+✅ Creating .dartai/rules/task-executor/phase-execution.md
 
 Summary of changes:
 - Max files per task: 5 → 10
@@ -277,14 +277,14 @@ Summary of changes:
 
 Role configuration saved! Agents will use these rules for this project.
 
-To modify: Edit .claude/dartai/rules/task-executor/*.md
+To modify: Edit .dartai/rules/task-executor/*.md
 To reset: Delete the rule files to restore defaults
 ```
 
 ## File Structure
 
 ```
-.claude/dartai/rules/
+.dartai/rules/
 ├── common/
 │   ├── autonomous-operation.md      # Override autonomy rules
 │   └── eagle-eyed-discipline.md     # Override quality enforcement
@@ -301,8 +301,8 @@ To reset: Delete the rule files to restore defaults
 
 ```bash
 # Remove all project-specific rules
-rm -rf .claude/dartai/rules/
+rm -rf .dartai/rules/
 
 # Or remove specific role rules
-rm .claude/dartai/rules/task-executor/*.md
+rm .dartai/rules/task-executor/*.md
 ```

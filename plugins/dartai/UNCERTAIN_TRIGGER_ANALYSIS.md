@@ -143,7 +143,7 @@ graph TD
    - Only fail on genuine blockers (missing files, impossible requirements)
 
 2. **Added structured state persistence** (task-executor.md)
-   - Agents write JSON to `.claude/dartai-loop-state.json` BEFORE terminating
+   - Agents write JSON to `.dartai/loop-state.json` BEFORE terminating
    - Only two states: `completed` or `failed`
    - No ambiguous "uncertain" state
 
@@ -243,7 +243,7 @@ This outputs JSON like:
 ```json
 {
   "type": "prompt",
-  "prompt": "Check .claude/dartai-loop-state.json and query Dart for remaining tasks..."
+  "prompt": "Check .dartai/loop-state.json and query Dart for remaining tasks..."
 }
 ```
 

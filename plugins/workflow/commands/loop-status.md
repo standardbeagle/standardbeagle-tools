@@ -10,8 +10,8 @@ Display detailed status of the current or recent workflow loops.
 ## Process
 
 1. **Find loop state files**
-   - Current loop: `.claude/workflow-loop-state.json`
-   - History: `.claude/workflow-loop-history/` (archived completed loops)
+   - Current loop: `.workflow/loop-state.json`
+   - History: `.workflow/loop-history/` (archived completed loops)
 
 2. **Display current loop status** (if running)
 ```
@@ -50,7 +50,7 @@ Statistics:
 - Avg time per task: 20m 22s
 - Success rate: 100% (2/2 completed)
 
-Loop State File: .claude/workflow-loop-state.json
+Loop State File: .workflow/loop-state.json
 ```
 
 3. **Display recent loops** (if none running)
@@ -103,6 +103,6 @@ show workflow progress
 
 ## Data Sources
 
-- **Loop state file**: `.claude/workflow-loop-state.json`
+- **Loop state file**: `.workflow/loop-state.json`
 - **Hook tracking data**: Written by SubagentStop hooks
 - **Session metrics**: Tracked by session-init.sh script

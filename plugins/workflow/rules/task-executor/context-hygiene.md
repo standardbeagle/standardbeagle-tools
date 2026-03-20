@@ -51,7 +51,7 @@ context_management:
 
 ## Load Task Specification
 
-Read task details from `.claude/workflow-loop-state.json`:
+Read task details from `.workflow/loop-state.json`:
 
 ```yaml
 task_input:

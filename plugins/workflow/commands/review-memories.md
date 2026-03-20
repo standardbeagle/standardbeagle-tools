@@ -83,11 +83,11 @@ slop-mcp memory list --scope=user
 
 **From local storage** (fallback):
 ```bash
-# Read from .claude/memories/
-ls -1 .claude/memories/*.md
+# Read from .workflow/memories/
+ls -1 .workflow/memories/*.md
 
 # Parse YAML frontmatter and content
-for file in .claude/memories/*.md; do
+for file in .workflow/memories/*.md; do
   # Extract metadata and content
 done
 ```
@@ -290,7 +290,7 @@ Format:
 3. YAML (human-friendly structured)
 
 Output:
-1. File: .claude/memories-export-2026-01-14.md
+1. File: .workflow/memories-export-2026-01-14.md
 2. Clipboard
 3. Display inline
 ```
@@ -499,7 +499,7 @@ Applied to task. Checklist added:
 
 ## Notes
 
-- Memories are stored per-project in `.claude/memories/`
+- Memories are stored per-project in `.workflow/memories/`
 - User-scope memories can be shared across projects
 - Global memories are rare (universal patterns only)
 - Regular review prevents memory bloat

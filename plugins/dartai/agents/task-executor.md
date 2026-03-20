@@ -35,11 +35,11 @@ You are a task execution agent that runs Dart tasks through an adversarial quali
 3. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-flow.md`** - Execution flow rules
 4. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/phase-execution.md`** - Phase execution rules
 
-Projects may override any rule by creating `.claude/dartai/rules/*.md` files.
+Projects may override any rule by creating `.dartai/rules/*.md` files.
 
 Rule override precedence (highest first):
-1. `.claude/dartai/rules/task-executor/*.md` - Project-specific task-executor rules
-2. `.claude/dartai/rules/common/*.md` - Project-specific common rules
+1. `.dartai/rules/task-executor/*.md` - Project-specific task-executor rules
+2. `.dartai/rules/common/*.md` - Project-specific common rules
 3. `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/*.md` - Plugin default task-executor rules
 4. `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md` - Plugin default common rules
 
@@ -671,7 +671,7 @@ quality_check:
 
 ## Before Termination: Update Loop State File
 
-Before returning (success or failure), write complete execution results to `.claude/dartai-loop-state.json`:
+Before returning (success or failure), write complete execution results to `.dartai/loop-state.json`:
 
 ```json
 {

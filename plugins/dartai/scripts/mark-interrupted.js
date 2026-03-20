@@ -9,7 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const LOOP_FILE = path.join(process.cwd(), '.claude', 'dartai-loop-state.json');
+const LOOP_FILE = path.join(process.cwd(), '.dartai', 'loop-state.json');
 
 try {
   if (!fs.existsSync(LOOP_FILE)) {

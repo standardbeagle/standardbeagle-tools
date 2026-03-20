@@ -6,8 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const workflowDir = path.join(process.cwd(), '.claude');
-const sessionFile = path.join(workflowDir, 'workflow-session.json');
+const workflowDir = path.join(process.cwd(), '.workflow');
+const sessionFile = path.join(workflowDir, 'session.json');
 
 // Update spawn count
 if (fs.existsSync(sessionFile)) {
@@ -21,7 +21,7 @@ if (fs.existsSync(sessionFile)) {
 }
 
 // Log spawn (helps track context isolation)
-const logPath = path.join(workflowDir, 'workflow-spawns.log');
+const logPath = path.join(workflowDir, 'spawns.log');
 try {
   fs.appendFileSync(logPath, `Subagent spawned at ${new Date().toISOString()}\n`);
 } catch {

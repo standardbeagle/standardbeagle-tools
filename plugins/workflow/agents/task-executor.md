@@ -25,10 +25,10 @@ Execute a single workflow task from start to finish with clean context.
 1. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/context-hygiene.md`** - Context hygiene rules
 2. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-pattern.md`** - Execution pattern rules
 
-Projects may override any rule by creating `.claude/workflow/rules/*.md` files.
+Projects may override any rule by creating `.workflow/rules/*.md` files.
 
 Rule override precedence (highest first):
-1. `.claude/workflow/rules/task-executor/*.md` - Project-specific task-executor rules
+1. `.workflow/rules/task-executor/*.md` - Project-specific task-executor rules
 2. `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/*.md` - Plugin default task-executor rules
 
 **On startup**: Read all applicable rule files and merge them with project rules taking precedence.
@@ -45,7 +45,7 @@ Your job: Execute ONE task completely, then terminate.
 
 ### 1. Load Task Specification
 
-Read task details from `.claude/workflow-loop-state.json`:
+Read task details from `.workflow/loop-state.json`:
 ```yaml
 task_input:
   task_id: "From prompt"

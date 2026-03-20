@@ -80,7 +80,7 @@ lifecycle:
 
 ## State File Protocol
 
-Single source of truth: `.claude/workflow-loop-state.json`
+Single source of truth: `.workflow/loop-state.json`
 
 **Writers**:
 - Main loop: Updates orchestration state

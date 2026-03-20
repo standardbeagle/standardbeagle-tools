@@ -84,7 +84,7 @@ example: "XSS vulnerabilities found in user profile - always sanitize HTML"
 
 ## Process
 
-1. **Review workflow state** - Read \`.claude/workflow-loop-state.json\` if it exists
+1. **Review workflow state** - Read \`.workflow/loop-state.json\` if it exists
 2. **Analyze conversation** - Identify patterns from recent tasks
 3. **Generate suggestions** - Create 3-5 memory suggestions
 4. **Present to user** - Use AskUserQuestion for approval

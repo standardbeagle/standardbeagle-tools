@@ -42,7 +42,7 @@ roles:
 Before starting, check if a previous session was interrupted:
 
 ```
-Read .claude/workflow-loop-state.json if it exists.
+Read .workflow/loop-state.json if it exists.
 If status is "interrupted":
   1. Show the user: "Previous loop was interrupted at [interrupted_at]"
   2. Show completed/total task counts and current_task_index
@@ -53,14 +53,14 @@ If status is "interrupted":
     - Skip to Section 4 (Execute Adversarial Loop) starting at current_task_index
 
   If start fresh:
-    - Delete .claude/workflow-loop-state.json
+    - Delete .workflow/loop-state.json
     - Continue normally
 ```
 
 ### 1. Load Task List
 
 If task list file provided as argument, use it. Otherwise check for:
-1. `.claude/workflow-tasks.md` (default location)
+1. `.workflow/tasks.md` (default location)
 2. `TASKS.md` in current directory
 3. Interactive creation mode
 
@@ -97,7 +97,7 @@ If `--loop` argument provided, use it. Otherwise default to `quality`.
 
 ### 3. Initialize Loop State
 
-Create loop state file: `.claude/workflow-loop-state.json`
+Create loop state file: `.workflow/loop-state.json`
 
 ```json
 {
@@ -198,7 +198,7 @@ The subagent will:
 1. Execute the selected adversarial loop skill
 2. Track progress internally
 3. Return success or failure with detailed report
-4. Update `.claude/workflow-loop-state.json` before terminating
+4. Update `.workflow/loop-state.json` before terminating
 
 **Main loop waits synchronously - NO parallel task execution.**
 
@@ -364,7 +364,7 @@ context_sized_task:
 
 ## Integration with Loop State File
 
-All state is persisted to `.claude/workflow-loop-state.json`:
+All state is persisted to `.workflow/loop-state.json`:
 - Main loop reads/writes orchestration state
 - Subagents update task-specific state before termination
 - Hooks track iterations and adjustments

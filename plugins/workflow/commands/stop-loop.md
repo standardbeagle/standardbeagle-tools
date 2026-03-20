@@ -10,7 +10,7 @@ Gracefully stop the currently running Ralph Wiggum workflow loop.
 ## Process
 
 1. **Check for running loop**
-   - Read `.claude/workflow-loop-state.json`
+   - Read `.workflow/loop-state.json`
    - Verify status is "running"
    - If no loop running, inform user and exit
 
@@ -51,7 +51,7 @@ Final Status:
 Total iterations: 5
 Total time: 1h 23m 45s
 
-Loop state saved to: .claude/workflow-loop-state.json
+Loop state saved to: .workflow/loop-state.json
 
 To resume: /workflow:start-loop --resume abc123
 ```

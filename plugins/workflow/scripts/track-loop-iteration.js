@@ -6,9 +6,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const workflowDir = path.join(process.cwd(), '.claude');
-const sessionFile = path.join(workflowDir, 'workflow-session.json');
-const stateFile = path.join(workflowDir, 'workflow-loop-state.json');
+const workflowDir = path.join(process.cwd(), '.workflow');
+const sessionFile = path.join(workflowDir, 'session.json');
+const stateFile = path.join(workflowDir, 'loop-state.json');
 
 // Update session metrics
 if (fs.existsSync(sessionFile)) {
@@ -19,7 +19,7 @@ if (fs.existsSync(sessionFile)) {
     fs.writeFileSync(sessionFile, JSON.stringify(sessionData, null, 2));
   } catch {
     // Fallback: append completion record
-    const logPath = path.join(workflowDir, 'workflow-completions.log');
+    const logPath = path.join(workflowDir, 'completions.log');
     fs.appendFileSync(logPath, `Task executor completed at ${new Date().toISOString()}\n`);
   }
 }

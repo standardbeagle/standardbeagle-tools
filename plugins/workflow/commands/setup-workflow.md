@@ -22,7 +22,7 @@ Configure project-specific rules for workflow roles. This allows customization o
 
 ## How It Works
 
-1. **Checks for existing rules** at `.claude/workflow/rules/`
+1. **Checks for existing rules** at `.workflow/rules/`
 2. **Asks customization questions** for each role
 3. **Creates project-specific rule files** that override defaults
 
@@ -31,7 +31,7 @@ Configure project-specific rules for workflow roles. This allows customization o
 Rules are loaded in this order (later overrides earlier):
 
 1. Plugin defaults: `${CLAUDE_PLUGIN_ROOT}/rules/{role}/*.md`
-2. Project overrides: `.claude/workflow/rules/{role}/*.md`
+2. Project overrides: `.workflow/rules/{role}/*.md`
 
 ## Available Roles
 
@@ -121,7 +121,7 @@ questions:
 
 ```bash
 # List existing project rules
-ls -la .claude/workflow/rules/
+ls -la .workflow/rules/
 ```
 
 ### Step 2: Ask Role Selection
@@ -143,7 +143,7 @@ Present questions for the selected role, show defaults, accept customizations.
 
 ### Step 4: Create Rule Files
 
-Create `.claude/workflow/rules/{role}/{rule-name}.md` with only the customized values:
+Create `.workflow/rules/{role}/{rule-name}.md` with only the customized values:
 
 ```markdown
 # Project-Specific {Rule Name} Rules
@@ -168,7 +168,7 @@ This file overrides the default rules at:
 Show what was created and how it changes behavior:
 
 ```
-✅ Created .claude/workflow/rules/task-executor/context-hygiene.md
+✅ Created .workflow/rules/task-executor/context-hygiene.md
 
 Changes from defaults:
 - Max files per task: 5 → 10
@@ -220,8 +220,8 @@ How to spawn verifier?
 Default: Fresh subagent for independent review
 Your choice: [Enter=accept, S=same agent] > Enter
 
-✅ Creating .claude/workflow/rules/task-executor/context-hygiene.md
-✅ Creating .claude/workflow/rules/task-executor/execution-pattern.md
+✅ Creating .workflow/rules/task-executor/context-hygiene.md
+✅ Creating .workflow/rules/task-executor/execution-pattern.md
 
 Summary of changes:
 - Max files per task: 5 → 10
@@ -230,14 +230,14 @@ Summary of changes:
 
 Role configuration saved! Agents will use these rules for this project.
 
-To modify: Edit .claude/workflow/rules/task-executor/*.md
+To modify: Edit .workflow/rules/task-executor/*.md
 To reset: Delete the rule files to restore defaults
 ```
 
 ## File Structure
 
 ```
-.claude/workflow/rules/
+.workflow/rules/
 ├── task-executor/
 │   ├── context-hygiene.md          # Override context rules
 │   └── execution-pattern.md        # Override execution rules
@@ -251,17 +251,17 @@ To reset: Delete the rule files to restore defaults
 
 ```bash
 # Remove all project-specific rules
-rm -rf .claude/workflow/rules/
+rm -rf .workflow/rules/
 
 # Or remove specific role rules
-rm .claude/workflow/rules/task-executor/*.md
+rm .workflow/rules/task-executor/*.md
 ```
 
 ## Integration with Loop Commands
 
 When running `/workflow:start`, the task-executor agent will:
 
-1. Check for project rules at `.claude/workflow/rules/`
+1. Check for project rules at `.workflow/rules/`
 2. Merge with plugin defaults
 3. Apply customizations before execution
 4. Log which rules are in effect

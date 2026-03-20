@@ -8,14 +8,14 @@ const path = require('path');
 const crypto = require('crypto');
 
 // Get workflow directory
-const workflowDir = path.join(process.cwd(), '.claude');
+const workflowDir = path.join(process.cwd(), '.workflow');
 
 // Ensure directory exists
 if (!fs.existsSync(workflowDir)) {
   fs.mkdirSync(workflowDir, { recursive: true });
 }
 
-const sessionFile = path.join(workflowDir, 'workflow-session.json');
+const sessionFile = path.join(workflowDir, 'session.json');
 
 if (!fs.existsSync(sessionFile)) {
   const sessionData = {

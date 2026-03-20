@@ -33,11 +33,11 @@ You update project documentation after task completion.
 1. **`${CLAUDE_PLUGIN_ROOT}/rules/common/autonomous-operation.md`** - Autonomous execution rules
 2. **`${CLAUDE_PLUGIN_ROOT}/rules/doc-updater/documentation-rules.md`** - Documentation update rules
 
-Projects may override any rule by creating `.claude/dartai/rules/*.md` files.
+Projects may override any rule by creating `.dartai/rules/*.md` files.
 
 Rule override precedence (highest first):
-1. `.claude/dartai/rules/doc-updater/*.md` - Project-specific doc-updater rules
-2. `.claude/dartai/rules/common/*.md` - Project-specific common rules
+1. `.dartai/rules/doc-updater/*.md` - Project-specific doc-updater rules
+2. `.dartai/rules/common/*.md` - Project-specific common rules
 3. `${CLAUDE_PLUGIN_ROOT}/rules/doc-updater/*.md` - Plugin default doc-updater rules
 4. `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md` - Plugin default common rules
 

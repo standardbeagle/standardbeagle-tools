@@ -6,8 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const workflowDir = path.join(process.cwd(), '.claude');
-const sessionFile = path.join(workflowDir, 'workflow-session.json');
+const workflowDir = path.join(process.cwd(), '.workflow');
+const sessionFile = path.join(workflowDir, 'session.json');
 
 // Update session with end time
 if (fs.existsSync(sessionFile)) {
@@ -21,7 +21,7 @@ if (fs.existsSync(sessionFile)) {
 }
 
 // Archive session to history (optional)
-const historyDir = path.join(workflowDir, 'workflow-history');
+const historyDir = path.join(workflowDir, 'history');
 if (!fs.existsSync(historyDir)) {
   fs.mkdirSync(historyDir, { recursive: true });
 }

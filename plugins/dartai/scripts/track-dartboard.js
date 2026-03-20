@@ -7,8 +7,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const CONFIG_DIR = path.join(process.cwd(), '.claude');
-const CONFIG_FILE = path.join(CONFIG_DIR, 'dartai.local.md');
+const CONFIG_DIR = path.join(process.cwd(), '.dartai');
+const CONFIG_FILE = path.join(CONFIG_DIR, 'config.local.md');
 
 function parseConfig() {
   if (!fs.existsSync(CONFIG_FILE)) return { frontmatter: {}, content: '' };

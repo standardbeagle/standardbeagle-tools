@@ -40,7 +40,7 @@ if_too_large:
 
 4. **Add to task list**
 
-Append to `.claude/workflow-tasks.md`:
+Append to `.workflow/tasks.md`:
 ```markdown
 ---
 
@@ -65,7 +65,7 @@ Append to `.claude/workflow-tasks.md`:
 5. **Update loop state (if loop running)**
 
 If loop is currently running:
-- Update `.claude/workflow-loop-state.json`
+- Update `.workflow/loop-state.json`
 - Add task to tasks array
 - Increment total_tasks counter
 - Task will be picked up in next iteration
@@ -79,7 +79,7 @@ Title: [title]
 Priority: [priority]
 Status: Pending
 
-Added to: .claude/workflow-tasks.md
+Added to: .workflow/tasks.md
 
 Next Steps:
 - Task will be executed in loop order

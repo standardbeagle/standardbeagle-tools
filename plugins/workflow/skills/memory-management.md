@@ -196,7 +196,7 @@ exclude:
 
 **Location:**
 ```
-.claude/memories/
+.workflow/memories/
 ├── 2026-01-14-auth-rate-limiting.md
 ├── 2026-01-14-jwt-architecture.md
 ├── 2026-01-14-xss-lesson.md
@@ -259,7 +259,7 @@ slop-mcp memory update --id "memory-123" --content "Updated content"
 ### Fallback Storage
 
 If slop-mcp not available:
-- Store in `.claude/memories/` as markdown files
+- Store in `.workflow/memories/` as markdown files
 - Maintain JSON index for searching
 - Manual retrieval via Read tool
 
@@ -286,7 +286,7 @@ hook_execution:
     options: ["Save", "Edit", "Skip", "Skip All"]
 
   step_4_save:
-    approved_memories: "Save to .claude/memories/ or slop-mcp"
+    approved_memories: "Save to .workflow/memories/ or slop-mcp"
     edited_memories: "Present edit interface, then save"
     skipped_memories: "Discard"
 

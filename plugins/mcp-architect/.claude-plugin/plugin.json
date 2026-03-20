@@ -1,6 +1,6 @@
 {
   "name": "mcp-architect",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Design high-quality MCP servers with progressive discovery, context compression, and token-efficient responses. Includes patterns for multi-tool MCPs, the info tool pattern, cross-tool IDs, and automation-friendly JSON formats.",
   "author": {
     "name": "Standard Beagle",

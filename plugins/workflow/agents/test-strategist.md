@@ -23,10 +23,10 @@ Analyze code changes, determine which tests are missing, and write them at the c
 
 1. **`${CLAUDE_PLUGIN_ROOT}/rules/test-strategist/test-config.md`** - Test configuration rules
 
-Projects may override any rule by creating `.claude/workflow/rules/*.md` files.
+Projects may override any rule by creating `.workflow/rules/*.md` files.
 
 Rule override precedence (highest first):
-1. `.claude/workflow/rules/test-strategist/*.md` - Project-specific test rules
+1. `.workflow/rules/test-strategist/*.md` - Project-specific test rules
 2. `${CLAUDE_PLUGIN_ROOT}/rules/test-strategist/*.md` - Plugin default test rules
 
 **On startup**: Read all applicable rule files and merge them with project rules taking precedence.

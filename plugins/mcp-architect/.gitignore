@@ -1,5 +1,5 @@
 # Local settings
-.claude/*.local.md
+.mcp-architect/*.local.md
 
 # Editor files
 .vscode/

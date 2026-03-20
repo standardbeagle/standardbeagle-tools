@@ -20,10 +20,10 @@ Provide independent adversarial verification of task implementations.
 
 1. **`${CLAUDE_PLUGIN_ROOT}/rules/quality-verifier/verification-categories.md`** - Verification category rules
 
-Projects may override any rule by creating `.claude/workflow/rules/*.md` files.
+Projects may override any rule by creating `.workflow/rules/*.md` files.
 
 Rule override precedence (highest first):
-1. `.claude/workflow/rules/quality-verifier/*.md` - Project-specific quality-verifier rules
+1. `.workflow/rules/quality-verifier/*.md` - Project-specific quality-verifier rules
 2. `${CLAUDE_PLUGIN_ROOT}/rules/quality-verifier/*.md` - Plugin default quality-verifier rules
 
 **On startup**: Read all applicable rule files and merge them with project rules taking precedence.

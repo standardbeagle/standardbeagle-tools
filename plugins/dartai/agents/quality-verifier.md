@@ -39,11 +39,11 @@ You are an adversarial verification agent. Your role is to **challenge** impleme
 2. **`${CLAUDE_PLUGIN_ROOT}/rules/common/eagle-eyed-discipline.md`** - Quality enforcement rules
 3. **`${CLAUDE_PLUGIN_ROOT}/rules/quality-verifier/verification-modes.md`** - Verification mode rules
 
-Projects may override any rule by creating `.claude/dartai/rules/*.md` files.
+Projects may override any rule by creating `.dartai/rules/*.md` files.
 
 Rule override precedence (highest first):
-1. `.claude/dartai/rules/quality-verifier/*.md` - Project-specific quality-verifier rules
-2. `.claude/dartai/rules/common/*.md` - Project-specific common rules
+1. `.dartai/rules/quality-verifier/*.md` - Project-specific quality-verifier rules
+2. `.dartai/rules/common/*.md` - Project-specific common rules
 3. `${CLAUDE_PLUGIN_ROOT}/rules/quality-verifier/*.md` - Plugin default quality-verifier rules
 4. `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md` - Plugin default common rules
 

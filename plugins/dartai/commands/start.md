@@ -23,14 +23,14 @@ If dartboard name provided as argument, use it and save as last used. Otherwise:
 
 **Priority order for dartboard selection:**
 
-1. **Check last used dartboard** from `.claude/dartai.local.md` frontmatter (`last_dartboard` field)
-2. **Check default dartboard** from `.claude/dartai.local.md` frontmatter (`default_dartboard` field)
+1. **Check last used dartboard** from `.dartai/config.local.md` frontmatter (`last_dartboard` field)
+2. **Check default dartboard** from `.dartai/config.local.md` frontmatter (`default_dartboard` field)
 3. **Try directory name matching** - match current directory name to a dartboard
 4. **Interactive selection** - ask user to select from available dartboards
 
 **To read the config file:**
 ```
-Read .claude/dartai.local.md and parse YAML frontmatter between --- markers
+Read .dartai/config.local.md and parse YAML frontmatter between --- markers
 Look for: last_dartboard, default_dartboard fields
 ```
 
@@ -44,7 +44,7 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
 
 **After selecting a dartboard, save it as last used:**
 ```python
-# Update .claude/dartai.local.md frontmatter with:
+# Update .dartai/config.local.md frontmatter with:
 # last_dartboard: "Selected/Dartboard"
 # last_dartboard_used_at: "ISO timestamp"
 ```
@@ -54,7 +54,7 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
 Before starting a new loop, check if a previous session was interrupted:
 
 ```
-Read .claude/dartai-loop-state.json if it exists.
+Read .dartai/loop-state.json if it exists.
 If status is "interrupted":
   1. Show the user: "Previous loop was interrupted at [interrupted_at]"
   2. Show loop_task_id and dartboard if available
@@ -67,7 +67,7 @@ If status is "interrupted":
     - Skip to Section 3 (Fetch Active Tasks)
 
   If start fresh:
-    - Delete .claude/dartai-loop-state.json
+    - Delete .dartai/loop-state.json
     - Continue normally to create a new loop
 ```
 
@@ -105,7 +105,7 @@ Identify this runner instance for multi-runner concurrency:
    ```
    Match `runner_email` against assignee emails to find `runner_dart_id`.
 
-4. **Check `.claude/dartai.local.md`** for cached `runner_dart_id`. If cached and still valid, use it. Otherwise update the config with the matched value.
+4. **Check `.dartai/config.local.md`** for cached `runner_dart_id`. If cached and still valid, use it. Otherwise update the config with the matched value.
 
 5. **Store in loop state** (written later in Section 4):
    - `runner_instance_id`: the hostname-pid value
@@ -297,7 +297,7 @@ pre_spawn_checks:
   - task_is_context_sized: "Max 5 files"
   - clear_acceptance_criteria: "Task has acceptance criteria"
   - previous_subagent_terminated: "No overlapping subagents"
-  - loop_state_persisted: ".claude/dartai-loop-state.json exists and is valid"
+  - loop_state_persisted: ".dartai/loop-state.json exists and is valid"
 ```
 
 **If validation fails:**
@@ -522,7 +522,7 @@ phases:
 
 #### 5.6 Handle Subagent Result (SubagentStop Hook Fires Here)
 
-After the task-executor subagent returns, the `SubagentStop` hook fires and updates `.claude/dartai-loop-state.json`.
+After the task-executor subagent returns, the `SubagentStop` hook fires and updates `.dartai/loop-state.json`.
 
 **Dart is the source of truth for task state.** After SubagentStop fires:
 
@@ -548,7 +548,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
 
 3. **Local loop file contains orchestration metrics AND task results:**
    ```json
-   # .claude/dartai-loop-state.json - written by subagent before termination
+   # .dartai/loop-state.json - written by subagent before termination
    {
      "iterations": 3,
      "spawns": 3,
@@ -739,7 +739,7 @@ plan_adjustment:
 The loop continues autonomously via an **agent-based Stop hook** defined in `hooks.json`. When Claude attempts to stop:
 
 1. Stop hook spawns a subagent with Read/Grep/Glob access
-2. Subagent reads `.claude/dartai-loop-state.json` to check loop status
+2. Subagent reads `.dartai/loop-state.json` to check loop status
 3. If tasks remain: Returns `{"ok": false, "reason": "N remaining tasks..."}` → **Blocks stopping**, Claude continues
 4. If all done: Returns `{"ok": true}` → Allows stopping
 
@@ -895,7 +895,7 @@ main_loop_iteration:
 key_points:
   - "Each Task tool call creates isolated execution"
   - "Subagent has no memory of previous tasks"
-  - "SubagentStop hook updates .claude/dartai-loop-state.json"
+  - "SubagentStop hook updates .dartai/loop-state.json"
   - "Main loop reads state file and decides next action"
   - "Failure triggers REPLAN, not STOP"
   - "Loop continues until all tasks done or user stops"
