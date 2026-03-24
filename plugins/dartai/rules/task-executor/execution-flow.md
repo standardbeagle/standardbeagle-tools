@@ -79,7 +79,6 @@ task_sizing_check:
 loop_context:
   receive_in_prompt:
     - "Loop Task ID: Parent task tracking the loop session"
-    - "Loop Type: quality|test|security|refactor"
     - "Iteration: Current iteration number"
 
   use_for:

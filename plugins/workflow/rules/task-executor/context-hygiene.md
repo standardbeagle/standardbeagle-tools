@@ -57,7 +57,6 @@ Read task details from `.workflow/loop-state.json`:
 task_input:
   task_id: "From prompt"
   loop_id: "From prompt"
-  loop_type: "quality|security|refactor|test"
 
 read_from_state_file:
   - title
@@ -68,13 +67,9 @@ read_from_state_file:
   - context
 ```
 
-## Select Adversarial Loop Skill
+## Adversarial Loop Skill
 
-Based on `loop_type` parameter:
-- **quality** → Use `adversarial-quality` skill
-- **security** → Use `adversarial-security` skill
-- **refactor** → Use `adversarial-refactor` skill
-- **test** → Use `adversarial-test` skill
+Use the adversarial-quality skill which dispatches concurrent review agents (quality-verifier, test-strategist, security-auditor) at Phase 3.
 
 ## Context Management
 

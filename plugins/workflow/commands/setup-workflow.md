@@ -81,7 +81,6 @@ questions:
     - "State persistence mode? (default: state file only)"
 
   execution_pattern:
-    - "Loop type support? (default: quality, security, refactor, test)"
     - "Verifier spawn behavior? (default: fresh subagent)"
     - "Failure handling? (default: continue to next task)"
 ```
@@ -209,13 +208,7 @@ State persistence mode?
 Default: State file only
 Your choice: [Enter=accept] > Enter
 
-[2/3] Execution Pattern
-Which loop types to support?
-Default: quality, security, refactor, test
-Your choice: [Enter=accept all, C=customize] > C
-Enable: quality, security, refactor (test excluded)
-
-[3/3] Verifier Spawn Behavior
+[2/3] Verifier Spawn Behavior
 How to spawn verifier?
 Default: Fresh subagent for independent review
 Your choice: [Enter=accept, S=same agent] > Enter
@@ -226,7 +219,6 @@ Your choice: [Enter=accept, S=same agent] > Enter
 Summary of changes:
 - Max files per task: 5 → 10
 - Context isolation: Full → Partial
-- Supported loops: All → quality, security, refactor
 
 Role configuration saved! Agents will use these rules for this project.
 

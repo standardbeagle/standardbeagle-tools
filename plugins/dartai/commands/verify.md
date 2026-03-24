@@ -1,7 +1,7 @@
 ---
 name: verify
-description: Run adversarial verification loop on implementation, tests, security, or refactoring
-argument-hint: "[quality|test|security|refactor] [target]"
+description: Run adversarial verification on a target directory or file
+argument-hint: "[target]"
 ---
 
 # Adversarial Verification Command
@@ -11,94 +11,36 @@ Run an adversarial verification loop to challenge and validate code quality.
 ## Usage
 
 ```
-/dartai:verify quality ./src/module
-/dartai:verify test ./src/module.test.ts
-/dartai:verify security ./src/auth/
-/dartai:verify refactor ./src/utils.ts
+/dartai:verify ./src/module
+/dartai:verify ./src/auth/
+/dartai:verify .
 ```
 
-## Verification Types
+## What It Does
 
-### Quality Verification
-Runs the adversarial-quality-loop skill to verify implementation quality:
-- Scope analysis with plan adjustment
-- Implementation review with positive/negative criteria
-- Self-adversarial review
-- External adversarial verification
-- Quality gate verification
+Runs all three review agents concurrently on the target:
 
-### Test Verification
-Runs the adversarial-test-loop skill to verify test quality:
-- Test planning with coverage analysis
-- Happy path tests (50-60%)
-- Edge case tests (25-30%)
-- Adversarial tests (10-15%)
-- Mutation testing and quality verification
+1. **Quality Verifier** - Code quality, scope, completeness, codebase integration
+2. **Test Strategist** - Coverage, assertions, RED/GREEN compliance, distribution
+3. **Security Auditor** - OWASP Top 10, injection, auth, data protection
 
-### Security Verification
-Runs the adversarial-security-loop skill to audit security:
-- Threat modeling and attack surface mapping
-- Injection attack testing (OWASP A03)
-- Authentication/authorization testing (OWASP A01, A07)
-- Data protection verification (OWASP A02, A04)
-- Security configuration audit (OWASP A05)
-
-### Refactor Verification
-Runs the adversarial-refactor-loop skill to verify safe refactoring:
-- Behavior baseline establishment
-- Incremental refactoring with per-step verification
-- Adversarial behavior comparison
-- Semantic equivalence verification
+Each returns PASS/FAIL/NEEDS_WORK with detailed findings.
 
 ## Process
 
-### 1. Determine Verification Type
+### 1. Identify Target
 
-If type provided as argument, use it. Otherwise ask:
-- What type of verification? (quality/test/security/refactor)
+If target provided as argument, use it. Otherwise identify from current task context or ask.
 
-### 2. Identify Target
+### 3. Execute Concurrent Review
 
-If target provided as argument, use it. Otherwise:
-- For quality: Identify files from current task or ask
-- For test: Identify test files or module under test
-- For security: Identify security-relevant code paths
-- For refactor: Identify code being refactored
+Spawn all three agents in parallel using the Task tool:
 
-### 3. Execute Appropriate Loop
+1. `dartai:quality-verifier` - Implementation quality
+2. `dartai:test-strategist` - Test coverage and quality
+3. `dartai:security-auditor` - Security audit
 
-Use the quality-verifier agent with the selected adversarial loop skill:
-
-**Quality Loop Phases:**
-1. Implementation Review → Plan Adjustment
-2. Adversarial Implementation → Plan Adjustment
-3. Adversarial Verification → Plan Adjustment
-4. Quality Gate Verification → Plan Adjustment
-5. Final Validation
-
-**Test Loop Phases:**
-1. Test Planning → Plan Adjustment
-2. Happy Path Tests → Plan Adjustment
-3. Edge Case Tests → Plan Adjustment
-4. Adversarial Tests → Plan Adjustment
-5. Test Quality Verification → Plan Adjustment
-6. Regression Integration
-
-**Security Loop Phases:**
-1. Threat Modeling → Plan Adjustment
-2. Injection Attacks → Plan Adjustment
-3. Auth/Access Testing → Plan Adjustment
-4. Data Protection → Plan Adjustment
-5. Configuration Audit → Plan Adjustment
-6. Security Report
-
-**Refactor Loop Phases:**
-1. Refactoring Analysis → Plan Adjustment
-2. Pre-Refactoring Verification → Plan Adjustment
-3. Incremental Refactoring → Plan Adjustment (per step)
-4. Adversarial Verification → Plan Adjustment
-5. Final Validation → Plan Adjustment
-6. Post-Refactoring Report
+Wait for all three to complete, then compile results.
 
 ### 4. Plan Adjustment Protocol
 
@@ -137,7 +79,6 @@ Every phase includes:
 ```
 Adversarial Verification Report
 ================================
-Type: [quality|test|security|refactor]
 Target: [file/directory]
 Verdict: [PASS|FAIL|NEEDS_WORK]
 
@@ -147,10 +88,10 @@ Issues Found:
 - Medium: X
 - Low: X
 
-Phase Results:
-- Phase 1: [PASS|FAIL] - [summary]
-- Phase 2: [PASS|FAIL] - [summary]
-...
+Agent Results:
+- Quality Verifier: [PASS|FAIL|NEEDS_WORK] - [summary]
+- Test Strategist:  [PASS|FAIL|NEEDS_WORK] - [summary]
+- Security Auditor: [PASS|FAIL|NEEDS_WORK] - [summary]
 
 Plan Adjustments:
 - [adjustment 1]

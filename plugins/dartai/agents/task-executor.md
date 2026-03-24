@@ -57,7 +57,6 @@ Execute the assigned task using adversarial cooperation:
 
 You will receive loop context in your prompt:
 - **Loop Task ID**: Parent task tracking the loop session
-- **Loop Type**: quality|test|security|refactor
 - **Iteration**: Current iteration number
 
 Use this to:

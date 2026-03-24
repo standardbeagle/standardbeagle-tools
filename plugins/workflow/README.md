@@ -7,7 +7,7 @@ General-purpose adversarial workflow automation with Ralph Wiggum loops for Clau
 The workflow plugin provides a framework for executing tasks with:
 - **Clean context isolation** - Each task runs in a fresh subagent
 - **Adversarial cooperation** - Implementer + Verifier roles
-- **Multiple loop types** - Quality, Security, Refactor, Test
+- **RED/GREEN TDD** - Test-first development with concurrent review agents
 - **Hook-based tracking** - SubagentStop hooks monitor iterations
 - **No external dependencies** - No Dart, no databases, just files
 
@@ -50,12 +50,12 @@ This prevents:
    - Find edge cases
    - Question everything
 
-### Multiple Loop Types
+### Concurrent Review Agents
 
-- **quality**: Full implementation with verification
-- **security**: Security audit with OWASP patterns
-- **refactor**: Safe refactoring with behavior preservation
-- **test**: Test coverage with mutation testing
+At Phase 3 of each task, three review agents run in parallel:
+- **Quality Verifier** - Code quality, scope, completeness
+- **Test Strategist** - Coverage, RED/GREEN compliance, distribution
+- **Security Auditor** - OWASP Top 10, injection, auth, data protection
 
 ## Installation
 
@@ -116,11 +116,8 @@ Add rate limiting to prevent brute force attacks.
 ```bash
 /workflow:start-loop
 
-# Or with specific loop type
-/workflow:start-loop --loop=security
-
 # Or with custom task file
-/workflow:start-loop my-tasks.md --loop=quality
+/workflow:start-loop my-tasks.md
 ```
 
 ### 3. Monitor Progress
@@ -146,11 +143,10 @@ Start an adversarial loop for task automation.
 
 **Arguments:**
 - `[task-list-file]` - Optional path to task list (default: `.workflow/tasks.md`)
-- `--loop=type` - Loop type: quality|security|refactor|test (default: quality)
 
 **Example:**
 ```bash
-/workflow:start-loop my-tasks.md --loop=quality
+/workflow:start-loop my-tasks.md
 ```
 
 ### `/workflow:stop-loop`
@@ -167,68 +163,6 @@ Add a new task to the task list interactively.
 
 **Arguments:**
 - `[task-title]` - Optional task title
-
-## Loop Types
-
-### Quality Loop
-
-Full implementation with adversarial verification.
-
-**Phases:**
-1. Implementation Planning
-2. Positive Implementation
-3. Self-Adversarial Review
-4. External Verification (spawns verifier)
-5. Quality Gates (lint, test, type check)
-6. Final Validation
-
-**Use for:** Feature development, bug fixes, enhancements
-
-### Security Loop
-
-Security-focused audit with OWASP Top 10.
-
-**Phases:**
-1. Threat Modeling
-2. Injection Testing
-3. Authentication & Authorization
-4. Data Protection
-5. Configuration & Dependencies
-6. Security Report
-
-**Use for:** Security audits, vulnerability assessment
-
-**Critical Protocol:** Stops immediately if critical vulnerability found.
-
-### Refactor Loop
-
-Safe refactoring with behavior preservation.
-
-**Phases:**
-1. Refactor Analysis
-2. Behavior Baseline
-3. Incremental Refactoring (atomic steps)
-4. Adversarial Behavior Comparison
-5. Quality Validation
-6. Refactor Report
-
-**Use for:** Code cleanup, architecture improvements
-
-**Key Principle:** Behavior must be preserved exactly.
-
-### Test Loop
-
-Comprehensive testing with mutation testing.
-
-**Phases:**
-1. Test Planning
-2. Happy Path Tests (50-60%)
-3. Edge Case Tests (25-30%)
-4. Adversarial Tests (10-15%)
-5. Mutation Testing
-6. Regression Tests
-
-**Use for:** Improving test coverage, finding test gaps
 
 ## Context Management
 
@@ -264,7 +198,6 @@ Comprehensive testing with mutation testing.
 ```json
 {
   "loop_id": "abc123",
-  "loop_type": "quality",
   "tasks": [
     {
       "id": "task-1",
@@ -692,9 +625,11 @@ Main Loop (Primary Agent)
 ├── Reads: .workflow/tasks.md
 ├── Manages: .workflow/loop-state.json
 └── Spawns: workflow:task-executor (fresh subagent)
-    ├── Executes: adversarial-quality skill
-    ├── Spawns: workflow:quality-verifier (fresh subagent)
-    │   └── Returns: verification report
+    ├── Executes: adversarial-quality skill with RED/GREEN TDD
+    ├── Spawns concurrent review agents:
+    │   ├── workflow:quality-verifier (fresh)
+    │   ├── workflow:test-strategist (fresh)
+    │   └── workflow:security-auditor (fresh)
     ├── Updates: loop state file
     └── Terminates: SubagentStop hook fires
         └── Main loop continues to next task

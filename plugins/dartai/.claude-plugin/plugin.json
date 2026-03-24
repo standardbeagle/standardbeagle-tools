@@ -49,14 +49,13 @@
     "./skills/simple-planning.md",
     "./skills/adversarial-planning-loop.md",
     "./skills/adversarial-quality-loop.md",
-    "./skills/adversarial-test-loop.md",
-    "./skills/adversarial-security-loop.md",
-    "./skills/adversarial-refactor-loop.md",
     "./skills/hook-doctor.md"
   ],
   "agents": [
     "./agents/task-executor.md",
     "./agents/doc-updater.md",
-    "./agents/quality-verifier.md"
+    "./agents/quality-verifier.md",
+    "./agents/test-strategist.md",
+    "./agents/security-auditor.md"
   ]
 }

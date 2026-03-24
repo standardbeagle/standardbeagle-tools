@@ -1,7 +1,7 @@
 ---
 name: start-loop
 description: Start an adversarial Ralph Wiggum loop for general task automation
-argument-hint: "[task-list-file] [--loop=quality|security|refactor|test]"
+argument-hint: "[task-list-file]"
 ---
 
 # Start Ralph Wiggum Adversarial Loop
@@ -85,17 +85,7 @@ If task list file provided as argument, use it. Otherwise check for:
 ...
 ```
 
-### 2. Select Loop Type
-
-If `--loop` argument provided, use it. Otherwise default to `quality`.
-
-**Available loops:**
-- **quality**: Full implementation with adversarial verification (default)
-- **security**: Security-focused audit with OWASP patterns
-- **refactor**: Safe refactoring with behavior preservation
-- **test**: Test coverage with mutation testing
-
-### 3. Initialize Loop State
+### 2. Initialize Loop State
 
 Create loop state file: `.workflow/loop-state.json`
 
@@ -103,7 +93,6 @@ Create loop state file: `.workflow/loop-state.json`
 {
   "loop_id": "unique-id",
   "started_at": "ISO timestamp",
-  "loop_type": "quality|security|refactor|test",
   "task_source": "path/to/tasks.md",
   "status": "running",
   "current_task_index": 0,
@@ -161,7 +150,6 @@ subagent_execution:
     Loop ID: [loop-id]
     Task ID: [task-id]
     Task Index: [X of Y]
-    Loop Type: [quality|security|refactor|test]
 
     Task Details:
     Title: [title]
@@ -178,7 +166,7 @@ subagent_execution:
     [additional context]
 
     IMPORTANT:
-    - Use the [loop-type] adversarial skill
+    - Use the quality adversarial skill
     - Report success/failure with full details
     - Update loop state file on completion
     - This is a FRESH context - no prior task memory
@@ -268,7 +256,6 @@ Display progress after each iteration:
 Ralph Wiggum Workflow Loop
 ==========================
 Loop ID: abc123
-Loop Type: quality
 Status: running
 
 Progress: [X] of [Y] tasks
@@ -349,17 +336,11 @@ context_sized_task:
 ## Usage Examples
 
 ```bash
-# Start with default quality loop
+# Start with default task list
 /workflow:start-loop
 
 # Start with custom task list
 /workflow:start-loop my-tasks.md
-
-# Start security audit loop
-/workflow:start-loop --loop=security
-
-# Start refactor loop with specific file
-/workflow:start-loop refactor-tasks.md --loop=refactor
 ```
 
 ## Integration with Loop State File

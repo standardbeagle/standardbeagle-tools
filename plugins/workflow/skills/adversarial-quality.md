@@ -186,53 +186,82 @@ challenge_categories:
 
 **Checkpoint**: Write issues found, forget implementation again.
 
-### Phase 4: External Adversarial Verification (20-30% of time)
+### Phase 4: Concurrent Adversarial Verification (20-30% of time)
 
-**Objective**: Independent verification by quality-verifier agent
+**Objective**: Independent verification by three specialized agents running in parallel
 
-**Pattern**: Spawn verifier subagent for truly independent review
+**Pattern**: Spawn all three verifier subagents simultaneously using the Task tool, then handle results
+
+#### Dispatch (all three in parallel)
 
 ```yaml
-verifier_spawn:
+concurrent_dispatch:
   tool: Task
-  subagent_type: "workflow:quality-verifier"
-  description: "Verify task implementation"
+  spawn_simultaneously: true
 
-  prompt: |
-    Verify implementation of task [task-id].
+  agents:
+    - subagent_type: "workflow:quality-verifier"
+      description: "Verify correctness and quality"
+      prompt: |
+        Verify implementation of task [task-id].
 
-    Task: [title]
-    Files changed: [list]
+        Task: [title]
+        Files changed: [list]
+        Acceptance criteria: [criteria]
 
-    Your role: Challenge the implementation to find flaws.
+        Focus: Correctness and quality
+        - Does the implementation meet every acceptance criterion?
+        - Are edge cases handled?
+        - Is the code clean, readable, and maintainable?
+        - What inputs or states will break this?
 
-    Focus areas:
-    - Correctness: Does it meet acceptance criteria?
-    - Security: Any vulnerabilities?
-    - Edge cases: What breaks it?
-    - Quality: Clean, maintainable code?
+        Return a verification report (see schema below).
 
-    Return: Verification report with issues found
+    - subagent_type: "workflow:test-strategist"
+      description: "Evaluate test coverage and strategy"
+      prompt: |
+        Evaluate test coverage for task [task-id].
+
+        Task: [title]
+        Files changed: [list]
+        Acceptance criteria: [criteria]
+
+        Focus: Test strategy and coverage
+        - Are the right behaviors tested?
+        - Are edge cases and failure paths covered?
+        - Are tests readable and correctly structured (RED seen before GREEN)?
+        - What critical paths lack tests?
+
+        Return a verification report (see schema below).
+
+    - subagent_type: "workflow:security-auditor"
+      description: "Audit for security vulnerabilities"
+      prompt: |
+        Audit security for task [task-id].
+
+        Task: [title]
+        Files changed: [list]
+        Acceptance criteria: [criteria]
+
+        Focus: Security vulnerabilities
+        - Input validation: injection, overflow, malformed data
+        - Authentication and authorization boundaries
+        - Secrets or sensitive data exposure
+        - Unsafe dependencies or dangerous APIs
+
+        Return a verification report (see schema below).
 ```
 
-**Verifier Process**:
-1. Read files fresh (no prior context)
-2. Read acceptance criteria
-3. Challenge implementation:
-   - Does it actually meet criteria?
-   - What's the worst that could happen?
-   - What am I not seeing?
-4. Generate verification report
-5. Return to executor
+#### Verification Report Schema (each agent returns this)
 
-**Verification Report**:
 ```yaml
 verification_report:
-  overall_assessment: "pass|fail|pass_with_concerns"
+  agent: "quality-verifier|test-strategist|security-auditor"
+  result: "all_pass|needs_work|critical_security"
 
   issues_found:
     - severity: "critical|high|medium|low"
-      category: "security|correctness|quality|performance"
+      category: "correctness|quality|test-coverage|security|performance"
       description: "What's wrong"
       location: "file:line"
       recommendation: "How to fix"
@@ -240,15 +269,41 @@ verification_report:
   positive_findings:
     - "What was done well"
 
-  acceptance_criteria:
+  acceptance_criteria_checked:
     - criterion: "Criterion text"
       met: true|false
       evidence: "How verified"
 ```
 
-**If Issues Found**: Fix and re-verify
+#### Result Handling
 
-**Checkpoint**: Write verification report, forget details again.
+```yaml
+result_routing:
+  collect: "Wait for all three agents to return before evaluating"
+
+  critical_security:
+    trigger: "Any agent returns result: critical_security"
+    action: "STOP immediately — do not proceed to Phase 5"
+    report: "Write security-halt report to state file with all findings"
+    message: "HALTED: Critical security issue found. Requires human review before continuing."
+
+  all_pass:
+    trigger: "All three agents return result: all_pass"
+    action: "Proceed to Phase 5"
+
+  needs_work:
+    trigger: "One or more agents return result: needs_work (and none is critical_security)"
+    action: |
+      1. Fix all reported issues
+      2. Re-dispatch ONLY the agents that returned needs_work (not passing agents)
+      3. Pass the same inputs plus a fixes_applied summary
+    max_retries: 2
+    if_still_failing_after_retries: |
+      Write failure report to state file with unresolved issues.
+      Return to main loop with status: failed.
+```
+
+**Checkpoint**: Write combined verification report from all agents, forget implementation details.
 
 ### Phase 5: Quality Gates (10-15% of time)
 
@@ -378,9 +433,9 @@ context_accumulation:
 **Between Subagents**:
 ```yaml
 context_isolation:
-  enforced: "Yes - when spawning quality-verifier"
+  enforced: "Yes - when spawning quality-verifier, test-strategist, and security-auditor"
   why: "Independent verification requires fresh eyes"
-  mechanism: "Task tool spawns separate subagent"
+  mechanism: "Task tool spawns separate subagents concurrently"
 ```
 
 ## Adjustments and Learning
@@ -421,6 +476,6 @@ failure_handling:
 
 ## Usage
 
-This skill is invoked by workflow:task-executor agent when loop type is "quality".
+This skill is invoked by the workflow:task-executor agent to run the full quality loop for a task.
 
 See `loop-orchestration.md` for how this integrates into the overall loop.

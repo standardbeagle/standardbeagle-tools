@@ -36,15 +36,13 @@
   "skills": [
     "./skills/context-hygiene.md",
     "./skills/adversarial-quality.md",
-    "./skills/adversarial-security.md",
-    "./skills/adversarial-refactor.md",
-    "./skills/adversarial-test.md",
     "./skills/loop-orchestration.md",
     "./skills/memory-management.md"
   ],
   "agents": [
     "./agents/task-executor.md",
     "./agents/quality-verifier.md",
-    "./agents/security-auditor.md"
+    "./agents/security-auditor.md",
+    "./agents/test-strategist.md"
   ]
 }

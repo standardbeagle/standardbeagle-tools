@@ -1,7 +1,7 @@
 ---
 name: start
 description: Start the Ralph Wiggum adversarial cooperation loop on a dartboard with plan adjustment
-argument-hint: "[dartboard-name] [--loop=quality|test|security|refactor]"
+argument-hint: "[dartboard-name]"
 ---
 
 # Start Ralph Wiggum Adversarial Loop
@@ -71,16 +71,6 @@ If status is "interrupted":
     - Continue normally to create a new loop
 ```
 
-### 2. Select Loop Type
-
-If `--loop` argument provided, use it. Otherwise default to `quality` loop.
-
-Available loops:
-- **quality**: Full implementation quality verification (adversarial-quality-loop)
-- **test**: Test coverage and quality verification (adversarial-test-loop)
-- **security**: Security audit with OWASP patterns (adversarial-security-loop)
-- **refactor**: Safe refactoring with behavior verification (adversarial-refactor-loop)
-
 ### 2.5. Resolve Runner Identity
 
 Identify this runner instance for multi-runner concurrency:
@@ -147,11 +137,10 @@ params:
   tool_name: "create_task"
   parameters:
     item:
-      title: "🔄 Loop: [loop-type] on [dartboard-name]"
+      title: "🔄 Loop: [dartboard-name]"
       description: |
         ## Ralph Wiggum Loop Session
 
-        **Loop Type:** [quality|test|security|refactor]
         **Dartboard:** [dartboard-name]
         **Started:** [ISO timestamp]
         **Status:** Running
@@ -168,7 +157,7 @@ params:
       dartboard: "[dartboard-name]"
       status: "In Progress"
       priority: "High"
-      tags: ["loop-session", "loop-active", "loop-type:[type]", "runner:[runner_instance_id]"]
+      tags: ["loop-session", "loop-active", "runner:[runner_instance_id]"]
 ```
 
 Save the returned `loop_task_id` for linking subtasks.
@@ -402,7 +391,6 @@ subagent_execution:
 
         ## Loop Context
         Loop Task ID: [loop_task_id]
-        Loop Type: [quality|test|security|refactor]
         Iteration: [N]
 
         ## Task Details
@@ -411,7 +399,7 @@ subagent_execution:
         - Acceptance Criteria: [criteria]
 
         ## Instructions
-        1. Use the [LOOP_TYPE] adversarial loop pattern
+        1. Use the adversarial quality loop pattern with RED/GREEN TDD
         2. Update task tags with phase progress: loop-phase:[phase]
         3. On completion: mark task Done, add summary comment
         4. On failure: leave In Progress, add failure comment with:
@@ -436,7 +424,6 @@ Task tool call:
 
     ## Loop Context
     Loop Task ID: abc123def456
-    Loop Type: quality
     Iteration: 1
 
     ## Task Details
@@ -453,71 +440,36 @@ The task-executor subagent will verify task is context-sized:
 
 **If task too large**: Subagent will request split and return
 
-#### 5.5 Execute Selected Loop (done by subagent)
+#### 5.5 Execute Quality Loop (done by subagent)
 
-**Quality Loop** (adversarial-quality-loop skill):
+The task-executor subagent follows the adversarial-quality-loop skill:
 ```yaml
 phases:
+  0_git_hygiene_tdd:
+    - Pull latest, rebase, verify green
+    - Set up RED/GREEN TDD approach
+
   1_implementation_review:
-    - Understand task scope
-    - Identify all files
-    - Create verification checklist
-    - PLAN ADJUSTMENT: Update if scope changes
+    - Understand task scope and acceptance criteria
+    - Identify files (max 5)
 
-  2_adversarial_implementation:
-    - Implement with positive instructions
-    - Self-adversarial review
-    - PLAN ADJUSTMENT: Add fix tasks if issues found
+  2_tdd_implementation:
+    - Write failing test (RED)
+    - Implement minimum code (GREEN)
+    - Refactor under GREEN
+    - Repeat for each behavior
 
-  3_adversarial_verification:
-    - External code review (verifier role)
-    - Challenge every assumption
-    - PLAN ADJUSTMENT: Add fixes for findings
+  3_concurrent_review:
+    - Dispatch quality-verifier, test-strategist, security-auditor
+    - All three run in parallel with fresh context
+    - Fix issues, re-dispatch failing agents only
 
   4_quality_gates:
-    - Run linting, testing, coverage
-    - PLAN ADJUSTMENT: Add fixes for failures
+    - Linting, testing, coverage checks
 
   5_final_validation:
-    - Verify acceptance criteria met
-    - Complete or escalate
-```
-
-**Test Loop** (adversarial-test-loop skill):
-```yaml
-phases:
-  1_test_planning: "Analyze coverage needs"
-  2_happy_path: "50-60% of tests"
-  3_edge_cases: "25-30% of tests"
-  4_adversarial: "10-15% of tests"
-  5_quality_verification: "Mutation testing"
-  6_regression: "Bug regression tests"
-  # PLAN ADJUSTMENT after each phase
-```
-
-**Security Loop** (adversarial-security-loop skill):
-```yaml
-phases:
-  1_threat_modeling: "Map attack surface"
-  2_injection: "OWASP A03 testing"
-  3_auth: "OWASP A01, A07 testing"
-  4_data_protection: "OWASP A02, A04 testing"
-  5_configuration: "OWASP A05 testing"
-  6_report: "Security findings"
-  # PLAN ADJUSTMENT after each phase
-  # STOP on critical findings
-```
-
-**Refactor Loop** (adversarial-refactor-loop skill):
-```yaml
-phases:
-  1_analysis: "Identify refactoring scope"
-  2_baseline: "Establish behavior baseline"
-  3_incremental: "Execute atomic refactoring steps"
-  4_verification: "Adversarial behavior comparison"
-  5_validation: "Final quality checks"
-  6_report: "Refactoring results"
-  # PLAN ADJUSTMENT after each phase and each step
+    - Verify all acceptance criteria met
+    - Confirm no scope creep
 ```
 
 #### 5.6 Handle Subagent Result (SubagentStop Hook Fires Here)
@@ -793,7 +745,7 @@ params:
   parameters:
     dart_id: "[loop_task_id]"
     status: "Done"
-    tags: ["loop-session", "loop-complete", "loop-type:[type]"]
+    tags: ["loop-session", "loop-complete"]
 ```
 
 **Add final summary comment:**
@@ -848,7 +800,6 @@ Display ongoing progress:
 Ralph Wiggum Adversarial Loop
 =============================
 Dartboard: [name]
-Loop Type: [quality|test|security|refactor]
 Progress: [X] of [Y] tasks
 
 Current Task: [title]
@@ -904,17 +855,14 @@ key_points:
 ## Usage Examples
 
 ```bash
-# Start quality loop (default)
+# Start loop (uses last-used or default dartboard)
 /dartai:start
 
 # Start on specific dartboard
 /dartai:start Personal/standardbeagle-tools
 
-# Start security audit loop
-/dartai:start "My Project" --loop=security
-
-# Start test coverage loop
-/dartai:start --loop=test
+# Start on a named dartboard
+/dartai:start "My Project"
 ```
 
 ## Context-Sized Task Requirements

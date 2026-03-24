@@ -608,76 +608,112 @@ checkpoint:
 
 ---
 
-## Phase 3: Adversarial Verification
+## Phase 3: Concurrent Adversarial Review
 
-### Task: External Code Review (Verifier Role)
+### Task: Dispatch Review Agents
 
-The verifier attempts to find flaws:
+Spawn three review agents concurrently. Each runs with fresh context and returns a structured verdict.
 
-**DO (Positive Instructions):**
-- Challenge every assumption
-- Search for duplicate functionality with LCI
-- Verify naming consistency across codebase
-- Check for SOLID principle violations
-- Validate error handling completeness
+**Dispatch all three in parallel using the Task tool:**
 
-**DO NOT (Negative Instructions):**
-- Accept code at face value
-- Skip comparing with existing patterns
-- Ignore minor inconsistencies
-- Assume tests cover everything
-- Approve without understanding
-
-**Verification Test Suite:**
 ```yaml
-test_categories:
-  happy_path:  # 50% of verification
-    - standard_input_produces_expected_output
-    - all_acceptance_criteria_met
-    - integration_with_existing_code_works
+concurrent_agents:
+  quality_verifier:
+    subagent_type: "dartai:quality-verifier"
+    description: "Review code quality for [task-title]"
+    prompt: |
+      Verify implementation quality for task [TASK_ID].
 
-  edge_cases:  # 30% of verification
-    - empty_input_handled_gracefully
-    - maximum_size_input_works
-    - concurrent_access_safe
-    - timeout_handling_correct
+      ## Changed Files
+      [list of files changed]
 
-  adversarial:  # 20% of verification
-    - malformed_input_rejected
-    - injection_attempts_blocked
-    - resource_exhaustion_prevented
-    - error_messages_safe
+      ## Acceptance Criteria
+      [criteria from task]
+
+      Focus on: scope creep, over-engineering, incomplete markers,
+      cop-outs, codebase integration, behavior preservation.
+
+      Return structured verdict: PASS, FAIL, or NEEDS_WORK with issues.
+
+  test_strategist:
+    subagent_type: "dartai:test-strategist"
+    description: "Review test quality for [task-title]"
+    prompt: |
+      Verify test coverage and quality for task [TASK_ID].
+
+      ## Changed Files
+      [list of files changed]
+
+      Focus on: coverage gaps, assertion quality, RED/GREEN compliance,
+      test distribution, mutation testing, test isolation.
+
+      Return structured verdict: PASS, FAIL, or NEEDS_WORK with issues.
+
+  security_auditor:
+    subagent_type: "dartai:security-auditor"
+    description: "Security review for [task-title]"
+    prompt: |
+      Audit security of changes for task [TASK_ID].
+
+      ## Changed Files
+      [list of files changed]
+
+      Focus on: OWASP Top 10, injection vectors, auth/access control,
+      data protection, security configuration, hardcoded secrets.
+
+      Return structured verdict: PASS, FAIL, or NEEDS_WORK with issues.
+```
+
+**Handling Results:**
+
+```yaml
+result_handling:
+  all_pass:
+    action: "Proceed to Phase 4"
+    note: "All three agents approved"
+
+  any_needs_work:
+    action: "Fix issues, re-dispatch ONLY the failing agents"
+    max_retries: 2
+    note: "Don't re-run agents that already passed"
+
+  any_fail:
+    action: "Fix issues, re-dispatch ONLY the failing agents"
+    max_retries: 2
+    escalate_after: "If still failing after 2 retries, RETURN with failure"
+
+  critical_security:
+    action: "STOP immediately"
+    note: "Critical security finding blocks all work"
 ```
 
 **Verification Criteria:**
 ```yaml
 pass_if:
-  - all_happy_path_tests_pass: true
-  - edge_case_coverage: ">= 80%"
-  - no_adversarial_failures: true
-  - code_review_approved: true
+  - quality_verifier_verdict: "PASS"
+  - test_strategist_verdict: "PASS"
+  - security_auditor_verdict: "PASS"
 fail_if:
-  - any_happy_path_fails: true
-  - critical_edge_case_fails: true
-  - adversarial_vulnerability_found: true
+  - any_verdict_fail_after_retries: true
+  - critical_security_finding: true
 ```
 
 ### Plan Adjustment Point 3 (Automatic - Do Not Stop)
 ```yaml
 checkpoint:
   validate:
-    - happy_path_tests_pass: true
-    - edge_case_coverage: ">= 80%"
-    - no_critical_vulnerabilities: true
+    - all_agents_returned: true
+    - no_critical_security: true
+    - issues_addressed: true
 
   auto_adjust:
-    failures_found: "Fix inline and re-verify, CONTINUE"
-    patterns_emerge: "Add systemic fix to plan, CONTINUE"
-    new_edge_cases: "Add to test suite, CONTINUE"
-    minor_issues: "Fix immediately, CONTINUE"
+    quality_issues: "Fix inline and re-dispatch quality-verifier, CONTINUE"
+    test_gaps: "Add tests and re-dispatch test-strategist, CONTINUE"
+    security_findings: "Fix and re-dispatch security-auditor, CONTINUE"
+    critical_security: "STOP - create fix task"
 
   stop_only_if:
-    critical_blocker: "Security vulnerability or fundamental failure"
+    critical_blocker: "Critical security vulnerability or all agents failing after retries"
 
   then: "Proceed immediately to Phase 4"
 ```

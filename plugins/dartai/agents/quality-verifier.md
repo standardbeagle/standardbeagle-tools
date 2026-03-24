@@ -12,18 +12,8 @@ whenToUse: |
   </example>
 
   <example>
-  User: "Challenge this refactoring to find any behavior changes"
-  Action: Use quality-verifier to detect semantic differences
-  </example>
-
-  <example>
   User: "Test coverage seems good but I want to make sure"
   Action: Use quality-verifier to find gaps in test coverage
-  </example>
-
-  <example>
-  User: "Review security of this authentication code"
-  Action: Use quality-verifier to attempt security attacks
   </example>
 ---
 
@@ -258,9 +248,7 @@ verdicts:
 
 ---
 
-## Verification Modes
-
-### Mode 1: Implementation Verification
+## Verification Process
 
 When verifying an implementation:
 
@@ -303,151 +291,17 @@ implementation_verification:
     - check: "Error handling matches patterns"
     - check: "Code style matches project"
 
+  behavior_preservation:  # When task involves refactoring
+    - check: "Same outputs for all inputs"
+    - check: "Same errors for invalid inputs"
+    - check: "Same side effects"
+    - check: "No performance regression (< 10% slower)"
+
   issues_found:
     - severity: "critical|high|medium|low"
     - description: "What's wrong"
     - location: "file:line"
     - fix: "How to fix"
-```
-
-### Mode 2: Test Verification
-
-When verifying test quality:
-
-**Your Tasks (Context-Sized):**
-1. Analyze test coverage
-2. Check test assertions are meaningful
-3. Attempt mutation testing
-4. Find missing edge case tests
-5. Verify test isolation
-
-**DO (Positive Instructions):**
-- Mutate code to see if tests fail
-- Check for tests that never fail
-- Verify assertions are specific
-- Look for shared state between tests
-- Challenge test assumptions
-
-**DO NOT (Negative Instructions):**
-- Accept green tests as proof
-- Skip checking assertion quality
-- Ignore test performance
-- Assume coverage equals quality
-- Skip checking test isolation
-
-**Test Verification Checklist:**
-```yaml
-test_verification:
-  coverage:
-    - metric: "Line coverage"
-    - metric: "Branch coverage"
-    - metric: "Mutation score"
-
-  assertion_quality:
-    - check: "No empty assertions"
-    - check: "No assertTrue(true)"
-    - check: "Specific expected values"
-
-  test_isolation:
-    - check: "Tests pass in any order"
-    - check: "No shared mutable state"
-    - check: "Proper setup/teardown"
-
-  missing_tests:
-    - gap: "What's not tested"
-    - priority: "critical|high|medium|low"
-```
-
-### Mode 3: Security Verification
-
-When verifying security:
-
-**Your Tasks (Context-Sized):**
-1. Identify attack surface
-2. Attempt injection attacks
-3. Test authentication/authorization
-4. Check data protection
-5. Review configuration
-
-**DO (Positive Instructions):**
-- Try SQL/XSS/command injection
-- Test privilege escalation
-- Check for data leakage
-- Verify encryption usage
-- Test with malicious inputs
-
-**DO NOT (Negative Instructions):**
-- Assume sanitization works
-- Skip testing auth bypass
-- Ignore error message content
-- Trust client-side validation
-- Skip checking dependencies
-
-**Security Verification Checklist:**
-```yaml
-security_verification:
-  injection:
-    - test: "SQL injection attempts"
-    - test: "XSS injection attempts"
-    - test: "Command injection attempts"
-    - result: "blocked|vulnerable"
-
-  authentication:
-    - test: "Without credentials"
-    - test: "With invalid credentials"
-    - test: "With expired session"
-    - result: "blocked|vulnerable"
-
-  data_protection:
-    - test: "Sensitive data in logs"
-    - test: "Sensitive data in errors"
-    - test: "Encryption at rest"
-    - result: "secure|vulnerable"
-```
-
-### Mode 4: Refactoring Verification
-
-When verifying refactoring:
-
-**Your Tasks (Context-Sized):**
-1. Document baseline behavior
-2. Execute refactored code with same inputs
-3. Compare outputs precisely
-4. Check for semantic differences
-5. Verify performance impact
-
-**DO (Positive Instructions):**
-- Compare before/after behavior exactly
-- Test with edge case inputs
-- Check error message changes
-- Measure performance difference
-- Look for subtle semantic shifts
-
-**DO NOT (Negative Instructions):**
-- Assume tests catch all differences
-- Accept "close enough" behavior
-- Ignore performance changes
-- Skip comparing error paths
-- Trust visual inspection alone
-
-**Refactoring Verification Checklist:**
-```yaml
-refactoring_verification:
-  behavior_preservation:
-    - check: "Same outputs for all inputs"
-    - check: "Same errors for invalid inputs"
-    - check: "Same side effects"
-    - evidence: "How verified"
-
-  semantic_equivalence:
-    - check: "No precision changes"
-    - check: "No ordering changes"
-    - check: "No timing changes"
-
-  performance:
-    - baseline: "X ms"
-    - after: "Y ms"
-    - acceptable: "< 10% slower"
 ```
 
 ---
@@ -458,7 +312,7 @@ After verification, always produce a report:
 
 ```yaml
 verification_report:
-  mode: "implementation|test|security|refactoring"
+  mode: "quality"
   target: "what was verified"
   date: "timestamp"
 
