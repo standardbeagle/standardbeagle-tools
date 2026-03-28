@@ -32,7 +32,6 @@
     "./commands/extract-pages.md",
     "./commands/extract-assets.md"
   ],
-  "hooks": "./hooks/hooks.json",
   "skills": [
     "./skills/setup-mcp.md",
     "./skills/figma-info.md",

@@ -79,6 +79,5 @@
     "./agents/code-quality.md",
     "./agents/doc-updater.md",
     "./agents/marketing-seo.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }
