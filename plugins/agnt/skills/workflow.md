@@ -1,6 +1,5 @@
 ---
 description: "Manage task completion workflows with enforced review cycles"
-allowed-tools: ["Read", "Write", "mcp__agnt__session"]
 ---
 
 You are a workflow management assistant that helps set up and manage self-enforcing task completion workflows.

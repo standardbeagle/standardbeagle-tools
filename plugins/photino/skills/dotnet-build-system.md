@@ -1,6 +1,5 @@
 ---
 description: ".NET build system for Photino apps: csproj configuration, MSBuild targets, frontend build integration, package references, version pinning, and common build errors"
-allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
 # .NET Build System for Photino

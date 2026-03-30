@@ -1,6 +1,5 @@
 ---
 description: "Photino.NET desktop app architecture: PhotinoWindow APIs, threading model, native message bridge, IMessageTransport abstraction, dual-mode Program.cs, and cross-platform WebView engine table"
-allowed-tools: ["Read", "Glob", "Grep"]
 ---
 
 # Photino.NET Architecture

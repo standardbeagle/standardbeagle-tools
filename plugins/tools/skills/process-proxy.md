@@ -1,7 +1,6 @@
 ---
 name: process-proxy
 description: Dev server lifecycle and reverse proxy management workflows with troubleshooting patterns
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Process and Proxy Management Skill

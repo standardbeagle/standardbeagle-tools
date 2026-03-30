@@ -1,7 +1,6 @@
 ---
 name: mcp-tools
 description: Complete reference for all agnt MCP tools with exact parameter schemas and copy-paste examples
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Agnt MCP Tools Reference

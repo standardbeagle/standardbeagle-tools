@@ -1,7 +1,6 @@
 ---
 name: trace-symbol
 description: Trace function call hierarchies, dependencies, side effects, and symbol relationships using LCI
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Symbol Tracing & Dependency Analysis

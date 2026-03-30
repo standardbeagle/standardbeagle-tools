@@ -1,7 +1,6 @@
 ---
 name: search-code
 description: Find code symbols, patterns, implementations, and files using LCI semantic search
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Code Search Workflows

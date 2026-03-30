@@ -1,6 +1,5 @@
 ---
 description: "Testing strategies for Photino.NET apps: testability tiers (pure logic, AST without runspace, live integration), environment traits, fixture patterns, and test filtering"
-allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
 # Testing Photino.NET Applications

@@ -1,7 +1,6 @@
 ---
 name: commit-all
 description: Orchestrate full WIP preparation and auto-commit by loading project config from memory and dispatching dedicated agents
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__run_slop", "mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Commit All

@@ -1,7 +1,6 @@
 ---
 name: current-page
 description: Get comprehensive information about the current page the user is browsing - URL, content, navigation, links, structured data, performance, and visual state
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Current Page Information Skill

@@ -1,7 +1,6 @@
 ---
 name: interaction-tracking
 description: Track user interactions and DOM mutations for debugging click handlers, form inputs, and dynamic UI changes
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Interaction & Mutation Tracking Skill

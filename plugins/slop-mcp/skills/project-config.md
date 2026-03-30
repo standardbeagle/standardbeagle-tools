@@ -1,7 +1,6 @@
 ---
 name: project-config
 description: Manage per-project configuration stored in slop-mcp persistent memory. View, update, reset, or detect project settings used by commit-all and other orchestrator skills.
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__run_slop", "mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Project Configuration Memory

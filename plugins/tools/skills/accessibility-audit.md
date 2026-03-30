@@ -1,7 +1,6 @@
 ---
 name: accessibility-audit
 description: Accessibility auditing with axe-core, ARIA inspection, contrast checks, tab order, and screen reader simulation
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Accessibility Audit Skill

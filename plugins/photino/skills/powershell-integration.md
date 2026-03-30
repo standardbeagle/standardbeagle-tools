@@ -1,6 +1,5 @@
 ---
 description: "PowerShell SDK integration in Photino.NET: runspace architecture, SessionManager, streaming execution, TabExpansion2, function injection, PSObject conversion, and disposal patterns"
-allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
 # PowerShell SDK Integration

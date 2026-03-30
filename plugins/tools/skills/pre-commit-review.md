@@ -1,7 +1,6 @@
 ---
 name: pre-commit-review
 description: Analyze staged or uncommitted code changes for quality issues before committing
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Pre-commit Code Quality Analysis

@@ -1,6 +1,5 @@
 ---
 description: "Frontend embedding pipeline for Photino.NET: Vite build to wwwroot, base path configuration, dev vs production loading, fallback HTML, and .gitignore setup"
-allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
 # Frontend Embedding in Photino.NET

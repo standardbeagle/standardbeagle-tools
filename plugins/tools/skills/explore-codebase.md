@@ -1,7 +1,6 @@
 ---
 name: explore-codebase
 description: Understand codebase architecture, structure, and patterns using LCI code intelligence
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Codebase Exploration Workflows

@@ -1,7 +1,6 @@
 ---
 name: visual-diagnostics
 description: Visual overlays for layout debugging - outline elements, show grid/flex containers, typography audit, z-index analysis, interactive element visualization
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Visual Diagnostics Skill

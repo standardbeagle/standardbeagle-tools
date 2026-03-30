@@ -1,6 +1,5 @@
 ---
 description: "Central message routing pattern for Photino.NET: {type,payload} message format, HandleMessage dispatch, Send helper, event wiring, Svelte 5 component patterns, and IAsyncDisposable in sync contexts"
-allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
 # Message Router Pattern

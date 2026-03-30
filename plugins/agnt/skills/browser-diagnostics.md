@@ -1,7 +1,6 @@
 ---
 name: browser-diagnostics
 description: Browser element inspection, layout diagnostics, tree walking, and visual checks via proxy exec
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Browser Diagnostics Skill

@@ -1,7 +1,6 @@
 ---
 name: browser-debug
 description: Complete browser debugging workflow combining element inspection, layout diagnostics, interaction tracking, and visual tools via agnt proxy
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Browser Debugging Skill

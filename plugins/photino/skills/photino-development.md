@@ -1,6 +1,5 @@
 ---
 description: "Photino.NET dual-service development workflow: DevServer class, Vite proxy config, MessageBridge auto-detection, debugging strategies, and .agnt.kdl configuration"
-allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
 # Photino.NET Development Workflow

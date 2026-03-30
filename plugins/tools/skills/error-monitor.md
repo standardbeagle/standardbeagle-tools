@@ -1,7 +1,6 @@
 ---
 name: error-monitor
 description: Check errors across all proxies and processes with unified aggregation, deduplication, and periodic monitoring
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Error Monitor Skill

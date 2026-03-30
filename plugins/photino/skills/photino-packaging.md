@@ -1,6 +1,5 @@
 ---
 description: "Cross-platform packaging for Photino.NET: RID table, self-contained/single-file publish, platform-specific requirements (WebView2, WebKitGTK, WKWebView), installers, and CI pipelines"
-allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
 ---
 
 # Photino.NET Cross-Platform Packaging

@@ -1,7 +1,6 @@
 ---
 name: full-audit
 description: Comprehensive page audit combining accessibility, DOM complexity, CSS architecture, security, and performance checks
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Full Audit Skill

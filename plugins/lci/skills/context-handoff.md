@@ -1,7 +1,6 @@
 ---
 name: context-handoff
 description: Save and load code context manifests for agent handoff and session continuity
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Context Manifests for Agent Handoff

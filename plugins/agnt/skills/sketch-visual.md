@@ -1,7 +1,6 @@
 ---
 name: sketch-visual
 description: Wireframing with sketch mode and visual highlighting including screenshots, overlays, and UI annotation tools
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Sketch Mode & Visual Tools Skill

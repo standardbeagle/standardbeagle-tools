@@ -1,7 +1,6 @@
 ---
 name: responsive-check
 description: Detect responsive layout risks before they cause problems - fixed widths, touch targets, horizontal scroll, positioning issues
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Responsive Layout Check Skill

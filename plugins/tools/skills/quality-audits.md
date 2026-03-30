@@ -1,7 +1,6 @@
 ---
 name: quality-audits
 description: Page quality audits for DOM complexity, CSS architecture, security vulnerabilities, and SEO/meta tag validation
-allowed-tools: ["mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 ---
 
 # Quality Audits Skill
