@@ -1,0 +1,32 @@
+{
+  "name": "dev-standards",
+  "version": "0.1.0",
+  "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "dev-standards",
+    "coding-standards",
+    "rules",
+    "project-templates",
+    "contextual-loading",
+    "best-practices",
+    "language-guidelines",
+    "testing-standards",
+    "code-quality"
+  ],
+  "commands": ["./commands/setup-project.md"],
+  "skills": [
+    "./skills/update-rules/SKILL.md",
+    "./skills/update-project/SKILL.md",
+    "./skills/add-skill/SKILL.md",
+    "./skills/decide/SKILL.md"
+  ],
+  "hooks": "./hooks/hooks.json",
+  "agents": []
+}

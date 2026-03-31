@@ -358,6 +358,31 @@
       "category": "development"
     },
     {
+      "name": "dev-standards",
+      "source": "./plugins/dev-standards",
+      "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "dev-standards",
+        "coding-standards",
+        "rules",
+        "project-templates",
+        "contextual-loading",
+        "best-practices",
+        "language-guidelines",
+        "testing-standards",
+        "code-quality"
+      ],
+      "category": "development"
+    },
+    {
       "name": "photino",
       "source": "./plugins/photino",
       "description": "Photino.NET desktop app development: build workflows, cross-platform packaging, PowerShell SDK integration, dual-service development, and agent configuration for AI-assisted .NET desktop projects.",
