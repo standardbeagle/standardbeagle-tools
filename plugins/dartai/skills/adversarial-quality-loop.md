@@ -381,60 +381,115 @@ git_hygiene:
     - "never force-push to shared branches"
 ```
 
-### Task: TDD Setup (Write Tests First)
+### Task: TDD Setup (Strict Red/Green/Refactor)
 
 **DO (Positive Instructions):**
-- Write failing tests BEFORE writing implementation code
-- Start with the simplest test case that defines the expected behavior
-- Run the test to confirm it fails for the right reason
-- Write the minimum implementation to make the test pass
-- Refactor only after green, then re-run tests
-- Repeat: red → green → refactor for each behavior
+- Write ONE failing test BEFORE any implementation
+- Run the test - it MUST FAIL (RED) for the right reason
+- Write MINIMUM code to make that ONE test pass (GREEN)
+- Refactor ONLY when GREEN
+- Commit after each GREEN
+- Repeat cycle for each small behavior increment
+- Implement VERTICAL SLICES (full feature through all layers)
 
 **DO NOT (Negative Instructions):**
-- Write implementation code before you have a failing test
-- Write all tests at once — go one behavior at a time
-- Skip the "verify it fails" step
-- Write tests that test implementation details instead of behavior
-- Mock internal code — only mock at system boundaries
+- Write implementation before a RED test exists
+- Write multiple tests before making first one GREEN
+- Skip the "verify RED" step
+- Refactor while RED
+- Mock internal code - only mock at system boundaries
+- Build horizontal layers (all DB, then all API, then all UI)
 
 ```yaml
 tdd_cycle:
-  order: "test first, always"
-  steps:
-    RED: "Write a test that describes the next behavior. Run it. It MUST FAIL (RED). If it passes, the test is wrong — delete or fix it."
-    GREEN: "Write the MINIMUM code to make the RED test pass. No more. Confirm GREEN."
-    REFACTOR: "Clean up code while tests stay GREEN. If any test goes RED, undo immediately."
+  order: "strict_red_green_refactor"
+  vertical_slices: true
+  
+  red_phase:
+    rule: "Write ONE test, verify it FAILS"
+    steps:
+      - "Write test for smallest behavior increment"
+      - "Run test - it MUST FAIL (RED)"
+      - "If test passes, test is wrong - delete or fix it"
+      - "Commit: 'RED: Test for [behavior]'"
+    violations:
+      - "Writing multiple tests before first RED"
+      - "Skipping RED verification"
+      - "Writing implementation before RED test"
+  
+  green_phase:
+    rule: "Write MINIMUM code to pass"
+    steps:
+      - "Implement just enough to go RED → GREEN"
+      - "No code without a failing test first"
+      - "No 'preparing' the implementation"
+      - "Commit: 'GREEN: [behavior] implemented'"
+    violations:
+      - "Writing more than minimum"
+      - "Refactoring while getting to GREEN"
+      - "Adding 'while I'm here' features"
+  
+  refactor_phase:
+    rule: "Clean up ONLY when GREEN"
+    steps:
+      - "Refactor with all tests passing"
+      - "If tests go RED, undo immediately"
+      - "Commit: 'REFACTOR: [what changed]'"
+    violations:
+      - "Refactoring while RED"
+      - "Changing behavior during refactor"
+      - "Skipping refactor phase"
 
-  violations:
-    - "Writing implementation before a RED test exists"
-    - "A test that was never seen RED"
-    - "Refactoring while any test is RED"
-    - "Writing multiple tests before going GREEN on the first"
+vertical_slices:
+  rule: "Implement full feature vertically, not horizontal layers"
+  
+  vertical_approach:
+    description: "Complete thin slice through all layers"
+    example_good:
+      - "Task: User can create a post (validation + DB + API + response)"
+      - "Task: User can view a post (query + API + response)"
+    benefits:
+      - "Delivers working features immediately"
+      - "Validates integration at each step"
+      - "Enables early feedback and demos"
+      - "Reduces integration risk"
+  
+  horizontal_approach:
+    description: "Complete layer across all features"
+    example_bad:
+      - "Task: Build all database models first"
+      - "Task: Build all API endpoints first"
+      - "Task: Add all validations later"
+    problems:
+      - "No working feature until very end"
+      - "Integration issues discovered late"
+      - "Cannot demo or test partial progress"
+      - "High risk of rework"
 
-  smoke_tests:
-    rule: "Smoke tests ALWAYS use highest fidelity — full e2e, never mocked"
-    when: "Write smoke test first (RED), verify it last (GREEN)"
+smoke_tests:
+  rule: "Smoke tests ALWAYS use highest fidelity — full e2e, never mocked"
+  when: "Write smoke test first (RED), verify it last (GREEN)"
 
-  what_to_test_first:
-    - "Smoke test for core user journey (highest fidelity e2e)"
-    - "The core behavior described in acceptance criteria"
-    - "Edge cases identified during Phase 1 analysis"
-    - "Error handling paths"
-    - "Integration points with existing code"
+what_to_test_first:
+  - "Smoke test for core user journey (highest fidelity e2e)"
+  - "The core behavior described in acceptance criteria"
+  - "Edge cases identified during Phase 1 analysis"
+  - "Error handling paths"
+  - "Integration points with existing code"
 
-  when_to_skip_tdd:
-    - "Pure UI layout changes with no logic"
-    - "Configuration-only changes"
-    - "Documentation-only changes"
-    - "NEVER skip for business logic or data transformations"
+when_to_skip_tdd:
+  - "Pure UI layout changes with no logic"
+  - "Configuration-only changes"
+  - "Documentation-only changes"
+  - "NEVER skip for business logic or data transformations"
 
-  test_quality:
-    - "Tests describe behavior, not implementation"
-    - "Each test has a single clear assertion"
-    - "Test names read as specifications"
-    - "No mocks for internal code — only external boundaries"
-    - "Every test was seen RED before GREEN"
+test_quality:
+  - "Tests describe behavior, not implementation"
+  - "Each test has a single clear assertion"
+  - "Test names read as specifications"
+  - "No mocks for internal code — only external boundaries"
+  - "Every test was seen RED before GREEN"
+  - "Tests verify vertical slice, not isolated layer"
 ```
 
 **Verification Criteria:**
@@ -612,17 +667,17 @@ checkpoint:
 
 ### Task: Dispatch Review Agents
 
-Spawn three review agents concurrently. Each runs with fresh context and returns a structured verdict.
+Spawn two review agents concurrently. Each runs with fresh context and returns a structured verdict. This is the fast adversarial gate — security deep dive and PM review happen in Phase 5.
 
-**Dispatch all three in parallel using the Task tool:**
+**Dispatch both in parallel using the Task tool:**
 
 ```yaml
 concurrent_agents:
-  quality_verifier:
-    subagent_type: "dartai:quality-verifier"
+  code_quality_reviewer:
+    subagent_type: "dartai:code-quality-reviewer"
     description: "Review code quality for [task-title]"
     prompt: |
-      Verify implementation quality for task [TASK_ID].
+      Review code quality for task [TASK_ID].
 
       ## Changed Files
       [list of files changed]
@@ -630,36 +685,26 @@ concurrent_agents:
       ## Acceptance Criteria
       [criteria from task]
 
-      Focus on: scope creep, over-engineering, incomplete markers,
-      cop-outs, codebase integration, behavior preservation.
+      Focus on: project coherence, best practices, no bloat,
+      no fallbacks/TODOs, code duplication, cleanup and refactoring.
 
       Return structured verdict: PASS, FAIL, or NEEDS_WORK with issues.
 
-  test_strategist:
-    subagent_type: "dartai:test-strategist"
-    description: "Review test quality for [task-title]"
+  qa_reviewer:
+    subagent_type: "dartai:qa-reviewer"
+    description: "Review QA and requirements for [task-title]"
     prompt: |
-      Verify test coverage and quality for task [TASK_ID].
+      Review QA, test quality, and requirements for task [TASK_ID].
 
       ## Changed Files
       [list of files changed]
 
-      Focus on: coverage gaps, assertion quality, RED/GREEN compliance,
-      test distribution, mutation testing, test isolation.
+      ## Acceptance Criteria
+      [criteria from task]
 
-      Return structured verdict: PASS, FAIL, or NEEDS_WORK with issues.
-
-  security_auditor:
-    subagent_type: "dartai:security-auditor"
-    description: "Security review for [task-title]"
-    prompt: |
-      Audit security of changes for task [TASK_ID].
-
-      ## Changed Files
-      [list of files changed]
-
-      Focus on: OWASP Top 10, injection vectors, auth/access control,
-      data protection, security configuration, hardcoded secrets.
+      Focus on: assertion quality, edge case coverage, e2e testing,
+      TDD compliance (RED/GREEN), test distribution, test isolation,
+      requirements traceability, and testability.
 
       Return structured verdict: PASS, FAIL, or NEEDS_WORK with issues.
 ```
@@ -670,32 +715,26 @@ concurrent_agents:
 result_handling:
   all_pass:
     action: "Proceed to Phase 4"
-    note: "All three agents approved"
+    note: "Both reviewers approved"
 
   any_needs_work:
-    action: "Fix issues, re-dispatch ONLY the failing agents"
+    action: "Fix issues, re-dispatch ONLY the failing reviewer"
     max_retries: 2
-    note: "Don't re-run agents that already passed"
+    note: "Don't re-run the reviewer that already passed"
 
   any_fail:
-    action: "Fix issues, re-dispatch ONLY the failing agents"
+    action: "Fix issues, re-dispatch ONLY the failing reviewer"
     max_retries: 2
     escalate_after: "If still failing after 2 retries, RETURN with failure"
-
-  critical_security:
-    action: "STOP immediately"
-    note: "Critical security finding blocks all work"
 ```
 
 **Verification Criteria:**
 ```yaml
 pass_if:
-  - quality_verifier_verdict: "PASS"
-  - test_strategist_verdict: "PASS"
-  - security_auditor_verdict: "PASS"
+  - code_quality_reviewer_verdict: "PASS"
+  - qa_reviewer_verdict: "PASS"
 fail_if:
   - any_verdict_fail_after_retries: true
-  - critical_security_finding: true
 ```
 
 ### Plan Adjustment Point 3 (Automatic - Do Not Stop)
@@ -707,13 +746,11 @@ checkpoint:
     - issues_addressed: true
 
   auto_adjust:
-    quality_issues: "Fix inline and re-dispatch quality-verifier, CONTINUE"
-    test_gaps: "Add tests and re-dispatch test-strategist, CONTINUE"
-    security_findings: "Fix and re-dispatch security-auditor, CONTINUE"
-    critical_security: "STOP - create fix task"
+    code_quality_issues: "Fix inline and re-dispatch code-quality-reviewer, CONTINUE"
+    qa_issues: "Add tests and re-dispatch qa-reviewer, CONTINUE"
 
   stop_only_if:
-    critical_blocker: "Critical security vulnerability or all agents failing after retries"
+    critical_blocker: "Both agents failing after retries"
 
   then: "Proceed immediately to Phase 4"
 ```
@@ -787,7 +824,96 @@ checkpoint:
 
 ---
 
-## Phase 5: Final Validation
+## Phase 5: Post-Task Deep Review
+
+### Task: Dispatch Post-Task Reviewer
+
+After quality gates pass, run the deep sequential review. This agent covers what the fast parallel gate intentionally skipped: security with attacker mindset, in-depth code analysis, PM/documentation, and replanning.
+
+**Dispatch as a single sequential agent:**
+
+```yaml
+post_task_review:
+  subagent_type: "dartai:post-task-reviewer"
+  description: "Deep review for [task-title]"
+  prompt: |
+    Run post-task deep review for task [TASK_ID].
+
+    ## Changed Files
+    [list of files changed]
+
+    ## Acceptance Criteria
+    [criteria from task]
+
+    ## Context
+    The fast adversarial gate (code-quality-reviewer + qa-reviewer) already
+    passed. Quality gates (lint, test, coverage) are green.
+
+    Run all four phases sequentially:
+    1. Security audit (attacker mindset, OWASP, attack vectors)
+    2. In-depth code review (performance, concurrency, architecture)
+    3. PM review (documentation accuracy, user flows, changelog)
+    4. Replan (adjust remaining tasks based on findings)
+
+    Return structured post-task report with verdict and replan recommendations.
+```
+
+**Handling Results:**
+
+```yaml
+result_handling:
+  pass:
+    action: "Proceed to Phase 6"
+    apply_replan: "Create/modify/remove tasks per recommendations"
+
+  needs_work:
+    action: "Fix issues (docs, minor code), proceed to Phase 6"
+    note: "Non-blocking issues become follow-up tasks"
+
+  fail:
+    action: "Fix critical issues (security, concurrency bugs)"
+    max_retries: 1
+    escalate_after: "If still failing, RETURN with failure"
+
+  critical_security:
+    action: "STOP immediately"
+    note: "Critical security finding blocks all work"
+```
+
+**Verification Criteria:**
+```yaml
+pass_if:
+  - no_critical_security: true
+  - no_concurrency_bugs: true
+  - replan_applied: true
+fail_if:
+  - critical_security_finding: true
+  - unresolvable_architecture_issue: true
+```
+
+### Plan Adjustment Point 5 (Automatic - Do Not Stop)
+```yaml
+checkpoint:
+  validate:
+    - post_task_reviewer_returned: true
+    - no_critical_findings: true
+    - replan_recommendations_processed: true
+
+  auto_adjust:
+    doc_updates_needed: "Apply doc fixes, CONTINUE"
+    performance_concerns: "Create follow-up optimization task, CONTINUE"
+    replan_tasks: "Create/modify tasks per recommendations, CONTINUE"
+    critical_security: "STOP - create urgent fix task"
+
+  stop_only_if:
+    critical_blocker: "Critical security vulnerability or unresolvable architecture issue"
+
+  then: "Proceed immediately to Phase 6"
+```
+
+---
+
+## Phase 6: Final Validation
 
 ### Task: Acceptance Criteria Verification
 
@@ -829,7 +955,7 @@ documentation:
 
 ## Loop Continuation Protocol
 
-After Phase 5 completes:
+After Phase 6 completes:
 
 1. **On Success:**
    - Update task status to Done
@@ -855,7 +981,8 @@ After Phase 5 completes:
      phase_2_adjustments: "implementation discoveries"
      phase_3_adjustments: "verification findings"
      phase_4_adjustments: "quality gate results"
-     phase_5_adjustments: "final validation notes"
+     phase_5_adjustments: "post-task review findings"
+     phase_6_adjustments: "final validation notes"
 
    failure_report:  # Include if task failed
      phase_failed: "Phase N"

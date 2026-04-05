@@ -18,11 +18,14 @@ Run an adversarial verification loop to challenge and validate code quality.
 
 ## What It Does
 
-Runs all three review agents concurrently on the target:
+Runs review agents in a 2+1 pattern on the target:
 
-1. **Quality Verifier** - Code quality, scope, completeness, codebase integration
-2. **Test Strategist** - Coverage, assertions, RED/GREEN compliance, distribution
-3. **Security Auditor** - OWASP Top 10, injection, auth, data protection
+**Parallel phase** (concurrent):
+1. **Code Quality Reviewer** - Code quality, security, coherence, performance, testability, bloat, duplication, cleanup
+2. **QA Reviewer** - Assertion quality, edge cases, TDD compliance, test distribution, test plans
+
+**Sequential phase** (after parallel agents complete):
+3. **Post-Task Reviewer** - Requirements coverage, documentation accuracy, user flows, lean docs
 
 Each returns PASS/FAIL/NEEDS_WORK with detailed findings.
 
@@ -34,13 +37,18 @@ If target provided as argument, use it. Otherwise identify from current task con
 
 ### 3. Execute Concurrent Review
 
-Spawn all three agents in parallel using the Task tool:
+Spawn two agents in parallel using the Task tool, then run a third sequentially:
 
-1. `dartai:quality-verifier` - Implementation quality
-2. `dartai:test-strategist` - Test coverage and quality
-3. `dartai:security-auditor` - Security audit
+**Parallel:**
+1. `dartai:code-quality-reviewer` - Implementation quality
+2. `dartai:qa-reviewer` - Test coverage and quality
 
-Wait for all three to complete, then compile results.
+Wait for both to complete.
+
+**Sequential:**
+3. `dartai:post-task-reviewer` - Requirements coverage and documentation
+
+Compile results from all three agents.
 
 ### 4. Plan Adjustment Protocol
 
@@ -89,9 +97,9 @@ Issues Found:
 - Low: X
 
 Agent Results:
-- Quality Verifier: [PASS|FAIL|NEEDS_WORK] - [summary]
-- Test Strategist:  [PASS|FAIL|NEEDS_WORK] - [summary]
-- Security Auditor: [PASS|FAIL|NEEDS_WORK] - [summary]
+- Code Quality Reviewer: [PASS|FAIL|NEEDS_WORK] - [summary]
+- QA Reviewer:            [PASS|FAIL|NEEDS_WORK] - [summary]
+- Post-Task Reviewer:     [PASS|FAIL|NEEDS_WORK] - [summary]
 
 Plan Adjustments:
 - [adjustment 1]

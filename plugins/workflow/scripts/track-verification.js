@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Track when quality-verifier subagent completes
+ * Track when code-quality-reviewer subagent completes
  */
 
 const fs = require('fs');

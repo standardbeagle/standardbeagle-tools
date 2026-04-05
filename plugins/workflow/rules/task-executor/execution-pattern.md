@@ -28,7 +28,7 @@ read_from_state_file:
 
 ### 2. Adversarial Loop Skill
 
-Use the `adversarial-quality` skill which dispatches concurrent review agents (quality-verifier, test-strategist, security-auditor) at Phase 3.
+Use the `adversarial-quality` skill which dispatches code-quality-reviewer and qa-reviewer (parallel), then post-task-reviewer (sequential) at Phase 3.
 
 ### 3. Execute Loop
 
@@ -50,7 +50,7 @@ For independent verification (Phase 4 in quality loop):
 verifier_spawn:
   when: "External verification phase"
   tool: Task
-  subagent_type: "workflow:quality-verifier"
+  subagent_type: "workflow:code-quality-reviewer"
   description: "Verify task implementation"
   prompt: |
     Verify implementation of task [task-id].

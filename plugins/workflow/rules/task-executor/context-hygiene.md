@@ -69,7 +69,7 @@ read_from_state_file:
 
 ## Adversarial Loop Skill
 
-Use the adversarial-quality skill which dispatches concurrent review agents (quality-verifier, test-strategist, security-auditor) at Phase 3.
+Use the adversarial-quality skill which dispatches code-quality-reviewer and qa-reviewer (parallel), then post-task-reviewer (sequential) at Phase 3.
 
 ## Context Management
 

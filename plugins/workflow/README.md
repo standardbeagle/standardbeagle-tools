@@ -216,8 +216,8 @@ Add a new task to the task list interactively.
 
 **SubagentStop:**
 - `workflow:task-executor` - Track loop iterations
-- `workflow:quality-verifier` - Track verifications
-- `workflow:security-auditor` - Track security audits
+- `workflow:code-quality-reviewer` - Track verifications
+- `workflow:post-task-reviewer` - Track post-task reviews
 
 **PostToolUse:**
 - `Task` - Track subagent spawns
@@ -627,9 +627,9 @@ Main Loop (Primary Agent)
 └── Spawns: workflow:task-executor (fresh subagent)
     ├── Executes: adversarial-quality skill with RED/GREEN TDD
     ├── Spawns concurrent review agents:
-    │   ├── workflow:quality-verifier (fresh)
-    │   ├── workflow:test-strategist (fresh)
-    │   └── workflow:security-auditor (fresh)
+    │   ├── workflow:code-quality-reviewer (fresh)
+    │   ├── workflow:qa-reviewer (fresh)
+    │   └── workflow:post-task-reviewer (sequential, after parallel agents)
     ├── Updates: loop state file
     └── Terminates: SubagentStop hook fires
         └── Main loop continues to next task

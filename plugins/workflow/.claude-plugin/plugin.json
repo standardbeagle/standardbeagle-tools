@@ -41,8 +41,8 @@
   ],
   "agents": [
     "./agents/task-executor.md",
-    "./agents/quality-verifier.md",
-    "./agents/security-auditor.md",
-    "./agents/test-strategist.md"
+    "./agents/code-quality-reviewer.md",
+    "./agents/qa-reviewer.md",
+    "./agents/post-task-reviewer.md"
   ]
 }

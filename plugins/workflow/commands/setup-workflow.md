@@ -16,8 +16,8 @@ Configure project-specific rules for workflow roles. This allows customization o
 
 # Setup specific role
 /workflow:setup task-executor
-/workflow:setup quality-verifier
-/workflow:setup security-auditor
+/workflow:setup code-quality-reviewer
+/workflow:setup post-task-reviewer
 ```
 
 ## How It Works
@@ -47,7 +47,7 @@ Customize:
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/context-hygiene.md`
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-pattern.md`
 
-### quality-verifier
+### code-quality-reviewer
 
 Customize:
 - Verification categories (correctness, security, quality, testing)
@@ -56,18 +56,18 @@ Customize:
 - Report format
 
 **Default rules:**
-- `${CLAUDE_PLUGIN_ROOT}/rules/quality-verifier/verification-categories.md`
+- `${CLAUDE_PLUGIN_ROOT}/rules/code-quality-reviewer/verification-categories.md`
 
-### security-auditor
+### post-task-reviewer
 
 Customize:
-- OWASP Top 10 focus areas
-- Attack testing scenarios
-- Risk assessment criteria
-- Security report format
+- Requirements coverage scope
+- Documentation accuracy checks
+- User flow validation
+- Lean docs review format
 
 **Default rules:**
-- `${CLAUDE_PLUGIN_ROOT}/rules/security-auditor/owasp-audit.md`
+- `${CLAUDE_PLUGIN_ROOT}/rules/post-task-reviewer/post-task-review.md`
 
 ## Interactive Setup Questions
 
@@ -85,7 +85,7 @@ questions:
     - "Failure handling? (default: continue to next task)"
 ```
 
-### Quality Verifier Questions
+### Code Quality Reviewer Questions
 
 ```yaml
 questions:
@@ -100,18 +100,18 @@ questions:
     - "High issues include? (default: edge case bugs, missing error handling)"
 ```
 
-### Security Auditor Questions
+### Post-Task Reviewer Questions
 
 ```yaml
 questions:
-  owasp_focus:
-    - "Which OWASP categories to audit? (default: all)"
-    - "External dependencies scan? (default: yes)"
-    - "Secret scanning? (default: yes)"
+  coverage:
+    - "Requirements traceability depth? (default: full)"
+    - "Documentation accuracy check? (default: yes)"
+    - "User flow validation? (default: yes)"
 
-  risk_assessment:
-    - "CVSS score threshold for critical? (default: 9.0+)"
-    - "Exploitability weight? (default: high)"
+  review_format:
+    - "Lean docs review? (default: yes)"
+    - "Cross-reference with task acceptance criteria? (default: yes)"
 ```
 
 ## Setup Process
@@ -129,8 +129,8 @@ ls -la .workflow/rules/
 Which role do you want to customize?
 
 1. task-executor
-2. quality-verifier
-3. security-auditor
+2. code-quality-reviewer
+3. post-task-reviewer
 4. All roles (guided walkthrough)
 
 Enter number or role name:
@@ -186,8 +186,8 @@ No project-specific rules found. Using defaults.
 
 Which role would you like to customize?
 [1] task-executor
-[2] quality-verifier
-[3] security-auditor
+[2] code-quality-reviewer
+[3] post-task-reviewer
 [4] All roles (guided)
 [0] Cancel
 
@@ -233,10 +233,10 @@ To reset: Delete the rule files to restore defaults
 ├── task-executor/
 │   ├── context-hygiene.md          # Override context rules
 │   └── execution-pattern.md        # Override execution rules
-├── quality-verifier/
+├── code-quality-reviewer/
 │   └── verification-categories.md  # Override verification rules
-└── security-auditor/
-    └── owasp-audit.md              # Override security audit rules
+└── post-task-reviewer/
+    └── post-task-review.md         # Override post-task review rules
 ```
 
 ## Reset to Defaults

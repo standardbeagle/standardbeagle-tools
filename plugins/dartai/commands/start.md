@@ -460,7 +460,7 @@ phases:
     - Repeat for each behavior
 
   3_concurrent_review:
-    - Dispatch quality-verifier, test-strategist, security-auditor
+    - Dispatch code-quality-reviewer and qa-reviewer (parallel), then post-task-reviewer (sequential)
     - All three run in parallel with fresh context
     - Fix issues, re-dispatch failing agents only
 

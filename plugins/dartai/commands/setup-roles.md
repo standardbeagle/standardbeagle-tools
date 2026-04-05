@@ -16,7 +16,7 @@ Configure project-specific rules for DartAI roles. This allows customization of 
 
 # Setup specific role
 /dartai:setup-roles task-executor
-/dartai:setup-roles quality-verifier
+/dartai:setup-roles code-quality-reviewer
 /dartai:setup-roles doc-updater
 ```
 
@@ -49,7 +49,7 @@ Customize:
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-flow.md`
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/phase-execution.md`
 
-### quality-verifier
+### code-quality-reviewer
 
 Customize:
 - Verification modes (implementation, test, security, refactor)
@@ -58,7 +58,7 @@ Customize:
 - Issue severity thresholds
 
 **Default rules:**
-- `${CLAUDE_PLUGIN_ROOT}/rules/quality-verifier/verification-modes.md`
+- `${CLAUDE_PLUGIN_ROOT}/rules/code-quality-reviewer/verification-modes.md`
 
 ### doc-updater
 
@@ -170,7 +170,7 @@ ls -la .dartai/rules/
 Which role do you want to customize?
 
 1. task-executor
-2. quality-verifier
+2. code-quality-reviewer
 3. doc-updater
 4. common (affects all roles)
 5. All roles (guided walkthrough)
@@ -228,7 +228,7 @@ No project-specific rules found. Using defaults.
 
 Which role would you like to customize?
 [1] task-executor
-[2] quality-verifier
+[2] code-quality-reviewer
 [3] doc-updater
 [4] common
 [5] All roles (guided)
@@ -291,7 +291,7 @@ To reset: Delete the rule files to restore defaults
 ├── task-executor/
 │   ├── execution-flow.md            # Override execution behavior
 │   └── phase-execution.md           # Override phase rules
-├── quality-verifier/
+├── code-quality-reviewer/
 │   └── verification-modes.md        # Override verification rules
 └── doc-updater/
     └── documentation-rules.md       # Override doc rules

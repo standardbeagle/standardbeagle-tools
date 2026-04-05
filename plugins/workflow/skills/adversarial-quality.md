@@ -188,11 +188,11 @@ challenge_categories:
 
 ### Phase 4: Concurrent Adversarial Verification (20-30% of time)
 
-**Objective**: Independent verification by three specialized agents running in parallel
+**Objective**: Independent verification by two specialized agents running in parallel
 
-**Pattern**: Spawn all three verifier subagents simultaneously using the Task tool, then handle results
+**Pattern**: Spawn both verifier subagents simultaneously using the Task tool, then handle results
 
-#### Dispatch (all three in parallel)
+#### Dispatch (both in parallel)
 
 ```yaml
 concurrent_dispatch:
@@ -200,54 +200,35 @@ concurrent_dispatch:
   spawn_simultaneously: true
 
   agents:
-    - subagent_type: "workflow:quality-verifier"
-      description: "Verify correctness and quality"
+    - subagent_type: "workflow:code-quality-reviewer"
+      description: "Review code quality and codebase integration"
       prompt: |
-        Verify implementation of task [task-id].
+        Review code quality for task [task-id].
 
         Task: [title]
         Files changed: [list]
         Acceptance criteria: [criteria]
 
-        Focus: Correctness and quality
-        - Does the implementation meet every acceptance criterion?
-        - Are edge cases handled?
-        - Is the code clean, readable, and maintainable?
+        Focus on: project coherence, best practices, no bloat, no fallbacks/TODOs, code duplication, cleanup and refactoring.
         - What inputs or states will break this?
 
         Return a verification report (see schema below).
 
-    - subagent_type: "workflow:test-strategist"
-      description: "Evaluate test coverage and strategy"
+    - subagent_type: "workflow:qa-reviewer"
+      description: "Review test quality and coverage"
       prompt: |
-        Evaluate test coverage for task [task-id].
+        Review QA and test quality for task [task-id].
 
         Task: [title]
         Files changed: [list]
         Acceptance criteria: [criteria]
 
-        Focus: Test strategy and coverage
-        - Are the right behaviors tested?
-        - Are edge cases and failure paths covered?
-        - Are tests readable and correctly structured (RED seen before GREEN)?
+        Focus: Test quality and coverage
+        - Assertion quality, edge case coverage, e2e testing
+        - TDD compliance (RED/GREEN), test distribution
+        - Test isolation, test plan maintenance
         - What critical paths lack tests?
-
-        Return a verification report (see schema below).
-
-    - subagent_type: "workflow:security-auditor"
-      description: "Audit for security vulnerabilities"
-      prompt: |
-        Audit security for task [task-id].
-
-        Task: [title]
-        Files changed: [list]
-        Acceptance criteria: [criteria]
-
-        Focus: Security vulnerabilities
-        - Input validation: injection, overflow, malformed data
-        - Authentication and authorization boundaries
-        - Secrets or sensitive data exposure
-        - Unsafe dependencies or dangerous APIs
+        - Requirements traceability, and testability
 
         Return a verification report (see schema below).
 ```
@@ -256,7 +237,7 @@ concurrent_dispatch:
 
 ```yaml
 verification_report:
-  agent: "quality-verifier|test-strategist|security-auditor"
+  agent: "code-quality-reviewer|qa-reviewer"
   result: "all_pass|needs_work|critical_security"
 
   issues_found:
@@ -279,20 +260,14 @@ verification_report:
 
 ```yaml
 result_routing:
-  collect: "Wait for all three agents to return before evaluating"
-
-  critical_security:
-    trigger: "Any agent returns result: critical_security"
-    action: "STOP immediately — do not proceed to Phase 5"
-    report: "Write security-halt report to state file with all findings"
-    message: "HALTED: Critical security issue found. Requires human review before continuing."
+  collect: "Wait for both agents to return before evaluating"
 
   all_pass:
-    trigger: "All three agents return result: all_pass"
+    trigger: "Both agents return result: all_pass"
     action: "Proceed to Phase 5"
 
   needs_work:
-    trigger: "One or more agents return result: needs_work (and none is critical_security)"
+    trigger: "One or both agents return result: needs_work"
     action: |
       1. Fix all reported issues
       2. Re-dispatch ONLY the agents that returned needs_work (not passing agents)
@@ -344,6 +319,52 @@ npm run test:coverage  # or equivalent
 **If Gates Fail**: Fix issues and re-run
 
 **Checkpoint**: Write quality report, forget details.
+
+### Phase 5b: Post-Task Deep Review
+
+**Objective**: Deep sequential review after quality gates pass
+
+**Pattern**: Dispatch single post-task reviewer agent
+
+```yaml
+post_task_dispatch:
+  tool: Task
+  
+  agent:
+    subagent_type: "workflow:post-task-reviewer"
+    description: "Deep review for [task-id]"
+    prompt: |
+      Run post-task deep review for task [task-id].
+
+      Task: [title]
+      Files changed: [list]
+      Acceptance criteria: [criteria]
+
+      The fast adversarial gate and quality gates already passed.
+      Run all four phases: security audit, in-depth code, PM/docs, replan.
+
+      Return structured post-task report.
+```
+
+**Result Handling**:
+```yaml
+post_task_routing:
+  pass:
+    action: "Apply replan recommendations, proceed to Phase 6"
+
+  needs_work:
+    action: "Fix issues, proceed to Phase 6"
+    note: "Non-blocking issues become follow-up tasks"
+
+  fail:
+    action: "Fix critical issues (security, concurrency)"
+    max_retries: 1
+
+  critical_security:
+    action: "STOP - write security-halt report"
+```
+
+**Checkpoint**: Write post-task findings and replan to state file.
 
 ### Phase 6: Final Validation (5-10% of time)
 
@@ -433,7 +454,7 @@ context_accumulation:
 **Between Subagents**:
 ```yaml
 context_isolation:
-  enforced: "Yes - when spawning quality-verifier, test-strategist, and security-auditor"
+  enforced: "Yes - when spawning code-quality-reviewer, qa-reviewer, and post-task-reviewer"
   why: "Independent verification requires fresh eyes"
   mechanism: "Task tool spawns separate subagents concurrently"
 ```

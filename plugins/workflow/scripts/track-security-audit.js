@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Track when security-auditor subagent completes
+ * Track when post-task-reviewer subagent completes
  */
 
 const fs = require('fs');
