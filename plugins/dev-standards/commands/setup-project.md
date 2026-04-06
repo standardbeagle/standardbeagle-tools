@@ -144,6 +144,26 @@ Ask the user to pick the deployment target:
 - **edge** -- Edge runtime (Cloudflare Workers, Deno Deploy, Vercel Edge)
 - **desktop** -- Desktop distribution
 
+### Question 4b: TDD Discipline
+
+Ask the user if they want strict TDD discipline enforced:
+
+- **strict** -- RED/GREEN/REFACTOR cycle enforced, vertical slices required, test distribution targets
+- **standard** -- Testing required but TDD cycle not strictly enforced
+- **minimal** -- Tests recommended but not mandatory (scripts, prototypes)
+
+Default to **strict** for web apps, SaaS, libraries, and DDD projects. Default to **standard** for CLIs and serverless. Default to **minimal** for scripts.
+
+### Question 4c: Documentation Level
+
+Ask the user what documentation to generate:
+
+- **full** -- User stories, user flows, tech specs, ADRs, API docs, changelog
+- **standard** -- Tech specs, API docs, changelog (no formal user stories/flows)
+- **minimal** -- Changelog only
+
+Default to **full** for DDD, SaaS, and web apps. Default to **standard** for libraries and CLIs. Default to **minimal** for scripts.
+
 ## Phase 3 -- External Dependencies
 
 Ask the user about external dependencies. Ask ONE question at a time.
@@ -247,6 +267,24 @@ If persistence was detected (databases, ORMs, migrations), read and copy `${CLAU
 
 Update the `paths` frontmatter to match the project's actual directory structure for database-related code. For example, if the project uses `src/db/` instead of `db/`, adjust accordingly.
 
+### Step 6b: Generate TDD Rule
+
+If TDD discipline is **strict** or **standard**, read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/tdd.md` and copy to `.claude/rules/tdd.md`.
+
+If TDD discipline is **standard**, add a note at the top: "TDD cycle is recommended but not strictly enforced for this project."
+
+If TDD discipline is **minimal**, skip this rule.
+
+### Step 6c: Generate DDD Rule
+
+If the architecture style is **DDD** or **event-driven**, read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/ddd.md` and copy to `.claude/rules/ddd.md`.
+
+### Step 6d: Generate Documentation Rule
+
+If documentation level is **full** or **standard**, read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/documentation.md` and copy to `.claude/rules/documentation.md`.
+
+If documentation level is **standard**, remove the "User Stories" and "User Flows" sections from the generated file (those are only for **full** level).
+
 ### Step 7: Copy Skill Templates
 
 Based on the project type, read and copy skill templates to `.claude/skills/`. Replace all `{{placeholders}}` in each skill with values from the interview.
@@ -273,7 +311,25 @@ Project type to skill mapping:
 | desktop     | `desktop/add-message` |
 | script      | (no skills) |
 
-If the architecture style is DDD, also copy `ddd/add-aggregate` and `ddd/add-domain-event` in addition to the project type skills.
+If the architecture style is DDD or event-driven, also copy:
+- `ddd/add-aggregate`, `ddd/add-domain-event` (implementation skills)
+- `ddd/define-context`, `ddd/spec-domain` (design skills)
+
+TDD discipline to skill mapping:
+
+| TDD Level | Skills to Copy |
+|-----------|---------------|
+| strict    | `tdd/implement-slice` |
+| standard  | `tdd/implement-slice` |
+| minimal   | (no TDD skill) |
+
+Documentation level to skill mapping:
+
+| Doc Level | Skills to Copy |
+|-----------|---------------|
+| full      | `docs/write-user-story`, `docs/define-user-flow`, `docs/write-tech-spec` |
+| standard  | `docs/write-tech-spec` |
+| minimal   | (no doc skills) |
 
 For each skill, create the directory and copy the file:
 
@@ -342,10 +398,15 @@ Rules (loaded automatically by Claude):
   .claude/rules/architecture.md
   .claude/rules/<language>.md (for each language)
   .claude/rules/testing.md (if tests detected)
+  .claude/rules/tdd.md (if TDD strict or standard)
   .claude/rules/data-integrity.md (if persistence detected)
+  .claude/rules/ddd.md (if DDD or event-driven architecture)
+  .claude/rules/documentation.md (if docs full or standard)
 
 Skills (available workflows):
   .claude/skills/<skill-name>/SKILL.md (for each skill)
+  Including: implement-slice, define-context, spec-domain,
+  write-user-story, define-user-flow, write-tech-spec (based on selections)
 
 Project context:
   .claude/CLAUDE.md
