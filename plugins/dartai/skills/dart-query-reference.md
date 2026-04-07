@@ -129,19 +129,20 @@ optional:
 #### `update_task` - Partial Update
 ```yaml
 required:
-  dart_id: string  # NOT "task_id" or "id"
+  dart_id: string  # Also accepts "id" or "task_id"
 
 # Pass fields to change directly alongside dart_id (flat, NO "updates" wrapper):
 optional:
-  title, description, status, priority, size,
+  title, description, status, priority (integer 1-5), size (integer 1-5),
   start_at, due_at, assignees, tags, dartboard, parent_task,
   subtask_ids, blocker_ids, blocking_ids, duplicate_ids, related_ids
 ```
 
 **CRITICAL**: All fields go at the top level alongside `dart_id` - do NOT nest inside an `updates` object. Relationship arrays use **full replacement semantics**. To add one blocker, you must GET current blockers, append, then UPDATE with the complete array. Setting `[]` clears all.
 
+**ID aliases**: All modification tools accept `dart_id`, `id`, or `task_id` — values from get/list responses round-trip directly.
+
 **Common mistakes detected with helpful errors:**
-- `task_id` or `id` instead of `dart_id`
 - Wrapping fields in `updates: {...}` instead of flat
 - Misspelled field names like `due_date` instead of `due_at`
 
@@ -389,9 +390,14 @@ Returns details + doc count.
 - `import_tasks_csv` defaults to `validate_only: true`
 - All deletes are soft deletes (recoverable via Dart web UI)
 
+### Detail Levels (list_tasks)
+- `minimal`: dart_id, title, parent_task, blocker_ids, timestamps
+- `standard`: + description, status, priority, assignees, dartboard, parent_task, blocker_ids
+- `full`: all fields including all relationships
+
 ### Token Efficiency
 - Use `detail_level: minimal` for task counts and quick scans
-- Use `detail_level: standard` for dashboards
-- Use `detail_level: full` only when you need relationships
+- Use `detail_level: standard` for dashboards and round-trip workflows
+- Use `detail_level: full` only when you need all relationship types
 - Use `include_relationships: false` on get_task for smaller responses
 - Use `include` parameter on get_config to limit response sections

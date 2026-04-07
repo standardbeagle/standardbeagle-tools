@@ -38,8 +38,8 @@ pagination:
 
 response_control:
   detail_level: enum
-    minimal:  "dart_id + title only"
-    standard: "dart_id + title + status + assignee + priority (default)"
+    minimal:  "dart_id + title + parent_task + blocker_ids"
+    standard: "dart_id + title + description + status + assignee + priority + dartboard + parent_task + blocker_ids (default)"
     full:     "All fields including relationships"
 ```
 
@@ -47,7 +47,7 @@ response_control:
 
 ```yaml
 minimal:
-  returns: [dart_id, title]
+  returns: [dart_id, title, parent_task, blocker_ids]
   use_when:
     - "Counting tasks matching criteria"
     - "Building selection lists"
@@ -56,7 +56,7 @@ minimal:
   tokens: "~20 per task"
 
 standard:
-  returns: [dart_id, title, status, assignee, priority]
+  returns: [dart_id, title, description, status, assignee, priority, dartboard, parent_task, blocker_ids]
   use_when:
     - "Dashboard views"
     - "Status reports"
