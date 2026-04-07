@@ -250,7 +250,12 @@ integration_requirements:
 
 ## Phase Tag Updates
 
-At the start of each phase, update the task tag to track progress:
+Update the task tag at **major milestones only** to reduce API calls. Do NOT update tags for every internal phase — track phase progress locally in the loop state file.
+
+Update tags at these milestones:
+- **Start**: `loop-phase:implementing` (after understanding, before code changes)
+- **Testing**: `loop-phase:testing` (entering test/validation phases)
+- **Complete/Blocked**: Final status set in On Success / On Failure sections
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -259,19 +264,8 @@ params:
   tool_name: "update_task"
   parameters:
     dart_id: "[task-id]"
-    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:[phase-name]"]
+    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:[milestone]"]
 ```
-
-Phase names:
-- `understanding` - Phase 1
-- `implementing` - Phase 2
-- `reviewing` - Phase 3
-- `linting` - Phase 4
-- `testing` - Phase 5
-- `lci-eval` - Phase 6
-- `refactoring` - Phase 7
-- `deprecated-cleanup` - Phase 8
-- `final-validation` - Phase 9
 
 ---
 
@@ -715,7 +709,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
 
 1. **Update loop state file** (see above)
 
-2. **Update task status and tags**:
+2. **Update task status, tags, and add completion comment** (single call):
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -725,17 +719,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
        dart_id: "[task-id]"
        status: "Done"
        tags: ["loop-task", "loop-iteration:[N]", "loop-complete"]
-   ```
-
-3. **Add completion comment to task**:
-   ```yaml
-   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
-   params:
-     mcp_name: "dart-query"
-     tool_name: "add_task_comment"
-     parameters:
-       dart_id: "[task-id]"
-       text: |
+       comment: |
          ## ✅ Task Completed
 
          **Summary**: [what was done]
@@ -744,7 +728,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
          **Tests**: All passing
    ```
 
-4. **Add progress comment to loop task**:
+3. **Add progress comment to loop task**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -760,13 +744,13 @@ Write this file IMMEDIATELY BEFORE your return statement.
          **Files Changed:** [count]
    ```
 
-5. **Report success** with summary of work and adjustments made
+4. **Report success** with summary of work and adjustments made
 
 ## On Failure
 
 1. **Update loop state file** (see "Before Termination" section above)
 
-2. **Update task tags to blocked** (do NOT mark Done):
+2. **Update task to blocked with failure comment** (single call):
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -776,17 +760,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
        dart_id: "[task-id]"
        status: "Blocked"
        tags: ["loop-task", "loop-iteration:[N]", "loop-blocked", "loop-phase:[failed-phase]"]
-   ```
-
-3. **Add failure comment to task** with actionable details:
-   ```yaml
-   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
-   params:
-     mcp_name: "dart-query"
-     tool_name: "add_task_comment"
-     parameters:
-       dart_id: "[task-id]"
-       text: |
+       comment: |
          ## ❌ Task Blocked at Phase [N]
 
          **Phase Failed:** [phase-name]
@@ -801,7 +775,7 @@ Write this file IMMEDIATELY BEFORE your return statement.
          - **Severity:** [low/medium/high/critical]
    ```
 
-4. **Add failure comment to loop task**:
+3. **Add failure comment to loop task**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:

@@ -7,15 +7,23 @@ description: Master dart-query batch operations - DartQL selectors, batch_update
 
 dart-query's batch operations use DartQL - a SQL-like query language for selecting tasks. This is the most powerful feature for managing tasks at scale.
 
-> **Access Pattern**: Always call dart-query through slop-mcp:
+> **Preferred tool**: Use `execute_dartql` for batch operations — it supports template variables, inline comments, and multi-statement execution. `batch_update_tasks` and `batch_delete_tasks` still work but are less flexible.
 > ```yaml
 > tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 > params:
 >   mcp_name: "dart-query"
->   tool_name: "batch_update_tasks"  # or "batch_delete_tasks", "import_tasks_csv"
->   parameters: { ... }
+>   tool_name: "execute_dartql"
+>   parameters:
+>     query: "UPDATE WHERE status = 'Todo' AND dartboard = 'Sprint 5' SET status = 'In Progress' COMMENT 'Bulk started'"
+>     dry_run: true
 > ```
 > See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
+### execute_dartql Advantages Over batch_update_tasks
+- **Template variables**: `SET title = 'DONE: {title}'` — interpolates per-task
+- **Inline COMMENT**: `UPDATE WHERE ... SET ... COMMENT 'reason'` — adds comment to each matched task
+- **Multi-statement**: `UPDATE WHERE ...; DELETE WHERE ... CONFIRM;` — chain operations
+- **Array literals**: `SET blocker_ids = ['id1', 'id2']`
 
 ## Safety Protocol - MANDATORY
 

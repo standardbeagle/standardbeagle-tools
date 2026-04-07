@@ -746,17 +746,7 @@ params:
     dart_id: "[loop_task_id]"
     status: "Done"
     tags: ["loop-session", "loop-complete"]
-```
-
-**Add final summary comment:**
-```yaml
-tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
-params:
-  mcp_name: "dart-query"
-  tool_name: "add_task_comment"
-  parameters:
-    taskId: "[loop_task_id]"
-    text: |
+    comment: |
       ## 🏁 Loop Complete
 
       **Duration:** [total time]

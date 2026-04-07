@@ -71,7 +71,6 @@ Task tool call:
 
 On success:
 ```yaml
-# Update status
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
   mcp_name: "dart-query"
@@ -79,20 +78,11 @@ params:
   parameters:
     dart_id: "[task-id]"
     status: "Done"
-
-# Add completion comment
-tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
-params:
-  mcp_name: "dart-query"
-  tool_name: "add_task_comment"
-  parameters:
-    dart_id: "[task-id]"
-    text: "[completion summary]"
+    comment: "[completion summary]"
 ```
 
 On failure:
 ```yaml
-# Update status
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
   mcp_name: "dart-query"
@@ -100,15 +90,7 @@ params:
   parameters:
     dart_id: "[task-id]"
     status: "Blocked"
-
-# Add failure comment
-tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
-params:
-  mcp_name: "dart-query"
-  tool_name: "add_task_comment"
-  parameters:
-    dart_id: "[task-id]"
-    text: "[failure details]"
+    comment: "[failure details]"
 ```
 
 ### 5. Update Documentation

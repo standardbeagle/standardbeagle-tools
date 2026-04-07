@@ -58,21 +58,26 @@ RULE: "Relationship arrays are REPLACED, not appended"
 # And you update with blocker_ids: ["C"]
 # Result: blocker_ids: ["C"]  -- A and B are GONE
 
-safe_add_pattern:
-  step_1: "GET current task with include_relationships: true"
-  step_2: "Read current relationship array"
-  step_3: "Append new ID to array"
-  step_4: "UPDATE with complete new array"
+add_pattern:
+  # Single call — fetches current, merges, deduplicates automatically
+  update_task:
+    dart_id: "task_X"
+    add_to: { blocker_ids: ["new_blocker"] }
 
-safe_remove_pattern:
-  step_1: "GET current task with include_relationships: true"
-  step_2: "Read current relationship array"
-  step_3: "Filter out the ID to remove"
-  step_4: "UPDATE with filtered array"
+remove_pattern:
+  # Single call — fetches current, filters out specified IDs
+  update_task:
+    dart_id: "task_X"
+    remove_from: { blocker_ids: ["resolved_blocker"] }
 
 clear_all:
-  # update_task(dart_id: "task_X", blocker_ids: [])
-  # Empty array clears all relationships of that type
+  # Direct replacement with empty array
+  update_task:
+    dart_id: "task_X"
+    blocker_ids: []
+
+# NOTE: add_to/remove_from cannot be combined with direct field on the same relationship.
+# You CAN combine add_to on one field with remove_from on another.
 ```
 
 ---
@@ -137,38 +142,25 @@ get_task:
 ### Add Subtask to Existing Parent
 
 ```yaml
-# Step 1: Get current subtasks
-get_task:
-  dart_id: "parent_123"
-  include_relationships: true
-# Returns: subtask_ids: ["child_1", "child_2"]
-
-# Step 2: Create new subtask
+# Step 1: Create new subtask
 create_task:
   title: "Add password reset"
   dartboard: "Sprint 5"
   parent_task: "parent_123"
-  # Returns: "child_3"
+  # Returns: dart_id: "child_3"
 
-# Step 3: Update parent's subtask list
+# Step 2: Add to parent's subtask list (automatic merge)
 update_task:
   dart_id: "parent_123"
-  subtask_ids: ["child_1", "child_2", "child_3"]
+  add_to: { subtask_ids: ["child_3"] }
 ```
 
 ### Remove Subtask
 
 ```yaml
-# Step 1: Get current subtasks
-get_task:
-  dart_id: "parent_123"
-  include_relationships: true
-# Returns: subtask_ids: ["child_1", "child_2", "child_3"]
-
-# Step 2: Remove child_2 from list
 update_task:
   dart_id: "parent_123"
-  subtask_ids: ["child_1", "child_3"]
+  remove_from: { subtask_ids: ["child_2"] }
 ```
 
 ---
@@ -192,32 +184,19 @@ update_task:
 ### Add Blocker to Task with Existing Blockers
 
 ```yaml
-# Step 1: Get current blockers
-get_task:
-  dart_id: "task_C"
-  include_relationships: true
-# Returns: blocker_ids: ["task_A"]
-
-# Step 2: Add task_B as additional blocker
 update_task:
   dart_id: "task_C"
-  blocker_ids: ["task_A", "task_B"]
+  add_to: { blocker_ids: ["task_B"] }
+  comment: "Added task_B as blocker"
 ```
 
 ### Resolve Blocker (Remove from List)
 
 ```yaml
-# Task A is done, remove from task_C's blockers
-# Step 1: Get current
-get_task:
-  dart_id: "task_C"
-  include_relationships: true
-# Returns: blocker_ids: ["task_A", "task_B"]
-
-# Step 2: Remove task_A
 update_task:
   dart_id: "task_C"
-  blocker_ids: ["task_B"]
+  remove_from: { blocker_ids: ["task_A"] }
+  comment: "task_A resolved, unblocking"
 ```
 
 ### Find All Blocked Tasks

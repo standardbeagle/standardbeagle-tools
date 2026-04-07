@@ -136,9 +136,23 @@ optional:
   title, description, status, priority (integer 1-5), size (integer 1-5),
   start_at, due_at, assignees, tags, dartboard, parent_task,
   subtask_ids, blocker_ids, blocking_ids, duplicate_ids, related_ids
+  comment: string           # Add comment after update (non-blocking)
+  add_to: {rel_field: [...]}    # Append IDs to relationship arrays
+  remove_from: {rel_field: [...]} # Remove IDs from relationship arrays
 ```
 
-**CRITICAL**: All fields go at the top level alongside `dart_id` - do NOT nest inside an `updates` object. Relationship arrays use **full replacement semantics**. To add one blocker, you must GET current blockers, append, then UPDATE with the complete array. Setting `[]` clears all.
+**comment**: Posts a comment after the update in a single call. Non-blocking — if the comment fails, the update still succeeds. Replaces the old `update_task` + `add_task_comment` two-call pattern.
+
+**add_to / remove_from**: Incrementally modify relationship arrays without manual GET/merge/PUT. The tool fetches current values, merges/filters, deduplicates, and sends the full replacement. Cannot be combined with direct relationship fields on the same field.
+
+```yaml
+# Example: Add a blocker and comment in one call
+update_task:
+  dart_id: "task_C"
+  status: "Blocked"
+  add_to: { blocker_ids: ["task_A"] }
+  comment: "Blocked by task_A — waiting for API review"
+```
 
 **ID aliases**: All modification tools accept `dart_id`, `id`, or `task_id` — values from get/list responses round-trip directly.
 
