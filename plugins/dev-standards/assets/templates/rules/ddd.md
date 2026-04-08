@@ -9,10 +9,12 @@ description: Domain-Driven Design — ubiquitous language, bounded contexts, agg
 
 Every bounded context has ONE language shared by code, documentation, and conversation.
 
+- **`docs/DOMAIN.md` is authoritative** — the canonical source of all domain terms, aggregate definitions, and bounded context relationships. See that file before naming anything.
 - **Domain terms are code terms** — if the business says "Order", the class is `Order`, not `PurchaseTransaction`
-- **Glossary is authoritative** — maintain a glossary in each bounded context's documentation
-- **Reject synonyms** — one concept, one name, everywhere (code, tests, comments, docs, conversations)
-- **Context-specific meaning** — the same word can mean different things in different bounded contexts (e.g., "Account" in Billing vs Identity)
+- **Name before coding** — when a task introduces a new concept, name it in `docs/DOMAIN.md` before it appears in any code, test, or comment
+- **Reject synonyms** — one concept, one name, everywhere (code, tests, comments, docs, conversations). Rejected synonyms are listed in `docs/DOMAIN.md`.
+- **Context-specific meaning** — the same word can mean different things in different bounded contexts (e.g., "Account" in Billing vs Identity). Document this in `docs/DOMAIN.md`.
+- **Log mismatches** — when a bug reveals a conceptual misunderstanding, record it in the Conceptual Mismatches Log in `docs/DOMAIN.md`
 
 ## Bounded Contexts
 
@@ -39,7 +41,7 @@ Document relationships between bounded contexts:
 | **Open Host Service** | Upstream provides a well-defined protocol for many consumers |
 | **Published Language** | Communication uses a shared, documented format |
 
-Document the context map in `.claude/rules/architecture.md` or a dedicated `context-map.md`.
+Document the context map in `docs/domain/context-map.md` (created by the `domain-split` skill). Reference it from `docs/DOMAIN.md` or the per-context files.
 
 ## Aggregates
 

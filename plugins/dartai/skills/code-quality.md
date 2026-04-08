@@ -161,6 +161,40 @@ Use mcp__plugin_lci_lci__search to find:
 - Different error handling patterns
 - Mixed coding styles
 
+## Findability Standards
+
+Code must be discoverable by future developers (and LCI) without knowing it exists.
+
+### Naming Rules
+
+- **Names describe behavior, not implementation** — `parseUserInput` not `runRegex`
+- **No unexplained abbreviations** — use names already established in the codebase; if new, spell it out
+- **Public API names work at the call site** — the name makes sense where it's called, not just where it's defined
+- **Avoid generic names** — `handler`, `process`, `helper`, `util` tell nothing; name the domain
+
+### Co-location Rules
+
+- **Feature code lives together** — don't scatter a feature's logic across unrelated files
+- **New concepts go where their domain lives** — user authentication code belongs in the auth module, not in utils
+- **If no obvious home exists, that's a sign to refactor first** — create the right home before adding the code
+
+### LCI Searchability Test
+
+After implementing, verify:
+```
+1. Search LCI for what the code DOES (not what it's called)
+   - Example: search "filter users by role" → should find the function
+2. Search LCI for the domain concept
+   - Example: search "authentication" → should find all auth code
+3. If the code can't be found by feature-level search, rename or relocate it
+```
+
+### Structure Requirements
+
+- **Refactor before adding** — if adding new code to a file makes it incoherent, split the file first
+- **Keep modules focused** — a module that does too many things hides everything in it
+- **Export only what's needed** — unexported internal helpers don't need findable names
+
 ## Deprecated Code Cleanup
 
 ### Finding Deprecated Code

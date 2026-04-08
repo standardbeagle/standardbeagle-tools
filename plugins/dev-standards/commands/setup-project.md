@@ -314,6 +314,7 @@ Project type to skill mapping:
 If the architecture style is DDD or event-driven, also copy:
 - `ddd/add-aggregate`, `ddd/add-domain-event` (implementation skills)
 - `ddd/define-context`, `ddd/spec-domain` (design skills)
+- `ddd/domain-init`, `ddd/domain-update`, `ddd/domain-check`, `ddd/domain-split` (domain model skills)
 
 TDD discipline to skill mapping:
 
@@ -406,6 +407,7 @@ Rules (loaded automatically by Claude):
 Skills (available workflows):
   .claude/skills/<skill-name>/SKILL.md (for each skill)
   Including: implement-slice, define-context, spec-domain,
+  domain-init, domain-update, domain-check, domain-split,
   write-user-story, define-user-flow, write-tech-spec (based on selections)
 
 Project context:

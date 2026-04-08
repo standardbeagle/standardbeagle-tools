@@ -28,11 +28,23 @@ red_green_cycle:
     why: "Refactoring under GREEN is safe. Refactoring under RED is gambling."
     rule: "Run tests after every change. Any RED means the refactoring broke something."
 
+  vertical_slices:
+    rule: "Test and implement full feature vertically, not horizontal layers"
+    good:
+      - "Test: User can create post (includes validation + DB + API + response)"
+      - "Test: User can view post (includes query + API + response)"
+    bad:
+      - "Test: All database models work correctly (no feature)"
+      - "Test: All API endpoints return 200 (no validation)"
+      - "Test: All UI components render (no integration)"
+    why: "Vertical slices deliver working features and validate integration immediately"
+
   violations:
     - "Writing implementation before a RED test exists"
     - "Writing multiple tests before going GREEN on the first"
     - "Refactoring while a test is RED"
     - "A test that was never seen RED"
+    - "Testing horizontal layers instead of vertical features"
 ```
 
 ## Smoke Tests: Highest Fidelity Always

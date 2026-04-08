@@ -14,7 +14,11 @@ This skill provides the workflow for executing Dart tasks through a comprehensiv
 ```
 Task Start
     ↓
+0. Read Domain Model
+    ↓
 1. Understand Task
+    ↓
+1.5. Refactor to Support Changes
     ↓
 2. Implement Changes
     ↓
@@ -24,7 +28,7 @@ Task Start
     ↓
 5. Testing
     ↓
-6. LCI Evaluation
+6. LCI Evaluation (+ Findability)
     ↓
 7. Refactor Check
     ↓
@@ -33,6 +37,25 @@ Task Start
 9. Final Validation
     ↓
 Task Complete / Failed
+```
+
+### Step 0: Read Domain Model
+
+Before anything else, load the domain model:
+
+```
+1. Check for docs/DOMAIN.md — read it if present
+2. Check for docs/domain/*.md — read all context files if present
+3. If neither exists: proceed without domain model (note absence)
+4. Extract:
+   - Canonical term list and synonyms to reject
+   - Aggregate names for this feature area
+   - Any relevant invariants or event names
+5. If this task introduces a new concept NOT in the domain model:
+   - Run domain-update skill BEFORE writing any code
+   - The domain name is the code name — no exceptions
+6. If this task is a bug fix and the bug reveals a conceptual
+   misunderstanding: flag for domain-update after the fix
 ```
 
 ### Step 1: Understand Task
@@ -50,19 +73,63 @@ Read and analyze the task:
    - Bug fix
    - Refactoring
    - Documentation
-4. Create mental model of changes needed
+4. Create mental model of changes needed using domain terminology
 ```
 
-### Step 2: Implement Changes
+### Step 1.5: Refactor to Support Changes
 
-Make the necessary code changes:
+Before writing any new code, ensure the codebase is ready to accept the change naturally:
 
 ```
-1. Identify files to modify
-2. Make changes following project patterns
-3. Add/update tests for changes
-4. Update related documentation
-5. Save all changes (main loop handles git commit/push)
+1. Use LCI to find all code related to the change area
+2. Identify friction points:
+   - Would the new code feel like a hack or a natural extension?
+   - Are there abstractions that need to exist first?
+   - Are there naming inconsistencies to fix?
+   - Is existing code in the right place to be extended?
+3. Refactor to create the natural extension point:
+   - Move code to the right module/file
+   - Rename things that don't reflect what they do
+   - Extract shared logic that the new code will also need
+   - Ensure existing tests cover the refactored code
+4. Verify ALL existing tests still pass after refactoring
+5. Commit: 'REFACTOR: Prepare [area] for [change]'
+
+Key rule: If the new code would feel like it's fighting the existing
+structure, the structure needs to change first. Never patch over bad
+structure — fix the structure, then add the feature.
+```
+
+### Step 2: Implement Changes (Strict TDD)
+
+Follow RED→GREEN→REFACTOR for every behavior:
+
+```
+RED PHASE:
+1. Write ONE test for the smallest behavior increment
+2. Run test - it MUST FAIL (RED)
+3. If test passes, the test is wrong - fix or delete it
+4. Commit: 'RED: Test for [behavior]'
+
+GREEN PHASE:
+5. Write MINIMUM code to make the RED test pass
+6. No code without a failing test first
+7. No 'preparing' the implementation
+8. Commit: 'GREEN: [behavior] implemented'
+
+REFACTOR PHASE:
+9. Clean up code while tests stay GREEN
+10. If tests go RED, undo immediately
+11. Commit: 'REFACTOR: [what changed]'
+
+VERTICAL SLICES:
+12. Implement full feature vertically, not horizontal layers
+13. Good: User can create post (validation + DB + API + response)
+14. Bad: Build all DB models, then all APIs, then UI
+
+DOCUMENTATION:
+15. Update related documentation
+16. Save all changes (main loop handles git commit/push)
 ```
 
 ### Step 3: Code Review (Self)
@@ -119,6 +186,17 @@ Use Lightning Code Index for quality check:
    - Consistent naming with codebase
    - Proper use of existing utilities
    - No reinventing existing functionality
+
+3. Findability check — new code must be discoverable:
+   - Function/type names reflect what they do (not how)
+   - Names are searchable — avoid abbreviations or acronyms
+     that aren't already established in the codebase
+   - Public API symbols are named to be found at the call site
+     (e.g. createUser, not make_u, not userFactory)
+   - Related code is co-located — don't scatter a feature across
+     unrelated files
+   - Verify with LCI: can you find this code by searching for
+     what it does?
 ```
 
 ### Step 7: Refactor Check
@@ -145,6 +223,18 @@ Remove obsolete code:
 5. Update imports after removal
 ```
 
+### Step 8.5: Domain Check
+
+Verify domain language consistency:
+
+```
+1. Run domain-check skill on changed files (if domain model exists)
+2. Fix any high-severity issues (rejected synonyms in code)
+3. Run domain-update for any new concepts introduced
+4. If bug fix revealed conceptual misunderstanding:
+   - Add entry to Conceptual Mismatches Log in DOMAIN.md
+```
+
 ### Step 9: Final Validation
 
 Confirm everything is ready:
@@ -154,7 +244,8 @@ Confirm everything is ready:
 2. Changes match task requirements
 3. Documentation is updated
 4. No regression introduced
-5. Ready for commit/merge
+5. Domain model reflects any new concepts (DOMAIN.md updated)
+6. Ready for commit/merge
 ```
 
 ## Failure Handling
@@ -188,12 +279,15 @@ Each step has pass/fail criteria:
 
 | Step | Pass Criteria |
 |------|---------------|
+| Domain Model | New concepts named in DOMAIN.md before coding |
 | Understand | Task is clear and actionable |
+| Refactor First | Extension point exists naturally, existing tests pass |
 | Implement | Changes compile/run without error |
 | Review | No major issues found |
 | Linting | Zero errors (warnings allowed) |
 | Testing | All tests pass, coverage maintained |
-| LCI | No duplicate code, consistent patterns |
+| LCI | No duplicate code, consistent patterns, new code is findable |
+| Domain Check | No rejected synonyms, new concepts in DOMAIN.md |
 | Refactor | Clean code, no debug artifacts |
 | Cleanup | No deprecated code remains |
-| Validate | All criteria met, task complete |
+| Validate | All criteria met, domain model updated, task complete |

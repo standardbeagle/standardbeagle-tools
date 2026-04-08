@@ -41,6 +41,27 @@ description: Code quality standards — fail fast, no over-engineering, tight ed
 - Consolidate duplicate logic into shared helpers
 - Prefer composing existing functions over writing new ones
 
+## Refactor First
+
+Every code change starts with ensuring the codebase is ready to accept it naturally:
+
+- **Assess before implementing** — ask whether the new code would feel like a hack or a natural extension
+- **Fix the structure, then add the feature** — never patch over bad structure
+- **Create the extension point first** — move, rename, or extract code until there's an obvious place for the new code
+- **Verify existing tests pass** after any preparatory refactor before starting implementation
+- If no obvious home exists for new code, that is a signal to refactor first, not to compromise on location
+
+## Findability
+
+Code must be discoverable by developers (and code search tools) without knowing it exists:
+
+- **Names describe behavior, not implementation** — `parseUserInput` not `runRegex`, `filterByRole` not `applyF`
+- **No unexplained abbreviations** — use names already established in the codebase; if introducing a new concept, spell it out
+- **Public API names make sense at the call site** — the name should be clear where it is used, not just where it is defined
+- **Co-locate related code** — feature logic belongs in the feature's module, not scattered across unrelated files
+- **Avoid generic names** — `handler`, `process`, `helper`, `util` convey nothing; name the domain concept
+- **Verify searchability** — after implementing, confirm that searching for what the code *does* finds it
+
 ## Cleanup
 
 - Remove all debug statements (`console.log`, `print`, `debugger`) before committing

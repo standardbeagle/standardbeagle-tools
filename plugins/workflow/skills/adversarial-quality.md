@@ -77,17 +77,21 @@ tdd_cycle:
 
 ### Phase 1: Implementation Planning (5-10% of time)
 
-**Objective**: Understand scope and create verification checklist
+**Objective**: Understand scope, assess structural readiness, and create verification checklist
 
 **Steps**:
 1. Read task specification from loop state file
 2. Identify all files in scope (max 5)
 3. Read current file contents
-4. Create implementation plan
-5. Create verification checklist
-6. Write checkpoint to state file
+4. **Assess structural readiness**: Does the existing code structure support this change naturally?
+   - Use LCI to find related code and understand the current shape
+   - Ask: Would new code feel like a natural extension or a hack?
+   - If structural friction exists, add a refactor step to Phase 2 before implementation
+5. Create implementation plan (with refactor-first step if needed)
+6. Create verification checklist (include findability check)
+7. Write checkpoint to state file
 
-**Implementer Mindset**: "Make it work correctly"
+**Implementer Mindset**: "Make it work correctly, in the right place, with findable names"
 
 **Output**:
 ```yaml
@@ -123,14 +127,16 @@ implementation_plan:
    - ✓ Add necessary documentation
 
 **Positive Instructions (DO)**:
+- **Refactor first** — if the existing structure doesn't support the change naturally, fix the structure before adding code
 - Use existing code patterns
-- Write clear variable names
+- Write clear variable names that describe behavior, not implementation
 - Add type annotations
 - Handle edge cases
 - Write tests FIRST (TDD — red/green/refactor cycle from Phase 0)
 - Keep functions small and focused
 - Add comments for complex logic
 - Follow security best practices
+- **Ensure findability** — names must be discoverable by future developers searching for the feature
 
 **Output**: Implementation complete, ready for adversarial review
 
@@ -180,6 +186,21 @@ challenge_categories:
     - "What if data is huge?"
     - "What if this runs 1000 times?"
     - "What memory could leak?"
+
+  structure_and_findability:
+    - "Does the new code live where someone would look for it?"
+    - "Do names describe what the code does, not how it does it?"
+    - "Would a developer searching for this feature by name find it?"
+    - "Did we add code to an existing file that now has incoherent scope?"
+    - "Did we refactor first, or did we hack the new code into a bad location?"
+    - "Are there cryptic abbreviations not established in the codebase?"
+
+  domain_model:
+    - "Does the implementation use canonical terms from docs/DOMAIN.md?"
+    - "Are any rejected synonyms present in identifiers, comments, or test names?"
+    - "Did this task introduce new domain concepts not yet in DOMAIN.md?"
+    - "If this was a bug fix, did it reveal a conceptual misunderstanding? Is it logged?"
+    - "Do aggregate, event, and command names match the domain model exactly?"
 ```
 
 **Output**: List of issues found + fixes applied

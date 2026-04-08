@@ -17,12 +17,63 @@ planning_rules:
     - "What exactly was requested?"
     - "What's the minimum change to deliver it?"
     - "How will we verify it works?"
+    - "What domain terms from DOMAIN.md apply to this change?"
+    - "Does this introduce new concepts that need to be named in DOMAIN.md first?"
+    - "Does the codebase need to be refactored first to accept this change naturally?"
+    - "Will new code be findable by name and location?"
+    - "Write RED test first, then GREEN implementation"
+    - "Implement full vertical slice, not horizontal layers"
 
   forbidden:
     - "While we're at it..."
     - "We should also..."
     - "It would be better to..."
     - "For future flexibility..."
+    - "Write all tests first, then all implementation"
+    - "Build the database layer first, then API, then UI"
+```
+
+### TDD Discipline: Red/Green/Refactor
+
+```yaml
+tdd_requirements:
+  red_first:
+    rule: "Every implementation task MUST start with a failing test"
+    steps:
+      - "Write test for the smallest behavior increment"
+      - "Run test - it MUST FAIL (RED)"
+      - "If test passes, test is wrong - fix or delete it"
+    
+  green_minimum:
+    rule: "Write minimum code to make test pass"
+    steps:
+      - "Implement just enough to go RED → GREEN"
+      - "No code without a failing test first"
+      - "No 'preparing' the implementation"
+    
+  refactor_clean:
+    rule: "Clean up only when GREEN"
+    steps:
+      - "Refactor with all tests passing"
+      - "If tests go RED, undo immediately"
+      - "Commit after each GREEN"
+
+  vertical_slices:
+    rule: "Implement full feature vertically, not horizontally"
+    pattern:
+      good:
+        - "Task: User can create a post (includes DB + API + validation)"
+        - "Task: User can view a post (includes DB query + API + response)"
+      bad:
+        - "Task: Build all database models first"
+        - "Task: Build all API endpoints first"
+        - "Task: Add all validations later"
+    
+  why_vertical:
+    - "Delivers working features faster"
+    - "Validates integration at each step"
+    - "Allows early feedback"
+    - "Reduces risk of integration failures"
 ```
 
 ---
@@ -35,8 +86,14 @@ planning_rules:
 requested: |
   [Exact user request - copy their words]
 
+domain_terms: # Canonical names from DOMAIN.md used in this task
+  - "[TermFromDomainModel]"
+
+new_domain_concepts: # Concepts introduced by this task, named in DOMAIN.md first
+  - "[NewTerm]: [definition]"  # or "none"
+
 deliverable: |
-  [Concrete output - what will exist when done]
+  [Concrete output - what will exist when done, using domain terms]
 
 scope:
   files_to_modify: # Max 5
@@ -50,13 +107,21 @@ scope:
     - path/to/obsolete.ext
 
 acceptance_criteria:
-  - "Criterion 1 - how to verify"
-  - "Criterion 2 - how to verify"
+  - "Criterion 1 - verified by RED→GREEN test cycle"
+  - "Criterion 2 - verified by RED→GREEN test cycle"
+
+tdd_approach:
+  style: "strict_red_green_refactor"
+  vertical_slices: true
+  test_first: "Every behavior must have RED test before GREEN implementation"
 
 steps:
-  1: "First atomic action"
-  2: "Second atomic action"
-  3: "Verify it works"
+  1: "Write RED test for [smallest behavior]"
+  2: "GREEN: Minimum implementation to pass"
+  3: "Refactor while GREEN"
+  4: "Write RED test for [next behavior]"
+  5: "GREEN: Minimum implementation to pass"
+  6: "Verify all tests pass, no regressions"
 
 not_included: # Explicitly list what we WON'T do
   - "Refactoring unrelated code"
@@ -219,7 +284,30 @@ tier_detection:
 
 ## Planning Process
 
-### Step 0: Classify Complexity (15 seconds)
+### Step 0: Read Domain Model (30 seconds)
+
+```yaml
+domain_model_check:
+  locate:
+    - "Check docs/DOMAIN.md"
+    - "Check docs/domain/*.md (per-context files)"
+
+  extract:
+    - "Canonical terms for this feature area"
+    - "Aggregate names that this task touches"
+    - "Synonyms to reject — must not appear in plan or code"
+
+  if_new_concepts:
+    action: "Name them in DOMAIN.md BEFORE writing the plan"
+    rule: "The name chosen in DOMAIN.md is the name used everywhere"
+    note: "If unsure of the right name, ask — naming is design"
+
+  if_no_domain_model:
+    action: "Note absence, proceed with best judgment"
+    suggestion: "Consider running domain-init if this is a DDD project"
+```
+
+### Step 0.5: Classify Complexity (15 seconds)
 
 ```yaml
 classify:
@@ -271,6 +359,35 @@ define:
   test: "Can I point to a specific thing and say 'this is what you asked for'?"
 ```
 
+### Step 2.5: Refactor-First Assessment (1 minute)
+
+```yaml
+refactor_first:
+  question: "Will the new code feel natural in the existing structure?"
+
+  checks:
+    - natural_extension: "Is there an obvious place to add this?"
+    - naming_fit: "Do existing names make room for the new concept?"
+    - co_location: "Will related code end up in the right file/module?"
+    - friction: "Would you need to fight the existing code to add this?"
+
+  if_yes_friction:
+    action: "Add a refactor step BEFORE the implementation steps"
+    pattern: |
+      Step 1: Refactor [X] to support [Y] (move/rename/extract)
+      Step 2: Verify all existing tests pass after refactor
+      Step 3: RED test for new behavior
+      Step 4: GREEN implementation (now fits naturally)
+
+  findability:
+    question: "Can this code be found by someone who doesn't know it exists?"
+    checks:
+      - name_describes_behavior: "Function/type name says what it does"
+      - no_cryptic_abbreviations: "Avoid jargon not already in codebase"
+      - co_located: "Code lives where someone would look for it"
+      - lci_searchable: "Would LCI search for the feature find this code?"
+```
+
 ### Step 3: Identify Files (1 minute)
 
 ```yaml
@@ -279,6 +396,7 @@ file_identification:
     - Search for related symbols
     - Find existing patterns to follow
     - Locate where changes belong
+    - Check if refactoring is needed to create the right home
 
   constraints:
     - Max 5 files modified
@@ -295,12 +413,26 @@ step_creation:
     - Steps are verifiable (test can run, lint can check)
     - Max 7 steps per plan
     - If more needed: STOP, split task
+    - EVERY implementation step starts with RED test
+    - Implement vertical slices, not horizontal layers
 
   format:
-    - "Add X to Y"
-    - "Modify X to do Y"
-    - "Remove X from Y"
+    - "Write RED test for X behavior"
+    - "Implement minimum to make test GREEN"
+    - "Refactor while GREEN"
+    - "Modify X to do Y (RED→GREEN→Refactor)"
+    - "Remove X from Y (RED→GREEN→Refactor)"
     - "Run tests/lint to verify"
+
+  tdd_step_pattern:
+    example:
+      - "Write RED test: user can create post with title and body"
+      - "GREEN: Add createPost() with title/body persistence"
+      - "Refactor: Extract validation logic"
+      - "Write RED test: user cannot create post without title"
+      - "GREEN: Add title validation"
+      - "Write RED test: user can retrieve created post"
+      - "GREEN: Add getPost() method"
 ```
 
 ### Step 5: Define Not-Included (30 seconds)
@@ -373,7 +505,7 @@ always_do:
 
 ## Example Plans
 
-### Good: Minimal and Focused
+### Good: Minimal and Focused with TDD
 
 ```yaml
 # Task Plan: Add logout button to header
@@ -386,23 +518,32 @@ scope:
   files_to_modify:
     - src/components/Header.tsx
     - src/services/auth.ts
+    - src/components/Header.test.tsx
 
 acceptance_criteria:
-  - "Button visible in header when logged in"
-  - "Clicking button clears session"
-  - "User redirected to /login"
+  - "Button visible in header when logged in - verified by RED→GREEN test"
+  - "Clicking button clears session - verified by RED→GREEN test"
+  - "User redirected to /login - verified by RED→GREEN test"
+
+tdd_approach:
+  style: "strict_red_green_refactor"
+  vertical_slices: true
 
 steps:
-  1: "Add logout() function to auth.ts using existing clearSession pattern"
-  2: "Add LogoutButton to Header.tsx matching existing button styles"
-  3: "Wire button onClick to logout() then redirect"
-  4: "Run existing tests to verify no regression"
+  1: "Write RED test: logout button renders when user is logged in"
+  2: "GREEN: Add LogoutButton component to Header.tsx"
+  3: "Refactor: Extract button styles to match existing pattern"
+  4: "Write RED test: clicking logout clears session"
+  5: "GREEN: Add logout() function to auth.ts, wire to button"
+  6: "Write RED test: logout redirects to /login"
+  7: "GREEN: Add redirect logic to logout handler"
+  8: "Verify all tests pass, no regressions"
 
 not_included:
   - "Confirmation dialog"
   - "Logout animation"
   - "Session timeout feature"
-  - "Refactoring auth.ts"
+  - "Refactoring auth.ts beyond logout function"
 ```
 
 ### Bad: Over-Engineered
@@ -446,6 +587,11 @@ Before finalizing plan, verify:
 
 ```yaml
 checklist:
+  domain:
+    - [ ] DOMAIN.md read before planning
+    - [ ] New concepts named in DOMAIN.md before appearing in plan
+    - [ ] Plan uses canonical domain terms, not synonyms
+
   scope:
     - [ ] Plan delivers exactly what was requested
     - [ ] No features added beyond request
@@ -467,6 +613,17 @@ checklist:
     - [ ] Follows existing code patterns
     - [ ] Uses existing utilities
     - [ ] Changes blend with codebase
+
+  refactor_first:
+    - [ ] Assessed whether existing structure supports the change naturally
+    - [ ] Refactor step added to plan if structure needs to change first
+    - [ ] New code will live where someone would look for it
+
+  findability:
+    - [ ] Names describe behavior, not implementation
+    - [ ] No unexplained abbreviations or acronyms
+    - [ ] Code is co-located with related functionality
+    - [ ] LCI search would surface this code from a feature-level query
 ```
 
 ---

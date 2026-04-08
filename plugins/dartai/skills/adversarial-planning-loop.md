@@ -58,6 +58,37 @@ plan_hierarchy:
     rule: "Any unknown MUST have a research/spike task before implementation task"
     position: "Research tasks come BEFORE dependent implementation tasks"
     output: "Research tasks produce documented decisions, not code"
+
+  tdd_requirements:
+    red_green_refactor: "Every implementation task follows strict RED→GREEN→REFACTOR cycle"
+    test_first: "No implementation code without a failing test first"
+    vertical_slices: "Implement full feature vertically, not horizontal layers"
+    refactor_first: "Before implementing, assess whether existing structure supports the change naturally; add a refactor task if not"
+
+  findability_requirements:
+    names_describe_behavior: "Function/type names describe what they do, not how"
+    no_cryptic_abbreviations: "Avoid abbreviations not already established in the codebase"
+    co_location: "Code lives where a developer would look for it by domain concept"
+    lci_searchable: "New code is discoverable by searching for the feature it implements"
+    
+  vertical_vs_horizontal:
+    vertical_slice:
+      description: "Complete feature through all layers"
+      example: "User can create post (includes validation + DB + API + response)"
+      benefits:
+        - "Delivers working features faster"
+        - "Validates integration immediately"
+        - "Enables early feedback"
+        - "Reduces integration risk"
+    
+    horizontal_layer:
+      description: "Complete layer across all features"
+      example: "Build all database models first, then all APIs, then UI"
+      problems:
+        - "No working feature until very end"
+        - "Integration issues discovered late"
+        - "Cannot demo or test partial progress"
+        - "High risk of rework"
 ```
 
 ### Plan Adjustment Protocol
@@ -558,12 +589,19 @@ plan:
 
   implementation_tasks:
     - title: "Implement {specific thing}"
+      tdd_approach: "strict_red_green_refactor"
+      vertical_slice: true
       acceptance_criteria:
-        - "Criterion 1 - how verified"
-        - "Criterion 2 - how verified"
+        - "Criterion 1 - verified by RED→GREEN test cycle"
+        - "Criterion 2 - verified by RED→GREEN test cycle"
       files_affected: ["specific/files.ts"]
       depends_on: [research_or_spike_ids]
-      verification: "How we know it works"
+      verification: "All tests pass, no regressions"
+      steps:
+        - "Write RED test for smallest behavior"
+        - "GREEN: Minimum implementation"
+        - "Refactor while GREEN"
+        - "Repeat for next behavior"
 
   integration_tasks:
     - title: "Connect {A} to {B}"
