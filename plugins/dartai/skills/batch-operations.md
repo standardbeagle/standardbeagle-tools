@@ -46,97 +46,30 @@ execution_order:
 
 ## DartQL Selector Syntax
 
-### Basic Comparisons
+DartQL uses **standard SQL-92 WHERE clause syntax**. If you know SQL, you know DartQL.
 
-```sql
--- Equality
-status = 'Todo'
-priority = 5
-assignee = 'jane@company.com'
+**Supported operators**: `=`, `!=`, `<>`, `>`, `>=`, `<`, `<=`, `AND`, `OR`, `NOT`, `LIKE` (with `%` and `_` wildcards), `IN`, `NOT IN`, `BETWEEN`, `IS NULL`, `IS NOT NULL`, `CONTAINS` (aliases: `INCLUDES`, `HAS`), parentheses for grouping. Strings use single quotes.
 
--- Inequality
-priority != 1
-status != 'Done'
-
--- Numeric ranges
-priority >= 3
-priority > 2
-priority <= 4
-priority < 5
-size >= 3
-```
-
-### String Matching
-
-```sql
--- Exact match
-title = 'Fix login bug'
-
--- Contains (LIKE with wildcards)
-title LIKE '%authentication%'
-description LIKE '%urgent%'
-```
-
-### Date Comparisons
-
-```sql
--- Before/after dates (ISO8601)
-due_at < '2026-02-15'
-due_at > '2026-02-01'
-due_at >= '2026-02-15T00:00:00Z'
-
--- Date ranges
-due_at >= '2026-02-15' AND due_at < '2026-02-22'
-
--- Null dates (no due date set)
-due_at IS NULL
-due_at IS NOT NULL
-
--- Completed date
-completed_at < '2025-01-01'
-completed_at IS NOT NULL
-```
-
-### Logical Operators
-
-```sql
--- AND (both conditions)
-status = 'Todo' AND priority >= 4
-
--- OR (either condition)
-status = 'Todo' OR status = 'In Progress'
-
--- Parentheses for grouping
-(status = 'Todo' OR status = 'In Progress') AND priority >= 3
-
--- Complex combinations
-dartboard = 'Sprint 5' AND status = 'Todo' AND (priority >= 4 OR due_at < '2026-02-20')
-```
-
-### Field Reference
+### Available Fields
 
 ```yaml
-available_fields:
-  text:
-    - title          # Task title
-    - description    # Task description
-    - status         # Status name or dart_id
-    - dartboard      # Dartboard name or dart_id
-    - assignee       # Assignee name, email, or dart_id
+text:     title, description, status, dartboard, assignee  # assignee is singular in WHERE
+string:   priority, size  # string values from get_config (e.g. "Critical", "High")
+date:     due_at, start_at, created_at, updated_at, completed_at  # ISO8601 values
+id:       parent_task, dart_id  # use IS NULL / IS NOT NULL
+array:    tags, subtask_ids, blocker_ids, blocking_ids, duplicate_ids, related_ids
+```
 
-  numeric:
-    - priority       # 1-5
-    - size           # 1-5
+> **Note:** Status and priority names are workspace-specific. Use `get_config` to discover your workspace's actual values.
 
-  date:
-    - due_at         # Due date
-    - start_at       # Start date
-    - created_at     # Creation date
-    - updated_at     # Last update
-    - completed_at   # Completion date
+### Examples
 
-  boolean:
-    - has_parent     # Is a subtask
+```sql
+status = 'Todo' AND priority >= 4
+(status = 'Todo' OR status = 'In Progress') AND dartboard = 'Sprint 5'
+title LIKE '%authentication%'
+due_at < '2026-02-15' AND due_at IS NOT NULL
+completed_at IS NULL AND updated_at < '2025-11-15'
 ```
 
 ---

@@ -29,7 +29,7 @@ params:
 ```yaml
 description: string          # markdown supported
 status: string               # dart_id or name
-priority: string             # "Critical", "High", "Medium", "Low" — values from get_config
+priority: string             # "Critical", "High", "Medium", "Low" — names from get_config
 size: 1-5                   # story points / effort
 start_at: ISO8601            # "2026-04-10T09:00:00Z"
 due_at: ISO8601

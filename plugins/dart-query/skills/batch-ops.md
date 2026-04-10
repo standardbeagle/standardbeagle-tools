@@ -39,8 +39,8 @@ DartQL uses standard **SQL-92 WHERE clause syntax**. If you know SQL, you know D
 
 **Available fields:**
 ```yaml
-text:     title, description, status, dartboard, assignee
-numeric:  priority (1-5), size (1-5)
+text:     title, description, status, dartboard, assignee  # singular in WHERE, maps to assignees array
+string:   priority, size  # string values from get_config (e.g. "Critical", "High")
 date:     due_at, start_at, created_at, updated_at, completed_at  # ISO8601
 id:       parent_task, dart_id  # use IS NULL / IS NOT NULL
 array:    tags, subtask_ids, blocker_ids, blocking_ids, duplicate_ids, related_ids
