@@ -43,7 +43,7 @@ parameters:
 tool_name: info
 parameters:
   level: group
-  target: "tasks"
+  target: "task-crud"   # Valid groups: discovery, config, task-crud, task-query, task-batch, doc-crud, import
 ```
 
 ### Example: Full schema for a specific tool
@@ -51,7 +51,7 @@ parameters:
 tool_name: info
 parameters:
   level: tool
-  target: "list_tasks"
+  target: "execute_dartql"  # Tool-level docs available for: info, get_config, execute_dartql, batch_update_tasks, import_tasks_csv, relationships
 ```
 
 ---
@@ -65,13 +65,13 @@ Load workspace metadata: assignees, dartboards, statuses, tags, priorities, size
 - `cache_bust` (boolean, optional): force refresh, bypassing the 5-minute cache
 
 **What each section contains:**
-- `assignees` — dart_id, name, email
-- `dartboards` — dart_id, name
-- `statuses` — dart_id, name, color
-- `tags` — dart_id, name
-- `priorities` — dart_id, name
-- `sizes` — dart_id, name
-- `folders` — dart_id, name
+- `assignees` — name, email (objects)
+- `dartboards` — flat strings ("Space/Name" format)
+- `statuses` — flat strings (workspace-specific, e.g. "To-do", "Doing", "Done")
+- `tags` — flat strings
+- `priorities` — flat strings (e.g. "Critical", "High", "Medium", "Low")
+- `sizes` — flat strings
+- `folders` — flat strings ("Space/Name" format)
 
 **Cache:** Results are cached for 5 minutes. Call once at session start and reuse.
 

@@ -128,7 +128,7 @@ parameters:
 
 ```yaml
 query:             string   # required; supports "quoted phrases", -exclusions, terms
-dartboard:         string   # optional — scope search to one dartboard
+dartboard:         string   # RECOMMENDED — unscoped searches may return server errors
 include_completed: boolean  # default false
 limit:             integer  # default 50, max 500
 ```

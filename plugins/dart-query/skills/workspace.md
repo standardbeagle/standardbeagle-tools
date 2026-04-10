@@ -227,3 +227,16 @@ parameters:
 ```
 
 > For bulk task moves, use `execute_dartql` instead — see batch-ops skill.
+
+---
+
+## Known Server Issues (dart-query v0.10.3)
+
+These tools have known bugs — check the dart-query repo for fixes before relying on them:
+
+- **`create_doc`** — may fail with 400 error (API payload formatting)
+- **`add_task_comment`** — returns 404 for valid tasks; use `comment` param on `create_task` as workaround
+- **`add_time_tracking`** — may require additional fields not in the schema
+- **`attach_url`** — `filename` parameter may not be translated correctly
+- **`move_task`** — `after_id` and `order` may not work; `dartboard` moves work reliably
+- **`get_folder`** — broken; rejects valid folder names

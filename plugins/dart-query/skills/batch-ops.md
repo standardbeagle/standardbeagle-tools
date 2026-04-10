@@ -46,10 +46,12 @@ id:       parent_task, dart_id  # use IS NULL / IS NOT NULL
 array:    tags, subtask_ids, blocker_ids, blocking_ids, duplicate_ids, related_ids
 ```
 
+> **Note:** Status and priority names are workspace-specific. Use `get_config` to discover your workspace's values. Examples below use common defaults — yours may differ (e.g. "To-do" vs "Todo", "Doing" vs "In Progress").
+
 **Examples:**
 ```sql
-status = 'Todo' AND priority >= 4
-status IN ('Todo', 'In Progress') AND dartboard = 'Sprint 5'
+status = 'To-do' AND priority >= 4
+status IN ('To-do', 'Doing') AND dartboard = 'Sprint 5'
 title LIKE '%authentication%'
 due_at BETWEEN '2026-02-15' AND '2026-02-28'
 tags CONTAINS 'urgent' AND assignee IS NOT NULL
