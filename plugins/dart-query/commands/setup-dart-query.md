@@ -105,9 +105,9 @@ After setup, the following dart-query tools are available:
 | `delete_doc` | Move doc to trash |
 | `get_dartboard` | Get dartboard info |
 | `get_folder` | Get folder info |
-| `export_tasks` | Export tasks to CSV |
-| `import_tasks` | Import tasks from CSV |
-| `get_history` | Get task history |
+| `import_tasks_csv` | Import tasks from CSV |
+| `execute_dartql` | Execute DartQL batch statements |
+| `get_batch_status` | Check batch operation progress |
 
 **Access Pattern:**
 - SLOP: `mcp__plugin_slop-mcp_slop-mcp__execute_tool` with `mcp_name: dart-query, tool_name: <tool>`

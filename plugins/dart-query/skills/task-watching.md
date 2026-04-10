@@ -27,7 +27,7 @@ Poll `list_tasks` on an interval, compare against previously seen IDs, and repor
 
 ```
 /loop 5m Check for new tasks on 'Sprint 5' dartboard with status 'Todo'.
-Use list_tasks with dartboard='Sprint 5', statuses=['Todo'], detail_level='minimal'.
+Use list_tasks with dartboard='Sprint 5', status='Todo', detail_level='minimal'.
 Compare task IDs against any previously seen in this loop session.
 Report only new tasks with their title and priority. If none, stay silent.
 ```
@@ -38,7 +38,7 @@ Tool call inside the loop:
 tool_name: list_tasks
 parameters:
   dartboard: "Sprint 5"
-  statuses: ["Todo"]
+  status: "Todo"
   detail_level: "minimal"
   limit: 50
 ```
@@ -139,7 +139,7 @@ tasks with no activity in 5+ days, estimated carry-over risk.
 
 ```
 /schedule "0 18 * * 1-5" Summarize today's task activity on 'Sprint 5'.
-Use list_tasks with dartboard='Sprint 5', statuses=['Done', 'In Review'], detail_level='minimal'.
+Use list_tasks with dartboard='Sprint 5', status='Done', detail_level='minimal'. Then repeat for status='In Review'.
 Report tasks moved to Done or In Review today. Flag any regressions (moved backward in status).
 ```
 
@@ -153,7 +153,7 @@ Poll for tasks with a specific tag (e.g., `auto-execute` or `kibeth`). When foun
 
 ```
 /loop 5m Check for tasks tagged 'auto-execute' in 'Automation' dartboard with status 'Todo'.
-Use list_tasks with dartboard='Automation', tags=['auto-execute'], statuses=['Todo'], detail_level='full'.
+Use list_tasks with dartboard='Automation', tags=['auto-execute'], status='Todo', detail_level='full'.
 For each found task:
   1. Claim: update_task status='In Progress', comment='Auto-picked up by agent'
   2. Execute: read task description for instructions and perform the described work
@@ -183,8 +183,8 @@ Periodically scan for newly-Done tasks that still appear in other tasks' `blocke
 
 ```
 /loop 10m Check for completed tasks that are still listed as blockers elsewhere.
-Use list_tasks with statuses=['Done'], detail_level='minimal' to find recently finished tasks.
-For each done task, use list_tasks with blocker_ids=[task_id] to find tasks still blocked by it.
+Use list_tasks with status='Done', detail_level='minimal' to find recently finished tasks.
+For each done task, use list_tasks with detail_level='full' and filter client-side for tasks where blocker_ids contains the completed task ID.
 For each match: remove the resolved blocker using update_task remove_from.blocker_ids,
 and if no blockers remain, update status from 'Blocked' to 'Todo'.
 Comment on both tasks about the unblock.
@@ -195,9 +195,9 @@ Find tasks still blocked by a completed task:
 ```yaml
 tool_name: list_tasks
 parameters:
-  blocker_ids: ["tsk_done001"]
-  statuses: ["Blocked"]
+  status: "Blocked"
   detail_level: "full"
+# Then filter client-side: task.blocker_ids includes "tsk_done001"
 ```
 
 Unblock and restore:

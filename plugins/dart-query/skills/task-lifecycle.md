@@ -89,8 +89,8 @@ List the target assignee's current in-progress tasks to avoid overloading them:
 ```yaml
 tool_name: list_tasks
 parameters:
-  assignees: ["usr_new456"]
-  statuses: ["In Progress"]
+  assignee: "usr_new456"
+  status: "In Progress"
   limit: 20
 ```
 
@@ -196,8 +196,9 @@ parameters:
 tool_name: add_time_tracking
 parameters:
   dart_id: "tsk_abc123"
-  minutes: 240
-  description: "Implementation and PR review"
+  started_at: "2026-04-10T09:00:00Z"
+  duration_minutes: 240
+  note: "Implementation and PR review"
 ```
 
 ### Attach artifacts
@@ -207,7 +208,7 @@ tool_name: attach_url
 parameters:
   dart_id: "tsk_abc123"
   url: "https://ci.example.com/builds/4421/report"
-  title: "CI build report"
+  filename: "ci-build-report.html"
 ```
 
 ### Clear stale relationships
@@ -231,12 +232,15 @@ parameters:
 Find tasks that listed this task as a blocker, then remove it from each:
 
 ```yaml
-# Find dependent tasks (see querying skill for filter options)
+# Find dependent tasks — list_tasks doesn't support blocker_ids filter,
+# so fetch with detail_level: full and filter client-side for tasks
+# where blocker_ids contains "tsk_abc123"
 tool_name: list_tasks
 parameters:
-  blocker_ids: ["tsk_abc123"]
+  dartboard: "Sprint 42"
+  detail_level: "full"
 
-# For each result, remove the resolved blocker
+# For each result where blocker_ids includes tsk_abc123, remove it
 tool_name: update_task
 parameters:
   dart_id: "tsk_dependent001"
@@ -276,9 +280,9 @@ parameters:
 | Phase | Key Tools | Key Fields |
 |---|---|---|
 | **Creation** | `create_task` | `title`, `dartboard`, `parent_task`, `blocker_ids`, `comment` |
-| **Assignment** | `list_tasks`, `update_task` | `assignees`, `statuses` (workload check) |
+| **Assignment** | `list_tasks`, `update_task` | `assignee`, `status` (workload check) |
 | **In Progress** | `update_task`, `add_task_comment` | `status`, `add_to.blocker_ids`, `remove_from.blocker_ids` |
-| **Completion** | `update_task`, `add_time_tracking`, `attach_url` | `status: "Done"`, `minutes`, `url`, clear `blocker_ids` |
-| **Post-completion** | `list_tasks`, `update_task` | `blocker_ids` filter, `dartboard` (archive), `create_task` (follow-ups) |
+| **Completion** | `update_task`, `add_time_tracking`, `attach_url` | `status: "Done"`, `started_at`, `duration_minutes`, `url` |
+| **Post-completion** | `list_tasks` (full detail), `update_task` | client-side blocker filter, `dartboard` (archive), `create_task` (follow-ups) |
 
 For bulk operations across many tasks, see the `batch-ops` skill. For filtering and search patterns, see the `querying` skill.

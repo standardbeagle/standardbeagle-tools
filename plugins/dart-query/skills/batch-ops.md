@@ -42,7 +42,7 @@ DartQL uses standard **SQL-92 WHERE clause syntax**. If you know SQL, you know D
 text:     title, description, status, dartboard, assignee
 numeric:  priority (1-5), size (1-5)
 date:     due_at, start_at, created_at, updated_at, completed_at  # ISO8601
-boolean:  has_parent
+id:       parent_task, dart_id  # use IS NULL / IS NOT NULL
 array:    tags, subtask_ids, blocker_ids, blocking_ids, duplicate_ids, related_ids
 ```
 

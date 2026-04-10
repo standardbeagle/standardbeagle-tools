@@ -27,7 +27,7 @@ params:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE dartboard = 'Sprint 12' AND status != 'Done' SET dartboard = 'Sprint 13'"
+  query: "UPDATE WHERE dartboard = 'Sprint 12' AND status != 'Done' SET dartboard = 'Sprint 13'"
   dry_run: true
 ```
 
@@ -35,7 +35,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE dartboard = 'Sprint 12' AND status != 'Done' SET dartboard = 'Sprint 13'"
+  query: "UPDATE WHERE dartboard = 'Sprint 12' AND status != 'Done' SET dartboard = 'Sprint 13'"
   dry_run: false
 ```
 
@@ -43,7 +43,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE dartboard = 'Sprint 12' AND status = 'Done' SET dartboard = 'Archive' COMMENT 'Sprint 12 complete'"
+  query: "UPDATE WHERE dartboard = 'Sprint 12' AND status = 'Done' SET dartboard = 'Archive' COMMENT 'Sprint 12 complete'"
   dry_run: false
 ```
 
@@ -51,7 +51,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE dartboard = 'Sprint 13' AND start_at IS NULL SET start_at = '2026-04-14' due_at = '2026-04-28'"
+  query: "UPDATE WHERE dartboard = 'Sprint 13' AND start_at IS NULL SET start_at = '2026-04-14', due_at = '2026-04-28'"
   dry_run: true   # preview first
 ```
 
@@ -65,18 +65,17 @@ parameters:
 
 **Step 1 — Find overdue tasks:**
 ```yaml
-tool_name: list_tasks
+tool_name: execute_dartql
 parameters:
-  due_before: "today"
-  status: "!=Done"
-  detail_level: minimal
+  query: "UPDATE WHERE due_at < '2026-04-10' AND status != 'Done' SET priority = 5"
+  dry_run: true   # returns matched tasks without modifying
 ```
 
 **Step 2 — Find unassigned high-priority tasks:**
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "WHERE priority >= 4 AND assignee IS NULL"
+  query: "UPDATE WHERE priority >= 4 AND assignee IS NULL SET priority = 4"
   dry_run: true
 ```
 
@@ -91,7 +90,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE due_at < 'today' AND status != 'Done' SET priority = 5 COMMENT 'Auto-escalated: overdue'"
+  query: "UPDATE WHERE due_at < '2026-04-10' AND status != 'Done' SET priority = 5 COMMENT 'Auto-escalated: overdue'"
   dry_run: true   # review before executing
 ```
 
@@ -115,7 +114,7 @@ Repeat for each team member and compare counts.
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE assignee = 'overloaded@company.com' AND status = 'Todo' AND priority < 4 SET assignee = 'available@company.com' COMMENT 'Rebalanced from overloaded@company.com'"
+  query: "UPDATE WHERE assignee = 'overloaded@company.com' AND status = 'Todo' AND priority < 4 SET assignee = 'available@company.com' COMMENT 'Rebalanced from overloaded@company.com'"
   dry_run: true
 ```
 
@@ -123,7 +122,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE assignee = 'overloaded@company.com' AND status = 'Todo' AND priority < 4 SET assignee = 'available@company.com' COMMENT 'Rebalanced from overloaded@company.com'"
+  query: "UPDATE WHERE assignee = 'overloaded@company.com' AND status = 'Todo' AND priority < 4 SET assignee = 'available@company.com' COMMENT 'Rebalanced from overloaded@company.com'"
   dry_run: false
 ```
 
@@ -137,7 +136,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "WHERE updated_at < '2025-10-01' AND status != 'Done' AND status != 'Archived'"
+  query: "WHERE updated_at < '2025-10-01' AND status != 'Done' AND status != 'Archived'"
   dry_run: true
 ```
 
@@ -145,7 +144,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE updated_at < '2025-10-01' AND status != 'Done' AND status != 'Archived' SET tags = ['stale'] COMMENT 'Flagged as stale for grooming'"
+  query: "UPDATE WHERE updated_at < '2025-10-01' AND status != 'Done' AND status != 'Archived' SET tags = ['stale'] COMMENT 'Flagged as stale for grooming'"
   dry_run: false
 ```
 
@@ -153,7 +152,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE tags CONTAINS 'stale' SET status = 'Archived'"
+  query: "UPDATE WHERE tags CONTAINS 'stale' SET status = 'Archived'"
   dry_run: true   # preview first
 ```
 
@@ -161,7 +160,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "DELETE WHERE status = 'Archived' AND completed_at < '2025-10-01' CONFIRM"
+  query: "DELETE WHERE status = 'Archived' AND completed_at < '2025-10-01' CONFIRM"
   dry_run: true   # always dry_run before DELETE
 ```
 
@@ -185,7 +184,7 @@ Repeat for "In Progress" and "Todo" to get all three counts.
 ```yaml
 tool_name: get_dartboard
 parameters:
-  name: "Sprint 12"
+  dartboard_id: "Sprint 12"
 ```
 
 **Step 3 — Create report document:**
@@ -193,7 +192,7 @@ parameters:
 tool_name: create_doc
 parameters:
   title: "Sprint 12 Report"
-  content: |
+  text: |
     # Sprint 12 Report
 
     **Completed:** 24 tasks
@@ -208,7 +207,7 @@ parameters:
 
     ## Blockers
     - [list blocked tasks with blocker context]
-  dartboard: "Reports"
+  folder: "Reports"
 ```
 
 ---
@@ -221,7 +220,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "WHERE dartboard = 'Backlog' AND priority >= 3"
+  query: "WHERE dartboard = 'Backlog' AND priority >= 3"
   dry_run: true
 ```
 
@@ -229,7 +228,7 @@ parameters:
 ```yaml
 tool_name: execute_dartql
 parameters:
-  statement: "UPDATE WHERE dartboard = 'Backlog' AND priority >= 3 SET priority = 2 COMMENT 'Priority recalibrated — re-triage needed'"
+  query: "UPDATE WHERE dartboard = 'Backlog' AND priority >= 3 SET priority = 2 COMMENT 'Priority recalibrated — re-triage needed'"
   dry_run: false
 ```
 

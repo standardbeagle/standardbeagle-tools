@@ -176,14 +176,14 @@ parameters:
 
 `list_tasks` only supports exact-match filters — no range filters (priority >= 3), OR logic, null checks, or LIKE matching. For these cases, use `execute_dartql` with `dry_run: true`. It evaluates the DartQL expression and returns matching tasks without making any changes.
 
-**Example — find all high or critical priority open tasks:**
+**Example — find all high-priority open tasks:**
 ```yaml
 tool_name: execute_dartql
 parameters:
-  dartql: "SELECT * FROM tasks WHERE priority <= 2 AND status != 'Done'"
+  query: "UPDATE WHERE priority >= 4 AND status != 'Done' SET priority = 4"
   dry_run: true
-  detail_level: standard
 ```
+The dry run returns matched tasks without executing the update.
 
 See the `batch-ops` skill for full DartQL syntax and expression reference.
 

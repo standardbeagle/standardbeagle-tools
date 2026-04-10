@@ -32,13 +32,13 @@ params:
      dartboard: "Templates"
      tags: ["template", "standup"]
      description: "Review blockers, share progress, align on priorities."
-     priority: "Medium"
+     priority: 3
    ```
 2. To create an instance, read the template:
    ```yaml
    tool_name: get_task
    parameters:
-     id: "<template-task-id>"
+     dart_id: "<template-task-id>"
      include_relationships: true
    ```
 3. Create the instance with updated fields:
@@ -51,8 +51,7 @@ params:
      description: "<copied from template>"
      start_at: "2026-04-14T09:00:00Z"
      due_at: "2026-04-14T09:30:00Z"
-     add_to:
-       related_ids: ["<template-task-id>"]
+     related_ids: ["<template-task-id>"]
    ```
 
 **Example:** One `[TEMPLATE] Weekly Standup` → five Monday standup instances per sprint.
@@ -80,14 +79,14 @@ params:
    ```yaml
    tool_name: import_tasks_csv
    parameters:
-     file_path: "/path/to/sprint-ceremonies.csv"
+     csv_file_path: "/path/to/sprint-ceremonies.csv"
      validate_only: true
    ```
 3. Execute import after reviewing the validation output:
    ```yaml
    tool_name: import_tasks_csv
    parameters:
-     file_path: "/path/to/sprint-ceremonies.csv"
+     csv_file_path: "/path/to/sprint-ceremonies.csv"
      validate_only: false
    ```
 
@@ -106,7 +105,7 @@ params:
    ```yaml
    tool_name: execute_dartql
    parameters:
-     query: "SELECT * FROM tasks WHERE tags CONTAINS 'recurring' AND dartboard = 'Templates'"
+     query: "UPDATE WHERE tags CONTAINS 'recurring' AND dartboard = 'Templates' SET priority = 3"
      dry_run: true
    ```
 2. For each matched task, create a new instance with shifted dates:
@@ -124,7 +123,7 @@ params:
    ```yaml
    tool_name: execute_dartql
    parameters:
-     query: "UPDATE tasks SET tags = ['recurring', 'cloned'] WHERE tags CONTAINS 'recurring' AND dartboard = 'Templates' COMMENT 'Cloned for Sprint 6'"
+     query: "UPDATE WHERE tags CONTAINS 'recurring' AND dartboard = 'Templates' SET tags = ['recurring', 'cloned'] COMMENT 'Cloned for Sprint 6'"
      dry_run: false
    ```
 
@@ -192,7 +191,7 @@ parameters:
   dartboard: "Sprint 6"
   start_at: "2026-04-28T10:00:00Z"   # +14 days
   due_at: "2026-04-28T12:00:00Z"     # +14 days
-  priority: "High"
+  priority: 4
   tags: ["ceremony", "planning"]
 ```
 
