@@ -192,6 +192,32 @@
       "category": "development"
     },
     {
+      "name": "dart-query",
+      "source": "./plugins/dart-query",
+      "description": "dart-query MCP client skills - tool references for all 25 dart-query tools, task lifecycle workflows, project management recipes, recurring task patterns, and Claude Code loop integration for Dart AI task management",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle/dart-query"
+      },
+      "homepage": "https://github.com/standardbeagle/dart-query",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "dart",
+        "dart-query",
+        "dartql",
+        "task-management",
+        "mcp",
+        "batch-operations",
+        "project-management",
+        "slop-mcp",
+        "recurring-tasks",
+        "task-watching"
+      ],
+      "category": "development"
+    },
+    {
       "name": "mcp-tester",
       "source": "./plugins/mcp-tester",
       "description": "MCP server testing and debugging toolkit powered by mcp-debug. Dynamic server management, traffic analysis with circular buffer, schema validation, hot-swap development workflows, and protocol debugging.",
