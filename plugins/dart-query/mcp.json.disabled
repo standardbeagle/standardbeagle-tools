@@ -1,0 +1,9 @@
+{
+  "dart-query": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/dart-query"],
+    "env": {
+      "DART_TOKEN": "${DART_TOKEN}"
+    }
+  }
+}
