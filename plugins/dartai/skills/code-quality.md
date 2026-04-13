@@ -1,243 +1,76 @@
 ---
 name: code-quality
-description: Code quality standards and review checklist for task execution
+description: Thin dartai-specific wrapper that routes review-for-plan-updates proposals into Dart tasks. All code quality checklist content lives in .claude/rules/code-quality.md (project) and dev-standards:review-for-plan-updates (skill).
 ---
 
-# Code Quality Standards
+# Code Quality (dartai wrapper)
 
-Standards and checklists for ensuring code quality during task execution.
+This skill is a **persistence wrapper only**. All review logic, trigger catalog, and proposal format live in `dev-standards:review-for-plan-updates`. Code quality standards (checklist, error handling, findability, cleanup) live in `.claude/rules/code-quality.md` — do not duplicate them here.
 
-## Code Review Checklist
+## What this skill does
 
-### Correctness
+1. Invokes `dev-standards:review-for-plan-updates` with the task diff
+2. For each returned proposal:
+   - Computes its fingerprint against `.claude/refactor-rejects.txt`
+   - If not rejected, creates a Dart task in the `refactor-backlog` folder with tags `origin:review`, `parent:<task-id>`, `urgency:<low|medium|high>`
+3. Returns a summary: number of proposals persisted, number skipped by reject list
 
-- [ ] Code implements the task requirements correctly
-- [ ] Edge cases are handled
-- [ ] Error handling is appropriate
-- [ ] No logic errors or bugs introduced
-- [ ] Works with existing functionality
+## What this skill does NOT do
 
-### Readability
+- Evaluate code quality directly — that content moved to `.claude/rules/code-quality.md` and the rule file is loaded automatically
+- Run linters — use your language-specific lint command (see `.claude/rules/testing.md`)
+- Decide whether to schedule a proposal now — that is the planner's decision at next planning cycle
+- Edit code — never, under any circumstance
 
-- [ ] Code is self-documenting (clear names)
-- [ ] Complex logic has comments explaining "why"
-- [ ] Functions are focused and single-purpose
-- [ ] No deeply nested conditionals
-- [ ] Consistent formatting
-
-### Maintainability
-
-- [ ] No code duplication (DRY)
-- [ ] Uses existing utilities/patterns
-- [ ] Easy to extend in the future
-- [ ] No magic numbers/strings
-- [ ] Proper abstraction level
-
-### Performance
-
-- [ ] No obvious performance issues
-- [ ] Efficient algorithms for the use case
-- [ ] No unnecessary computations
-- [ ] Proper resource cleanup
-- [ ] Reasonable memory usage
-
-### Security
-
-- [ ] No hardcoded secrets
-- [ ] Input validation where needed
-- [ ] Proper authentication/authorization
-- [ ] No SQL injection or XSS vulnerabilities
-- [ ] Secure dependencies
-
-## Linting Rules by Language
-
-### JavaScript/TypeScript
-
-```bash
-# Run ESLint
-npx eslint . --ext .js,.jsx,.ts,.tsx
-
-# Run Prettier check
-npx prettier --check .
-
-# Fix automatically
-npx eslint . --fix && npx prettier --write .
-```
-
-Key rules:
-- No unused variables
-- No console statements
-- Consistent quotes
-- Proper async/await usage
-- No any types (TypeScript)
-
-### Go
-
-```bash
-# Run golangci-lint
-golangci-lint run ./...
-
-# Run go vet
-go vet ./...
-
-# Format code
-gofmt -w .
-```
-
-Key rules:
-- No unused imports
-- Error handling checked
-- Proper defer usage
-- No race conditions
-- Idiomatic Go patterns
-
-### Python
-
-```bash
-# Run ruff
-ruff check .
-
-# Run black
-black --check .
-
-# Fix automatically
-ruff check --fix . && black .
-```
-
-Key rules:
-- PEP 8 compliance
-- Type hints encouraged
-- No unused imports
-- Proper exception handling
-- Docstrings for public functions
-
-## Test Coverage Standards
-
-### Minimum Coverage
-
-| Type | Target |
-|------|--------|
-| Unit tests | 80% line coverage |
-| Integration tests | Critical paths covered |
-| Edge cases | All identified edge cases |
-
-### Test Quality
-
-- Tests are independent
-- Tests are deterministic
-- Tests are fast
-- Tests have clear assertions
-- Tests cover happy path and error cases
-
-### Running Tests
-
-```bash
-# JavaScript
-npm test -- --coverage
-
-# Go
-go test -cover ./...
-
-# Python
-pytest --cov=.
-```
-
-## LCI Quality Patterns
-
-### What to Check
+## Invocation
 
 ```
-Use mcp__plugin_lci_lci__search to find:
-- Similar function names (avoid duplication)
-- Related symbols (ensure consistency)
-- Patterns in codebase (follow conventions)
+Called by:
+  dartai:adversarial-quality-loop Phase 4.5
+Returns:
+  { persisted: <count>, rejected: <count>, total: <count> }
 ```
 
-### Red Flags
+## Dart task format for persisted proposals
 
-- Multiple functions doing the same thing
-- Inconsistent naming (getUserById vs fetchUser)
-- Reimplementing utility functions
-- Different error handling patterns
-- Mixed coding styles
+```yaml
+dart_task:
+  dartboard: "<same dartboard as surfacing task>"
+  folder: "refactor-backlog"
+  title: "<proposal.title>"
+  description: |
+    ## Origin
+    Surfaced by review of task <surfacing-task-id> on <date>.
 
-## Findability Standards
+    ## Trigger
+    <proposal.trigger>
 
-Code must be discoverable by future developers (and LCI) without knowing it exists.
+    ## Evidence
+    - Symbol: <proposal.evidence.symbol>
+    - Observation: <proposal.evidence.observation>
+    - Callers affected: <proposal.evidence.callers>
 
-### Naming Rules
+    ## Rationale
+    <proposal.rationale>
 
-- **Names describe behavior, not implementation** — `parseUserInput` not `runRegex`
-- **No unexplained abbreviations** — use names already established in the codebase; if new, spell it out
-- **Public API names work at the call site** — the name makes sense where it's called, not just where it's defined
-- **Avoid generic names** — `handler`, `process`, `helper`, `util` tell nothing; name the domain
-
-### Co-location Rules
-
-- **Feature code lives together** — don't scatter a feature's logic across unrelated files
-- **New concepts go where their domain lives** — user authentication code belongs in the auth module, not in utils
-- **If no obvious home exists, that's a sign to refactor first** — create the right home before adding the code
-
-### LCI Searchability Test
-
-After implementing, verify:
-```
-1. Search LCI for what the code DOES (not what it's called)
-   - Example: search "filter users by role" → should find the function
-2. Search LCI for the domain concept
-   - Example: search "authentication" → should find all auth code
-3. If the code can't be found by feature-level search, rename or relocate it
+    ## Estimated tier
+    <proposal.estimated_tier>
+  status: "To-do"
+  priority: "Low | Medium | High"     # maps from urgency
+  tags:
+    - "origin:review"
+    - "parent:<surfacing-task-id>"
+    - "urgency:<low|medium|high>"
+    - "principle:refactor-discipline.C"
 ```
 
-### Structure Requirements
+## Reject list
 
-- **Refactor before adding** — if adding new code to a file makes it incoherent, split the file first
-- **Keep modules focused** — a module that does too many things hides everything in it
-- **Export only what's needed** — unexported internal helpers don't need findable names
+`.claude/refactor-rejects.txt` is a newline-separated list of fingerprints. Each fingerprint is `<symbol>:<trigger>`. Before persisting a proposal, compute its fingerprint and skip if present. The planner appends to this file when it rejects a proposal.
 
-## Deprecated Code Cleanup
+## Related
 
-### Finding Deprecated Code
-
-```
-Search for:
-- @deprecated annotations
-- TODO: remove comments
-- Unused exports
-- Dead code paths
-- Old API usage
-```
-
-### Cleanup Process
-
-1. Verify code is truly unused (LCI search)
-2. Remove deprecated functions/classes
-3. Update imports/exports
-4. Remove related tests if applicable
-5. Update documentation
-
-### What NOT to Remove
-
-- Public API still in use externally
-- Feature flags that may be re-enabled
-- Code with pending deprecation timeline
-- Backward compatibility shims
-
-## Quality Metrics
-
-### Per-Task Metrics
-
-Track for each task:
-- Lines added/removed
-- Test coverage change
-- Linting issues fixed
-- Deprecated code removed
-- Time to complete
-
-### Aggregate Metrics
-
-Track across tasks:
-- Average task completion time
-- Pipeline pass rate
-- Common failure points
-- Code quality trends
+- `dev-standards:review-for-plan-updates` — the reviewer this wrapper calls
+- `dev-standards:grill-task` — when a proposal is later accepted, it gets grilled as a normal task
+- `.claude/rules/code-quality.md` — project-specific code quality standards
+- `.claude/rules/refactor-discipline.md` — A/B/C refactor rule
