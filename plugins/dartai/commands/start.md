@@ -71,6 +71,24 @@ If status is "interrupted":
     - Continue normally to create a new loop
 ```
 
+### 1.6 Check for Project Rules
+
+Before scheduling any work, verify the project has rules installed:
+
+```bash
+test -d .claude/rules && test -f .claude/rules/karpathy-principles.md
+```
+
+If the check fails, warn:
+
+```
+Project has not run /dev-standards:setup-project (or the last run predates the
+grill integration). The loop will run with default thresholds. Run the setup
+command for project-specific tuning.
+```
+
+Do NOT block. The loop can run on default thresholds — the warning is informational.
+
 ### 2.5. Resolve Runner Identity
 
 Identify this runner instance for multi-runner concurrency:
