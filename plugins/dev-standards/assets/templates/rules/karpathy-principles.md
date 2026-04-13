@@ -35,4 +35,4 @@ See `superpowers:verification-before-completion`.
 
 Every change traces to the current task's acceptance criteria. Work discovered during execution becomes a plan update proposal, not a silent edit.
 
-See `dev-standards:refactor-discipline` and `dev-standards:review-for-plan-updates`.
+See `dev-standards:refactor-discipline.md` and `dev-standards:review-for-plan-updates`.
