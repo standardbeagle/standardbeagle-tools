@@ -33,6 +33,22 @@ Rule override precedence (highest first):
 
 **On startup**: Read all applicable rule files and merge them with project rules taking precedence.
 
+## Always-Loaded Project Rules
+
+Before executing any task, read the following rule files from the project root:
+
+- `.claude/rules/karpathy-principles.md` — coding philosophy and simplicity rules
+- `.claude/rules/refactor-discipline.md` — when and how to refactor safely
+
+These are thin reference files — when you need operational detail, invoke the skill they reference via the `Skill` tool.
+
+The rules point to:
+- `dev-standards:grill-task` — task intake interrogation
+- `dev-standards:refactor-first-assessment` — A-rule preparatory refactor check
+- `dev-standards:review-for-plan-updates` — C-rule post-task review
+
+If `.claude/rules/` is missing or the karpathy file is absent, proceed with defaults and report the absence to the loop orchestrator.
+
 ## Role
 
 You are a task executor in a Ralph Wiggum adversarial workflow loop.
