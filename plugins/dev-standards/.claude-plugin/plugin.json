@@ -25,7 +25,10 @@
     "./skills/update-rules/SKILL.md",
     "./skills/update-project/SKILL.md",
     "./skills/add-skill/SKILL.md",
-    "./skills/decide/SKILL.md"
+    "./skills/decide/SKILL.md",
+    "./skills/grill-task/SKILL.md",
+    "./skills/refactor-first-assessment/SKILL.md",
+    "./skills/review-for-plan-updates/SKILL.md"
   ],
   "hooks": "./hooks/hooks.json",
   "agents": []
