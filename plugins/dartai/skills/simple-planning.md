@@ -334,6 +334,14 @@ classify:
     - "User gave specific approach → use that approach"
 ```
 
+### Step 0.7: Invoke grill-task (after tier classification)
+
+If the tier from Step 0.5 is `minimal`, skip this step — the minimal-tier gate in `dev-standards:grill-task` would skip anyway.
+
+Otherwise, invoke `dev-standards:grill-task` with the raw request and the calling context. The skill returns a `task_spec` and any `backflow_writes`. The `task_spec` replaces steps that follow (Steps 1, 2, and 3 are folded into the grilled spec). Proceed directly to Step 2.5 (Refactor-First Assessment) once grill-task returns.
+
+If grill-task returns `verdict: TOO_LARGE_TO_GRILL`, escalate immediately: report to the user that the task must be split, do not continue planning.
+
 ### Step 1: Capture Request (30 seconds)
 
 ```yaml
@@ -361,32 +369,9 @@ define:
 
 ### Step 2.5: Refactor-First Assessment (1 minute)
 
-```yaml
-refactor_first:
-  question: "Will the new code feel natural in the existing structure?"
+Invoke `dev-standards:refactor-first-assessment`. It consumes the grilled task spec and decides whether to insert preparatory refactor steps before implementation. The four checks (natural extension, naming fit, co-location, friction) live in that skill — do not duplicate them here.
 
-  checks:
-    - natural_extension: "Is there an obvious place to add this?"
-    - naming_fit: "Do existing names make room for the new concept?"
-    - co_location: "Will related code end up in the right file/module?"
-    - friction: "Would you need to fight the existing code to add this?"
-
-  if_yes_friction:
-    action: "Add a refactor step BEFORE the implementation steps"
-    pattern: |
-      Step 1: Refactor [X] to support [Y] (move/rename/extract)
-      Step 2: Verify all existing tests pass after refactor
-      Step 3: RED test for new behavior
-      Step 4: GREEN implementation (now fits naturally)
-
-  findability:
-    question: "Can this code be found by someone who doesn't know it exists?"
-    checks:
-      - name_describes_behavior: "Function/type name says what it does"
-      - no_cryptic_abbreviations: "Avoid jargon not already in codebase"
-      - co_located: "Code lives where someone would look for it"
-      - lci_searchable: "Would LCI search for the feature find this code?"
-```
+If the skill returns "sign off", proceed to Step 3. If it returns one or more refactor steps, insert them into the plan before Step 4 (List Steps), in the order: extract/move → rename → reduce friction.
 
 ### Step 3: Identify Files (1 minute)
 
