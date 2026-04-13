@@ -41,6 +41,16 @@ Display task details and confirm:
 - Dartboard
 - Assignee
 
+### 2.5. Grill Task Spec
+
+Before handing off to the task-executor agent, invoke `dev-standards:grill-task` with the task's raw description. The skill probes project context, runs tier-gated interrogation, and returns a grilled task spec.
+
+- Pass the `task_spec` to the task-executor agent in place of the raw description.
+- Any `backflow_writes` from the grill are committed to the project before execution starts.
+- If grill returns `verdict: TOO_LARGE_TO_GRILL`, update the Dart task status to `Blocked` with a comment recommending the split, and STOP — do not dispatch the task-executor.
+
+Do NOT pre-classify tier here. Let grill-task's own tier classification decide. Minimal-tier tasks pass through grill-task unchanged, so there is no cost to routing everything through it.
+
 ### 3. Execute Pipeline
 
 Use the task-executor agent to run the full quality pipeline.
