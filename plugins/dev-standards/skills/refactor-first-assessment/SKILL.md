@@ -1,6 +1,6 @@
 ---
 name: refactor-first-assessment
-description: The A-rule preparatory refactor check. Runs during planning, after grill-task, before implementation steps are written. Decides whether to insert a preparatory refactor step or sign off on the current structure.
+description: This skill should be used when creating an implementation plan, after grill-task has produced a task spec, to decide whether a preparatory refactor step needs to be inserted before implementation. Runs the A-rule check: four parallel assessments (natural extension, naming fit, co-location, friction).
 ---
 
 # Refactor-First Assessment
