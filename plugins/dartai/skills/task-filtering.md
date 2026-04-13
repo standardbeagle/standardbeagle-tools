@@ -400,23 +400,11 @@ limitations:
 
 ### DartQL (in batch operations) vs list_tasks
 
-```yaml
-dartql_advantages:
-  - "Range comparisons: priority >= 3"
-  - "AND/OR logic: status = 'Todo' AND priority >= 4"
-  - "String matching: title LIKE '%auth%'"
-  - "Date comparisons: due_at < '2026-02-15'"
-  - "Null checks: due_at IS NULL"
+DartQL uses **standard SQL-92 WHERE clause syntax** (see `batch-operations` skill for full reference). It supports everything list_tasks can't: range comparisons, AND/OR logic, LIKE, date comparisons, and IS NULL checks.
 
-list_tasks_advantages:
-  - "Named parameter filters (easier to construct)"
-  - "detail_level control (token efficiency)"
-  - "has_parent filter (not in DartQL)"
-  - "Pagination with offset"
-  - "Read-only (safe - no dry_run needed)"
-```
+**Use list_tasks** for simple structured queries with detail_level control, pagination, and has_parent filtering (read-only, no dry_run needed).
 
-When you need complex filtering beyond list_tasks, use `batch_update_tasks` with `dry_run: true` as a query tool - it will show matching tasks without modifying anything.
+**Use DartQL** (`batch_update_tasks` with `dry_run: true`) when you need SQL-92 filtering power beyond list_tasks' named parameters.
 
 ---
 
