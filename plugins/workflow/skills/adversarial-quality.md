@@ -301,6 +301,35 @@ result_routing:
 
 **Checkpoint**: Write combined verification report from all agents, forget implementation details.
 
+### Phase 4.5: Review for Plan Updates (C-class refactor discovery)
+
+**Objective**: Emit C-class refactor findings as plan-update proposals without editing code.
+
+**Pattern**: Invoke `dev-standards:review-for-plan-updates`, persist proposals into `.workflow/loop-state.json`.
+
+```yaml
+invoke:
+  tool: Skill
+  skill: "dev-standards:review-for-plan-updates"
+  input:
+    diff: "git diff <task-base>..HEAD"
+    rules_dir: ".claude/rules/"
+
+persist:
+  file: ".workflow/loop-state.json"
+  field: "pending_plan_updates"
+  append: "<proposals returned, filtered against .claude/refactor-rejects.txt>"
+
+do_not:
+  - "Edit code based on findings"
+  - "Decide accept/defer/reject here"
+  - "Expand trigger catalog beyond what the skill defines"
+```
+
+**Checkpoint**: Proposals written to state file. The next tick's plan-update presentation (see `loop-orchestration.md`) handles user interaction.
+
+---
+
 ### Phase 5: Quality Gates (10-15% of time)
 
 **Objective**: Run automated checks
