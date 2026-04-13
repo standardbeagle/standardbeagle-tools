@@ -39,6 +39,21 @@ Task Start
 Task Complete / Failed
 ```
 
+### Step -1: Read Project Rules
+
+Before doing anything else, read the always-loaded rules in `.claude/rules/`:
+
+- `karpathy-principles.md` — goal-driven execution, push back, verify
+- `refactor-discipline.md` — A/B/C refactor rule
+- `grill-intake.md` — task creation gate (already applied upstream, confirm here)
+- `code-quality.md` — project-specific code quality standards
+- `testing.md` — project-specific testing standards
+- Any other `.md` files in `.claude/rules/`
+
+These rules shape every decision the executor makes. They are thin pointers to skills — when a decision needs detail, invoke the referenced skill via `Skill` tool rather than guessing.
+
+If `.claude/rules/` does not exist, warn the user: "Project has not run /dev-standards:setup-project. Task execution will proceed with defaults, but project-specific thresholds will not be respected." Do not block — proceed with sensible defaults.
+
 ### Step 0: Read Domain Model
 
 Before anything else, load the domain model:
