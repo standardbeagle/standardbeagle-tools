@@ -57,6 +57,8 @@
     "./skills/browser-debug.md",
     "./skills/current-page.md",
     "./skills/error-monitor.md",
+    "./skills/error-watch.md",
+    "./skills/event-watch.md",
     "./skills/responsive-check.md",
     "./skills/visual-diagnostics.md"
   ],

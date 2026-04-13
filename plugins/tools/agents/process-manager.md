@@ -33,6 +33,23 @@ You are a process management specialist that uses agnt to run and manage develop
    run {script_name: "test", mode: "foreground-raw"}
    ```
 
+4. **After the dev server is running, offer to set up a real-time error watch.**
+   Follow the `run → watch → Monitor` pattern so errors stream into the session
+   the instant they happen instead of being discovered on the next manual check:
+
+   ```
+   # a. Ask agnt for the monitor command
+   watch {target: "errors", proxy_id: "dev"}
+
+   # b. Start it in the background via Claude Code's Monitor tool
+   Monitor({ command: "<command returned from step a>", cwd: "." })
+   ```
+
+   If there is also a proxy in front of the dev server, a second Monitor on
+   `target: "interactions"` enables the browser-to-agent workflow (panel
+   messages, sketches, design chats). See the `error-watch` and `event-watch`
+   skills for the full pattern and fallbacks for clients without Monitor.
+
 ### Monitoring Processes
 
 - List all running processes:

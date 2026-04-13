@@ -111,11 +111,30 @@ Parameters: {
 
 ---
 
-## Periodic Monitoring
+## Continuous Monitoring
 
-### Check Every N Seconds
+### Preferred: real-time streaming via Monitor
 
-Set up recurring error checks:
+For real-time error detection, use the `error-watch` skill. It asks agnt's `watch` tool for a monitor command, then streams errors through Claude Code's `Monitor` tool so every new error arrives as a notification instead of waiting for the next poll.
+
+```
+# 1. Ask agnt for the command
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "watch",
+  "parameters": { "target": "errors", "proxy_id": "dev" }
+}
+
+# 2. Pipe the returned command into Monitor
+Monitor({ command: "<command from step 1>", cwd: "." })
+```
+
+See the `error-watch` skill for the full pattern, target reference, and event handling guidance. Monitor is strictly preferred because errors are delivered the instant they happen rather than at a fixed polling interval.
+
+### Fallback: scheduled polling
+
+If the client does not have the `Monitor` tool (pre-v2.1.98 or non-Claude-Code clients), fall back to recurring `get_errors` checks via the `schedule` tool:
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -128,6 +147,8 @@ Parameters: {
   }
 }
 ```
+
+This is a fallback only — prefer `error-watch` + Monitor whenever available.
 
 ### Development Workflow
 
@@ -362,6 +383,8 @@ All queries use `mcp__plugin_slop-mcp_slop-mcp__execute_tool` with `mcp_name: "a
 
 ## Related Skills
 
+- **`error-watch`** - Stream errors in real time via Monitor (preferred over polling)
+- **`event-watch`** - Stream user interactions from the browser overlay
 - **`browser-debug`** - Inspect elements causing errors
 - **`current-page`** - Get page context for error investigation
 - **`visual-diagnostics`** - Debug layout after fixing errors
