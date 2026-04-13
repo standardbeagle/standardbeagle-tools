@@ -14,14 +14,21 @@ Add a new task to the workflow task list with proper context-sizing guidance.
    - If provided as argument, use it
    - Otherwise, ask user for title
 
-2. **Interactive task creation**
+2. **Invoke grill-task**
 
-Prompt user for:
-- **Priority**: High | Medium | Low
-- **Scope**: Brief description (max 5 files)
-- **Description**: Clear, actionable description
-- **Acceptance Criteria**: List of verifiable criteria
-- **Context**: Any additional context needed
+Call `dev-standards:grill-task` with the task title and any user-provided context. The skill probes project context, runs tier-gated interrogation, and returns a grilled `task_spec` and any `backflow_writes`.
+
+- If grill returns `verdict: OK`, use the returned `task_spec` fields (priority → `task_spec.tier` mapping, description → `task_spec.requested`, acceptance → `task_spec.acceptance`, scope → `task_spec.scope`, context → `task_spec.refs`) in place of asking the user directly.
+- If grill returns `verdict: TOO_LARGE_TO_GRILL`, do NOT write anything to `.workflow/tasks.md`. Report to the user that the task must be split, suggest a decomposition, and stop.
+- If grill returns `verdict: ABORTED`, do nothing — the user cancelled during the confirmation screen.
+
+Commit any `backflow_writes` to the project before proceeding to step 3.
+
+Priority mapping from tier:
+- `minimal` → Low
+- `standard` → Medium
+- `comprehensive` → Medium
+- `architectural` → High
 
 3. **Context-sizing validation**
 
