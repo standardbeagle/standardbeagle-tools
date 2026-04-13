@@ -57,6 +57,24 @@ If status is "interrupted":
     - Continue normally
 ```
 
+### 0.5 Check for Project Rules
+
+Before starting, verify the project has rules installed:
+
+```bash
+test -d .claude/rules && test -f .claude/rules/karpathy-principles.md
+```
+
+If the check fails, warn:
+
+```
+Project has not run /dev-standards:setup-project (or the last run predates the
+grill integration). The loop will run with default thresholds. Run the setup
+command for project-specific tuning.
+```
+
+Do NOT block. The loop can run on default thresholds — the warning is informational.
+
 ### 1. Load Task List
 
 If task list file provided as argument, use it. Otherwise check for:
