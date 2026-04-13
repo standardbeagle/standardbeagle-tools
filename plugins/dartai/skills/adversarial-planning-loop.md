@@ -486,6 +486,17 @@ checkpoint:
   then: "Proceed immediately to Phase 2"
 ```
 
+### Grill Checkpoint (comprehensive/architectural tier only)
+
+For comprehensive and architectural tier tasks, verify `dev-standards:grill-task` has produced a task spec before planning proceeds. If no grilled spec is in the caller's context:
+
+1. Invoke `dev-standards:grill-task` with the raw request.
+2. Commit any backflow writes returned.
+3. Use the returned `task_spec` as the planning input.
+4. If the grill returns `TOO_LARGE_TO_GRILL`, stop planning and escalate the split to the user.
+
+Minimal and standard tier tasks do not need this checkpoint — they pass through grill-task naturally via `simple-planning.md` Step 0.7.
+
 ---
 
 ## Phase 2: Identify Unknowns
