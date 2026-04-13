@@ -824,6 +824,36 @@ checkpoint:
 
 ---
 
+## Phase 4.5: Review for Plan Updates (C-class refactor discovery)
+
+### Task: Invoke `dev-standards:review-for-plan-updates`
+
+After quality gates pass but before the deep post-task review, run the C-class refactor review. This emits structured plan-update proposals for things like parameter bloat, duplication, naming drift — without editing any code.
+
+**DO (Positive Instructions):**
+- Invoke `dev-standards:review-for-plan-updates` with `git diff <task-base>..HEAD`
+- Persist returned proposals as Dart tasks in the `refactor-backlog` folder, tagged `origin:review` with link back to the surfacing task (this persistence is the dartai wrapper responsibility; `dev-standards:code-quality` — now thin — handles it)
+- Check each proposal against `.claude/refactor-rejects.txt` fingerprints before persisting
+
+**DO NOT:**
+- Edit code based on findings — the current task is scope-locked
+- Decide accept/defer/reject yourself — that is the planner's job at the next planning cycle
+- Expand the trigger catalog beyond what the skill defines
+- Run this phase on tasks that failed quality gates (they will re-run)
+
+**Verification Criteria:**
+```yaml
+pass_if:
+  - review_skill_invoked: true
+  - proposals_persisted_or_empty: true
+  - no_code_modifications: true
+fail_if:
+  - any_code_edits_made: true
+  - reviewer_decided_accept_reject: true
+```
+
+---
+
 ## Phase 5: Post-Task Deep Review
 
 ### Task: Dispatch Post-Task Reviewer
