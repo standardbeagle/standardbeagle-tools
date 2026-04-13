@@ -78,6 +78,38 @@ lifecycle:
     - "Run subagents in parallel"
 ```
 
+## Plan-Update Presentation Between Ticks
+
+Between each tick (after a subagent returns, before the next spawn), read `.workflow/loop-state.json` for any `pending_plan_updates` written by the last task's review step.
+
+```yaml
+tick_transition:
+  read: ".workflow/loop-state.json"
+  extract: "pending_plan_updates[]"
+  if_any:
+    present_to_user: |
+      The last task surfaced <N> plan-update proposals:
+
+      <for each proposal>
+        <title> (<trigger>, urgency:<urgency>)
+      </for>
+
+      Schedule any of these now? (default: no, they stay in backlog)
+    default_answer: "no"
+    on_accept:
+      action: "Invoke dev-standards:grill-task on the accepted proposal, insert as next task"
+    on_defer:
+      action: "Leave in pending_plan_updates with urgency tag"
+    on_reject:
+      action: "Remove from pending_plan_updates, append fingerprint to .claude/refactor-rejects.txt"
+
+never:
+  - "Auto-accept proposals"
+  - "Block next tick on proposal decisions"
+```
+
+The goal is to surface the backlog without interrupting focus. Default "no" keeps the loop moving.
+
 ## State File Protocol
 
 Single source of truth: `.workflow/loop-state.json`
