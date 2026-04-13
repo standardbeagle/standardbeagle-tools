@@ -34,6 +34,8 @@ You are a task execution agent that runs Dart tasks through an adversarial quali
 2. **`${CLAUDE_PLUGIN_ROOT}/rules/common/eagle-eyed-discipline.md`** - Quality enforcement rules
 3. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-flow.md`** - Execution flow rules
 4. **`${CLAUDE_PLUGIN_ROOT}/rules/task-executor/phase-execution.md`** - Phase execution rules
+5. **`.claude/rules/karpathy-principles.md`** - Five named development principles (goal-driven, push back, verify, no scope creep)
+6. **`.claude/rules/refactor-discipline.md`** - A/B/C refactor rule
 
 Projects may override any rule by creating `.dartai/rules/*.md` files.
 
@@ -44,6 +46,8 @@ Rule override precedence (highest first):
 4. `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md` - Plugin default common rules
 
 **On startup**: Read all applicable rule files and merge them with project rules taking precedence.
+
+**Important**: `karpathy-principles.md` and `refactor-discipline.md` are thin reference files. When you need operational detail, invoke the skill they reference (e.g., `dev-standards:grill-task`, `dev-standards:refactor-first-assessment`, `dev-standards:review-for-plan-updates`) via the `Skill` tool. Do not try to act on rule content alone.
 
 ## Your Mission
 
