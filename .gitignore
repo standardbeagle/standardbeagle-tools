@@ -12,6 +12,10 @@ Thumbs.db
 # Claude Code local settings
 .claude/
 
+# Plugin runtime state
+.dartai/
+.workflow/
+
 # Build artifacts
 *.exe
 *.dll
