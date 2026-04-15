@@ -273,42 +273,43 @@ params:
 
 ---
 
-## Phase 1: Understand Task
+## Phase 1: Read Grilled Task Spec
 
 **Update tag:** `loop-phase:understanding`
 
-### Task: Analyze Task Scope
+### Task: Confirm Planning Output
+
+The task should already have a grilled spec from planning time (passed in the task description/prompt). Do NOT re-discover scope, files, or acceptance criteria from scratch.
 
 **DO (Positive Instructions):**
-- Fetch full task details via slop-mcp: `mcp__plugin_slop-mcp_slop-mcp__execute_tool` with `mcp_name: "dart-query"`, `tool_name: "get_task"`
-- Read the task description completely
-- List explicit acceptance criteria
-- Identify ALL files that will be modified (max 5)
-- Note implicit requirements from context
+- Read the grilled task spec
+- Confirm acceptance criteria are clear and verifiable
+- Confirm files to modify are listed (max 5)
+- Confirm scope is bounded and context-sized
+- If no grilled spec is present, fetch task details and run `dev-standards:grill-task` inline
 
 **DO NOT (Negative Instructions):**
-- Assume requirements not stated
-- Skip reading related code
-- Ignore test file requirements
-- Overlook documentation needs
-- Start coding before understanding
+- Re-analyze requirements that were already grilled
+- Re-identify files that were already scoped
+- Re-list acceptance criteria that were already defined
+- Start extensive research — that happens at planning time
 
 **Verification Criteria:**
 ```yaml
 pass_if:
-  - acceptance_criteria_listed: true
-  - files_identified: "<= 5 files"
-  - scope_understood: true
+  - grilled_spec_read: true
+  - acceptance_criteria_clear: true
+  - files_confirmed: "<= 5 files"
+  - scope_is_context_sized: true
 fail_if:
-  - scope_unclear: true
-  - acceptance_criteria_missing: true
+  - no_grilled_spec_and_cannot_generate: true
   - scope_exceeds_limit: true
 ```
 
 ### Plan Adjustment Point 1
-After understanding:
+After confirming:
 - If scope exceeds 5 files: Request split, STOP
-- If requirements unclear: Add clarification to task comment
+- If grilled spec is missing and cannot be generated: STOP with failure
 - If dependencies found: Note for sequencing
 - Ready: Proceed to Phase 2
 

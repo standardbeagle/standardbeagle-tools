@@ -526,49 +526,48 @@ checkpoint:
 
 ---
 
-## Phase 1: Implementation Review
+## Phase 1: Read Grilled Task Spec
 
-### Task: Analyze Implementation Scope
+### Task: Confirm Planning Output
+
+The task was already grilled at planning time. The grilled spec contains scope, files, and acceptance criteria. Do NOT re-discover them.
 
 **DO (Positive Instructions):**
-- Read the task description completely
-- Identify ALL files that will be modified
-- List explicit acceptance criteria from task
-- Note implicit requirements from context
-- Create checklist of verifiable outcomes
+- Read the grilled task spec (in task description or prompt)
+- Confirm acceptance criteria are clear and verifiable
+- Confirm files to modify are listed (max 5)
+- Confirm scope is bounded and context-sized
+- If no grilled spec is present, run `dev-standards:grill-task` inline
 
 **DO NOT (Negative Instructions):**
-- Assume requirements not stated
-- Skip reading related code
-- Ignore test file requirements
-- Overlook documentation needs
-- Start coding before understanding
+- Re-analyze requirements that were already grilled
+- Re-identify files that were already scoped
+- Re-list acceptance criteria that were already defined
+- Start extensive research — that happens at planning time
 
 **Verification Criteria:**
 ```yaml
 pass_if:
-  - acceptance_criteria_listed: true
-  - files_identified: true
-  - scope_bounded: max_5_files
-  - checklist_created: true
+  - grilled_spec_read: true
+  - acceptance_criteria_clear: true
+  - files_confirmed: "<= 5 files"
+  - scope_is_context_sized: true
 fail_if:
-  - scope_unclear: true
-  - missing_acceptance_criteria: true
-  - unbounded_changes: true
+  - no_grilled_spec_and_cannot_generate: true
+  - scope_exceeds_limit: true
 ```
 
 ### Plan Adjustment Point 1 (Automatic - Do Not Stop)
 ```yaml
 checkpoint:
   validate:
+    - grilled_spec_available: true
     - scope_bounded: "max 5 files"
     - acceptance_criteria_clear: true
-    - no_blockers: true
 
   auto_adjust:
     scope_exceeds_5_files: "Split into subtasks, add to plan, CONTINUE"
-    requirements_unclear: "Add clarification note, CONTINUE"
-    dependencies_found: "Reorder in plan, CONTINUE"
+    no_grilled_spec: "Run grill-task inline, CONTINUE"
 
   stop_only_if:
     critical_blocker: "Cannot determine scope at all"

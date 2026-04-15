@@ -119,7 +119,75 @@ The next iteration of grill-task picks up the writer if the project eventually i
 - Max **12 questions total** even for architectural tier
 - If caps are hit and the request is still ambiguous, escalate: return `task_spec.verdict = "TOO_LARGE_TO_GRILL"` and recommend splitting the task
 
-## Step 5 — Confirmation screen
+## Step 6 — Planning-Time Quality Review
+
+Before presenting the confirmation screen, review the `task_spec` against these planning-time criteria. This is a single-pass self-review — it must be thorough, but it does NOT spawn adversarial agents.
+
+### Quality Review Checklist
+
+```yaml
+planning_quality_review:
+  directness:
+    check: "Does the spec attack the problem directly, or does it wander through indirection?"
+    pass_if:
+      - "The smallest change that delivers the request is identified"
+      - "No preparatory 'setup' steps that don't directly advance the goal"
+      - "Solution path is a straight line from problem to deliverable"
+    fail_if:
+      - "Introduces intermediary abstractions not required by the problem"
+      - "Adds configuration or indirection without multiple immediate consumers"
+
+  problem_solution_fit:
+    check: "Is the proposed solution appropriate for this specific codebase?"
+    pass_if:
+      - "Uses patterns and libraries already present in the codebase"
+      - "Leverages existing utilities rather than introducing new ones"
+      - "Fits naturally into the existing architecture"
+    fail_if:
+      - "Imports a new pattern when an established one suffices"
+      - "Creates a new subsystem for a localized change"
+      - "Ignores existing conventions (error handling, logging, testing style)"
+
+  testability:
+    check: "Is every acceptance criterion extremely testable?"
+    pass_if:
+      - "Each criterion can be verified by a single RED→GREEN test cycle"
+      - "Criteria are observable (output, behavior, state), not subjective"
+      - "Edge cases are enumerated as separate criteria"
+      - "Test approach matches the project's existing test runner and patterns"
+    fail_if:
+      - "Criteria use words like 'better', 'improved', 'user-friendly'"
+      - "No clear pass/fail condition for a criterion"
+      - "Testing would require manual verification or external coordination"
+
+  overengineering_guard:
+    check: "Is there any overengineering in the planned solution?"
+    pass_if:
+      - "No abstractions with only one consumer"
+      - "No generic interfaces for a single implementation"
+      - "No 'extensible' or 'configurable' additions not driven by current needs"
+      - "No horizontal-layer planning; only vertical slices"
+    fail_if:
+      - "Plans to build frameworks instead of solutions"
+      - "Adds parameterization for hypothetical future cases"
+      - "Introduces classes/modules that don't simplify the immediate change"
+
+  solution_depth:
+    check: "Has the solution been thoroughly explored without overcomplicating?"
+    pass_if:
+      - "Trade-offs between at least two reasonable approaches were considered"
+      - "The chosen approach is documented with a one-sentence rationale"
+      - "Known edge cases and error paths are addressed in the plan"
+      - "Integration points with existing code are identified"
+    fail_if:
+      - "Only one approach was considered"
+      - "No mention of how errors or edge cases are handled"
+      - "Integration points are vague or missing"
+```
+
+**Action on failure:** Adjust the `task_spec` inline and re-run the checklist. Do not proceed to confirmation until the spec passes all five checks.
+
+## Step 7 — Confirmation screen
 
 Before writing either output channel, present both the proposed task spec and all pending backflow writes as a single confirmation screen:
 

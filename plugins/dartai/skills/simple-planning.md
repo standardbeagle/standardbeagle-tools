@@ -338,7 +338,7 @@ classify:
 
 If the tier from Step 0.5 is `minimal`, skip this step — the minimal-tier gate in `dev-standards:grill-task` would skip anyway.
 
-Otherwise, invoke `dev-standards:grill-task` with the raw request and the calling context. The skill returns a `task_spec` and any `backflow_writes`. The `task_spec` replaces steps that follow (Steps 1, 2, and 3 are folded into the grilled spec). Proceed directly to Step 2.5 (Refactor-First Assessment) once grill-task returns.
+Otherwise, invoke `dev-standards:grill-task` with the raw request and the calling context. The skill runs a planning-time quality review (directness, problem/solution fit, testability, overengineering guard, solution depth) and returns a `task_spec` and any `backflow_writes`. The `task_spec` replaces steps that follow (Steps 1, 2, and 3 are folded into the grilled spec). Proceed directly to Step 2.5 (Refactor-First Assessment) once grill-task returns.
 
 If grill-task returns `verdict: TOO_LARGE_TO_GRILL`, escalate immediately: report to the user that the task must be split, do not continue planning.
 
@@ -609,6 +609,13 @@ checklist:
     - [ ] No unexplained abbreviations or acronyms
     - [ ] Code is co-located with related functionality
     - [ ] LCI search would surface this code from a feature-level query
+
+  planning_time_quality:
+    - [ ] Directness: the spec attacks the problem with the smallest possible change
+    - [ ] Problem/solution fit: the solution uses existing codebase patterns and utilities
+    - [ ] Extreme testability: every acceptance criterion has a clear RED→GREEN pass/fail condition
+    - [ ] No overengineering: no abstractions with one consumer, no future-proofing, only vertical slices
+    - [ ] Solution depth: trade-offs considered, edge cases addressed, integration points identified
 ```
 
 ---
@@ -830,39 +837,14 @@ split_action: "Create separate Dart tasks for each deliverable"
 
 ## Deep Plan Validation
 
-For **comprehensive** and **architectural** tier tasks, use the **adversarial-planning-loop** skill for thorough validation:
+For **comprehensive** and **architectural** tier tasks, invoke the **adversarial-planning-loop** skill. It is a thin orchestration layer that:
 
-```yaml
-adversarial_planning_integration:
-  when_to_use:
-    - "Comprehensive tier: 5+ files, multiple criteria"
-    - "Architectural tier: cross-cutting, new patterns"
-    - "Multiple unknowns identified"
-    - "External integrations planned"
+1. Invokes `dev-standards:grill-task` to produce a grilled task spec
+2. Invokes `dev-standards:refactor-first-assessment` to insert preparatory refactor steps
+3. Validates the plan is context-sized (max 5 files, max 7 steps)
+4. Optionally invokes `dev-standards:review-for-plan-updates` for plan-level review
 
-  what_it_adds:
-    hierarchy_validation:
-      - "Every acceptance criterion has a task"
-      - "Every unknown has research/spike task"
-      - "Every integration point has a task"
-
-    research_task_creation:
-      - "Identifies genuine unknowns"
-      - "Creates time-boxed research tasks"
-      - "Creates spike tasks for feasibility"
-      - "Prevents analysis paralysis"
-
-    adversarial_challenge:
-      - "Challenges every research task's necessity"
-      - "Questions every abstraction"
-      - "Verifies minimality of plan"
-      - "Ensures actionability"
-
-  skip_for:
-    - "Minimal tier: single file, trivial change"
-    - "Standard tier: when plan is obviously complete"
-    - "Simple bug fixes with clear root cause"
-```
+The full adversarial quality loop (`dartai:adversarial-quality-loop`) is reserved for implementation-time verification only.
 
 ---
 

@@ -73,47 +73,38 @@ Before anything else, load the domain model:
    misunderstanding: flag for domain-update after the fix
 ```
 
-### Step 1: Understand Task
+### Step 1: Read Grilled Task Spec
 
-Read and analyze the task:
-
-```
-1. Fetch full task details from Dart
-2. Parse description for:
-   - Acceptance criteria
-   - Technical requirements
-   - Related files/components
-3. Identify scope:
-   - New feature
-   - Bug fix
-   - Refactoring
-   - Documentation
-4. Create mental model of changes needed using domain terminology
-```
-
-### Step 1.5: Refactor to Support Changes
-
-Before writing any new code, ensure the codebase is ready to accept the change naturally:
+The task should already have been grilled during planning. Read the grilled spec (provided in the task description or prompt) and confirm:
 
 ```
-1. Use LCI to find all code related to the change area
-2. Identify friction points:
-   - Would the new code feel like a hack or a natural extension?
-   - Are there abstractions that need to exist first?
-   - Are there naming inconsistencies to fix?
-   - Is existing code in the right place to be extended?
-3. Refactor to create the natural extension point:
+1. Acceptance criteria are clear and verifiable
+2. Files to modify are identified (max 5)
+3. Scope is bounded and context-sized
+4. If no grilled spec is present, fetch task details from Dart and apply grill-task inline
+```
+
+Do NOT re-discover scope, files, or acceptance criteria from scratch — that work was done at planning time.
+
+### Step 1.5: Refactor-First Assessment
+
+Before writing new code, invoke `dev-standards:refactor-first-assessment` with the grilled task spec if this was not already done during planning.
+
+```
+1. Read the current contents of files listed in the grilled spec
+2. Invoke `dev-standards:refactor-first-assessment`
+3. If the skill returns refactor steps, execute them before the first RED test:
    - Move code to the right module/file
    - Rename things that don't reflect what they do
    - Extract shared logic that the new code will also need
    - Ensure existing tests cover the refactored code
 4. Verify ALL existing tests still pass after refactoring
 5. Commit: 'REFACTOR: Prepare [area] for [change]'
+```
 
 Key rule: If the new code would feel like it's fighting the existing
 structure, the structure needs to change first. Never patch over bad
 structure — fix the structure, then add the feature.
-```
 
 ### Step 2: Implement Changes (Strict TDD)
 

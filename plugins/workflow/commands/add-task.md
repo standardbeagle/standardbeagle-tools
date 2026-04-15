@@ -16,7 +16,7 @@ Add a new task to the workflow task list with proper context-sizing guidance.
 
 2. **Invoke grill-task**
 
-Call `dev-standards:grill-task` with the task title and any user-provided context. The skill probes project context, runs tier-gated interrogation, and returns a grilled `task_spec` and any `backflow_writes`.
+Call `dev-standards:grill-task` with the task title and any user-provided context. The skill probes project context, runs tier-gated interrogation, performs a planning-time quality review (directness, problem/solution fit, testability, overengineering guard, solution depth), and returns a grilled `task_spec` and any `backflow_writes`.
 
 - If grill returns `verdict: OK`, use the returned `task_spec` fields (priority → `task_spec.tier` mapping, description → `task_spec.requested`, acceptance → `task_spec.acceptance`, scope → `task_spec.scope`, context → `task_spec.refs`) in place of asking the user directly.
 - If grill returns `verdict: TOO_LARGE_TO_GRILL`, do NOT write anything to `.workflow/tasks.md`. Report to the user that the task must be split, suggest a decomposition, and stop.

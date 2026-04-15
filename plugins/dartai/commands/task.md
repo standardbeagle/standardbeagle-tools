@@ -43,7 +43,7 @@ Display task details and confirm:
 
 ### 2.5. Grill Task Spec
 
-Before handing off to the task-executor agent, invoke `dev-standards:grill-task` with the task's raw description. The skill probes project context, runs tier-gated interrogation, and returns a grilled task spec.
+Before handing off to the task-executor agent, invoke `dev-standards:grill-task` with the task's raw description. The skill probes project context, runs tier-gated interrogation, performs a planning-time quality review (directness, problem/solution fit, testability, overengineering guard, solution depth), and returns a grilled task spec.
 
 - Pass the `task_spec` to the task-executor agent in place of the raw description.
 - Any `backflow_writes` from the grill are committed to the project before execution starts.
