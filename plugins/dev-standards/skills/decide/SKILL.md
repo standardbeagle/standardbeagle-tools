@@ -1,31 +1,31 @@
 ---
 name: Decide
-description: This skill should be used when the user asks to "record a decision", "add a decision", "add a migration", "complete a migration", "list decisions", "list migrations", "update architecture decisions", or "mark migration done". Provides guidance for managing architectural decisions and active migrations in `.claude/rules/architecture.md`.
+description: Record or list architectural decisions and active migrations in `.claude/rules/architecture.md`. 管理架構決策與遷移記錄。 Use when: record a decision, add a decision, add a migration, complete a migration, list decisions, list migrations, update architecture decisions, mark migration done
 ---
 
 # Decide
 
-Manage the Active Architecture Decisions and Active Migrations sections of `.claude/rules/architecture.md`. Keeping these sections current prevents confusion from stale patterns and ensures all new code follows the latest conventions.
+管理 `.claude/rules/architecture.md` 中「現行架構決策」與「現行遷移」二節。保持此二節最新，可防舊模式造成混亂，並確保新代碼遵循最新慣例。
 
 ## Step 1 -- Check for architecture.md
 
-Read `.claude/rules/architecture.md`. If the file does not exist, warn the user:
+讀取 `.claude/rules/architecture.md`。若文件不存在，警告用戶：
 
 ```
 No .claude/rules/architecture.md found.
 Run /setup-project first to generate rule files, then re-run this skill.
 ```
 
-Stop here if the file is missing. Do not create it -- the setup-project command handles initial generation with proper project context.
+文件缺失則在此停止。不創建——setup-project 命令負責帶項目上下文生成初始內容。
 
 ## Step 2 -- Parse Current State
 
-Read the file and extract the current entries from these two sections:
+讀文件，從以下二節提取現有條目：
 
-- **Active Architecture Decisions** -- lines matching `- DECISION: ...`
-- **Active Migrations** -- lines matching `- REPLACING: ...`
+- **Active Architecture Decisions** — 匹配 `- DECISION: ...` 之行
+- **Active Migrations** — 匹配 `- REPLACING: ...` 之行
 
-Present the current state to the user:
+向用戶呈現現狀：
 
 ```
 Active Decisions:
@@ -41,22 +41,22 @@ Active Migrations:
 
 ## Step 3 -- Ask What Operation to Perform
 
-Ask the user which operation to perform:
+詢問用戶執行何操作：
 
-- **Add a decision** -- record a new architectural choice
-- **Add a migration** -- record an in-progress technology or pattern replacement
-- **Complete a migration** -- mark a migration as finished and remove it
-- **List current** -- just show the current state (already done in Step 2, confirm and stop)
+- **Add a decision** — 記錄新架構選擇
+- **Add a migration** — 記錄進行中的技術或模式替換
+- **Complete a migration** — 標記遷移完成並移除
+- **List current** — 僅展示現狀（Step 2 已完成，確認後停止）
 
-Wait for the answer before proceeding.
+待答後方繼續。
 
 ## Step 4 -- Add a Decision
 
-If the user chose "add a decision":
+若用戶選「add a decision」：
 
 ### 4a -- Ask What Was Decided
 
-Ask the user: "What architectural decision was made?" Prompt for a concise 1-2 line description. Examples:
+詢問：「What architectural decision was made?」提示簡潔 1-2 行。例：
 
 - "Use Zod for all runtime validation"
 - "Prefer server actions over API routes for mutations"
@@ -64,19 +64,19 @@ Ask the user: "What architectural decision was made?" Prompt for a concise 1-2 l
 
 ### 4b -- Ask Why
 
-Ask: "Why was this decided? (1 line)" This context helps future developers understand the reasoning.
+詢問：「Why was this decided? (1 line)」此上下文助未來開發者理解緣由。
 
 ### 4c -- Write the Entry
 
-Add a new line to the `## Active Architecture Decisions` section of `.claude/rules/architecture.md`:
+在 `.claude/rules/architecture.md` 的 `## Active Architecture Decisions` 節添加新行：
 
 ```
 - DECISION: <description> (recorded <today's date>)
 ```
 
-Use today's date in YYYY-MM-DD format.
+日期用 YYYY-MM-DD 格式。
 
-If the user provided a reason, append it as a comment on the next line:
+若用戶提供理由，次行附注：
 
 ```
 - DECISION: <description> (recorded <today's date>)
@@ -85,11 +85,11 @@ If the user provided a reason, append it as a comment on the next line:
 
 ## Step 5 -- Add a Migration
 
-If the user chose "add a migration":
+若用戶選「add a migration」：
 
 ### 5a -- Ask What Is Being Replaced
 
-Ask the user: "What is being replaced and what is it being replaced with?" Prompt for a concise format:
+詢問：「What is being replaced and what is it being replaced with?」提示簡潔格式：
 
 - "Jest -> Vitest"
 - "REST endpoints -> gRPC services"
@@ -97,17 +97,17 @@ Ask the user: "What is being replaced and what is it being replaced with?" Promp
 
 ### 5b -- Ask Why
 
-Ask: "Why is this migration happening? (1 line)"
+詢問：「Why is this migration happening? (1 line)」
 
 ### 5c -- Write the Entry
 
-Add a new line to the `## Active Migrations` section of `.claude/rules/architecture.md`:
+在 `.claude/rules/architecture.md` 的 `## Active Migrations` 節添加新行：
 
 ```
 - REPLACING: <old> -> <new> (started <today's date>)
 ```
 
-If the user provided a reason, append it as a comment on the next line:
+若用戶提供理由，次行附注：
 
 ```
 - REPLACING: <old> -> <new> (started <today's date>)
@@ -116,7 +116,7 @@ If the user provided a reason, append it as a comment on the next line:
 
 ### 5d -- Warn About Impact
 
-Remind the user:
+提醒用戶：
 
 ```
 IMPORTANT: While this migration is active, all new code must follow the NEW
@@ -126,29 +126,29 @@ Any rules referencing <old> should be updated to prefer <new>.
 
 ## Step 6 -- Complete a Migration
 
-If the user chose "complete a migration":
+若用戶選「complete a migration」：
 
 ### 6a -- Select Migration
 
-If there is only one active migration, confirm it. If there are multiple, ask the user which one to complete. If there are none, report "No active migrations to complete" and stop.
+若只有一條遷移，確認之。若有多條，詢問用戶選擇哪條。若無，報「No active migrations to complete」並停止。
 
 ### 6b -- Confirm Completion
 
-Show the migration entry and ask: "Is this migration fully complete? All old usages have been replaced?"
+展示遷移條目，詢問：「Is this migration fully complete? All old usages have been replaced?」
 
 ### 6c -- Remove the Entry
 
-Remove the `REPLACING:` line (and its comment line, if present) from the `## Active Migrations` section.
+從 `## Active Migrations` 節移除該 `REPLACING:` 行（及其注釋行，若有）。
 
 ### 6d -- Optionally Record as Decision
 
-Ask the user: "Record the result as an active decision? (e.g., 'Use Vitest for all tests')"
+詢問用戶：「Record the result as an active decision? (e.g., 'Use Vitest for all tests')」
 
-If yes, add a corresponding entry to the `## Active Architecture Decisions` section following the format in Step 4c.
+若是，依 Step 4c 格式在 `## Active Architecture Decisions` 節添加相應條目。
 
 ### 6e -- Check for Stale Rules
 
-Scan `.claude/rules/` for any rule files that reference the old technology from the completed migration. If found, report them:
+掃描 `.claude/rules/` 中引用已完成遷移舊技術的規則文件。若有，報告：
 
 ```
 These rule files may reference the old pattern and should be updated:
@@ -157,4 +157,4 @@ These rule files may reference the old pattern and should be updated:
 
 ## Step 7 -- Report
 
-After any write operation, read back the modified sections of `.claude/rules/architecture.md` and present the updated state using the format from Step 2.
+任何寫操作後，回讀 `.claude/rules/architecture.md` 修改節，以 Step 2 格式呈現更新後狀態。

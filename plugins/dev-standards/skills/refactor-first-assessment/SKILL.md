@@ -1,70 +1,74 @@
 ---
 name: refactor-first-assessment
-description: This skill should be used when creating an implementation plan, after grill-task has produced a task spec, to decide whether a preparatory refactor step needs to be inserted before implementation. Runs the A-rule check: four parallel assessments (natural extension, naming fit, co-location, friction).
+description: During planning after grill-task, decide whether a preparatory refactor step is needed before implementation — runs four parallel A-rule checks. 規劃時評估現有結構是否支持計劃變更，按需插入預備重構步驟。 Use when: creating implementation plan, after grill-task, before writing implementation steps, assess codebase for refactor, planning refactor-first
 ---
 
 # Refactor-First Assessment
 
-Assess whether the existing codebase structure supports the planned change naturally. If it does not, insert a preparatory refactor step into the plan *before* implementation.
+評估現有代碼庫結構是否自然支持計劃中的變更。若不支持，在實現步驟前插入預備重構步驟。
 
 ## When to run
 
-- During planning, **after** `dev-standards:grill-task` has produced a task spec
-- **Before** the plan's implementation steps are written
-- Once per task, not once per file
+- 規劃期間，**在**
+
+> Invoke the `Skill` tool with `skill: dev-standards:grill-task` — 獲取任務規格後方可評估。
+
+**之後**
+- **在**規劃的實現步驟被寫入**之前**
+- 每任務一次，非每文件一次
 
 ## Inputs
 
-- Task spec from grill-task (scope, intent, domain terms)
-- Current file contents of files in `scope.files_to_modify`
-- LCI search results for the task's key nouns/verbs (find the natural home)
+- 來自 grill-task 的任務規格（範圍、意圖、領域術語）
+- `scope.files_to_modify` 中文件的當前內容
+- 任務關鍵名詞/動詞的 LCI 搜索結果（找到自然歸屬）
 
 ## Four checks
 
-Run these in order. Any "no" adds a preparatory refactor step to the plan.
+依序執行。任一「no」即向計劃添加預備重構步驟。
 
 ### 1. Natural extension
 
-Is there an obvious place to add this change? Can you point to a file and line where the new code clearly belongs?
+此變更是否有明顯的添加位置？能否指出新代碼清晰歸屬的文件和行？
 
-- **Yes:** move on.
-- **No:** the structure needs a home created first. Add a refactor step: "create the home for X by extracting Y from Z."
+- **Yes:** 繼續。
+- **No:** 結構需先建立歸屬。添加重構步驟：「通過從 Z 提取 Y，為 X 創建歸屬。」
 
 ### 2. Naming fit
 
-Do existing names make room for the new concept, or would the new code overlap with a differently-named existing concept?
+現有名稱是否為新概念留有空間，或新代碼會與命名不同的現有概念重疊？
 
-- **Yes:** move on.
-- **No:** add a refactor step to rename the existing concept or clarify the naming before the new code lands.
+- **Yes:** 繼續。
+- **No:** 添加重構步驟，在新代碼落地前重命名現有概念或釐清命名。
 
 ### 3. Co-location
 
-Would related code end up in the right file/module? Specifically, does the new code's domain concept already live somewhere, or is it being scattered across unrelated files?
+相關代碼最終會在正確的文件/模塊中嗎？具體地，新代碼的領域概念是否已有歸屬，還是會分散到不相關文件中？
 
-- **Yes:** move on.
-- **No:** add a refactor step to consolidate the domain's existing code before adding more to it.
+- **Yes:** 繼續。
+- **No:** 添加重構步驟，在添加更多代碼前整合該領域的現有代碼。
 
 ### 4. Friction
 
-Would you need to fight existing code to add the new change? Signs: deep nesting, unrelated parameters threaded through, callers updated in places that should not care.
+添加新變更時是否需要與現有代碼搏鬥？跡象：深層嵌套、不相關參數穿插傳遞、不應關心的調用者需要更新。
 
-- **No (no friction):** move on.
-- **Yes (friction):** add a refactor step to reduce the friction first.
+- **No（無摩擦）:** 繼續。
+- **Yes（有摩擦）:** 添加重構步驟先降低摩擦。
 
 ## Output
 
-A plan-edit instruction, one of:
+一條計劃編輯指令，二選一：
 
 - **Sign off:** "No refactor needed. Proceed with implementation as planned."
 - **Insert refactor step:** "Before implementation, add step: `Refactor <target> to <action> (move/rename/extract/inline)`. Then re-run existing tests before the first new RED test."
 
-If multiple checks failed, insert multiple refactor steps in the order: extract/move → rename → reduce friction. Never combine refactor and implementation in the same step.
+若多項檢查失敗，按順序插入多個重構步驟：提取/移動 → 重命名 → 降低摩擦。絕不在同一步驟中混合重構與實現。
 
 ## Discipline
 
-- Refactor steps must pass existing tests before the new RED test is written. If the refactor breaks an existing test, that is a bug — fix it as part of the refactor step, not the implementation step.
-- Refactor steps are **A-class only** (preparatory, in plan). They are not a backdoor for opportunistic cleanup. See `.claude/rules/refactor-discipline.md`.
-- If more than two refactor steps are needed, the task is likely too large — escalate to "split this task" rather than pile on refactors.
+- 重構步驟必須在寫入新 RED 測試前通過現有測試。若重構破壞了現有測試，那是 bug——在重構步驟中修復，而非實現步驟。
+- 重構步驟**僅為 A 類**（預備性，在計劃中）。非機會性清理的後門。見 `.claude/rules/refactor-discipline.md`。
+- 若需超過兩個重構步驟，任務可能過大——上報「拆分此任務」，而非堆砌重構。
 
 ## Example output
 

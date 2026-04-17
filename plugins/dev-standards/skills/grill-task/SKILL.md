@@ -1,11 +1,11 @@
 ---
 name: grill-task
-description: "This skill should be used when any plugin creates a task or schedules work, to interrogate the request before it is persisted. Extracts intent, user flow, domain terms, design patterns, scope, and verification with tier-gated depth (minimal skips, standard+ runs). Writes to two channels: ephemeral task spec and permanent project-context backflow via writer skills."
+description: Interrogate any new task before it is persisted — extract intent, flow, domain terms, design patterns, scope, and verification with tier-gated depth. 任務創建時審問之，層層深掘以求精確。 Use when: plugin creates a task, schedule work, grill a request, interrogate task before planning, task intake, dartai task creation
 ---
 
 # Grill-Task
 
-Runs at task creation. Measures twice so execution only has to cut once.
+任務創建時運行。量料兩度，執行一刀。
 
 ## Invocation
 
@@ -20,7 +20,7 @@ Returns:
 
 ## Step 0 — Read project context (silent)
 
-Read before asking anything. The more context you have, the fewer questions you need.
+詢問前先讀。上下文愈豐，問題愈少。
 
 - `.claude/rules/*` — project posture (security, testing, TDD level, architecture style)
 - `CLAUDE.md` or `.claude/CLAUDE.md` — project identity
@@ -33,7 +33,7 @@ Read before asking anything. The more context you have, the fewer questions you 
 
 ## Step 1 — Classify tier
 
-Decide which tier this request falls into:
+判斷此請求屬何級：
 
 | Tier | Indicators | Action |
 |---|---|---|
@@ -42,7 +42,7 @@ Decide which tier this request falls into:
 | Comprehensive | 5+ files, multiple criteria, significant discussion | Run full layered interrogation, all layers |
 | Architectural | cross-cutting, multiple subsystems, new patterns | Run full layered interrogation, plus escalation if too large |
 
-For minimal tier, return immediately:
+Minimal 級立即返回：
 
 ```yaml
 task_spec:
@@ -56,7 +56,7 @@ backflow_writes: []
 
 ## Step 2 — Layered questions (standard tier and above)
 
-Ask one question per turn, terminal-side, in this order. Skip a layer entirely if its "reads from" already answers it — summarize what you know and ask "is this still accurate?" rather than starting from scratch.
+每輪一問，依序審問。若「讀自」已答，摘要已知，問「此仍確乎？」勿重頭。
 
 ### Layer 1 — Intent
 
@@ -80,7 +80,9 @@ Ask one question per turn, terminal-side, in this order. Skip a layer entirely i
 
 - **Reads from:** `docs/design-guidelines.md`, component library README, existing patterns via LCI
 - **If missing, asks:** What pattern should this follow? Is there an existing component to reuse?
-- **Writes back via:** plugin-local `dev-standards:update-rules` (edits a project rule file)
+- **Writes back via:**
+
+> Invoke the `Skill` tool with `skill: dev-standards:update-rules` — 將設計規範寫入項目規則。
 
 ### Layer 5 — Scope
 
@@ -96,32 +98,36 @@ Ask one question per turn, terminal-side, in this order. Skip a layer entirely i
 
 ## Step 3 — Graceful degradation for absent writers
 
-Before invoking any **project-local** writer skill, probe for its presence:
+調用任何**項目本地**寫手技能前，先探其是否存在：
 
 ```bash
 test -f .claude/skills/<skill-name>/SKILL.md
 ```
 
-If absent, do NOT fail the grill. Record a TODO line in the task spec:
+若無，不中止。在任務規格中記 TODO：
 
 ```yaml
 notes:
   - "TODO: install .claude/skills/write-user-story to persist Intent layer gap"
 ```
 
-The next iteration of grill-task picks up the writer if the project eventually installs it (via `dev-standards:add-skill` or a later `setup-project` run with a different docs level).
+下次 grill-task 若項目已安裝（藉
 
-**Plugin-local writers** (`decide`, `update-rules`, `update-project`, `add-skill`) are always available — no probing required.
+> Invoke the `Skill` tool with `skill: dev-standards:add-skill` — 為項目添加缺失的寫手技能。
+
+或後續 `setup-project` 運行），自動銜接。
+
+**插件本地寫手**（`decide`、`update-rules`、`update-project`、`add-skill`）常備，無需探測。
 
 ## Step 4 — Hard caps
 
-- Max **2 rounds** of follow-up questions after the initial pass
-- Max **12 questions total** even for architectural tier
-- If caps are hit and the request is still ambiguous, escalate: return `task_spec.verdict = "TOO_LARGE_TO_GRILL"` and recommend splitting the task
+- 初輪後最多 **2 輪**追問
+- 縱Architectural級，最多 **12 問**
+- 若達上限仍模糊，上報：返回 `task_spec.verdict = "TOO_LARGE_TO_GRILL"`，建議拆分任務
 
 ## Step 6 — Planning-Time Quality Review
 
-Before presenting the confirmation screen, review the `task_spec` against these planning-time criteria. This is a single-pass self-review — it must be thorough, but it does NOT spawn adversarial agents.
+呈確認屏前，單輪自審 `task_spec`。不派對抗代理。
 
 ### Quality Review Checklist
 
@@ -185,11 +191,11 @@ planning_quality_review:
       - "Integration points are vague or missing"
 ```
 
-**Action on failure:** Adjust the `task_spec` inline and re-run the checklist. Do not proceed to confirmation until the spec passes all five checks.
+五項皆通方呈確認屏；不通則調整規格，重審。
 
 ## Step 7 — Confirmation screen
 
-Before writing either output channel, present both the proposed task spec and all pending backflow writes as a single confirmation screen:
+寫入任何通道前，呈任務規格與所有待回流寫入，合為一屏：
 
 ```
 Grilled Task Spec
@@ -204,10 +210,10 @@ Pending backflow writes
 Approve [y] / Edit field [e] / Another round [r] / Abort [x] ?
 ```
 
-On `y`: perform all backflow writes atomically (collect as a staging object, apply together), then return the task spec to the caller.
-On `e`: ask which field to edit.
-On `r`: go to Step 2 with an additional question budget (still under cap).
-On `x`: write nothing, return `task_spec.verdict = "ABORTED"`.
+`y`：原子性執行所有回流寫入（暫存後一次提交），返回任務規格給調用者。
+`e`：詢問修改哪個字段。
+`r`：回 Step 2，追加問題（仍受上限約束）。
+`x`：不寫任何內容，返回 `task_spec.verdict = "ABORTED"`。
 
 ## Output format
 
@@ -241,17 +247,21 @@ backflow_writes:
 
 ## Discipline
 
-- Ask one question per turn. Never stack multiple questions in one message.
-- Prefer multiple-choice when possible; open-ended only when no sensible choices exist.
-- Never grill a minimal-tier task. Grilling a typo fix is worse than shipping it wrong.
-- Never embed project-local writer skill content into this skill. Invoke them.
-- Never persist partial backflow writes — collect, confirm, commit atomically.
-- Respect `.claude/rules/karpathy-principles.md`: push back when unsure, surface tradeoffs, do not "run with" an assumption.
+- 每輪一問。絕不在同一訊息中疊問。
+- 有合理選項時用多選；無則開放作答。
+- Minimal 級絕不審問。審問錯字修改，誤甚於帶錯上線。
+- 決不將項目本地寫手技能內容嵌入此技能。調用之。
+- 決不寫入部分回流——收集、確認、原子性提交。
+- 遵守 `.claude/rules/karpathy-principles.md`：不確定時反推，呈現取捨，不「假設跑」。
 
 ## Related skills
 
-- `dev-standards:refactor-first-assessment` — invoked by planning skills after grill-task
-- `dev-standards:decide` — backflow writer for undecided architecture questions
-- `dev-standards:update-rules` — backflow writer for new project rules
-- `dev-standards:add-skill` — backflow writer for new project-specific skills
-- `dev-standards:update-project` — backflow writer for project description changes
+> Invoke the `Skill` tool with `skill: dev-standards:refactor-first-assessment` — 規劃技能在 grill-task 後調用，決定是否需預備重構步驟。
+
+> Invoke the `Skill` tool with `skill: dev-standards:decide` — 未決架構問題之回流寫手。
+
+> Invoke the `Skill` tool with `skill: dev-standards:update-rules` — 新項目規則之回流寫手。
+
+> Invoke the `Skill` tool with `skill: dev-standards:add-skill` — 新項目專屬技能之回流寫手。
+
+> Invoke the `Skill` tool with `skill: dev-standards:update-project` — 項目描述變更之回流寫手。

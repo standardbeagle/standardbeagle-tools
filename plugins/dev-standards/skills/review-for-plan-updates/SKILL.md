@@ -1,21 +1,21 @@
 ---
 name: review-for-plan-updates
-description: This skill should be used when a task has reached GREEN and before the quality gate commits, to surface C-class refactor discoveries (parameter bloat, duplication, naming drift, etc.) as structured plan-update proposals. Never edits code. Proposals flow to the calling plugin's planner for accept/defer/reject.
+description: After a task reaches GREEN and before the quality gate commits, surface C-class refactor discoveries as structured plan-update proposals. 任務綠燈後，呈 C 類重構發現供規劃者取捨。 Use when: task just passed tests, before quality gate commit, surface refactor proposals, review completed task for technical debt, post-GREEN review
 ---
 
 # Review for Plan Updates
 
-Look at the diff of a just-completed task and surface C-class refactor discoveries. Never modify the task. Never edit code. Emit structured proposals that the planner can decide about with full release-cadence context.
+審視剛完成任務的 diff，呈 C 類重構發現。不修改任務，不編輯代碼。生成結構化提案，由規劃者在完整發布節奏上下文中決定取捨。
 
 ## When to run
 
-- After the task's last GREEN test passes
-- Before the quality gate commits
-- Scope-locked — findings never modify the just-finished task
+- 任務最後一個 GREEN 測試通過後
+- 質量門控提交前
+- 範圍鎖定——發現絕不修改剛完成的任務
 
 ## Inputs
 
-- `git diff <task-base>..HEAD` — only files the task touched
+- `git diff <task-base>..HEAD` — 僅任務觸及的文件
 - LCI call graph one hop out from changed symbols (see who is affected)
 - `.claude/rules/karpathy-principles.md`
 - `.claude/rules/refactor-discipline.md` (urgency thresholds, backlog config)
@@ -23,7 +23,7 @@ Look at the diff of a just-completed task and surface C-class refactor discoveri
 
 ## Trigger catalog (C-class only)
 
-Look for these patterns. Each example shows a signal and what a finding for that signal says.
+尋找以下模式。每項示例展示信號與對應發現措辭：
 
 | Signal | Example finding |
 |---|---|
@@ -35,11 +35,11 @@ Look for these patterns. Each example shows a signal and what a finding for that
 | Visible complexity debt | "Nested conditional now 4-deep in `applyDiscount` — guard-clause or state machine" |
 | Dead branches | "Feature-flag branches exist for a flag that has been on everywhere for 30+ days" |
 
-**Not looked for:** style preferences, unused imports, formatting, anything the linter handles.
+**不審查：**樣式偏好、未用導入、格式、任何 linter 已處理之項。
 
 ## Detection thresholds (read from `.claude/rules/code-quality.md`)
 
-Thresholds are project-specific. Defaults when the rule file does not override:
+閾值由項目自定。規則文件無覆蓋時默認：
 
 - Parameters: flag at 5+
 - Method lines: flag at 30+
@@ -47,11 +47,11 @@ Thresholds are project-specific. Defaults when the rule file does not override:
 - Nesting depth: flag at 4+
 - Duplication: flag at 3+ copies across files
 
-Read the project's `code-quality.md` for overrides before applying.
+應用前讀取項目 `code-quality.md` 中的覆蓋值。
 
 ## Output format
 
-Emit a YAML document with a `proposals` list. Each proposal is structured data, not prose.
+生成 YAML 文件，含 `proposals` 列表。每條提案為結構化數據，非散文：
 
 ```yaml
 proposals:
@@ -68,35 +68,36 @@ proposals:
     principle: refactor-discipline.C
 ```
 
-Proposals reference evidence; they do not embed code.
+提案引用證據；不嵌入代碼。
 
 ## Deferred decisions (for the planner, not the reviewer)
 
-The reviewer does not decide. Decisions belong to the calling plugin's planner, which sees release cadence, what else is in flight, and team priorities.
+審查者不決策。決策屬於調用插件的規劃者——彼見發布節奏、進行中事項及團隊優先級。
 
-- **Accept now** — proposal is grilled as a normal task and scheduled next
-- **Defer** — stays in backlog with urgency tag; promoted over time
-- **Reject** — marked rejected with a one-line reason; fingerprint recorded to prevent re-proposing
+- **Accept now** — 提案作正常任務審問並排期
+- **Defer** — 以緊迫度標簽入 backlog；隨時間晉升
+- **Reject** — 標記為已拒絕，附一行理由；記錄指紋防重複提案
 
 ## Reject-list discipline
 
-Before emitting a proposal, compute a fingerprint from (`evidence.symbol`, `trigger`) and check it against the reject list at `.claude/refactor-rejects.txt`. If present, skip emission. The reject list is written by the planner when it rejects a proposal and lives in the project, not the plugin.
+生成提案前，從（`evidence.symbol`，`trigger`）計算指紋，在 `.claude/refactor-rejects.txt` 的拒絕列表中查驗。若存在則跳過生成。拒絕列表由規劃者在拒絕提案時寫入，存於項目，不在插件中。
 
 ## Routing (plugin-specific wrappers handle this)
 
-- **dartai** — proposals become Dart tasks in a `refactor-backlog` folder, tagged `origin:review`, with a link back to the task that surfaced them.
-- **workflow** — proposals append to `.workflow/loop-state.json` under `pending_plan_updates[]`.
+- **dartai** — 提案成為 `refactor-backlog` 文件夾中的 Dart 任務，標記 `origin:review`，並附帶發現它的任務鏈接。
+- **workflow** — 提案追加到 `.workflow/loop-state.json` 的 `pending_plan_updates[]` 下。
 
-This skill returns the YAML; the wrapper persists it.
+此技能返回 YAML；包裝器負責持久化。
 
 ## Discipline
 
-- **Never edit code.** The just-finished task is scope-locked. Any edit here violates refactor-discipline.B.
-- **Never decide.** You only see the diff. Accept/defer/reject requires wider context.
-- **Evidence, not code.** Proposals reference symbols and file:line locations. The planner reads the files if needed.
-- **Short proposals.** Each proposal under 20 lines of YAML. If the rationale needs more, the task is ambiguous — refine the signal instead.
+- **決不編輯代碼。** 剛完成的任務範圍鎖定。此處任何編輯均違反 refactor-discipline.B。
+- **決不決策。** 你只見 diff。接受/推遲/拒絕需要更廣上下文。
+- **證據，非代碼。** 提案引用符號與文件行號。規劃者按需讀取文件。
+- **提案簡短。** 每條提案不超過 20 行 YAML。若理由需更多，任務模糊——改善信號，而非擴展提案。
 
 ## Related skills
 
-- `dev-standards:grill-task` — proposals that are accepted get grilled as new tasks
-- `dev-standards:decide` — if a proposal surfaces an architecture decision, invoke decide when accepted
+> Invoke the `Skill` tool with `skill: dev-standards:grill-task` — 被接受的提案作為新任務進行審問。
+
+> Invoke the `Skill` tool with `skill: dev-standards:decide` — 若提案觸及架構決策，接受時調用 decide。

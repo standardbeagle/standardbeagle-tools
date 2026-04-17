@@ -1,19 +1,17 @@
 ---
 name: setup-project
-description: Set up project with dev standards — rules, skills, and hooks
+description: Set up project with dev standards — rules, skills, and hooks. 配置項目以開發規範，立規則、技能、鉤子. Use when: setup dev standards, configure project rules, install dev hooks, bootstrap project standards, apply standard rules
 ---
 
-Set up development standards for this project by detecting the tech stack, interviewing the user, and generating contextual rules and skills into `.claude/rules/` and `.claude/skills/`.
-
-All template files are located at `${CLAUDE_PLUGIN_ROOT}/assets/templates/`.
+以下模板文件位於 `${CLAUDE_PLUGIN_ROOT}/assets/templates/`。
 
 ## Phase 1 -- Auto-Detection
 
-Scan the project automatically. Do NOT ask the user anything yet.
+自動掃描項目。此階段**不向用戶提問**。
 
 ### Language and Framework Detection
 
-Use Glob to check for the presence of these files:
+用 Glob 檢查以下文件是否存在：
 
 - `package.json` -- Node.js / JavaScript / TypeScript
 - `tsconfig.json` or `**/*.ts` -- TypeScript confirmation
@@ -25,7 +23,7 @@ Use Glob to check for the presence of these files:
 
 ### Framework Detection
 
-Check for framework-specific config files:
+檢查框架專屬配置文件：
 
 - `next.config.*` -- Next.js
 - `angular.json` -- Angular
@@ -45,7 +43,7 @@ Check for framework-specific config files:
 
 ### Test Runner Detection
 
-Check for test configuration files:
+檢查測試配置文件：
 
 - `jest.config.*` or `"jest"` key in `package.json` -- Jest
 - `vitest.config.*` -- Vitest
@@ -57,7 +55,7 @@ Check for test configuration files:
 
 ### Linter and Formatter Detection
 
-Check for:
+檢查：
 
 - `.eslintrc*` or `eslint.config.*` -- ESLint
 - `.prettierrc*` or `prettier.config.*` -- Prettier
@@ -69,7 +67,7 @@ Check for:
 
 ### Existing Configuration Detection
 
-Check for:
+檢查：
 
 - `.claude/` directory -- existing Claude configuration
 - `.claude/rules/` -- existing rules
@@ -78,7 +76,7 @@ Check for:
 
 ### Persistence Detection
 
-Check for:
+檢查：
 
 - `prisma/` or `schema.prisma` -- Prisma ORM
 - `**/migrations/` directory -- database migrations
@@ -90,11 +88,11 @@ Check for:
 - `alembic/` or `alembic.ini` -- Alembic (Python)
 - `Entity Framework` references in `*.csproj` -- EF Core
 
-Collect all findings into a detection summary. Proceed to Phase 2.
+匯總所有發現為檢測摘要，進入 Phase 2。
 
 ## Phase 2 -- Confirm and Classify
 
-Present the detection summary to the user in a clear format:
+向用戶呈現檢測摘要：
 
 ```
 Detected:
@@ -106,15 +104,15 @@ Detected:
   Existing config: [list or "none"]
 ```
 
-Then ask ONE question at a time. Wait for each answer before asking the next.
+逐一提問，待答後方問下一問。
 
 ### Question 1: Confirm Detection
 
-Ask the user to confirm the detected languages and frameworks. Ask if anything is missing or incorrect.
+詢問用戶確認已檢測到的語言與框架。詢問是否有遺漏或錯誤。
 
 ### Question 2: Project Type
 
-Ask the user to pick the project type:
+詢問用戶選擇項目類型：
 
 - **script** -- One-off or scheduled script
 - **CLI** -- Command-line tool
@@ -126,7 +124,7 @@ Ask the user to pick the project type:
 
 ### Question 3: Architecture Style
 
-Ask the user to pick the architecture style:
+詢問用戶選擇架構風格：
 
 - **simple** -- Flat structure, minimal abstraction
 - **CRUD** -- Standard CRUD with service layer
@@ -136,7 +134,7 @@ Ask the user to pick the architecture style:
 
 ### Question 4: Deployment Target
 
-Ask the user to pick the deployment target:
+詢問用戶選擇部署目標：
 
 - **local-only** -- Runs locally, no deployment
 - **container** -- Docker / Kubernetes
@@ -146,71 +144,71 @@ Ask the user to pick the deployment target:
 
 ### Question 4b: TDD Discipline
 
-Ask the user if they want strict TDD discipline enforced:
+詢問用戶是否需要強制嚴格 TDD 紀律：
 
 - **strict** -- RED/GREEN/REFACTOR cycle enforced, vertical slices required, test distribution targets
 - **standard** -- Testing required but TDD cycle not strictly enforced
 - **minimal** -- Tests recommended but not mandatory (scripts, prototypes)
 
-Default to **strict** for web apps, SaaS, libraries, and DDD projects. Default to **standard** for CLIs and serverless. Default to **minimal** for scripts.
+Web app、SaaS、library、DDD 項目默認 **strict**。CLI 與 serverless 默認 **standard**。腳本默認 **minimal**。
 
 ### Question 4c: Documentation Level
 
-Ask the user what documentation to generate:
+詢問用戶生成何種文檔：
 
 - **full** -- User stories, user flows, tech specs, ADRs, API docs, changelog
 - **standard** -- Tech specs, API docs, changelog (no formal user stories/flows)
 - **minimal** -- Changelog only
 
-Default to **full** for DDD, SaaS, and web apps. Default to **standard** for libraries and CLIs. Default to **minimal** for scripts.
+DDD、SaaS、web app 默認 **full**。library 與 CLI 默認 **standard**。腳本默認 **minimal**。
 
 ## Phase 3 -- External Dependencies
 
-Ask the user about external dependencies. Ask ONE question at a time.
+詢問用戶外部依賴，逐一提問。
 
 ### Question 5: Databases and Storage
 
-Ask what databases or storage systems the project uses (if any). Examples: PostgreSQL, MySQL, MongoDB, Redis, S3, SQLite. Skip if no persistence was detected and user confirms none.
+詢問項目使用哪些數據庫或存儲系統（如有）。示例：PostgreSQL, MySQL, MongoDB, Redis, S3, SQLite。若未檢測到持久化且用戶確認無需，跳過。
 
 ### Question 6: External APIs
 
-Ask what external APIs or third-party services the project integrates with (if any). Examples: Stripe, Auth0, SendGrid, OpenAI, AWS services.
+詢問項目集成哪些外部 API 或第三方服務（如有）。示例：Stripe, Auth0, SendGrid, OpenAI, AWS services。
 
 ### Question 7: Replay Proxies
 
-If external APIs were listed, ask which ones need replay proxies for testing. Explain briefly: replay proxies record real API responses and replay them in CI so tests are fast and deterministic.
+若列出了外部 API，詢問哪些需要 replay proxy 用於測試。簡述：replay proxy 記錄真實 API 響應並在 CI 中回放，使測試快速且確定。
 
 ## Phase 4 -- Project Context
 
-Ask the user for project context. Ask ONE question at a time.
+詢問用戶項目上下文，逐一提問。
 
 ### Question 8: Project Description
 
-Ask for a brief (1-3 sentence) description of what the project does.
+詢問項目功能的簡短描述（1-3 句）。
 
 ### Question 9: Domain Concepts
 
-Ask for key domain concepts or terms that are important for understanding the codebase. Examples: "tenant", "workspace", "pipeline", "widget". Skip if the user says none.
+詢問對理解代碼庫重要的核心領域概念或術語。示例：「tenant」、「workspace」、「pipeline」、「widget」。若用戶稱無，跳過。
 
 ### Question 10: Team Conventions
 
-Ask if there are any team conventions or patterns that should be documented. Examples: "we use barrel exports", "all API responses use a wrapper type", "we prefix interfaces with I". Skip if the user says none.
+詢問是否有需要記錄的團隊慣例或模式。示例：「we use barrel exports」、「all API responses use a wrapper type」、「we prefix interfaces with I」。若用戶稱無，跳過。
 
 ## Phase 5 -- Output Generation
 
-Generate all output files. Read each template from `${CLAUDE_PLUGIN_ROOT}/assets/templates/` before copying.
+生成所有輸出文件。寫入前從 `${CLAUDE_PLUGIN_ROOT}/assets/templates/` 讀取每個模板。
 
-Every generated file MUST start with this comment on the first line:
+每個生成文件**必須**以此注釋起首：
 
 ```
 <!-- Generated by dev-standards plugin. Customize as needed. -->
 ```
 
-If a template already includes this comment, do not duplicate it.
+若模板已含此注釋，不重複添加。
 
 ### Step 1: Create Directories
 
-Create `.claude/rules/` and `.claude/skills/` directories if they do not exist.
+若 `.claude/rules/` 與 `.claude/skills/` 目錄不存在則創建：
 
 ```bash
 mkdir -p .claude/rules .claude/skills
@@ -218,7 +216,7 @@ mkdir -p .claude/rules .claude/skills
 
 ### Step 2: Copy Always-Loaded Rules
 
-Read and copy these templates to `.claude/rules/`:
+讀取以下模板並複製到 `.claude/rules/`：
 
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/version-control.md` -> `.claude/rules/version-control.md`
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/code-quality.md` -> `.claude/rules/code-quality.md`
@@ -226,22 +224,22 @@ Read and copy these templates to `.claude/rules/`:
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/refactor-discipline.md` -> `.claude/rules/refactor-discipline.md`
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/grill-intake.md` -> `.claude/rules/grill-intake.md`
 
-Copy them as-is. They have no placeholders that need filling.
+原樣複製。無需填充佔位符。
 
 ### Step 3: Generate Architecture Rule
 
-Read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/architecture.md`. Replace these placeholders with values from the interview:
+讀取 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/architecture.md`。以訪談中的值替換以下佔位符：
 
-- `{{project_type_description}}` -- Replace with the project type and architecture style. Example: "Web application using DDD architecture, deployed to containers."
-- `{{active_decisions}}` -- Replace with "No active architecture decisions documented yet. Add decisions here as they are made." (The user will fill this in over time.)
-- `{{active_migrations}}` -- Replace with "No active migrations. Document ongoing migrations here." (The user will fill this in over time.)
-- `{{project_constraints}}` -- Replace with deployment target and any team conventions mentioned. Example: "Deployed to Kubernetes. All API responses use a standard wrapper type."
+- `{{project_type_description}}` — 替換為項目類型與架構風格。例：「Web application using DDD architecture, deployed to containers.」
+- `{{active_decisions}}` — 替換為「No active architecture decisions documented yet. Add decisions here as they are made.」（用戶隨時間填充）
+- `{{active_migrations}}` — 替換為「No active migrations. Document ongoing migrations here.」（用戶隨時間填充）
+- `{{project_constraints}}` — 替換為部署目標及任何提及的團隊慣例。例：「Deployed to Kubernetes. All API responses use a standard wrapper type.」
 
-Write the result to `.claude/rules/architecture.md`.
+將結果寫入 `.claude/rules/architecture.md`。
 
 ### Step 4: Copy Language-Specific Rules
 
-For each detected language, read the corresponding template and copy it to `.claude/rules/`:
+對每種檢測到的語言，讀取對應模板並複製到 `.claude/rules/`：
 
 | Language   | Template file   | Output file                   |
 |------------|----------------|-------------------------------|
@@ -251,58 +249,58 @@ For each detected language, read the corresponding template and copy it to `.cla
 | Go         | `go.md`         | `.claude/rules/go.md`         |
 | Rust       | `rust.md`       | `.claude/rules/rust.md`       |
 
-Copy each as-is. The templates already include correct glob paths in their frontmatter.
+原樣複製。模板 frontmatter 中已含正確 glob 路徑。
 
 ### Step 5: Generate Testing Rule
 
-If any test runner was detected, read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/testing.md` and replace these placeholders:
+若檢測到任何測試運行器，讀取 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/testing.md` 並替換以下佔位符：
 
-- `{{test_runner}}` -- The detected or confirmed test runner (e.g., "vitest", "jest", "pytest", "go test")
-- `{{e2e_framework}}` -- The detected e2e framework (e.g., "playwright", "cypress"). If none detected, use "not configured"
-- `{{replay_proxy}}` -- The replay proxy tool if specified by the user, otherwise "not configured"
-- `{{external_services}}` -- The external services that need replay proxies, or "none configured"
+- `{{test_runner}}` — 已檢測或確認的測試運行器（如「vitest」、「jest」、「pytest」、「go test」）
+- `{{e2e_framework}}` — 已檢測到的 e2e 框架（如「playwright」、「cypress」）。若未檢測到，使用「not configured」
+- `{{replay_proxy}}` — 用戶指定的 replay proxy 工具，否則使用「not configured」
+- `{{external_services}}` — 需要 replay proxy 的外部服務，或「none configured」
 
-Write the result to `.claude/rules/testing.md`.
+將結果寫入 `.claude/rules/testing.md`。
 
 ### Step 6: Copy Data Integrity Rule
 
-If persistence was detected (databases, ORMs, migrations), read and copy `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/data-integrity.md` to `.claude/rules/data-integrity.md`.
+若檢測到持久化（數據庫、ORM、遷移），讀取並複製 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/data-integrity.md` 到 `.claude/rules/data-integrity.md`。
 
-Update the `paths` frontmatter to match the project's actual directory structure for database-related code. For example, if the project uses `src/db/` instead of `db/`, adjust accordingly.
+更新 `paths` frontmatter 以匹配項目實際的數據庫相關代碼目錄結構。例如，若項目使用 `src/db/` 而非 `db/`，相應調整。
 
 ### Step 6b: Generate TDD Rule
 
-If TDD discipline is **strict** or **standard**, read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/tdd.md` and copy to `.claude/rules/tdd.md`.
+若 TDD 紀律為 **strict** 或 **standard**，讀取 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/tdd.md` 並複製到 `.claude/rules/tdd.md`。
 
-If TDD discipline is **standard**, add a note at the top: "TDD cycle is recommended but not strictly enforced for this project."
+若 TDD 紀律為 **standard**，在頂部添加注釋：「TDD cycle is recommended but not strictly enforced for this project.」
 
-If TDD discipline is **minimal**, skip this rule.
+若 TDD 紀律為 **minimal**，跳過此規則。
 
 ### Step 6c: Generate DDD Rule
 
-If the architecture style is **DDD** or **event-driven**, read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/ddd.md` and copy to `.claude/rules/ddd.md`.
+若架構風格為 **DDD** 或 **event-driven**，讀取 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/ddd.md` 並複製到 `.claude/rules/ddd.md`。
 
 ### Step 6d: Generate Documentation Rule
 
-If documentation level is **full** or **standard**, read `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/documentation.md` and copy to `.claude/rules/documentation.md`.
+若文檔級別為 **full** 或 **standard**，讀取 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/documentation.md` 並複製到 `.claude/rules/documentation.md`。
 
-If documentation level is **standard**, remove the "User Stories" and "User Flows" sections from the generated file (those are only for **full** level).
+若文檔級別為 **standard**，從生成文件中移除「User Stories」和「User Flows」節（這兩節僅用於 **full** 級別）。
 
 ### Step 7: Copy Skill Templates
 
-Based on the project type, read and copy skill templates to `.claude/skills/`. Replace all `{{placeholders}}` in each skill with values from the interview.
+依項目類型，讀取並複製技能模板到 `.claude/skills/`。以訪談中的值替換每個技能中的所有 `{{placeholders}}`。
 
-Common placeholders across skills:
+技能通用佔位符：
 
-- `{{framework}}` -- The primary framework (e.g., "Next.js", "ASP.NET", "FastAPI")
-- `{{test_runner}}` -- The test runner command
-- `{{e2e_framework}}` -- The e2e framework
-- `{{api_style}}` -- "REST" or "GraphQL" (infer from detection or ask)
-- `{{validation_library}}` -- Detected validation library or "project's validation approach"
-- `{{auth_pattern}}` -- "middleware auth" or "decorator auth" or similar (infer from detection)
-- `{{orm}}` -- The detected ORM or "repository pattern"
+- `{{framework}}` — 主框架（如「Next.js」、「ASP.NET」、「FastAPI」）
+- `{{test_runner}}` — 測試運行器命令
+- `{{e2e_framework}}` — e2e 框架
+- `{{api_style}}` — 「REST」或「GraphQL」（從檢測推斷或詢問）
+- `{{validation_library}}` — 已檢測到的驗證庫或「project's validation approach」
+- `{{auth_pattern}}` — 「middleware auth」或「decorator auth」或類似（從檢測推斷）
+- `{{orm}}` — 已檢測到的 ORM 或「repository pattern」
 
-Project type to skill mapping:
+項目類型與技能映射：
 
 | Project Type | Skills to Copy |
 |-------------|---------------|
@@ -314,12 +312,12 @@ Project type to skill mapping:
 | desktop     | `desktop/add-message` |
 | script      | (no skills) |
 
-If the architecture style is DDD or event-driven, also copy:
-- `ddd/add-aggregate`, `ddd/add-domain-event` (implementation skills)
-- `ddd/define-context`, `ddd/spec-domain` (design skills)
-- `ddd/domain-init`, `ddd/domain-update`, `ddd/domain-check`, `ddd/domain-split` (domain model skills)
+若架構風格為 DDD 或 event-driven，同時複製：
+- `ddd/add-aggregate`, `ddd/add-domain-event`（實現技能）
+- `ddd/define-context`, `ddd/spec-domain`（設計技能）
+- `ddd/domain-init`, `ddd/domain-update`, `ddd/domain-check`, `ddd/domain-split`（領域模型技能）
 
-TDD discipline to skill mapping:
+TDD 紀律與技能映射：
 
 | TDD Level | Skills to Copy |
 |-----------|---------------|
@@ -327,7 +325,7 @@ TDD discipline to skill mapping:
 | standard  | `tdd/implement-slice` |
 | minimal   | (no TDD skill) |
 
-Documentation level to skill mapping:
+文檔級別與技能映射：
 
 | Doc Level | Skills to Copy |
 |-----------|---------------|
@@ -335,17 +333,17 @@ Documentation level to skill mapping:
 | standard  | `docs/write-tech-spec` |
 | minimal   | (no doc skills) |
 
-For each skill, create the directory and copy the file:
+每個技能，創建目錄並複製文件：
 
 ```
 .claude/skills/<skill-name>/SKILL.md
 ```
 
-For example, `webapp/add-endpoint/SKILL.md` becomes `.claude/skills/add-endpoint/SKILL.md`.
+例如，`webapp/add-endpoint/SKILL.md` 成為 `.claude/skills/add-endpoint/SKILL.md`。
 
 ### Step 8: Generate CLAUDE.md
 
-Generate a thin `.claude/CLAUDE.md` file. This file provides project context to Claude without duplicating rule content.
+生成精簡的 `.claude/CLAUDE.md` 文件。此文件為 Claude 提供項目上下文，不重複規則內容。
 
 ```markdown
 <!-- Generated by dev-standards plugin. Customize as needed. -->
@@ -379,19 +377,19 @@ Project rules are loaded automatically from `.claude/rules/`. See that directory
 Project skills are loaded automatically from `.claude/skills/`. See that directory for available workflows.
 ```
 
-Replace all `{{placeholders}}` with actual values from the interview.
+以訪談中的實際值替換所有 `{{placeholders}}`。
 
 ### Step 9: Handle Existing Configuration
 
-If `.claude/` already existed:
+若 `.claude/` 已存在：
 
-- Do NOT overwrite any existing files without asking the user first
-- For each file that would conflict, ask the user whether to overwrite, skip, or merge
-- If `CLAUDE.md` already exists at the project root, do not touch it -- only generate `.claude/CLAUDE.md`
+- 不覆蓋任何現有文件，除非事先詢問用戶
+- 對每個衝突文件，詢問用戶是覆蓋、跳過還是合併
+- 若項目根目錄已有 `CLAUDE.md`，不觸動它——僅生成 `.claude/CLAUDE.md`
 
 ## Completion
 
-After generating all files, present a summary:
+生成所有文件後，呈現摘要：
 
 ```
 Setup complete. Generated files:

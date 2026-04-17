@@ -1,23 +1,23 @@
 ---
 name: Update Rules
-description: This skill should be used when the user asks to "update rules", "add a rule", "edit a rule", "remove a rule", "manage rules", or "add rules for a new module". Provides guidance for viewing, adding, modifying, and removing project rules in `.claude/rules/`.
+description: View, add, modify, or remove project rules in `.claude/rules/`. 管理項目開發規則。 Use when: update rules, add a rule, edit a rule, remove a rule, manage rules, add rules for a new module
 ---
 
 # Update Rules
 
-Manage the project's development rules in `.claude/rules/`. Support adding, modifying, and removing rule files, including glob-scoped rules for specific modules or directories.
+管理項目在 `.claude/rules/` 中的開發規則。支持添加、修改、刪除規則文件，包括針對特定模塊或目錄的 glob 範圍規則。
 
 ## Step 1 -- Scan Existing Rules
 
-Read the `.claude/rules/` directory and list every rule file with its metadata.
+讀取 `.claude/rules/` 目錄，列出所有規則文件及其元數據。
 
-For each file found:
+每個文件：
 
-1. Read the file contents
-2. Extract the frontmatter (if present) to determine the `paths` glob pattern
-3. Extract the first heading or the `description` frontmatter field
+1. 讀取文件內容
+2. 提取 frontmatter（如有）以確定 `paths` glob 模式
+3. 提取首個標題或 `description` frontmatter 字段
 
-Present a summary table to the user:
+向用戶呈現摘要表：
 
 ```
 Current rules in .claude/rules/:
@@ -29,55 +29,55 @@ Current rules in .claude/rules/:
   ...
 ```
 
-If `.claude/rules/` does not exist or is empty, report that no rules are configured and ask if the user wants to run `/setup-project` first.
+若 `.claude/rules/` 不存在或為空，報告無規則已配置，詢問用戶是否先運行 `/setup-project`。
 
 ## Step 2 -- Ask What Operation to Perform
 
-Ask the user which operation to perform:
+詢問用戶執行何操作：
 
-- **Add** a new rule
-- **Modify** an existing rule
-- **Remove** an existing rule
+- **Add** 新規則
+- **Modify** 現有規則
+- **Remove** 現有規則
 
-Wait for the answer before proceeding.
+待答後方繼續。
 
 ## Step 3 -- Add a New Rule
 
-If the user chose "add":
+若用戶選「add」：
 
 ### 3a -- Determine Rule Scope
 
-Ask what the rule covers. Examples:
+詢問規則涵蓋範圍。示例：
 
-- A new language or framework (e.g., "GraphQL", "React", "Terraform")
-- A new module or directory (e.g., "our new payments service in `services/payments/`")
-- A cross-cutting concern (e.g., "logging standards", "error handling")
-- A team convention (e.g., "naming conventions for our API layer")
+- 新語言或框架（如「GraphQL」、「React」、「Terraform」）
+- 新模塊或目錄（如「our new payments service in `services/payments/`」）
+- 橫切關注點（如「logging standards」、「error handling」）
+- 團隊慣例（如「naming conventions for our API layer」）
 
 ### 3b -- Determine Glob Pattern
 
-Based on the scope, suggest an appropriate glob pattern for the rule's `paths` frontmatter. Ask the user to confirm or adjust.
+依範圍建議適當的 glob 模式用於規則的 `paths` frontmatter。詢問用戶確認或調整。
 
-Guidelines for glob patterns:
+Glob 模式指引：
 
-- Language rules: `**/*.ext` (e.g., `**/*.graphql`, `**/*.tf`)
-- Module rules: `path/to/module/**` (e.g., `services/payments/**`)
-- Test rules: `**/*.test.*`, `**/*.spec.*`, `**/*_test.*`
-- Always-loaded rules: omit the `paths` field entirely
-- Multiple patterns: use YAML list format in frontmatter
+- 語言規則：`**/*.ext`（如 `**/*.graphql`、`**/*.tf`）
+- 模塊規則：`path/to/module/**`（如 `services/payments/**`）
+- 測試規則：`**/*.test.*`、`**/*.spec.*`、`**/*_test.*`
+- 常駐加載規則：frontmatter 中完全省略 `paths` 字段
+- 多模式：在 frontmatter 中使用 YAML 列表格式
 
 ### 3c -- Determine Content
 
-Ask what specific standards, guidelines, or constraints the rule should encode. Prompt with focused questions:
+詢問規則應編碼哪些具體標準、指南或約束。針對性問題：
 
-1. What patterns should be preferred in this scope?
-2. What patterns should be avoided?
-3. Are there specific libraries, tools, or approaches to enforce?
-4. Are there error handling or testing requirements specific to this scope?
+1. 此範圍內應優先採用哪些模式？
+2. 應避免哪些模式？
+3. 是否有需要強制執行的特定庫、工具或方式？
+4. 此範圍是否有特定的錯誤處理或測試要求？
 
 ### 3d -- Generate the Rule File
 
-Create the rule file at `.claude/rules/<rule-name>.md` with this structure:
+在 `.claude/rules/<rule-name>.md` 創建規則文件，結構如下：
 
 ```markdown
 ---
@@ -91,60 +91,60 @@ description: "<one-line description>"
 <Rule content organized into clear sections>
 ```
 
-Choose a kebab-case filename that matches the scope (e.g., `graphql.md`, `payments-service.md`, `logging.md`).
+選取 kebab-case 文件名以匹配範圍（如 `graphql.md`、`payments-service.md`、`logging.md`）。
 
 ### 3e -- Check for Template
 
-Check if a matching template exists at `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/`. If one exists, offer to use it as a starting point. If not, generate from the user's answers.
+檢查 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/` 中是否存在匹配模板。若有，建議用作起點。若無，依用戶答案生成。
 
 ## Step 4 -- Modify an Existing Rule
 
-If the user chose "modify":
+若用戶選「modify」：
 
 ### 4a -- Select Rule
 
-If the user did not specify which rule, present the list from Step 1 and ask which rule to modify.
+若用戶未指定規則，呈現 Step 1 的列表，詢問修改哪條。
 
 ### 4b -- Show Current Content
 
-Read and display the full content of the selected rule file.
+讀取並展示所選規則文件的完整內容。
 
 ### 4c -- Ask What to Change
 
-Ask the user what to change. Common modifications:
+詢問用戶修改什麼。常見修改：
 
-- Add a new section or guideline
-- Update an existing section
-- Change the glob pattern scope
-- Remove a section that no longer applies
-- Merge content from another rule
+- 添加新節或指南
+- 更新現有節
+- 更改 glob 範圍模式
+- 移除不再適用的節
+- 合併另一規則的內容
 
 ### 4d -- Apply Changes
 
-Edit the rule file with the requested changes. Preserve the existing structure and frontmatter unless the user explicitly asks to change them.
+以用戶請求的修改編輯規則文件。除非用戶明確要求，否則保留現有結構和 frontmatter。
 
-Show the user a summary of what changed.
+向用戶展示變更摘要。
 
 ## Step 5 -- Remove a Rule
 
-If the user chose "remove":
+若用戶選「remove」：
 
 ### 5a -- Select Rule
 
-If the user did not specify which rule, present the list from Step 1 and ask which rule to remove.
+若用戶未指定規則，呈現 Step 1 的列表，詢問移除哪條。
 
 ### 5b -- Confirm Deletion
 
-Show the rule's description and glob scope. Ask the user to confirm deletion. Warn that this cannot be undone (unless version-controlled).
+展示規則的 description 和 glob 範圍。詢問用戶確認刪除。警告此操作不可撤銷（除非有版本控制）。
 
 ### 5c -- Delete the File
 
-Delete the rule file from `.claude/rules/`.
+從 `.claude/rules/` 刪除規則文件。
 
-Report the deletion to the user.
+向用戶報告刪除結果。
 
 ## Step 6 -- Repeat or Finish
 
-After completing an operation, ask if the user wants to perform another operation (add, modify, or remove another rule) or finish.
+完成操作後，詢問用戶是否繼續操作（添加、修改或移除另一規則），或結束。
 
-If finishing, present the updated summary table from Step 1 showing the current state of all rules.
+若結束，呈現 Step 1 格式的更新後摘要表，展示所有規則的當前狀態。
