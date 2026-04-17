@@ -1,43 +1,43 @@
 ---
 name: dart-tools
-description: Dart MCP tools reference - task management, documents, comments, and workspace configuration
+description: Complete reference for all 21 Dart MCP tools: tasks, documents, comments, workspace config. Dart MCP 服務器全21工具參考，含任務、文檔、評論、工作區配置。 Use when: looking up tool parameters, understanding response fields, finding the right Dart tool for an operation.
 ---
 
 # Dart MCP Tools Reference
 
-Complete reference for all 21 tools provided by the Dart MCP server. Use these tools through SLOP to manage tasks, documents, and comments in your Dart workspace.
+Dart MCP 服務器全21工具完整參考。通過 SLOP 使用這些工具管理 Dart 工作區中的任務、文檔和評論。
 
 ## Quick Reference Table
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `get_config` | Get workspace configuration | (none) |
-| `list_tasks` | List/filter tasks | dartboard, status, assignee |
-| `get_task` | Get task details | id (required) |
-| `create_task` | Create new task | title (required), dartboard, status |
-| `update_task` | Update task properties | id (required), status, assignee |
-| `delete_task` | Move task to trash | id (required) |
-| `move_task` | Reorder task position | id, afterTaskId/beforeTaskId |
-| `add_task_comment` | Add comment to task | taskId, text (required) |
-| `list_comments` | List task comments | task_id (required) |
-| `add_task_attachment_from_url` | Attach file from URL | id, name, url (required) |
-| `add_task_time_tracking` | Track time on task | id, startedAt, finishedAt |
-| `list_docs` | List documents | folder, title, text |
-| `get_doc` | Get document details | id (required) |
-| `create_doc` | Create new document | title (required), folder, text |
-| `update_doc` | Update document | id (required), title, text |
-| `delete_doc` | Move doc to trash | id (required) |
-| `get_dartboard` | Get dartboard info | id (required) |
-| `get_folder` | Get folder info | id (required) |
-| `get_view` | Get view info | id (required) |
-| `retrieve_skill_by_title` | Get Dart skill | title (required) |
-| `list_help_center_articles` | Search help articles | query |
+| `get_config` | 取工作區配置 | (none) |
+| `list_tasks` | 列表/過濾任務 | dartboard, status, assignee |
+| `get_task` | 取任務詳情 | id (required) |
+| `create_task` | 創建新任務 | title (required), dartboard, status |
+| `update_task` | 更新任務屬性 | id (required), status, assignee |
+| `delete_task` | 移任務至回收站 | id (required) |
+| `move_task` | 重排任務位置 | id, afterTaskId/beforeTaskId |
+| `add_task_comment` | 為任務添加評論 | taskId, text (required) |
+| `list_comments` | 列任務評論 | task_id (required) |
+| `add_task_attachment_from_url` | 從URL附加文件 | id, name, url (required) |
+| `add_task_time_tracking` | 記錄任務用時 | id, startedAt, finishedAt |
+| `list_docs` | 列文檔 | folder, title, text |
+| `get_doc` | 取文檔詳情 | id (required) |
+| `create_doc` | 創建新文檔 | title (required), folder, text |
+| `update_doc` | 更新文檔 | id (required), title, text |
+| `delete_doc` | 移文檔至回收站 | id (required) |
+| `get_dartboard` | 取面板信息 | id (required) |
+| `get_folder` | 取文件夾信息 | id (required) |
+| `get_view` | 取視圖信息 | id (required) |
+| `retrieve_skill_by_title` | 取 Dart 技藝 | title (required) |
+| `list_help_center_articles` | 搜索幫助文章 | query |
 
 ## Configuration
 
 ### get_config
 
-Get information about the user's workspace, including all available dartboards, statuses, assignees, and custom properties.
+取用戶工作區信息，含所有可用面板、狀態、受讓人及自定義屬性。
 
 **Parameters:** None
 
@@ -50,16 +50,16 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 ```
 
 **Response includes:**
-- `today` - Current date
-- `user` - Current user info (name, email)
-- `dartboards` - Array of available dartboard names
-- `statuses` - Array of available status values
-- `assignees` - Array of team members
-- `types` - Task types
-- `priorities` - Priority levels (Critical, High, Medium, Low)
-- `tags` - Available tags
-- `folders` - Document folders
-- `customProperties` - Custom property definitions
+- `today` - 當前日期
+- `user` - 當前用戶信息（姓名、郵箱）
+- `dartboards` - 可用面板名數組
+- `statuses` - 可用狀態值數組
+- `assignees` - 團隊成員數組
+- `types` - 任務類型
+- `priorities` - 優先級（Critical, High, Medium, Low）
+- `tags` - 可用標籤
+- `folders` - 文檔文件夾
+- `customProperties` - 自定義屬性定義
 
 ---
 
@@ -67,22 +67,22 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### list_tasks
 
-List tasks with powerful filtering options. Supports pagination with limit/offset.
+以強大過濾選項列任務，支持 limit/offset 分頁。
 
 **Parameters:**
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `dartboard` | string | Filter by dartboard name |
-| `status` | string | Filter by status |
-| `assignee` | string | Filter by assignee name/email |
-| `is_completed` | boolean | Filter completed/incomplete |
-| `priority` | string | Filter by priority |
-| `tag` | string | Filter by tag |
-| `due_at_after` | datetime | Due date after |
-| `due_at_before` | datetime | Due date before |
-| `limit` | integer | Results per page |
-| `offset` | integer | Pagination offset |
-| `o` | array | Ordering (order, -created_at, title, etc.) |
+| `dartboard` | string | 按面板名過濾 |
+| `status` | string | 按狀態過濾 |
+| `assignee` | string | 按受讓人名/郵箱過濾 |
+| `is_completed` | boolean | 過濾已完成/未完成 |
+| `priority` | string | 按優先級過濾 |
+| `tag` | string | 按標籤過濾 |
+| `due_at_after` | datetime | 截止日在此後 |
+| `due_at_before` | datetime | 截止日在此前 |
+| `limit` | integer | 每頁結果數 |
+| `offset` | integer | 分頁偏移 |
+| `o` | array | 排序（order, -created_at, title 等）|
 
 **Usage:**
 ```
@@ -98,12 +98,12 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### get_task
 
-Retrieve full details for a specific task.
+取特定任務完整詳情。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Task ID (12 alphanumeric chars) |
+| `id` | string | Yes | 任務 ID（12位字母數字）|
 
 **Usage:**
 ```
@@ -117,20 +117,20 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### create_task
 
-Create a new task. Defaults to current user as assignee and default dartboard.
+創建新任務，默認當前用戶為受讓人及默認面板。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `item.title` | string | Yes | Task title |
-| `item.description` | string | No | Markdown description |
-| `item.dartboard` | string | No | Target dartboard |
-| `item.status` | string | No | Initial status |
-| `item.assignee` | string | No | Assignee name/email |
+| `item.title` | string | Yes | 任務標題 |
+| `item.description` | string | No | Markdown 描述 |
+| `item.dartboard` | string | No | 目標面板 |
+| `item.status` | string | No | 初始狀態 |
+| `item.assignee` | string | No | 受讓人名/郵箱 |
 | `item.priority` | string | No | Critical/High/Medium/Low |
-| `item.dueAt` | string | No | Due date (YYYY-MM-DD) |
-| `item.tags` | array | No | Tag strings |
-| `item.parentId` | string | No | Parent task ID for subtasks |
+| `item.dueAt` | string | No | 截止日（YYYY-MM-DD）|
+| `item.tags` | array | No | 標籤字符串 |
+| `item.parentId` | string | No | 父任務 ID（子任務用）|
 
 **Usage:**
 ```
@@ -150,19 +150,19 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### update_task
 
-Update properties of an existing task. Only specified fields are changed.
+更新現有任務屬性，僅修改指定字段。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Task ID |
-| `item.id` | string | Yes | Task ID (in item) |
-| `item.title` | string | No | New title |
-| `item.status` | string | No | New status |
-| `item.assignee` | string | No | New assignee |
-| `item.description` | string | No | New description |
-| `item.priority` | string | No | New priority |
-| `item.dueAt` | string/null | No | New due date or null to clear |
+| `id` | string | Yes | 任務 ID |
+| `item.id` | string | Yes | 任務 ID（在 item 中）|
+| `item.title` | string | No | 新標題 |
+| `item.status` | string | No | 新狀態 |
+| `item.assignee` | string | No | 新受讓人 |
+| `item.description` | string | No | 新描述 |
+| `item.priority` | string | No | 新優先級 |
+| `item.dueAt` | string/null | No | 新截止日或 null 清除 |
 
 **Usage:**
 ```
@@ -180,46 +180,46 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### delete_task
 
-Move a task to trash (can be recovered).
+移任務至回收站（可恢復）。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Task ID |
+| `id` | string | Yes | 任務 ID |
 
 ### move_task
 
-Reorder a task within a list. Use `afterTaskId` to place after a task, or `beforeTaskId` to place before.
+在列表中重排任務。用 `afterTaskId` 置於某任務後，或 `beforeTaskId` 置於其前。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Task ID to move |
-| `afterTaskId` | string/null | No | Place after this task (null = end) |
-| `beforeTaskId` | string/null | No | Place before this task (null = start) |
+| `id` | string | Yes | 要移動之任務 ID |
+| `afterTaskId` | string/null | No | 置於此任務後（null = 末尾）|
+| `beforeTaskId` | string/null | No | 置於此任務前（null = 開頭）|
 
 ### add_task_time_tracking
 
-Record time spent on a task.
+記錄任務用時。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Task ID |
-| `startedAt` | string | Yes | Start time (ISO 8601) |
-| `finishedAt` | string | Yes | End time (ISO 8601) |
-| `user` | string/null | No | User to attribute (null = current) |
+| `id` | string | Yes | 任務 ID |
+| `startedAt` | string | Yes | 開始時間（ISO 8601）|
+| `finishedAt` | string | Yes | 結束時間（ISO 8601）|
+| `user` | string/null | No | 歸屬用戶（null = 當前）|
 
 ### add_task_attachment_from_url
 
-Attach a file to a task by URL.
+通過 URL 為任務附加文件。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Task ID |
-| `name` | string | Yes | Attachment filename |
-| `url` | string | Yes | URL to download from |
+| `id` | string | Yes | 任務 ID |
+| `name` | string | Yes | 附件文件名 |
+| `url` | string | Yes | 下載來源 URL |
 
 ---
 
@@ -227,14 +227,14 @@ Attach a file to a task by URL.
 
 ### add_task_comment
 
-Add a comment to a task.
+為任務添加評論。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `item.taskId` | string | Yes | Task ID |
-| `item.text` | string | Yes | Comment text (markdown) |
-| `item.parentId` | string | No | Parent comment ID for threading |
+| `item.taskId` | string | Yes | 任務 ID |
+| `item.text` | string | Yes | 評論文本（markdown）|
+| `item.parentId` | string | No | 父評論 ID（用於線程）|
 
 **Usage:**
 ```
@@ -251,16 +251,16 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### list_comments
 
-List comments for a task with filtering.
+列任務評論並過濾。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `task_id` | string | Yes | Task ID |
-| `author` | string | No | Filter by author |
-| `published_at_after` | datetime | No | After date |
-| `o` | array | No | Ordering (published_at, hierarchical) |
-| `limit` | integer | No | Results per page |
+| `task_id` | string | Yes | 任務 ID |
+| `author` | string | No | 按作者過濾 |
+| `published_at_after` | datetime | No | 此日期後 |
+| `o` | array | No | 排序（published_at, hierarchical）|
+| `limit` | integer | No | 每頁結果數 |
 
 ---
 
@@ -268,53 +268,53 @@ List comments for a task with filtering.
 
 ### list_docs
 
-List documents with filtering and search.
+列文檔並過濾搜索。
 
 **Parameters:**
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `folder` | string | Filter by folder name |
-| `title` | string | Filter by title |
-| `s` | string | Full-text search |
-| `limit` | integer | Results per page |
-| `o` | array | Ordering |
+| `folder` | string | 按文件夾名過濾 |
+| `title` | string | 按標題過濾 |
+| `s` | string | 全文搜索 |
+| `limit` | integer | 每頁結果數 |
+| `o` | array | 排序 |
 
 ### get_doc
 
-Get full document content.
+取文檔完整內容。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Document ID |
+| `id` | string | Yes | 文檔 ID |
 
 ### create_doc
 
-Create a new document.
+創建新文檔。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `item.title` | string | Yes | Document title |
-| `item.text` | string | No | Document content (markdown) |
-| `item.folder` | string | No | Target folder |
+| `item.title` | string | Yes | 文檔標題 |
+| `item.text` | string | No | 文檔內容（markdown）|
+| `item.folder` | string | No | 目標文件夾 |
 
 ### update_doc
 
-Update document properties.
+更新文檔屬性。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Document ID |
-| `item.id` | string | Yes | Document ID |
-| `item.title` | string | No | New title |
-| `item.text` | string | No | New content |
-| `item.folder` | string | No | New folder |
+| `id` | string | Yes | 文檔 ID |
+| `item.id` | string | Yes | 文檔 ID |
+| `item.title` | string | No | 新標題 |
+| `item.text` | string | No | 新內容 |
+| `item.folder` | string | No | 新文件夾 |
 
 ### delete_doc
 
-Move document to trash.
+移文檔至回收站。
 
 ---
 
@@ -322,30 +322,30 @@ Move document to trash.
 
 ### get_dartboard
 
-Get dartboard (project) information.
+取面板（項目）信息。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Dartboard ID |
+| `id` | string | Yes | 面板 ID |
 
 ### get_folder
 
-Get folder information.
+取文件夾信息。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | Folder ID |
+| `id` | string | Yes | 文件夾 ID |
 
 ### get_view
 
-Get view information.
+取視圖信息。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `id` | string | Yes | View ID |
+| `id` | string | Yes | 視圖 ID |
 
 ---
 
@@ -353,21 +353,21 @@ Get view information.
 
 ### retrieve_skill_by_title
 
-Get a Dart skill (instruction template) by title.
+按標題取 Dart 技藝（指令模板）。
 
 **Parameters:**
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `title` | string | Yes | Skill title |
+| `title` | string | Yes | 技藝標題 |
 
 ### list_help_center_articles
 
-Search Dart help center articles.
+搜索 Dart 幫助中心文章。
 
 **Parameters:**
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `query` | string | Search query (1-5 words) |
+| `query` | string | 搜索查詢（1-5個詞）|
 
 ---
 
@@ -428,6 +428,6 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ## ID Format
 
-All Dart IDs are 12-character alphanumeric strings matching pattern `^[a-zA-Z0-9]{12}$`.
+所有 Dart ID 為12字符字母數字字符串，匹配模式 `^[a-zA-Z0-9]{12}$`。
 
 Example: `abc123def456`

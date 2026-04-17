@@ -1,25 +1,25 @@
 ---
 name: slop-migrate
-description: Migrate existing MCP configurations to slop-mcp management
+description: Import existing MCP server configs from Claude Desktop, VS Code, or Claude Code settings into slop-mcp. 將現有 MCP 配置遷移至 slop-mcp 管理。 Use when: onboarding to slop-mcp, consolidating MCP registrations, importing from other clients.
 ---
 
 # Migrate MCP Configurations to slop-mcp
 
-Read existing Claude Code MCP server configurations and register them with slop-mcp.
+讀取現有 Claude Code MCP 服務器配置並以 slop-mcp 注冊之。
 
 ## Steps
 
-1. Read the user's existing MCP configuration. Check these locations:
+1. 讀取用戶現有 MCP 配置，檢查以下位置：
    - Claude Desktop: `~/.config/claude/claude_desktop_config.json` (Linux) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
    - VS Code: `.vscode/mcp.json`
    - Claude Code settings: `~/.claude/settings.json`
    - Project `.mcp.json`
 
-2. Parse each `mcpServers` entry to extract name, command, args, and env.
+2. 解析每個 `mcpServers` 條目，提取 name、command、args 及 env。
 
-3. Call `manage_mcps` with `action: "list"` to check what is already registered.
+3. 以 `action: "list"` 調用 `manage_mcps`，查已注冊服務器。
 
-4. For each server not already registered, call `manage_mcps` with `action: "register"`:
+4. 對每個尚未注冊之服務器，以 `action: "register"` 調用 `manage_mcps`：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
@@ -32,15 +32,15 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
   scope: "user"
 ```
 
-5. Ask the user which scope to use:
-   - `"user"` -- saved to `~/.config/slop-mcp/config.kdl`, persists across projects
-   - `"project"` -- saved to `.slop-mcp.kdl`, persists for this project only
-   - `"memory"` -- runtime only, for testing before committing
+5. 詢問用戶選擇域：
+   - `"user"` -- 保存至 `~/.config/slop-mcp/config.kdl`，跨項目持久
+   - `"project"` -- 保存至 `.slop-mcp.kdl`，僅本項目持久
+   - `"memory"` -- 僅運行時，用於測試後確認
 
-6. Report results: which servers were migrated, which were skipped (duplicates), and any errors.
+6. 報告結果：已遷移、已跳過（重複）及任何錯誤。
 
 ## Safety
 
-- Skip servers that are already registered (match by name).
-- Report any servers that fail to register with the error message.
-- Do not modify original config files.
+- 跳過已注冊服務器（按名稱匹配）。
+- 以錯誤消息報告注冊失敗之服務器。
+- 不修改原始配置文件。

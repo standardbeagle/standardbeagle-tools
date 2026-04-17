@@ -1,11 +1,11 @@
 ---
 name: slop-skills
-description: Generate tool reference skills for slop-mcp managed MCP servers
+description: Generate markdown tool reference skill files for slop-mcp managed MCP servers. 為 slop-mcp 管理之 MCP 服務器生成工具參考技藝文件。 Use when: documenting a new MCP server, generating usage examples, creating skill files for all registered servers.
 ---
 
 # Generate MCP Skills
 
-Create tool reference skills for MCP servers managed by slop-mcp. These skills document all available tools with their parameters and usage examples.
+為 slop-mcp 管理之 MCP 服務器創建工具參考技藝，記錄所有可用工具、參數及用例。
 
 ## Steps
 
@@ -16,11 +16,11 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
   action: "list"
 ```
 
-If user specifies a server name, use that. If `--all`, generate for every server.
+若用戶指定服務器名則用之。若 `--all`，為每個服務器生成。
 
 ### 2. Get Tool Metadata
 
-For the target server, fetch all tools with full schemas:
+取目標服務器所有工具及完整 schema：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__get_metadata
@@ -30,7 +30,7 @@ mcp__plugin_slop-mcp_slop-mcp__get_metadata
 
 ### 3. Generate Skill File
 
-Create a markdown skill file at `plugins/slop-mcp/skills/<server-name>-tools.md` with this structure:
+在 `plugins/slop-mcp/skills/<server-name>-tools.md` 創建 markdown 技藝文件，結構如下：
 
 ```markdown
 ---
@@ -62,7 +62,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### 4. Report Results
 
-Tell the user which skill files were generated and where they are saved.
+告知用戶已生成哪些技藝文件及其保存位置。
 
 ## Usage
 

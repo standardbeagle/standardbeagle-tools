@@ -1,19 +1,19 @@
 ---
 name: migration-guide
-description: Guide for migrating MCP configurations to slop-mcp management
+description: Migrate MCP server configs from Claude Desktop, VS Code, Cursor, or Claude Code into slop-mcp KDL management. 將現有 MCP 配置遷移至 slop-mcp 管理之指南。 Use when: importing existing MCP servers, switching to slop-mcp, consolidating multi-client configs.
 ---
 
 # MCP to slop-mcp Migration Guide
 
-Migrate existing MCP server configurations from Claude Desktop, VS Code, or other clients to slop-mcp managed configs using KDL.
+將現有 MCP 服務器配置從 Claude Desktop、VS Code 或其他客戶端遷移至 slop-mcp 管理，以 KDL 格式存儲。
 
 ## Why Migrate to slop-mcp?
 
-1. **Unified tool discovery** -- search across all MCP servers with `search_tools`
-2. **Dynamic management** -- register and unregister servers at runtime without restarting Claude Code
-3. **SLOP scripting** -- automate multi-tool workflows with the SLOP language via `run_slop`
-4. **Scope control** -- user-level, project-level, or memory-only configurations
-5. **KDL config** -- cleaner config format than scattered JSON files
+1. **統一工具發現** -- 以 `search_tools` 跨所有 MCP 服務器搜索
+2. **動態管理** -- 運行時注冊卸載服務器，無需重啟 Claude Code
+3. **SLOP 腳本** -- 以 SLOP 語言通過 `run_slop` 自動化多工具工作流
+4. **域控制** -- 用戶級、項目級或僅內存配置
+5. **KDL 配置** -- 比散落 JSON 文件更整潔之格式
 
 ## Migration Sources
 
@@ -53,7 +53,7 @@ Location: `~/.cursor/mcp.json`
 
 ### Step 1: Check Current State
 
-Call `manage_mcps` to see what is already registered:
+調用 `manage_mcps` 查看已注冊服務器：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
@@ -62,11 +62,11 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 
 ### Step 2: Read Source Config
 
-Read the source configuration file (e.g., Claude Desktop config) and parse each `mcpServers` entry.
+讀取源配置文件（如 Claude Desktop config），解析各 `mcpServers` 條目。
 
 ### Step 3: Register Each Server
 
-For each server in the source config, call `manage_mcps` with `action: "register"`:
+對源配置中每個服務器，以 `action: "register"` 調用 `manage_mcps`：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
@@ -81,9 +81,9 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 
 ### Step 4: Choose Scope
 
-- **user** -- `~/.config/slop-mcp/config.kdl` -- use for servers you want everywhere
-- **project** -- `.slop-mcp.kdl` -- use for project-specific servers
-- **memory** -- test first before persisting
+- **user** -- `~/.config/slop-mcp/config.kdl` -- 全處可用
+- **project** -- `.slop-mcp.kdl` -- 僅限本項目
+- **memory** -- 先測試再持久化
 
 ### Step 5: Verify
 
@@ -92,7 +92,7 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
   action: "list"
 ```
 
-Check all servers appear and are connected.
+確認所有服務器出現且已連接。
 
 ### Step 6: Test a Tool
 
@@ -110,7 +110,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ## KDL Config Format
 
-After migration with `scope: "user"`, your `~/.config/slop-mcp/config.kdl` will look like:
+以 `scope: "user"` 遷移後，`~/.config/slop-mcp/config.kdl` 如下：
 
 ```kdl
 mcp "filesystem" {
@@ -135,19 +135,19 @@ mcp "github" {
 ## Troubleshooting
 
 ### Server Won't Connect
-- Verify the command exists: `which npx`
-- Try running the command directly in a terminal
-- Check `manage_mcps` with `action: "status"` and the server name
+- 驗證命令存在：`which npx`
+- 在終端直接運行命令試之
+- 以 `action: "status"` 及服務器名調用 `manage_mcps`
 
 ### Duplicate Server Name
-- `manage_mcps` will reject a registration if the name already exists
-- Use `action: "unregister"` first, then re-register
+- 若名稱已存在，`manage_mcps` 拒絕注冊
+- 先用 `action: "unregister"` 卸載，再重新注冊
 
 ### Environment Variables
-- Pass env vars in the `env` parameter when registering
-- For secrets, set them in your shell environment and reference them in KDL config
+- 注冊時在 `env` 參數中傳入環境變量
+- 密鑰在 shell 環境中設置，KDL 配置中引用
 
 ### Rollback
-- Unregister servers: `manage_mcps` with `action: "unregister"` and the server name
-- Delete KDL config file to remove all persistent registrations
-- Original config files are never modified
+- 卸載服務器：以 `action: "unregister"` 及服務器名調用 `manage_mcps`
+- 刪除 KDL 配置文件以移除所有持久注冊
+- 原始配置文件永不修改

@@ -1,11 +1,11 @@
 ---
 name: scripting
-description: SLOP scripting language guide for automating MCP tool workflows
+description: SLOP scripting language for automating multi-MCP tool workflows via run_slop. SLOP 腳本語言指南，自動化跨 MCP 服務器工作流。 Use when: writing inline scripts, running .slop files, chaining MCP tool calls, exploring built-in functions.
 ---
 
 # SLOP Scripting Guide
 
-The SLOP language lets you automate multi-tool workflows across all registered MCP servers. Scripts run via the `run_slop` tool and have access to every registered MCP.
+SLOP 語言令多工具工作流跨所有已注冊 MCP 服務器自動化。腳本經 `run_slop` 工具運行，可訪問每個已注冊 MCP。
 
 ## Running Scripts
 
@@ -25,11 +25,11 @@ mcp__plugin_slop-mcp_slop-mcp__run_slop
 
 ## SLOP Language Basics
 
-SLOP is a scripting language with built-in functions for data manipulation, string processing, and MCP tool execution.
+SLOP 為腳本語言，內置數據操作、字串處理及 MCP 工具執行函數。
 
 ### Exploring Built-in Functions
 
-List function categories:
+列函數類別：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__slop_reference
@@ -38,7 +38,7 @@ mcp__plugin_slop-mcp_slop-mcp__slop_reference
 
 Categories: math, string, list, map, random, type, json, regex, time, encoding, functional, crypto, slop.
 
-Search for functions:
+搜索函數：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__slop_reference
@@ -46,7 +46,7 @@ mcp__plugin_slop-mcp_slop-mcp__slop_reference
   verbose: true
 ```
 
-Get details for a specific function:
+取單個函數詳情：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__slop_help
@@ -55,7 +55,7 @@ mcp__plugin_slop-mcp_slop-mcp__slop_help
 
 ### Calling MCP Tools from SLOP
 
-SLOP scripts can call any tool on any registered MCP server. The exact syntax depends on how tools are exposed in the SLOP runtime. Use `slop_reference` with `category: "slop"` to find the MCP integration functions:
+SLOP 腳本可調用任何已注冊 MCP 服務器上的任何工具。確切語法取決於 SLOP 運行時中工具的暴露方式。用 `slop_reference` 加 `category: "slop"` 查 MCP 集成函數：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__slop_reference
@@ -95,14 +95,14 @@ json_stringify(sorted)
 
 ## Built-in Function Reference
 
-Use these tools to explore the full standard library:
+以下工具探索完整標準庫：
 
 | Tool | Purpose |
 |------|---------|
-| `slop_reference` with `list_categories: true` | See all function categories |
-| `slop_reference` with `query: "..."` | Search functions by name/description |
-| `slop_reference` with `category: "string"` | List functions in a category |
-| `slop_help` with `name: "fn_name"` | Full docs for one function |
+| `slop_reference` with `list_categories: true` | 查所有函數類別 |
+| `slop_reference` with `query: "..."` | 按名稱/描述搜索函數 |
+| `slop_reference` with `category: "string"` | 列某類別函數 |
+| `slop_help` with `name: "fn_name"` | 單個函數完整文檔 |
 
 ### Common Categories
 
@@ -117,14 +117,14 @@ Use these tools to explore the full standard library:
 
 ## Script Files
 
-Save scripts as `.slop` files and run them with `run_slop`:
+存腳本為 `.slop` 文件，以 `run_slop` 運行：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__run_slop
   file_path: "./scripts/my-workflow.slop"
 ```
 
-The script's final expression value is returned as the result.
+腳本最終表達式值作為結果返回。
 
 ## Practical Patterns
 
@@ -149,7 +149,7 @@ tools.call("filesystem", "write_file", {
 
 ### Error Handling
 
-SLOP scripts should handle errors from MCP tool calls. Check the SLOP reference for error handling constructs:
+SLOP 腳本應處理 MCP 工具調用錯誤。查 SLOP 參考中錯誤處理構造：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__slop_reference

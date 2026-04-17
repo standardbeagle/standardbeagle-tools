@@ -1,11 +1,11 @@
 ---
 name: slop-search
-description: Search tools across all slop-mcp managed MCP servers
+description: Search tools across all slop-mcp registered MCP servers by keyword query. 跨所有已注冊 MCP 服務器搜索工具。 Use when: finding the right tool for a task, exploring available capabilities, filtering by server.
 ---
 
 # Search MCP Tools
 
-Search across all registered MCP servers for tools matching a query.
+跨所有已注冊 MCP 服務器搜索匹配查詢之工具。
 
 ## Tool Call
 
@@ -19,14 +19,14 @@ mcp__plugin_slop-mcp_slop-mcp__search_tools
 
 ## Steps
 
-1. Ask the user what they are looking for if not provided as an argument.
-2. Call `search_tools` with the query.
-3. Present results showing tool name, server, and description.
-4. If results are paginated (has_more is true), offer to load more.
+1. 若未作為參數提供，詢問用戶所需。
+2. 以查詢調用 `search_tools`。
+3. 展示結果，含工具名、服務器及描述。
+4. 若結果分頁（has_more 為 true），提示加載更多。
 
 ## Getting Full Tool Details
 
-For detailed schema of a specific tool:
+取特定工具詳細 schema：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__get_metadata
@@ -37,5 +37,5 @@ mcp__plugin_slop-mcp_slop-mcp__get_metadata
 
 ## Related Commands
 
-- `/slop-exec` -- execute a found tool
-- `/slop-list` -- see all registered servers
+- `/slop-exec` -- 執行已找到之工具
+- `/slop-list` -- 查所有已注冊服務器

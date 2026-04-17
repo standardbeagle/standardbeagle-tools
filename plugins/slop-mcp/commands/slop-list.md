@@ -1,11 +1,11 @@
 ---
 name: slop-list
-description: List all MCP servers managed by slop-mcp
+description: List all registered slop-mcp MCP servers with connection status and available tools. 列所有已注冊 slop-mcp 服務器，含連接狀態與可用工具。 Use when: checking what servers are registered, verifying connection health, getting an overview before tool search.
 ---
 
 # List slop-mcp Servers
 
-Display all registered MCP servers and their status.
+顯示所有已注冊 MCP 服務器及其狀態。
 
 ## Tool Call
 
@@ -14,7 +14,7 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
   action: "list"
 ```
 
-For detailed info about a specific server:
+取特定服務器詳細信息：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
@@ -24,13 +24,13 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 
 ## Displaying Results
 
-Present the server list in a clear format showing:
-- Server name
-- Connection status
-- Transport type (command/sse/streamable)
-- Command or URL
+以清晰格式呈現服務器列表，顯示：
+- 服務器名
+- 連接狀態
+- 傳輸類型（command/sse/streamable）
+- 命令或 URL
 
-For each connected server, optionally call `get_metadata` to show available tools:
+對每個已連接服務器，可選調用 `get_metadata` 顯示可用工具：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__get_metadata
@@ -39,6 +39,6 @@ mcp__plugin_slop-mcp_slop-mcp__get_metadata
 
 ## Related Commands
 
-- `/slop-add` -- register a new server
-- `/slop-search` -- search tools across all servers
-- `/slop-exec` -- execute a tool on a server
+- `/slop-add` -- 注冊新服務器
+- `/slop-search` -- 跨所有服務器搜索工具
+- `/slop-exec` -- 在服務器執行工具

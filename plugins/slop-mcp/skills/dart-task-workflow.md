@@ -1,11 +1,11 @@
 ---
 name: dart-task-workflow
-description: Common Dart task workflows - fetching, updating, and completing tasks through SLOP
+description: Step-by-step Dart task workflows via SLOP: fetch, update, complete, create, block. Dart 任務常用工作流，以 SLOP 操作。 Use when: getting active tasks, completing a task, creating subtasks, daily standup review, blocking/unblocking tasks.
 ---
 
 # Dart Task Workflows
 
-Step-by-step workflows for common Dart task operations using SLOP.
+以 SLOP 操作 Dart 任務之逐步工作流。
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Step-by-step workflows for common Dart task operations using SLOP.
 
 ## Workflow 1: Get Active Tasks for a Dartboard
 
-Fetch incomplete tasks from a specific project.
+從特定項目取未完成任務。
 
 ### Step 1: Get Tasks
 
@@ -32,7 +32,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### Step 2: Filter by Status (Optional)
 
-Add status filter for specific workflow stages:
+按特定工作流階段添加狀態過濾：
 
 ```
 parameters: {
@@ -47,7 +47,7 @@ parameters: {
 
 ## Workflow 2: Execute and Complete a Task
 
-Full workflow from fetching task details to marking complete.
+從取任務詳情至標記完成之完整流程。
 
 ### Step 1: Get Full Task Details
 
@@ -75,7 +75,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### Step 3: (Do the work)
 
-Execute the task requirements...
+執行任務要求...
 
 ### Step 4: Mark Task Complete
 
@@ -110,7 +110,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ## Workflow 3: Create a New Task with Subtasks
 
-Create a parent task and its subtasks.
+創建父任務及其子任務。
 
 ### Step 1: Create Parent Task
 
@@ -129,7 +129,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
   }
 ```
 
-Save the returned `id` as `PARENT_ID`.
+保存返回之 `id` 為 `PARENT_ID`。
 
 ### Step 2: Create Subtasks
 
@@ -175,7 +175,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ## Workflow 4: Daily Standup Review
 
-Get your assigned tasks and recent activity.
+取已分配任務及近期活動。
 
 ### Step 1: Get Your Active Tasks
 
@@ -268,7 +268,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 
 ### Finding Dartboard Names
 
-If you don't know the exact dartboard name, use `get_config`:
+若不知確切面板名，用 `get_config`：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -277,20 +277,20 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
   parameters: {}
 ```
 
-Look for `dartboards` array in response.
+在回應中查 `dartboards` 數組。
 
 ### Status Values
 
-Common status values (check `get_config` for your workspace):
-- `To-do` - Not started
-- `In Progress` - Currently working
-- `In Review` - Awaiting review
-- `Blocked` - Cannot proceed
-- `Done` - Completed
+常見狀態值（以 `get_config` 確認工作區之值）：
+- `To-do` - 未開始
+- `In Progress` - 進行中
+- `In Review` - 待審查
+- `Blocked` - 無法繼續
+- `Done` - 已完成
 
 ### Priority Values
 
-- `Critical` - Immediate attention
-- `High` - Important
-- `Medium` - Normal priority
-- `Low` - When time permits
+- `Critical` - 需立即處理
+- `High` - 重要
+- `Medium` - 正常優先級
+- `Low` - 有空時處理

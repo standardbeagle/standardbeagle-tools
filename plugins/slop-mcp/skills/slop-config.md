@@ -1,20 +1,20 @@
 ---
 name: slop-config
-description: slop-mcp configuration reference using KDL format
+description: KDL config reference for slop-mcp scopes, manage_mcps params, auth, metadata. 配置格式、範圍、認證、元數據之參考。 Use when: registering servers, inspecting auth, understanding KDL format, checking scope behavior.
 ---
 
 # slop-mcp Configuration Reference
 
-slop-mcp stores persistent configuration in KDL format at two scopes.
+slop-mcp 以 KDL 格式存持久配置，分兩域。
 
 ## Config File Locations
 
 | Scope | File | Purpose |
 |-------|------|---------|
-| User | `~/.config/slop-mcp/config.kdl` | Applies to all projects |
-| Project | `.slop-mcp.kdl` (project root) | Applies to this project only |
+| User | `~/.config/slop-mcp/config.kdl` | 通用於所有項目 |
+| Project | `.slop-mcp.kdl` (project root) | 僅限本項目 |
 
-Project-scope configs are loaded in addition to user-scope. If the same MCP name appears in both, project scope takes precedence.
+項目域配置疊加用戶域。同名 MCP 服務器，項目域優先。
 
 ## KDL Config Format
 
@@ -71,7 +71,7 @@ mcp "evolving-server" dynamic=true {
 
 ## manage_mcps Parameters
 
-The `manage_mcps` tool is the programmatic interface for managing servers.
+`manage_mcps` 工具為服務器管理程序接口。
 
 ### Register
 
@@ -122,7 +122,7 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 
 ## Authentication
 
-For MCP servers that require OAuth:
+OAuth 所需服務器，執行登錄：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__auth_mcp
@@ -130,7 +130,7 @@ mcp__plugin_slop-mcp_slop-mcp__auth_mcp
   name: "server-name"
 ```
 
-Check auth status:
+查驗認證狀態：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__auth_mcp
@@ -138,7 +138,7 @@ mcp__plugin_slop-mcp_slop-mcp__auth_mcp
   name: "server-name"
 ```
 
-List all authenticated servers:
+列所有已認證服務器：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__auth_mcp
@@ -147,7 +147,7 @@ mcp__plugin_slop-mcp_slop-mcp__auth_mcp
 
 ## Metadata Inspection
 
-Get tool metadata for a server:
+取服務器工具元數據：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__get_metadata
@@ -159,8 +159,8 @@ mcp__plugin_slop-mcp_slop-mcp__get_metadata
 
 ## Scope Behavior
 
-- **memory**: Server exists only for the current slop-mcp session. Good for testing.
-- **user**: Written to `~/.config/slop-mcp/config.kdl`. Survives restarts. Available in all projects.
-- **project**: Written to `.slop-mcp.kdl` in the current working directory. Survives restarts. Available only in this project.
+- **memory**: 僅存當次 slop-mcp 會話，宜用於測試。
+- **user**: 寫入 `~/.config/slop-mcp/config.kdl`，重啟存，全項目可用。
+- **project**: 寫入當前目錄之 `.slop-mcp.kdl`，重啟存，僅本項目可用。
 
-Servers from all scopes are merged at startup. Use `manage_mcps` with `action: "list"` to see the combined result.
+啟動時三域合併。用 `manage_mcps` `action: "list"` 觀合併結果。
