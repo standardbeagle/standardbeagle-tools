@@ -60,6 +60,7 @@ All `.md` files matching any of:
 - `plugins/*/skills/**/*.md`
 - `plugins/*/agents/**/*.md`
 - `plugins/*/commands/**/*.md`
+- `plugins/*/rules/**/*.md` (internal role/pattern prose consumed by agents; present in `workflow` and `dartai`)
 
 Across all 15 plugins (confirmed by `ls plugins/` on 2026-04-16):
 `agnt`, `dart-query`, `dartai`, `dev-standards`, `figma-query`, `lci`,
@@ -69,7 +70,15 @@ Across all 15 plugins (confirmed by `ls plugins/` on 2026-04-16):
 The `tools` plugin referenced in this repo's `CLAUDE.md` is not present in
 the working tree and is out of scope.
 
-Estimated file count: ~327 `.md` files (`find plugins -type f -name "*.md"`).
+Estimated file count: ~327 `.md` files total under `plugins/`, of which the
+plan phase will identify the precise in-scope subset by running:
+
+```
+find plugins -type f -name "*.md" \
+  \( -path "*/skills/*" -o -path "*/agents/*" \
+     -o -path "*/commands/*" -o -path "*/rules/*" \) \
+  ! -path "*/assets/*" ! -name "README.md" ! -name "CHANGELOG.md" ! -name "CLAUDE.md"
+```
 
 ### Explicitly excluded
 
@@ -84,6 +93,7 @@ Estimated file count: ~327 `.md` files (`find plugins -type f -name "*.md"`).
 | `plugins/*/mcp.json`, `mcp.json.disabled` | JSON manifest |
 | `plugins/*/hooks/hooks.json` | JSON manifest |
 | Any file under `plugins/*/scripts/` | Hook scripts |
+| Any file under `plugins/*/assets/templates/` | Skill/rule templates copied verbatim to user projects (must stay English per user expectation) |
 
 ### Content carve-outs inside in-scope files
 
