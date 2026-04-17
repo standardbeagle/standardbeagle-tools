@@ -1,11 +1,11 @@
 ---
 name: simple-planning
-description: Create minimal, focused task plans using adversarial discipline - no over-engineering allowed
+description: Create minimal, focused task plans using adversarial discipline - no over-engineering allowed. 對抗紀律下創建最小聚焦任務計劃，禁止過度工程。 Use when: plan a task, create task plan, break down feature, scope a change, planning before coding
 ---
 
 # Simple Planning Skill (Adversarial Cooperation)
 
-Create minimal task plans that deliver exactly what's requested - nothing more.
+創建最小任務計劃，精確交付所請——不多不少。
 
 ## Planning Philosophy
 
@@ -205,7 +205,7 @@ unbounded_scope:
 
 ## Request Complexity Classification
 
-Before planning, classify the request to set appropriate validation depth.
+計劃前，分類請求以設定適當驗證深度。
 
 ```yaml
 complexity_tiers:
@@ -336,11 +336,11 @@ classify:
 
 ### Step 0.7: Invoke grill-task (after tier classification)
 
-If the tier from Step 0.5 is `minimal`, skip this step — the minimal-tier gate in `dev-standards:grill-task` would skip anyway.
+若Step 0.5之層級為`minimal`，跳過此步——`dev-standards:grill-task`中的minimal層門控亦會跳過。
 
-Otherwise, invoke `dev-standards:grill-task` with the raw request and the calling context. The skill runs a planning-time quality review (directness, problem/solution fit, testability, overengineering guard, solution depth) and returns a `task_spec` and any `backflow_writes`. The `task_spec` replaces steps that follow (Steps 1, 2, and 3 are folded into the grilled spec). Proceed directly to Step 2.5 (Refactor-First Assessment) once grill-task returns.
+否則，以原始請求及調用上下文調用`dev-standards:grill-task`。該技能運行計劃時品質審查（直接性、問題/解決方案適配、可測試性、過度工程防護、解決方案深度），返回`task_spec`及任何`backflow_writes`。`task_spec`替代後續步驟（步驟1、2、3折入審查規格）。grill-task返回後直接進行Step 2.5（重構優先評估）。
 
-If grill-task returns `verdict: TOO_LARGE_TO_GRILL`, escalate immediately: report to the user that the task must be split, do not continue planning.
+若grill-task返回`verdict: TOO_LARGE_TO_GRILL`，立即上報：告知用戶任務必須拆分，不繼續計劃。
 
 ### Step 1: Capture Request (30 seconds)
 
@@ -369,9 +369,9 @@ define:
 
 ### Step 2.5: Refactor-First Assessment (1 minute)
 
-Invoke `dev-standards:refactor-first-assessment`. It consumes the grilled task spec and decides whether to insert preparatory refactor steps before implementation. The four checks (natural extension, naming fit, co-location, friction) live in that skill — do not duplicate them here.
+調用`dev-standards:refactor-first-assessment`。消費審查任務規格，決定是否在實施前插入準備重構步驟。四項檢查（自然擴展、命名適配、共同定位、摩擦）在該技能中——勿在此重複。
 
-If the skill returns "sign off", proceed to Step 3. If it returns one or more refactor steps, insert them into the plan before Step 4 (List Steps), in the order: extract/move → rename → reduce friction.
+若技能返回"sign off"，進行Step 3。若返回一個或多個重構步驟，在Step 4（列步驟）之前按順序插入：提取/移動 → 重命名 → 減少摩擦。
 
 ### Step 3: Identify Files (1 minute)
 
@@ -437,7 +437,7 @@ exclusions:
 
 ## Context-Sized Task Validation
 
-Before accepting a plan, verify:
+接受計劃前，驗證：
 
 ```yaml
 size_check:
@@ -457,7 +457,7 @@ size_check:
 
 ## Plan Adjustment Protocol
 
-Plans adjust automatically during execution - no stopping for approval:
+計劃執行中自動調整——無需停止請求批准：
 
 ```yaml
 adjustment_triggers:
@@ -568,7 +568,7 @@ steps:
 
 ## Self-Verification Checklist
 
-Before finalizing plan, verify:
+計劃定稿前，驗證：
 
 ```yaml
 checklist:
@@ -622,7 +622,7 @@ checklist:
 
 ## Adversarial Plan Validation
 
-After creating a plan, validate it adversarially. Validation depth matches the complexity tier from Step 0.
+計劃創建後，對抗性驗證。驗證深度匹配Step 0之複雜度層級。
 
 ### Validation Categories
 
@@ -837,14 +837,15 @@ split_action: "Create separate Dart tasks for each deliverable"
 
 ## Deep Plan Validation
 
-For **comprehensive** and **architectural** tier tasks, invoke the **adversarial-planning-loop** skill. It is a thin orchestration layer that:
+對**comprehensive**及**architectural**層級任務，調用**adversarial-planning-loop**技能。
 
-1. Invokes `dev-standards:grill-task` to produce a grilled task spec
-2. Invokes `dev-standards:refactor-first-assessment` to insert preparatory refactor steps
-3. Validates the plan is context-sized (max 5 files, max 7 steps)
-4. Optionally invokes `dev-standards:review-for-plan-updates` for plan-level review
+> Invoke the `Skill` tool with `skill: dartai:adversarial-planning-loop` — 對抗規劃環，薄協調層：
+> 1. 調用`dev-standards:grill-task`生成審查任務規格
+> 2. 調用`dev-standards:refactor-first-assessment`插入準備重構步驟
+> 3. 驗證計劃上下文大小（最多5文件，最多7步驟）
+> 4. 可選調用`dev-standards:review-for-plan-updates`進行計劃層審查
 
-The full adversarial quality loop (`dartai:adversarial-quality-loop`) is reserved for implementation-time verification only.
+完整對抗品質環（`dartai:adversarial-quality-loop`）僅用於實施時驗證。
 
 ---
 

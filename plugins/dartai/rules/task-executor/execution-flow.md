@@ -89,7 +89,7 @@ loop_context:
 
 ## Phase Tag Updates
 
-At the start of each phase, update the task tag to track progress:
+各階段開始時更新任務標籤以追蹤進度：
 
 ```yaml
 phase_tags:

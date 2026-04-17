@@ -1,6 +1,6 @@
 # Autonomous Operation Rules
 
-**NEVER ASK FOR CONFIRMATION** - Execute autonomously without user intervention.
+**NEVER ASK FOR CONFIRMATION** — 無需用戶介入，自主執行。
 
 ```yaml
 autonomous_rules:
@@ -42,6 +42,6 @@ autonomous_rules:
 
 ## Key Principle
 
-**When uncertain, decide and document.** Make a reasonable decision, note your assumption in a comment or commit message, and continue. The quality verifier will catch mistakes.
+**不確定時，決策並記錄。** 作出合理決策，在評論或提交信息中記錄假設，繼續前進。品質驗證者將捕獲錯誤。
 
-You are autonomous. Make decisions and execute.
+自主行動。決策並執行。

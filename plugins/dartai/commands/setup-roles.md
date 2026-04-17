@@ -1,12 +1,12 @@
 ---
 name: setup-roles
-description: Configure project-specific DartAI role rules
+description: Configure project-specific DartAI role rules. 配置項目特定DartAI角色規則。 Use when: customize dartai roles, override execution rules, configure quality thresholds, setup project rules, role customization
 argument-hint: "[role-name]"
 ---
 
 # Setup DartAI Role Rules
 
-Configure project-specific rules for DartAI roles. This allows customization of the adversarial cooperation behavior per project.
+配置DartAI角色的項目特定規則。允許按項目定制對抗合作行為。
 
 ## Usage
 
@@ -22,9 +22,9 @@ Configure project-specific rules for DartAI roles. This allows customization of 
 
 ## How It Works
 
-1. **Checks for existing rules** at `.dartai/rules/`
-2. **Asks customization questions** for each role
-3. **Creates project-specific rule files** that override defaults
+1. **檢查現有規則**位於`.dartai/rules/`
+2. **為每個角色提問定制問題**
+3. **創建覆蓋默認值的項目特定規則文件**
 
 ## Rule Override Hierarchy
 
@@ -166,6 +166,8 @@ ls -la .dartai/rules/
 
 ### Step 2: Ask Role Selection
 
+
+
 ```
 Which role do you want to customize?
 
@@ -180,7 +182,7 @@ Enter number or role name:
 
 ### Step 3: Ask Role-Specific Questions
 
-Present questions for the selected role, show defaults, accept customizations.
+為所選角色呈現問題，顯示默認值，接受定制。
 
 ### Step 4: Create Rule Files
 
@@ -206,7 +208,7 @@ This file overrides the default rules at:
 
 ### Step 5: Verify and Summarize
 
-Show what was created and how it changes behavior:
+顯示已創建內容及行為變化：
 
 ```
 ✅ Created .dartai/rules/task-executor/execution-flow.md
@@ -306,3 +308,4 @@ rm -rf .dartai/rules/
 # Or remove specific role rules
 rm .dartai/rules/task-executor/*.md
 ```
+

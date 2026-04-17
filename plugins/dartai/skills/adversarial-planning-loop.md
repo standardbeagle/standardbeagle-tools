@@ -1,47 +1,47 @@
 ---
 name: adversarial-planning-loop
-description: Adversarial cooperation loop for plan validation ensuring complete hierarchy with research tasks, while preventing over-design
+description: Adversarial cooperation loop for plan validation - complete hierarchy with research tasks, preventing over-design. 對抗規劃環：驗證計劃完整性，含研究任務，防過度設計。 Use when: validate plan, build task hierarchy, planning loop, refactor-first assessment, prevent scope creep
 ---
 
 # Adversarial Planning Loop (Ralph Wiggum Pattern)
 
-A continuous planning refinement loop where a planner and challenger cooperate adversarially to ensure plans are complete, actionable, and minimal.
+規劃者與挑戰者對抗合作之持續精化環，確保計劃完整、可行、最小。
 
 ## Core Principles
 
-Planning discipline lives in the project's rule files — do not duplicate it here:
+規劃紀律存於項目規則文件——勿在此重複：
 
 - `.claude/rules/karpathy-principles.md` — goal-driven execution, push back, verify, no scope creep
 - `.claude/rules/refactor-discipline.md` — A/B/C refactor rule
 - `.claude/rules/code-quality.md` — code quality standards
 - `.claude/rules/testing.md` — testing and TDD standards
 
-When operational detail is needed, invoke the skill referenced by the rule (e.g., `dev-standards:grill-task`, `dev-standards:refactor-first-assessment`, `dev-standards:review-for-plan-updates`) via the `Skill` tool. Do not act on rule content alone.
+需操作細節時，以`Skill`工具調用規則所引用技能（如`dev-standards:grill-task`、`dev-standards:refactor-first-assessment`、`dev-standards:review-for-plan-updates`）。勿僅憑規則內容行事。
 
 ## Planning Process
 
 ### Step 1: Grill the Task
 
-Invoke `dev-standards:grill-task` with the raw request.
+> Invoke the `Skill` tool with `skill: dev-standards:grill-task` — 以原始請求作為輸入。
 
-- If it returns `verdict: OK`, use the `task_spec` as the planning input.
-- If it returns `verdict: TOO_LARGE_TO_GRILL`, stop planning and report that the task must be split.
-- If it returns `verdict: ABORTED`, stop and return.
+- 返回`verdict: OK`：以`task_spec`為規劃輸入。
+- 返回`verdict: TOO_LARGE_TO_GRILL`：停止規劃，報告須拆分。
+- 返回`verdict: ABORTED`：停止並返回。
 
-`grill-task` includes a **planning-time quality review** (directness, problem/solution fit, testability, overengineering guard, solution depth) before returning the spec. Do not duplicate that review here.
+`grill-task`含**規劃時品質審查**（直接性、問題/方案適配、可測試性、過度工程防護、方案深度）後返回規格。勿在此重複該審查。
 
-Commit any `backflow_writes` from the grill before proceeding.
+繼續前提交grill返回的所有`backflow_writes`。
 
 ### Step 2: Refactor-First Assessment
 
-Invoke `dev-standards:refactor-first-assessment` with the grilled `task_spec`.
+> Invoke the `Skill` tool with `skill: dev-standards:refactor-first-assessment` — 以已審查的`task_spec`作為輸入。
 
-- If it returns "sign off", proceed to Step 3.
-- If it returns refactor steps, insert them into the plan before implementation steps.
+- 返回「sign off」：進入Step 3。
+- 返回重構步驟：在實現步驟前插入計劃。
 
 ### Step 3: Build Task Hierarchy
 
-Create the minimal plan:
+創建最小計劃：
 
 ```yaml
 plan:
@@ -66,16 +66,16 @@ plan:
     - "Explicitly list what we won't do"
 ```
 
-**Validation rules:**
-- Every task is context-sized: max 5 files, max 7 steps
-- Every acceptance criterion has a task
-- Every unknown has a research/spike task before implementation
-- Research tasks come BEFORE dependent implementation tasks
-- Implement full vertical slices, not horizontal layers
+**驗證規則：**
+- 每任務上下文大小：最多5文件，最多7步驟
+- 每個驗收標準有對應任務
+- 每個未知有研究/探究任務在實現前
+- 研究任務在依賴實現任務**之前**
+- 按完整縱向切片實現，非橫向分層
 
 ### Step 4: Context-Sized Task Validation
 
-Verify constraints:
+驗證約束：
 
 ```yaml
 size_check:
@@ -89,7 +89,7 @@ size_check:
 
 ### Step 5: Review for Plan Updates (comprehensive/architectural only)
 
-For comprehensive and architectural tier tasks, invoke `dev-standards:review-for-plan-updates` on the proposed plan. Persist any returned proposals for the planner to evaluate at the next planning cycle.
+對於comprehensive及architectural層級任務，以提議計劃調用`dev-standards:review-for-plan-updates`。持久化返回的提案供規劃者在下一規劃週期評估。
 
 ## Plan Output Format
 
@@ -155,12 +155,12 @@ plan_adjustment_rules:
 
 ## Integration with Task Execution
 
-After planning completes:
+規劃完成後：
 
-1. **Research tasks execute first** via standard task pipeline
-2. **Research outputs inform implementation tasks** — adjust as needed
-3. **Implementation follows the grilled spec** — the full adversarial quality loop is reserved for implementation-time verification
-4. **Plan adjusts based on discoveries** — this is normal, not failure
+1. **研究任務先執行**，經標準任務管道
+2. **研究輸出指導實現任務**——按需調整
+3. **實現遵循已審查規格**——完整對抗品質環保留用於實現時驗證
+4. **計劃依發現調整**——此為正常，非失敗
 
 ```yaml
 plan_to_execution:

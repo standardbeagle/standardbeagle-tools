@@ -1,11 +1,11 @@
 ---
 name: dartai-config
-description: Configure dartai settings for the current project
+description: Configure dartai settings for the current project. 配置當前項目的dartai設置。 Use when: configure dartai, set default dartboard, setup quality pipeline settings, configure runner identity, dartai project setup
 ---
 
 # Configure DartAI
 
-Set up project-specific configuration for the dartai plugin.
+設置dartai插件的項目特定配置。
 
 ## Process
 
@@ -123,7 +123,7 @@ Add any project-specific notes here. This content is preserved when settings are
 
 ### 4. Add to .gitignore
 
-Ensure `.dartai/config.local.md` is in `.gitignore`:
+確保`.dartai/config.local.md`在`.gitignore`中：
 ```
 .dartai/*.local.md
 ```
@@ -136,6 +136,6 @@ Ensure `.dartai/config.local.md` is in `.gitignore`:
 
 ## Configuration File Location
 
-Config is stored at: `.dartai/config.local.md`
+配置存儲於：`.dartai/config.local.md`
 
-This file is local and should not be committed (add to .gitignore).
+此文件為本地文件，不應提交（添加至.gitignore）。

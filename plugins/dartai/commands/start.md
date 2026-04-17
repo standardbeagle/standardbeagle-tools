@@ -1,19 +1,19 @@
 ---
 name: start
-description: Start the Ralph Wiggum adversarial cooperation loop on a dartboard with plan adjustment
+description: Start the Ralph Wiggum adversarial cooperation loop on a dartboard with plan adjustment. 在看板上啟動Ralph Wiggum對抗合作循環，含計劃調整。 Use when: start execution loop, run dartboard tasks, begin adversarial loop, automate task execution, process task queue
 argument-hint: "[dartboard-name]"
 ---
 
 # Start Ralph Wiggum Adversarial Loop
 
-Start the continuous task execution loop that processes tasks from a Dart dartboard using adversarial cooperation patterns with plan adjustment at each phase.
+啟動持續任務執行循環，以對抗合作模式處理Dart看板任務，各階段含計劃調整。
 
 ## Adversarial Cooperation Model
 
-This loop uses adversarial cooperation where:
-- **Implementer role**: Executes tasks following positive/negative instructions
-- **Verifier role**: Challenges implementations to find flaws
-- **Plan adjuster**: Updates tasks based on discoveries at each phase
+此循環使用對抗合作：
+- **Implementer role**: 遵循正面/負面指令執行任務
+- **Verifier role**: 挑戰實現以發現缺陷
+- **Plan adjuster**: 依各階段發現更新任務
 
 ## Process
 
@@ -894,11 +894,11 @@ context_sized_task:
 
 ## Stopping the Loop
 
-Say any of:
+說任意一個：
 - "stop the loop"
 - "cancel ralph wiggum"
 - "pause execution"
 - "/dartai:stop"
 
-Or for immediate stop on security:
-- "security critical" (when critical vulnerability found)
+或安全問題立即停止：
+- "security critical"（發現關鍵漏洞時）

@@ -1,33 +1,33 @@
 ---
 name: sync
-description: Synchronize local work with Dart task statuses and comments
+description: Synchronize local work with Dart task statuses and comments. 同步本地工作與Dart任務狀態及評論。 Use when: sync dart tasks, update task status, commit progress to dart, post completion comments, sync changes
 argument-hint: "[--force]"
 ---
 
 # Sync with Dart
 
-Synchronize local work progress with Dart, updating task statuses and adding completion comments.
+同步本地工作進度至Dart，更新任務狀態並添加完成評論。
 
 ## Process
 
 ### 1. Gather Local Changes
 
-Scan for work done in current session:
-- Git commits since session start
-- Modified files
-- Test results
-- Documentation changes
+掃描當前會話完成的工作：
+- 會話開始以來的git提交
+- 已修改文件
+- 測試結果
+- 文檔更改
 
 ### 2. Match to Tasks
 
-For each change, try to match to a Dart task:
-- Look for task IDs in commit messages
-- Match file changes to task descriptions
-- Check TODO comments referencing tasks
+每個更改嘗試匹配Dart任務：
+- 在提交信息中尋找任務ID
+- 將文件更改與任務描述匹配
+- 檢查引用任務的TODO評論
 
 ### 3. Preview Updates
 
-Show proposed Dart updates:
+顯示擬議的Dart更新：
 ```
 Proposed Dart Updates
 =====================
@@ -83,6 +83,6 @@ Details:
 
 ## Notes
 
-- Sync does not create new tasks, only updates existing ones
-- Use commit messages with task IDs for better matching: `[DART-xyz123] Fix bug`
-- Sync will not change tasks marked as "Blocked" or "Cancelled"
+- 同步不創建新任務，只更新現有任務
+- 在提交信息中使用任務ID以獲得更好的匹配：`[DART-xyz123] Fix bug`
+- 同步不更改標記為"Blocked"或"Cancelled"的任務

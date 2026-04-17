@@ -1,21 +1,21 @@
 ---
 name: loop-status
-description: Show current Ralph Wiggum loop status and task progress
+description: Show current Ralph Wiggum loop status and task progress. 顯示當前Ralph Wiggum循環狀態及任務進度。 Use when: check loop status, view task queue, loop progress, is loop running, current task
 ---
 
 # Loop Status
 
-Display the current status of the Ralph Wiggum execution loop.
+顯示Ralph Wiggum執行循環當前狀態。
 
 ## Process
 
 ### 1. Check Loop State
 
-Query the current loop state from session:
-- Is loop running?
-- Current dartboard
-- Tasks in queue
-- Current task being executed
+從會話查詢當前循環狀態：
+- 循環是否運行中？
+- 當前看板
+- 隊列中任務
+- 當前執行任務
 
 ### 2. Display Status
 
@@ -57,7 +57,7 @@ To run single task: /dartai:task <task-id>
 
 ### 3. Task Details
 
-If user asks for more details on a specific task:
+用戶請求特定任務詳情時：
 ```
 Use dart-query get_task through slop-mcp to fetch full task info:
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool

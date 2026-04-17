@@ -1,12 +1,12 @@
 ---
 name: task
-description: Execute a single task through the quality pipeline
+description: Execute a single task through the quality pipeline. 通過品質管道執行單個任務。 Use when: run single task, execute dart task by id, task pipeline, implement one task, quality pipeline single task
 argument-hint: "<task-id or title>"
 ---
 
 # Execute Single Task
 
-Run the full quality pipeline on a single Dart task without starting the continuous loop.
+在不啟動持續循環的情況下，對單個Dart任務運行完整品質管道。
 
 ## Process
 
@@ -43,13 +43,13 @@ Display task details and confirm:
 
 ### 2.5. Grill Task Spec
 
-Before handing off to the task-executor agent, invoke `dev-standards:grill-task` with the task's raw description. The skill probes project context, runs tier-gated interrogation, performs a planning-time quality review (directness, problem/solution fit, testability, overengineering guard, solution depth), and returns a grilled task spec.
+移交task-executor代理前，以任務原始描述調用`dev-standards:grill-task`。技能探測項目上下文，運行層級門控審訊，執行規劃時品質審查（直接性、問題/方案適配、可測試性、過度工程防護、方案深度），並返回已審查任務規格。
 
-- Pass the `task_spec` to the task-executor agent in place of the raw description.
-- Any `backflow_writes` from the grill are committed to the project before execution starts.
-- If grill returns `verdict: TOO_LARGE_TO_GRILL`, update the Dart task status to `Blocked` with a comment recommending the split, and STOP — do not dispatch the task-executor.
+- 以`task_spec`代替原始描述傳遞給task-executor代理。
+- grill返回的所有`backflow_writes`在執行開始前提交至項目。
+- 若grill返回`verdict: TOO_LARGE_TO_GRILL`，更新Dart任務狀態為`Blocked`並添加建議拆分的評論，停止——不派發task-executor。
 
-Do NOT pre-classify tier here. Let grill-task's own tier classification decide. Minimal-tier tasks pass through grill-task unchanged, so there is no cost to routing everything through it.
+勿在此預分類層級。讓grill-task自身的層級分類決定。最小層級任務不變地通過grill-task，因此將所有任務路由通過它無額外成本。
 
 ### 3. Execute Pipeline
 
@@ -105,7 +105,7 @@ params:
 
 ### 5. Update Documentation
 
-Use doc-updater agent to update documentation:
+使用doc-updater代理更新文檔：
 
 ```yaml
 Task tool call:

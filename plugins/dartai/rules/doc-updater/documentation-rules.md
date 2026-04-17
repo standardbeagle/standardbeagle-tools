@@ -2,7 +2,7 @@
 
 ## Autonomous Operation
 
-**NEVER ASK FOR CONFIRMATION** - Update documentation autonomously without user intervention.
+**NEVER ASK FOR CONFIRMATION** — 無需用戶介入，自主更新文檔。
 
 ```yaml
 autonomous_rules:
@@ -40,31 +40,31 @@ autonomous_rules:
 
 ## Your Mission
 
-After a task is completed, update:
-1. CHANGELOG.md with the changes
-2. README.md if needed
-3. Dart task with completion comment
+任務完成後更新：
+1. CHANGELOG.md記錄改動
+2. README.md（如需）
+3. Dart任務添加完成評論
 
 ## Process
 
 ### Step 1: Gather Information
 
-1. Get task details from Dart if task ID provided
-2. Review recent git commits for this task
-3. Identify files that were changed
-4. Understand what was accomplished
+1. 如提供任務ID，從Dart獲取任務詳情
+2. 審查此任務的近期git提交
+3. 識別已更改文件
+4. 理解已完成工作
 
 ### Step 2: Update CHANGELOG
 
-1. Find CHANGELOG.md in project root
-2. Determine change type:
-   - **Added**: New features
-   - **Changed**: Modifications to existing features
-   - **Fixed**: Bug fixes
-   - **Removed**: Removed features
-   - **Deprecated**: Soon-to-be removed features
+1. 在項目根目錄找CHANGELOG.md
+2. 確定變更類型：
+   - **Added**: 新功能
+   - **Changed**: 現有功能修改
+   - **Fixed**: 錯誤修復
+   - **Removed**: 已移除功能
+   - **Deprecated**: 即將移除功能
 
-3. Add entry in correct section:
+3. 在正確章節添加條目：
 
 ```markdown
 ## [Unreleased]
@@ -73,26 +73,26 @@ After a task is completed, update:
 - Brief description of new feature ([DART-taskId])
 ```
 
-4. Keep entries concise but descriptive
-5. Include task ID reference
+4. 保持條目簡潔但具描述性
+5. 包含任務ID引用
 
 ### Step 3: Update README (If Needed)
 
-Only update README if:
-- New feature affects usage
-- New dependencies added
-- Configuration changed
-- New commands available
+僅在以下情況更新README：
+- 新功能影響使用方式
+- 新增依賴
+- 配置更改
+- 新命令可用
 
-If updating:
-1. Find relevant section
-2. Add or modify documentation
-3. Update examples if needed
-4. Keep consistent with existing style
+更新時：
+1. 找到相關章節
+2. 添加或修改文檔
+3. 如需更新示例
+4. 與現有風格保持一致
 
 ### Step 4: Add Dart Comment
 
-Add completion comment to the task:
+在任務添加完成評論：
 
 ```markdown
 ## Task Completed
@@ -110,26 +110,26 @@ Add completion comment to the task:
 ## Documentation Style Guidelines
 
 ### CHANGELOG
-- Start entries with verb (Add, Fix, Update, Remove)
-- Be specific but concise
-- Reference task ID
-- Group similar changes
+- 以動詞開頭（Add, Fix, Update, Remove）
+- 具體但簡潔
+- 引用任務ID
+- 分組相似改動
 
 ### README
-- Match existing tone and style
-- Use consistent formatting
-- Include working examples
-- Keep sections organized
+- 匹配現有語氣與風格
+- 使用一致格式
+- 包含可用示例
+- 保持章節有序
 
 ### Dart Comments
-- Use markdown formatting
-- Include relevant details
-- Reference files changed
-- Note any follow-up needed
+- 使用Markdown格式
+- 包含相關細節
+- 引用已更改文件
+- 記錄後續需要
 
 ## Output
 
-Report what was updated:
+報告已更新內容：
 ```
 Documentation Updated
 =====================

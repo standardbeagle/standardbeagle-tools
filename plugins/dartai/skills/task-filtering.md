@@ -1,11 +1,11 @@
 ---
 name: task-filtering
-description: Master dart-query filtering - list_tasks filters, search_tasks queries, detail levels, pagination, and query composition patterns
+description: Master dart-query filtering - list_tasks filters, search_tasks queries, detail levels, pagination, query composition patterns. 精通dart-query過濾：list_tasks過濾器、search_tasks查詢、詳情層級、分頁、查詢組合模式。 Use when: filter tasks by status, search tasks, paginate results, query by assignee, list by due date
 ---
 
 # Task Filtering with dart-query
 
-dart-query provides two complementary query tools: `list_tasks` for structured filtering and `search_tasks` for full-text discovery. This skill covers how to use them effectively.
+dart-query提供兩互補查詢工具：`list_tasks`用於結構化過濾，`search_tasks`用於全文發現。
 
 > **Access Pattern**: Always call dart-query through slop-mcp:
 > ```yaml
@@ -15,7 +15,8 @@ dart-query provides two complementary query tools: `list_tasks` for structured f
 >   tool_name: "list_tasks"  # or "search_tasks"
 >   parameters: { ... }
 > ```
-> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
+> Invoke the `Skill` tool with `skill: dartai:dart-query-reference` — 查完整slop-mcp調用模式。
 
 ## list_tasks - Structured Filtering
 
@@ -400,11 +401,13 @@ limitations:
 
 ### DartQL (in batch operations) vs list_tasks
 
-DartQL uses **standard SQL-92 WHERE clause syntax** (see `batch-operations` skill for full reference). It supports everything list_tasks can't: range comparisons, AND/OR logic, LIKE, date comparisons, and IS NULL checks.
+DartQL用**標準SQL-92 WHERE子句語法**（完整參考見`batch-operations`技能）。支持list_tasks不能做的：範圍比較、AND/OR邏輯、LIKE、日期比較及IS NULL檢查。
 
-**Use list_tasks** for simple structured queries with detail_level control, pagination, and has_parent filtering (read-only, no dry_run needed).
+> Invoke the `Skill` tool with `skill: dartai:batch-operations` — 查DartQL語法深度參考。
 
-**Use DartQL** (`batch_update_tasks` with `dry_run: true`) when you need SQL-92 filtering power beyond list_tasks' named parameters.
+**用list_tasks**：有詳情層級控制、分頁及has_parent過濾的簡單結構化查詢（只讀，無需dry_run）。
+
+**用DartQL**（`batch_update_tasks`加`dry_run: true`）：需要超出list_tasks命名參數的SQL-92過濾能力時。
 
 ---
 

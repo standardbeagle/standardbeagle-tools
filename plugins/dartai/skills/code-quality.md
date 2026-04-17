@@ -1,26 +1,26 @@
 ---
 name: code-quality
-description: Thin dartai-specific wrapper that routes review-for-plan-updates proposals into Dart tasks. All code quality checklist content lives in .claude/rules/code-quality.md (project) and dev-standards:review-for-plan-updates (skill).
+description: Thin dartai-specific wrapper that routes review-for-plan-updates proposals into Dart tasks. All code quality checklist content lives in .claude/rules/code-quality.md (project) and dev-standards:review-for-plan-updates (skill). dartai薄包裝器：將計劃更新提案路由至Dart任務，品質標準在項目規則文件中。 Use when: code quality review, persist refactor proposals, after quality gate, Phase 4.5
 ---
 
 # Code Quality (dartai wrapper)
 
-This skill is a **persistence wrapper only**. All review logic, trigger catalog, and proposal format live in `dev-standards:review-for-plan-updates`. Code quality standards (checklist, error handling, findability, cleanup) live in `.claude/rules/code-quality.md` — do not duplicate them here.
+此技能為**持久化包裝器**。所有審查邏輯、觸發目錄及提案格式在`dev-standards:review-for-plan-updates`中。代碼品質標準（清單、錯誤處理、可發現性、清理）在`.claude/rules/code-quality.md`中——勿在此重複。
 
 ## What this skill does
 
-1. Invokes `dev-standards:review-for-plan-updates` with the task diff
-2. For each returned proposal:
-   - Computes its fingerprint against `.claude/refactor-rejects.txt`
-   - If not rejected, creates a Dart task in the `refactor-backlog` folder with tags `origin:review`, `parent:<task-id>`, `urgency:<low|medium|high>`
-3. Returns a summary: number of proposals persisted, number skipped by reject list
+1. 以任務diff調用`dev-standards:review-for-plan-updates`
+2. 對每個返回的提案：
+   - 對照`.claude/refactor-rejects.txt`計算其指紋
+   - 若未被拒絕，在`refactor-backlog`文件夾中創建Dart任務，標記`origin:review`、`parent:<task-id>`、`urgency:<low|medium|high>`
+3. 返回摘要：持久化提案數、被拒絕列表跳過數
 
 ## What this skill does NOT do
 
-- Evaluate code quality directly — that content moved to `.claude/rules/code-quality.md` and the rule file is loaded automatically
-- Run linters — use your language-specific lint command (see `.claude/rules/testing.md`)
-- Decide whether to schedule a proposal now — that is the planner's decision at next planning cycle
-- Edit code — never, under any circumstance
+- 直接評估代碼品質——該內容已移至`.claude/rules/code-quality.md`，規則文件自動加載
+- 運行linters——使用語言特定的lint命令（見`.claude/rules/testing.md`）
+- 決定是否立即安排提案——這是計劃者在下一計劃週期的決策
+- 編輯代碼——任何情況下永不
 
 ## Invocation
 
@@ -66,11 +66,11 @@ dart_task:
 
 ## Reject list
 
-`.claude/refactor-rejects.txt` is a newline-separated list of fingerprints. Each fingerprint is `<symbol>:<trigger>`. Before persisting a proposal, compute its fingerprint and skip if present. The planner appends to this file when it rejects a proposal.
+`.claude/refactor-rejects.txt`為換行分隔的指紋列表。每個指紋為`<symbol>:<trigger>`。持久化提案前，計算其指紋，若存在則跳過。計劃者拒絕提案時追加到此文件。
 
 ## Related
 
-- `dev-standards:review-for-plan-updates` — the reviewer this wrapper calls
-- `dev-standards:grill-task` — when a proposal is later accepted, it gets grilled as a normal task
-- `.claude/rules/code-quality.md` — project-specific code quality standards
-- `.claude/rules/refactor-discipline.md` — A/B/C refactor rule
+- `dev-standards:review-for-plan-updates` — 此包裝器調用的審查者
+- `dev-standards:grill-task` — 提案被接受時，以普通任務進行審查
+- `.claude/rules/code-quality.md` — 項目特定代碼品質標準
+- `.claude/rules/refactor-discipline.md` — A/B/C重構規則

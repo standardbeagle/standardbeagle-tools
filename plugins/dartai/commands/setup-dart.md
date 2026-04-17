@@ -1,15 +1,15 @@
 ---
 name: setup-dart
-description: Set up dart-query MCP server with SLOP management and configure Dart access token
+description: Set up dart-query MCP server with SLOP management and configure Dart access token. 以SLOP管理設置dart-query MCP服務器並配置Dart訪問令牌。 Use when: setup dart, configure dart token, install dart-query, first time setup, dart mcp server
 ---
 
 # Dart Query Setup
 
-This command configures the dart-query MCP server for use with Claude Code and the dartai plugin.
+配置dart-query MCP服務器供Claude Code及dartai插件使用。
 
 ## Your Task
 
-Follow these steps to set up dart-query:
+按步驟設置dart-query：
 
 ### Step 1: Check Prerequisites
 
@@ -148,7 +148,7 @@ If dart-query tools are not available:
 
 ## Next Steps
 
-After setup:
-1. Use `/dartai-config` to configure project-specific defaults
-2. Use `/start` to begin a Ralph Wiggum adversarial loop
-3. Use `/task` to execute individual tasks
+設置後：
+1. 使用`/dartai-config`配置項目特定默認值
+2. 使用`/start`開始Ralph Wiggum對抗循環
+3. 使用`/task`執行單個任務

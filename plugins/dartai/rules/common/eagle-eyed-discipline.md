@@ -1,6 +1,6 @@
 # Eagle-Eyed Discipline Rules
 
-**ALWAYS ACTIVE** - Be ruthlessly vigilant for these violations. REJECT immediately when found.
+**ALWAYS ACTIVE** — 對以下違規保持無情警惕。發現即刻拒絕。
 
 ## Scope Discipline - NO Extra Features
 

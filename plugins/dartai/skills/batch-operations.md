@@ -1,11 +1,11 @@
 ---
 name: batch-operations
-description: Master dart-query batch operations - DartQL selectors, batch_update_tasks, batch_delete_tasks, CSV import, safety protocols
+description: Master dart-query batch operations - DartQL selectors, batch_update_tasks, batch_delete_tasks, CSV import, safety protocols. 批量操作dart-query：DartQL選擇器、批量更新刪除、CSV匯入、安全規程。 Use when: bulk update tasks, batch delete, import CSV, sprint transition, mass status change
 ---
 
 # Batch Operations with dart-query
 
-dart-query's batch operations use DartQL - a SQL-like query language for selecting tasks. This is the most powerful feature for managing tasks at scale.
+dart-query批量操作使用DartQL——類SQL查詢語言，選擇任務。大規模管理任務，此為最強功能。
 
 > **Preferred tool**: Use `execute_dartql` for batch operations — it supports template variables, inline comments, and multi-statement execution. `batch_update_tasks` and `batch_delete_tasks` still work but are less flexible.
 > ```yaml
@@ -17,7 +17,8 @@ dart-query's batch operations use DartQL - a SQL-like query language for selecti
 >     query: "UPDATE WHERE status = 'Todo' AND dartboard = 'Sprint 5' SET status = 'In Progress' COMMENT 'Bulk started'"
 >     dry_run: true
 > ```
-> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
+> Invoke the `Skill` tool with `skill: dartai:dart-query-reference` — 查完整slop-mcp調用模式。
 
 ### execute_dartql Advantages Over batch_update_tasks
 - **Template variables**: `SET title = 'DONE: {title}'` — interpolates per-task
@@ -46,7 +47,7 @@ execution_order:
 
 ## DartQL Selector Syntax
 
-DartQL uses **standard SQL-92 WHERE clause syntax**. If you know SQL, you know DartQL.
+DartQL使用**標準SQL-92 WHERE子句語法**。知SQL則知DartQL。
 
 **Supported operators**: `=`, `!=`, `<>`, `>`, `>=`, `<`, `<=`, `AND`, `OR`, `NOT`, `LIKE` (with `%` and `_` wildcards), `IN`, `NOT IN`, `BETWEEN`, `IS NULL`, `IS NOT NULL`, `CONTAINS` (aliases: `INCLUDES`, `HAS`), parentheses for grouping. Strings use single quotes.
 
@@ -219,7 +220,7 @@ batch_update_tasks:
 - Setting a shared blocker: `blocker_ids: ["shared_blocker_id"]`
 - Setting a shared blocking target: `blocking_ids: ["release_task_id"]`
 
-It does NOT work for per-task relationship values (each task needing different blockers). For that, use individual `update_task` calls with the read-modify-write pattern.
+每任務需不同關係值時，用個別`update_task`調用配合讀-改-寫模式。
 
 ---
 
@@ -343,7 +344,7 @@ batch_delete_tasks:
 
 ## Using Batch as a Query Tool
 
-`batch_update_tasks` with `dry_run: true` is a powerful query tool that supports richer filtering than `list_tasks`.
+`batch_update_tasks`配`dry_run: true`，是強力查詢工具，過濾比`list_tasks`更豐富。
 
 ```yaml
 # Use as query: find tasks matching complex criteria

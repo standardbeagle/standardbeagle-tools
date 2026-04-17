@@ -1,11 +1,11 @@
 ---
 name: workspace-docs
-description: dart-query workspace management - documents, config, dartboards, folders, comments, time tracking, attachments, task movement
+description: dart-query workspace management - documents, config, dartboards, folders, comments, time tracking, attachments, task movement. dart-query工作區管理：文檔、配置、看板、文件夾、評論、時間追蹤、附件、任務移動。 Use when: get workspace config, create document, add comment, log time, attach file, move task, list docs
 ---
 
 # Workspace & Documents with dart-query
 
-Beyond task CRUD and batch operations, dart-query provides tools for workspace configuration, documents, comments, time tracking, attachments, and task positioning.
+任務CRUD及批量操作之外，dart-query提供工作區配置、文檔、評論、時間追蹤、附件及任務定位工具。
 
 > **Access Pattern**: Always call dart-query through slop-mcp:
 > ```yaml
@@ -15,7 +15,8 @@ Beyond task CRUD and batch operations, dart-query provides tools for workspace c
 >   tool_name: "<tool-name>"  # e.g. "get_config", "create_doc", "add_task_comment"
 >   parameters: { ... }
 > ```
-> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
+> Invoke the `Skill` tool with `skill: dartai:dart-query-reference` — 查完整slop-mcp調用模式。
 
 ## Workspace Configuration
 
@@ -27,7 +28,7 @@ parameters:
   cache_bust: boolean  # Force refresh (5-minute cache default)
 ```
 
-**Always call first** in a new session to discover available dart_ids.
+新會話**首先調用**以發現可用dart_id。
 
 ```yaml
 # Get everything
@@ -251,7 +252,7 @@ required:
   doc_id: string
 ```
 
-Moves to trash - recoverable via Dart web UI.
+移至回收站——可通過Dart網頁UI恢復。
 
 ---
 
@@ -411,7 +412,7 @@ optional:
   after_id: string    # Place after this task
 ```
 
-Use exactly ONE positioning method.
+僅用ONE定位方法。
 
 ```yaml
 # Move to different dartboard

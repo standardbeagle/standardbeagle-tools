@@ -1,11 +1,11 @@
 ---
 name: task-execution
-description: Task execution workflow and quality pipeline for Dart task automation
+description: Task execution workflow and quality pipeline for Dart task automation. Dart任務執行工作流與品質管道。 Use when: execute dart task, run quality pipeline, implement task, code review workflow, task automation
 ---
 
 # Task Execution Workflow
 
-This skill provides the workflow for executing Dart tasks through a comprehensive quality pipeline.
+此技能提供通過完整品質管道執行Dart任務之工作流。
 
 ## Execution Pipeline
 
@@ -41,22 +41,22 @@ Task Complete / Failed
 
 ### Step -1: Read Project Rules
 
-Before doing anything else, read the always-loaded rules in `.claude/rules/`:
+做任何事前，讀`.claude/rules/`中始終加載的規則：
 
-- `karpathy-principles.md` — goal-driven execution, push back, verify
-- `refactor-discipline.md` — A/B/C refactor rule
-- `grill-intake.md` — task creation gate (already applied upstream, confirm here)
-- `code-quality.md` — project-specific code quality standards
-- `testing.md` — project-specific testing standards
-- Any other `.md` files in `.claude/rules/`
+- `karpathy-principles.md` — 目標驅動執行，反推，驗證
+- `refactor-discipline.md` — A/B/C重構規則
+- `grill-intake.md` — 任務創建門（已在上游應用，此處確認）
+- `code-quality.md` — 項目特定代碼品質標準
+- `testing.md` — 項目特定測試標準
+- `.claude/rules/`中任何其他`.md`文件
 
-These rules shape every decision the executor makes. They are thin pointers to skills — when a decision needs detail, invoke the referenced skill via `Skill` tool rather than guessing.
+這些規則塑造執行者每個決策。技能為薄指針——決策需要細節時，通過`Skill`工具調用引用的技能，而非猜測。
 
-If `.claude/rules/` does not exist, warn the user: "Project has not run /dev-standards:setup-project. Task execution will proceed with defaults, but project-specific thresholds will not be respected." Do not block — proceed with sensible defaults.
+若`.claude/rules/`不存在，警告用戶："Project has not run /dev-standards:setup-project. Task execution will proceed with defaults, but project-specific thresholds will not be respected." 不阻塞——以合理默認值繼續。
 
 ### Step 0: Read Domain Model
 
-Before anything else, load the domain model:
+做任何事前，加載域模型：
 
 ```
 1. Check for docs/DOMAIN.md — read it if present
@@ -75,7 +75,7 @@ Before anything else, load the domain model:
 
 ### Step 1: Read Grilled Task Spec
 
-The task should already have been grilled during planning. Read the grilled spec (provided in the task description or prompt) and confirm:
+任務已在計劃時審查。讀取審查規格（在任務描述或提示中提供），確認：
 
 ```
 1. Acceptance criteria are clear and verifiable
@@ -84,11 +84,11 @@ The task should already have been grilled during planning. Read the grilled spec
 4. If no grilled spec is present, fetch task details from Dart and apply grill-task inline
 ```
 
-Do NOT re-discover scope, files, or acceptance criteria from scratch — that work was done at planning time.
+勿從頭重新發現範圍、文件或驗收標準——該工作已在計劃時完成。
 
 ### Step 1.5: Refactor-First Assessment
 
-Before writing new code, invoke `dev-standards:refactor-first-assessment` with the grilled task spec if this was not already done during planning.
+編寫新代碼前，若計劃時尚未完成，以審查任務規格調用`dev-standards:refactor-first-assessment`。
 
 ```
 1. Read the current contents of files listed in the grilled spec
@@ -102,13 +102,11 @@ Before writing new code, invoke `dev-standards:refactor-first-assessment` with t
 5. Commit: 'REFACTOR: Prepare [area] for [change]'
 ```
 
-Key rule: If the new code would feel like it's fighting the existing
-structure, the structure needs to change first. Never patch over bad
-structure — fix the structure, then add the feature.
+關鍵規則：若新代碼感覺在與現有結構搏鬥，先改結構。永不在壞結構上打補丁——先修結構，再加功能。
 
 ### Step 2: Implement Changes (Strict TDD)
 
-Follow RED→GREEN→REFACTOR for every behavior:
+每個行為遵循RED→GREEN→REFACTOR：
 
 ```
 RED PHASE:
@@ -140,7 +138,7 @@ DOCUMENTATION:
 
 ### Step 3: Code Review (Self)
 
-Review own changes:
+審查自身改動：
 
 ```
 1. Use LCI to search for similar patterns
@@ -155,7 +153,7 @@ Review own changes:
 
 ### Step 4: Linting
 
-Run project linter:
+運行項目linter：
 
 ```
 Detect project type and run appropriate linter:
@@ -170,7 +168,7 @@ Warnings should be reviewed but may proceed.
 
 ### Step 5: Testing
 
-Run test suite:
+運行測試套件：
 
 ```
 1. Run unit tests for changed files
@@ -181,7 +179,7 @@ Run test suite:
 
 ### Step 6: LCI Evaluation
 
-Use Lightning Code Index for quality check:
+使用Lightning Code Index進行品質檢查：
 
 ```
 1. Search for:
@@ -207,7 +205,7 @@ Use Lightning Code Index for quality check:
 
 ### Step 7: Refactor Check
 
-Ensure changes are clean:
+確保改動整潔：
 
 ```
 1. No commented-out code
@@ -219,7 +217,7 @@ Ensure changes are clean:
 
 ### Step 8: Deprecated Cleanup
 
-Remove obsolete code:
+移除過時代碼：
 
 ```
 1. Search for @deprecated annotations
@@ -231,7 +229,7 @@ Remove obsolete code:
 
 ### Step 8.5: Domain Check
 
-Verify domain language consistency:
+驗證域語言一致性：
 
 ```
 1. Run domain-check skill on changed files (if domain model exists)
@@ -243,7 +241,7 @@ Verify domain language consistency:
 
 ### Step 9: Final Validation
 
-Confirm everything is ready:
+確認一切就緒：
 
 ```
 1. All pipeline steps passed
@@ -256,7 +254,7 @@ Confirm everything is ready:
 
 ## Failure Handling
 
-If any step fails:
+任何步驟失敗時：
 
 1. **Log the failure** with specific error message
 2. **Update task in Dart** with failure details
@@ -269,7 +267,7 @@ If any step fails:
 
 ## Success Handling
 
-When pipeline completes:
+管道完成時：
 
 1. **Update task status** to "Done"
 2. **Add completion comment** to Dart task
@@ -281,7 +279,7 @@ When pipeline completes:
 
 ## Quality Gates
 
-Each step has pass/fail criteria:
+每步驟有通過/失敗標準：
 
 | Step | Pass Criteria |
 |------|---------------|

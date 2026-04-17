@@ -1,28 +1,28 @@
 ---
 name: adversarial-quality-loop
-description: Adversarial cooperation loop for code quality verification with plan adjustment at each phase
+description: Adversarial cooperation loop for code quality verification with plan adjustment at each phase. 對抗協作循環：實施者與驗證者互相制衡，逐階調整計劃，確保代碼品質。 Use when: execute dart task, run quality pipeline, adversarial review, implement with verification
 ---
 
 # Adversarial Quality Loop (Ralph Wiggum Pattern)
 
-A continuous execution loop where an implementer and verifier cooperate adversarially to ensure code quality. The verifier actively tries to find flaws while the implementer defends and fixes.
+實施者與驗證者對抗協作之持續執行環，確保代碼品質。驗證者主動尋缺，實施者守護與修復。
 
 ## Core Principles
 
 ### Context-Sized Tasks
-Each task in the loop must be:
-- **Scoped**: Completable in a single focused session
-- **Isolated**: Independent of other concurrent work
-- **Measurable**: Clear definition of done
-- **Bounded**: Maximum 3-5 files per task
+每環中任務須：
+- **Scoped**: 單次專注會話可完成
+- **Isolated**: 與其他並發工作獨立
+- **Measurable**: 完成定義明確
+- **Bounded**: 每任務最多3-5個文件
 
 ### Plan Adjustment Protocol
-At the end of EACH phase, **automatically** (do not stop for confirmation):
-1. Review what was discovered
-2. Update remaining tasks based on findings
-3. Re-prioritize if blocking issues found
-4. Document adjustments in task comments
-5. **Continue immediately** to next phase unless BLOCKED
+每階段結束後，**自動**（勿停待確認）：
+1. 審視所發現內容
+2. 依發現更新餘下任務
+3. 若發現阻塞問題則重新排序
+4. 在任務評論中記錄調整
+5. **立即繼續**下一階段，除非BLOCKED
 
 ```yaml
 plan_adjustment_rules:
@@ -53,7 +53,7 @@ plan_adjustment_rules:
 
 ## Eagle-Eyed Violations (IMMEDIATE REJECTION)
 
-The verifier must be **ruthlessly vigilant** for these violations. Any occurrence is grounds for immediate rejection and rework.
+驗證者對下列違規須**極度警惕**。任何出現即刻拒絕並返工。
 
 ### 1. Scope Creep & Gold Plating
 ```yaml
@@ -342,7 +342,7 @@ eagle_eye_scan:
 
 ## Phase 0: Git Hygiene & TDD Setup
 
-Before any implementation work begins, establish a clean foundation.
+任何實施工作開始前，建立乾淨基礎。
 
 ### Task: Start from Latest Code
 
@@ -530,7 +530,7 @@ checkpoint:
 
 ### Task: Confirm Planning Output
 
-The task was already grilled at planning time. The grilled spec contains scope, files, and acceptance criteria. Do NOT re-discover them.
+任務已於計劃時審查。審查後規格含範圍、文件及驗收標準。勿重新發現。
 
 **DO (Positive Instructions):**
 - Read the grilled task spec (in task description or prompt)
@@ -598,20 +598,20 @@ checkpoint:
 **Verification Criteria:**
 ```yaml
 pass_if:
-  - compiles_without_error: true
-  - no_new_lint_errors: true
-  - follows_existing_patterns: true
-  - changes_match_requirements: true
+  compiles_without_error: true
+  no_new_lint_errors: true
+  follows_existing_patterns: true
+  changes_match_requirements: true
 fail_if:
-  - introduces_bugs: true
-  - breaks_existing_tests: true
-  - scope_creep: true
-  - lint_errors_introduced: true
+  introduces_bugs: true
+  breaks_existing_tests: true
+  scope_creep: true
+  lint_errors_introduced: true
 ```
 
 ### Task: Self-Adversarial Review
 
-Before submitting, attack your own code:
+提交前攻擊自己的代碼：
 
 **DO (Positive Instructions):**
 - Try to break your implementation with edge cases
@@ -630,14 +630,14 @@ Before submitting, attack your own code:
 **Verification Criteria:**
 ```yaml
 pass_if:
-  - edge_cases_tested: true
-  - error_paths_verified: true
-  - no_resource_leaks: true
-  - security_checked: true
+  edge_cases_tested: true
+  error_paths_verified: true
+  no_resource_leaks: true
+  security_checked: true
 fail_if:
-  - untested_edge_cases: true
-  - unchecked_errors: true
-  - potential_leaks: true
+  untested_edge_cases: true
+  unchecked_errors: true
+  potential_leaks: true
 ```
 
 ### Plan Adjustment Point 2 (Automatic - Do Not Stop)
@@ -666,7 +666,7 @@ checkpoint:
 
 ### Task: Dispatch Review Agents
 
-Spawn two review agents concurrently. Each runs with fresh context and returns a structured verdict. This is the fast adversarial gate — security deep dive and PM review happen in Phase 5.
+並發派遣兩名審查代理。各以新鮮上下文運行，返回結構化裁決。此為快速對抗門——安全深度審查及PM審查在Phase 5進行。
 
 **Dispatch both in parallel using the Task tool:**
 
@@ -760,7 +760,7 @@ checkpoint:
 
 ### Task: Automated Quality Checks
 
-Run and verify all automated tools:
+運行並驗證所有自動化工具：
 
 **DO (Positive Instructions):**
 - Run linter with strict settings
@@ -827,7 +827,7 @@ checkpoint:
 
 ### Task: Invoke `dev-standards:review-for-plan-updates`
 
-After quality gates pass but before the deep post-task review, run the C-class refactor review. This emits structured plan-update proposals for things like parameter bloat, duplication, naming drift — without editing any code.
+品質門通過後、深度任務後審查前，運行C類重構審查。此步發出結構化計劃更新提案——如參數臃腫、重複、命名漂移——不編輯任何代碼。
 
 **DO (Positive Instructions):**
 - Invoke `dev-standards:review-for-plan-updates` with `git diff <task-base>..HEAD`
@@ -857,7 +857,7 @@ fail_if:
 
 ### Task: Dispatch Post-Task Reviewer
 
-After quality gates pass, run the deep sequential review. This agent covers what the fast parallel gate intentionally skipped: security with attacker mindset, in-depth code analysis, PM/documentation, and replanning.
+品質門通過後，運行深度順序審查。此代理覆蓋快速並行門有意跳過之事：帶攻擊者心態的安全審查、深度代碼分析、PM/文檔，及重新規劃。
 
 **Dispatch as a single sequential agent:**
 
@@ -946,7 +946,7 @@ checkpoint:
 
 ### Task: Acceptance Criteria Verification
 
-Final check against original requirements:
+對原始需求之最終核驗：
 
 **DO (Positive Instructions):**
 - Re-read original task description
@@ -984,7 +984,7 @@ documentation:
 
 ## Loop Continuation Protocol
 
-After Phase 6 completes:
+Phase 6完成後：
 
 1. **On Success:**
    - Update task status to Done
@@ -1025,14 +1025,14 @@ After Phase 6 completes:
 
 ## Metrics and Tracking
 
-Track per-task:
-- Time in each phase
-- Adjustments made at each point
-- Issues found by category
-- Fix effectiveness rate
+每任務追蹤：
+- 每階段耗時
+- 各點所作調整
+- 各類別發現問題
+- 修復有效率
 
-Track across tasks:
-- Common failure patterns
-- Phase bottlenecks
-- Adjustment frequency
-- Quality trend over time
+跨任務追蹤：
+- 常見失敗模式
+- 階段瓶頸
+- 調整頻率
+- 品質趨勢

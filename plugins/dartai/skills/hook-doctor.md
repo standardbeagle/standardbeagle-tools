@@ -1,11 +1,11 @@
 ---
 name: hook-doctor
-description: Diagnose and validate plugin hooks - check scripts exist, have permissions, and execute correctly
+description: Diagnose and validate plugin hooks - check scripts exist, have permissions, and execute correctly. 診斷驗證插件掛鉤：檢查腳本存在、權限及執行正確性。 Use when: hook errors, plugin hooks broken, validate hooks, debug hook scripts, hook not firing
 ---
 
 # Hook Doctor
 
-Diagnose and validate plugin hooks to ensure they execute correctly.
+診斷驗證插件掛鉤以確保正確執行。
 
 ## What This Checks
 
@@ -36,7 +36,7 @@ Diagnose and validate plugin hooks to ensure they execute correctly.
 
 ## Usage
 
-Run this skill to diagnose hook issues:
+運行此技能診斷掛鉤問題：
 
 ```
 Check my dartai plugin hooks for issues
@@ -318,15 +318,15 @@ Fix: chmod +x scripts/session-init.js
 
 ## Integration
 
-This skill should be run:
-1. After installing/updating the dartai plugin
-2. When hook errors appear in Claude Code
-3. Before deploying to production
-4. As part of plugin CI/CD pipeline
+此技能應在以下情況運行：
+1. 安裝/更新dartai插件後
+2. Claude Code中出現掛鉤錯誤時
+3. 部署到生產前
+4. 作為插件CI/CD管道的一部分
 
 ## Automation
 
-Add to CI workflow:
+添加到CI工作流：
 ```yaml
 - name: Validate Hooks
   run: |

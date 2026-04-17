@@ -33,11 +33,11 @@ fail_if:
 ```
 
 ### Plan Adjustment Point 1
-After understanding:
-- If scope exceeds 5 files: Request split, STOP
-- If requirements unclear: Add clarification to task comment
-- If dependencies found: Note for sequencing
-- Ready: Proceed to Phase 2
+理解後：
+- 範圍超5文件：請求拆分，停止
+- 需求不明：在任務評論添加澄清
+- 發現依賴：記錄排序
+- 就緒：進入Phase 2
 
 ---
 
@@ -75,7 +75,7 @@ fail_if:
 
 ### Task: Self-Adversarial Review
 
-Attack your own implementation:
+攻擊自身實現：
 
 **DO:**
 - Try to break with edge case inputs
@@ -104,11 +104,11 @@ fail_if:
 ```
 
 ### Plan Adjustment Point 2
-After implementation:
-- If edge cases reveal issues: Fix before continuing
-- If patterns conflict: Note for refactoring backlog
-- If security concerns: Add security review task
-- Clean implementation: Proceed to Phase 3
+實現後：
+- 邊缘案例揭示問題：繼續前修復
+- 模式衝突：記錄至重構積壓
+- 安全顧慮：添加安全審查任務
+- 干淨實現：進入Phase 3
 
 ---
 
@@ -144,11 +144,11 @@ fail_if:
 ```
 
 ### Plan Adjustment Point 3
-After review:
-- If duplicates found: Refactor to use existing code
-- If inconsistencies: Fix before continuing
-- If issues discovered: Add fix tasks
-- Review clean: Proceed to Phase 4
+審查後：
+- 發現重複：重構使用現有代碼
+- 不一致：繼續前修復
+- 發現問題：添加修復任務
+- 審查干淨：進入Phase 4
 
 ---
 
@@ -198,10 +198,10 @@ fail_if:
 ```
 
 ### Plan Adjustment Point 4
-After linting:
-- If errors found: Fix all before continuing
-- If recurring pattern: Add to code quality notes
-- All clean: Proceed to Phase 5
+Lint後：
+- 發現錯誤：繼續前修復全部
+- 重複模式：添加至代碼質量備注
+- 全部干淨：進入Phase 5
 
 ---
 
@@ -248,11 +248,11 @@ fail_if:
 ```
 
 ### Plan Adjustment Point 5
-After testing:
-- If tests fail: Fix tests and re-run
-- If coverage dropped: Add tests for uncovered code
-- If flaky tests: Mark for investigation
-- All green: Proceed to Phase 6
+測試後：
+- 測試失敗：修復並重新運行
+- 覆蓋率下降：添加測試覆蓋未覆蓋代碼
+- 不穩定測試：標記待調查
+- 全部綠色：進入Phase 6
 
 ---
 

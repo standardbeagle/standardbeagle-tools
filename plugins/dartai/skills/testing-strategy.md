@@ -1,15 +1,15 @@
 ---
 name: testing-strategy
-description: Three-tier testing strategy - e2e for product validation, integration for coverage breadth, unit for exhaustive logic testing
+description: Three-tier testing strategy - e2e for product validation, integration for coverage breadth, unit for exhaustive logic testing. 三層測試策略：e2e驗產品，集成廣覆蓋，單元窮邏輯。 Use when: write tests, choose test type, TDD setup, decide e2e vs unit, testing pyramid
 ---
 
 # Testing Strategy: The Testing Pyramid
 
-A disciplined approach to test selection. Not all code needs the same kind of test. The right test at the right level catches bugs efficiently without creating a brittle, slow test suite.
+測試選擇之法，有紀律。非一切代碼同需一類測試。右層右試，捕蟲有效，免脆弱遲緩之套。
 
 ## The RED/GREEN Discipline
 
-Every test follows the RED → GREEN → REFACTOR cycle:
+每試循 RED → GREEN → REFACTOR：
 
 ```yaml
 red_green_cycle:
@@ -49,7 +49,7 @@ red_green_cycle:
 
 ## Smoke Tests: Highest Fidelity Always
 
-Smoke tests verify the system is fundamentally operational. They MUST use the highest fidelity available — real UI, real backend, real database. A smoke test that uses mocks or stubs is worthless.
+煙試驗系統根本運行。必用最高保真——真UI、真後端、真數據庫。煙試用模擬者，無用。
 
 ```yaml
 smoke_tests:
@@ -156,7 +156,7 @@ decision_tree:
 
 ## E2E Tests: Product Validation
 
-E2E tests prove the product works. They are expensive to write and maintain, so use them sparingly for high-value journeys.
+E2E試證產品有效。費時維護，僅用於高價值旅程。
 
 ```yaml
 e2e_principles:
@@ -186,7 +186,7 @@ e2e_principles:
 
 ## Integration Tests: Coverage Breadth
 
-Integration tests verify that components work together. They're faster than e2e and can cover more cases.
+集成試驗組件協作。較e2e快，覆蓋更多案例。
 
 ```yaml
 integration_principles:
@@ -218,7 +218,7 @@ integration_principles:
 
 ## Unit Tests: Exhaustive Logic Testing
 
-Unit tests are for code that benefits from exhaustive case coverage. If a function has branches, test every branch.
+單元試驗宜窮舉。函數有分支，各枝皆試。
 
 ```yaml
 unit_principles:
@@ -280,7 +280,7 @@ quality_rules:
 
 ## TDD Integration: RED/GREEN at Every Tier
 
-This strategy integrates with the RED → GREEN → REFACTOR cycle from the quality loop:
+此策略與品質環中 RED → GREEN → REFACTOR 循環相合：
 
 ```yaml
 tdd_with_tiers:
@@ -315,7 +315,7 @@ tdd_with_tiers:
 
 ## Verification
 
-Before marking any task complete:
+任務標完成前：
 ```yaml
 test_verification:
   - "All existing tests still pass (GREEN)"

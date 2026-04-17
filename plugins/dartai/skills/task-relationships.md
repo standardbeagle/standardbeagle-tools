@@ -1,11 +1,11 @@
 ---
 name: task-relationships
-description: Manage dart-query task relationships - subtasks, blockers, blocking, duplicates, related tasks with full replacement semantics
+description: Manage dart-query task relationships - subtasks, blockers, blocking, duplicates, related tasks with full replacement semantics. dart-query任務關係管理：子任務、阻塞、重複、相關，完全替換語義。 Use when: add subtask, set blocker, link related tasks, dependency chain, clear blockers
 ---
 
 # Task Relationships with dart-query
 
-dart-query supports 5 relationship types between tasks. All use **full replacement semantics** - you must send the complete desired array on every update.
+dart-query支持5種任務間關係類型。皆用**完全替換語義**——每次更新須發送完整期望數組。
 
 > **Access Pattern**: Always call dart-query through slop-mcp:
 > ```yaml
@@ -15,7 +15,8 @@ dart-query supports 5 relationship types between tasks. All use **full replaceme
 >   tool_name: "update_task"  # or "get_task", "create_task"
 >   parameters: { ... }
 > ```
-> See the `dart-query-reference` skill for the full slop-mcp invocation pattern.
+
+> Invoke the `Skill` tool with `skill: dartai:dart-query-reference` — 查完整slop-mcp調用模式。
 
 ## Relationship Types
 

@@ -1,11 +1,11 @@
 ---
 name: doc-templates
-description: Documentation templates and formats for updating project docs and Dart comments
+description: Documentation templates and formats for updating project docs and Dart comments. 任務完成後更新項目文檔與Dart評論之模板格式。 Use when: update changelog, write dart comment, document task completion, readme update, commit message format
 ---
 
 # Documentation Templates
 
-Templates for updating documentation after task completion.
+任務完成後更新文檔之模板。
 
 ## CHANGELOG Entry
 
@@ -32,11 +32,11 @@ Templates for updating documentation after task completion.
 
 ### Entry Guidelines
 
-- Start with verb (Add, Fix, Update, Remove)
-- Be concise but descriptive
-- Include task reference
-- Group by category
-- Order by importance within category
+- 以動詞開頭（Add, Fix, Update, Remove）
+- 簡潔但具描述性
+- 包含任務引用
+- 按類別分組
+- 類別內按重要性排序
 
 ### Examples
 
@@ -55,12 +55,12 @@ Templates for updating documentation after task completion.
 
 ### When to Update
 
-Update README for:
-- New features that change usage
-- New dependencies or requirements
-- Changed installation process
-- New configuration options
-- New commands or API
+以下情況更新README：
+- 改變使用方式的新功能
+- 新依賴或需求
+- 安裝流程更改
+- 新配置選項
+- 新命令或API
 
 ### Section Templates
 
@@ -90,11 +90,11 @@ Update README for:
 
 #### Updated Section
 
-When modifying existing sections:
-1. Keep existing structure
-2. Add new information inline
-3. Update examples if API changed
-4. Maintain consistency with rest of README
+修改現有章節時：
+1. 保留現有結構
+2. 內聯添加新信息
+3. 若API更改則更新示例
+4. 與README其餘部分保持一致
 
 ## Dart Task Comments
 
@@ -228,12 +228,12 @@ Related: #issue-number (if applicable)
 
 ### Types
 
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation only
-- `refactor`: Code refactoring
-- `test`: Adding/updating tests
-- `chore`: Maintenance tasks
+- `feat`: 新功能
+- `fix`: 錯誤修復
+- `docs`: 僅文檔
+- `refactor`: 代碼重構
+- `test`: 添加/更新測試
+- `chore`: 維護任務
 
 ### Examples
 

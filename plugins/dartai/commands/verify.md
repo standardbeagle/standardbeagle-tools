@@ -1,12 +1,12 @@
 ---
 name: verify
-description: Run adversarial verification on a target directory or file
+description: Run adversarial verification on a target directory or file. 對目標目錄或文件運行對抗性驗證。 Use when: verify code quality, run review agents, adversarial verification, check implementation, post-implementation review
 argument-hint: "[target]"
 ---
 
 # Adversarial Verification Command
 
-Run an adversarial verification loop to challenge and validate code quality.
+運行對抗性驗證循環以挑戰並驗證代碼品質。
 
 ## Usage
 
@@ -18,7 +18,7 @@ Run an adversarial verification loop to challenge and validate code quality.
 
 ## What It Does
 
-Runs review agents in a 2+1 pattern on the target:
+對目標以2+1模式運行審查代理：
 
 **Parallel phase** (concurrent):
 1. **Code Quality Reviewer** - Code quality, security, coherence, performance, testability, bloat, duplication, cleanup
@@ -27,7 +27,7 @@ Runs review agents in a 2+1 pattern on the target:
 **Sequential phase** (after parallel agents complete):
 3. **Post-Task Reviewer** - Requirements coverage, documentation accuracy, user flows, lean docs
 
-Each returns PASS/FAIL/NEEDS_WORK with detailed findings.
+各返回PASS/FAIL/NEEDS_WORK及詳細發現。
 
 ## Process
 
@@ -69,15 +69,15 @@ Generate verification report with:
 
 ## Context-Sized Task Rules
 
-Each verification task follows these rules:
+每個驗證任務遵循以下規則：
 
-**Scoping:**
-- Maximum 3-5 files per verification task
-- One verification type per command invocation
-- Clear pass/fail criteria for each phase
+**範圍：**
+- 每個驗證任務最多3-5個文件
+- 每次命令調用一種驗證類型
+- 每個階段有清晰通過/失敗標準
 
-**Instructions Format:**
-Every phase includes:
+**指令格式：**
+每個階段包含：
 - **DO (Positive Instructions)**: Specific actions to take
 - **DO NOT (Negative Instructions)**: Specific actions to avoid
 - **Verification Criteria**: Clear pass/fail conditions
@@ -112,8 +112,8 @@ Recommended Actions:
 
 ## Integration with Dart
 
-If running in context of a Dart task:
-- Link verification results to task
-- Add comment with verification summary
-- Update task status based on outcome
-- Create follow-up tasks for issues found
+在Dart任務上下文中運行時：
+- 將驗證結果鏈接至任務
+- 添加含驗證摘要的評論
+- 依結果更新任務狀態
+- 為發現問題創建後續任務
