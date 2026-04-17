@@ -1,36 +1,36 @@
 ---
 name: preflight-check
-description: Pre-flight validation before starting a Figma extraction to prevent failures
+description: Pre-flight validation before starting a Figma extraction to prevent failures. 提取前飛行前驗證，預防中途失敗。 Use when: before running extract-library, validating Figma access, checking file has components, verifying output directory, estimating extraction size and time
 ---
 
 # Pre-Flight Extraction Check
 
-Validates all prerequisites before starting a Figma design library extraction to prevent mid-extraction failures.
+提取 Figma 設計庫前驗證所有前置條件，防止中途失敗。
 
 ## What This Checks
 
 ### 1. Figma Access
-- ✓ Access token is set
-- ✓ Can reach Figma API
-- ✓ Can access the specific file
-- ✓ Has permission to read file
-- ✓ Can list components and styles
+- ✓ 訪問令牌已設置
+- ✓ 可達 Figma API
+- ✓ 可訪問指定文件
+- ✓ 具有文件讀取權限
+- ✓ 可列出組件與樣式
 
 ### 2. Local Environment
-- ✓ Output directory is writable
-- ✓ Sufficient disk space (> 500MB recommended)
-- ✓ figma-query MCP server is connected
-- ✓ All required tools are available
+- ✓ 輸出目錄可寫
+- ✓ 磁盤空間充足（建議 > 500MB）
+- ✓ figma-query MCP 服務器已連接
+- ✓ 所有必要工具可用
 
 ### 3. File Structure
-- ✓ File contains components (not empty)
-- ✓ File has design tokens/styles
-- ✓ File has exportable content
-- ✓ File is not too large (< 50k nodes recommended)
+- ✓ 文件含組件（非空）
+- ✓ 文件含設計令牌/樣式
+- ✓ 文件含可導出內容
+- ✓ 文件規模合理（建議 < 50k 節點）
 
 ## Usage
 
-Run before `/extract-library`:
+運行 `/extract-library` 前：
 
 ```
 # Check if ready to extract
@@ -69,7 +69,7 @@ params:
     depth: 1
 ```
 
-Expected: Returns file structure without errors
+預期：無錯誤返回文件結構
 
 ### Step 3: Count Components
 ```yaml
@@ -81,7 +81,7 @@ params:
     file_key: "FILE_KEY"
 ```
 
-Expected: At least 1 component found
+預期：至少找到 1 個組件
 
 ### Step 4: Count Styles
 ```yaml
@@ -93,7 +93,7 @@ params:
     file_key: "FILE_KEY"
 ```
 
-Expected: At least 1 style (color, text, or grid)
+預期：至少 1 個樣式（顏色、文本或柵格）
 
 ### Step 5: Check Output Directory
 ```bash
@@ -113,7 +113,7 @@ params:
     format: "json"
 ```
 
-Count nodes to estimate extraction time and size.
+統計節點數以估算提取時間與體積。
 
 ## Output Format
 
@@ -290,7 +290,7 @@ Step 2: Begin extraction
 
 ## Automation Mode
 
-Skip confirmations for CI/CD:
+CI/CD 跳過確認：
 
 ```bash
 # Set environment variable
@@ -300,11 +300,11 @@ FIGMA_EXTRACT_AUTO=1
 /extract-library file_key="..." output_dir="..." --auto --no-confirm
 ```
 
-In automation mode:
-- Warnings don't block (logged only)
-- Errors still block
-- No interactive prompts
-- Exit codes indicate success/failure
+自動化模式下：
+- 警告不阻塞（僅記錄）
+- 錯誤仍阻塞
+- 無交互提示
+- 退出碼指示成功/失敗
 
 ## Exit Codes
 
@@ -316,7 +316,7 @@ In automation mode:
 
 ## Checklist Template
 
-After pre-flight check, generate an extraction checklist:
+飛行前檢查後生成提取清單：
 
 ```markdown
 # Extraction Checklist for FILE_KEY

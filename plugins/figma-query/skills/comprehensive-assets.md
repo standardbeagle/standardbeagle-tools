@@ -1,16 +1,16 @@
 ---
 name: comprehensive-assets
-description: Extract ALL assets from Figma including vectors, fills, backgrounds, and icons that don't have export settings
+description: Extract ALL assets from Figma including vectors, fills, backgrounds, and icons that don't have export settings. 全量提取 Figma 資產：向量、填充、背景、無導出設置圖標。 Use when: exporting all icons and images, finding assets without export settings, extracting vector icons, building complete asset manifest, comprehensive asset audit
 ---
 
 # Comprehensive Asset Extraction
 
-Figma stores images and exportable assets in multiple ways. This skill documents how to find and export ALL of them.
+Figma 以多種方式存儲圖像與可導出資產。此技能說明如何找到並導出所有資產。
 
 ## Asset Types in Figma
 
 ### 1. Image Fills (`Paint.ImageRef`)
-Images used as fills on shapes, frames, or rectangles.
+用作形狀、框架或矩形填充的圖像。
 
 **Location:** `node.fills[].imageRef`
 
@@ -44,30 +44,30 @@ params:
 ```
 
 ### 2. Background Images (`node.background[]`)
-Images used as frame/canvas backgrounds.
+用作框架/畫布背景的圖像。
 
 **Location:** `node.background[].imageRef`
 
-**Detection:** Same query as above, backgrounds are included in `@images` projection.
+**Detection:** 與上同，背景包含於 `@images` 投影中。
 
 ### 3. Image Strokes (`Paint.ImageRef` on strokes)
-Images used as stroke patterns.
+用作描邊圖案的圖像。
 
 **Location:** `node.strokes[].imageRef`
 
-**Detection:** Query with `@images` includes stroke images.
+**Detection:** `@images` 投影包含描邊圖像。
 
 ### 4. GIF Images (`Paint.GifRef`)
-Animated GIFs in fills.
+填充中的動態 GIF。
 
 **Location:** `node.fills[].gifRef`
 
-**Detection:** Included in `@images` projection.
+**Detection:** `@images` 投影已包含。
 
 ### 5. Vector Icons (NO ImageRef - need rendering)
-**This is the tricky one!** Vector shapes (VECTOR, STAR, ELLIPSE, LINE, etc.) don't have `ImageRef` - they ARE the image data and must be rendered.
+**注意！** 向量形狀（VECTOR、STAR、ELLIPSE、LINE 等）無 `ImageRef`——其本身即圖像數據，須渲染導出。
 
-**Location:** Nodes with type `VECTOR`, `STAR`, `LINE`, `ELLIPSE`, `REGULAR_POLYGON`, `BOOLEAN_OPERATION`
+**Location:** 類型為 `VECTOR`、`STAR`、`LINE`、`ELLIPSE`、`REGULAR_POLYGON`、`BOOLEAN_OPERATION` 的節點
 
 **Detection:**
 ```yaml
@@ -98,7 +98,7 @@ params:
 ```
 
 ### 6. Component Icons (Frames containing vectors)
-Icons are often FRAME nodes containing vector children, not raw vectors.
+圖標常為含向量子節點的 FRAME 節點，而非裸向量。
 
 **Detection:**
 ```yaml
@@ -112,7 +112,7 @@ params:
     node_types: ["FRAME", "COMPONENT", "INSTANCE"]
 ```
 
-Or by size (icons are typically small):
+按尺寸檢測（圖標通常較小）：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -131,11 +131,11 @@ params:
 ```
 
 ### 7. Nodes with Export Settings
-Nodes explicitly marked for export in Figma.
+已在 Figma 中顯式標記為導出的節點。
 
 **Location:** `node.exportSettings[]`
 
-**Detection:** Already handled by sync_file, but can query:
+**Detection:** `sync_file` 已自動處理，亦可查詢：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -152,7 +152,7 @@ params:
 ```
 
 ### 8. Text with Image Fills
-Text can have image fills for effects.
+文本可含圖像填充以實現特效。
 
 **Location:** `node.style.fills[].imageRef` (on TEXT nodes)
 
@@ -184,9 +184,9 @@ params:
     # assets is included by default in: ["pages", "components", "styles", "variables", "assets"]
 ```
 
-This exports:
-- All image fills/strokes/backgrounds via `GetImageFills` API
-- Nodes with explicit ExportSettings
+導出：
+- 所有圖像填充/描邊/背景（via `GetImageFills` API）
+- 含顯式 ExportSettings 的節點
 
 ### Step 2: Find vector icons that weren't exported
 ```yaml
@@ -252,7 +252,7 @@ params:
 
 ## Asset Manifest
 
-After extraction, create a manifest mapping Figma IDs to file paths:
+提取後建立 Figma ID 到文件路徑的映射：
 
 ```json
 {
@@ -273,20 +273,20 @@ After extraction, create a manifest mapping Figma IDs to file paths:
 ## Common Issues
 
 ### Icons not exporting
-**Cause:** Vector nodes without ExportSettings aren't automatically included.
-**Fix:** Query for VECTOR/BOOLEAN_OPERATION nodes and export explicitly.
+**原因：** 無 ExportSettings 的向量節點不自動導出。
+**修復：** 查詢 VECTOR/BOOLEAN_OPERATION 節點並顯式導出。
 
 ### Missing backgrounds
-**Cause:** Frame backgrounds use `node.background[]` not `node.fills[]`.
-**Fix:** sync_file handles this, but verify with `@images` query.
+**原因：** 框架背景在 `node.background[]`，非 `node.fills[]`。
+**修復：** `sync_file` 已處理；`@images` 查詢可驗證。
 
 ### Broken image references in HTML
-**Cause:** HTML references Figma imageRef IDs, not file paths.
-**Fix:** Use the manifest to map IDs to paths, or use naming: "name" in export.
+**原因：** HTML 引用了 Figma imageRef ID，非文件路徑。
+**修復：** 用 manifest 映射 ID 到路徑，或在導出時使用 `naming: "name"`。
 
 ### Duplicate exports
-**Cause:** Same imageRef used in multiple nodes.
-**Fix:** sync_file already deduplicates by imageRef.
+**原因：** 同一 imageRef 用於多個節點。
+**修復：** `sync_file` 已按 imageRef 去重。
 
 ## Output Structure
 

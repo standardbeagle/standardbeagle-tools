@@ -1,6 +1,6 @@
 ---
 name: extract-library
-description: Extract a complete design library from Figma with CSS, assets, HTML mockups, and documentation using adversarial quality verification
+description: Extract complete design library from Figma with CSS, assets, HTML mockups, and documentation using adversarial quality verification. 對抗式全量提取設計庫：CSS、資產、HTML、文檔。 Use when: extracting full design library, building complete component system, running adversarial extraction loop, generating production-ready design artifacts, full figma-to-code pipeline
 arguments:
   - name: file_key
     description: Figma file key (from URL)
@@ -12,16 +12,16 @@ arguments:
 
 # Extract Design Library
 
-Extract a complete, production-ready design library from a Figma file using the adversarial extraction loop.
+以對抗式提取循環從 Figma 文件生成生產就緒設計庫。
 
 ## What This Creates
 
-A full design library with:
-- **Exact Figma CSS** - Pixel-perfect style extraction
-- **Original Assets** - All icons, images, and graphics
-- **HTML Mockups** - Implementation-ready HTML/CSS
-- **Design Tokens** - CSS variables, JSON, Tailwind config
-- **Documentation** - Component and page documentation
+完整設計庫含：
+- **Exact Figma CSS** - 像素精確樣式提取
+- **Original Assets** - 全部圖標、圖像、圖形
+- **HTML Mockups** - 可實施 HTML/CSS
+- **Design Tokens** - CSS 變量、JSON、Tailwind 配置
+- **Documentation** - 組件與頁面文檔
 
 ## Usage
 
@@ -40,71 +40,79 @@ https://www.figma.com/design/ABC123xyz/My-Design-System
 
 ## Extraction Process
 
-This command uses the **complete-extraction** skill which runs a validated, dependency-aware extraction workflow:
+本命令使用 **complete-extraction** 技能執行已驗證、依賴感知的提取流程：
 
 ### Phase 0: Pre-Flight Check ⚠️
-**CRITICAL:** Validates prerequisites before starting
-- Check Figma access (token, API, permissions)
-- Verify file has components/styles
-- Confirm output directory is writable
-- Estimate extraction time and size
 
-**Skill:** `preflight-check`
+**CRITICAL:** 啟動前驗證前置條件
+- 校驗 Figma 訪問（令牌、API、權限）
+- 確認文件含組件/樣式
+- 核查輸出目錄可寫
+- 估算提取時間與體積
+
+> Invoke the `Skill` tool with `skill: figma-query:preflight-check` — 驗證 Figma 訪問、文件內容及輸出目錄。
 
 ### Phase 1: Sync File
-- Download complete Figma file structure locally
-- Create `figma-export/` directory with all nodes
-- Extract metadata, components, and styles
+
+- 下載完整 Figma 文件結構至本地
+- 創建含所有節點的 `figma-export/` 目錄
+- 提取元數據、組件與樣式
 
 ### Phase 2: Export Design Tokens ⚠️ CRITICAL
-**CRITICAL:** HTML examples depend on tokens.css existing
-- Export `tokens/tokens.css` with CSS custom properties
-- Export `tokens/tokens.json` (optional)
-- Export `tokens/tailwind.tokens.js` (optional)
 
-**Without this phase:** HTML will have undefined CSS variables
+**CRITICAL:** HTML 示例依賴 tokens.css 存在
+- 導出含 CSS 自定義屬性的 `tokens/tokens.css`
+- 導出 `tokens/tokens.json`（可選）
+- 導出 `tokens/tailwind.tokens.js`（可選）
+
+**缺少此階段：** HTML 將含未定義 CSS 變量。
 
 ### Phase 3: Component CSS Extraction
-For each component category:
-- Extract exact Figma CSS
-- Save to category files (buttons.css, cards.css, etc.)
-- Use design tokens (not hardcoded values)
-- Follow BEM naming convention
+
+每類組件：
+- 提取精確 Figma CSS
+- 保存至分類文件（buttons.css、cards.css 等）
+- 使用設計令牌（非硬編碼值）
+- 遵循 BEM 命名規範
 
 ### Phase 4: Asset Export ⚠️ CRITICAL
-**CRITICAL:** HTML examples reference these assets
-- Search for all exportable assets (icons, images, logos)
-- Export SVG for vectors/icons
-- Export PNG (1x, 2x) for images
-- Save to `assets/` directory
 
-**Without this phase:** HTML will have broken image links
+**CRITICAL:** HTML 示例引用這些資產
+- 搜索所有可導出資產（圖標、圖像、Logo）
+- 矢量/圖標導出 SVG
+- 圖像導出 PNG（1x、2x）
+- 保存至 `assets/` 目錄
+
+**缺少此階段：** HTML 將含斷裂圖片鏈接。
 
 ### Phase 5: HTML Example Generation
-**Dependencies:** Phases 2, 3, 4 must complete first
-- Create component showcase HTML
-- Create page example HTML
-- Link to tokens.css and component CSS
-- Reference exported assets
-- Validate all links resolve
+
+**依賴：** 第 2、3、4 階段須先完成
+- 創建組件展示 HTML
+- 創建頁面示例 HTML
+- 鏈接 tokens.css 及組件 CSS
+- 引用已導出資產
+- 驗證所有鏈接可解析
 
 ### Phase 6: Documentation Generation
-- Create main README with getting started guide
-- Create component index
-- Document design tokens
-- Document usage examples
+
+- 創建含入門指南的主 README
+- 創建組件索引
+- 文檔化設計令牌
+- 文檔化使用示例
 
 ### Phase 7: Final Validation ⚠️
-**CRITICAL:** Verify extraction is complete and correct
-- Check directory structure
-- Validate tokens.css exists and is valid
-- Verify assets directory is populated
-- Check HTML has no broken links
-- Ensure documentation is complete
 
-**Skill:** `validate-extraction`
+**CRITICAL:** 驗證提取完整且準確
+- 校驗目錄結構
+- 確認 tokens.css 存在且有效
+- 核查 assets 目錄已填充
+- 檢查 HTML 無斷裂鏈接
+- 確保文檔完整
 
-**Auto-fix:** If validation fails, automatically fix common issues
+> Invoke the `Skill` tool with `skill: figma-query:validate-extraction` — 驗證完整庫，自動修復常見問題。
+
+**自動修復：** 驗證失敗時自動修復常見問題。
 
 ## Output Structure
 
@@ -152,32 +160,32 @@ design-library/
 
 ## Quality Guarantees
 
-The adversarial loop ensures:
+對抗式循環確保：
 
 ### CSS Accuracy
-- Every Figma property extracted
-- Values match exactly
-- Design tokens used (no hardcoded values)
+- 每個 Figma 屬性均提取
+- 值完全匹配
+- 使用設計令牌（無硬編碼值）
 
 ### Asset Completeness
-- All icons exported (SVG)
-- All images exported (PNG, multiple scales)
-- No broken references
+- 所有圖標已導出（SVG）
+- 所有圖像已導出（PNG，多倍率）
+- 無斷裂引用
 
 ### Documentation
-- Every component documented
-- Every page documented
-- Working examples included
+- 每個組件有文檔
+- 每個頁面有文檔
+- 含可用示例
 
 ### HTML Mockups
-- Semantic HTML structure
-- BEM naming convention
-- Accessible markup
-- No inline styles
+- 語義化 HTML 結構
+- BEM 命名規範
+- 無障礙標記
+- 無行內樣式
 
 ## Example Output
 
-After extraction:
+提取後：
 
 ```
 Extraction Summary
@@ -210,22 +218,22 @@ Output: ./design-library/
 ```
 
 ### Copy Components
-Open any `mockup.html` to see implementation-ready HTML.
+開任意 `mockup.html` 可查看可實施 HTML。
 
 ## Troubleshooting
 
 ### Extraction Stops
-- Check Figma access token is valid
-- Check file permissions (can you view in Figma?)
-- Check rate limits (wait and retry)
+- 校驗 Figma 訪問令牌有效
+- 核查文件權限（可否在 Figma 中查看？）
+- 檢查速率限制（稍候重試）
 
 ### Missing Components
-- Verify components are published in Figma
-- Check component permissions
+- 確認組件已在 Figma 中發佈
+- 核查組件權限
 
 ### CSS Differences
-- Run adversarial verification again
-- Check for Figma features not supported (e.g., variables in expressions)
+- 重新執行對抗式驗證
+- 檢查 Figma 不支持的特性（如表達式中的變量）
 
 ### ⚠️ CRITICAL: Missing tokens.css
 **Problem:** HTML files reference `var(--color-primary)` but `tokens/tokens.css` doesn't exist
@@ -266,9 +274,10 @@ figma-query export_assets \
 **Prevention:** Always run complete extraction workflow, validate after each phase
 
 ### HTML Examples Have Broken Links
-**Problem:** Opening HTML shows missing CSS or images
 
-**Cause:** Phases completed out of order or incompletely
+**問題：** 打開 HTML 顯示缺少 CSS 或圖像。
+
+**原因：** 各階段完成順序有誤或不完整。
 
 **Fix:**
 ```bash
@@ -282,7 +291,7 @@ Use validate-extraction skill with:
 
 ### How to Verify Extraction is Complete
 
-After extraction, check these files exist:
+提取後核查以下文件存在：
 ```bash
 # Critical files that MUST exist:
 docs/tokens/tokens.css           # Design tokens
@@ -300,7 +309,7 @@ ls -lh docs/examples/
 
 ### Incomplete Extraction - How to Resume
 
-If extraction stops mid-way:
+若提取中途停止：
 ```bash
 # Check extraction state
 cat docs/.extraction-state.json
@@ -311,8 +320,8 @@ cat docs/.extraction-state.json
 
 ## Next Steps
 
-After extraction:
-1. Review the `README.md` in the output directory
-2. Browse `COMPONENTS.md` for component inventory
-3. Copy HTML from mockups to your codebase
-4. Import `index.css` for all styles
+提取後：
+1. 查閱輸出目錄中的 `README.md`
+2. 瀏覽 `COMPONENTS.md` 盤點組件
+3. 從模型複製 HTML 至代碼庫
+4. 導入 `index.css` 獲取所有樣式

@@ -1,15 +1,15 @@
 ---
 name: common-patterns
-description: Common Figma workflow patterns for design system extraction, component documentation, and asset management
+description: Common Figma workflow patterns for design system extraction, component documentation, and asset management. Figma 常用工作流模式：設計系統提取、組件文檔、資產管理。 Use when: starting a new Figma project, implementing a component, exporting tokens, extracting icons, auditing a design system
 ---
 
 # Common Figma Workflow Patterns
 
-This skill documents proven patterns for working with Figma files using figma-query tools.
+此技能記錄使用 figma-query 工具處理 Figma 文件之成熟模式。
 
 ## Pattern 1: Initial File Exploration
 
-Start any new project with this sequence:
+新項目起始序列：
 
 ```yaml
 # Step 1: Sync file locally (enables grep/offline analysis)
@@ -35,7 +35,7 @@ list_styles:
 
 ## Pattern 2: Component Implementation
 
-When implementing a Figma component in code:
+在代碼中實現 Figma 組件：
 
 ```yaml
 # Step 1: Find the component
@@ -71,7 +71,7 @@ export_assets:
 
 ## Pattern 3: Design Token Export
 
-Full design token extraction workflow:
+設計令牌全量提取：
 
 ```yaml
 # Step 1: Export tokens as CSS variables
@@ -95,7 +95,7 @@ export_tokens:
 
 ## Pattern 4: Icon Library Export
 
-Extract all icons from a design file:
+從設計文件提取全部圖標：
 
 ```yaml
 # Step 1: Search for all icons
@@ -118,7 +118,7 @@ export_assets:
 
 ## Pattern 5: Screen Documentation
 
-Document all screens/pages:
+文檔化所有頁面/屏幕：
 
 ```yaml
 # Step 1: Get page structure
@@ -148,7 +148,7 @@ wireframe:
 
 ## Pattern 6: Component Variant Analysis
 
-Analyze all variants of a component:
+分析組件全部變體：
 
 ```yaml
 # Step 1: Find component with variants
@@ -175,7 +175,7 @@ wireframe:
 
 ## Pattern 7: Design System Audit
 
-Comprehensive design system analysis:
+設計系統全面審計：
 
 ```yaml
 # Step 1: Full sync
@@ -202,7 +202,7 @@ query:
 
 ## Pattern 8: Change Tracking
 
-Monitor design changes over time:
+追蹤設計變更：
 
 ```yaml
 # Step 1: Create baseline
@@ -224,7 +224,7 @@ get_node:
 
 ## Pattern 9: Batch Asset Export
 
-Export all visual assets efficiently:
+高效批量導出所有視覺資產：
 
 ```yaml
 # Step 1: Query for exportable nodes
@@ -246,7 +246,7 @@ export_assets:
 
 ## Pattern 10: Typography System Extraction
 
-Extract complete typography system:
+提取完整排版系統：
 
 ```yaml
 # Step 1: Get text styles
@@ -269,9 +269,9 @@ query:
 
 ## Best Practices
 
-1. **Cache locally first**: Use `sync_file` before heavy querying
-2. **Use projections**: Only request data you need
-3. **Batch operations**: Group similar operations
-4. **Document as you go**: Use wireframes and exports
-5. **Track versions**: Regular diffs catch drift
-6. **Verify tokens**: Check variable usage consistency
+1. **先本地緩存**：大量查詢前先 `sync_file`
+2. **善用投影**：只取所需字段
+3. **批量操作**：同類操作打包執行
+4. **邊做邊記**：善用線框圖與導出
+5. **版本追蹤**：定期 diff 防止漂移
+6. **驗證令牌**：核查變量用法一致性

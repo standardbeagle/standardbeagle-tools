@@ -1,11 +1,11 @@
 ---
 name: figma-download
-description: Download images by imageRef ID or render Figma nodes as images
+description: Download images by imageRef ID or render Figma nodes as images. 按 imageRef ID 下載圖像，或將 Figma 節點渲染為圖像。 Use when: downloading image fills, rendering frames as PNG, creating documentation screenshots, exporting artboards, getting image fills for backgrounds
 ---
 
 # Figma Download Image Tool
 
-The `download_image` tool downloads images from Figma, either by imageRef ID (for fills/backgrounds) or by rendering nodes as images.
+`download_image` 工具從 Figma 下載圖像：按 imageRef ID 下載填充圖像，或將節點渲染為圖像。
 
 ## Tool Parameters
 
@@ -22,18 +22,18 @@ parameters:
 ## Two Download Modes
 
 ### Mode 1: Image Refs (Fills/Backgrounds)
-Download images that are used as fills or backgrounds in Figma nodes.
+下載用作 Figma 節點填充或背景的圖像。
 
-Image refs are found in:
-- Node fills (image type)
-- Background images
-- Pattern fills
+圖像引用存在於：
+- 節點填充（image 類型）
+- 背景圖像
+- 圖案填充
 
 ### Mode 2: Node Renders
-Render Figma nodes themselves as images. Useful for:
-- Exporting complex compositions
-- Capturing frames/artboards
-- Creating documentation screenshots
+將 Figma 節點本身渲染為圖像。適用於：
+- 導出複雜合成
+- 截取框架/畫板
+- 生成文檔截圖
 
 ## Usage Examples
 
@@ -96,7 +96,7 @@ parameters:
 
 ## Finding Image Refs
 
-Image refs are discovered through queries:
+通過查詢發現圖像引用：
 
 ```yaml
 # Query for nodes with images
@@ -108,7 +108,7 @@ parameters:
     select: ["@images"]
 ```
 
-Response includes:
+響應包含：
 ```json
 {
   "results": [
@@ -134,16 +134,16 @@ Response includes:
 ## Use Cases
 
 ### Extracting Brand Assets
-1. Use `query` with `@images` projection to find all image fills
-2. Collect image_refs from results
-3. Download all with `download_image`
+1. 用 `query` 加 `@images` 投影查找所有圖像填充
+2. 收集結果中的 `image_refs`
+3. 批量 `download_image` 下載
 
 ### Creating Documentation Screenshots
-1. Identify frame IDs from `get_tree`
-2. Render frames with `download_image` using node_ids
-3. Use PNG format for documentation
+1. 從 `get_tree` 獲取框架 ID
+2. 用 `download_image` 的 `node_ids` 渲染框架
+3. 文檔使用 PNG 格式
 
 ### Exporting Marketing Materials
-1. Find artboards with `search` pattern
-2. Render as high-quality PNG or PDF
-3. Use for presentations or web
+1. 用 `search` 模式查找畫板
+2. 渲染為高質量 PNG 或 PDF
+3. 用於演示或網頁

@@ -1,6 +1,6 @@
 ---
 name: build-docs
-description: Interactive wizard to build a component and page documentation site from Figma using Go templates
+description: Interactive wizard to build component and page documentation site from Figma using Go templates. 交互式嚮導：以 Go 模板從 Figma 構建組件與頁面文檔站點。 Use when: building design system documentation, generating component docs site, creating figma-to-html docs, interactive docs wizard, full documentation from figma
 arguments:
   - name: file_key
     description: Figma file key (optional - will prompt if not provided)
@@ -9,15 +9,15 @@ arguments:
 
 # Build Documentation Site from Figma
 
-This command guides you through creating a complete documentation site with HTML mockups and SASS/CSS from your Figma design system.
+嚮導式構建完整文檔站點，含 HTML 模型及 SASS/CSS，源自 Figma 設計系統。
 
 ## Interactive Workflow
 
-You will guide the user through these steps using AskUserQuestion:
+以 AskUserQuestion 引導用戶完成以下步驟：
 
 ### Step 1: Get Figma File
 
-If `file_key` is not provided, ask the user:
+若未提供 `file_key`，詢問用戶：
 
 ```yaml
 question: "What is your Figma file URL or key?"
@@ -29,7 +29,7 @@ options:
     description: "Just the key part (e.g., ABC123xyz)"
 ```
 
-Extract the file key from the URL if needed:
+必要時從 URL 提取 file key：
 ```
 https://www.figma.com/design/ABC123xyz/Design-System
                             ^^^^^^^^^^^
@@ -37,7 +37,7 @@ https://www.figma.com/design/ABC123xyz/Design-System
 
 ### Step 2: Verify Figma Access
 
-Use figma-query to check access:
+用 figma-query 校驗訪問：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -47,7 +47,7 @@ params:
     topic: status
 ```
 
-If not configured, guide user to set up token.
+若未配置，指引用戶設置令牌。
 
 ### Step 3: Choose Output Format
 
@@ -93,7 +93,7 @@ options:
 
 ### Step 6: Sync File and Analyze
 
-Sync the Figma file locally:
+在本地同步 Figma 文件：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -105,7 +105,7 @@ params:
     assets: true
 ```
 
-Get the file structure:
+取文件結構：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -116,7 +116,7 @@ params:
     depth: 3
 ```
 
-List components:
+列出組件：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -129,7 +129,7 @@ params:
 
 ### Step 7: Select What to Extract
 
-Present discovered components and pages:
+呈現已發現的組件與頁面：
 
 ```yaml
 question: "Which components do you want to document?"
@@ -148,7 +148,7 @@ options:
 
 ### Step 8: Export Design Tokens
 
-Export tokens in the chosen format:
+以所選格式導出令牌：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -162,7 +162,7 @@ params:
 
 ### Step 9: Extract Components
 
-For each selected component, use the Go template-based extraction:
+每個選定組件，以 Go 模板提取：
 
 ```yaml
 # Get component CSS using template
@@ -180,7 +180,7 @@ params:
 
 ### Step 10: Export Assets
 
-Export icons and images:
+導出圖標與圖像：
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -196,7 +196,7 @@ params:
 
 ### Step 11: Generate HTML Mockups
 
-For HTML mockup generation, you have two options:
+HTML 模型生成有兩種選項：
 
 **Option A: Use get_node with template rendering (if available)**
 ```yaml
@@ -211,7 +211,7 @@ params:
     depth: 3
 ```
 
-Then render using the template data structure to generate HTML.
+再用模板數據結構生成 HTML。
 
 **Option B: Use wireframe + CSS to build HTML**
 ```yaml
@@ -225,11 +225,11 @@ params:
     annotations: ["ids", "names", "dimensions"]
 ```
 
-Use the wireframe structure to create semantic HTML with the extracted CSS classes.
+以線框結構創建語義化 HTML，搭配已提取的 CSS 類。
 
 ### Step 12: Create Documentation Structure
 
-Create the final documentation structure:
+創建最終文檔結構：
 
 ```
 <OUTPUT_DIR>/
@@ -257,7 +257,7 @@ Create the final documentation structure:
 
 ## Output Summary
 
-At the end, present a summary:
+結束時呈現摘要：
 
 ```
 Documentation Build Complete
@@ -286,8 +286,8 @@ Next steps:
 
 ## Key Principles
 
-1. **Use Go templates** - The figma-query MCP uses Go text/template for deterministic output
-2. **No AI-generated code** - CSS and HTML come from templates, not LLM generation
-3. **Interactive guidance** - Use AskUserQuestion to gather preferences
-4. **Incremental extraction** - Let user choose what to extract
-5. **Production-ready output** - BEM naming, SCSS variables, semantic HTML
+1. **使用 Go 模板** - figma-query MCP 以 Go text/template 實現確定性輸出
+2. **非 AI 生成代碼** - CSS 與 HTML 源自模板，非 LLM 生成
+3. **交互式引導** - 用 AskUserQuestion 收集偏好
+4. **增量提取** - 讓用戶選擇提取範圍
+5. **生產就緒輸出** - BEM 命名、SCSS 變量、語義化 HTML

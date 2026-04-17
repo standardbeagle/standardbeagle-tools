@@ -1,6 +1,6 @@
 ---
 name: extract-components
-description: Interactively extract components from Figma with SCSS/CSS using Go templates
+description: Interactively extract components from Figma with SCSS/CSS using Go templates. 交互式提取 Figma 組件，以 Go 模板生成 SCSS/CSS。 Use when: extracting specific figma components, generating component SCSS, building component HTML mockups, exporting component previews, interactive component selection
 arguments:
   - name: file_key
     description: Figma file key
@@ -12,13 +12,13 @@ arguments:
 
 # Extract Components from Figma
 
-Extract specific components with SCSS/CSS and HTML mockups using deterministic Go templates.
+以確定性 Go 模板提取特定組件，含 SCSS/CSS 及 HTML 模型。
 
 ## Workflow
 
 ### Step 1: List Available Components
 
-First, get all components in the file:
+首先獲取文件中所有組件：
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -33,7 +33,7 @@ params:
 
 ### Step 2: Ask User to Select Components
 
-Present the components and let user choose:
+呈現組件供用戶選擇：
 
 ```yaml
 question: "Which components would you like to extract?"
@@ -50,7 +50,7 @@ options:
     description: "Card components"
 ```
 
-If user selects specific components, use search to find them:
+若用戶選擇特定組件，用搜索定位：
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -81,7 +81,7 @@ options:
 
 ### Step 4: Extract Design Tokens First
 
-Always extract tokens first - components depend on them:
+先提取令牌——組件依賴令牌：
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -96,7 +96,7 @@ params:
 
 ### Step 5: Extract Each Component
 
-For each selected component:
+每個選定組件執行：
 
 #### 5a. Get Component Structure (Wireframe)
 
@@ -126,7 +126,7 @@ params:
     output_file: "<OUTPUT_DIR>/<ComponentName>/_component.scss"
 ```
 
-The `get_css` tool with `style: "scss"` uses the Go template at `templates/css/scss.tmpl`:
+`get_css` 搭配 `style: "scss"` 使用 Go 模板 `templates/css/scss.tmpl`：
 
 ```scss
 // Component: {{ .Node.Name }}
@@ -194,9 +194,9 @@ params:
 
 ### Step 6: Create Component HTML Mockup
 
-Using the node structure and CSS, create the HTML mockup file.
+依節點結構與 CSS 創建 HTML 模型文件。
 
-The Go template `templates/html/semantic.tmpl` produces:
+Go 模板 `templates/html/semantic.tmpl` 生成：
 
 ```html
 {{- /* TEXT nodes */ -}}
@@ -223,7 +223,7 @@ The Go template `templates/html/semantic.tmpl` produces:
 {{- end -}}
 ```
 
-Write the HTML mockup:
+寫入 HTML 模型：
 
 ```html
 <!DOCTYPE html>
@@ -258,7 +258,7 @@ Write the HTML mockup:
 
 ### Step 7: Create Component Index
 
-Create an index file listing all extracted components:
+創建列出所有提取組件的索引文件：
 
 ```html
 <!DOCTYPE html>
@@ -330,10 +330,10 @@ Usage:
 
 ## Error Handling
 
-If extraction fails for a component:
-1. Log the error
-2. Continue with next component
-3. Report partial success at end
+組件提取失敗時：
+1. 記錄錯誤
+2. 繼續下一組件
+3. 結尾報告部分成功
 
 ```yaml
 on_error:

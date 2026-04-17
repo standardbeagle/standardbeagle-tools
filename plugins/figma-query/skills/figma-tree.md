@@ -1,11 +1,11 @@
 ---
 name: figma-tree
-description: Get the file structure as an ASCII tree or JSON with node IDs for navigation
+description: Get the file structure as an ASCII tree or JSON with node IDs for navigation. 以 ASCII 樹或 JSON 獲取文件結構與節點 ID。 Use when: exploring a Figma file for the first time, finding page and frame IDs, navigating file hierarchy, getting node IDs for other tools, understanding file organization
 ---
 
 # Figma Get Tree Tool
 
-The `get_tree` tool returns the hierarchical structure of a Figma file as an ASCII tree or JSON, with node IDs for subsequent drilling down.
+`get_tree` 工具以 ASCII 樹或 JSON 返回 Figma 文件層級結構，附帶節點 ID 供後續深入查詢。
 
 ## Tool Parameters
 
@@ -117,7 +117,7 @@ parameters:
 
 ## Using Node IDs
 
-Node IDs from the tree can be used with other tools:
+從樹中獲取的節點 ID 可供其他工具使用：
 
 ```yaml
 # Get details for specific node

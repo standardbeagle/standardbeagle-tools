@@ -1,11 +1,11 @@
 ---
 name: figma-node
-description: Get full details for a specific Figma node by ID with selective field projection
+description: Get full details for a specific Figma node by ID with selective field projection. 按 ID 取節點詳情，支持字段投影。 Use when: inspecting a specific node, getting CSS properties for a node, retrieving layout or typography details, exploring node hierarchy, looking up node by ID
 ---
 
 # Figma Get Node Tool
 
-The `get_node` tool retrieves comprehensive details for a specific node by ID, with support for selective field projection and recursive child retrieval.
+`get_node` 工具按 ID 取節點完整詳情，支持字段投影與遞歸子節點獲取。
 
 ## Tool Parameters
 
@@ -20,7 +20,7 @@ parameters:
 
 ## Projections
 
-Use projections to retrieve only the data you need:
+按需投影，僅取所需字段：
 
 | Projection | Fields Included |
 |------------|-----------------|
@@ -176,13 +176,13 @@ get_node: node_id: "child_id", select: [...]
 | 2 | Node + children + grandchildren |
 | 3+ | Deeper recursion |
 
-Higher depths may return large amounts of data. Use projections to limit response size.
+深度越大，返回數據越多。用投影限制響應體積。
 
 ## Finding Node IDs
 
-Node IDs can be found using:
-- `get_tree` - Returns file structure with IDs
-- `search` - Find nodes by pattern
-- `list_components` - All component IDs
-- `wireframe` - Visual with ID legend
+節點 ID 可從以下途徑獲取：
+- `get_tree` - 返回帶 ID 的文件結構
+- `search` - 按模式查找節點
+- `list_components` - 全部組件 ID
+- `wireframe` - 帶 ID 圖例的可視化
 - Figma URL: `figma.com/file/KEY?node-id=1:234`

@@ -1,36 +1,36 @@
 ---
 name: adversarial-design-library
-description: Adversarial cooperation loop for creating a complete design library from Figma with CSS, assets, HTML mockups, and documentation
+description: Adversarial cooperation loop for creating a complete design library from Figma with CSS, assets, HTML mockups, and documentation. 對抗式協作循環，從 Figma 生成完整設計庫：CSS、資產、HTML、文檔。 Use when: extracting a complete design library, running adversarial quality verification loop, creating production-ready component library from Figma, full design-to-code extraction
 ---
 
 # Adversarial Design Library Loop (Ralph Wiggum Pattern)
 
-A continuous execution loop where an extractor and verifier work in a challenge-and-verify cycle to create a production-ready design library from Figma. The verifier actively challenges every extraction while the extractor defends and improves.
+提取器與驗證器持續在挑戰-驗證循環中協作，從 Figma 生成生產就緒設計庫。驗證器積極挑戰每次提取，提取器應答並改進。
 
 ## Mission
 
-Extract a complete, production-ready design library with:
-- **Exact Figma CSS** - Pixel-perfect style extraction
-- **Original Assets** - All images, icons, and graphics
-- **HTML Mockups** - Implementation-ready HTML/CSS
-- **Comprehensive Documentation** - Component, page, and section docs
+提取完整、生產就緒的設計庫，包含：
+- **Exact Figma CSS** - 逐像素樣式提取
+- **Original Assets** - 所有圖像、圖標、圖形
+- **HTML Mockups** - 可實施的 HTML/CSS
+- **Comprehensive Documentation** - 組件、頁面、章節文檔
 
 ## Core Principles
 
 ### Context-Sized Extraction
-Each extraction task must be:
-- **Bounded**: Single component or section at a time
-- **Measurable**: Clear output artifacts
-- **Verifiable**: Can be checked against Figma
-- **Isolated**: No dependencies on unextracted elements
+每次提取任務須：
+- **Bounded**：每次單一組件或章節
+- **Measurable**：明確輸出產物
+- **Verifiable**：可對照 Figma 核查
+- **Isolated**：無對未提取元素的依賴
 
 ### Plan Adjustment Protocol
-At the end of EACH phase, **automatically**:
-1. Review what was extracted
-2. Update remaining items based on discoveries
-3. Re-prioritize if issues found
-4. Document adjustments
-5. **Continue immediately** to next phase unless BLOCKED
+每階段末**自動**執行：
+1. 審查已提取內容
+2. 依新發現更新剩余項
+3. 若發現問題則重新排優
+4. 記錄調整
+5. 除非 BLOCKED，**立即繼續**至下一階段
 
 ```yaml
 plan_adjustment_rules:
@@ -60,7 +60,7 @@ plan_adjustment_rules:
 
 ## Eagle-Eyed Violations (IMMEDIATE REJECTION)
 
-The verifier must be **strict about rejecting** for these violations.
+驗證器須**嚴格拒絕**以下違規。
 
 ### 1. CSS Accuracy Violations
 ```yaml
@@ -157,19 +157,19 @@ mockup_violations:
 ### Task: Analyze Figma File Structure
 
 **DO (Positive Instructions):**
-- Sync entire Figma file locally
-- Get complete tree structure
-- List all components with variants
-- List all styles (colors, typography, effects)
-- Identify page/screen structure
-- Create extraction queue
+- 本地同步整個 Figma 文件
+- 獲取完整樹結構
+- 列出所有組件及變體
+- 列出所有樣式（顏色、排版、效果）
+- 識別頁面/屏幕結構
+- 建立提取隊列
 
 **DO NOT (Negative Instructions):**
-- Skip syncing (need local cache)
-- Ignore nested components
-- Miss variant discovery
-- Overlook style definitions
-- Start extracting without plan
+- 跳過同步（需本地緩存）
+- 忽略嵌套組件
+- 遺漏變體發現
+- 忽視樣式定義
+- 未規劃即開始提取
 
 **Verification Criteria:**
 ```yaml
@@ -211,20 +211,20 @@ checkpoint:
 ### Task: Extract All Design Tokens
 
 **DO (Positive Instructions):**
-- Export all color styles
-- Export all typography styles
-- Export all effect styles (shadows, blur)
-- Export all spacing/sizing variables
-- Generate CSS custom properties
-- Generate JSON token file
-- Generate Tailwind config (optional)
+- 導出所有顏色樣式
+- 導出所有排版樣式
+- 導出所有效果樣式（陰影、模糊）
+- 導出所有間距/尺寸變量
+- 生成 CSS 自定義屬性
+- 生成 JSON 令牌文件
+- 生成 Tailwind 配置（可選）
 
 **DO NOT (Negative Instructions):**
-- Miss any defined styles
-- Hardcode values (use variables)
-- Ignore multi-mode tokens (light/dark)
-- Skip token naming conventions
-- Leave tokens undocumented
+- 遺漏任何已定義樣式
+- 硬編碼值（使用變量）
+- 忽略多模式令牌（亮/暗）
+- 跳過令牌命名規範
+- 令牌不留文檔
 
 **Verification Criteria:**
 ```yaml
@@ -255,25 +255,25 @@ tokens/
 
 ## Phase 3: Component Extraction Loop
 
-For EACH component in the queue:
+隊列中每個組件逐一執行：
 
 ### Task: Extract Single Component
 
 **DO (Positive Instructions):**
-- Get component wireframe
-- Extract all CSS properties
-- Export component preview image
-- Export child assets (icons, images)
-- Get token references
-- Generate HTML mockup
-- Create component documentation
+- 獲取組件線框圖
+- 提取所有 CSS 屬性
+- 導出組件預覽圖像
+- 導出子資產（圖標、圖像）
+- 獲取令牌引用
+- 生成 HTML 模型
+- 創建組件文檔
 
 **DO NOT (Negative Instructions):**
-- Skip any CSS property
-- Miss nested elements
-- Use hardcoded values (use tokens)
-- Ignore variants
-- Leave undocumented
+- 跳過任何 CSS 屬性
+- 遺漏嵌套元素
+- 使用硬編碼值（使用令牌）
+- 忽略變體
+- 不留文檔
 
 **Per-Component Verification:**
 ```yaml
@@ -329,26 +329,26 @@ checkpoint:
 
 ## Phase 4: Page/Screen Extraction Loop
 
-For EACH page in the queue:
+隊列中每個頁面逐一執行：
 
 ### Task: Extract Single Page
 
 **DO (Positive Instructions):**
-- Get page structure (sections)
-- Extract page-level layout CSS
-- Get section wireframes
-- Extract section CSS
-- Export page preview
-- Export section previews
-- Document component usage
-- Generate page HTML mockup
+- 獲取頁面結構（章節）
+- 提取頁面級佈局 CSS
+- 獲取章節線框圖
+- 提取章節 CSS
+- 導出頁面預覽
+- 導出章節預覽
+- 記錄組件使用
+- 生成頁面 HTML 模型
 
 **DO NOT (Negative Instructions):**
-- Skip layout/grid CSS
-- Miss section boundaries
-- Ignore responsive hints
-- Leave sections undocumented
-- Miss component references
+- 跳過佈局/柵格 CSS
+- 遺漏章節邊界
+- 忽略響應式提示
+- 章節不留文檔
+- 遺漏組件引用
 
 **Per-Page Verification:**
 ```yaml
@@ -391,18 +391,18 @@ pages/PageName/
 ### Task: Assemble Complete Library
 
 **DO (Positive Instructions):**
-- Create library index/manifest
-- Generate master CSS file
-- Create component index
-- Create page index
-- Generate usage documentation
-- Create getting started guide
+- 創建庫索引/清單
+- 生成主 CSS 文件
+- 創建組件索引
+- 創建頁面索引
+- 生成使用文檔
+- 創建入門指南
 
 **DO NOT (Negative Instructions):**
-- Leave orphan files
-- Miss index entries
-- Skip cross-references
-- Omit setup instructions
+- 留下孤立文件
+- 遺漏索引條目
+- 跳過交叉引用
+- 省略設置說明
 
 **Library Output Structure:**
 ```
@@ -435,7 +435,7 @@ design-library/
 
 ### Task: Full Library Verification
 
-The verifier attempts to break the library:
+驗證器嘗試攻破庫：
 
 **Verification Checklist:**
 ```yaml
@@ -499,41 +499,41 @@ adversarial_tests:
 ### Task: Package and Deliver
 
 **DO (Positive Instructions):**
-- Final manifest generation
-- Generate change summary
-- Create usage examples
-- Package for distribution
+- 最終清單生成
+- 生成變更摘要
+- 創建使用示例
+- 打包備發佈
 
 **Deliverables:**
-1. Complete design library folder
-2. Library manifest (JSON)
-3. Getting started documentation
-4. Component catalog
-5. Page catalog
-6. Asset inventory
+1. 完整設計庫目錄
+2. 庫清單（JSON）
+3. 入門文檔
+4. 組件目錄
+5. 頁面目錄
+6. 資產清單
 
 ---
 
 ## Loop Continuation Protocol
 
-After Phase 7:
+Phase 7 完成後：
 
 1. **On Success:**
-   - Report extraction summary
-   - List all components extracted
-   - List all pages extracted
-   - Note any warnings/gaps
+   - 報告提取摘要
+   - 列出所有已提取組件
+   - 列出所有已提取頁面
+   - 標注所有警告/缺口
 
 2. **On Failure:**
-   - Document specific failure point
-   - List what was successfully extracted
-   - Identify blocking issues
-   - Recommend remediation
+   - 記錄具體失敗點
+   - 列出已成功提取內容
+   - 識別阻塞問題
+   - 建議修復方案
 
 3. **Metrics to Track:**
-   - Components extracted
-   - Pages extracted
-   - Assets exported
-   - CSS properties captured
-   - Tokens referenced
-   - Issues found and fixed
+   - 已提取組件數
+   - 已提取頁面數
+   - 已導出資產數
+   - 已採集 CSS 屬性數
+   - 已引用令牌數
+   - 發現並修復問題數

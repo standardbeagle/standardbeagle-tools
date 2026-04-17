@@ -1,11 +1,11 @@
 ---
 name: figma-search
-description: Full-text search across Figma files by name, text content, or properties
+description: Full-text search across Figma files by name, text content, or properties. 在 Figma 文件中按名稱、文本或屬性全文搜索。 Use when: finding nodes by name pattern, searching text content, finding nodes by color value, locating all icons, searching for components matching a pattern
 ---
 
 # Figma Search Tool
 
-The `search` tool provides full-text search across Figma files, searching node names, text content, or properties with glob and regex pattern support.
+`search` 工具在 Figma 文件中進行全文搜索，支持 glob 與正則表達式，可搜索節點名稱、文本內容或屬性。
 
 ## Tool Parameters
 
@@ -22,21 +22,21 @@ parameters:
 ## Search Scopes
 
 ### names (default)
-Search node names only.
+僅搜索節點名稱。
 ```yaml
 scope: "names"
 pattern: "icon-*"  # Finds: icon-search, icon-home, icon-user
 ```
 
 ### text
-Search text content within TEXT nodes.
+搜索 TEXT 節點中的文本內容。
 ```yaml
 scope: "text"
 pattern: "Welcome*"  # Finds text nodes containing "Welcome..."
 ```
 
 ### properties
-Search property values (colors, fonts, etc.).
+搜索屬性值（顏色、字體等）。
 ```yaml
 scope: "properties"
 pattern: "#FF5500"  # Finds nodes using this color
@@ -176,7 +176,7 @@ get_tokens: node_ids: [...]
 
 ## Performance Tips
 
-1. **Use specific patterns**: More specific = faster search
-2. **Filter by node_types**: Reduces search space
-3. **Limit results**: Use pagination for large files
-4. **Search from cache**: Use `sync_file` first for repeated searches
+1. **精確模式**：越精確搜索越快
+2. **過濾類型**：用 `node_types` 縮小搜索範圍
+3. **限制結果**：大文件分頁
+4. **從緩存搜索**：先 `sync_file`，重複搜索更快

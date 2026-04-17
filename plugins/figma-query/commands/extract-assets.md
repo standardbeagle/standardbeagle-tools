@@ -1,6 +1,6 @@
 ---
 name: extract-assets
-description: Comprehensive asset extraction from Figma - finds ALL images, icons, and vectors including those without export settings
+description: Comprehensive asset extraction from Figma - finds ALL images, icons, and vectors including those without export settings. 全量提取 Figma 資產：含無導出設置的圖標與矢量。 Use when: exporting figma icons, extracting all images from figma, finding vector nodes without export settings, building asset manifest, exporting SVG icons
 arguments:
   - name: file_key
     description: Figma file key
@@ -12,22 +12,22 @@ arguments:
 
 # Extract All Assets from Figma
 
-This command performs comprehensive asset extraction, finding images and icons that the default export misses.
+全量資產提取，補取默認導出所遺漏的圖像與圖標。
 
 ## The Problem
 
-Figma stores assets in multiple ways:
-1. **Image fills** - Images used as fills (backgrounds, photos)
-2. **Image strokes** - Images used as stroke patterns
-3. **Background images** - Frame/canvas backgrounds
-4. **Vector icons** - VECTOR/BOOLEAN nodes that must be RENDERED (not downloaded)
-5. **Icon components** - Frames containing vectors, often without export settings
+Figma 以多種方式存儲資產：
+1. **Image fills** - 用作填充的圖像（背景、照片）
+2. **Image strokes** - 用作描邊圖案的圖像
+3. **Background images** - 框架/畫布背景
+4. **Vector icons** - 須渲染（非下載）的 VECTOR/BOOLEAN 節點
+5. **Icon components** - 含矢量的框架，通常無導出設置
 
-The default `sync_file` only exports:
-- Image fills via Figma's `GetImageFills` API
-- Nodes with explicit `ExportSettings`
+默認 `sync_file` 僅導出：
+- 通過 Figma `GetImageFills` API 的圖像填充
+- 含顯式 `ExportSettings` 的節點
 
-**Vector icons without ExportSettings are NOT exported by default!**
+**無 ExportSettings 的矢量圖標默認不導出！**
 
 ## Workflow
 
@@ -132,7 +132,8 @@ params:
 ```
 
 ### Step 7: Create asset manifest
-Write a manifest.json mapping Figma IDs to exported file paths:
+
+生成 manifest.json 映射 Figma ID 至導出文件路徑：
 
 ```json
 {
@@ -215,7 +216,7 @@ COMPONENT (large) → PNG images
 ```
 
 ### Strategy 4: By export settings
-Nodes with `exportSettings` respect those settings.
+含 `exportSettings` 的節點遵循其設置。
 
 ## Summary Output
 
@@ -245,7 +246,7 @@ Usage in HTML:
 
 ## Integration with Other Commands
 
-After running `/extract-assets`, the HTML generation in `/build-docs` and `/extract-components` can reference the exported assets:
+執行 `/extract-assets` 後，`/build-docs` 與 `/extract-components` 中的 HTML 生成可引用已導出資產：
 
 ```html
 <!-- Icon reference -->
@@ -267,17 +268,17 @@ After running `/extract-assets`, the HTML generation in `/build-docs` and `/extr
 ## Troubleshooting
 
 ### "No assets found"
-- Check that the Figma file has vector nodes or image fills
-- Try searching by name: `/figma-search *icon*`
+- 核查 Figma 文件含矢量節點或圖像填充
+- 按名稱搜索：`/figma-search *icon*`
 
 ### "SVG export failed"
-- Some complex vectors can't be exported as SVG
-- Fall back to PNG: `formats: ["png"]`
+- 部分複雜矢量無法導出為 SVG
+- 回退 PNG：`formats: ["png"]`
 
 ### "Missing icons in export"
-- Icons nested inside components need parent component ID
-- Try exporting the parent COMPONENT node instead of child VECTOR
+- 嵌套於組件內的圖標需父組件 ID
+- 改導出父 COMPONENT 節點而非子 VECTOR
 
 ### "Duplicate filenames"
-- Use `naming: "id"` instead of `naming: "name"` to avoid conflicts
-- Or use `naming: "path"` for full path-based names
+- 用 `naming: "id"` 替代 `naming: "name"` 避免衝突
+- 或用 `naming: "path"` 取完整路徑命名

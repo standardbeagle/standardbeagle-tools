@@ -1,17 +1,17 @@
 ---
 name: component-extraction
-description: Extract a complete component with CSS, assets, documentation, and HTML mockup
+description: Extract single Figma component with CSS, assets, documentation, and HTML mockup. 單組件全量提取：CSS、資產、文檔、HTML。 Use when: extracting one component fully, generating component docs, exporting component CSS and assets, building HTML mockup from Figma component, component-level design library work
 ---
 
 # Single Component Extraction
 
-This skill extracts everything needed to implement a single Figma component in code.
+此技能提取實現單一 Figma 組件所需之全部物料。
 
 ## Extraction Process
 
 ### Phase 1: Discovery
 
-Find and understand the component:
+探尋組件所在：
 
 ```yaml
 # Option A: Search by name
@@ -30,7 +30,7 @@ get_tree:
 
 ### Phase 2: Structure Analysis
 
-Understand component structure:
+解析組件結構：
 
 ```yaml
 # Get wireframe with all annotations
@@ -50,7 +50,7 @@ get_node:
 
 ### Phase 3: CSS Extraction
 
-Get all styling information:
+提取所有樣式信息：
 
 ```yaml
 # Extract CSS for component and children
@@ -68,7 +68,7 @@ get_tokens:
 
 ### Phase 4: Asset Export
 
-Export any images or icons:
+導出圖像與圖標：
 
 ```yaml
 # Export component render
@@ -149,7 +149,7 @@ components/ComponentName/
 
 ## HTML Mockup Generation
 
-Generate implementation-ready HTML from component data:
+從組件數據生成可實施之 HTML：
 
 ```html
 <!-- Generated from Figma component: Button/Primary -->
@@ -186,7 +186,7 @@ Generate implementation-ready HTML from component data:
 
 ## Variant Extraction
 
-For component sets with variants:
+組件集含多變體時：
 
 ```yaml
 # Get all variants
@@ -203,9 +203,11 @@ list_components:
 
 ## Integration with Design Library Loop
 
-This skill is used by the adversarial design library loop for each component:
+此技能供對抗式設計庫循環逐組件調用：
 
-1. Discovery phase identifies component
-2. Extraction produces all artifacts
-3. Verification validates output
-4. Documentation organizes results
+1. 探索階段定位組件
+2. 提取生成全部產物
+3. 驗證對照 Figma
+4. 文檔整理歸檔
+
+> Invoke the `Skill` tool with `skill: figma-query:adversarial-design-library` — 啟動全庫對抗式提取循環，逐組件調用本技能。

@@ -1,11 +1,11 @@
 ---
 name: page-extraction
-description: Extract a complete page/screen with all components, assets, and documentation
+description: Extract a complete page/screen with all components, assets, and documentation. 提取完整 Figma 頁面/屏幕：組件、資產、文檔。 Use when: extracting a full screen layout, documenting a page design, generating page HTML mockup, extracting section CSS, building page-level design documentation
 ---
 
 # Page/Screen Extraction
 
-This skill extracts everything needed to implement a complete Figma page or screen.
+此技能提取實現完整 Figma 頁面或屏幕所需之全部物料。
 
 ## Page vs Component Extraction
 
@@ -21,7 +21,7 @@ This skill extracts everything needed to implement a complete Figma page or scre
 
 ### Phase 1: Page Discovery
 
-Identify the page and its structure:
+定位頁面及其結構：
 
 ```yaml
 # Get file tree to find pages
@@ -38,7 +38,7 @@ get_tree:
 
 ### Phase 2: Section Analysis
 
-Break page into logical sections:
+將頁面拆分為邏輯區塊：
 
 ```yaml
 # Query for top-level frames (sections)
@@ -57,7 +57,7 @@ wireframe:
 
 ### Phase 3: Component Identification
 
-Find all component instances:
+查找所有組件實例：
 
 ```yaml
 # Query for component instances
@@ -75,7 +75,7 @@ list_components:
 
 ### Phase 4: Layout Extraction
 
-Extract layout/grid information:
+提取佈局/柵格信息：
 
 ```yaml
 # Get page-level layout
@@ -94,7 +94,7 @@ get_css:
 
 ### Phase 5: Content Extraction
 
-Extract text and images:
+提取文本與圖像：
 
 ```yaml
 # Query all text nodes
@@ -114,7 +114,7 @@ query:
 
 ### Phase 6: Asset Export
 
-Export page visuals:
+導出頁面視覺資源：
 
 ```yaml
 # Full page render
@@ -249,7 +249,7 @@ pages/PageName/
 
 ## Section Extraction Pattern
 
-For each section:
+每區塊逐步提取：
 
 ```yaml
 # 1. Get section structure
@@ -275,9 +275,11 @@ download_image:
 
 ## Integration with Design Library Loop
 
-Pages are processed after components:
+頁面在組件之後處理：
 
-1. Components extracted first (for reference)
-2. Each page identifies component usage
-3. Sections extracted with component refs
-4. Full page assembled from sections
+1. 先提取組件以備引用
+2. 各頁面識別組件用量
+3. 含組件引用的區塊逐一提取
+4. 由各區塊組裝完整頁面
+
+> Invoke the `Skill` tool with `skill: figma-query:adversarial-design-library` — 啟動含頁面提取的完整對抗式庫提取循環。

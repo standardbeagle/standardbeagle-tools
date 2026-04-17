@@ -1,11 +1,11 @@
 ---
 name: figma-export-assets
-description: Export images and icons from specific Figma nodes in multiple formats and scales
+description: Export images and icons from specific Figma nodes in multiple formats and scales. 從指定 Figma 節點導出圖像與圖標，支持多格式與多倍率。 Use when: exporting icons as SVG, exporting UI elements at multiple scales, batch exporting assets, rendering nodes as images, exporting for web and print
 ---
 
 # Figma Export Assets Tool
 
-The `export_assets` tool exports images, icons, and visual assets from specific Figma nodes in various formats and scales.
+`export_assets` 工具以多種格式與倍率從 Figma 節點導出圖像、圖標及視覺資產。
 
 ## Tool Parameters
 
@@ -108,25 +108,25 @@ parameters:
 
 ## Finding Node IDs
 
-Get node IDs using these tools:
-1. `get_tree` - Returns tree structure with IDs
-2. `search` - Find nodes by name/pattern
-3. `wireframe` - Visual with ID legend
-4. `list_components` - All component IDs
+以下工具可獲取節點 ID：
+1. `get_tree` - 返回帶 ID 的樹結構
+2. `search` - 按名稱/模式查找節點
+3. `wireframe` - 帶 ID 圖例的可視化
+4. `list_components` - 所有組件 ID
 
 ## Best Practices
 
 ### Icon Export Workflow
-1. Use `search` to find all icons: `pattern: "icon-*"`
-2. Export as SVG for scalability
-3. Use `name` naming for readability
+1. 用 `search` 查找所有圖標：`pattern: "icon-*"`
+2. 以 SVG 導出保持可縮放性
+3. 用 `name` 命名提升可讀性
 
 ### UI Asset Export Workflow
-1. Use `list_components` to find component IDs
-2. Export PNG at 1x, 2x, 3x scales
-3. Use `path` naming to preserve hierarchy
+1. 用 `list_components` 獲取組件 ID
+2. 以 1x、2x、3x 倍率導出 PNG
+3. 用 `path` 命名保留層級上下文
 
 ### Batch Export Strategy
-- Export in batches of 50-100 nodes to avoid rate limits
-- Use `sync_file` first for large exports
-- Check `failed` array in response for retry
+- 每批 50-100 節點，避免觸及速率限制
+- 大量導出前先 `sync_file`
+- 檢查響應中的 `failed` 數組並重試

@@ -1,11 +1,11 @@
 ---
 name: figma-components
-description: List all components in a Figma file with variants, usage statistics, and categorization
+description: List all components in a Figma file with variants, usage statistics, and categorization. 列出 Figma 文件所有組件：含變體、使用統計、自動分類。 Use when: taking component inventory, finding component IDs, checking variant details, analyzing component usage, categorizing design system components
 ---
 
 # Figma List Components Tool
 
-The `list_components` tool returns a comprehensive inventory of all components in a Figma file, including variant information, usage statistics, and automatic categorization.
+`list_components` 工具返回 Figma 文件中所有組件的完整清單，含變體信息、使用統計與自動分類。
 
 ## Tool Parameters
 
@@ -124,7 +124,7 @@ parameters:
 
 ## Categorization
 
-Components are automatically categorized by name patterns:
+組件按名稱模式自動分類：
 
 | Category | Name Patterns |
 |----------|---------------|
@@ -184,7 +184,7 @@ list_components: include_variants: true, include_usage: true
 
 ## Best Practices
 
-1. **Start with overview**: Get all components without variants first
-2. **Use pagination**: For large files, paginate to avoid timeouts
-3. **Check usage**: Focus on high-usage components first
-4. **Export by category**: Process similar components together
+1. **先概覽**：不帶變體先取全部組件
+2. **善用分頁**：大文件分頁避免超時
+3. **關注使用量**：優先處理高使用量組件
+4. **按類別導出**：同類組件一起處理

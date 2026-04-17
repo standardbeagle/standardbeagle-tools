@@ -1,11 +1,11 @@
 ---
 name: figma-css
-description: Extract production-ready CSS from Figma nodes in multiple styling formats
+description: Extract production-ready CSS from Figma nodes in multiple styling formats. 從 Figma 節點提取多種格式的生產就緒 CSS。 Use when: extracting CSS from components, generating Tailwind classes, getting SCSS with variables, extracting CSS for specific categories, writing CSS directly to output files
 ---
 
 # Figma Get CSS Tool
 
-The `get_css` tool extracts production-ready CSS from Figma nodes in various styling formats including vanilla CSS, CSS Modules, Tailwind, and styled-components.
+`get_css` 工具從 Figma 節點提取多種樣式格式的生產就緒 CSS，包括原生 CSS、CSS Modules、Tailwind 與 styled-components。
 
 ## Tool Parameters
 
@@ -262,12 +262,12 @@ const ButtonPrimary = styled.div`
 
 ## File Output
 
-When `output_file` is specified, CSS is written directly to the given path:
+指定 `output_file` 時，CSS 直接寫入指定路徑：
 
-- **Replace mode** (default): The file is created or overwritten with the new CSS.
-- **Append mode** (`append: true`): CSS is appended to the existing file, preserving previous content. This is useful when extracting multiple sections or components into a single stylesheet.
+- **Replace mode** (default)：創建或覆寫文件。
+- **Append mode** (`append: true`)：追加至現有文件，保留原有內容。提取多個區塊或組件至同一樣式表時尤為有用。
 
-Example workflow for building a page stylesheet incrementally:
+增量構建頁面樣式表的示例工作流：
 
 ```yaml
 # 1. Extract layout CSS (creates the file)
@@ -288,12 +288,12 @@ get_css:
 
 ## Namespace
 
-The `namespace` parameter prefixes generated class names to prevent collisions when extracting multiple components into the same scope. For example, with `namespace: "card"`, a child node named "Title" produces the class `.card-Title` instead of `.Title`.
+`namespace` 參數為生成的類名添加前綴，防止多組件提取至同一作用域時命名衝突。例如，`namespace: "card"` 下，名為 "Title" 的子節點生成 `.card-Title` 而非 `.Title`。
 
-This is especially important when:
-- Extracting multiple components that may share child node names
-- Building a combined stylesheet from several Figma nodes
-- Generating CSS Modules or scoped styles
+尤其適用於：
+- 提取多個可能共享子節點名的組件
+- 構建多個 Figma 節點的合併樣式表
+- 生成 CSS Modules 或作用域樣式
 
 ## Common Workflows
 

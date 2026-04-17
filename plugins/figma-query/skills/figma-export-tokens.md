@@ -1,11 +1,11 @@
 ---
 name: figma-export-tokens
-description: Export Figma design tokens to CSS, JSON, or Tailwind format for integration into development workflows
+description: Export Figma design tokens to CSS, JSON, or Tailwind format for integration into development workflows. 導出 Figma 設計令牌為 CSS、JSON 或 Tailwind 格式。 Use when: exporting design tokens, generating CSS custom properties, creating Tailwind config from Figma, integrating tokens into CI/CD, version controlling design tokens
 ---
 
 # Figma Export Tokens Tool
 
-The `export_tokens` tool extracts design tokens (colors, typography, spacing, etc.) from Figma variables and styles, exporting them in various formats for development integration.
+`export_tokens` 工具從 Figma 變量與樣式中提取設計令牌（顏色、排版、間距等），以多種格式導出供開發集成。
 
 ## Tool Parameters
 
@@ -184,7 +184,7 @@ const primaryColor = tokens.colors.primary['500'].value;
 
 ## Best Practices
 
-1. **Version control tokens**: Include exported tokens in git
-2. **CI/CD integration**: Re-export tokens on design changes
-3. **Use JSON for flexibility**: Transform to any format downstream
-4. **Document mappings**: Note which Figma styles map to which tokens
+1. **版本管理令牌**：導出令牌納入 git
+2. **CI/CD 集成**：設計變更時自動重新導出
+3. **優先 JSON**：靈活，可向下游任意格式轉換
+4. **記錄映射**：標注 Figma 樣式與令牌的對應關係

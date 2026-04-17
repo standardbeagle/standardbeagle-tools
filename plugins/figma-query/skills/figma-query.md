@@ -1,11 +1,11 @@
 ---
 name: figma-query
-description: Execute powerful JSON DSL queries against Figma files with filtering, projection, and pagination
+description: Execute powerful JSON DSL queries against Figma files with filtering, projection, and pagination. 對 Figma 文件執行 JSON DSL 查詢：過濾、投影、分頁。 Use when: finding nodes by type or property, filtering components by name pattern, querying with complex conditions, paginating large result sets, running from local cache
 ---
 
 # Figma Query Tool
 
-The `query` tool provides a powerful JSON DSL for querying Figma files with filtering, field projection, and pagination support.
+`query` 工具提供強大的 JSON DSL，支持過濾、字段投影與分頁查詢 Figma 文件。
 
 ## Tool Parameters
 
@@ -25,7 +25,7 @@ parameters:
 ## Query Structure
 
 ### FROM Clause
-Specify node types to query:
+指定查詢節點類型：
 
 ```yaml
 from: ["COMPONENT"]                    # Single type
@@ -37,7 +37,7 @@ from: ["PAGE > FRAME > COMPONENT"]     # Path pattern
 Node types: `DOCUMENT`, `CANVAS`, `FRAME`, `GROUP`, `SECTION`, `VECTOR`, `COMPONENT`, `INSTANCE`, `TEXT`, `ELLIPSE`, `POLYGON`, `STAR`, `LINE`, `RECTANGLE`
 
 ### WHERE Clause (Filters)
-Filter results with operators:
+過濾操作符：
 
 ```yaml
 where:
@@ -53,7 +53,7 @@ where:
 ```
 
 ### SELECT Clause (Projections)
-Choose what data to return:
+選擇返回字段：
 
 ```yaml
 select: ["@structure"]     # id, name, type, visible, parent_id
@@ -175,8 +175,8 @@ where:
 
 ## Performance Tips
 
-1. **Use projections**: Only request fields you need
-2. **Use from_cache**: After `sync_file`, query locally
-3. **Limit results**: Use pagination for large result sets
-4. **Be specific**: Narrow down with precise WHERE clauses
-5. **Use node IDs**: Query `#id` for direct access
+1. **善用投影**：只取所需字段
+2. **優先本地緩存**：`sync_file` 後用 `from_cache: true`
+3. **限制結果集**：大文件分頁查詢
+4. **精確條件**：WHERE 子句越窄越快
+5. **用節點 ID**：`#id` 直接定位，最快

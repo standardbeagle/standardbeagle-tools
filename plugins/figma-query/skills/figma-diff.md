@@ -1,11 +1,11 @@
 ---
 name: figma-diff
-description: Compare Figma file versions or exports to track design changes
+description: Compare Figma file versions or exports to track design changes. 比較 Figma 文件版本或導出，追蹤設計變更。 Use when: tracking design changes over time, comparing two file versions, auditing style or token changes, regression checking, diffing local exports
 ---
 
 # Figma Diff Tool
 
-The `diff` tool compares two versions of a Figma file or two exports, producing a change report with added, modified, and removed elements.
+`diff` 工具比較 Figma 文件的兩個版本或兩次導出，生成含新增、修改、刪除元素的變更報告。
 
 ## Tool Parameters
 
@@ -29,14 +29,14 @@ parameters:
 ## Version Identifiers
 
 ### Version Numbers
-Use Figma version numbers from file history:
+使用文件歷史中的 Figma 版本號：
 ```yaml
 version1: "123456789"
 version2: "987654321"
 ```
 
 ### Export Paths
-Compare local exports (from `sync_file`):
+比較本地導出（來自 `sync_file`）：
 ```yaml
 version1: "./exports/v1"
 version2: "./exports/v2"
@@ -141,13 +141,13 @@ parameters:
 ## Change Types
 
 ### added
-New nodes/styles/tokens that didn't exist in version1.
+version1 中不存在的新節點/樣式/令牌。
 
 ### modified
-Elements that exist in both but have different properties.
+兩版本均存在但屬性不同的元素。
 
 ### removed
-Elements in version1 that don't exist in version2.
+version1 中存在但 version2 中不存在的元素。
 
 ## Common Workflows
 
@@ -195,7 +195,7 @@ diff: version1: "baseline", compare_type: "styles"
 
 ## Integration with sync_file
 
-For comprehensive diffing:
+全面 diff 工作流：
 
 ```yaml
 # 1. Create baseline export
@@ -210,8 +210,8 @@ diff: version1: "./baseline", version2: "./current"
 
 ## Best Practices
 
-1. **Create baselines**: Use `sync_file` before major changes
-2. **Focus comparisons**: Use `compare_type` for specific analysis
-3. **Track over time**: Regular diffs catch drift
-4. **Document changes**: Use diff reports in PR descriptions
-5. **Automate in CI**: Diff on design file changes
+1. **建立基線**：重大變更前 `sync_file`
+2. **聚焦比較**：用 `compare_type` 進行專項分析
+3. **持續追蹤**：定期 diff 防止漂移
+4. **記錄變更**：PR 描述中附 diff 報告
+5. **CI 自動化**：設計文件變更時自動 diff

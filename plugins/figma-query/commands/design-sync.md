@@ -1,6 +1,6 @@
 ---
 name: design-sync
-description: Sync a Figma file to local storage for offline analysis and faster queries
+description: Sync Figma file to local storage for offline analysis and faster queries. 同步 Figma 文件至本地，供離線分析與快速查詢。 Use when: syncing figma file locally, caching figma for offline use, speeding up repeated queries, preparing for grep-based search, downloading full figma structure
 arguments:
   - name: file_key
     description: Figma file key (from URL)
@@ -12,7 +12,7 @@ arguments:
 
 # Figma Design Sync
 
-Sync a complete Figma file to local storage for offline analysis, grep-based searching, and faster subsequent queries.
+同步完整 Figma 文件至本地，供離線分析、grep 搜索及快速後續查詢。
 
 ## Usage
 
@@ -46,7 +46,7 @@ parameters:
 
 ### 2. Review Structure
 
-After sync, view the tree:
+同步後覽樹：
 
 ```yaml
 mcp_name: figma-query
@@ -58,7 +58,7 @@ parameters:
 
 ### 3. List Components
 
-Get component inventory:
+取組件清單：
 
 ```yaml
 mcp_name: figma-query
@@ -70,7 +70,7 @@ parameters:
 
 ### 4. List Styles
 
-Get style inventory:
+取樣式清單：
 
 ```yaml
 mcp_name: figma-query
@@ -81,7 +81,7 @@ parameters:
 
 ## Output Structure
 
-After sync, your output directory contains:
+同步後輸出目錄結構：
 
 ```
 <output_dir>/<file-name>/
@@ -106,7 +106,7 @@ After sync, your output directory contains:
 
 ## Offline Analysis
 
-After sync, use standard Unix tools:
+同步後可用標準 Unix 工具分析：
 
 ```bash
 # Find all buttons
@@ -124,7 +124,7 @@ find ./figma-export -name "*Card*" -type d
 
 ## Faster Queries
 
-After sync, use `from_cache: true` for fast local queries:
+同步後以 `from_cache: true` 加速本地查詢：
 
 ```yaml
 mcp_name: figma-query
@@ -139,8 +139,8 @@ parameters:
 
 ## Next Steps
 
-After syncing:
-- Use `get_tree` to explore structure
-- Use `search` to find specific elements
-- Use `list_components` for component inventory
-- Use `/extract-library` for full design library extraction
+同步後可繼續：
+- 用 `get_tree` 探索結構
+- 用 `search` 查找特定元素
+- 用 `list_components` 盤點組件
+- 用 `/extract-library` 提取完整設計庫

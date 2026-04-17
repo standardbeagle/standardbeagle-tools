@@ -1,11 +1,11 @@
 ---
 name: figma-info
-description: Get help documentation, tool information, and status from the figma-query MCP server
+description: Get help documentation, tool information, and status from the figma-query MCP server. 從 figma-query MCP 服務器獲取幫助文檔、工具信息與狀態。 Use when: first-time discovery of figma-query tools, checking server status, looking up query DSL operators, browsing workflow examples, debugging connection issues
 ---
 
 # Figma Info Tool
 
-The `info` tool provides progressive discovery of figma-query capabilities, including help documentation, tool listings, query DSL reference, and server status.
+`info` 工具提供 figma-query 能力的漸進式發現，含幫助文檔、工具列表、查詢 DSL 參考與服務器狀態。
 
 ## Tool Parameters
 
@@ -19,13 +19,13 @@ parameters:
 ## Topics
 
 ### overview (default)
-General introduction to figma-query capabilities and available tools.
+figma-query 能力與可用工具的總體介紹。
 
 ### tools
-Complete list of all 15 MCP tools with descriptions and parameters.
+所有 15 個 MCP 工具的完整列表，含描述與參數。
 
 ### projections
-Reference for built-in query projections:
+內建查詢投影參考：
 - `@structure` - id, name, type, visible, parent_id
 - `@bounds` - x, y, width, height, rotation
 - `@css` - fills, strokes, effects, cornerRadius, opacity
@@ -33,14 +33,14 @@ Reference for built-in query projections:
 - `@typography` - fontFamily, fontSize, fontWeight, lineHeight
 - `@tokens` - boundVariables, resolvedTokens
 - `@images` - imageRefs, exportSettings
-- `@children` - recursive children with depth
-- `@all` - everything combined
+- `@children` - 帶深度的遞歸子節點
+- `@all` - 所有字段合集
 
 ### query
-Query DSL documentation with FROM, WHERE, SELECT syntax.
+含 FROM、WHERE、SELECT 語法的查詢 DSL 文檔。
 
 ### operators
-Filter operators for WHERE clauses:
+WHERE 子句過濾操作符：
 - `$eq` - exact match
 - `$match` - glob pattern matching
 - `$regex` - regular expression
@@ -51,13 +51,13 @@ Filter operators for WHERE clauses:
 - `$not` - negation
 
 ### export
-Export capabilities documentation for assets, tokens, and local caching.
+資產、令牌與本地緩存的導出能力文檔。
 
 ### examples
-Workflow examples combining multiple tools.
+多工具組合的工作流示例。
 
 ### status
-Server health, connection status, and cache state.
+服務器健康狀態、連接狀態與緩存狀態。
 
 ## Usage Examples
 
@@ -95,18 +95,18 @@ parameters:
 
 ## When to Use
 
-- **First time setup**: Get overview to understand capabilities
-- **Before querying**: Check projections and operators for query construction
-- **Debugging**: Check status to verify connection and cache state
-- **Learning**: Browse examples for common workflows
+- **首次設置**：獲取概覽了解能力
+- **查詢前**：查閱投影與操作符
+- **調試**：核查連接與緩存狀態
+- **學習**：瀏覽常用工作流示例
 
 ## Response Format
 
 ### Text Format (default)
-Human-readable documentation with examples and explanations.
+含示例與說明的可讀文檔。
 
 ### JSON Format
-Structured data suitable for programmatic consumption:
+適合程序化消費的結構化數據：
 ```json
 {
   "topic": "tools",

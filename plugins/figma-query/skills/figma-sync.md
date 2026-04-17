@@ -1,11 +1,11 @@
 ---
 name: figma-sync
-description: Export a complete Figma file to a local grep-friendly folder structure for offline analysis and caching
+description: Export a complete Figma file to a local grep-friendly folder structure for offline analysis and caching. 將完整 Figma 文件導出為本地目錄，支持離線分析與緩存。 Use when: caching a Figma file locally, enabling offline queries, starting bulk operations, preparing for documentation, setting up CI/CD design pipeline
 ---
 
 # Figma Sync Tool
 
-The `sync_file` tool exports an entire Figma file to a nested folder structure, enabling offline analysis, grep-based searching, and local caching for faster subsequent queries.
+`sync_file` 工具將整個 Figma 文件導出為嵌套目錄結構，支持離線分析、grep 搜索與本地緩存，加速後續查詢。
 
 ## Tool Parameters
 
@@ -20,7 +20,7 @@ parameters:
 
 ## Getting the File Key
 
-From a Figma URL like:
+從如下 Figma URL 提取：
 ```
 https://www.figma.com/design/ABC123xyz/My-Design-System
                             ^^^^^^^^^^^
@@ -108,7 +108,7 @@ parameters:
 ## Benefits
 
 ### Offline Analysis
-Once synced, use standard Unix tools:
+同步後，可用標準 Unix 工具：
 ```bash
 # Find all buttons
 grep -r "Button" ./design-system/components/
@@ -121,7 +121,7 @@ cat ./design-system/styles/typography.json | jq '.styles[].name'
 ```
 
 ### Faster Queries
-After sync, use `from_cache: true` in queries to skip API calls:
+同步後，查詢加 `from_cache: true` 跳過 API 調用：
 ```yaml
 tool: query
 parameters:
@@ -132,11 +132,11 @@ parameters:
 ```
 
 ### Version Control
-Export structure is git-friendly for tracking design changes over time.
+導出結構對 git 友好，可追蹤設計變更歷史。
 
 ## When to Use
 
-- **Starting a new project**: Sync entire design file for exploration
-- **Before bulk operations**: Cache locally to avoid rate limits
-- **For documentation**: Generate reports from local files
-- **For CI/CD**: Include design assets in build pipelines
+- **新項目起始**：同步完整設計文件以便探索
+- **批量操作前**：本地緩存避免速率限制
+- **生成文檔**：從本地文件生成報告
+- **CI/CD**：構建管線中包含設計資產

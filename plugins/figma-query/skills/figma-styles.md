@@ -1,11 +1,11 @@
 ---
 name: figma-styles
-description: List all styles in a Figma file including colors, typography, effects, and grids
+description: List all styles in a Figma file including colors, typography, effects, and grids. 列出 Figma 文件所有樣式：顏色、排版、效果、柵格。 Use when: auditing design styles, exporting color palette, reviewing typography system, checking effect styles, analyzing style usage counts
 ---
 
 # Figma List Styles Tool
 
-The `list_styles` tool returns all defined styles in a Figma file, organized by type with usage information.
+`list_styles` 工具返回 Figma 文件中所有已定義樣式，按類型組織並含使用信息。
 
 ## Tool Parameters
 

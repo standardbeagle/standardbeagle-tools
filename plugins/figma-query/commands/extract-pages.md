@@ -1,6 +1,6 @@
 ---
 name: extract-pages
-description: Interactively extract page mockups from Figma with SCSS/CSS layouts
+description: Interactively extract page mockups from Figma with SCSS/CSS layouts. 交互式提取 Figma 頁面模型及 SCSS/CSS 佈局。 Use when: extracting full page layouts, generating page HTML mockups, exporting page sections to SCSS, building page-level design artifacts, creating responsive page CSS
 arguments:
   - name: file_key
     description: Figma file key
@@ -12,7 +12,7 @@ arguments:
 
 # Extract Pages from Figma
 
-Extract full page mockups with section layouts, SCSS, and semantic HTML.
+提取完整頁面模型，含章節佈局、SCSS 及語義化 HTML。
 
 ## Workflow
 
@@ -28,11 +28,11 @@ params:
     depth: 2
 ```
 
-This shows all pages and their top-level frames (page designs).
+顯示所有頁面及頂層框架（頁面設計）。
 
 ### Step 2: List Pages for Selection
 
-Present pages to user:
+向用戶呈現頁面選項：
 
 ```yaml
 question: "Which pages do you want to extract?"
@@ -65,7 +65,7 @@ options:
 
 ### Step 4: Extract Tokens
 
-Ensure design tokens are available:
+確保設計令牌可用：
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -80,7 +80,7 @@ params:
 
 ### Step 5: Extract Each Page
 
-For each selected page:
+每個選定頁面執行：
 
 #### 5a. Get Page Structure
 
@@ -98,7 +98,7 @@ params:
 
 #### 5b. Identify Sections
 
-Query for section frames within the page:
+查詢頁面內章節框架：
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -115,7 +115,7 @@ params:
 
 #### 5c. Extract Layout CSS
 
-Get the page layout CSS:
+取頁面佈局 CSS：
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -133,7 +133,7 @@ params:
 
 #### 5d. Extract Section CSS
 
-For each section, get its styles:
+每章節取樣式：
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -151,7 +151,7 @@ params:
 
 #### 5e. Export Page Assets
 
-Export images and icons used on the page:
+導出頁面所用圖像與圖標：
 
 ```yaml
 # Find images in the page
@@ -194,9 +194,9 @@ params:
 
 ### Step 6: Generate Page HTML Mockup
 
-Build the HTML mockup from extracted data.
+依提取數據構建 HTML 模型。
 
-Page HTML structure:
+頁面 HTML 結構：
 
 ```html
 <!DOCTYPE html>
@@ -288,7 +288,7 @@ Page HTML structure:
 
 ## Section Detection
 
-The extraction automatically identifies common section patterns:
+提取自動識別常見章節模式：
 
 | Figma Name Pattern | HTML Element | CSS Class |
 |-------------------|--------------|-----------|
@@ -334,7 +334,7 @@ Usage:
 
 ## Responsive Considerations
 
-Ask user about responsive breakpoints:
+詢問用戶響應式斷點：
 
 ```yaml
 question: "Does the Figma file have responsive variants?"
@@ -348,7 +348,7 @@ options:
     description: "Generate desktop CSS, I'll add media queries"
 ```
 
-If responsive variants exist, extract each and generate media queries:
+若有響應式變體，提取各斷點並生成媒體查詢：
 
 ```scss
 // _layout.scss

@@ -1,11 +1,11 @@
 ---
 name: complete-extraction
-description: Complete design library extraction workflow with validation and dependency checking
+description: Complete design library extraction workflow with validation and dependency checking. 完整設計庫提取工作流：含驗證與依賴檢查。 Use when: extracting a full design library, running all phases in order, extracting with validation, resuming a failed extraction, automated design-to-code pipeline
 ---
 
 # Complete Design Library Extraction
 
-Orchestrates a complete, validated design library extraction from Figma with automatic dependency resolution and error recovery.
+按依賴順序編排完整、已驗證的設計庫提取，並支持自動錯誤恢復。
 
 ## Workflow Overview
 
@@ -33,30 +33,30 @@ Complete!
 
 ### Phase 0: Pre-Flight Check
 
-**Purpose:** Prevent failures by validating prerequisites
+**目的：** 預先驗證前置條件，防止中途失敗
 
 **Actions:**
-1. Check Figma access (token, API, file permissions)
-2. Verify output directory is writable
-3. Count components and styles
-4. Estimate extraction time and size
-5. Generate extraction checklist
+1. 核查 Figma 訪問（令牌、API、文件權限）
+2. 驗證輸出目錄可寫
+3. 統計組件與樣式數量
+4. 估算提取時間與體積
+5. 生成提取清單
 
 **Success Criteria:**
-- Figma API accessible
-- File readable
-- At least 1 component or style found
-- Output directory writable
+- Figma API 可達
+- 文件可讀
+- 至少含 1 個組件或樣式
+- 輸出目錄可寫
 
 **On Failure:** STOP and provide fix commands
 
-**Skill to use:** `preflight-check`
+> Invoke the `Skill` tool with `skill: figma-query:preflight-check` — 執行飛行前檢查，驗證所有前置條件。
 
 ---
 
 ### Phase 1: Sync Figma File
 
-**Purpose:** Download complete file structure locally
+**目的：** 將完整文件結構下載到本地
 
 **Actions:**
 ```yaml
@@ -72,21 +72,21 @@ params:
 ```
 
 **Success Criteria:**
-- `figma-export/` directory created
-- `_meta.json` exists with file metadata
-- `_index.json` contains all nodes
-- `_tree.txt` shows file structure
-- `styles/` directory contains design tokens
+- `figma-export/` 目錄已建立
+- `_meta.json` 含文件元數據
+- `_index.json` 含所有節點
+- `_tree.txt` 展示文件結構
+- `styles/` 目錄含設計令牌
 
-**On Failure:** Check network connectivity, retry with exponential backoff
+**On Failure:** 檢查網絡連接，指數退避重試
 
 ---
 
 ### Phase 2: Export Design Tokens ⚠️ CRITICAL
 
-**Purpose:** Create `tokens.css` that HTML examples will reference
+**目的：** 創建 HTML 示例將引用的 `tokens.css`
 
-**Why Critical:** HTML files reference `var(--color-primary)`, `var(--font-body)`, etc. Without this file, CSS variables are undefined.
+**Why Critical:** HTML 文件引用 `var(--color-primary)`、`var(--font-body)` 等。無此文件，CSS 變量全部未定義。
 
 **Actions:**
 
@@ -127,10 +127,10 @@ params:
 ```
 
 **Success Criteria:**
-- `tokens/tokens.css` exists
-- File contains `:root {` declaration
-- File contains at least 10 CSS custom properties
-- Variables include colors (`--color-*`), fonts (`--font-*`), spacing (`--spacing-*`)
+- `tokens/tokens.css` 存在
+- 文件含 `:root {` 聲明
+- 至少含 10 個 CSS 自定義屬性
+- 含顏色（`--color-*`）、字體（`--font-*`）、間距（`--spacing-*`）
 
 **Validation:**
 ```bash
@@ -144,14 +144,14 @@ grep -q "\--font-" "{OUTPUT_DIR}/tokens/tokens.css"
 ```
 
 **On Failure:**
-- If no styles in Figma: Create default tokens
-- If export fails: Retry once, then create minimal tokens
+- 若 Figma 無樣式：創建默認令牌
+- 若導出失敗：重試一次，再創建最小令牌
 
 ---
 
 ### Phase 3: Export Component CSS
 
-**Purpose:** Extract exact CSS for all components
+**目的：** 提取所有組件的精確 CSS
 
 **Actions:**
 
@@ -185,20 +185,20 @@ params:
 - etc.
 
 **Success Criteria:**
-- At least 1 CSS file in `components/css/`
-- CSS files use tokens (`var(--...)`) not hardcoded values
-- CSS follows BEM naming (`.component__element--modifier`)
-- Total CSS lines > 200 (for typical design systems)
+- `components/css/` 中至少 1 個 CSS 文件
+- CSS 文件使用令牌（`var(--...)`）而非硬編碼值
+- CSS 遵循 BEM 命名（`.component__element--modifier`）
+- CSS 總行數 > 200（典型設計系統）
 
-**On Failure:** Extract raw CSS even if tokens aren't referenced (can fix later)
+**On Failure:** 即使令牌未引用也提取原始 CSS（後續可修復）
 
 ---
 
 ### Phase 4: Export Assets ⚠️ CRITICAL
 
-**Purpose:** Export all icons, images, and graphics referenced in components
+**目的：** 導出組件中引用的所有圖標、圖像、圖形
 
-**Why Critical:** HTML examples have `<img src="../assets/logo.svg">` - broken without assets
+**Why Critical:** HTML 示例含 `<img src="../assets/logo.svg">` ——無資產則鏈接失效
 
 **Actions:**
 
@@ -215,10 +215,7 @@ params:
     scope: ["names"]
 ```
 
-2. **Filter to actual assets** (logos, icons, illustrations):
-- Look for nodes in "Assets", "Icons", "Logos" pages
-- Look for components with "Icon", "Logo", "Image" in name
-- Look for vectors and shapes that are visible
+2. **Filter to actual assets**：定位 "Assets"、"Icons"、"Logos" 頁面中的節點；名稱含 "Icon"、"Logo"、"Image" 的組件；可見向量與形狀
 
 3. **Export SVG for icons/vectors:**
 ```yaml
@@ -250,10 +247,10 @@ params:
 ```
 
 **Success Criteria:**
-- `assets/` directory is NOT empty
-- At least 1 SVG or PNG file exported
-- File sizes are reasonable (< 1MB per file)
-- Exported assets match component references
+- `assets/` 目錄非空
+- 至少導出 1 個 SVG 或 PNG 文件
+- 文件大小合理（每文件 < 1MB）
+- 導出資產與組件引用匹配
 
 **Validation:**
 ```bash
@@ -265,15 +262,15 @@ find {OUTPUT_DIR}/assets -type f | wc -l
 ```
 
 **On Failure:**
-- Log warning but continue
-- Document that assets need manual export
-- Provide search commands to find assets
+- 記錄警告但繼續
+- 標注資產需手動導出
+- 提供查找資產的搜索命令
 
 ---
 
 ### Phase 5: Generate HTML Examples
 
-**Purpose:** Create working HTML mockups using extracted CSS and assets
+**目的：** 使用提取的 CSS 與資產創建可運行的 HTML 模型
 
 **Dependencies:**
 - ✅ Phase 2 complete (tokens.css exists)
@@ -304,24 +301,15 @@ find {OUTPUT_DIR}/assets -type f | wc -l
 </html>
 ```
 
-2. **Generate component showcase:**
-- Create `examples/component-showcase.html`
-- Show all button variants
-- Show all card types
-- Show color palette
-- Show typography scale
+2. **Generate component showcase:** 創建 `examples/component-showcase.html`，展示所有按鈕變體、卡片類型、調色板、排版比例
 
-3. **Generate page examples:**
-- Create `examples/homepage-example.html`
-- Use actual extracted components
-- Demonstrate responsive layouts
-- Include interactions (hover states)
+3. **Generate page examples:** 創建 `examples/homepage-example.html`，使用實際提取組件，演示響應式佈局，含懸停交互
 
 **Success Criteria:**
-- At least 1 HTML file in `examples/`
-- All CSS `<link>` references resolve to existing files
-- All `<img>` references resolve to existing files
-- HTML passes basic validation (no unclosed tags)
+- `examples/` 中至少 1 個 HTML 文件
+- 所有 CSS `<link>` 引用指向存在的文件
+- 所有 `<img>` 引用指向存在的文件
+- HTML 通過基本驗證（無未閉合標籤）
 
 **Validation:**
 ```bash
@@ -336,13 +324,13 @@ for img in $(grep -o 'src="[^"]*\.(svg|png|jpg)"' {OUTPUT_DIR}/examples/*.html |
 done
 ```
 
-**On Failure:** Generate basic examples without images, note issues in README
+**On Failure:** 生成無圖像的基本示例，在 README 中標注問題
 
 ---
 
 ### Phase 6: Generate Documentation
 
-**Purpose:** Create comprehensive documentation for the extracted library
+**目的：** 為提取庫創建完整文檔
 
 **Actions:**
 
@@ -373,29 +361,21 @@ Extracted from Figma on [DATE]
 [Links to HTML mockups]
 ```
 
-2. **Create component index:**
-- List all components with descriptions
-- Show CSS class names
-- Link to CSS files
-- Show usage examples
+2. **Create component index:** 列出所有組件及描述，含 CSS 類名、CSS 文件鏈接、使用示例
 
-3. **Create token documentation:**
-- Document all color tokens
-- Document all typography tokens
-- Document all spacing tokens
-- Show usage examples
+3. **Create token documentation:** 文檔化所有顏色、排版、間距令牌，含使用示例
 
 **Success Criteria:**
-- `README.md` exists and has > 50 lines
-- Component index lists all extracted components
-- Token documentation covers all categories
-- Links to examples work
+- `README.md` 存在且 > 50 行
+- 組件索引列出所有提取組件
+- 令牌文檔覆蓋所有類別
+- 示例鏈接有效
 
 ---
 
 ### Phase 7: Final Validation ⚠️ CRITICAL
 
-**Purpose:** Verify extraction is complete and correct before declaring success
+**目的：** 聲明成功前驗證提取完整且正確
 
 **Actions:**
 ```
@@ -405,25 +385,25 @@ Run the validate-extraction skill with:
 ```
 
 **What Gets Validated:**
-1. Directory structure complete
-2. tokens.css exists and valid
-3. Component CSS files present
-4. Assets directory populated
-5. HTML examples have no broken links
-6. Documentation complete
+1. 目錄結構完整
+2. tokens.css 存在且有效
+3. 組件 CSS 文件存在
+4. assets 目錄已填充
+5. HTML 示例無斷鏈
+6. 文檔完整
 
 **Success Criteria:**
-- Zero critical errors
-- Warnings are acceptable (logged)
-- All dependencies resolved
-- Can open HTML examples in browser successfully
+- 零個關鍵錯誤
+- 警告可接受（已記錄）
+- 所有依賴已解析
+- 可在瀏覽器中成功打開 HTML 示例
 
 **On Failure:**
-- Run auto-fix for each error
-- Re-run validation
-- If still failing, generate detailed error report
+- 針對每個錯誤執行自動修復
+- 重新運行驗證
+- 若仍失敗，生成詳細錯誤報告
 
-**Skill to use:** `validate-extraction`
+> Invoke the `Skill` tool with `skill: figma-query:validate-extraction` — 執行最終驗證，核查提取完整性與正確性。
 
 ---
 
@@ -431,29 +411,29 @@ Run the validate-extraction skill with:
 
 ### Automatic Recovery
 
-For these errors, automatically retry:
-- Network timeout (retry with backoff)
-- Rate limit (wait and retry)
-- Transient Figma API errors (retry once)
+以下錯誤自動重試：
+- 網絡超時（退避重試）
+- 速率限制（等待後重試）
+- Figma API 瞬時錯誤（重試一次）
 
 ### Manual Fix Required
 
-For these errors, stop and provide fix commands:
-- Invalid access token → Run `/setup-figma`
-- File not found → Check file_key
-- Permission denied → Request access in Figma
-- Disk full → Free up space
+以下錯誤停止並提供修復命令：
+- 訪問令牌無效 → 運行 `/setup-figma`
+- 文件未找到 → 核查 file_key
+- 權限拒絕 → 在 Figma 中申請訪問
+- 磁盤已滿 → 釋放空間
 
 ### Partial Recovery
 
-For these issues, continue with warnings:
-- No assets found → Log warning, continue
-- Some components fail → Skip, continue with others
-- Token export fails → Create default tokens, continue
+以下問題帶警告繼續：
+- 未找到資產 → 記錄警告，繼續
+- 部分組件失敗 → 跳過，繼續其他
+- 令牌導出失敗 → 創建默認令牌，繼續
 
 ## Checkpoints and Resume
 
-Save state after each phase:
+每階段後保存狀態：
 ```json
 {
   "file_key": "lnwVxZrQ6pqvArfEr1EiXt",
@@ -472,7 +452,7 @@ Save state after each phase:
 }
 ```
 
-To resume a failed extraction:
+恢復失敗提取：
 ```
 /complete-extraction --resume-from="{OUTPUT_DIR}/.extraction-state.json"
 ```
@@ -517,7 +497,7 @@ Total size: 87.3 MB
 
 ## Usage
 
-This skill should be invoked by the `/extract-library` command with:
+此技能由 `/extract-library` 命令調用，參數：
 ```yaml
 file_key: "FILE_KEY"
 output_dir: "./docs"

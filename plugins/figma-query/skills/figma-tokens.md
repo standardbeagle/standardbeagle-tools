@@ -1,11 +1,11 @@
 ---
 name: figma-tokens
-description: Get design token references and resolved values from Figma boundVariables
+description: Get design token references and resolved values from Figma boundVariables. 從 Figma boundVariables 提取設計令牌引用與解析值。 Use when: auditing token usage, checking variable bindings on nodes, verifying token consistency across variants, exporting per-node token data, multi-mode light/dark analysis
 ---
 
 # Figma Get Tokens Tool
 
-The `get_tokens` tool extracts design token references (boundVariables) from Figma nodes and resolves their actual values.
+`get_tokens` 工具從 Figma 節點提取設計令牌引用（boundVariables）並解析其實際值。
 
 ## Tool Parameters
 
@@ -18,13 +18,13 @@ parameters:
 
 ## Understanding Figma Variables
 
-Figma Variables are design tokens that can be:
-- **Colors**: Brand colors, semantic colors
-- **Numbers**: Spacing, sizing, border radius
-- **Strings**: Font families, text content
-- **Booleans**: Feature flags, visibility
+Figma 變量為設計令牌，可為：
+- **Colors**：品牌色、語義色
+- **Numbers**：間距、尺寸、圓角
+- **Strings**：字體族、文本內容
+- **Booleans**：功能開關、可見性
 
-Nodes reference variables through `boundVariables`, which this tool extracts and resolves.
+節點通過 `boundVariables` 引用變量，本工具提取並解析之。
 
 ## Usage Examples
 
@@ -105,7 +105,7 @@ parameters:
 ## Response Fields
 
 ### tokens Object
-Maps node IDs to their bound variables:
+節點 ID 映射至其綁定變量：
 
 | Field | Description |
 |-------|-------------|
@@ -115,7 +115,7 @@ Maps node IDs to their bound variables:
 | `collection` | Variable collection name |
 
 ### resolved Object
-Full variable definitions:
+完整變量定義：
 
 | Field | Description |
 |-------|-------------|
@@ -183,7 +183,7 @@ get_tokens: node_ids: ["1:234"]
 
 ## Integration with export_tokens
 
-While `get_tokens` returns token references per-node, `export_tokens` exports the full design token system:
+`get_tokens` 返回每節點令牌引用；`export_tokens` 導出完整設計令牌系統：
 
 ```yaml
 # Per-node tokens (for verification)
@@ -195,7 +195,7 @@ export_tokens: format: "css"
 
 ## Best Practices
 
-1. **Check before implementing**: Verify nodes use tokens, not raw values
-2. **Audit components**: Ensure consistent token usage across variants
-3. **Export resolved values**: Use for CSS custom properties
-4. **Track collections**: Organize tokens by collection type
+1. **實施前先核查**：確認節點使用令牌而非硬編碼值
+2. **審計組件**：確保各變體令牌用法一致
+3. **導出解析值**：用於 CSS 自定義屬性
+4. **按集合組織**：按集合類型分類令牌

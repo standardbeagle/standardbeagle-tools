@@ -1,11 +1,11 @@
 ---
 name: figma-wireframe
-description: Generate visual wireframe representations of Figma nodes with annotations and ID legends
+description: Generate visual wireframe representations of Figma nodes with annotations and ID legends. 生成帶標注與 ID 圖例的 Figma 節點可視化線框圖。 Use when: understanding component structure, generating ID legends for subsequent tools, creating documentation visuals, analyzing layout and spacing, exploring node hierarchy visually
 ---
 
 # Figma Wireframe Tool
 
-The `wireframe` tool generates visual wireframe representations of Figma nodes in ASCII, SVG, or PNG format with annotations showing node IDs, names, dimensions, and spacing.
+`wireframe` 工具以 ASCII、SVG 或 PNG 格式生成 Figma 節點的可視化線框圖，標注節點 ID、名稱、尺寸與間距。
 
 ## Tool Parameters
 
@@ -36,10 +36,10 @@ parameters:
 ```
 
 ### SVG
-Visual SVG wireframe with color-coded boxes and annotations.
+帶色碼框與標注的可視化 SVG 線框圖。
 
 ### PNG
-Raster image of the wireframe for documentation.
+供文檔使用的線框圖光柵圖像。
 
 ## Annotations
 
@@ -134,7 +134,7 @@ parameters:
 
 ## ASCII Wireframe Example
 
-With all annotations:
+含所有標注：
 ```
 ┌─────────────────────────────────────────────────┐
 │ [1:234] Button/Primary (120×48)                 │
@@ -209,12 +209,12 @@ wireframe: node_id: "1:234", style: "svg"
 | 10 | Standard view (default) |
 | 20+ | Comprehensive view |
 
-Higher values produce more detailed wireframes but may be harder to read.
+深度與子節點數越大，線框圖越詳細但可讀性下降。
 
 ## Best Practices
 
-1. **Start with IDs**: Always include IDs for subsequent tool usage
-2. **Use ASCII for exploration**: Quick and terminal-friendly
-3. **Use SVG for docs**: Clean visual output
-4. **Limit depth initially**: Expand as needed
-5. **Reference legend**: Map IDs to names for clarity
+1. **始終含 IDs**：後續工具調用必需
+2. **探索用 ASCII**：快速，終端友好
+3. **文檔用 SVG**：清晰可視輸出
+4. **初始限制深度**：按需擴展
+5. **善用圖例**：ID 到名稱的映射
