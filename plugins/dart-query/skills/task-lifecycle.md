@@ -1,11 +1,15 @@
 ---
 name: task-lifecycle
-description: Guide the full task lifecycle from creation through completion - assignment, progress tracking, relationships, comments, and time logging with dart-query
+description: Guide the full task lifecycle from creation through completion - assignment, progress tracking, relationships, comments, and time logging with dart-query. 從創建至完成之完整任務生命周期：分配、進度追蹤、關係、注釋、時間記錄. Use when: create and assign task, track task progress, manage blockers, complete a task, log time, post-completion follow-up
 ---
 
 # dart-query Task Lifecycle
 
-This skill walks through the complete task lifecycle using dart-query tools. Each phase is a concrete recipe with tool calls. For tool parameter details, see the `task-crud` and `querying` skills.
+本技能以dart-query工具貫穿完整任務生命周期，各階段附具體配方與工具調用。工具參數詳情見：
+
+> Invoke the `Skill` tool with `skill: dart-query:task-crud` — 任務創讀更刪完整參數。
+
+> Invoke the `Skill` tool with `skill: dart-query:querying` — 過濾與搜索模式。
 
 ## Access Pattern (all examples below use this)
 
@@ -35,7 +39,7 @@ parameters:
 
 ### Epic with subtasks
 
-Create the parent first, then each child with `parent_task`:
+先創建父任務，再以`parent_task`創建各子任務：
 
 ```yaml
 # Step 1 — create the epic
@@ -57,7 +61,7 @@ parameters:
 
 ### Set initial relationships at creation time
 
-Use `blocker_ids` / `related_ids` in `create_task` to wire up dependencies immediately — avoids a follow-up `update_task` call.
+創建時用`blocker_ids`/`related_ids`立即連線依賴——避免後續`update_task`調用。
 
 ```yaml
 tool_name: create_task
@@ -84,7 +88,7 @@ parameters:
 
 ### Workload check before assigning
 
-List the target assignee's current in-progress tasks to avoid overloading them:
+分配前列出目標受派者當前進行中任務，避免超負荷：
 
 ```yaml
 tool_name: list_tasks
@@ -94,7 +98,7 @@ parameters:
   limit: 20
 ```
 
-If the list is long, consider distributing the work. Then proceed with assignment above.
+列表過長則考慮分散工作，再執行上方分配操作。
 
 ---
 
@@ -102,7 +106,7 @@ If the list is long, consider distributing the work. Then proceed with assignmen
 
 ### Status transitions
 
-Move a task through the standard workflow:
+任務流轉標準工作流：
 
 ```yaml
 # Pick up work
@@ -122,7 +126,7 @@ parameters:
 
 ### Progress comment (markdown status update)
 
-Use `add_task_comment` for standalone updates that don't change task fields:
+不變更任務字段之獨立更新用`add_task_comment`：
 
 ```yaml
 tool_name: add_task_comment
@@ -138,7 +142,7 @@ parameters:
 
 ### Blocker management
 
-**Add a blocker** — use `add_to` to avoid replacing existing blockers:
+**新增阻礙** — 用`add_to`避免替換現有阻礙：
 
 ```yaml
 tool_name: update_task
@@ -150,7 +154,7 @@ parameters:
     blocker_ids: ["tsk_platform099"]
 ```
 
-**Resolve a blocker** — remove it and restore status:
+**解除阻礙** — 移除並恢復狀態：
 
 ```yaml
 tool_name: update_task
@@ -213,7 +217,7 @@ parameters:
 
 ### Clear stale relationships
 
-When a task is done, remove any remaining blocker/blocking links that are no longer relevant:
+任務完成後移除不再相關之阻礙/被阻礙鏈接：
 
 ```yaml
 tool_name: update_task
@@ -229,7 +233,7 @@ parameters:
 
 ### Unblock dependent tasks
 
-Find tasks that listed this task as a blocker, then remove it from each:
+查找以本任務為阻礙者，逐一移除：
 
 ```yaml
 # Find dependent tasks — list_tasks doesn't support blocker_ids filter,
@@ -261,7 +265,9 @@ parameters:
 
 ### Create follow-up tasks
 
-If work revealed scope for a future sprint, capture it immediately. See `task-crud` for full `create_task` options.
+工作揭示未來迭代範圍時，立即捕獲。完整`create_task`選項見：
+
+> Invoke the `Skill` tool with `skill: dart-query:task-crud` — 創建選項完整參考。
 
 ```yaml
 tool_name: create_task
@@ -285,4 +291,10 @@ parameters:
 | **Completion** | `update_task`, `add_time_tracking`, `attach_url` | `status: "Done"`, `started_at`, `duration_minutes`, `url` |
 | **Post-completion** | `list_tasks` (full detail), `update_task` | client-side blocker filter, `dartboard` (archive), `create_task` (follow-ups) |
 
-For bulk operations across many tasks, see the `batch-ops` skill. For filtering and search patterns, see the `querying` skill.
+多任務批量操作：
+
+> Invoke the `Skill` tool with `skill: dart-query:batch-ops` — 批量操作完整參考。
+
+過濾與搜索模式：
+
+> Invoke the `Skill` tool with `skill: dart-query:querying` — 查詢過濾完整參考。

@@ -1,11 +1,11 @@
 ---
 name: task-watching
-description: Watch for new, changed, or blocked tasks using Claude Code loops and scheduled triggers - automated polling, status change detection, and auto-pickup patterns with dart-query
+description: Watch for new, changed, or blocked tasks using Claude Code loops and scheduled triggers - automated polling, status change detection, and auto-pickup patterns with dart-query. 以輪詢、排程、自動承接諸法，持續監察Dart任務狀態變化. Use when: watch for new tasks, detect blocked tasks, monitor status changes, auto-pickup tasks, schedule daily standups, automate task triage
 ---
 
 # dart-query Task Watching
 
-These patterns use Claude Code's `/loop` and `/schedule` features to continuously monitor Dart tasks. Useful for automated task pickup, alerting on blockers, and tracking status changes across a sprint or project.
+諸模式藉Claude Code之`/loop`與`/schedule`，持續監察Dart任務。適於自動承接任務、告警阻礙、追蹤迭代狀態變更。
 
 ## Access Pattern (all examples below use this)
 
@@ -21,9 +21,9 @@ params:
 
 ## Pattern 1: Poll for New Tasks
 
-**Use:** Detect newly created tasks that need attention or triage.
+**Use:** 偵測新建任務，待處理或分類。
 
-Poll `list_tasks` on an interval, compare against previously seen IDs, and report new arrivals. Use `detail_level: minimal` to keep token cost low.
+以定時輪詢`list_tasks`，比對先前所見ID，報告新至者。用`detail_level: minimal`節省token。
 
 ```
 /loop 5m Check for new tasks on 'Sprint 5' dartboard with status 'Todo'.
@@ -43,15 +43,15 @@ parameters:
   limit: 50
 ```
 
-Track seen IDs between iterations by appending them to a local scratch file (`/tmp/dart-seen-ids.txt`) or as a comment on a sentinel task.
+已見ID持久化：追加至本地草稿文件（`/tmp/dart-seen-ids.txt`）或作哨兵任務之注釋。
 
 ---
 
 ## Pattern 2: Watch for Blocked Tasks
 
-**Use:** Alert when tasks accumulate blockers or when "Blocked" status is under-reported.
+**Use:** 告警任務積聚阻礙，或「Blocked」狀態漏報。
 
-Fetch tasks with `detail_level: full` to access `blocker_ids`. Flag tasks that have non-empty `blocker_ids` but haven't been moved to "Blocked" status — a sign of drift between state and reality.
+以`detail_level: full`取`blocker_ids`。標記有非空`blocker_ids`卻未置「Blocked」狀態者——狀態與實情漂移之徵。
 
 ```
 /loop 10m Scan 'Sprint 5' for tasks that have blocker_ids but are not in Blocked status.
@@ -70,15 +70,15 @@ parameters:
   limit: 100
 ```
 
-Filter client-side: `task.blocker_ids.length > 0 && task.status !== "Blocked"`.
+客戶端過濾：`task.blocker_ids.length > 0 && task.status !== "Blocked"`。
 
 ---
 
 ## Pattern 3: Status Change Detection
 
-**Use:** Track task progress, catch stalls, and spot unexpected regressions.
+**Use:** 追蹤任務進度，捕捉停滯，發現意外回退。
 
-Take a periodic snapshot of all task statuses. Compare against the previous snapshot and report transitions. Flag tasks that have been in the same status for more than N intervals.
+定期快照所有任務狀態，與前次快照比對，報告轉換。標記在同一狀態超過N次迭代者。
 
 ```
 /loop 15m Snapshot status of all tasks in 'Sprint 5' dartboard.
@@ -99,7 +99,7 @@ parameters:
   limit: 100
 ```
 
-Snapshot format to persist between iterations:
+迭代間持久化之快照格式：
 
 ```json
 {
@@ -112,9 +112,9 @@ Snapshot format to persist between iterations:
 
 ## Pattern 4: Scheduled Daily and Weekly Checks
 
-**Use:** Automated reporting without manual invocation — morning standups, sprint health, end-of-day summaries.
+**Use:** 無需手動觸發之自動報告——晨會、迭代健康、日終摘要。
 
-Use `/schedule` with cron expressions. The agent runs remotely on the schedule and posts results.
+以`/schedule`搭配cron表達式，代理遠端定時執行並提交結果。
 
 **Daily morning check (weekdays at 9am):**
 
@@ -147,9 +147,7 @@ Report tasks moved to Done or In Review today. Flag any regressions (moved backw
 
 ## Pattern 5: Auto-Pickup (Watch + Execute)
 
-**Use:** Automatically start working on tasks tagged for automation or labeled for a specific agent.
-
-Poll for tasks with a specific tag (e.g., `auto-execute` or `kibeth`). When found, claim, execute, and complete without manual intervention.
+**Use:** 自動承接以特定標籤（如`auto-execute`或`kibeth`）標記之任務，無需人工介入。
 
 ```
 /loop 5m Check for tasks tagged 'auto-execute' in 'Automation' dartboard with status 'Todo'.
@@ -161,7 +159,7 @@ For each found task:
   4. Log time: add_time_tracking with actual minutes spent
 ```
 
-Claim step (prevents double-pickup in concurrent loops):
+Claim step（防並發重複承接）：
 
 ```yaml
 tool_name: update_task
@@ -171,15 +169,17 @@ parameters:
   comment: "Auto-picked up by agent at 2026-04-09T09:00Z"
 ```
 
-**Integration with dartai:** When auto-pickup detects a task, invoke the `dartai-task-execution` skill to handle it through the adversarial quality pipeline. The dartai executor handles planning, implementation, review, and verification before marking Done.
+**dartai整合：** 自動承接偵測到任務後，藉對抗品質流水線處理之：
+
+> Invoke the `Skill` tool with `skill: dartai:dartai-task-execution` — 負責規劃、實現、評審、驗證，方置Done。
 
 ---
 
 ## Pattern 6: Blocker Resolution Watcher
 
-**Use:** Automatically unblock tasks when their blocking dependencies complete. Eliminates manual follow-up after finishing a task.
+**Use:** 阻礙依賴完成後自動解鎖。消除完成任務後之手動跟進。
 
-Periodically scan for newly-Done tasks that still appear in other tasks' `blocker_ids`, then remove the resolved blocker and restore the downstream task's status.
+定期掃描新完成任務，若仍出現在他任務之`blocker_ids`中，移除已解除阻礙，恢復下游任務狀態。
 
 ```
 /loop 10m Check for completed tasks that are still listed as blockers elsewhere.
@@ -190,7 +190,7 @@ and if no blockers remain, update status from 'Blocked' to 'Todo'.
 Comment on both tasks about the unblock.
 ```
 
-Find tasks still blocked by a completed task:
+查找仍被已完成任務阻塞者：
 
 ```yaml
 tool_name: list_tasks
@@ -200,7 +200,7 @@ parameters:
 # Then filter client-side: task.blocker_ids includes "tsk_done001"
 ```
 
-Unblock and restore:
+解鎖並恢復：
 
 ```yaml
 tool_name: update_task
@@ -212,7 +212,7 @@ parameters:
     blocker_ids: ["tsk_done001"]
 ```
 
-Comment on the completed task to close the loop:
+在已完成任務上留注，閉合循環：
 
 ```yaml
 tool_name: add_task_comment
@@ -225,11 +225,13 @@ parameters:
 
 ## Tips
 
-- Use `detail_level: minimal` for all polling loops — it returns title, status, and IDs only, conserving tokens on high-frequency checks.
-- Keep loop intervals reasonable: 5m minimum for status polling, 10–15m for full scans with `detail_level: full`.
-- Persist loop state (seen IDs, snapshots, unchanged counts) to `/tmp/` files or as comments on a sentinel task in Dart.
-- Combine patterns: a daily `/schedule` for reporting + a `/loop` for urgent blocker alerts covers most team needs.
-- Limit scope with `dartboard` and `statuses` filters — avoid full-workspace scans unless necessary.
-- For auto-pickup with dartai, set a unique tag per agent to prevent multiple agents claiming the same task.
+- 所有輪詢循環用`detail_level: minimal`——僅返回標題、狀態、ID，高頻檢查節省token。
+- 循環間隔合理：狀態輪詢最短5分鐘，`detail_level: full`全量掃描10–15分鐘。
+- 持久化循環狀態（已見ID、快照、未變計數）至`/tmp/`文件或Dart哨兵任務注釋。
+- 組合模式：每日`/schedule`報告加`/loop`緊急阻礙告警，覆蓋大多數團隊需求。
+- 以`dartboard`和`statuses`過濾縮小範圍——非必要勿全工作區掃描。
+- 自動承接搭配dartai時，每代理設唯一標籤，防多代理搶占同一任務。
 
-For tool parameter details see the `querying` and `task-lifecycle` skills. For bulk status updates across many tasks, see the `batch-ops` skill.
+工具參數詳見`querying`與`task-lifecycle`技能。跨多任務批量狀態更新，詳見：
+
+> Invoke the `Skill` tool with `skill: dart-query:batch-ops` — 批量操作語法與安全協議。

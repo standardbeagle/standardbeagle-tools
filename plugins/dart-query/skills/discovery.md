@@ -1,11 +1,11 @@
 ---
 name: discovery
-description: dart-query progressive discovery and workspace configuration - info, get_config, get_dartboard, get_folder
+description: dart-query progressive discovery and workspace configuration - info, get_config, get_dartboard, get_folder. 漸進探索dart-query能力，載入工作區配置. Use when: explore dart-query tools, load workspace config, check dartboard details, discover available statuses, initialize session
 ---
 
 # dart-query Discovery and Workspace Configuration
 
-Use these tools to explore dart-query capabilities and load workspace context before querying tasks.
+以此諸工具探索dart-query能力，於查詢任務前載入工作區上下文。
 
 ## Access Pattern (all examples below use this)
 
@@ -21,7 +21,7 @@ params:
 
 ## info — Progressive Discovery
 
-Explore dart-query capabilities without loading the full schema upfront.
+漸進探索dart-query能力，無需預先載入完整schema。
 
 **Parameters:**
 - `level` (enum): `overview` | `group` | `tool`
@@ -29,7 +29,7 @@ Explore dart-query capabilities without loading the full schema upfront.
 
 **Token budget:** ~150 tokens for overview, ~500 for tool details
 
-**Start here** when you don't know which tool to use.
+不知用何工具時，**從此始**。
 
 ### Example: Get tool overview
 ```yaml
@@ -58,13 +58,13 @@ parameters:
 
 ## get_config — Workspace Configuration
 
-Load workspace metadata: assignees, dartboards, statuses, tags, priorities, sizes, and folders.
+載入工作區元數據：受派者、看板、狀態、標籤、優先級、大小、文件夾。
 
 **Parameters:**
 - `include` (array): one or more of `assignees`, `dartboards`, `statuses`, `tags`, `priorities`, `sizes`, `folders`
 - `cache_bust` (boolean, optional): force refresh, bypassing the 5-minute cache
 
-**What each section contains:**
+**各節包含：**
 - `assignees` — name, email (objects)
 - `dartboards` — flat strings ("Space/Name" format)
 - `statuses` — flat strings (workspace-specific, e.g. "To-do", "Doing", "Done")
@@ -73,7 +73,7 @@ Load workspace metadata: assignees, dartboards, statuses, tags, priorities, size
 - `sizes` — flat strings
 - `folders` — flat strings ("Space/Name" format)
 
-**Cache:** Results are cached for 5 minutes. Call once at session start and reuse.
+**緩存：** 結果緩存5分鐘。會話開始時調用一次，後續複用。
 
 ### Example: Load everything
 ```yaml
@@ -101,12 +101,12 @@ parameters:
 
 ## get_dartboard — Dartboard Details
 
-Fetch details for a single dartboard, including its current task count.
+取單一看板詳情，含當前任務計數。
 
 **Parameters:**
 - `dartboard_id` (string): dart_id or dartboard name
 
-**When to use:** Check task count before bulk operations to avoid overloading a board.
+**適用：** 批量操作前核查任務計數，避免超載。
 
 ### Example
 ```yaml
@@ -119,7 +119,7 @@ parameters:
 
 ## get_folder — Folder Details
 
-Fetch details for a single folder, including its current doc count.
+取單一文件夾詳情，含當前文檔計數。
 
 **Parameters:**
 - `folder_id` (string): dart_id or folder name
@@ -135,7 +135,7 @@ parameters:
 
 ## Session Initialization Recipe
 
-Follow this sequence at the start of any session that will query or modify tasks:
+任何查詢或修改任務之會話，依此順序初始化：
 
 **Step 1 — Load workspace config** (assignees, dartboards, statuses)
 ```yaml
@@ -159,4 +159,4 @@ parameters:
   status: "In Progress"
 ```
 
-Cache the config results from Step 1 for the rest of the session. Only call `get_config` again if workspace membership or structure may have changed.
+第一步配置結果緩存供整個會話復用。僅在工作區成員或結構可能變更時再次調用`get_config`。

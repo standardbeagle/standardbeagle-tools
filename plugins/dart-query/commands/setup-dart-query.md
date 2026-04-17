@@ -1,21 +1,21 @@
 ---
 name: setup-dart-query
-description: Set up dart-query MCP server with SLOP management and configure Dart access token
+description: Set up dart-query MCP server with SLOP management and configure Dart access token. 以SLOP管理配置dart-query MCP服務器及Dart訪問令牌. Use when: install dart-query, setup dart integration, configure DART_TOKEN, first time dart setup, connect dart to claude
 ---
 
 # dart-query Setup
 
-This command configures the dart-query MCP server for use with Claude Code.
+此命令為Claude Code配置dart-query MCP服務器。
 
 ## Your Task
 
-Follow these steps to set up dart-query:
+依下列步驟設置dart-query：
 
 ### Step 1: Check Prerequisites
 
-**REQUIRED**: First, ensure the user has a Dart API token configured.
+**REQUIRED**: 首先確保用戶已配置Dart API令牌。
 
-Ask the user if they have set the `DART_TOKEN` environment variable. If not, instruct them:
+詢問用戶是否已設置`DART_TOKEN`環境變量。若未設置，指導如下：
 
 1. Log in to your Dart workspace at https://app.dartai.com/?settings=account
 2. Go to Account Settings
@@ -26,18 +26,18 @@ Ask the user if they have set the `DART_TOKEN` environment variable. If not, ins
    ```
 5. Restart the terminal or run `source ~/.bashrc` (or `~/.zshrc`)
 
-Verify the token is set by checking: `echo $DART_TOKEN`
+驗證令牌已設置：`echo $DART_TOKEN`
 
 ### Step 2: Install MCP Server
 
-**Try SLOP-MCP first (preferred):**
+**首選SLOP-MCP：**
 
-Check if slop-mcp is available by calling:
+調用以下命令檢查slop-mcp是否可用：
 ```
 mcp__plugin_slop-mcp_slop-mcp__get_metadata
 ```
 
-If slop-mcp is available, register dart-query with SLOP:
+若slop-mcp可用，以SLOP注冊dart-query：
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 action: register
@@ -49,16 +49,16 @@ env: {DART_TOKEN: "${DART_TOKEN}"}
 scope: user
 ```
 
-**If slop-mcp is NOT available, use direct install:**
+**若slop-mcp不可用，直接安裝：**
 
-If the slop-mcp tool call fails (tool not found), fall back to direct Claude MCP install:
+工具調用失敗（工具未找到）時，降級為直接Claude MCP安裝：
 ```bash
 claude mcp add dart-query --command "npx" --args "-y @standardbeagle/dart-query@latest" --env "DART_TOKEN=${DART_TOKEN}"
 ```
 
 ### Step 3: Verify Setup
 
-Test the connection by calling `get_config`:
+調用`get_config`測試連接：
 
 **If using slop-mcp:**
 ```
@@ -73,13 +73,13 @@ parameters: {}
 mcp__plugin_dart-query_dart-query__get_config
 ```
 
-This should return the workspace configuration including available dartboards, statuses, and assignees.
+應返回工作區配置，含可用看板、狀態及受派者。
 
-If it fails, help the user troubleshoot token configuration.
+若失敗，協助用戶排查令牌配置。
 
 ## Available Tools
 
-After setup, the following dart-query tools are available:
+安裝後，以下dart-query工具可用：
 
 | Tool | Purpose |
 |------|---------|
@@ -116,21 +116,21 @@ After setup, the following dart-query tools are available:
 ## Troubleshooting
 
 ### Token Not Found
-Help the user verify their token:
+協助用戶驗證令牌：
 ```bash
 echo $DART_TOKEN
 # Should show their token (dsa_...)
 ```
 
-If not set, guide them to add it to their shell profile and restart the terminal.
+若未設置，引導至shell配置文件添加並重啟終端。
 
 ### Server Not Responding
-Test the server directly:
+直接測試服務器：
 ```bash
 npx @standardbeagle/dart-query info
 ```
 
-If using SLOP, check server status:
+若使用SLOP，查看服務器狀態：
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 action: status
@@ -138,22 +138,22 @@ name: dart-query
 ```
 
 ### Authentication Errors
-- Verify token is valid and not expired
-- Check token has appropriate workspace permissions
-- Guide user to regenerate token if needed at https://app.dartai.com/?settings=account
+- 驗證令牌有效且未過期
+- 確認令牌有適當工作區權限
+- 需要時引導用戶至 https://app.dartai.com/?settings=account 重新生成
 
 ### Tool Not Found Errors
-If dart-query tools are not available:
-1. Verify installation completed successfully
-2. Check if server is registered: `claude mcp list` or use SLOP's `manage_mcps` with `action: list`
-3. Try reconnecting: use SLOP's `manage_mcps` with `action: reconnect, name: dart-query`
-4. Reinstall if necessary
+若dart-query工具不可用：
+1. 驗證安裝成功完成
+2. 查看服務器是否已注冊：`claude mcp list`或SLOP的`manage_mcps`搭配`action: list`
+3. 嘗試重連：SLOP的`manage_mcps`搭配`action: reconnect, name: dart-query`
+4. 必要時重新安裝
 
 ## Next Steps
 
-After setup, use dart-query skills and tools to:
-1. Query tasks with DartQL
-2. Create and manage tasks in batch
-3. Track time and add comments
-4. Export and import tasks
-5. Explore workspace configuration
+安裝後，以dart-query技能與工具：
+1. 以DartQL查詢任務
+2. 批量創建與管理任務
+3. 追蹤時間並添加注釋
+4. 導出與導入任務
+5. 探索工作區配置

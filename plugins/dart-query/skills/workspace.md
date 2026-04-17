@@ -1,11 +1,11 @@
 ---
 name: workspace
-description: dart-query workspace tools - documents, comments, time tracking, attachments, and task positioning
+description: dart-query workspace tools - documents, comments, time tracking, attachments, and task positioning. 文檔管理、注釋、時間追蹤、附件、任務定位諸工具. Use when: create document, list docs, add comment, log time, attach URL, move task, reposition task
 ---
 
 # dart-query Workspace
 
-Documents, comments, time tracking, URL attachments, and task movement in Dart.
+Dart中之文檔管理、注釋、時間追蹤、URL附件及任務移動。
 
 ## Access Pattern (all examples below use this)
 
@@ -74,7 +74,7 @@ parameters:
 
 **Required:** `doc_id` (dart_id), `updates` object (one or more fields)
 
-> Note: `update_doc` uses an `updates` wrapper object — unlike `update_task` which takes fields directly.
+> 注意：`update_doc`使用`updates`包裝對象——與直接取平鋪參數之`update_task`不同。
 
 ```yaml
 updates:
@@ -97,7 +97,7 @@ parameters:
 
 ### delete_doc — Delete a Document
 
-**Required:** `doc_id` (dart_id). Soft delete — recoverable from trash.
+**Required:** `doc_id` (dart_id). 軟刪除——可從回收站恢復。
 
 ```yaml
 tool_name: delete_doc
@@ -113,7 +113,7 @@ parameters:
 
 **Required:** `dart_id` (task dart_id), `text` (string, markdown supported)
 
-> Also available inline via `comment` param on `create_task` / `update_task` (see task-crud skill).
+> 亦可通過`create_task`/`update_task`上之`comment`參數內聯添加（見task-crud技能）。
 
 **Example:**
 ```yaml
@@ -207,7 +207,7 @@ before_id: dart_id   # place immediately before this task
 after_id: dart_id    # place immediately after this task
 ```
 
-Can combine `dartboard` with one positioning method to move and place in one call.
+可組合`dartboard`與一種定位方式，一次調用完成移動與定位。
 
 **Example — move to different dartboard:**
 ```yaml
@@ -226,7 +226,7 @@ parameters:
   order: 0
 ```
 
-> For bulk task moves, use `execute_dartql` instead — see batch-ops skill.
+> 批量移動任務用`execute_dartql`——見batch-ops技能。
 
 ---
 

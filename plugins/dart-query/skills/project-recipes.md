@@ -1,11 +1,13 @@
 ---
 name: project-recipes
-description: Project management recipes - sprint transitions, triage, team rebalancing, stale task cleanup, reporting, and priority recalibration with dart-query
+description: Project management recipes - sprint transitions, triage, team rebalancing, stale task cleanup, reporting, and priority recalibration with dart-query. 迭代交接、分類、團隊重平衡、陳舊清理、報告、優先級重校諸配方. Use when: end of sprint transition, triage backlog, rebalance team workload, cleanup stale tasks, generate sprint report, recalibrate priorities
 ---
 
 # dart-query Project Recipes
 
-Ready-to-use recipes for common project management workflows. Each recipe has a "When to use" trigger and step-by-step tool calls. For batch operation syntax details, see the `batch-ops` skill.
+常見項目管理工作流之即用配方。每份配方附觸發時機與逐步工具調用。批量操作語法詳見：
+
+> Invoke the `Skill` tool with `skill: dart-query:batch-ops` — DartQL語法及安全協議。
 
 ## Access Pattern
 
@@ -21,9 +23,9 @@ params:
 
 ## Recipe: Sprint Transition
 
-**When:** End of sprint — carry incomplete tasks forward and archive completed ones.
+**When:** 迭代末——未完成任務前移，已完成任務歸檔。
 
-**Step 1 — Preview carry-over tasks (dry run first):**
+**Step 1 — 預覽待結轉任務（先乾跑）：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -31,7 +33,7 @@ parameters:
   dry_run: true
 ```
 
-**Step 2 — Execute the move after confirming preview:**
+**Step 2 — 確認預覽後執行移動：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -39,7 +41,7 @@ parameters:
   dry_run: false
 ```
 
-**Step 3 — Archive completed tasks:**
+**Step 3 — 歸檔已完成任務：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -47,7 +49,7 @@ parameters:
   dry_run: false
 ```
 
-**Step 4 — Set dates on new sprint tasks:**
+**Step 4 — 為新迭代任務設日期：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -55,15 +57,15 @@ parameters:
   dry_run: true   # preview first
 ```
 
-**Step 5 — Generate sprint report** (see Sprint Report recipe below).
+**Step 5 — 生成迭代報告**（見下方Sprint Report配方）。
 
 ---
 
 ## Recipe: Triage
 
-**When:** Backlog has grown unchecked — identify and escalate urgent work.
+**When:** Backlog積壓失控——識別並升級緊急工作。
 
-**Step 1 — Find overdue tasks:**
+**Step 1 — 查找逾期任務：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -71,7 +73,7 @@ parameters:
   dry_run: true   # returns matched tasks without modifying
 ```
 
-**Step 2 — Find unassigned high-priority tasks:**
+**Step 2 — 查找未分配高優先級任務：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -79,14 +81,14 @@ parameters:
   dry_run: true
 ```
 
-**Step 3 — Find blocked tasks (has non-empty blocker_ids):**
+**Step 3 — 查找被阻塞任務（有非空blocker_ids）：**
 ```yaml
 tool_name: list_tasks
 parameters:
   detail_level: full   # then filter client-side for non-empty blocker_ids
 ```
 
-**Step 4 — Auto-escalate overdue tasks:**
+**Step 4 — 自動升級逾期任務：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -98,9 +100,9 @@ parameters:
 
 ## Recipe: Team Rebalancing
 
-**When:** A team member is overloaded, someone is leaving, or you need capacity planning.
+**When:** 成員超負荷、人員離職，或需要容量規劃。
 
-**Step 1 — Check per-assignee in-progress workload:**
+**Step 1 — 查看每人進行中工作量：**
 ```yaml
 tool_name: list_tasks
 parameters:
@@ -108,9 +110,9 @@ parameters:
   status: "In Progress"
   detail_level: minimal
 ```
-Repeat for each team member and compare counts.
+對每位成員重複，比較計數。
 
-**Step 2 — Preview tasks to reassign (dry run):**
+**Step 2 — 預覽待重分配任務（乾跑）：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -118,7 +120,7 @@ parameters:
   dry_run: true
 ```
 
-**Step 3 — Execute reassignment after review:**
+**Step 3 — 審閱後執行重分配：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -130,9 +132,9 @@ parameters:
 
 ## Recipe: Stale Task Cleanup
 
-**When:** Quarterly backlog grooming — surface tasks that haven't moved in months.
+**When:** 季度Backlog整理——發掘數月未動之任務。
 
-**Step 1 — Find stale tasks (dry run to preview):**
+**Step 1 — 查找陳舊任務（乾跑預覽）：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -140,7 +142,7 @@ parameters:
   dry_run: true
 ```
 
-**Step 2 — Tag them for review:**
+**Step 2 — 標記待審閱：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -148,7 +150,7 @@ parameters:
   dry_run: false
 ```
 
-**Step 3 — After team review, archive confirmed stale tasks:**
+**Step 3 — 團隊審閱後歸檔確認之陳舊任務：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -168,9 +170,9 @@ parameters:
 
 ## Recipe: Sprint Report
 
-**When:** Sprint review, end-of-sprint stakeholder updates.
+**When:** 迭代評審、期末干係人更新。
 
-**Step 1 — Count tasks by status:**
+**Step 1 — 按狀態統計任務數：**
 ```yaml
 tool_name: list_tasks
 parameters:
@@ -178,16 +180,16 @@ parameters:
   status: "Done"
   detail_level: minimal
 ```
-Repeat for "In Progress" and "Todo" to get all three counts.
+對「In Progress」和「Todo」重複，得三項計數。
 
-**Step 2 — Get dartboard totals:**
+**Step 2 — 取看板總數：**
 ```yaml
 tool_name: get_dartboard
 parameters:
   dartboard_id: "Sprint 12"
 ```
 
-**Step 3 — Create report document:**
+**Step 3 — 創建報告文檔：**
 ```yaml
 tool_name: create_doc
 parameters:
@@ -214,9 +216,9 @@ parameters:
 
 ## Recipe: Priority Recalibration
 
-**When:** "Everything is P5" — priorities have inflated and are no longer meaningful.
+**When:** 「萬物皆P5」——優先級膨脹，失去意義。
 
-**Step 1 — Preview the scope (how many tasks are affected):**
+**Step 1 — 預覽影響範圍：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -224,7 +226,7 @@ parameters:
   dry_run: true
 ```
 
-**Step 2 — Reset all backlog priorities to P2 baseline:**
+**Step 2 — 重置所有Backlog優先級至P2基線：**
 ```yaml
 tool_name: execute_dartql
 parameters:
@@ -232,10 +234,10 @@ parameters:
   dry_run: false
 ```
 
-**Step 3 — Re-triage manually.**
-Work through the backlog and set intentional priorities:
-- P5: blocking production or customer-impacting now
-- P4: must ship this sprint
-- P3: planned for next sprint
-- P2: backlog with intent
-- P1: someday/maybe
+**Step 3 — 手動重新分類。**
+逐一審閱Backlog，設置有意圖之優先級：
+- P5: 正在阻塞生產或影響客戶
+- P4: 本迭代必須交付
+- P3: 下迭代計劃
+- P2: 有意圖之Backlog
+- P1: 也許有一天

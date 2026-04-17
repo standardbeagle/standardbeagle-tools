@@ -1,11 +1,11 @@
 ---
 name: task-crud
-description: dart-query task operations - create_task, get_task, update_task, delete_task, add_task_comment with relationship management and incremental updates
+description: dart-query task operations - create_task, get_task, update_task, delete_task, add_task_comment with relationship management and incremental updates. 任務創讀更刪：create/get/update/delete_task、注釋、關係管理、增量更新. Use when: create task, get task details, update task fields, delete task, add comment, manage task relationships, add blocker
 ---
 
 # dart-query Task CRUD
 
-Create, read, update, and delete tasks in Dart. All tools use dart_id as the primary identifier.
+Dart中任務之創建、讀取、更新、刪除。所有工具以dart_id為主鍵。
 
 ## Access Pattern (all examples below use this)
 
@@ -77,13 +77,13 @@ parameters:
 - `dart_id` (string)
 
 **Optional flags:**
-- `include_comments` (boolean, default false) — include comment thread
-- `include_relationships` (boolean, default true) — include related task IDs
-- `expand_relationships` (boolean, default false) — fetch titles for related tasks (costs extra API calls)
+- `include_comments` (boolean, default false) — 包含注釋線程
+- `include_relationships` (boolean, default true) — 包含關聯任務ID
+- `expand_relationships` (boolean, default false) — 獲取關聯任務標題（額外API調用）
 
-**When to use each flag:**
-- `include_relationships: false` — quick status checks; minimum payload
-- `expand_relationships: true` — displaying task context to user; shows related task titles
+**各標誌適用場景：**
+- `include_relationships: false` — 快速狀態查詢；最小負載
+- `expand_relationships: true` — 向用戶展示任務上下文；顯示關聯任務標題
 
 ### Example
 ```yaml
@@ -101,11 +101,11 @@ parameters:
 **Required:**
 - `dart_id` (also accepts `id` or `task_id`)
 
-**CRITICAL: pass fields flat — NOT wrapped in `updates: {...}`** — this is the #1 mistake.
+**CRITICAL: pass fields flat — NOT wrapped in `updates: {...}`** — 此為最常見錯誤。
 
-Same optional fields as `create_task`, plus:
+可選字段同`create_task`，另加：
 
-**Incremental relationship updates** (avoid full replacement when only adding/removing):
+**Incremental relationship updates** (避免整體替換，僅新增/移除時使用)：
 ```yaml
 add_to:
   blocker_ids: [dart_id, ...]    # appends; fetches current, merges, deduplicates automatically
@@ -113,10 +113,10 @@ remove_from:
   blocker_ids: [dart_id, ...]    # removes matching IDs
 ```
 
-**Rules:**
-- Direct field assignment uses **full replacement semantics** — send `[]` to clear
-- Cannot combine `add_to`/`remove_from` with direct field on the **same** relationship
-- CAN combine `add_to` on one field with `remove_from` on a different field
+**規則：**
+- 直接字段賦值採**完全替換語義**——送`[]`以清空
+- 不可在**同一**關係上組合`add_to`/`remove_from`與直接字段賦值
+- 可在不同關係上組合`add_to`與`remove_from`
 
 ### Example: Simple update
 ```yaml
@@ -155,7 +155,7 @@ parameters:
 **Required:**
 - `dart_id` (string)
 
-Soft delete — recoverable via Dart web UI. The task is removed from all boards and queries immediately.
+軟刪除——可通過Dart Web UI恢復。任務立即從所有看板和查詢中移除。
 
 ### Example
 ```yaml
@@ -172,7 +172,7 @@ parameters:
 - `dart_id` (string)
 - `text` (string, markdown supported)
 
-Use for comments that don't accompany an update. For combined update+comment, use `comment` parameter on `update_task`.
+不伴隨更新之獨立注釋時使用。組合更新+注釋時，用`update_task`上之`comment`參數。
 
 ### Example
 ```yaml
@@ -186,7 +186,7 @@ parameters:
 
 ## Common Mistakes
 
-1. **Wrapping fields in `updates: {...}`** — `update_task` takes flat parameters directly
-2. **Using `due_date` instead of `due_at`** — all date fields use `_at` suffix
-3. **Expecting append behavior on relationship arrays** — direct assignment is full replacement; use `add_to`/`remove_from` for incremental updates
-4. **Using task IDs from other systems** — dart-query uses `dart_id` format (e.g., `tsk_abc123`)
+1. **將字段包裝在`updates: {...}`中** — `update_task`直接取平鋪參數
+2. **用`due_date`代替`due_at`** — 所有日期字段使用`_at`後綴
+3. **期望關係數組追加行為** — 直接賦值為完全替換；增量更新用`add_to`/`remove_from`
+4. **使用其他系統的任務ID** — dart-query使用`dart_id`格式（如`tsk_abc123`）

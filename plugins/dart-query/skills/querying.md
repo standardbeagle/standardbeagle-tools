@@ -1,6 +1,6 @@
 ---
 name: querying
-description: dart-query task querying - list_tasks structured filtering, search_tasks full-text search, detail levels, pagination, and using execute_dartql for complex queries
+description: dart-query task querying - list_tasks structured filtering, search_tasks full-text search, detail levels, pagination, and using execute_dartql for complex queries. 結構化過濾、全文搜索、詳細級別、分頁及DartQL複雜查詢. Use when: filter tasks by status, search tasks by text, list tasks by assignee, paginate task results, query with complex conditions
 ---
 
 # dart-query Task Querying
@@ -174,7 +174,7 @@ parameters:
 
 ## Complex Queries Beyond list_tasks
 
-`list_tasks` only supports exact-match filters — no range filters (priority >= 3), OR logic, null checks, or LIKE matching. For these cases, use `execute_dartql` with `dry_run: true`. It evaluates the DartQL expression and returns matching tasks without making any changes.
+`list_tasks`僅支持精確匹配過濾——無範圍過濾（`priority >= 3`）、OR邏輯、空值判斷或LIKE匹配。此類情形用`execute_dartql`搭配`dry_run: true`，返回匹配任務而不修改任何數據。
 
 **Example — find all high-priority open tasks:**
 ```yaml
@@ -183,16 +183,18 @@ parameters:
   query: "UPDATE WHERE priority >= 4 AND status != 'Done' SET priority = 4"
   dry_run: true
 ```
-The dry run returns matched tasks without executing the update.
+乾跑返回匹配任務，不執行更新。
 
-See the `batch-ops` skill for full DartQL syntax and expression reference.
+完整DartQL語法及表達式參考：
+
+> Invoke the `Skill` tool with `skill: dart-query:batch-ops` — DartQL語法完整參考。
 
 ---
 
 ## Performance Tips
 
-- Use `limit: 500` for full scans — minimizes round trips
-- Use `detail_level: minimal` for counts and ID collection
-- Scope queries with `dartboard` to reduce result set size
-- Avoid N+1: prefer `detail_level: full` on `list_tasks` over calling `get_task` per result
-- Cache `get_config` results — workspace configuration rarely changes within a session
+- 全量掃描用`limit: 500`——減少往返次數
+- 計數與ID收集用`detail_level: minimal`
+- 以`dartboard`縮小查詢範圍
+- 避免N+1：在`list_tasks`上用`detail_level: full`，勿逐條調用`get_task`
+- 緩存`get_config`結果——工作區配置在會話內極少變化
