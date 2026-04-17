@@ -1,19 +1,19 @@
 ---
 name: mobile-first
-description: Mobile-first design and development principles for responsive web experiences
+description: Mobile-first design and development principles for responsive web experiences. 移動優先設計：觸控目標、斷點、性能、表單優化。 Use when: starting responsive layout, auditing mobile UX, adding new breakpoints.
 ---
 
 # Mobile-First Design Principles
 
-Build for mobile constraints first, then enhance for larger screens.
+先為移動端約束構建，再漸進增強至大屏。
 
 ## Core Philosophy
 
-**Mobile-first means**:
-- Start with essential content and features
-- Design for touch interaction first
-- Use progressive enhancement
-- Test on real devices, not just emulators
+**移動優先意味著**：
+- 從基本內容與功能出發
+- 首先為觸控交互設計
+- 採用漸進增強
+- 在真實設備而非模擬器上測試
 
 ## Touch Target Guidelines
 
@@ -135,9 +135,9 @@ html {
 
 ### Navigation Patterns
 
-**Mobile**: Hamburger menu or bottom navigation
-**Tablet**: Collapsed sidebar or horizontal nav
-**Desktop**: Full horizontal navigation
+**Mobile**: 漢堡菜單或底部導航
+**Tablet**: 折疊側邊欄或水平導航
+**Desktop**: 完整水平導航
 
 ```css
 .nav-mobile { display: flex; }
@@ -215,11 +215,11 @@ input, select, textarea {
 
 ### Reduce Data Usage
 
-- Lazy load images below the fold
-- Use appropriate image formats (WebP, AVIF)
-- Minimize JavaScript payload
-- Use system fonts when possible
-- Subset custom fonts
+- 懶加載折疊線以下圖片
+- 使用適當圖片格式（WebP, AVIF）
+- 最小化JavaScript負載
+- 盡可能使用系統字體
+- 子集化自定義字體
 
 ### Touch Responsiveness
 

@@ -1,23 +1,23 @@
 ---
 name: component-designer
-description: Component design agent for creating accessible, usable, well-documented UI components
+description: Design accessible, usable, documented UI components from spec through implementation. 設計無障礙UI組件：需求、規格、鍵盤、ARIA、代碼、文檔全流程。 Use when: creating new components, refactoring for accessibility, building design system components.
 ---
 
 # Component Designer Agent
 
-Use this agent to design new UI components or improve existing ones with comprehensive UX considerations.
+用此代理設計新UI組件或改進現有組件，全面考量UX。
 
 ## When to Use
 
-- Creating new UI components
-- Refactoring existing components for accessibility
-- Building design system components
-- Documenting component behavior
-- Reviewing component implementations
+- 創建新UI組件
+- 為無障礙重構現有組件
+- 構建設計系統組件
+- 記錄組件行為
+- 審查組件實現
 
 ## Capabilities
 
-This agent will:
+此代理將：
 
 1. **Design component API** with accessibility built in
 2. **Define all interaction states**
@@ -31,7 +31,7 @@ This agent will:
 
 ### Phase 1: Requirements Gathering
 
-Understand the component:
+理解組件：
 
 ```
 - What problem does it solve?
@@ -43,7 +43,11 @@ Understand the component:
 
 ### Phase 2: Component Specification
 
-Load the `form-design`, `touch-targets`, and `keyboard-navigation` skills.
+> Invoke the `Skill` tool with `skill: ux-developer:form-design` — 獲取表單字段設計準則。
+
+> Invoke the `Skill` tool with `skill: ux-developer:touch-targets` — 獲取觸控目標尺寸規範。
+
+> Invoke the `Skill` tool with `skill: ux-developer:keyboard-navigation` — 獲取鍵盤交互模式。
 
 Create comprehensive spec:
 
@@ -87,7 +91,7 @@ Create comprehensive spec:
 
 ### Phase 3: Accessibility Specification
 
-Detail accessibility requirements:
+詳述無障礙要求：
 
 ```markdown
 ### Accessibility
@@ -127,7 +131,7 @@ Detail accessibility requirements:
 
 ### Phase 4: Responsive Behavior
 
-Specify responsive adaptations:
+規格響應式適配：
 
 ```markdown
 ### Responsive
@@ -150,7 +154,7 @@ Specify responsive adaptations:
 
 ### Phase 5: Implementation
 
-Generate accessible code:
+生成無障礙代碼：
 
 ```jsx
 // Example: Accessible Button Component
@@ -203,7 +207,7 @@ export function Button({
 
 ### Phase 6: Documentation
 
-Generate usage docs:
+生成使用文檔：
 
 ```markdown
 ## Usage
@@ -257,20 +261,20 @@ Always provide meaningful button text or aria-label:
 
 ## Output Format
 
-Deliver complete component package:
+交付完整組件包：
 
-1. **Specification document** - Full behavior spec
-2. **Implementation code** - Accessible component code
-3. **Styles** - CSS with all states
-4. **Tests** - Accessibility and behavior tests
-5. **Documentation** - Usage guide with examples
-6. **Storybook stories** - Visual documentation
+1. **Specification document** - 完整行為規格
+2. **Implementation code** - 無障礙組件代碼
+3. **Styles** - 含所有狀態之CSS
+4. **Tests** - 無障礙與行為測試
+5. **Documentation** - 含示例之使用指南
+6. **Storybook stories** - 視覺文檔
 
 ## Integration
 
-After design, offer to:
-- Generate component files
-- Create Storybook stories
-- Write unit tests
-- Add to design system documentation
-- Create your project tracker tasks for implementation
+設計完成後，提供：
+- 生成組件文件
+- 創建Storybook stories
+- 編寫單元測試
+- 添加至設計系統文檔
+- 為實現創建項目追蹤任務

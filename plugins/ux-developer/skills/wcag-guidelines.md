@@ -1,25 +1,25 @@
 ---
 name: wcag-guidelines
-description: WCAG 2.2 accessibility guidelines reference for web development
+description: WCAG 2.2 accessibility guidelines reference for web development. WCAG 2.2無障礙指南速查：POUR四原則、A/AA/AAA準則、代碼示例。 Use when: accessibility audit, new feature design, pre-launch compliance check.
 ---
 
 # WCAG 2.2 Guidelines Reference
 
-Web Content Accessibility Guidelines for building inclusive web experiences.
+構建包容性網絡體驗之無障礙指南。
 
 ## WCAG Principles: POUR
 
 ### Perceivable
-Information must be presentable in ways users can perceive.
+信息須以用戶可感知之方式呈現。
 
 ### Operable
-Interface components must be operable by all users.
+界面組件須可操作。
 
 ### Understandable
-Information and UI operation must be understandable.
+信息與UI操作須可理解。
 
 ### Robust
-Content must be robust enough for diverse user agents and assistive technologies.
+內容須足夠健壯，適配各類用戶代理與輔助技術。
 
 ---
 
@@ -28,7 +28,7 @@ Content must be robust enough for diverse user agents and assistive technologies
 ### 1.1 Text Alternatives
 
 **1.1.1 Non-text Content**
-All non-text content has text alternative.
+非文本內容須有文本替代。
 
 ```html
 <!-- Images -->
@@ -53,7 +53,7 @@ All non-text content has text alternative.
 ### 1.3 Adaptable
 
 **1.3.1 Info and Relationships**
-Structure conveyed through presentation is available programmatically.
+呈現所傳達之結構，可程序化獲取。
 
 ```html
 <!-- Use semantic HTML -->
@@ -77,10 +77,10 @@ Structure conveyed through presentation is available programmatically.
 ```
 
 **1.3.2 Meaningful Sequence**
-Reading order is logical and intuitive.
+閱讀順序合乎邏輯。
 
 **1.3.3 Sensory Characteristics**
-Instructions don't rely solely on shape, size, location, or sound.
+指示不唯賴形狀、大小、位置或聲音。
 
 ```html
 <!-- Bad -->
@@ -93,7 +93,7 @@ Instructions don't rely solely on shape, size, location, or sound.
 ### 1.4 Distinguishable
 
 **1.4.1 Use of Color**
-Color is not the only means of conveying information.
+顏色非傳達信息之唯一手段。
 
 ```html
 <!-- Bad: color only -->
@@ -109,7 +109,7 @@ Color is not the only means of conveying information.
 ### 2.1 Keyboard Accessible
 
 **2.1.1 Keyboard**
-All functionality available via keyboard.
+所有功能可由鍵盤操作。
 
 ```html
 <!-- Ensure custom controls are focusable and operable -->
@@ -121,29 +121,29 @@ All functionality available via keyboard.
 ```
 
 **2.1.2 No Keyboard Trap**
-Focus can be moved away from any component using keyboard.
+焦點可由鍵盤移離任何組件。
 
 ### 2.4 Navigable
 
 **2.4.1 Bypass Blocks**
-Skip repetitive content blocks.
+跳過重複內容塊。
 
 ```html
 <a href="#main-content" class="skip-link">Skip to main content</a>
 ```
 
 **2.4.2 Page Titled**
-Pages have descriptive titles.
+頁面有描述性標題。
 
 ```html
 <title>Product Details - My Store</title>
 ```
 
 **2.4.3 Focus Order**
-Focus order preserves meaning and operability.
+焦點順序保持意義與可操作性。
 
 **2.4.4 Link Purpose (In Context)**
-Link purpose determinable from link text or context.
+鏈接目的可由鏈接文字或上下文判定。
 
 ```html
 <!-- Bad -->
@@ -156,7 +156,7 @@ Link purpose determinable from link text or context.
 ### 3.1 Readable
 
 **3.1.1 Language of Page**
-Default language is programmatically determinable.
+頁面默認語言可程序化判定。
 
 ```html
 <html lang="en">
@@ -165,7 +165,7 @@ Default language is programmatically determinable.
 ### 4.1 Compatible
 
 **4.1.2 Name, Role, Value**
-Custom UI components expose name, role, and state.
+自定義UI組件暴露名稱、角色與狀態。
 
 ```html
 <button aria-expanded="false" aria-controls="menu">
@@ -185,33 +185,33 @@ Custom UI components expose name, role, and state.
 - Large text (18pt+): 3:1 contrast ratio
 
 **1.4.4 Resize Text**
-Text resizable to 200% without loss of functionality.
+文字可縮放至200%而不失功能。
 
 **1.4.5 Images of Text**
-Use actual text instead of images of text.
+用真實文字，勿用文字圖片。
 
 **1.4.10 Reflow**
-Content reflows at 320px width without horizontal scrolling.
+內容在320px寬度下重排，無需水平滾動。
 
 **1.4.11 Non-text Contrast**
-UI components and graphics have 3:1 contrast.
+UI組件與圖形具3:1對比度。
 
 **1.4.12 Text Spacing**
-No loss of content when text spacing is adjusted.
+調整文字間距後不失內容。
 
 **1.4.13 Content on Hover or Focus**
-Additional content on hover/focus is dismissible, hoverable, and persistent.
+懸停/焦點出現之附加內容可關閉、可懸停、持久存在。
 
 ### 2.4 Navigable
 
 **2.4.5 Multiple Ways**
-Multiple ways to locate pages within a site.
+提供多種方式定位站點內頁面。
 
 **2.4.6 Headings and Labels**
-Headings and labels describe topic or purpose.
+標題與標籤描述主題或目的。
 
 **2.4.7 Focus Visible**
-Keyboard focus indicator is visible.
+鍵盤焦點指示器可見。
 
 ```css
 :focus {
@@ -226,7 +226,7 @@ Keyboard focus indicator is visible.
 ### 2.5 Input Modalities
 
 **2.5.3 Label in Name**
-Accessible name contains visible label text.
+可訪問名稱含可見標籤文字。
 
 ```html
 <!-- Visible label: "Search" -->
@@ -237,36 +237,36 @@ Accessible name contains visible label text.
 ### 3.2 Predictable
 
 **3.2.3 Consistent Navigation**
-Navigation is consistent across pages.
+導航在頁面間保持一致。
 
 **3.2.4 Consistent Identification**
-Components with same function identified consistently.
+相同功能組件一致標識。
 
 ### 3.3 Input Assistance
 
 **3.3.1 Error Identification**
-Errors are identified and described in text.
+錯誤以文字識別並描述。
 
 **3.3.2 Labels or Instructions**
-Labels or instructions provided for user input.
+用戶輸入提供標籤或指示。
 
 **3.3.3 Error Suggestion**
-Suggestions for fixing errors when known.
+已知時建議修正方法。
 
 **3.3.4 Error Prevention (Legal, Financial, Data)**
-Submissions are reversible, checked, or confirmed.
+提交可撤銷、核查或確認。
 
 ---
 
 ## Level AAA (Enhanced)
 
-Notable AAA criteria:
+值得關注之AAA準則：
 
-**1.4.6 Contrast (Enhanced)**: 7:1 for text, 4.5:1 for large text
+**1.4.6 Contrast (Enhanced)**: 文字7:1，大文字4.5:1
 
-**2.4.9 Link Purpose (Link Only)**: Purpose determinable from link text alone
+**2.4.9 Link Purpose (Link Only)**: 鏈接目的可由鏈接文字單獨判定
 
-**3.1.5 Reading Level**: Content readable at lower secondary education level
+**3.1.5 Reading Level**: 內容可供初中教育水平閱讀
 
 ---
 

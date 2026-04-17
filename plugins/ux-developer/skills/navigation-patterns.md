@@ -1,19 +1,19 @@
 ---
 name: navigation-patterns
-description: Navigation design patterns for intuitive, accessible wayfinding
+description: Navigation design patterns for intuitive, accessible wayfinding. 導航設計模式：水平欄、側邊欄、漢堡菜單、麵包屑，均含ARIA。 Use when: designing nav structure, responsive navigation, adding breadcrumbs or tabs.
 ---
 
 # Navigation Patterns
 
-Design navigation that helps users find their way efficiently.
+設計導航，助用戶高效尋路。
 
 ## Navigation Principles
 
-1. **Be consistent** - Same navigation in same place across pages
-2. **Be clear** - Labels should describe destinations, not actions
-3. **Be concise** - 5-7 top-level items maximum
-4. **Show location** - Users should always know where they are
-5. **Be accessible** - Keyboard navigable with proper ARIA
+1. **Be consistent** - 各頁導航位置一致
+2. **Be clear** - 標籤描述目的地，非動作
+3. **Be concise** - 頂級項目最多5–7個
+4. **Show location** - 用戶須知自身位置
+5. **Be accessible** - 鍵盤可達，含適當ARIA
 
 ## Primary Navigation Patterns
 

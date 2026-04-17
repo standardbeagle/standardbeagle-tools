@@ -1,47 +1,47 @@
 ---
 name: form-ux
-description: Design or review forms with UX best practices for usability, accessibility, and conversion optimization
+description: Design or review forms with UX best practices for usability, accessibility, and conversion. 設計或審查表單UX：標籤、驗證、無障礙清單、agnt實時檢查。 Use when: building new forms, auditing existing form UX, improving conversion.
 ---
 
 # Form UX Command
 
-Design new forms or review existing ones for optimal user experience.
+設計新表單或審查現有表單以達到最佳用戶體驗。
 
 ## Process
 
 ### 1. Understand Form Purpose
 
-Gather context:
-- What data are we collecting and why?
-- What's the user's motivation to complete?
-- What's the cost of abandonment?
-- What validation is required?
+收集上下文：
+- 我們收集哪些數據，為何收集？
+- 用戶完成的動機是什麼？
+- 放棄的代價是什麼？
+- 需要哪些驗證？
 
 ### 2. Form UX Principles
 
 #### Reduce Friction
-- Only ask for necessary information
-- Remove optional fields or make them progressive
-- Use smart defaults
-- Enable autofill with proper attributes
+- 只收集必要信息
+- 移除可選字段或漸進化
+- 使用智能默認值
+- 用適當屬性啟用自動填充
 
 #### Provide Clarity
-- Clear, concise labels above fields
-- Helpful placeholder text (not as labels)
-- Inline help for complex fields
-- Required field indication (asterisk + legend)
+- 字段上方清晰簡潔的標籤
+- 有幫助的佔位符文字（非標籤）
+- 複雜字段的行內說明
+- 必填字段指示（星號+說明）
 
 #### Give Feedback
-- Inline validation on blur
-- Clear error messages with solutions
-- Success confirmation
-- Progress indication for long forms
+- 失焦時行內驗證
+- 含解決方案的清晰錯誤消息
+- 成功確認
+- 長表單的進度指示
 
 #### Enable Recovery
-- Preserve data on validation errors
-- Clear path to fix errors
-- Auto-save for long forms
-- Back navigation without data loss
+- 驗證錯誤時保留數據
+- 清晰的錯誤修復路徑
+- 長表單自動保存
+- 返回導航不丟失數據
 
 ### 3. Form Accessibility Checklist
 
@@ -120,7 +120,7 @@ Gather context:
 
 ### 5. Review Existing Form
 
-Using agnt proxy:
+使用agnt代理：
 
 ```
 // Start proxy for the target URL
@@ -136,12 +136,12 @@ proxy {action: "exec", id: "form-review", code: "__devtool.auditAccessibility()"
 get_errors {proxy_id: "form-review"}
 ```
 
-Evaluate:
-1. **Field audit**: List all fields, are any unnecessary?
-2. **Label check**: Every field properly labeled?
-3. **Validation check**: Try invalid inputs, check error messages
-4. **Keyboard test**: Tab through entire form
-5. **Autofill test**: Does browser autofill work?
+評估：
+1. **Field audit**: 列出所有字段，哪些不必要？
+2. **Label check**: 每個字段是否有適當標籤？
+3. **Validation check**: 嘗試無效輸入，檢查錯誤消息
+4. **Keyboard test**: 用Tab鍵遍歷整個表單
+5. **Autofill test**: 瀏覽器自動填充是否有效？
 
 ### 6. Common Form Patterns
 
@@ -195,7 +195,7 @@ Evaluate:
 
 ### 7. Form Testing Checklist
 
-Before shipping:
+發布前：
 
 - [ ] Complete form with keyboard only
 - [ ] Test with screen reader
@@ -209,10 +209,10 @@ Before shipping:
 
 ### 8. Optimization Recommendations
 
-After review, suggest:
-- Fields to remove or make optional
-- Better input types to use
-- Autofill attributes to add
-- Error message improvements
-- Validation timing adjustments
-- Mobile-specific enhancements
+審查後建議：
+- 可移除或設為可選的字段
+- 更好的輸入類型
+- 需添加的自動填充屬性
+- 錯誤消息改進
+- 驗證時機調整
+- 移動端特定增強

@@ -1,25 +1,25 @@
 ---
 name: user-flow
-description: Design, document, or analyze user flows with UX best practices and friction point identification
+description: Design, document, or analyze user flows with UX best practices and friction identification. 設計或分析用戶流程：映射旅程、識別摩擦、無障礙與移動端考量、agnt測試。 Use when: designing checkout/onboarding flows, finding drop-off points, documenting user paths.
 ---
 
 # User Flow Command
 
-Design new user flows or analyze existing ones for UX optimization.
+設計新用戶流程或分析現有流程以優化UX。
 
 ## Process
 
 ### 1. Define the Flow
 
-Gather flow context:
-- **Goal**: What is the user trying to accomplish?
-- **Entry points**: Where do users enter this flow?
-- **Success criteria**: What defines successful completion?
-- **User context**: What state/knowledge do users have entering?
+收集流程上下文：
+- **Goal**: 用戶試圖完成什麼？
+- **Entry points**: 用戶從哪裏進入此流程？
+- **Success criteria**: 何為成功完成？
+- **User context**: 用戶進入時的狀態與知識？
 
 ### 2. Map the Current/Proposed Flow
 
-Create a flow diagram:
+建立流程圖：
 
 ```
 [Entry Point]
@@ -35,31 +35,31 @@ Create a flow diagram:
 
 ### 3. Analyze Each Step
 
-For each step in the flow, evaluate:
+逐步評估：
 
 #### Cognitive Load
-- How much does the user need to remember?
-- Is information provided at point of need?
-- Are options overwhelming? (aim for 5-7 max)
+- 用戶需記憶多少？
+- 信息是否在需要時提供？
+- 選項是否過多？（目標5–7個）
 
 #### Effort Required
-- Number of clicks/taps
-- Data entry required
-- Decisions to make
+- 點擊/點觸次數
+- 需輸入的數據
+- 需做的決策
 
 #### Error Potential
-- What can go wrong?
-- How do users recover?
-- Is progress saved?
+- 什麼可能出錯？
+- 用戶如何恢復？
+- 進度是否已保存？
 
 #### Feedback
-- Does user know where they are?
-- Is progress visible?
-- Are actions confirmed?
+- 用戶知道自己在哪裡嗎？
+- 進度可見嗎？
+- 操作是否已確認？
 
 ### 4. Friction Point Analysis
 
-Identify and categorize friction:
+識別並分類摩擦：
 
 | Step | Friction Type | Severity | Issue | Recommendation |
 |------|---------------|----------|-------|----------------|
@@ -69,56 +69,56 @@ Identify and categorize friction:
 | | Time | High/Med/Low | | |
 
 **Friction Types:**
-- **Cognitive**: Confusion, unclear next steps, too many options
-- **Technical**: Slow loading, errors, compatibility issues
-- **Emotional**: Anxiety, distrust, frustration
-- **Time**: Too many steps, unnecessary waiting
+- **Cognitive**: 混淆、下一步不清晰、選項太多
+- **Technical**: 加載慢、錯誤、兼容性問題
+- **Emotional**: 焦慮、不信任、挫敗感
+- **Time**: 步驟過多、不必要的等待
 
 ### 5. Accessibility in Flows
 
-Ensure flow works for everyone:
+確保流程對所有人可用：
 
-- [ ] Can complete entire flow with keyboard only
-- [ ] Screen reader can navigate and understand progress
-- [ ] Error messages are announced and actionable
-- [ ] Timeouts are generous or adjustable
-- [ ] Complex steps have alternatives (e.g., CAPTCHA alternatives)
-- [ ] Progress is not lost on back navigation
-- [ ] Form data persists on validation errors
+- [ ] 可僅用鍵盤完成整個流程
+- [ ] 屏幕閱讀器可導航並理解進度
+- [ ] 錯誤消息已公告且可操作
+- [ ] 超時寬鬆或可調整
+- [ ] 複雜步驟有替代方案（如CAPTCHA替代）
+- [ ] 返回導航不丟失進度
+- [ ] 驗證錯誤時表單數據保留
 
 ### 6. Mobile Flow Considerations
 
-- [ ] Steps fit on mobile viewport without horizontal scroll
-- [ ] Touch targets adequate throughout
-- [ ] Native input types used (tel, email, date)
-- [ ] Autofill supported where appropriate
-- [ ] Camera/file upload works on mobile
+- [ ] 步驟在移動端視口無水平滾動
+- [ ] 全程觸控目標充足
+- [ ] 使用原生輸入類型（tel, email, date）
+- [ ] 適當支持自動填充
+- [ ] 移動端相機/文件上傳可用
 
 ### 7. Flow Optimization Recommendations
 
-Apply these principles:
+應用以下原則：
 
 #### Reduce Steps
-- Combine related inputs
-- Remove optional fields (or make progressive)
-- Use smart defaults
-- Enable autofill
+- 合並相關輸入
+- 移除可選字段（或漸進化）
+- 使用智能默認值
+- 啟用自動填充
 
 #### Provide Progress
-- Show step indicators for multi-step flows
-- Indicate completion percentage
-- Allow saving progress
+- 多步驟流程顯示步驟指示器
+- 顯示完成百分比
+- 允許保存進度
 
 #### Enable Recovery
-- Clear back/undo paths
-- Save state automatically
-- Helpful error messages with solutions
+- 明確的返回/撤銷路徑
+- 自動保存狀態
+- 含解決方案之有幫助錯誤消息
 
 #### Build Confidence
-- Show security indicators where relevant
-- Provide cost/time estimates
-- Preview before final action
-- Easy cancellation
+- 在相關處顯示安全指示
+- 提供費用/時間估算
+- 最終操作前預覽
+- 方便取消
 
 ### 8. Generate Flow Documentation
 
@@ -170,7 +170,7 @@ Apply these principles:
 
 ### 9. Testing with agnt
 
-For existing flows:
+對現有流程：
 ```
 1. proxy {action: "start", id: "user-flow", target_url: "<URL>"}
 2. automation {action: "start", proxy_id: "user-flow"} then automation {action: "screenshot", session_id: "<id>", type: "viewport"} at each step
@@ -181,8 +181,8 @@ For existing flows:
 
 ### 10. Implementation Tracking
 
-Offer to create your project tracker tasks for:
-- Each step requiring UX improvements
-- Accessibility fixes needed
-- Performance optimizations
-- A/B test setups
+提供為以下創建項目追蹤任務：
+- 每個需要UX改進的步驟
+- 需要的無障礙修復
+- 性能優化
+- A/B測試設置

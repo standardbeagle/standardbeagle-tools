@@ -1,36 +1,36 @@
 ---
 name: a11y-check
-description: Run comprehensive accessibility audit against WCAG 2.2 guidelines with actionable fix recommendations
+description: Run comprehensive accessibility audit against WCAG 2.2 with actionable fix recommendations. 執行WCAG 2.2無障礙審計：自動化axe審計、手動清單、修復代碼。 Use when: pre-deploy a11y check, reviewing new component, fixing accessibility bugs.
 ---
 
 # Accessibility Check Command
 
-Perform a thorough accessibility audit using agnt's browser tools and WCAG 2.2 guidelines.
+使用agnt瀏覽器工具與WCAG 2.2指南進行全面無障礙審計。
 
 ## Process
 
 ### 1. Setup and Capture
 
-If reviewing a live page:
+審查實時頁面時：
 ```
 1. proxy {action: "start", id: "a11y", target_url: "<URL>"}
 2. Navigate to the page through the proxy
 3. proxy {action: "exec", id: "a11y", code: "__devtool.auditAccessibility()"}
 ```
 
-If reviewing code:
-- Analyze HTML structure, ARIA usage, and semantic markup directly
+審查代碼時：
+- 直接分析HTML結構、ARIA使用與語義標記
 
 ### 2. Automated Audit
 
-Run comprehensive accessibility checks:
+運行全面無障礙檢查：
 
 ```javascript
 // Via agnt proxy exec
 __devtool.auditAccessibility()
 ```
 
-This checks:
+檢查項目：
 - Color contrast ratios
 - Missing alt text
 - Form label associations
@@ -62,11 +62,11 @@ This checks:
 - [ ] **3.2.4 Consistent Identification**: Components identified consistently
 
 #### Level AAA (Enhanced)
-Note which AAA criteria are met as bonus.
+記錄已達到之AAA準則作為加分項。
 
 ### 4. Manual Testing Checklist
 
-Guide user through manual checks:
+引導用戶完成手動檢查：
 
 #### Keyboard Navigation
 ```
@@ -143,14 +143,14 @@ Recommended: Test with NVDA (Windows) or VoiceOver (Mac)
 
 ### 6. Fix Assistance
 
-For each violation, offer to:
-1. Generate the fix code
-2. Explain the accessibility requirement
-3. Provide testing verification steps
+對每項違規，提供：
+1. 生成修復代碼
+2. 解釋無障礙要求
+3. 提供測試驗證步驟
 
 ## Continuous Monitoring
 
-Suggest setting up:
-- Pre-commit accessibility linting
-- CI/CD accessibility testing
-- Regular manual audits schedule
+建議設置：
+- 預提交無障礙lint
+- CI/CD無障礙測試
+- 定期手動審計計劃

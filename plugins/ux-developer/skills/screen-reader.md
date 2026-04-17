@@ -1,19 +1,19 @@
 ---
 name: screen-reader
-description: Screen reader accessibility patterns for semantic, announced, navigable content
+description: Screen reader accessibility patterns for semantic, announced, navigable content. 屏幕閱讀器無障礙：語義HTML、ARIA、動態公告、焦點管理。 Use when: implementing interactive widgets, ARIA live regions, assistive tech testing.
 ---
 
 # Screen Reader Accessibility
 
-Build experiences that work well with screen readers.
+構建對屏幕閱讀器友好之體驗。
 
 ## How Screen Readers Work
 
-Screen readers:
-- Read content linearly through the DOM
-- Navigate by landmarks, headings, links, forms
-- Announce element roles, names, and states
-- Respond to ARIA attributes
+屏幕閱讀器：
+- 線性閱讀DOM內容
+- 依地標、標題、鏈接、表單導航
+- 公告元素角色、名稱與狀態
+- 響應ARIA屬性
 
 ## Semantic HTML First
 
@@ -282,8 +282,8 @@ announce('Search returned 5 results');
    - NVDA: H for next heading
 
 4. **Tab through interactive elements**
-   - Check all are reachable
-   - Check announcements are clear
+   - 確認所有可達
+   - 確認公告清晰
 
 5. **Test forms**
    - Labels announced correctly

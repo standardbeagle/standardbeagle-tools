@@ -1,19 +1,19 @@
 ---
 name: keyboard-navigation
-description: Keyboard accessibility patterns for operable, navigable interfaces
+description: Keyboard accessibility patterns for operable, navigable interfaces. 鍵盤無障礙：焦點可見、邏輯順序、無陷阱、組件鍵盤模式。 Use when: implementing modals, menus, tabs, custom interactive widgets.
 ---
 
 # Keyboard Navigation
 
-Make all functionality accessible to keyboard users.
+令所有功能對鍵盤用戶可達。
 
 ## Core Principles
 
-1. **All functionality available** - No mouse-only features
-2. **Visible focus** - Always show where focus is
-3. **Logical order** - Tab order follows visual flow
-4. **No traps** - Users can always move focus away
-5. **Shortcuts for efficiency** - Power users benefit
+1. **All functionality available** - 無鼠標專有功能
+2. **Visible focus** - 焦點始終可見
+3. **Logical order** - Tab順序循視覺流
+4. **No traps** - 用戶始終可移走焦點
+5. **Shortcuts for efficiency** - 高級用戶受益
 
 ## Focus Management
 

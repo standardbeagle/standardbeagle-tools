@@ -1,19 +1,19 @@
 ---
 name: form-design
-description: Form design best practices for usability, accessibility, and conversion
+description: Form design best practices for usability, accessibility, and conversion. 表單設計最佳實踐：標籤、驗證、錯誤、自動填充、多步驟。 Use when: designing new forms, reviewing form UX, adding autofill or validation.
 ---
 
 # Form Design Best Practices
 
-Create forms that are easy to use, accessible, and convert well.
+設計易用、無障礙、高轉化之表單。
 
 ## Core Principles
 
-1. **Only ask what you need** - Every field has a cost
-2. **One column layout** - Easier to scan and complete
-3. **Labels above fields** - Better scanability and mobile-friendly
-4. **Inline validation** - Immediate feedback on blur
-5. **Clear error messages** - Tell users how to fix, not just what's wrong
+1. **Only ask what you need** - 每個字段皆有成本
+2. **One column layout** - 更易掃描與完成
+3. **Labels above fields** - 可掃描性佳，移動端友好
+4. **Inline validation** - 失焦時即時反饋
+5. **Clear error messages** - 告知如何修正，而非僅報錯
 
 ## Field Design
 
@@ -266,25 +266,25 @@ input.addEventListener('input', clearError);
 ## Conversion Optimization
 
 ### Reduce Friction
-- Remove optional fields or use progressive disclosure
-- Pre-fill known information
-- Use smart defaults
-- Allow paste in all fields (including password)
+- 移除可選字段或採用漸進披露
+- 預填已知信息
+- 使用智能默認值
+- 所有字段允許粘貼（含密碼）
 
 ### Build Trust
-- Explain why you need each piece of data
-- Show security indicators for sensitive forms
-- Provide privacy policy links
-- Show progress for long forms
+- 說明每項數據之用途
+- 敏感表單顯示安全指示
+- 提供隱私政策鏈接
+- 長表單顯示進度
 
 ### Reduce Errors
-- Use input constraints (type, pattern, min/max)
-- Format as user types (phone, credit card)
-- Show requirements before user makes mistake
-- Preserve all input on errors
+- 使用輸入約束（type, pattern, min/max）
+- 邊輸入邊格式化（電話、信用卡）
+- 用戶犯錯前顯示要求
+- 出錯時保留所有輸入
 
 ### Clear Completion
-- Confirm submission clearly
-- Set expectations for next steps
-- Send confirmation email for important forms
-- Allow printing/saving confirmation
+- 清晰確認提交
+- 說明後續步驟
+- 重要表單發送確認郵件
+- 允許打印/保存確認

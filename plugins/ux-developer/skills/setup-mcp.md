@@ -1,29 +1,29 @@
 ---
 name: setup-mcp
-description: Install agnt MCP server for UX development workflows - uses ~/.local/bin if available, falls back to npx
+description: Install agnt MCP server for UX development workflows - uses ~/.local/bin if available, falls back to npx. 為UX工作流安裝agnt MCP服務器：自動選擇本地二進制或npx。 Use when: first-time ux-developer plugin setup, configuring agnt for a11y audits or screenshots.
 ---
 
 # UX Developer MCP Setup
 
-This skill sets up the agnt MCP server for UX-driven development workflows including accessibility audits, screenshot captures, and browser debugging.
+本技能為UX驅動開發工作流配置agnt MCP服務器，包括無障礙審計、截圖、瀏覽器調試與性能審計。
 
 ## Overview
 
-The ux-developer plugin uses agnt for:
-- **Accessibility audits** - Automated a11y checking via browser injection
-- **Screenshots** - Visual verification of UI changes
-- **Browser debugging** - Console errors, network issues, DOM inspection
-- **Performance audits** - Core Web Vitals and loading metrics
+ux-developer插件使用agnt進行：
+- **Accessibility audits** - 通過瀏覽器注入自動化a11y檢查
+- **Screenshots** - UI變更視覺驗證
+- **Browser debugging** - 控制台錯誤、網絡問題、DOM檢查
+- **Performance audits** - Core Web Vitals及加載指標
 
-The MCP server command resolution follows this priority:
-1. **~/.local/bin/agnt** - Preferred if exists (local installation)
-2. **npx @standardbeagle/agnt@latest** - Fallback (always available via npm)
+MCP服務器命令解析優先級：
+1. **~/.local/bin/agnt** - 若存在優先使用（本地安裝）
+2. **npx @standardbeagle/agnt@latest** - 後備方案（npm始終可用）
 
 ## Installation Flow
 
 ### Step 1: Detect Binary Location
 
-Check if agnt is installed locally:
+檢查agnt是否本地安裝：
 
 ```bash
 if [ -x "$HOME/.local/bin/agnt" ]; then
@@ -34,7 +34,7 @@ else
 fi
 ```
 
-**Record the result** for use in registration.
+**記錄結果**，用於後續注冊。
 
 ### Step 2: Detect slop-mcp Availability
 
@@ -47,7 +47,7 @@ Parameters: { "action": "list" }
 
 #### Check if agnt Already Registered
 
-Look for "agnt" in the list. If present, report status and skip registration.
+在列表中查找"agnt"。若存在，報告狀態並跳過注冊。
 
 #### Ask User for Scope
 
@@ -93,9 +93,9 @@ Parameters: { "query": "screenshot", "mcp_name": "agnt" }
 
 ### Step 3B: Standard Installation
 
-If slop-mcp not available:
+若slop-mcp不可用：
 
-1. Check if agnt is available:
+1. 檢查agnt是否可用：
    ```bash
    # Check ~/.local/bin first (preferred)
    if [ -x "$HOME/.local/bin/agnt" ]; then
@@ -110,19 +110,19 @@ If slop-mcp not available:
    fi
    ```
 
-2. If not found and user wants local installation:
+2. 若未找到且用戶需本地安裝：
    ```bash
    # Via direct download (recommended)
    curl -sSL https://github.com/standardbeagle/agnt/releases/latest/download/agnt-linux-x64 -o ~/.local/bin/agnt
    chmod +x ~/.local/bin/agnt
    ```
 
-3. Enable mcp.json:
+3. 啟用mcp.json：
    ```bash
    mv plugins/ux-developer/mcp.json.disabled plugins/ux-developer/mcp.json
    ```
 
-4. Update plugin.json to add `"mcpServers": "./mcp.json"`
+4. 更新plugin.json，添加 `"mcpServers": "./mcp.json"`
 
 ## Tools Used by UX Developer
 
@@ -137,10 +137,10 @@ If slop-mcp not available:
 
 ## Integration with UX Commands
 
-After setup, these commands will have full functionality:
-- `/ux-developer:a11y-check` - Uses browser injection for audits
-- `/ux-developer:ux-verify` - Uses screenshots for verification
-- `/ux-developer:component-ux` - Uses browser tools for analysis
+配置完成後，以下命令將獲得完整功能：
+- `/ux-developer:a11y-check` - 使用瀏覽器注入進行審計
+- `/ux-developer:ux-verify` - 使用截圖進行驗證
+- `/ux-developer:component-ux` - 使用瀏覽器工具分析
 
 ## Quick Test
 
@@ -155,7 +155,7 @@ Parameters: {
 
 ## Summary Output
 
-After setup, provide the user with:
+配置完成後，向用戶提供：
 
 1. **Binary location**: ~/.local/bin/agnt or npx fallback
 2. **Installation method used**: slop-mcp or standard

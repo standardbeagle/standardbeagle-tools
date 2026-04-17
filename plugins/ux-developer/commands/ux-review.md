@@ -1,20 +1,20 @@
 ---
 name: ux-review
-description: Comprehensive UX review of a page, component, or user flow using established heuristics and best practices
+description: Comprehensive UX review of a page, component, or flow using heuristics and best practices. 綜合UX審查：Nielsen啟發評分、無障礙快查、移動端、性能影響、優先行動項。 Use when: reviewing a page or component, design critique, investigating reported usability issues.
 ---
 
 # UX Review Command
 
-Perform a comprehensive UX review of the specified target (page, component, or flow).
+對指定目標（頁面、組件或流程）進行全面UX審查。
 
 ## Process
 
 ### 1. Gather Context
 
-First, understand what we're reviewing:
-- Ask the user what they want reviewed (page URL, component, or code)
-- If a URL is provided, use agnt proxy to capture and analyze the page
-- If code is provided, analyze the implementation directly
+首先了解審查對象：
+- 詢問用戶要審查什麼（頁面URL、組件或代碼）
+- 若提供URL，使用agnt代理捕獲並分析頁面
+- 若提供代碼，直接分析實現
 
 ### 2. Start Development Proxy (if reviewing live page)
 
@@ -26,7 +26,7 @@ First, understand what we're reviewing:
 
 ### 3. Apply Nielsen's 10 Heuristics
 
-Evaluate against each heuristic and score 1-5:
+對每條啟發評分1–5：
 
 | Heuristic | Score | Issues | Recommendations |
 |-----------|-------|--------|-----------------|
@@ -43,12 +43,12 @@ Evaluate against each heuristic and score 1-5:
 
 ### 4. Accessibility Quick Check
 
-Run accessibility audit:
+運行無障礙審計：
 ```
 proxy {action: "exec", id: "ux-review", code: "__devtool.auditAccessibility()"}
 ```
 
-Flag critical issues:
+標記關鍵問題：
 - Missing alt text
 - Insufficient color contrast
 - Missing form labels
@@ -57,29 +57,29 @@ Flag critical issues:
 
 ### 5. Mobile/Responsive Check
 
-Evaluate:
-- Touch target sizes (minimum 44x44px)
-- Content reflow at narrow widths
-- Font sizes readable without zoom
-- No horizontal scrolling required
+評估：
+- 觸控目標尺寸（最小44x44px）
+- 窄視口下內容重排
+- 字體無需縮放即可閱讀
+- 無需水平滾動
 
 ### 6. Performance Impact on UX
 
-Check via agnt:
+通過agnt檢查：
 ```
 1. get_errors {proxy_id: "ux-review"}
 2. proxylog {proxy_id: "ux-review", action: "summary"}
 3. currentpage {proxy_id: "ux-review", action: "summary"}
 ```
 
-Flag UX-impacting issues:
-- Slow first contentful paint
-- Layout shifts (CLS)
-- Long blocking tasks
+標記影響UX之問題：
+- 首次內容繪製慢
+- 佈局偏移（CLS）
+- 長時間阻塞任務
 
 ### 7. Generate Report
 
-Provide structured report:
+提供結構化報告：
 
 ```markdown
 ## UX Review Summary
@@ -107,7 +107,7 @@ Provide structured report:
 
 ## Integration with Development
 
-After review, offer to:
-1. Create tasks in your project tracker for each issue
-2. Generate fix suggestions with code examples
-3. Set up continuous monitoring with agnt proxy
+審查後提供：
+1. 為每項問題在項目追蹤器中創建任務
+2. 生成含代碼示例的修復建議
+3. 通過agnt代理設置持續監控

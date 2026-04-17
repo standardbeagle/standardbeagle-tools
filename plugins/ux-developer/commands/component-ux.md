@@ -1,21 +1,21 @@
 ---
 name: component-ux
-description: Design or review a UI component with UX best practices, accessibility, and interaction patterns
+description: Design or review a UI component with UX best practices, accessibility, and interaction patterns. 設計或審查UI組件：狀態、鍵盤、ARIA、響應式、agnt實時分析。 Use when: building new components, reviewing accessibility of existing widgets, spec-ing interaction states.
 ---
 
 # Component UX Command
 
-Design a new component or review an existing one with comprehensive UX considerations.
+設計新組件或審查現有組件，全面考量UX。
 
 ## Process
 
 ### 1. Understand the Component
 
-Gather requirements:
-- What is the component's purpose?
-- What user problem does it solve?
-- What are the interaction states?
-- What's the usage context (form, navigation, display)?
+收集需求：
+- 組件的目的是什麼？
+- 解決什麼用戶問題？
+- 有哪些交互狀態？
+- 使用上下文是什麼（表單、導航、展示）？
 
 ### 2. Component UX Checklist
 
@@ -28,7 +28,7 @@ Gather requirements:
 - [ ] Color contrast meets WCAG AA (4.5:1 text, 3:1 UI)
 
 #### Interaction States
-Every interactive component needs these states defined:
+每個交互組件需定義以下狀態：
 
 | State | Visual | Behavior | Screen Reader |
 |-------|--------|----------|---------------|
@@ -47,14 +47,14 @@ Every interactive component needs these states defined:
 - No hover-only functionality on touch devices
 
 #### Responsive Behavior
-- Define breakpoint adaptations
-- Touch vs mouse interactions
-- Orientation changes handled
+- 定義斷點適配
+- 觸控與鼠標交互
+- 處理方向變化
 
 #### Motion & Animation
 - Respect `prefers-reduced-motion`
-- Animations serve a purpose (feedback, orientation)
-- Duration appropriate (150-300ms for micro-interactions)
+- 動畫服務目的（反饋、方向感）
+- 時長適當（微交互150–300ms）
 
 ### 3. Component Design Template
 
@@ -108,7 +108,7 @@ Every interactive component needs these states defined:
 
 ### 4. Review Existing Component
 
-If reviewing existing code:
+審查現有代碼時：
 
 1. **Analyze current implementation**
    ```
@@ -125,14 +125,14 @@ If reviewing existing code:
    ```
 
 3. **Generate improvement report**
-   - Current state assessment
-   - Specific issues found
-   - Prioritized recommendations
-   - Code fixes
+   - 現狀評估
+   - 發現的具體問題
+   - 優先建議
+   - 代碼修復
 
 ### 5. Generate Component Specification
 
-Output a complete spec:
+輸出完整規格：
 
 ```markdown
 # [Component] Specification
@@ -171,8 +171,8 @@ Output a complete spec:
 
 ### 6. Implementation Assistance
 
-Offer to:
-1. Generate accessible component code
-2. Create unit tests for accessibility
-3. Write Storybook stories for each state
-4. Create documentation
+提供：
+1. 生成無障礙組件代碼
+2. 創建無障礙單元測試
+3. 為每個狀態編寫Storybook stories
+4. 創建文檔

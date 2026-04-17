@@ -1,15 +1,15 @@
 ---
 name: ux-verify
-description: Pre-commit/pre-deploy UX verification checklist to catch issues before they ship
+description: Pre-commit/pre-deploy UX verification checklist to catch issues before they ship. 部署前UX驗證：無障礙、交互、響應式、性能清單，含agnt自動化。 Use when: before commit, before deployment, after implementing UI changes.
 ---
 
 # UX Verify Command
 
-Run a pre-deployment UX verification checklist. Use this before commits or deployments to catch UX and accessibility issues early.
+運行部署前UX驗證清單。在提交或部署前用此命令及早發現UX與無障礙問題。
 
 ## Quick Verification Mode
 
-For rapid checks during development:
+開發期間快速檢查：
 
 ### 1. Start Verification Session
 
@@ -20,7 +20,7 @@ Navigate to the changed pages/components
 
 ### 2. Automated Checks
 
-Run these via agnt proxy:
+通過agnt代理運行：
 
 ```
 // Accessibility audit
@@ -133,7 +133,7 @@ proxylog {proxy_id: "ux-verify", action: "summary"}
 
 ## Pre-Commit Hook Integration
 
-Suggest adding to pre-commit:
+建議添加至預提交鉤子：
 
 ```bash
 #!/bin/bash
@@ -157,7 +157,7 @@ git diff --cached | grep -E "(aria-|alt=|role=).*TODO" && {
 
 ## CI/CD Integration
 
-Recommend these checks in CI:
+建議在CI中加入以下檢查：
 
 ```yaml
 # Example GitHub Actions

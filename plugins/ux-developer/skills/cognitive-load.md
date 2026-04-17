@@ -1,28 +1,28 @@
 ---
 name: cognitive-load
-description: Cognitive load reduction strategies for clearer, simpler user experiences
+description: Cognitive load reduction strategies for clearer, simpler user experiences. 認知負荷削減策略：選擇精簡、漸進披露、一致模式、智能默認。 Use when: reviewing information architecture, simplifying complex flows, reducing decision points.
 ---
 
 # Reducing Cognitive Load
 
-Design interfaces that are easy to understand and use.
+設計易於理解與使用之界面。
 
 ## Cognitive Load Types
 
 ### Intrinsic Load
-Inherent complexity of the task itself. Can't eliminate, but can support.
+任務本身之固有複雜性。不可消除，但可支撐。
 
 ### Extraneous Load
-Unnecessary complexity from poor design. Should minimize.
+設計不良導致之多餘複雜性。應最小化。
 
 ### Germane Load
-Mental effort for learning and building understanding. Should optimize.
+用於學習與建立理解之心理努力。應優化。
 
 ## Strategies
 
 ### 1. Reduce Choices
 
-**Miller's Law**: Humans can hold 7±2 items in working memory.
+**Miller's Law**: 人類工作記憶可容納7±2項。
 
 ```html
 <!-- Too many options at once -->
@@ -49,7 +49,7 @@ Mental effort for learning and building understanding. Should optimize.
 </nav>
 ```
 
-**Hick's Law**: Decision time increases with number of choices.
+**Hick's Law**: 選項越多，決策時間越長。
 
 ```html
 <!-- Overwhelming -->
@@ -64,7 +64,7 @@ Mental effort for learning and building understanding. Should optimize.
 
 ### 2. Progressive Disclosure
 
-Show only what's needed now, reveal more on demand.
+僅顯示當前所需，按需展開更多。
 
 ```html
 <!-- Primary info visible -->
@@ -102,7 +102,7 @@ Show only what's needed now, reveal more on demand.
 
 ### 3. Use Recognition Over Recall
 
-Show options rather than requiring memory.
+展示選項，無需記憶。
 
 ```html
 <!-- Bad: Requires remembering syntax -->
@@ -124,7 +124,7 @@ Show options rather than requiring memory.
 
 ### 4. Group Related Information
 
-**Gestalt principle of proximity**: Items close together are perceived as related.
+**格式塔鄰近原則**：相近者感知為相關。
 
 ```html
 <!-- Unorganized -->
@@ -153,7 +153,7 @@ Show options rather than requiring memory.
 
 ### 5. Provide Clear Visual Hierarchy
 
-Direct attention to what matters.
+引導注意力至要點。
 
 ```css
 /* Primary action stands out */
@@ -177,7 +177,7 @@ Direct attention to what matters.
 
 ### 6. Use Consistent Patterns
 
-Same patterns everywhere reduce learning.
+相同模式遍佈各處，降低學習成本。
 
 ```css
 /* Consistent component styling */
@@ -203,7 +203,7 @@ button:hover {
 
 ### 7. Reduce Text
 
-Write less, say more.
+少而精。
 
 ```html
 <!-- Verbose -->
@@ -219,7 +219,7 @@ Write less, say more.
 
 ### 8. Smart Defaults
 
-Pre-fill sensible choices.
+預填合理選擇。
 
 ```html
 <!-- Pre-selected common option -->
@@ -240,7 +240,7 @@ Pre-fill sensible choices.
 
 ### 9. Provide Feedback and Status
 
-Reduce uncertainty about what's happening.
+減少對當前狀態之不確定性。
 
 ```html
 <!-- Loading state -->
@@ -260,7 +260,7 @@ Reduce uncertainty about what's happening.
 
 ### 10. Error Prevention Over Error Handling
 
-Stop errors before they happen.
+防患於未然。
 
 ```html
 <!-- Constrained input -->
@@ -281,16 +281,16 @@ Stop errors before they happen.
 
 ### Indicators of High Cognitive Load
 
-- High error rates
-- Frequent backtracking
-- Long task completion times
-- Support requests
-- User confusion in testing
-- Low conversion rates
+- 高錯誤率
+- 頻繁回退
+- 任務完成時間長
+- 支持請求頻繁
+- 用戶測試中的困惑
+- 低轉化率
 
 ### Testing Questions
 
-Ask users after testing:
+用戶測試後詢問：
 - "On a scale of 1-10, how mentally demanding was this task?"
 - "Did you feel overwhelmed at any point?"
 - "Was it clear what you needed to do next?"

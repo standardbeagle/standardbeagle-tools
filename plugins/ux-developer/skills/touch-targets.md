@@ -1,11 +1,11 @@
 ---
 name: touch-targets
-description: Touch target sizing and spacing guidelines for mobile and touch interfaces
+description: Touch target sizing and spacing guidelines for mobile and touch interfaces. 觸控目標尺寸與間距：WCAG 2.2、Apple HIG、Material Design基準。 Use when: mobile UI review, button sizing, form element spacing on touch devices.
 ---
 
 # Touch Target Guidelines
 
-Design touch interfaces that are easy to use accurately.
+設計易於準確操作之觸控界面。
 
 ## Minimum Sizes
 
@@ -210,7 +210,7 @@ textarea {
 
 ## Visual vs Touch Area
 
-Touch area can exceed visual bounds:
+觸控區域可超出視覺邊界：
 
 ```html
 <button class="icon-btn" aria-label="Close">
@@ -250,7 +250,7 @@ Touch area can exceed visual bounds:
 
 ### Bottom of Screen
 
-Targets at screen bottom should be larger (thumb zone):
+屏幕底部目標應更大（拇指區）：
 
 ```css
 .bottom-nav-item {
@@ -268,7 +268,7 @@ Targets at screen bottom should be larger (thumb zone):
 
 ### Edge of Screen
 
-Targets at edges are harder to hit:
+屏幕邊緣目標難以點擊：
 
 ```css
 /* Add extra padding at edges */
@@ -302,7 +302,7 @@ Targets at edges are harder to hit:
 └─────────────────────┘
 ```
 
-Place primary actions in thumb zone (bottom third of screen).
+主要操作置於拇指區（屏幕下三分之一）。
 
 ## Testing Touch Targets
 

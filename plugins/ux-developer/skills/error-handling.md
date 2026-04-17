@@ -1,20 +1,20 @@
 ---
 name: error-handling
-description: Error handling UX patterns for helpful, accessible, and recoverable error states
+description: Error handling UX patterns for helpful, accessible, and recoverable error states. 可達可復之錯誤UX模式：消息清晰、焦點管理、無障礙。 Use when: designing error states, form validation, network failure UX.
 ---
 
 # Error Handling UX
 
-Design error experiences that help users understand and recover.
+設計錯誤體驗，助用戶理解並恢復。
 
 ## Error Message Principles
 
 ### What Makes a Good Error Message
 
-1. **Explain what happened** - In plain language
-2. **Explain why** - If helpful
-3. **Tell how to fix** - Actionable next step
-4. **Don't blame the user** - Never "you failed to..."
+1. **Explain what happened** - 以平語說明
+2. **Explain why** - 有益則述因
+3. **Tell how to fix** - 給可行之下一步
+4. **Don't blame the user** - 勿用"you failed to..."
 
 ### Error Message Template
 

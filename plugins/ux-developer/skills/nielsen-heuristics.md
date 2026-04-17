@@ -1,17 +1,17 @@
 ---
 name: nielsen-heuristics
-description: Apply Nielsen's 10 Usability Heuristics to evaluate interface design
+description: Evaluate UI against Nielsen's 10 heuristics; score each 1–5 and surface issues. 尼爾森十則啟發評介界面，逐則評分、列缺失。 Use when: auditing existing UI, design review, pre-launch heuristic scoring.
 ---
 
 # Nielsen's 10 Usability Heuristics
 
-Use these heuristics to evaluate any user interface systematically.
+以此十則系統評介任一用戶界面。
 
 ## The 10 Heuristics
 
 ### 1. Visibility of System Status
 
-**Principle**: Keep users informed about what's going on through appropriate feedback within reasonable time.
+**Principle**: 以適當反饋，於合理時限內，告知用戶系統狀態。
 
 **Check for**:
 - Loading indicators for async operations
@@ -36,7 +36,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 2. Match Between System and Real World
 
-**Principle**: Use language and concepts familiar to users, not system-oriented terms.
+**Principle**: 語言概念取自用戶熟知之域，勿用系統術語。
 
 **Check for**:
 - User's vocabulary, not technical jargon
@@ -60,7 +60,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 3. User Control and Freedom
 
-**Principle**: Provide clearly marked "emergency exits" and support undo/redo.
+**Principle**: 提供明確「緊急出口」，支持撤銷與重做。
 
 **Check for**:
 - Cancel buttons on dialogs
@@ -85,7 +85,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 4. Consistency and Standards
 
-**Principle**: Follow platform conventions; same words/actions mean same things.
+**Principle**: 遵循平臺慣例；同詞同行，始終如一。
 
 **Check for**:
 - Consistent terminology throughout
@@ -109,7 +109,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 5. Error Prevention
 
-**Principle**: Design to prevent problems from occurring in the first place.
+**Principle**: 設計先行，防患於未然。
 
 **Check for**:
 - Constraints on inputs (date pickers, dropdowns)
@@ -134,7 +134,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 6. Recognition Rather Than Recall
 
-**Principle**: Minimize memory load by making objects, actions, and options visible.
+**Principle**: 令對象、動作、選項可見，減少記憶負擔。
 
 **Check for**:
 - Visible options vs. requiring memorization
@@ -159,7 +159,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 7. Flexibility and Efficiency of Use
 
-**Principle**: Accommodate both novice and expert users with accelerators.
+**Principle**: 兼顧初學者與專家，提供加速器。
 
 **Check for**:
 - Keyboard shortcuts for experts
@@ -184,7 +184,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 8. Aesthetic and Minimalist Design
 
-**Principle**: Avoid irrelevant or rarely needed information; every extra element competes for attention.
+**Principle**: 凡無關或罕用之信息，皆當去除；每多一元素，爭奪注意。
 
 **Check for**:
 - Essential information only
@@ -209,7 +209,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 9. Help Users Recognize, Diagnose, and Recover from Errors
 
-**Principle**: Error messages should be plain language, indicate the problem, and suggest a solution.
+**Principle**: 錯誤提示用平語，指明問題，建議解法。
 
 **Check for**:
 - Clear error messages in plain language
@@ -234,7 +234,7 @@ Use these heuristics to evaluate any user interface systematically.
 
 ### 10. Help and Documentation
 
-**Principle**: Provide help that is easy to search, focused on tasks, and provides concrete steps.
+**Principle**: 幫助文件易於搜索，以任務為中心，提供具體步驟。
 
 **Check for**:
 - Searchable help content

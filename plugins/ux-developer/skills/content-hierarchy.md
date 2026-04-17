@@ -1,19 +1,19 @@
 ---
 name: content-hierarchy
-description: Visual hierarchy and content structure principles for scannable, accessible layouts
+description: Visual hierarchy and content structure principles for scannable, accessible layouts. 視覺層次與內容結構：導引用戶、可掃描、無障礙。 Use when: page layout review, heading audit, information architecture.
 ---
 
 # Content Hierarchy
 
-Create clear visual hierarchy that guides users through content effectively.
+建立清晰視覺層次，有效引導用戶瀏覽內容。
 
 ## Hierarchy Principles
 
-1. **Important first** - Key information at top and left
-2. **Progressive disclosure** - Details on demand
-3. **Scannable structure** - Headers, lists, short paragraphs
-4. **Visual weight** - Size, color, contrast signal importance
-5. **Semantic structure** - HTML reflects visual hierarchy
+1. **Important first** - 關鍵信息居首、居左
+2. **Progressive disclosure** - 細節按需顯現
+3. **Scannable structure** - 標題、列表、短段落
+4. **Visual weight** - 大小、色彩、對比示重要性
+5. **Semantic structure** - HTML反映視覺層次
 
 ## Heading Hierarchy
 
@@ -142,7 +142,7 @@ h4 {
 
 ### Inverted Pyramid
 
-Most important information first, details follow.
+最重要信息置首，細節繼之。
 
 ```html
 <article>
@@ -289,7 +289,7 @@ p {
 
 ### Heading Navigation
 
-Screen reader users navigate by headings. Ensure:
+屏幕閱讀器用戶依標題導航，需確保：
 
 ```html
 <!-- Descriptive headings -->

@@ -1,11 +1,11 @@
 ---
 name: loading-states
-description: Loading state patterns for responsive, accessible, and visually polished user feedback
+description: Loading state patterns for responsive, accessible, and visually polished user feedback. 加載狀態模式：旋轉器、進度條、骨架屏，含ARIA與減少動效支持。 Use when: designing async feedback, skeleton screens, optimistic UI updates.
 ---
 
 # Loading States UX
 
-Design loading experiences that keep users informed and engaged.
+設計加載體驗，持續告知並吸引用戶。
 
 ## When to Show Loading
 
@@ -21,7 +21,7 @@ Design loading experiences that keep users informed and engaged.
 
 ### Spinners
 
-**When to use**: Unknown duration, relatively quick operations
+**When to use**: 未知時長、相對快速操作
 
 ```html
 <!-- Basic spinner -->
@@ -60,7 +60,7 @@ Design loading experiences that keep users informed and engaged.
 
 ### Progress Bars
 
-**When to use**: Known progress, file uploads, multi-step processes
+**When to use**: 已知進度、文件上傳、多步驟流程
 
 ```html
 <!-- Determinate progress -->
@@ -94,7 +94,7 @@ Design loading experiences that keep users informed and engaged.
 
 ### Skeleton Screens
 
-**When to use**: Content loading, known layout structure
+**When to use**: 內容加載、已知佈局結構
 
 ```html
 <div class="card card--loading" aria-busy="true" aria-label="Loading card">
@@ -148,7 +148,7 @@ Design loading experiences that keep users informed and engaged.
 
 ### Blur/Placeholder (LQIP)
 
-**When to use**: Image loading, visual continuity
+**When to use**: 圖片加載、視覺連續性
 
 ```html
 <div class="image-container">
