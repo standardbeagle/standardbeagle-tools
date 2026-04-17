@@ -1,6 +1,6 @@
 ---
 name: send-raw
-description: Send raw JSON-RPC message to an MCP server for low-level debugging
+description: "Send raw JSON-RPC message to an MCP server for low-level debugging. 發原始JSON-RPC訊息至MCP伺服器以底層除錯。 Use when: send raw mcp message, test json-rpc, low level mcp debug, craft custom mcp request, inject mcp message"
 arguments:
   - name: server
     description: Server name to send the message to
@@ -12,22 +12,22 @@ arguments:
 
 # Send Raw JSON-RPC Message
 
-You are sending a raw JSON-RPC message directly to an MCP server for low-level debugging.
+直接向 MCP 伺服器發送原始 JSON-RPC 訊息，供底層除錯。
 
 ## Instructions
 
-1. Use the `mcp-debug` MCP server's `debug_send` tool with:
-   - `server`: {{server}}
-   - `message`: {{message}}
+1. 以 `mcp-debug` MCP 伺服器之 `debug_send` 工具，傳入：
+   - `server`：{{server}}
+   - `message`：{{message}}
 
-2. This sends the message without validation - use carefully!
+2. 此操作不作驗證——慎用！
 
-3. After sending, use `debug_logs` with `limit: 5` to see the request and any response.
+3. 發送後以 `debug_logs`（`limit: 5`）查看請求及任何回應。
 
-4. Report the results including:
-   - Whether the message was sent successfully
-   - Any response received
-   - Any errors or issues
+4. 報告結果，含：
+   - 訊息是否成功發送
+   - 收到之任何回應
+   - 任何錯誤或問題
 
 ## Example Usage
 
@@ -37,9 +37,9 @@ You are sending a raw JSON-RPC message directly to an MCP server for low-level d
 
 ## Warning
 
-This bypasses normal validation. Use for:
-- Testing edge cases and error handling
-- Debugging protocol issues
-- Exploring non-standard MCP extensions
+此操作繞過正常驗證。用於：
+- 測試邊緣情況與錯誤處理
+- 除錯協定問題
+- 探索非標準 MCP 擴展
 
-Do NOT use for normal tool calls - use the regular prefixed tools instead.
+常規工具呼叫勿用此途——改用正常前綴工具。

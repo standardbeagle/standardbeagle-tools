@@ -1,47 +1,47 @@
 ---
 name: hot-swap-development
-description: Use this skill when developing MCP servers with hot-swap workflow for rapid iteration
+description: Iterative MCP server replacement without client restart or session loss. 熱換伺服器，不斷客端，不失狀態。 Use when: developing MCP servers iteratively, replacing server binary mid-session, avoiding reconnection overhead.
 ---
 
 # Hot-Swap MCP Development Workflow
 
-You are guiding a developer through the hot-swap development workflow using mcp-debug.
+引導開發者行熱換工作流，以 mcp-debug 為器。
 
 ## Overview
 
-Hot-swap development enables replacing MCP server implementations without:
-- Restarting Claude Code or other MCP clients
-- Losing debug session history
-- Changing tool names or prefixes
+熱換開發，替換 MCP 伺服器實作，無須：
+- 重啟 Claude Code 或他 MCP 客端
+- 丟棄除錯歷史
+- 更改工具名或前綴
 
 ## The Problem
 
-Traditional MCP development workflow:
-1. Make code change
-2. Rebuild server
-3. Restart server
-4. Reconnect client
-5. Restore state
-6. Test change
-7. Repeat...
+舊式 MCP 開發流程：
+1. 改程式碼
+2. 重建伺服器
+3. 重啟伺服器
+4. 重連客端
+5. 復原狀態
+6. 測試更動
+7. 往復...
 
-Each iteration wastes time on reconnection and state restoration.
+每輪迭代耗時於重連與狀態復原。
 
 ## The Solution
 
-mcp-debug enables hot-swap:
-1. Make code change
-2. Rebuild server
-3. Call `server_disconnect` then `server_reconnect`
-4. Test change immediately
+mcp-debug 開熱換之道：
+1. 改程式碼
+2. 重建伺服器
+3. 呼叫 `server_disconnect` 繼以 `server_reconnect`
+4. 即刻測試
 
-Client stays connected, state preserved.
+客端持連，狀態保全。
 
 ## Workflow Steps
 
 ### 1. Initial Setup
 
-Start by adding your development server:
+先加入開發伺服器：
 
 ```
 Use server_add tool:
@@ -51,30 +51,30 @@ Use server_add tool:
 
 ### 2. Development Cycle
 
-When you make code changes:
+每改程式碼後：
 
-1. **Build new version**
+1. **建新版本**
    ```bash
    go build -o ./bin/server-v2 ./cmd/server
    # or: npm run build
    # or: cargo build --release
    ```
 
-2. **Disconnect current server**
+2. **斷當前伺服器**
    ```
    Use server_disconnect tool:
    - name: "myserver"
    ```
-   Tools remain registered but calls will queue.
+   工具仍登記，呼叫暫佇。
 
-3. **Reconnect with new binary**
+3. **以新執行檔重連**
    ```
    Use server_reconnect tool:
    - name: "myserver"
    - command: "./bin/server-v2"
    ```
 
-4. **Verify tools work**
+4. **驗工具可用**
    ```
    Use server_list tool to confirm connection
    Test a tool to verify functionality
@@ -82,17 +82,17 @@ When you make code changes:
 
 ### 3. Debugging Changes
 
-Use debug tools to verify behavior:
+以除錯工具驗行為：
 
-- `debug_logs` - View request/response traffic
-- `debug_status` - Check connection health
-- `schema_validate` - Verify schema changes
+- `debug_logs` — 檢視請求/回應流量
+- `debug_status` — 查連線健康
+- `schema_validate` — 驗模式更動
 
 ## Server Management Tools
 
 ### server_add
 
-Add a new server dynamically:
+動態加入新伺服器：
 ```
 server_add with:
 - name: "myserver"
@@ -101,7 +101,7 @@ server_add with:
 
 ### server_disconnect
 
-Temporarily disable server (tools remain registered):
+暫停伺服器（工具仍登記）：
 ```
 server_disconnect with:
 - name: "myserver"
@@ -109,7 +109,7 @@ server_disconnect with:
 
 ### server_reconnect
 
-Reconnect with new binary:
+以新執行檔重連：
 ```
 server_reconnect with:
 - name: "myserver"
@@ -118,14 +118,14 @@ server_reconnect with:
 
 ### server_list
 
-Show all servers and their status:
+列所有伺服器及狀態：
 ```
 server_list
 ```
 
 ### server_remove
 
-Completely remove a server:
+完全移除伺服器：
 ```
 server_remove with:
 - name: "myserver"
@@ -145,10 +145,10 @@ watchexec -e go -- go build -o bin/myserver ./cmd/server
 
 ### Pattern 2: A/B Testing
 
-1. Test version A
-2. Hot-swap to version B with server_reconnect
-3. Test version B
-4. Compare behavior using debug_logs
+1. 測版本 A
+2. 以 server_reconnect 熱換至版本 B
+3. 測版本 B
+4. 以 debug_logs 比對行為
 
 ### Pattern 3: Debug Mode Toggle
 
@@ -162,23 +162,23 @@ server_reconnect with command="./server --debug --verbose"
 
 ## Best Practices
 
-1. **Use versioned binaries** - Name binaries with version for rollback
-2. **Check logs after swap** - Verify no errors in traffic
-3. **Test critical tools first** - Confirm key functionality works
-4. **Keep previous binary** - Enable quick rollback if issues
+1. **用版本化執行檔** — 命名含版本，便於回滾
+2. **換後查日誌** — 驗無流量錯誤
+3. **先測關鍵工具** — 確認核心功能
+4. **保留前版執行檔** — 問題時快速回滾
 
 ## Troubleshooting
 
-**Server won't reconnect:**
-- Check command path is correct
-- Verify binary has execute permissions
-- Check for port conflicts if using network
+**伺服器不重連：**
+- 查命令路徑正確否
+- 驗執行檔有執行權限
+- 查有無埠衝突（若用網路）
 
-**Tools missing after swap:**
-- Server may have changed tool definitions
-- Use `server_list` to see current tools
-- Check server logs for initialization errors
+**換後工具消失：**
+- 伺服器或已更改工具定義
+- 以 `server_list` 查現有工具
+- 查伺服器日誌中初始化錯誤
 
-**Unexpected behavior:**
-- Use `debug_logs` to compare before/after requests
-- Validate schemas haven't changed incompatibly
+**意外行為：**
+- 以 `debug_logs` 比對換前換後請求
+- 驗模式未作不相容更改

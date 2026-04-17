@@ -1,29 +1,29 @@
 ---
 name: setup-mcp
-description: Install mcp-debug MCP server for testing and debugging MCP servers - uses ~/.local/bin if available, falls back to npx
+description: Install and register mcp-debug MCP server; prefers ~/.local/bin, falls back to npx. 安裝 mcp-debug 伺服器，優先本地執行檔，退則 npx。 Use when: first-time mcp-tester setup, registering mcp-debug with slop-mcp, configuring MCP testing environment.
 ---
 
 # MCP Tester Setup
 
-This skill sets up the mcp-debug MCP server for testing, debugging, and developing MCP servers.
+此技設置 mcp-debug MCP 伺服器，用於測試、除錯、開發 MCP 伺服器。
 
 ## Overview
 
-The mcp-tester plugin uses mcp-debug for:
-- **Dynamic server management** - Add/remove MCP servers at runtime
-- **Traffic analysis** - Inspect JSON-RPC messages
-- **Schema validation** - Verify tool schemas
-- **Hot-swap development** - Replace servers without restart
+mcp-tester 插件藉 mcp-debug 實現：
+- **動態伺服器管理** — 執行時加入/移除 MCP 伺服器
+- **流量分析** — 檢視 JSON-RPC 訊息
+- **模式驗證** — 驗工具模式
+- **熱換開發** — 不重啟替換伺服器
 
-The MCP server command resolution follows this priority:
-1. **~/.local/bin/mcp-debug** - Preferred if exists (local installation)
-2. **npx @standardbeagle/mcp-debug@latest** - Fallback (always available via npm)
+MCP 伺服器命令解析優先順序：
+1. **~/.local/bin/mcp-debug** — 若存在則優先（本地安裝）
+2. **npx @standardbeagle/mcp-debug@latest** — 退路（隨時可用）
 
 ## Installation Flow
 
 ### Step 1: Detect Binary Location
 
-Check if mcp-debug is installed locally:
+查 mcp-debug 是否已本地安裝：
 
 ```bash
 if [ -x "$HOME/.local/bin/mcp-debug" ]; then
@@ -34,7 +34,7 @@ else
 fi
 ```
 
-**Record the result** for use in registration.
+**記錄結果**以備登記之用。
 
 ### Step 2: Detect slop-mcp Availability
 
@@ -47,19 +47,19 @@ Parameters: { "action": "list" }
 
 #### Check if mcp-debug Already Registered
 
-Look for "mcp-debug" in the list. If present, report status and skip.
+於列表中尋 "mcp-debug"。若已存在，報告狀態，略去後續。
 
 #### Ask User for Scope
 
 | Scope | Location | Use Case |
 |-------|----------|----------|
-| `user` | `~/.config/slop-mcp/config.kdl` | Personal, persistent |
-| `project` | `.slop-mcp.kdl` | Team-shared |
-| `memory` | Runtime only | Good for testing |
+| `user` | `~/.config/slop-mcp/config.kdl` | 個人持久 |
+| `project` | `.slop-mcp.kdl` | 團隊共享 |
+| `memory` | Runtime only | 測試用 |
 
 #### Register mcp-debug
 
-**If ~/.local/bin/mcp-debug exists:**
+**若 ~/.local/bin/mcp-debug 存在：**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
@@ -70,9 +70,9 @@ Parameters: {
   "scope": "<scope>"
 }
 ```
-Note: Expand `~` to full path (e.g., `/home/username/.local/bin/mcp-debug`)
+注：展開 `~` 為完整路徑（如 `/home/username/.local/bin/mcp-debug`）
 
-**If ~/.local/bin/mcp-debug does NOT exist (use npx):**
+**若 ~/.local/bin/mcp-debug 不存在（用 npx）：**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
@@ -93,9 +93,9 @@ Parameters: { "mcp_name": "mcp-debug" }
 
 ### Step 3B: Standard Installation
 
-If slop-mcp not available:
+若 slop-mcp 不可用：
 
-1. Check if mcp-debug is available:
+1. 查 mcp-debug 是否可用：
    ```bash
    # Check ~/.local/bin first (preferred)
    if [ -x "$HOME/.local/bin/mcp-debug" ]; then
@@ -110,7 +110,7 @@ If slop-mcp not available:
    fi
    ```
 
-2. If not found and user wants local installation:
+2. 若未找到而用戶欲本地安裝：
    ```bash
    # Via npm
    npm install -g @standardbeagle/mcp-debug
@@ -120,31 +120,33 @@ If slop-mcp not available:
    chmod +x ~/.local/bin/mcp-debug
    ```
 
-3. Enable mcp.json:
+3. 啟用 mcp.json：
    ```bash
    mv plugins/mcp-tester/mcp.json.disabled plugins/mcp-tester/mcp.json
    ```
 
-4. Update plugin.json to add `"mcpServers": "./mcp.json"`
+4. 更新 plugin.json，加入 `"mcpServers": "./mcp.json"`
 
 ## Available Tools
 
 | Tool | Description |
 |------|-------------|
-| `server_add` | Dynamically add an MCP server |
-| `server_remove` | Remove a managed server |
-| `server_list` | Show all managed servers |
-| `debug_logs` | Retrieve traffic logs |
-| `debug_send` | Send raw JSON-RPC messages |
-| `schema_validate` | Validate tool schemas |
+| `server_add` | 動態加入 MCP 伺服器 |
+| `server_remove` | 移除受管伺服器 |
+| `server_list` | 列所有受管伺服器 |
+| `debug_logs` | 取流量日誌 |
+| `debug_send` | 發送原始 JSON-RPC 訊息 |
+| `schema_validate` | 驗工具模式 |
 
 ## Integration with Commands
 
-After setup:
-- `/mcp-tester:add-server` - Add servers for testing
-- `/mcp-tester:debug-logs` - View traffic
-- `/mcp-tester:validate-schema` - Check compliance
-- `/mcp-tester:hot-swap` - Replace servers live
+安裝後可用：
+- `/mcp-tester:add-server` — 加入伺服器供測試
+- `/mcp-tester:debug-logs` — 查流量
+- `/mcp-tester:validate-schema` — 查合規
+- `/mcp-tester:hot-swap` — 即時替換伺服器
+
+> Invoke the `Skill` tool with `skill: mcp-tester:hot-swap-development` — 熱換開發詳流程。
 
 ## Quick Test
 
@@ -159,10 +161,10 @@ Parameters: {
 
 ## Summary Output
 
-After setup, provide the user with:
+安裝後向用戶報告：
 
-1. **Binary location**: ~/.local/bin/mcp-debug or npx fallback
-2. **Installation method used**: slop-mcp or standard
-3. **Scope** (if slop-mcp): user/project/memory
-4. **Verification status**: tools available and working
-5. **Available tools**: List of mcp-debug tools
+1. **執行檔位置**：~/.local/bin/mcp-debug 或 npx 退路
+2. **所用安裝方式**：slop-mcp 或標準
+3. **範圍**（若 slop-mcp）：user/project/memory
+4. **驗證狀態**：工具可用且正常
+5. **可用工具**：mcp-debug 工具列表

@@ -1,17 +1,17 @@
 ---
 name: validate-mcp-server
-description: Use this skill when validating an MCP server implementation for correctness
+description: Validate MCP server connection, tool discovery, schema correctness, and functional behavior. 驗 MCP 伺服器連線、工具發現、模式正確性及功能行為。 Use when: verifying new MCP server implementation, checking schema compliance, testing tool error handling.
 ---
 
 # Validating MCP Server Implementations
 
-You are helping validate an MCP server implementation using mcp-debug tools.
+助以 mcp-debug 工具驗 MCP 伺服器實作。
 
 ## Validation Checklist
 
 ### 1. Connection Validation
 
-First, verify the server connects properly:
+先驗伺服器正常連線：
 
 ```
 Use server_add tool:
@@ -21,27 +21,27 @@ Use server_add tool:
 Then use server_list to verify connection
 ```
 
-Check for:
-- Server appears in list
-- Status shows "connected"
-- Tools are discovered
+查：
+- 伺服器出現於列表
+- 狀態顯示 "connected"
+- 工具已被發現
 
 ### 2. Tool Discovery Validation
 
-After connection, verify tools are properly exposed:
+連線後驗工具正確暴露：
 
 ```
 Use server_list to see all tools
 ```
 
-Check each tool has:
-- Clear, descriptive name
-- Proper prefix applied
-- No duplicate names
+查每工具具備：
+- 清晰描述性名稱
+- 正確前綴已應用
+- 無重複名稱
 
 ### 3. Schema Validation
 
-Validate all tool schemas are valid JSON Schema:
+驗所有工具模式為有效 JSON Schema：
 
 ```
 Use schema_validate tool:
@@ -49,14 +49,14 @@ Use schema_validate tool:
 (omit tool parameter to validate all)
 ```
 
-Look for:
-- All schemas pass validation
-- No missing required fields
-- Proper type definitions
+尋：
+- 所有模式通過驗證
+- 無缺少必要欄位
+- 型別定義正確
 
 ### 4. Individual Tool Schema Validation
 
-For critical tools, validate specific schemas:
+關鍵工具逐一驗模式：
 
 ```
 Use schema_validate tool:
@@ -66,7 +66,7 @@ Use schema_validate tool:
 
 ### 5. Input Validation Testing
 
-Test that schemas correctly validate input:
+測模式正確驗輸入：
 
 ```
 Use schema_validate tool:
@@ -75,9 +75,9 @@ Use schema_validate tool:
 - input: '{"data": [1, 2, 3]}'
 ```
 
-Test both:
-- Valid input (should pass)
-- Invalid input (should fail with clear error)
+同時測：
+- 有效輸入（應通過）
+- 無效輸入（應以清晰錯誤失敗）
 
 ## Common Schema Issues
 
@@ -110,17 +110,17 @@ Test both:
 
 ## Functional Validation
 
-After schema validation, test actual tool calls:
+模式驗證後，測實際工具呼叫：
 
-1. **Basic functionality** - Does the tool work?
-2. **Error handling** - Does it return proper errors?
-3. **Edge cases** - Empty input, large input, special characters
+1. **基本功能** — 工具能用否？
+2. **錯誤處理** — 是否返回正確錯誤？
+3. **邊緣情況** — 空輸入、大輸入、特殊字元
 
-Use `debug_logs` after each test to inspect the actual JSON-RPC traffic.
+每次測試後以 `debug_logs` 查實際 JSON-RPC 流量。
 
 ## Validation Report Template
 
-After validation, summarize:
+驗後彙整：
 
 ```
 Server: <name>

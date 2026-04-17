@@ -1,20 +1,20 @@
 ---
 name: debug-mcp-traffic
-description: Use this skill when analyzing MCP protocol traffic to debug issues
+description: Analyze MCP JSON-RPC traffic to diagnose protocol and tool call issues. 分析 MCP 協定流量，診斷請求/回應異常。 Use when: tool calls fail, debugging connection issues, inspecting request/response patterns.
 ---
 
 # Debugging MCP Protocol Traffic
 
-You are helping a developer analyze and debug MCP protocol traffic using mcp-debug.
+助開發者以 mcp-debug 分析、除錯 MCP 協定流量。
 
 ## Understanding the Debug Buffer
 
-mcp-debug maintains a circular buffer of the last 500 JSON-RPC messages. Each message includes:
-- Timestamp
-- Direction (request/response)
-- Server name
-- Message type
-- Full JSON-RPC content
+mcp-debug 維護循環緩衝，存最近 500 條 JSON-RPC 訊息。每條含：
+- 時間戳
+- 方向（請求/回應）
+- 伺服器名
+- 訊息類型
+- 完整 JSON-RPC 內容
 
 ## Debugging Techniques
 
@@ -29,23 +29,23 @@ Use debug_logs tool:
 
 ### 2. Diagnose Tool Call Failures
 
-When a tool call fails:
+工具呼叫失敗時：
 
-1. **Get recent logs**
+1. **取近期日誌**
    ```
    debug_logs with limit: 10
    ```
 
-2. **Look for:**
-   - Request with the failing tool call
-   - Response with error details
-   - Missing responses (timeout issues)
-   - Malformed requests
+2. **尋找：**
+   - 含失敗工具呼叫之請求
+   - 含錯誤詳情之回應
+   - 缺失回應（逾時問題）
+   - 格式錯誤之請求
 
-3. **Check request structure:**
-   - Correct method name
-   - Valid JSON-RPC format
-   - Required parameters present
+3. **查請求結構：**
+   - 方法名正確
+   - 合法 JSON-RPC 格式
+   - 必要參數齊全
 
 ### 3. Debug Connection Issues
 
@@ -64,36 +64,36 @@ debug_logs with:
 - limit: 50
 ```
 
-Look for patterns:
-- Slow responses (check timestamps)
-- Error patterns
-- Unusual message sequences
+尋規律：
+- 慢回應（查時間戳）
+- 錯誤模式
+- 異常訊息序列
 
 ## Common Issues and Solutions
 
 ### No Response to Tool Calls
-- Check server is connected: `server_list`
-- Look for server errors in logs
-- Verify server isn't blocking/deadlocked
+- 查伺服器已連：`server_list`
+- 於日誌中尋伺服器錯誤
+- 驗伺服器無阻塞/死鎖
 
 ### Invalid JSON-RPC Errors
-- Use `schema_validate` to check tool schemas
-- Review request format in debug_logs
-- Check parameter types match schema
+- 以 `schema_validate` 查工具模式
+- 於 debug_logs 查請求格式
+- 驗參數型別符合模式
 
 ### Timeout Issues
-- Look at timestamp gaps in logs
-- Check server isn't doing long operations
-- Consider increasing timeout in config
+- 查日誌中時間戳間隔
+- 驗伺服器非耗時運算
+- 考慮提高配置中逾時值
 
 ### Unexpected Tool Behavior
-- Compare request parameters in logs to expected
-- Check if tool schema changed
-- Verify correct tool prefix is being used
+- 比對日誌中請求參數與預期
+- 查工具模式是否更改
+- 驗正確工具前綴被使用
 
 ## Advanced: Raw Message Testing
 
-For edge cases, use `debug_send` to send raw JSON-RPC:
+邊緣情況可用 `debug_send` 發原始 JSON-RPC：
 
 ```
 debug_send with:
@@ -101,11 +101,11 @@ debug_send with:
 - message: '{"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}}'
 ```
 
-Then check `debug_logs` for the response.
+繼以 `debug_logs` 查回應。
 
 ## Session Statistics
 
-`debug_status` provides:
-- Buffer capacity usage
-- Total message counts
-- Can detect message imbalance (lost messages)
+`debug_status` 提供：
+- 緩衝容量用量
+- 訊息總計數
+- 可偵測訊息不平衡（訊息遺失）

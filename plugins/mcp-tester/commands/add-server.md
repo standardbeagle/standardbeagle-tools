@@ -1,6 +1,6 @@
 ---
 name: add-server
-description: Dynamically add an MCP server to the debug proxy for testing
+description: "Dynamically add an MCP server to the debug proxy for testing. 動態添MCP伺服器入除錯代理。 Use when: add mcp server, connect new server, register mcp for testing, attach server to proxy, test new mcp"
 arguments:
   - name: server-name
     description: Name to identify this server (used as tool prefix)
@@ -12,20 +12,20 @@ arguments:
 
 # Add MCP Server to Debug Proxy
 
-You are adding a new MCP server to the mcp-debug proxy for testing and development.
+動態加入新 MCP 伺服器至 mcp-debug 代理供測試與開發。
 
 ## Instructions
 
-1. Use the `mcp-debug` MCP server's `server_add` tool with:
-   - `name`: The server name provided by the user ({{server-name}})
-   - `command`: The command to launch the server ({{command}})
+1. 以 `mcp-debug` MCP 伺服器之 `server_add` 工具，傳入：
+   - `name`：用戶提供之伺服器名（{{server-name}}）
+   - `command`：啟動伺服器之命令（{{command}}）
 
-2. After adding the server, use `server_list` to confirm it was added successfully and show available tools.
+2. 加入後以 `server_list` 確認成功，並顯示可用工具。
 
-3. Report to the user:
-   - The server name and prefix that will be used for its tools
-   - All tools now available from the server (they will be prefixed with the server name)
-   - Any connection errors or issues
+3. 向用戶報告：
+   - 伺服器名及其工具所用前綴
+   - 伺服器當前所有可用工具（均以伺服器名為前綴）
+   - 任何連線錯誤或問題
 
 ## Example Usage
 
@@ -33,4 +33,4 @@ You are adding a new MCP server to the mcp-debug proxy for testing and developme
 /add-server myserver "npx @modelcontextprotocol/filesystem /home/user"
 ```
 
-This will add the filesystem MCP server with tools prefixed as `myserver_read_file`, `myserver_write_file`, etc.
+此命令將加入 filesystem MCP 伺服器，工具以 `myserver_read_file`、`myserver_write_file` 等前綴命名。

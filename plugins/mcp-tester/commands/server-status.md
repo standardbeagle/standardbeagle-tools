@@ -1,33 +1,33 @@
 ---
 name: server-status
-description: Show status of connected MCP servers and debug session statistics
+description: "Show status of connected MCP servers and debug session statistics. 顯連接MCP伺服器狀態及除錯統計。 Use when: check mcp status, list connected servers, mcp session stats, show server health, mcp connection status"
 ---
 
 # MCP Server Status
 
-You are checking the status of all connected MCP servers and the debug session.
+查所有已連 MCP 伺服器及除錯工作階段狀態。
 
 ## Instructions
 
-1. First, use the `mcp-debug` MCP server's `debug_status` tool to get:
-   - Debug buffer usage (messages stored / capacity)
-   - Total request and response counts
-   - Session uptime and statistics
+1. 先以 `mcp-debug` MCP 伺服器之 `debug_status` 工具取得：
+   - 除錯緩衝用量（已存訊息數/容量）
+   - 請求與回應總計數
+   - 工作階段運行時間及統計
 
-2. Then, use `server_list` to get:
-   - All connected servers
-   - Connection status for each server
-   - Available tools from each server
+2. 再以 `server_list` 取得：
+   - 所有已連伺服器
+   - 各伺服器連線狀態
+   - 各伺服器可用工具
 
-3. Present a clear status report showing:
-   - Overall debug session health
-   - Each connected server with:
-     - Name and prefix
-     - Connection status (connected/disconnected/error)
-     - Number of tools available
-     - Any error messages
+3. 呈現清晰狀態報告，含：
+   - 整體除錯工作階段健康
+   - 各已連伺服器：
+     - 名稱及前綴
+     - 連線狀態（connected/disconnected/error）
+     - 可用工具數
+     - 任何錯誤訊息
 
-4. If there are issues with any servers, suggest troubleshooting steps.
+4. 若任何伺服器有問題，建議排障步驟。
 
 ## Example Output Format
 
