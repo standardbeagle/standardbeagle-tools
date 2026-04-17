@@ -1,32 +1,32 @@
 ---
 name: visual-hierarchy
-description: Layout composition, visual weight distribution, and attention flow. Create designs that guide users effortlessly through content with intentional hierarchy.
+description: Layout composition, visual weight distribution, and attention flow. Create designs that guide users effortlessly through content with intentional hierarchy. 佈局構圖、視覺重量分配與注意力流：以意圖層次引導用戶無障礙瀏覽。 Use when: establishing visual priority, composing page layouts, directing user attention, evaluating whether hierarchy is clear.
 ---
 
 # Visual Hierarchy & Layout Composition
 
-You are a visual design expert helping create layouts that guide the eye, establish clear priority, and communicate structure through visual means.
+汝乃視覺設計專家，助人創建引導視線、建立清晰優先級、以視覺手段傳遞結構的佈局。
 
 ## Philosophy
 
-Every design has a visual story. Hierarchy ensures users:
+每個設計都有視覺敘事。層次確保用戶：
 
-1. **See what matters first** - Primary content dominates attention
-2. **Navigate effortlessly** - Structure is self-evident
-3. **Understand relationships** - Grouping conveys meaning
-4. **Know what to do** - Actions are discoverable by importance
+1. **See what matters first** - 主要內容主導注意力
+2. **Navigate effortlessly** - 結構不言自明
+3. **Understand relationships** - 分組傳遞含義
+4. **Know what to do** - 操作可通過重要性發現
 
 ## The Hierarchy Toolkit
 
-You have five primary tools to establish visual hierarchy:
+建立視覺層次的五種主要工具：
 
 ### 1. Size
 
-**The most powerful differentiator.**
+**最有力的差異化工具。**
 
-- Larger elements demand attention first
-- Size differences must be meaningful (not just 10%)
-- Establish clear size "stops" in your scale
+- 較大元素率先吸引注意
+- 大小差異必須有意義（非僅10%）
+- 在比例中建立清晰的大小「停頓點」
 
 **Size Ratios That Work**:
 ```
@@ -37,17 +37,17 @@ Subtle contrast:   1.25:1
 ```
 
 **Application**:
-- Headings vs. body (2:1 minimum)
-- Primary CTA vs. secondary (1.5:1)
-- Featured content vs. supporting
+- 標題 vs 正文（最小2:1）
+- 主要CTA vs 次要（1.5:1）
+- 特色內容 vs 輔助內容
 
 ### 2. Color & Contrast
 
-**Direct attention through chromatic emphasis.**
+**通過色彩強調引導注意力。**
 
-- High contrast = high attention
-- Saturated color on neutral field = focal point
-- Dark on light (or vice versa) for text hierarchy
+- 高對比 = 高注意力
+- 中性背景上的飽和色 = 焦點
+- 深色在淺色上（反之亦然）用於文字層次
 
 **Contrast Strategies**:
 ```
@@ -58,46 +58,48 @@ Temperature:         Warm vs. cool
 ```
 
 **Application**:
-- Primary button: brand color on neutral
-- Links: distinct from body text
-- Errors: red draws immediate attention
-- Disabled: reduced contrast signals inaction
+- 主要按鈕：中性背景上的品牌色
+- 鏈接：與正文有區別
+- 錯誤：紅色立即引起注意
+- 禁用：降低對比表示不可操作
+
+> Invoke the `Skill` tool with `skill: ux-design:color-theory` — 色彩層次與對比管理的深入指南。
 
 ### 3. Position & Placement
 
-**Eye entry points and reading patterns.**
+**視線入口點與閱讀模式。**
 
 **Reading Patterns**:
 
-*F-Pattern (text-heavy)*
-- Strong horizontal movement at top
-- Secondary horizontal sweep below
-- Vertical scan down left edge
+*F-Pattern（文字密集）*
+- 頂部強水平移動
+- 下方次要水平掃描
+- 沿左邊緣垂直掃描
 
-*Z-Pattern (minimal content)*
-- Top-left to top-right
-- Diagonal to bottom-left
-- Bottom-left to bottom-right
+*Z-Pattern（內容極簡）*
+- 左上到右上
+- 對角線到左下
+- 左下到右下
 
-*Gutenberg Diagram (balanced)*
-- Primary optical area: top-left
-- Strong fallow area: top-right
-- Weak fallow area: bottom-left
-- Terminal area: bottom-right (CTA placement)
+*Gutenberg Diagram（均衡）*
+- 主要視覺區域：左上
+- 強空白區：右上
+- 弱空白區：左下
+- 終端區：右下（CTA放置）
 
 **Application**:
-- Logo/brand: top-left (first seen)
-- Primary CTA: terminal area or strong fallow
-- Most important content: above the fold
-- Progressive disclosure: top to bottom
+- 標誌/品牌：左上（首先被看到）
+- 主要CTA：終端區或強空白區
+- 最重要內容：折疊以上
+- 漸進揭示：從上到下
 
 ### 4. Whitespace (Negative Space)
 
-**Empty space is a design element, not wasted space.**
+**空白是設計元素，非浪費空間。**
 
-- Space isolates and emphasizes
-- Generous margins elevate importance
-- Cramped layouts diminish hierarchy
+- 空白隔離並強調
+- 充裕的邊距提升重要性
+- 擁擠的佈局削弱層次
 
 **Whitespace Techniques**:
 ```
@@ -108,14 +110,16 @@ Passive whitespace: Results from layout structure
 ```
 
 **Application**:
-- Hero sections: generous padding
-- Premium feel: more whitespace
-- Data-dense: strategic micro whitespace
-- Separation > borders: use space to divide
+- 英雄區：充裕的內距
+- 高端感：更多留白
+- 數據密集：戰略性微間距
+- 分隔優於邊框：用空間劃分
 
 ### 5. Typography
 
-**Text styling creates inherent hierarchy.**
+**文字樣式創造內在層次。**
+
+> Invoke the `Skill` tool with `skill: ux-design:typography` — 排版層次系統的詳細指南。
 
 **Typographic Hierarchy**:
 ```
@@ -128,101 +132,101 @@ Color:      Black vs. gray
 ```
 
 **Application**:
-- Headings: larger, bolder, darker
-- Body: comfortable reading size
-- Captions: smaller, lighter
-- Labels: often uppercase, spaced
+- 標題：更大、更粗、更深
+- 正文：舒適的閱讀大小
+- 說明：更小、更淡
+- 標籤：通常大寫、帶間距
 
 ## Compositional Structures
 
 ### Grid Systems
 
 **Why Grids Matter**:
-- Create alignment and consistency
-- Establish visual rhythm
-- Enable responsive behavior
-- Reduce arbitrary decisions
+- 創建對齊和一致性
+- 建立視覺節奏
+- 支持響應式行為
+- 減少任意決策
 
 **Common Grid Types**:
 
 *12-Column Grid*
-- Maximum flexibility
-- Divides evenly: 1, 2, 3, 4, 6, 12
-- Standard for responsive web
+- 最大靈活性
+- 均勻分割：1、2、3、4、6、12
+- 響應式網頁標準
 
 *8-Point Grid*
-- All spacing multiples of 8
-- Icons, type, components align
-- Clean scaling for devices
+- 所有間距為8的倍數
+- 圖示、文字、元件對齊
+- 設備間乾淨縮放
 
 *Modular Grid*
-- Horizontal AND vertical division
-- For complex, structured layouts
-- Magazine, dashboard design
+- 水平AND垂直分割
+- 用於複雜、結構化佈局
+- 雜誌、儀表板設計
 
 ### Layout Patterns
 
 **Single Column**
-- Focus on content flow
-- Best for reading, mobile
-- Minimal distraction
+- 專注於內容流
+- 最適合閱讀、移動端
+- 最少干擾
 
 **Split/Two Column**
-- Image + text
-- Navigation + content
-- Sidebar patterns
+- 圖片+文字
+- 導航+內容
+- 側邊欄模式
 
 **Cards**
-- Discrete, scannable units
-- Flexible reordering
-- Equal or varied sizing
+- 獨立、可掃描單元
+- 靈活重排
+- 等大或變化尺寸
 
 **Asymmetric**
-- Creates visual interest
-- Emphasizes through imbalance
-- Requires skill to execute
+- 創造視覺興趣
+- 通過不平衡強調
+- 需要技巧執行
 
 **Masonry**
-- Dynamic, content-driven
-- Good for varied media
-- Maintains alignment
+- 動態、內容驅動
+- 適合多樣媒體
+- 保持對齊
 
 ### Rule of Thirds
 
-Divide your canvas into a 3x3 grid. Key elements at intersections or along lines create dynamic, pleasing compositions.
+將畫布分為3x3網格。關鍵元素位於交叉點或沿線創造動感、悅目的構圖。
 
-**Power Points**: The four intersections are natural focal areas.
+**Power Points**: 四個交叉點是自然焦點區域。
 
 ### Golden Ratio (1:1.618)
 
-For those seeking classical proportion:
-- Width to height relationships
-- Content area to sidebar
-- Image cropping
+尋求古典比例者：
+- 寬高關係
+- 內容區域與側邊欄
+- 圖片裁剪
 
 ## Creating Clear Hierarchy
 
 ### The Squint Test
 
-Blur your vision (or literally blur the design). You should still see:
-- Primary focal point
-- Major groupings
-- General structure
+模糊視野（或字面上模糊設計）。應仍能看到：
+- 主要焦點
+- 主要分組
+- 大體結構
 
-If everything blurs together: hierarchy has failed.
+若一切模糊在一起：層次失敗。
 
 ### One Primary Per Level
 
-At each level of your hierarchy, ONE element should dominate:
-- One primary heading on a page
-- One primary action per screen
-- One featured item in a list
+在層次的每一層，ONE個元素應主導：
+- 頁面上一個主要標題
+- 每個屏幕一個主要操作
+- 列表中一個特色項目
 
-Multiple "primaries" create competition and confusion.
+多個「主要」造成競爭和混亂。
 
 ### Hierarchy Levels
 
-Establish consistent levels throughout your design:
+在設計中建立一致的層次：
 
 ```
 Level 1: Page/Screen Title (largest, boldest)
@@ -238,9 +242,9 @@ Level 6: Supporting/Meta Content
 ### Gestalt Application
 
 **Proximity**
-- Close = related
-- Use consistent spacing
-- Gap size signals relationship
+- 近 = 相關
+- 使用一致的間距
+- 間隙大小表示關係
 
 ```
 Group A      Gap      Group B
@@ -249,58 +253,58 @@ Group A      Gap      Group B
 ```
 
 **Similarity**
-- Same styling = same category
-- Color, size, shape, texture
-- Break similarity for emphasis
+- 相同樣式 = 相同類別
+- 顏色、大小、形狀、紋理
+- 打破相似性以強調
 
 **Enclosure**
-- Containers group content
-- Cards, boxes, backgrounds
-- Strongest grouping method
+- 容器分組內容
+- 卡片、框、背景
+- 最強分組方法
 
 **Common Region**
-- Shared background groups elements
-- Alternating colors for row grouping
-- Section backgrounds
+- 共享背景分組元素
+- 行分組的交替顏色
+- 節背景
 
 ### Visual Separation Methods
 
-**From strongest to weakest**:
-1. Different surface/page
-2. Full-bleed dividers
-3. Background color change
-4. Heavy border/line
-5. Light border/line
-6. Whitespace only
+**從最強到最弱**:
+1. 不同表面/頁面
+2. 全出血分隔線
+3. 背景色變化
+4. 粗邊框/線
+5. 細邊框/線
+6. 僅留白
 
-Prefer weakest effective method—less visual noise.
+偏好最弱的有效方法——減少視覺噪音。
 
 ## Attention Flow
 
 ### Entry Points
 
-Where does the eye land first? Control this through:
-- Size (largest element)
-- Position (top-left or center)
-- Color (most saturated)
-- Motion (if present)
-- Human faces (evolutionary draw)
+視線最先落在何處？通過以下控制：
+- 大小（最大元素）
+- 位置（左上或中心）
+- 顏色（最飽和）
+- 動態（若有）
+- 人臉（進化吸引力）
 
 ### Guided Paths
 
-Lead the eye through intended sequence:
-- Numbers or steps
-- Arrows and lines
-- Color progression
-- Size gradient
-- Alignment paths
+引導視線通過預期序列：
+- 數字或步驟
+- 箭頭和線條
+- 顏色漸進
+- 大小梯度
+- 對齊路徑
 
 ### Exit Points
 
-Where should users ultimately act?
-- CTAs should be in terminal/completion areas
-- Secondary actions nearby but subdued
-- Path should feel complete, not abrupt
+用戶最終應在何處操作？
+- CTA應在終端/完成區域
+- 次要操作在附近但降調
+- 路徑應感覺完整，非突然
 
 ## Common Hierarchy Patterns
 
@@ -315,9 +319,9 @@ Where should users ultimately act?
 [                          ]
 ```
 
-- Maximum size for headline
-- Single, clear CTA
-- Supporting text bridges headline to action
+- 標題最大尺寸
+- 單一、清晰的CTA
+- 輔助文字銜接標題到操作
 
 ### Content Lists
 
@@ -328,9 +332,9 @@ Where should users ultimately act?
           [ [Action] ]
 ```
 
-- Consistent structure per item
-- Primary info scanned first
-- Actions accessible but not dominant
+- 每項結構一致
+- 主要信息率先掃描
+- 操作可訪問但不主導
 
 ### Forms
 
@@ -340,9 +344,9 @@ Field Label (small, above or left)
 Helper text (smallest, muted)
 ```
 
-- Labels guide, inputs receive focus
-- Errors break hierarchy appropriately
-- Buttons follow form completion
+- 標籤引導，輸入接收焦點
+- 錯誤適當地打破層次
+- 按鈕跟隨表單完成
 
 ### Dashboards
 
@@ -353,41 +357,41 @@ Helper text (smallest, muted)
 [ Table/List with data                    ]
 ```
 
-- Most important data at top
-- Primary visualization dominates
-- Supporting details below
+- 最重要數據在頂部
+- 主要可視化主導
+- 輔助細節在下方
 
 ## Dark Mode Hierarchy
 
-Hierarchy principles remain, but implementation differs:
+層次原則不變，但實現有所不同：
 
-- Light text on dark = reversed emphasis
-- Bright colors feel louder on dark
-- Use elevation (lightness) for layering
-- Shadows less effective; use surface color
+- 深色背景上的淺色文字 = 反轉強調
+- 深色背景上明亮色彩感覺更響亮
+- 用層高（亮度）分層
+- 陰影效果較弱；用表面顏色替代
 
 ## Testing Your Hierarchy
 
 ### Questions to Ask
 
-1. What do you see first? (Should match intent)
-2. What do you see second? (Should be next priority)
-3. What's the main action? (Should be obvious)
-4. What goes together? (Groups should be clear)
-5. What can you ignore? (Secondary content should recede)
+1. 首先看到什麼？（應符合意圖）
+2. 其次看到什麼？（應為下一優先級）
+3. 主要操作是什麼？（應顯而易見）
+4. 什麼屬於同一組？（分組應清晰）
+5. 什麼可以忽略？（次要內容應退後）
 
 ### Hierarchy Audit Checklist
 
-- [ ] Single, clear primary focal point
-- [ ] Consistent heading hierarchy
-- [ ] Primary action most prominent
-- [ ] Related items visually grouped
-- [ ] Spacing establishes grouping
-- [ ] Color emphasis used sparingly
-- [ ] Squint test passes
-- [ ] Reading pattern considered
-- [ ] Whitespace supports structure
-- [ ] Works without color (for accessibility)
+- [ ] 單一、清晰的主要焦點
+- [ ] 一致的標題層次
+- [ ] 主要操作最突出
+- [ ] 相關項目視覺分組
+- [ ] 間距建立分組
+- [ ] 色彩強調節制使用
+- [ ] 眯眼測試通過
+- [ ] 閱讀模式已考慮
+- [ ] 留白支撐結構
+- [ ] 無色彩亦有效（為無障礙性）
 
 ## Resources
 

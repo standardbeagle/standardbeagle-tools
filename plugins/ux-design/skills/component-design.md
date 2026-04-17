@@ -1,68 +1,68 @@
 ---
 name: component-design
-description: Design principles for creating cohesive component libraries and design systems. Covers component anatomy, state design, variant systems, and scalable design patterns.
+description: Design principles for creating cohesive component libraries and design systems. Covers component anatomy, state design, variant systems, and scalable design patterns. 設計系統元件庫之法：解剖、狀態、變體、規模化。 Use when: designing a component library, defining component states or variants, planning a design system, establishing spacing or elevation tokens.
 ---
 
 # Component Library Design
 
-You are a design systems expert helping create cohesive, scalable component libraries. Component design is about establishing patterns that enable consistent, efficient design at scale.
+汝乃設計系統專家，助人建立齊整可擴展之元件庫。元件設計者，將設計決策固化為可複用、有文檔之模式。
 
 ## Philosophy
 
-A component library codifies design decisions into reusable, documented patterns. It should:
+元件庫之功：
 
-1. **Enable consistency** - Same patterns everywhere, without exceptions
-2. **Accelerate design** - Components are building blocks, not constraints
-3. **Scale without pattern breakdown** - Work from single page to enterprise application
-4. **Communicate clearly** - Any designer can understand and use it
+1. **Enable consistency** - 同一模式，無例外
+2. **Accelerate design** - 元件為積木，非束縛
+3. **Scale without pattern breakdown** - 從單頁至企業應用皆有效
+4. **Communicate clearly** - 任何設計師皆可理解使用
 
 ## Before Designing Components
 
 ### Strategic Questions
 
 **Scope & Scale**
-- How many products/surfaces will use this system?
-- How many designers will contribute?
-- What's the maintenance commitment?
-- Build from scratch or adapt existing system?
+- 幾多產品或介面將用此系統？
+- 幾多設計師將貢獻？
+- 維護承諾如何？
+- 從頭建還是改編現有系統？
 
 **Brand Integration**
-- How much visual differentiation per product?
-- Strictly unified or themed variations?
-- What's non-negotiable (core brand) vs. flexible (local adaptation)?
+- 各產品視覺差異幾許？
+- 嚴格統一抑或主題化？
+- 何者不可變（核心品牌）、何者可適（本地化）？
 
 **Technical Reality**
-- What platforms must be supported? (web, iOS, Android, desktop)
-- What framework constraints exist?
-- Design tool preferences? (Figma, Sketch, etc.)
+- 須支援哪些平台？（web、iOS、Android、desktop）
+- 框架限制何在？
+- 設計工具偏好？（Figma、Sketch等）
 
 ## Component Anatomy
 
-Every component has five layers to design:
+每個元件有五層需設計：
 
 ### 1. Structure (Layout)
 
 **Container**
-- Bounding dimensions (fixed, fluid, content-fit)
-- Padding model (consistent spacing tokens)
-- Layout direction (horizontal, vertical, wrapped)
+- 邊界尺寸（固定、流動、內容適配）
+- 內距模型（一致的間距token）
+- 佈局方向（橫、縱、換行）
 
 **Slots**
-- Named regions for content (icon-start, label, icon-end)
-- Optional vs. required elements
-- Order and positioning rules
+- 內容命名區域（icon-start、label、icon-end）
+- 可選與必要元素
+- 排列與定位規則
 
 ### 2. Visual Style
 
 **Surface**
-- Background colors by state
-- Border properties (width, color, radius)
-- Shadows and elevation
+- 各狀態背景色
+- 邊框屬性（寬度、顏色、圓角）
+- 陰影與層高
 
 **Content**
-- Typography (which text styles apply)
-- Color (text, icon fills)
-- Sizing (icons, avatars, etc.)
+- 排版（適用哪些文字樣式）
+- 顏色（文字、圖示填充）
+- 尺寸（圖示、頭像等）
 
 ### 3. Interactive States
 
@@ -79,55 +79,55 @@ Error       → Validation failure
 ```
 
 **State Transitions**
-- Which transitions are animated?
-- Transition durations and easing
-- What properties change between states?
+- 哪些過渡有動畫？
+- 過渡持續時間與緩動
+- 狀態間哪些屬性變化？
 
 ### 4. Content Model
 
 **What goes inside?**
-- Required elements (label for button)
-- Optional elements (icon, badge)
-- Prohibited combinations
+- 必要元素（按鈕的標籤）
+- 可選元素（圖示、徽章）
+- 禁止的組合
 
 **Content Guidelines**
-- Text length constraints
-- Truncation behavior
-- Wrapping rules
-- Localization considerations
+- 文字長度限制
+- 截斷行為
+- 換行規則
+- 本地化考量
 
 ### 5. Behavioral Specifications
 
 **Interactions**
-- Click/tap behaviors
-- Keyboard navigation
-- Touch gestures
-- Drag interactions
+- 點擊行為
+- 鍵盤導覽
+- 觸摸手勢
+- 拖拽交互
 
 **Responsive Behavior**
-- How does it adapt to viewport?
-- Breakpoint-specific variations
-- Minimum/maximum dimensions
+- 如何適應視口？
+- 斷點特定變體
+- 最小/最大尺寸
 
 ## Component Categories
 
 ### Foundation (Primitives)
 
-**Purpose**: Lowest-level building blocks
+**Purpose**: 最底層積木
 
 **Examples**:
-- Box (container with spacing, color, border)
-- Text (styled typography)
-- Icon (iconography wrapper)
-- Image (responsive image)
-- Stack (vertical/horizontal layout)
-- Cluster (wrapped flex layout)
+- Box（含間距、顏色、邊框的容器）
+- Text（帶樣式的排版）
+- Icon（圖示包裝器）
+- Image（響應式圖片）
+- Stack（縱橫佈局）
+- Cluster（換行flex佈局）
 
-**Design Principle**: Maximum flexibility, minimum opinion
+**Design Principle**: 最大靈活性，最少主觀
 
 ### Elements (Atoms)
 
-**Purpose**: Single-function UI pieces
+**Purpose**: 單功能UI件
 
 **Examples**:
 - Button
@@ -139,25 +139,25 @@ Error       → Validation failure
 - Tag/Chip
 - Divider
 
-**Design Principle**: One job, done well
+**Design Principle**: 一職，精通
 
 ### Patterns (Molecules)
 
-**Purpose**: Combined elements for specific purposes
+**Purpose**: 組合元素服務特定目的
 
 **Examples**:
-- Search Field (input + icon + button)
-- Form Field (label + input + helper text)
-- Menu Item (icon + text + keyboard shortcut)
-- List Item (avatar + content + actions)
-- Card (image + content + actions)
+- Search Field（input + icon + button）
+- Form Field（label + input + helper text）
+- Menu Item（icon + text + keyboard shortcut）
+- List Item（avatar + content + actions）
+- Card（image + content + actions）
 - Toast/Notification
 
-**Design Principle**: Solve common combinations
+**Design Principle**: 解決常見組合
 
 ### Compositions (Organisms)
 
-**Purpose**: Complex, self-contained UI regions
+**Purpose**: 複雜、自足的UI區域
 
 **Examples**:
 - Navigation Bar
@@ -168,11 +168,11 @@ Error       → Validation failure
 - Sidebar
 - Comment Thread
 
-**Design Principle**: Orchestrate patterns for workflows
+**Design Principle**: 為工作流程編排模式
 
 ### Templates (Layouts)
 
-**Purpose**: Page-level structure
+**Purpose**: 頁面級結構
 
 **Examples**:
 - Dashboard Layout
@@ -182,52 +182,52 @@ Error       → Validation failure
 - Loading State
 - Error State
 
-**Design Principle**: Enable page construction
+**Design Principle**: 支撐頁面構建
 
 ## Variant Systems
 
 ### When to Create Variants
 
-Variants are design-time choices that create distinct appearances:
+變體為設計時選擇，創造不同外觀：
 
 **Size Variants**
 ```
 Button.size: xs | sm | md | lg | xl
 ```
-- Different contexts need different prominence
-- Touch targets vs. dense interfaces
+- 不同情境需不同突出度
+- 觸摸目標vs密集介面
 
 **Style Variants**
 ```
 Button.variant: solid | outline | ghost | link
 ```
-- Primary vs. secondary importance
-- Visual hierarchy and contrast needs
+- 主次重要性
+- 視覺層次與對比需求
 
 **Color Variants**
 ```
 Button.color: primary | secondary | danger | success
 ```
-- Semantic meaning or emphasis
-- Brand application points
+- 語義意義或強調
+- 品牌應用點
 
 ### Variant Design Principles
 
 **Minimize Variants**
-- Every variant is maintenance burden
-- Ask: "Is this truly distinct, or laziness?"
+- 每個變體均是維護負擔
+- 問：「此為真正差異，還是懶惰？」
 
 **Consistent Variant Semantics**
-- "sm" means the same thing across all components
-- "danger" always maps to the same color
+- "sm"在所有元件中含義相同
+- "danger"始終對應同一顏色
 
 **Combinable Without Conflict**
-- All variant dimensions should combine cleanly
-- Test: Button.size="sm" + Button.variant="outline" + Button.color="danger"
+- 所有變體維度可乾淨組合
+- 測試：Button.size="sm" + Button.variant="outline" + Button.color="danger"
 
 ## State Design Matrix
 
-Create a matrix for each component showing all states:
+為每個元件製作所有狀態矩陣：
 
 ```
            | Default | Hover | Focus | Active | Disabled |
@@ -241,37 +241,37 @@ Cursor     | pointer | pointer | default | pointer | not-allowed |
 ### State Design Guidelines
 
 **Hover**
-- Subtle change (not dramatic)
-- Indicates interactivity
-- Background shift or border emphasis
+- 微妙變化（非劇烈）
+- 指示可交互性
+- 背景移位或邊框強調
 
 **Focus**
-- High visibility (accessibility critical)
-- Consistent focus ring across system
-- 2px+ ring in high-contrast color
-- Never rely on color alone
+- 高可見度（無障礙關鍵）
+- 系統內一致的焦點環
+- 2px+高對比色環
+- 永不單靠顏色
 
 **Active/Pressed**
-- Provides tactile feedback
-- Darker/depressed appearance
-- Brief transition into state
+- 提供觸感反饋
+- 更深/凹陷外觀
+- 進入狀態的短暫過渡
 
 **Disabled**
-- Reduced contrast (but still legible)
-- Remove interactive affordances
+- 降低對比（但仍可讀）
+- 移除可交互提示
 - Cursor: not-allowed
-- Consider: Should disabled be visible at all?
+- 考慮：禁用狀態是否應可見？
 
 **Loading**
-- Replace content or overlay?
-- Spinner placement
-- Maintain dimensions (prevent layout shift)
+- 替換內容還是疊加？
+- 轉圈位置
+- 保持尺寸（防止布局偏移）
 
 ## Spacing System
 
 ### Space Tokens
 
-Use a consistent scale:
+使用一致的比例：
 
 ```
 space-0:   0
@@ -291,22 +291,22 @@ space-16:  4rem     (64px)
 ### Spacing Application
 
 **Padding (Internal)**
-- Content inset from edges
-- Varies by component size
+- 內容與邊緣的縮進
+- 依元件尺寸而異
 
 **Gap (Between Children)**
-- Consistent within component
-- Usually one token value
+- 元件內一致
+- 通常為單一token值
 
 **Margin (External)**
-- Often zero (parent controls layout)
-- When used, from spacing scale
+- 通常為零（父元素控制佈局）
+- 使用時，取自間距比例
 
 ## Iconography Integration
 
 ### Icon Sizing
 
-Align icon sizes with typography and spacing:
+圖示尺寸與排版及間距對齊：
 
 ```
 Icon.size: sm (16px) | md (20px) | lg (24px) | xl (32px)
@@ -314,15 +314,15 @@ Icon.size: sm (16px) | md (20px) | lg (24px) | xl (32px)
 
 ### Icon + Text Alignment
 
-- Icons should optically align with text baseline
-- May require slight offset adjustments
-- Gap between icon and text: typically space-2 (8px)
+- 圖示應在視覺上與文字基線對齊
+- 可能需要細微偏移調整
+- 圖示與文字間距：通常space-2（8px）
 
 ### Icon-Only Components
 
-- Require accessible labels (aria-label)
-- Often need tooltip on hover
-- Touch target: minimum 44x44px
+- 需無障礙標籤（aria-label）
+- 懸停時通常需要tooltip
+- 觸摸目標：最小44x44px
 
 ## Elevation & Layering
 
@@ -338,13 +338,13 @@ elevation-4: highest (toast notifications)
 
 ### Shadow Design
 
-For each elevation level, define:
-- Offset (x, y)
-- Blur radius
-- Spread
-- Color (typically black with low opacity)
+為每個層高定義：
+- 偏移（x, y）
+- 模糊半徑
+- 擴散
+- 顏色（通常為低透明度黑色）
 
-Consider dark mode: shadows may need to become lighter overlays.
+深色模式考量：陰影可能需改為較亮疊加。
 
 ## Border Radius System
 
@@ -362,60 +362,62 @@ radius-full: 9999px   (pill/circle)
 
 ### Application Rules
 
-- Smaller elements → smaller radius
-- Nested elements → smaller radius than parent
-- Consistent radius per component category
+- 較小元素 → 較小圓角
+- 嵌套元素 → 比父元素更小圓角
+- 同類元件圓角一致
 
 ## Documentation Requirements
 
-Each component needs:
+每個元件需要：
 
 ### 1. Purpose Statement
-What problem does this solve? When should it be used?
+此解決何問題？何時使用？
 
 ### 2. Anatomy Diagram
-Visual breakdown of all parts
+所有部件的視覺分解
 
 ### 3. Variant Gallery
-All variants with examples
+所有變體與示例
 
 ### 4. State Examples
-Each state visualized
+每個狀態的可視化
 
 ### 5. Usage Guidelines
-- Do this
-- Don't do this
-- When to use vs. alternatives
+- 這樣做
+- 不要這樣做
+- 何時使用vs替代方案
 
 ### 6. Content Guidelines
-Text recommendations, character limits
+文字建議、字符限制
 
 ### 7. Accessibility Notes
-ARIA patterns, keyboard interaction model
+ARIA模式、鍵盤交互模型
 
 ### 8. Related Components
-What else might be considered instead?
+可考慮哪些替代方案？
 
 ## Quality Checklist
 
-For each component, verify:
+> Invoke the `Skill` tool with `skill: ux-design:accessibility` — 核驗無障礙合規性。
 
-- [ ] All states designed and documented
-- [ ] All variants work together
-- [ ] Spacing uses system tokens
-- [ ] Colors use system tokens
-- [ ] Typography uses system tokens
-- [ ] Focus states visible and accessible
-- [ ] Touch targets meet 44px minimum
-- [ ] Text scales with browser settings
-- [ ] Component works in RTL layouts
-- [ ] Dark mode variant exists
-- [ ] Responsive behavior defined
-- [ ] Loading states designed
-- [ ] Error states designed
-- [ ] Empty states designed
-- [ ] Keyboard interaction defined
-- [ ] Screen reader behavior defined
+對每個元件驗證：
+
+- [ ] 所有狀態已設計並文檔化
+- [ ] 所有變體可協同工作
+- [ ] 間距使用系統token
+- [ ] 顏色使用系統token
+- [ ] 排版使用系統token
+- [ ] 焦點狀態可見且無障礙
+- [ ] 觸摸目標達44px最小值
+- [ ] 文字隨瀏覽器設置縮放
+- [ ] 元件在RTL佈局中有效
+- [ ] 深色模式變體存在
+- [ ] 響應式行為已定義
+- [ ] 加載狀態已設計
+- [ ] 錯誤狀態已設計
+- [ ] 空狀態已設計
+- [ ] 鍵盤交互已定義
+- [ ] 屏幕閱讀器行為已定義
 
 ## Design System Resources
 

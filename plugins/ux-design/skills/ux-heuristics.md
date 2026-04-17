@@ -1,343 +1,343 @@
 ---
 name: ux-heuristics
-description: UX evaluation using Nielsen's heuristics, cognitive principles, and modern usability patterns. Comprehensive framework for identifying and resolving usability issues in interface design.
+description: UX evaluation using Nielsen's heuristics, cognitive principles, and modern usability patterns. Comprehensive framework for identifying and resolving usability issues in interface design. Nielsen啟發式評估框架：認知原理、現代可用性模式、問題識別與解決。 Use when: conducting a UX audit, evaluating interface usability, identifying usability violations, applying cognitive design principles.
 ---
 
 # UX Heuristics & Usability Principles
 
-You are a UX expert helping evaluate and improve interface designs using established usability heuristics and cognitive principles.
+汝乃UX專家，運用既定可用性啟發式原則與認知原理，助人評估與改進界面設計。
 
 ## Philosophy
 
-Heuristics are experience-based guidelines that identify usability issues without formal user testing. They're not rules—they're lenses for critical evaluation that help spot problems before users encounter them.
+啟發式原則乃基於經驗的指導方針，無需正式用戶測試即可識別可用性問題。此非規則——乃批判性評估的視角，助於在用戶遭遇問題前發現問題。
 
 ## Nielsen's 10 Usability Heuristics
 
 ### 1. Visibility of System Status
 
-**Principle**: Keep users informed about what's going on through timely, appropriate feedback.
+**Principle**: 通過及時、適當的反饋，使用戶了解系統動態。
 
 **What to Look For**:
-- Loading indicators during async operations
-- Progress bars for multi-step processes
-- Selection states for interactive elements
-- Save/sync status indicators
-- Connection state (online/offline)
-- Current location in navigation
+- 異步操作的加載指示器
+- 多步驟流程的進度條
+- 互動元素的選中狀態
+- 保存/同步狀態指示器
+- 連接狀態（在線/離線）
+- 導航中的當前位置
 
 **Signs of Violation**:
-- Actions complete silently
-- Users wonder "did that work?"
-- No indication of background processes
-- Unclear what's selected/active
+- 操作靜默完成
+- 用戶疑惑「成功了嗎？」
+- 無後台進程指示
+- 不清楚何者被選中/激活
 
 **Design Solutions**:
-- Immediate visual feedback on interaction (ripples, color changes)
-- Progress indicators with meaningful progress (not just spinning)
-- Toast notifications for completed actions
-- Persistent status in header/footer for global states
+- 交互時的即時視覺反饋（漣漪、色彩變化）
+- 帶有意義進度的進度指示器（非僅旋轉）
+- 已完成操作的Toast通知
+- 頁眉/頁腳中的全局狀態持久顯示
 
 ### 2. Match Between System and Real World
 
-**Principle**: Speak the user's language, with words, phrases, and concepts familiar to them.
+**Principle**: 使用用戶熟悉的語言、詞彙和概念。
 
 **What to Look For**:
-- Terminology matches user vocabulary
-- Icons use recognizable metaphors
-- Information organized logically (user mental models)
-- Cultural appropriateness
+- 術語符合用戶詞彙
+- 圖示使用可識別的隱喻
+- 信息按邏輯組織（用戶心智模型）
+- 文化適當性
 
 **Signs of Violation**:
-- Technical jargon in user-facing content
-- Unfamiliar icons or symbols
-- Information structure doesn't match expectations
-- Error codes instead of explanations
+- 面向用戶的內容含技術術語
+- 陌生的圖示或符號
+- 信息結構不符預期
+- 錯誤代碼而非解釋
 
 **Design Solutions**:
-- User research to understand vocabulary
-- Icon testing for recognition
-- Card sorting for information architecture
-- Plain language guidelines
+- 用戶研究了解詞彙
+- 圖示識別測試
+- 卡片分類用於信息架構
+- 簡明語言指南
 
 ### 3. User Control and Freedom
 
-**Principle**: Users need clearly marked "emergency exits" to leave unwanted states without extended dialog.
+**Principle**: 用戶需要清晰標記的「緊急出口」，無需繁瑣對話即可離開非期望狀態。
 
 **What to Look For**:
-- Undo/redo functionality
-- Cancel buttons on dialogs
-- Back navigation always works
-- Easy escape from dead ends
-- Draft saving for long forms
+- 撤銷/重做功能
+- 對話框的取消按鈕
+- 返回導航始終有效
+- 易於逃離死胡同
+- 長表單的草稿保存
 
 **Signs of Violation**:
-- No way to reverse actions
-- Modal dialogs trap users
-- Browser back breaks experience
-- Losing work without warning
+- 無法撤銷操作
+- 模態對話框困住用戶
+- 瀏覽器返回破壞體驗
+- 未經警告丟失工作
 
 **Design Solutions**:
-- Persistent undo with reasonable history
-- Non-modal alternatives where possible
-- Confirmation before destructive actions
-- Autosave with recovery options
-- Clear exit points always visible
+- 帶合理歷史的持久撤銷
+- 盡可能使用非模態替代
+- 破壞性操作前的確認
+- 帶恢復選項的自動保存
+- 始終可見的清晰退出點
 
 ### 4. Consistency and Standards
 
-**Principle**: Users shouldn't have to wonder whether different words, situations, or actions mean the same thing.
+**Principle**: 用戶不應懷疑不同詞語、情境或操作是否表示相同含義。
 
 **What to Look For**:
-- Same action always looks the same
-- Platform conventions followed
-- Terminology consistent throughout
-- Visual patterns repeated appropriately
+- 同一操作始終外觀相同
+- 遵循平台慣例
+- 術語全程一致
+- 視覺模式適當重複
 
 **Signs of Violation**:
-- Buttons that behave differently
-- Mixed terminology for same concept
-- Inconsistent visual treatment
-- Breaking platform conventions without reason
+- 按鈕行為不同
+- 同一概念術語混用
+- 視覺處理不一致
+- 無理由打破平台慣例
 
 **Design Solutions**:
-- Design system with documented patterns
-- Content style guide
-- UI inventory to identify inconsistencies
-- Regular audits for drift
+- 有文檔模式的設計系統
+- 內容風格指南
+- UI盤點識別不一致性
+- 定期審計漂移
 
 ### 5. Error Prevention
 
-**Principle**: Even better than good error messages is preventing errors in the first place.
+**Principle**: 比好的錯誤信息更好的是從一開始就防止錯誤。
 
 **What to Look For**:
-- Constraints that prevent invalid input
-- Confirmation for consequential actions
-- Smart defaults
-- Inline validation before submission
+- 防止無效輸入的約束
+- 後果性操作的確認
+- 智能默認值
+- 提交前的行內驗證
 
 **Signs of Violation**:
-- Errors only shown after submission
-- Easy to select wrong options
-- Destructive actions too easy to trigger
-- Invalid states possible
+- 錯誤僅在提交後顯示
+- 易於選擇錯誤選項
+- 破壞性操作過易觸發
+- 可能出現無效狀態
 
 **Design Solutions**:
-- Input masks and format guidance
-- Disabled states for unavailable options
-- "Are you sure?" for destructive actions
-- Real-time validation with clear feedback
-- Sensible defaults pre-selected
+- 輸入掩碼和格式指南
+- 不可用選項的禁用狀態
+- 破壞性操作的「您確定嗎？」
+- 帶清晰反饋的實時驗證
+- 預選合理默認值
 
 ### 6. Recognition Rather Than Recall
 
-**Principle**: Minimize memory load by making objects, actions, and options visible.
+**Principle**: 通過使對象、操作和選項可見，減少記憶負荷。
 
 **What to Look For**:
-- Options visible rather than hidden
-- Recent items accessible
-- Context preserved across screens
-- Examples and hints provided
+- 選項可見而非隱藏
+- 最近項目可訪問
+- 跨屏幕保留情境
+- 提供示例和提示
 
 **Signs of Violation**:
-- Users must remember codes or commands
-- Important options buried in menus
-- No recent/frequent items
-- Empty states with no guidance
+- 用戶必須記住代碼或命令
+- 重要選項深藏菜單
+- 無最近/常用項目
+- 空狀態無指導
 
 **Design Solutions**:
-- Show common actions prominently
-- Recent/favorite item lists
-- Search with suggestions
-- Tooltips and contextual help
-- Placeholder text with examples
+- 突顯常用操作
+- 最近/收藏項目列表
+- 帶建議的搜索
+- 提示和情境幫助
+- 帶示例的佔位文字
 
 ### 7. Flexibility and Efficiency of Use
 
-**Principle**: Accelerators—unseen by novices—may speed up interaction for experts.
+**Principle**: 加速器——新手看不見——可加快專家的交互速度。
 
 **What to Look For**:
-- Keyboard shortcuts available
-- Power user features accessible
-- Customization options
-- Automation capabilities
+- 鍵盤快捷鍵可用
+- 高級用戶功能可訪問
+- 定製選項
+- 自動化能力
 
 **Signs of Violation**:
-- No keyboard navigation
-- Forced wizard flows for repeat users
-- No way to save preferences
-- Repetitive tasks without shortcuts
+- 無鍵盤導航
+- 重複用戶被迫走引導流程
+- 無法保存偏好
+- 重複性任務無快捷方式
 
 **Design Solutions**:
-- Progressive disclosure (simple first, advanced available)
-- Keyboard shortcut panel
-- Customizable dashboards
-- Saved searches/filters
-- Batch operations for power users
+- 漸進式揭示（先簡單，後高級）
+- 鍵盤快捷鍵面板
+- 可定製儀表板
+- 保存的搜索/篩選
+- 高級用戶的批量操作
 
 ### 8. Aesthetic and Minimalist Design
 
-**Principle**: Dialogues should not contain irrelevant or rarely needed information.
+**Principle**: 對話框不應包含無關或罕用信息。
 
 **What to Look For**:
-- Visual noise minimized
-- Content prioritized by importance
-- Progressive disclosure for complexity
-- Clean, focused interfaces
+- 視覺噪音最小化
+- 內容按重要性優先
+- 複雜內容的漸進式揭示
+- 乾淨、專注的界面
 
 **Signs of Violation**:
-- Cluttered screens
-- Competing visual elements
-- Rarely-used features prominent
-- Dense, overwhelming information
+- 雜亂的屏幕
+- 競爭性視覺元素
+- 罕用功能突出
+- 密集、壓倒性的信息
 
 **Design Solutions**:
-- Content audit (remove unnecessary)
-- Visual hierarchy (one primary action)
-- "Show more" for secondary content
-- Whitespace as design element
-- Card-based chunking of information
+- 內容審計（移除不必要的）
+- 視覺層次（一個主要操作）
+- 次要內容的「顯示更多」
+- 留白作為設計元素
+- 信息的卡片式分塊
 
 ### 9. Help Users Recognize, Diagnose, and Recover from Errors
 
-**Principle**: Error messages should be expressed in plain language, precisely indicate the problem, and constructively suggest a solution.
+**Principle**: 錯誤信息應以簡明語言表達，精確指出問題，並建設性地提出解決方案。
 
 **What to Look For**:
-- Error messages in plain language
-- Specific about what went wrong
-- Guidance on how to fix
-- Links to help when appropriate
+- 簡明語言的錯誤信息
+- 具體說明出了什麼問題
+- 如何修復的指導
+- 適時提供幫助鏈接
 
 **Signs of Violation**:
-- "Error 500" or technical codes
-- "Something went wrong" with no detail
-- No path to resolution
-- Error state with no way forward
+- "Error 500"或技術代碼
+- 「出了點問題」無細節
+- 無解決路徑
+- 錯誤狀態無前進之路
 
 **Design Solutions**:
-- Human-readable error messages
-- Specific problem description
-- Clear next steps
-- Inline error placement near cause
-- Recovery options or alternatives
+- 人類可讀的錯誤信息
+- 具體問題描述
+- 清晰的下一步
+- 鄰近原因的行內錯誤位置
+- 恢復選項或替代方案
 
 ### 10. Help and Documentation
 
-**Principle**: Even though it's better if the system can be used without documentation, it may be necessary to provide help.
+**Principle**: 雖然系統最好無需文檔即可使用，但可能有必要提供幫助。
 
 **What to Look For**:
-- Help easily accessible
-- Contextual help near complex features
-- Search functionality in help
-- Progressive complexity in documentation
+- 幫助易於訪問
+- 複雜功能附近的情境幫助
+- 幫助中的搜索功能
+- 文檔的漸進式複雜度
 
 **Signs of Violation**:
-- No help available
-- Help buried or hard to find
-- Outdated documentation
-- No contextual guidance
+- 無幫助可用
+- 幫助深藏或難以找到
+- 過時的文檔
+- 無情境指導
 
 **Design Solutions**:
-- ? icons near complex features
-- Tooltips for unclear elements
-- Onboarding for new users
-- In-context help panels
-- Searchable knowledge base
+- 複雜功能附近的?圖示
+- 不清晰元素的提示
+- 新用戶的入職引導
+- 情境幫助面板
+- 可搜索的知識庫
 
 ## Additional Usability Principles
 
 ### Fitts's Law
 
-**Principle**: Time to acquire a target depends on distance and target size.
+**Principle**: 獲取目標的時間取決於距離和目標大小。
 
 **Design Implications**:
-- Important targets should be large
-- Common actions near expected cursor position
-- Edge/corner positions are faster (infinite depth)
-- Touch targets: minimum 44x44px
+- 重要目標應夠大
+- 常用操作靠近預期光標位置
+- 邊/角位置更快（無限深度）
+- 觸摸目標：最小44x44px
 
 ### Hick's Law
 
-**Principle**: Decision time increases with number and complexity of choices.
+**Principle**: 決策時間隨選項數量和複雜性增加。
 
 **Design Implications**:
-- Limit options in any given view
-- Group related options logically
-- Use progressive disclosure
-- Provide sensible defaults
+- 任意視圖中限制選項
+- 邏輯分組相關選項
+- 使用漸進式揭示
+- 提供合理默認值
 
 ### Miller's Law
 
-**Principle**: Average person can hold 7±2 items in working memory.
+**Principle**: 普通人工作記憶可容納7±2項。
 
 **Design Implications**:
-- Chunk information into groups
-- Use visual grouping
-- Limit navigation depth
-- Don't require remembering across screens
+- 將信息分塊組織
+- 使用視覺分組
+- 限制導航深度
+- 勿要求跨屏幕記憶
 
 ### Jakob's Law
 
-**Principle**: Users spend most time on other sites, so they expect yours to work similarly.
+**Principle**: 用戶大部分時間在其他網站度過，因此期望你的網站以類似方式運作。
 
 **Design Implications**:
-- Follow platform conventions
-- Standard patterns for common features
-- Innovate where it adds value, not for novelty
-- Match mental models from similar products
+- 遵循平台慣例
+- 常見功能使用標準模式
+- 在增加價值處創新，非為新奇
+- 匹配同類產品的心智模型
 
 ### Gestalt Principles
 
-**Proximity**: Elements close together appear related
-**Similarity**: Similar elements appear related
-**Closure**: Mind completes incomplete shapes
-**Continuity**: Eye follows smooth paths
-**Figure/Ground**: Elements seen as foreground or background
+**Proximity**: 靠近的元素顯得相關
+**Similarity**: 相似元素顯得相關
+**Closure**: 心智補全不完整形狀
+**Continuity**: 視線沿流暢路徑移動
+**Figure/Ground**: 元素被視為前景或背景
 
 ### Serial Position Effect
 
-**Principle**: Items at beginning and end of lists are remembered better.
+**Principle**: 列表開頭和結尾的項目記憶更佳。
 
 **Design Implications**:
-- Place important items first and last
-- Navigation: Home at start, CTA at end
-- Lists: Key items at extremes
+- 重要項目放首尾
+- 導航：主頁在開頭，CTA在結尾
+- 列表：關鍵項在兩端
 
 ### Peak-End Rule
 
-**Principle**: Experiences judged by peak moment and ending.
+**Principle**: 體驗由峰值時刻和結尾判斷。
 
 **Design Implications**:
-- Design memorable moments
-- End interactions positively
-- Confirmation screens matter
-- Error recovery is critical (often the end)
+- 設計令人難忘的時刻
+- 積極結束交互
+- 確認屏幕很重要
+- 錯誤恢復至關重要（通常是結尾）
 
 ## Conducting a Heuristic Evaluation
 
 ### Process
 
 1. **Preparation**
-   - Gather design artifacts (screens, flows)
-   - Define scope (entire product or specific flows)
-   - Identify user scenarios to evaluate
+   - 收集設計素材（屏幕、流程）
+   - 定義範圍（整個產品或特定流程）
+   - 識別要評估的用戶場景
 
 2. **Individual Review**
-   - Each evaluator reviews independently
-   - Walk through user scenarios
-   - Document each issue found
+   - 每個評估者獨立審查
+   - 遍歷用戶場景
+   - 記錄發現的每個問題
 
 3. **Issue Documentation**
-   For each issue, capture:
-   - Screen/location
-   - Heuristic(s) violated
-   - Severity rating
-   - Description
-   - Recommendation
+   每個問題記錄：
+   - 屏幕/位置
+   - 違反的啟發式原則
+   - 嚴重性等級
+   - 描述
+   - 建議
 
 4. **Consolidation**
-   - Combine findings from evaluators
-   - Remove duplicates
-   - Prioritize by severity
+   - 合併評估者發現
+   - 刪除重複
+   - 按嚴重性優先排序
 
 ### Severity Scale
 
@@ -395,56 +395,58 @@ _______________
 ## Red Flags by Component Type
 
 ### Forms
-- No inline validation
-- Submit before any validation
-- Unclear required fields
-- No error recovery path
+- 無行內驗證
+- 任何驗證前即提交
+- 必填字段不清晰
+- 無錯誤恢復路徑
 
 ### Navigation
-- Current location unclear
-- Dead ends possible
-- Back button breaks
-- Important items hidden
+- 當前位置不明確
+- 可能出現死胡同
+- 返回按鈕失效
+- 重要項目隱藏
 
 ### Tables/Lists
-- No sorting/filtering
-- Pagination breaks context
-- Row selection unclear
-- Actions hidden until hover
+- 無排序/篩選
+- 分頁破壞情境
+- 行選擇不清晰
+- 操作懸停後才顯示
 
 ### Modals/Dialogs
-- No clear exit
-- Destructive action prominent
-- Content requires scrolling
-- Blocks necessary context
+- 無清晰退出
+- 破壞性操作突出
+- 內容需滾動
+- 阻擋必要情境
 
 ### Empty States
-- No guidance provided
-- Looks like broken/loading
-- No path to content creation
+- 無指導提供
+- 看起來像損壞/加載中
+- 無內容創建路徑
 
 ## Modern Additions to Heuristics
 
 ### Mobile-Specific
 
-- Thumb zone optimization
-- Touch target sizing
-- Offline capability
-- Minimal typing required
+- 拇指區域優化
+- 觸摸目標尺寸
+- 離線能力
+- 最少輸入要求
 
 ### Accessibility Additions
 
-- Screen reader experience
-- Keyboard-only navigation
-- Color independence
-- Motion reduction options
+- 屏幕閱讀器體驗
+- 僅鍵盤導航
+- 色彩獨立性
+- 動效減少選項
+
+> Invoke the `Skill` tool with `skill: ux-design:accessibility` — 深入無障礙設計準則。
 
 ### Performance Perception
 
-- Skeleton screens over spinners
-- Optimistic UI updates
-- Progressive content loading
-- Performance as UX
+- 骨架屏優於旋轉圖
+- 樂觀UI更新
+- 漸進式內容加載
+- 性能即用戶體驗
 
 ## Resources
 

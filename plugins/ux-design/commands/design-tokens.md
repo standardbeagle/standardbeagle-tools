@@ -1,11 +1,11 @@
 ---
 name: design-tokens
-description: Create a comprehensive design token system for design-to-development handoff
+description: Create a comprehensive design token system for design-to-development handoff. 建立完整設計token系統以橋接設計與開發交接。 Use when: defining design tokens, setting up a token architecture, creating theme support, generating CSS custom properties or multi-platform token outputs.
 ---
 
 # Design Token System Creation
 
-You are helping create a complete design token system that bridges design and development. This focuses on defining and organizing tokens for handoff.
+汝正助人創建完整的設計token系統，橋接設計與開發。
 
 ## Discovery Phase
 
@@ -281,7 +281,7 @@ border-radius-lg
 
 ## Complete Token Categories
 
-Generate tokens for each category:
+為每個類別生成token：
 
 ### Color Tokens
 ```
@@ -301,6 +301,8 @@ Weight: Normal (400), medium (500), semibold (600), bold (700)
 Line-height: Tight, normal, loose
 Letter-spacing: Tight, normal, wide
 ```
+
+> Invoke the `Skill` tool with `skill: ux-design:typography` — 排版token設計的詳細指南。
 
 ### Spacing Tokens
 ```
@@ -328,19 +330,19 @@ Easing: linear, ease-out, ease-in-out, spring
 ## Deliverables
 
 ### 1. Token Specification
-Complete JSON/YAML token definition file
+完整JSON/YAML token定義文件
 
 ### 2. Reference Documentation
-Visual reference of all tokens with values
+所有token及其值的視覺參考
 
 ### 3. Usage Guidelines
-When to use primitive vs. semantic tokens
+何時使用原始token vs語義token
 
 ### 4. Theme Definitions
-Light and dark (if applicable) theme values
+淺色和深色（若適用）主題值
 
 ### 5. Export Formats
-Tokens in required platform formats:
+所需平台格式的token：
 - CSS custom properties
 - JavaScript/TypeScript constants
 - Design tool format (Figma tokens)

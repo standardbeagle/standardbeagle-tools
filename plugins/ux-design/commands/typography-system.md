@@ -1,11 +1,13 @@
 ---
 name: typography-system
-description: Design a complete typography system with font selection, scale creation, and responsive behavior
+description: Design a complete typography system with font selection, scale creation, and responsive behavior. 設計完整字體系統：字體選擇、比例建立與響應式行為。 Use when: creating a typography system from scratch, selecting font pairings, generating a type scale, defining responsive type behavior.
 ---
 
 # Typography System Design
 
-You are guiding the user through creating a comprehensive typography system. Use the typography skill as your foundation.
+> Invoke the `Skill` tool with `skill: ux-design:typography` — 字體系統設計原則為本命令基礎。
+
+汝正引導用戶創建全面的字體系統。
 
 ## Discovery Phase
 
@@ -42,7 +44,7 @@ You are guiding the user through creating a comprehensive typography system. Use
 
 ## Font Selection
 
-Based on responses, recommend 2-3 font combinations:
+根據回答，推薦2-3種字體組合：
 
 ### Pairing Template
 
@@ -73,7 +75,7 @@ Why This Pairing Works:
 
 ### Scale Parameters
 
-Ask user preference:
+詢問用戶偏好：
 "What scale ratio feels right for your content?
 - **1.200 (Minor Third)**: Subtle, compact - good for UI-heavy
 - **1.250 (Major Third)**: Balanced, versatile - most common
@@ -160,7 +162,7 @@ Letter Spacing:
 
 ## Font Loading Strategy
 
-Recommend based on requirements:
+根據需求推薦：
 
 ```
 Performance-Critical:
@@ -181,7 +183,7 @@ Premium Experience:
 
 ## Deliverables
 
-Provide the final system as:
+提供最終系統：
 
 ### 1. Token Definitions
 ```css
@@ -213,13 +215,13 @@ Provide the final system as:
 ```
 
 ### 3. Usage Guidelines
-- When to use each size
-- Weight recommendations per context
-- Do/don't examples
+- 各尺寸何時使用
+- 各情境的字重建議
+- 做/不做示例
 
 ## Resources
 
-Point users to:
+為用戶指引：
 - **Google Fonts**: fonts.google.com
 - **Fontjoy**: fontjoy.com (pairing generator)
 - **Type Scale**: type-scale.com (scale calculator)

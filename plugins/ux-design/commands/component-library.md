@@ -1,11 +1,13 @@
 ---
 name: component-library
-description: Design a cohesive component library structure with variant systems, state definitions, and documentation guidelines
+description: Design a cohesive component library structure with variant systems, state definitions, and documentation guidelines. 設計帶有變體系統、狀態定義和文檔指南的凝聚元件庫結構。 Use when: planning a component library, defining component variants and states, establishing a design token system, creating component documentation.
 ---
 
 # Component Library Planning
 
-You are guiding the user through planning and designing a component library. Use the component-design skill as your foundation.
+> Invoke the `Skill` tool with `skill: ux-design:component-design` — 元件設計原則為本命令基礎。
+
+汝正引導用戶規劃和設計元件庫。
 
 ## Discovery Phase
 
@@ -39,7 +41,7 @@ You are guiding the user through planning and designing a component library. Use
 
 ## Foundation Tokens
 
-Before components, establish tokens:
+元件之前，先建立token：
 
 ### Recommend Token Structure
 
@@ -76,11 +78,13 @@ Design Tokens
     └── Easing curves
 ```
 
+> Invoke the `Skill` tool with `skill: ux-design:design-tokens` — 完整設計token系統架構詳解。
+
 ## Component Inventory
 
 ### Identify Required Components
 
-Walk through common categories:
+遍歷常見類別：
 
 **Form Elements**
 - [ ] Button (primary, secondary, ghost, link, icon)
@@ -132,7 +136,7 @@ Walk through common categories:
 
 ## Component Design Framework
 
-For each component, define:
+每個元件定義：
 
 ### 1. Variant Dimensions
 
@@ -190,7 +194,7 @@ xl    │ 56px   │ 24px      │ 18px      │ 24px      │
 
 ## Documentation Template
 
-For each component, document:
+每個元件文檔：
 
 ### Component Spec Structure
 
@@ -233,7 +237,7 @@ Size comparison with use case recommendations.
 
 ## Quality Checklist
 
-Provide verification criteria:
+驗證標準：
 
 ```
 Component Quality Checklist:
@@ -270,26 +274,26 @@ Documentation
 
 ## Deliverables
 
-Provide:
+提供：
 
 ### 1. Component Inventory
-Prioritized list of components to design
+優先排序的元件設計清單
 
 ### 2. Token System
-Complete design token structure
+完整設計token結構
 
 ### 3. Component Specs
-Detailed specifications for priority components
+優先元件的詳細規格
 
 ### 4. Documentation Templates
-Reusable templates for component documentation
+可複用的元件文檔模板
 
 ### 5. Quality Criteria
-Checklist for component review
+元件審查清單
 
 ## Resources
 
-Reference existing systems:
+參考現有系統：
 - **Primer** (GitHub): primer.style
 - **Carbon** (IBM): carbondesignsystem.com
 - **Polaris** (Shopify): polaris.shopify.com

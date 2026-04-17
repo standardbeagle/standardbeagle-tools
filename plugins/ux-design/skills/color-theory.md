@@ -1,109 +1,109 @@
 ---
 name: color-theory
-description: Comprehensive color theory guidance for creating harmonious, purposeful color palettes. Covers color wheel relationships, psychological impact, accessibility, and systematic palette generation.
+description: Comprehensive color theory guidance for creating harmonious, purposeful color palettes. Covers color wheel relationships, psychological impact, accessibility, and systematic palette generation. 色彩學全覽：調和、意圖、無障礙、系統化調色板生成。 Use when: creating a color palette, selecting brand colors, ensuring color accessibility, generating tonal scales or dark mode variants.
 ---
 
 # Color Theory & Palette Design
 
-You are a color theory expert helping designers create intentional, harmonious color systems. Your guidance draws from traditional color theory, modern digital design practices, and the methodologies used by professional tools like Adobe Color, Coolors, and color.review.
+汝乃色彩學專家，助設計師創建有意圖、調和之色彩系統。汝之指引取自傳統色彩理論、現代數字設計實踐，及Adobe Color、Coolors、color.review等專業工具之方法論。
 
 ## Philosophy
 
-Color is not decoration—it is communication. Every palette should:
+色彩非裝飾——乃傳達。每套調色板應：
 
-1. **Serve the brand's emotional intent** - Colors evoke specific feelings and associations
-2. **Guide user attention** - Hierarchy through color directs the eye
-3. **Ensure accessibility** - Beautiful palettes are usable by everyone
-4. **Scale systematically** - Colors work in isolation and combination
+1. **Serve the brand's emotional intent** - 色彩喚起特定情感與聯想
+2. **Guide user attention** - 色彩層次引導視線
+3. **Ensure accessibility** - 美麗的調色板人人可用
+4. **Scale systematically** - 色彩單獨與組合均有效
 
 ## Before Defining Colors
 
-Ask these essential questions to understand the context:
+理解情境，先問此等關鍵問題：
 
 ### Brand & Emotional Context
-- What emotions should this design evoke? (trust, excitement, calm, urgency)
-- What industry/domain is this for? (healthcare, finance, entertainment, e-commerce)
-- What existing brand colors must be preserved?
-- Who is the target audience? (age, culture, preferences)
+- 此設計應喚起何種情感？（信任、興奮、平靜、緊迫）
+- 屬哪個行業/領域？（醫療、金融、娛樂、電商）
+- 哪些現有品牌色必須保留？
+- 目標受眾為誰？（年齡、文化、偏好）
 
 ### Functional Requirements
-- What actions need to stand out? (CTAs, warnings, success states)
-- How many distinct color categories are needed?
-- Will this appear on light backgrounds, dark backgrounds, or both?
-- What platforms/contexts will display these colors? (web, mobile, print)
+- 哪些操作需突出？（CTA、警告、成功狀態）
+- 需幾個不同色彩類別？
+- 將在淺色背景、深色背景，還是兩者上顯示？
+- 哪些平台/情境將顯示這些色彩？（web、移動端、印刷）
 
 ### Competitive Landscape
-- What colors do competitors use?
-- Should we align with or differentiate from industry norms?
+- 競爭對手使用哪些色彩？
+- 應與行業規範一致還是差異化？
 
 ## Color Wheel Fundamentals
 
 ### Primary Relationships
 
-**Complementary** (opposite on wheel)
-- Maximum contrast and visual tension
-- Use for elements that must pop (CTAs against backgrounds)
-- Danger: Can feel jarring if overused
+**Complementary**（色輪對面）
+- 最大對比與視覺張力
+- 用於必須突出的元素（CTA對比背景）
+- 危險：過度使用顯突兀
 - Example: Blue (#0066CC) + Orange (#FF9933)
 
-**Analogous** (neighbors on wheel)
-- Natural harmony, easy on eyes
-- Use for cohesive, flowing designs
-- Danger: Can lack contrast for hierarchy
+**Analogous**（色輪鄰色）
+- 自然調和，悅目
+- 用於凝聚流暢的設計
+- 危險：層次對比不足
 - Example: Blue (#0066CC) + Teal (#00AACC) + Cyan (#00CCCC)
 
-**Triadic** (equally spaced, 120°)
-- Vibrant and balanced
-- Use for playful, energetic designs
-- Danger: Requires careful balance
+**Triadic**（等距120°）
+- 活潑而平衡
+- 用於輕快、充滿活力的設計
+- 危險：需謹慎平衡
 - Example: Red (#CC3333) + Yellow (#CCCC33) + Blue (#3333CC)
 
-**Split-Complementary** (base + two adjacent to complement)
-- High contrast without tension
-- Use for dynamic but approachable designs
+**Split-Complementary**（基色+補色兩鄰色）
+- 高對比無張力
+- 用於動感而親切的設計
 - Example: Blue (#0066CC) + Yellow-Orange (#FFAA33) + Red-Orange (#FF6633)
 
-**Tetradic/Square** (four colors, two complementary pairs)
-- Rich and complex
-- Use for diverse content needs
-- Danger: Hard to balance, one should dominate
+**Tetradic/Square**（四色，兩對互補）
+- 豐富複雜
+- 用於多元內容需求
+- 危險：難以平衡，一色應主導
 - Example: Blue + Orange + Green + Red
 
 ### Value and Saturation
 
 **Value (Lightness/Darkness)**
-- Creates hierarchy and depth
-- Lighter = approachable, airy
-- Darker = serious, grounded
-- Tip: Squint at your design—value differences should remain visible
+- 創造層次與深度
+- 較淺 = 親近、通透
+- 較深 = 嚴肅、沉穩
+- 訣竅：瞇眼看設計——明度差異應仍可見
 
 **Saturation (Intensity)**
-- High saturation = energy, urgency, youth
-- Low saturation = sophistication, calm, maturity
-- Tip: Desaturate to see if hierarchy depends on saturation alone (fragile)
+- 高飽和度 = 活力、緊迫、青春
+- 低飽和度 = 精緻、平靜、成熟
+- 訣竅：去飽和檢驗層次是否僅依賴飽和度（脆弱）
 
 ## The 60-30-10 Rule
 
-Structure your palette application:
+調色板應用結構：
 
-- **60% Dominant** - Background, large surfaces (usually neutral or low-saturation brand color)
-- **30% Secondary** - Supporting elements, navigation, cards (brand color at medium intensity)
-- **10% Accent** - CTAs, highlights, key interactions (highest contrast/saturation)
+- **60% Dominant** - 背景、大面積表面（通常為中性或低飽和度品牌色）
+- **30% Secondary** - 輔助元素、導航、卡片（中等強度品牌色）
+- **10% Accent** - CTA、高亮、關鍵交互（最高對比/飽和度）
 
-This ratio creates visual rest while guiding attention to what matters.
+此比例在引導注意力的同時給予視覺休息。
 
 ## Systematic Palette Generation
 
 ### Step 1: Define Your Base Colors
 
-Start with 1-3 base colors:
-- **Primary**: Main brand identity
-- **Secondary**: Supporting, complementary
-- **Accent**: High-impact moments
+從1-3個基礎色開始：
+- **Primary**：主品牌識別
+- **Secondary**：輔助、互補
+- **Accent**：高衝擊時刻
 
 ### Step 2: Generate Tonal Scales
 
-For each base color, create a scale of 9-11 shades:
+為每個基礎色建立9-11個色階：
 
 ```
 50   - Lightest (backgrounds, subtle fills)
@@ -119,44 +119,46 @@ For each base color, create a scale of 9-11 shades:
 950  - Near-black (extreme contrast needs)
 ```
 
-**Technique for Scale Generation:**
-1. Start with your base (500)
-2. For lighter: Mix with white, reduce saturation slightly
-3. For darker: Mix with a dark version of the hue (not pure black—it deadens)
-4. Maintain hue consistency—each step should feel related
-5. Ensure adequate contrast jumps between steps
+**色階生成技術：**
+1. 從基礎色（500）出發
+2. 較淺：混白色，略降飽和度
+3. 較深：混色相的深色版（非純黑——會使色彩死寂）
+4. 保持色相一致——每步應感覺相關
+5. 確保步間對比跳躍充足
 
 ### Step 3: Add Semantic Colors
 
-Essential functional colors:
+基本功能色：
 
 **Success/Positive**
-- Green family (not the same green as brand unless intentional)
-- Must pass contrast on both light and dark backgrounds
+- 綠色系（非品牌綠，除非有意為之）
+- 必須在淺色和深色背景上均通過對比測試
 
 **Warning/Caution**
-- Yellow/Orange family
-- Higher contrast challenges—often needs darker text
+- 黃色/橙色系
+- 對比挑戰較大——通常需要更深的文字
 
 **Error/Destructive**
-- Red family
-- Reserve for genuine errors, not just styling
+- 紅色系
+- 保留用於真正的錯誤，非純裝飾
 
 **Info/Neutral**
-- Blue family (often)
-- Informational without urgency
+- 藍色系（通常）
+- 告知性，無緊迫感
 
 ### Step 4: Define Neutrals
 
-Neutrals carry most content surface area:
+中性色承載大部分內容表面積：
 
-**Pure Gray** - Modern, digital, cold
-**Warm Gray** - Approachable, organic, cozy
-**Cool Gray** - Professional, clean, tech
+**Pure Gray** - 現代、數字感、冷調
+**Warm Gray** - 親切、有機、溫馨
+**Cool Gray** - 專業、乾淨、科技感
 
-Tip: Add a tiny amount of your primary color to grays for cohesion.
+訣竅：在灰色中加入微量主色，增強整體凝聚感。
 
 ## Accessibility Requirements
+
+> Invoke the `Skill` tool with `skill: ux-design:accessibility` — 全面無障礙設計指引，包含色彩相關規範。
 
 ### WCAG Contrast Ratios
 
@@ -171,30 +173,30 @@ Tip: Add a tiny amount of your primary color to grays for cohesion.
 
 ### Checking Your Palette
 
-For every color combination in your system:
-1. Will text appear on this background? Check contrast.
-2. Will interactive elements appear here? Check contrast.
-3. Can users with color blindness distinguish key states? Test with simulators.
+系統內每個色彩組合：
+1. 此背景上會有文字嗎？檢查對比度。
+2. 此處會有互動元素嗎？檢查對比度。
+3. 色盲用戶能區分關鍵狀態嗎？用模擬器測試。
 
 ### Color Blindness Considerations
 
-- Never rely on color alone for meaning (add icons, patterns, labels)
-- Red-green combinations are problematic for ~8% of males
-- Test with: Deuteranopia, Protanopia, Tritanopia simulators
+- 永不單靠色彩傳達含義（加圖示、圖案、標籤）
+- 紅綠組合對約8%男性有問題
+- 用以下模擬測試：Deuteranopia、Protanopia、Tritanopia
 
 ## Dark Mode Considerations
 
-When designing for both light and dark modes:
+同時設計淺色與深色模式時：
 
 ### Don't Simply Invert
 
-Inverting creates unnatural, harsh results. Instead:
+反轉產生不自然、刺眼的結果。應：
 
-1. **Reduce brightness of backgrounds** - Not pure black (#000), use #121212 or similar
-2. **Reduce saturation of brand colors** - High saturation glows harshly on dark
-3. **Flip the scale** - What was 900 becomes 100, but check each
-4. **Maintain semantic meaning** - Success stays green, error stays red
-5. **Increase elevation with lightness** - Cards lighter than background in dark mode
+1. **Reduce brightness of backgrounds** - 非純黑（#000），用#121212或類似
+2. **Reduce saturation of brand colors** - 高飽和度在深色上刺眼發光
+3. **Flip the scale** - 900變100，但逐一核查
+4. **Maintain semantic meaning** - 成功仍為綠，錯誤仍為紅
+5. **Increase elevation with lightness** - 深色模式中卡片比背景更亮
 
 ### Surface Hierarchy in Dark Mode
 
@@ -208,72 +210,72 @@ Surface 3:  #2C2C2C (higher elevation)
 ## Inspiration & Reference Tools
 
 ### Adobe Color (color.adobe.com)
-- Explore color wheel relationships
-- Extract palettes from images
-- Browse community palettes by mood/theme
-- Test accessibility
+- 探索色輪關係
+- 從圖片提取調色板
+- 按情緒/主題瀏覽社區調色板
+- 測試無障礙性
 
 ### Coolors (coolors.co)
-- Rapid palette generation
-- Lock colors while exploring variants
-- Export in multiple formats
-- Visualize in mockups
+- 快速調色板生成
+- 鎖定色彩同時探索變體
+- 多格式導出
+- 在模型中可視化
 
 ### Color Review (color.review)
-- Focus on accessibility
-- Check contrast live
-- Simulate color blindness
+- 專注無障礙性
+- 實時檢查對比度
+- 模擬色盲
 
 ### Realtime Colors (realtimecolors.com)
-- Apply palette to live preview
-- See colors in context instantly
-- Test on different UI patterns
+- 在實時預覽中應用調色板
+- 即時在情境中查看色彩效果
+- 在不同UI模式上測試
 
 ### Happy Hues (happyhues.co)
-- Curated palettes with UI examples
-- See how colors work together in real layouts
+- 帶UI示例的精選調色板
+- 查看色彩在真實佈局中的協作效果
 
 ### Color Hunt (colorhunt.co)
-- Community-submitted palettes
-- Trending combinations
-- Copy hex codes directly
+- 社區提交的調色板
+- 流行組合
+- 直接複製十六進制代碼
 
 ## Common Palette Archetypes
 
 ### Minimal/Elegant
-- 1-2 neutrals (90% of surface)
-- 1 accent (sparingly used)
-- High whitespace, low saturation
+- 1-2個中性色（90%表面）
+- 1個強調色（節制使用）
+- 大量留白，低飽和度
 
 ### Bold/Playful
-- 2-3 saturated hues
-- Complementary or triadic relationships
-- Generous accent usage
+- 2-3個飽和色相
+- 互補或三色關係
+- 寬泛的強調色使用
 
 ### Corporate/Professional
-- Blue or green primary
-- Neutral grays
-- Conservative saturation
-- Clear hierarchy
+- 藍色或綠色主色
+- 中性灰
+- 保守飽和度
+- 清晰層次
 
 ### Dark/Sophisticated
-- Deep backgrounds (#0A0A0A - #1A1A1A)
-- Muted brand colors
-- Bright accents for contrast
+- 深色背景（#0A0A0A - #1A1A1A）
+- 低調品牌色
+- 明亮強調色提供對比
 
 ### Warm/Friendly
-- Earth tones, oranges, warm grays
-- Analogous harmony
-- Natural, approachable feel
+- 大地色、橙色、暖灰
+- 相似色調和
+- 自然、親切感
 
 ### Tech/Modern
-- Cool grays, blues, purples
-- High contrast accents
-- Clean, clinical precision
+- 冷灰、藍色、紫色
+- 高對比強調色
+- 乾淨、精確
 
 ## Delivering Your Palette
 
-Provide colors in multiple formats:
+多種格式提供色彩：
 
 ```
 Primary Blue
@@ -294,18 +296,18 @@ Primary Blue
     900: #001429
 ```
 
-Include:
-1. Named tokens (--color-primary-500)
-2. Semantic mappings (--color-action-default: var(--color-primary-500))
-3. Usage guidelines (when to use each shade)
-4. Contrast pairs (which backgrounds pair with which text colors)
+包含：
+1. 命名token（--color-primary-500）
+2. 語義映射（--color-action-default: var(--color-primary-500)）
+3. 使用指南（各色階何時使用）
+4. 對比配對（哪些背景配哪些文字色）
 
 ## Red Flags to Avoid
 
-- **Too many colors**: Limit to 3-5 hues maximum, plus neutrals
-- **No clear hierarchy**: If everything is colorful, nothing stands out
-- **Ignoring context**: Cultural meanings vary (red = luck in China, danger in West)
-- **Skipping accessibility**: Beautiful but unusable is failed design
-- **Pure black text on white**: Harsh; try #1A1A1A or similar
-- **Random selection**: Every color should have purpose
-- **Matching competitors exactly**: Differentiate through color
+- **Too many colors**：最多3-5個色相加中性色
+- **No clear hierarchy**：若一切都有色彩，則無突出
+- **Ignoring context**：文化含義各異（紅色在中國=吉祥，在西方=危險）
+- **Skipping accessibility**：美麗但無法使用即為設計失敗
+- **Pure black text on white**：刺眼；試用#1A1A1A或類似
+- **Random selection**：每個色彩均應有目的
+- **Matching competitors exactly**：通過色彩差異化

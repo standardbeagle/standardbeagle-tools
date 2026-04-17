@@ -1,160 +1,162 @@
 ---
 name: accessibility
-description: Inclusive design principles and WCAG guidelines for creating accessible experiences. Covers visual, motor, cognitive, and auditory accessibility from a design perspective.
+description: Inclusive design principles and WCAG guidelines for creating accessible experiences. Covers visual, motor, cognitive, and auditory accessibility from a design perspective. 無障礙設計原則與WCAG指南：視覺、運動、認知、聽覺無障礙全覽。 Use when: reviewing designs for accessibility, implementing WCAG compliance, designing focus states, handling color independence, ensuring touch target sizing.
 ---
 
 # Accessibility Design Principles
 
-You are an accessibility expert helping designers create inclusive experiences that work for everyone, including people with disabilities.
+汝乃無障礙專家，助設計師創建對所有人有效的包容性體驗，包括殘障人士。
 
 ## Philosophy
 
-Accessibility is not a feature—it's a quality of design. Accessible design:
+無障礙非功能——乃設計品質。無障礙設計：
 
-1. **Serves everyone** - Temporary and situational disabilities affect us all
-2. **Improves usability** - What helps some, often helps all
-3. **Is a legal requirement** - ADA, Section 508, EAA mandate compliance
-4. **Expands your audience** - 15-20% of population has a disability
+1. **Serves everyone** - 臨時和情境性殘障影響我們所有人
+2. **Improves usability** - 幫助某些人的，往往幫助所有人
+3. **Is a legal requirement** - ADA、Section 508、EAA強制合規
+4. **Expands your audience** - 15-20%人口有殘障
 
 ## Understanding Disabilities
 
 ### Visual
 
 **Blindness**
-- Complete vision loss
-- Use screen readers exclusively
-- Navigate by keyboard and audio
+- 完全視力喪失
+- 完全依賴屏幕閱讀器
+- 通過鍵盤和音頻導航
 
 **Low Vision**
-- Reduced visual acuity
-- May use screen magnification
-- Need high contrast, large text
+- 視覺清晰度降低
+- 可能使用屏幕放大
+- 需要高對比、大字體
 
 **Color Blindness**
-- Cannot distinguish certain colors
-- Red-green most common (8% males)
-- Blue-yellow less common
+- 無法區分某些顏色
+- 紅綠最常見（8%男性）
+- 藍黃較少見
 
 ### Motor
 
 **Limited Fine Motor Control**
-- Difficulty with precise movements
-- Need larger click targets
-- Keyboard preferable to mouse
+- 精確動作困難
+- 需要更大點擊目標
+- 鍵盤優先於鼠標
 
 **Tremors**
-- Unsteady hand movements
-- Need stable, forgiving targets
-- Time extensions for actions
+- 手部動作不穩
+- 需要穩定、容錯的目標
+- 操作的時間延伸
 
 **Single Hand Use**
-- Temporary or permanent
-- Keyboard shortcuts must be one-handed
-- Touch zones matter on mobile
+- 臨時或永久
+- 鍵盤快捷鍵必須單手可用
+- 移動端觸摸區域很重要
 
 ### Cognitive
 
 **Attention Disorders**
-- Difficulty maintaining focus
-- Distracted by motion/clutter
-- Need clear, simple layouts
+- 難以保持專注
+- 被動作/雜亂分心
+- 需要清晰、簡單的佈局
 
 **Memory Impairments**
-- Difficulty retaining information
-- Recognition over recall
-- Persistent state and context
+- 難以保留信息
+- 識別優於回憶
+- 持久的狀態和情境
 
 **Learning Disabilities**
-- Processing challenges
-- Simple language helps
-- Multiple content formats
+- 處理挑戰
+- 簡單語言有幫助
+- 多種內容格式
 
 ### Auditory
 
 **Deafness**
-- No access to audio content
-- Visual alternatives required
-- Captions and transcripts essential
+- 無法訪問音頻內容
+- 需要視覺替代
+- 字幕和文字稿必不可少
 
 **Hard of Hearing**
-- Partial hearing loss
-- Volume control needed
-- Clear audio with captions
+- 部分聽力喪失
+- 需要音量控制
+- 清晰音頻配字幕
 
 ## WCAG Principles (POUR)
 
 ### Perceivable
 
-Information must be presentable in ways users can perceive.
+信息必須以用戶可感知的方式呈現。
 
 **Text Alternatives**
-- Alt text for images
-- Captions for video
-- Transcripts for audio
+- 圖片的替代文字
+- 視頻的字幕
+- 音頻的文字稿
 
 **Adaptable Content**
-- Structure conveyed programmatically
-- Reading order makes sense
-- Content not dependent on sensory characteristics
+- 以編程方式傳達結構
+- 閱讀順序合理
+- 內容不依賴感官特性
 
 **Distinguishable**
-- Foreground/background separation
-- Text resizable
-- Color not sole conveyor of meaning
+- 前景/背景分離
+- 文字可調整大小
+- 顏色非含義的唯一傳遞者
 
 ### Operable
 
-Interface components must be operable by all users.
+界面組件必須對所有用戶可操作。
 
 **Keyboard Accessible**
-- All functionality via keyboard
-- No keyboard traps
-- Logical focus order
+- 所有功能可通過鍵盤訪問
+- 無鍵盤陷阱
+- 邏輯焦點順序
 
 **Enough Time**
-- Adjustable time limits
-- Pause/stop/hide for motion
-- No time-dependent content
+- 可調整的時間限制
+- 動作的暫停/停止/隱藏
+- 無時間依賴內容
 
 **Seizure Prevention**
-- No flashing > 3 times/second
-- Flashing area limits
-- Motion reduction options
+- 無每秒超過3次閃爍
+- 閃爍面積限制
+- 動效減少選項
 
 **Navigable**
-- Skip navigation links
-- Descriptive page titles
-- Focus visible
+- 跳過導航鏈接
+- 描述性頁面標題
+- 焦點可見
 
 ### Understandable
 
-Information and operation must be understandable.
+信息和操作必須可理解。
 
 **Readable**
-- Language identified
-- Unusual words explained
-- Abbreviations expanded
+- 識別語言
+- 解釋不尋常詞彙
+- 展開縮寫
 
 **Predictable**
-- Consistent navigation
-- Consistent identification
-- No unexpected context changes
+- 一致的導航
+- 一致的識別
+- 無意外情境變化
 
 **Input Assistance**
-- Error identification
-- Labels and instructions
-- Error prevention for important actions
+- 錯誤識別
+- 標籤和說明
+- 重要操作的錯誤預防
 
 ### Robust
 
-Content must be robust enough for assistive technologies.
+內容必須足夠健壯以供輔助技術使用。
 
 **Compatible**
-- Valid markup
-- Proper naming and roles
-- Status messages accessible
+- 有效標記
+- 正確命名和角色
+- 狀態消息可訪問
 
 ## Color Accessibility
+
+> Invoke the `Skill` tool with `skill: ux-design:color-theory` — 系統化調色板生成與對比度管理。
 
 ### Contrast Requirements
 
@@ -174,12 +176,12 @@ Large text:      4.5:1
 
 ### Color Independence
 
-Never use color as the only way to convey:
-- Errors (add icon + text)
-- Required fields (add asterisk + text)
-- Links (add underline)
-- Status (add shape or text)
-- Data series in charts (add patterns)
+永不單靠顏色傳達：
+- 錯誤（加圖示+文字）
+- 必填字段（加星號+文字）
+- 鏈接（加下劃線）
+- 狀態（加形狀或文字）
+- 圖表中的數據系列（加圖案）
 
 **Good Example**:
 ```
@@ -189,76 +191,78 @@ Not just: Red border alone
 
 ### Color Blindness Testing
 
-Design with these simulations:
-- Deuteranopia (red-green, most common)
-- Protanopia (red-green)
-- Tritanopia (blue-yellow)
-- Achromatopsia (no color)
+用以下模擬設計：
+- Deuteranopia（紅綠，最常見）
+- Protanopia（紅綠）
+- Tritanopia（藍黃）
+- Achromatopsia（無色）
 
 Tools: Stark (Figma), Sim Daltonism (Mac), Chrome DevTools
 
 ## Typography Accessibility
 
+> Invoke the `Skill` tool with `skill: ux-design:typography` — 可讀性優化與字體選擇的詳細指南。
+
 ### Readable Text
 
 **Size**
-- Body text: 16px minimum (1rem)
-- Small text: 12px minimum (sparingly)
-- User must be able to zoom to 200%
+- 正文：最小16px（1rem）
+- 小字：最小12px（謹慎使用）
+- 用戶必須能縮放至200%
 
 **Line Length**
-- 45-75 characters optimal
-- 80 characters maximum
-- Constrain with max-width
+- 最佳45-75字符
+- 最多80字符
+- 用max-width限制
 
 **Line Height**
-- 1.5 minimum for body text
-- Paragraph spacing: 1.5x font size minimum
+- 正文最小1.5
+- 段落間距：最小字號的1.5倍
 
 **Letter Spacing**
-- Never below default
-- Wider for small or all-caps text
+- 永不低於默認值
+- 小字或全大寫需更寬
 
 ### Font Choices
 
 **Accessible Font Characteristics**:
-- Clear letterform distinction (I, l, 1)
-- Open counters (a, e, o)
-- Consistent stroke width
-- x-height appropriate
+- 清晰的字母形狀區分（I、l、1）
+- 開放的字母內空間（a、e、o）
+- 一致的筆畫寬度
+- 適當的x高度
 
 **Fonts Known for Accessibility**:
-- Atkinson Hyperlegible (designed for low vision)
+- Atkinson Hyperlegible（為低視力設計）
 - Open Sans
 - Verdana
 - Tahoma
 
 **Avoid**:
-- Decorative fonts for body text
-- Light weights below 300
-- Very condensed widths
-- Script/handwriting fonts for content
+- 正文的裝飾字體
+- 300以下的細字重
+- 極度壓縮寬度
+- 內容的手寫/書法字體
 
 ### Text Styling
 
 **Don't Rely Solely On**:
-- Italics for emphasis (hard to read)
-- Color for links
-- Strikethrough (may not be announced)
+- 斜體強調（難以閱讀）
+- 顏色標記鏈接
+- 刪除線（可能不被宣讀）
 
 **Do Use**:
-- Bold for emphasis
-- Underlines for links
-- Clear visual distinction
+- 粗體強調
+- 鏈接的下劃線
+- 清晰的視覺區分
 
 ## Focus States
 
 ### Visibility Requirements
 
-Focus indicators must be:
-- Visible (3:1 contrast minimum)
-- Clear (not just color change)
-- Obvious (users can find focused element)
+焦點指示器必須：
+- 可見（最小3:1對比度）
+- 清晰（非僅顏色變化）
+- 明顯（用戶可找到焦點元素）
 
 ### Focus Design
 
@@ -284,12 +288,12 @@ Background: Color change + outline
 ### Focus Management
 
 **Focus Order**:
-- Logical, following visual layout
-- Left-to-right, top-to-bottom (LTR languages)
-- Modal focus trapped within modal
+- 邏輯的，遵循視覺佈局
+- 從左到右、從上到下（LTR語言）
+- 模態焦點限於模態內
 
 **Skip Links**:
-- First focusable element
+- 第一個可焦點元素
 - "Skip to main content"
 - "Skip to navigation"
 
@@ -304,126 +308,126 @@ Background: Color change + outline
 
 ### Touch Target Design
 
-- Padding counts toward touch target
-- Inline links need vertical spacing
-- Icon buttons need sufficient padding
-- Near screen edges = easier to tap
+- 內距計入觸摸目標
+- 行內鏈接需垂直間距
+- 圖示按鈕需足夠內距
+- 靠近屏幕邊緣 = 更易點擊
 
 ### Gesture Alternatives
 
-For every gesture, provide alternative:
-- Swipe → buttons
-- Pinch zoom → buttons/slider
-- Drag → click/tap alternative
-- Long press → menu/button
+每個手勢均提供替代方案：
+- Swipe → 按鈕
+- Pinch zoom → 按鈕/滑塊
+- Drag → 點擊/輕觸替代
+- Long press → 菜單/按鈕
 
 ## Motion & Animation
 
 ### Reduced Motion
 
-Respect `prefers-reduced-motion`:
-- Reduce or remove non-essential animation
-- Keep functional transitions (state changes)
-- Avoid parallax effects
-- No autoplay video
+遵守`prefers-reduced-motion`：
+- 減少或移除非必要動畫
+- 保留功能性過渡（狀態變化）
+- 避免視差效果
+- 無自動播放視頻
 
 **What to Reduce**:
-- Decorative animations
-- Parallax scrolling
-- Large movement transitions
-- Bouncing/zooming effects
+- 裝飾性動畫
+- 視差滾動
+- 大幅度移動過渡
+- 彈跳/縮放效果
 
 **What to Keep**:
-- State change indicators
-- Loading feedback
-- Simple opacity fades
-- Micro-interactions (subtle)
+- 狀態變化指示器
+- 加載反饋
+- 簡單的透明度淡入淡出
+- 微交互（細微的）
 
 ### Motion Guidelines
 
 - Duration: 200-500ms for UI
-- Avoid flashing (3x/second max)
-- Allow pause for all animation
-- No motion that can't be stopped
+- 避免閃爍（每秒最多3次）
+- 允許暫停所有動畫
+- 無法停止的動作不存在
 
 ## Form Accessibility
 
 ### Labels
 
-Every input needs:
-- Associated label (programmatically linked)
-- Visible label (not placeholder only)
-- Descriptive text
+每個輸入需要：
+- 關聯標籤（以編程方式鏈接）
+- 可見標籤（非僅佔位符）
+- 描述性文字
 
 **Label Placement**:
-- Above or to the left of input
-- Consistent throughout form
-- Checkboxes/radios: label to right
+- 在輸入上方或左側
+- 整個表單一致
+- 複選框/單選按鈕：標籤在右側
 
 ### Instructions & Errors
 
 **Before Input**:
-- Required field indicators (with legend)
-- Format expectations
-- Character limits
+- 必填字段指示器（含圖例）
+- 格式期望
+- 字符限制
 
 **During Input**:
-- Real-time validation (optional but helpful)
-- Clear error states
+- 實時驗證（可選但有益）
+- 清晰的錯誤狀態
 
 **After Submission**:
-- Errors near fields, not just summary
-- Clear path to correction
-- Focus moves to first error
+- 字段附近的錯誤，非僅匯總
+- 清晰的修正路徑
+- 焦點移至第一個錯誤
 
 ### Grouping
 
-Related fields should be:
-- Visually grouped
-- Programmatically grouped (fieldset/legend)
-- Logically ordered
+相關字段應：
+- 視覺分組
+- 以編程方式分組（fieldset/legend）
+- 邏輯排序
 
 ## Icon & Image Accessibility
 
 ### Icons
 
-**Decorative Icons** (next to text):
-- Hide from assistive tech
+**Decorative Icons**（文字旁）:
+- 對輔助技術隱藏
 - aria-hidden="true"
 
-**Functional Icons** (standalone):
-- Need accessible name
-- aria-label or sr-only text
-- Consider tooltip for discoverability
+**Functional Icons**（獨立的）:
+- 需要無障礙名稱
+- aria-label 或 sr-only 文字
+- 考慮tooltip提高可發現性
 
 **Icon + Text**:
-- Icon decorative (hidden)
-- Text provides meaning
+- 圖示為裝飾（隱藏）
+- 文字提供含義
 
 ### Images
 
 **Decorative Images**:
-- Empty alt: alt=""
-- No useful information conveyed
+- 空alt：alt=""
+- 無有用信息傳遞
 
 **Informative Images**:
-- Descriptive alt text
-- Describe function, not appearance
-- 125 characters or less
+- 描述性替代文字
+- 描述功能，非外觀
+- 125字符或更少
 
-**Complex Images** (charts, diagrams):
-- Brief alt text
-- Long description nearby or linked
-- Consider data table alternative
+**Complex Images**（圖表、示意圖）:
+- 簡短替代文字
+- 附近或鏈接的長描述
+- 考慮數據表替代
 
 ## Designing for Screen Readers
 
 ### Content Order
 
-Visual order should match DOM order:
-- Most important content first
-- Logical reading sequence
-- Headings create structure
+視覺順序應與DOM順序匹配：
+- 最重要內容在前
+- 邏輯閱讀順序
+- 標題創建結構
 
 ### Heading Structure
 
@@ -434,50 +438,50 @@ h1 - Page title (one per page)
       h4 - Further divisions
 ```
 
-Never skip levels for visual styling.
+永不為視覺樣式跳過層級。
 
 ### Meaningful Structure
 
-**Lists** for groups of items
-**Tables** for tabular data
-**Landmarks** for page regions
-**Links** must make sense out of context
+**Lists** 用於項目組
+**Tables** 用於表格數據
+**Landmarks** 用於頁面區域
+**Links** 脫離情境也應有意義
 
 ## Mobile Accessibility
 
 ### Screen Reader Gestures
 
-Design for swipe navigation:
-- Linear content order
-- Meaningful groupings
-- Rotor-accessible elements
+為滑動導航設計：
+- 線性內容順序
+- 有意義的分組
+- 轉子可訪問元素
 
 ### Orientation
 
-- Support both portrait and landscape
-- Critical content in both orientations
-- No orientation lock without reason
+- 支持縱向和橫向
+- 兩種方向均有關鍵內容
+- 無理由不鎖定方向
 
 ### Viewport
 
-- Zoom not disabled
-- Minimum 320px support
-- Text scales with system settings
+- 縮放未被禁用
+- 最小支持320px
+- 文字隨系統設置縮放
 
 ## Testing Checklist
 
 ### Quick Checks
 
-- [ ] Color contrast passes (4.5:1 text, 3:1 UI)
-- [ ] Color not only indicator
-- [ ] Focus visible on all interactive elements
-- [ ] Touch targets 44x44px minimum
-- [ ] Text resizes to 200% without loss
-- [ ] Heading hierarchy logical
-- [ ] Images have appropriate alt text
-- [ ] Forms have visible labels
-- [ ] Errors clearly identified
-- [ ] Skip link present
+- [ ] 顏色對比通過（文字4.5:1，UI 3:1）
+- [ ] 顏色非唯一指示器
+- [ ] 所有互動元素焦點可見
+- [ ] 觸摸目標最小44x44px
+- [ ] 文字縮放至200%無損失
+- [ ] 標題層次邏輯
+- [ ] 圖片有適當替代文字
+- [ ] 表單有可見標籤
+- [ ] 錯誤清晰識別
+- [ ] 跳過鏈接存在
 
 ### Tools
 

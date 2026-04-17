@@ -1,15 +1,17 @@
 ---
 name: color-palette
-description: Interactive color palette creation wizard with inspiration from Adobe Color, Coolors, and color theory principles
+description: Interactive color palette creation wizard with inspiration from Adobe Color, Coolors, and color theory principles. 互動調色板創建引導：Adobe Color、Coolors及色彩理論原則驅動，含無障礙驗證。 Use when: creating a brand color palette, generating tonal scales, validating color contrast, extending a palette for dark mode.
 ---
 
 # Color Palette Creation
 
-You are guiding the user through creating a purposeful, harmonious color palette. Use the color-theory skill as your foundation.
+> Invoke the `Skill` tool with `skill: ux-design:color-theory` — 色彩理論與調色板設計原則為本命令基礎。
+
+汝正引導用戶創建有目的、調和的調色板。
 
 ## Discovery Phase
 
-Ask these questions to understand the context:
+詢問以下問題理解情境：
 
 ### 1. Brand & Emotional Direction
 "What emotional qualities should this palette convey? For example:
@@ -44,17 +46,17 @@ Ask these questions to understand the context:
 
 ## Palette Generation
 
-Based on their answers, generate palette options:
+根據回答生成調色板選項：
 
 ### Provide 2-3 Palette Options
 
-For each option, include:
+每個選項包含：
 
-1. **Primary Color** - The dominant brand color
-2. **Secondary Color** - Supporting color (complementary or analogous)
-3. **Accent Color** - High-contrast for CTAs and emphasis
-4. **Neutral Scale** - Grays with subtle color tinting
-5. **Semantic Colors** - Success, warning, error, info
+1. **Primary Color** - 主導品牌色
+2. **Secondary Color** - 輔助色（互補或相似）
+3. **Accent Color** - CTA和強調的高對比色
+4. **Neutral Scale** - 帶微量色彩傾向的灰階
+5. **Semantic Colors** - 成功、警告、錯誤、信息
 
 ### Format Each Palette Like This:
 
@@ -87,7 +89,9 @@ Semantic:
 
 ## Validation
 
-For each palette, verify and report:
+> Invoke the `Skill` tool with `skill: ux-design:accessibility` — 完整無障礙色彩驗證指南。
+
+每個調色板驗證並報告：
 
 ### Contrast Compliance
 - Primary on white: X:1 (WCAG AA: ✓/✗)
@@ -95,14 +99,14 @@ For each palette, verify and report:
 - Body text on backgrounds: X:1 (WCAG AA: ✓/✗)
 
 ### Color Blindness Preview
-Describe how the palette appears under:
-- Deuteranopia (red-green)
-- Protanopia (red-green)
-- Tritanopia (blue-yellow)
+描述調色板在以下模擬中的外觀：
+- Deuteranopia（紅綠）
+- Protanopia（紅綠）
+- Tritanopia（藍黃）
 
 ## Inspiration Resources
 
-Offer these tools for exploration:
+提供這些工具供探索：
 - **Adobe Color**: color.adobe.com - Explore color wheel relationships
 - **Coolors**: coolors.co - Generate and refine palettes
 - **Realtime Colors**: realtimecolors.com - Preview in UI context
@@ -111,16 +115,16 @@ Offer these tools for exploration:
 
 ## Dark Mode Extension
 
-If requested, extend the palette for dark mode:
-- Adjust primary/secondary saturation (typically reduce)
-- Invert neutral scale
-- Define surface elevation levels
-- Verify contrast in dark context
+若需要，為深色模式擴展調色板：
+- 調整主/次色飽和度（通常降低）
+- 反轉中性色階
+- 定義表面層高級別
+- 在深色情境中驗證對比度
 
 ## Deliverables
 
-Provide the final palette as:
-1. Named color tokens (CSS custom properties)
-2. Semantic mappings (--color-action-primary, etc.)
-3. Usage guidelines (when to use each color)
-4. Contrast pair documentation
+提供最終調色板：
+1. 命名色彩token（CSS custom properties）
+2. 語義映射（--color-action-primary等）
+3. 使用指南（各色彩何時使用）
+4. 對比配對文檔

@@ -1,11 +1,13 @@
 ---
 name: ux-audit
-description: Conduct a comprehensive UX evaluation using Nielsen's heuristics and usability best practices
+description: Conduct a comprehensive UX evaluation using Nielsen's heuristics and usability best practices. 運用Nielsen啟發式原則進行全面UX評估，識別並優先處理可用性問題。 Use when: evaluating an interface for usability, conducting a formal heuristic review, generating a prioritized issue report.
 ---
 
 # UX Heuristic Audit
 
-You are conducting a thorough UX evaluation using Nielsen's 10 heuristics and modern usability principles. Use the ux-heuristics skill as your foundation.
+> Invoke the `Skill` tool with `skill: ux-design:ux-heuristics` — 啟發式評估框架為本命令基礎。
+
+汝正使用Nielsen 10大啟發式原則與現代可用性原理，進行徹底的UX評估。
 
 ## Audit Setup
 
@@ -17,12 +19,12 @@ You are conducting a thorough UX evaluation using Nielsen's 10 heuristics and mo
 - Comparison between versions"
 
 ### 2. Gather Materials
-Request from user:
-- Screenshots or access to the interface
-- Key user flows to evaluate
-- User personas or target audience description
-- Known pain points (if any)
-- Business goals for the experience
+向用戶請求：
+- 界面的截圖或訪問權限
+- 要評估的關鍵用戶流程
+- 用戶角色或目標受眾描述
+- 已知的痛點（若有）
+- 體驗的業務目標
 
 ### 3. Establish Context
 "What context should I keep in mind?
@@ -33,7 +35,7 @@ Request from user:
 
 ## Systematic Evaluation
 
-Evaluate each heuristic systematically:
+逐一系統性評估每個啟發式原則：
 
 ### Evaluation Template Per Screen/Flow
 
@@ -91,7 +93,7 @@ High Impact│ 3 (Major)     │ 4 (Critical)   │
 
 ## Issue Documentation
 
-For each issue found, document:
+每個發現的問題記錄：
 
 ```
 Issue #[XXX]
@@ -120,36 +122,36 @@ Effort:   [Low / Medium / High]
 ## Quick Checks to Perform
 
 ### Visual Scan
-- [ ] Clear visual hierarchy (squint test)
-- [ ] Consistent styling throughout
-- [ ] Adequate contrast for text/UI
-- [ ] Clear focus indicators
-- [ ] Appropriate whitespace
+- [ ] 清晰的視覺層次（眯眼測試）
+- [ ] 全程一致的樣式
+- [ ] 文字/UI充足對比度
+- [ ] 清晰的焦點指示器
+- [ ] 適當的留白
 
 ### Interaction Check
-- [ ] All actions have feedback
-- [ ] Loading states present
-- [ ] Error states handled
-- [ ] Undo available for destructive actions
-- [ ] Keyboard navigation works
+- [ ] 所有操作有反饋
+- [ ] 加載狀態存在
+- [ ] 錯誤狀態已處理
+- [ ] 破壞性操作可撤銷
+- [ ] 鍵盤導航有效
 
 ### Content Check
-- [ ] Clear, jargon-free language
-- [ ] Error messages are helpful
-- [ ] Labels are descriptive
-- [ ] Instructions provided where needed
-- [ ] Empty states give guidance
+- [ ] 清晰、無術語的語言
+- [ ] 錯誤信息有幫助
+- [ ] 標籤具描述性
+- [ ] 需要時有說明
+- [ ] 空狀態有指導
 
 ### Navigation Check
-- [ ] Current location clear
-- [ ] Path to goals is logical
-- [ ] Back/escape always available
-- [ ] No dead ends
-- [ ] Search available (if needed)
+- [ ] 當前位置清晰
+- [ ] 通往目標的路徑合理
+- [ ] 返回/退出始終可用
+- [ ] 無死胡同
+- [ ] 搜索可用（若需要）
 
 ## Findings Summary
 
-Compile findings into prioritized report:
+將發現整理為優先報告：
 
 ### Executive Summary
 
@@ -204,7 +206,7 @@ LOW PRIORITY
 
 ### Positive Observations
 
-Also note what works well:
+亦注意哪些有效：
 ```
 STRENGTHS IDENTIFIED
 ───────────────────────────────────────
@@ -216,31 +218,31 @@ STRENGTHS IDENTIFIED
 ## Recommendations
 
 ### Quick Wins
-Issues that can be fixed easily with high impact:
+可輕鬆修復但高影響的問題：
 - Issue #XXX: [Brief fix description]
 
 ### Strategic Improvements
-Larger improvements for planning:
+規劃中的較大改進：
 - [Improvement area]: [Description and rationale]
 
 ### Further Research Needed
-Areas requiring user testing to validate:
+需要用戶測試驗證的領域：
 - [Area]: [What to test and why]
 
 ## Follow-Up Actions
 
-Suggest next steps:
-1. Address critical issues immediately
-2. Plan major issues into next sprint/cycle
-3. Create backlog items for minor issues
-4. Schedule re-evaluation after changes
-5. Consider user testing for validation
+建議後續步驟：
+1. 立即處理關鍵問題
+2. 將主要問題納入下一衝刺/周期計劃
+3. 為次要問題創建積壓項目
+4. 安排更改後的重新評估
+5. 考慮用戶測試驗證
 
 ## Deliverables
 
-Provide:
-1. **Executive Summary** - High-level findings
-2. **Issue Log** - All issues with details
-3. **Priority Matrix** - Issues by severity/effort
-4. **Recommendations** - Actionable improvements
-5. **Checklist** - Verification items for fixes
+提供：
+1. **Executive Summary** - 高層次發現
+2. **Issue Log** - 所有問題詳情
+3. **Priority Matrix** - 按嚴重性/工作量排列的問題
+4. **Recommendations** - 可操作的改進
+5. **Checklist** - 修復的驗證項目
