@@ -1,16 +1,16 @@
 ---
-description: "Automatic prompt optimization techniques using DSPy, OPRO, and evaluation-driven methods"
+description: "Automatic prompt optimization via DSPy, OPRO, and evaluation-driven methods. 自動提示優化：DSPy、OPRO 及評估驅動法。 Use when: iterating prompts programmatically, defining optimization metrics, running A/B or regression tests on prompt variants."
 ---
 
 # Automatic Prompt Optimization Reference (2026)
 
-You are an automatic prompt optimization specialist. This reference covers DSPy, OPRO, and other programmatic prompt optimization techniques.
+汝為自動提示優化專家。此参考涵 DSPy、OPRO 及程序化提示優化之術。
 
 ## The Optimization Paradigm
 
 ### From Manual to Automatic
 
-Traditional prompt engineering is manual iteration:
+傳統提示工程為手動迭代：
 ```
 1. Write prompt
 2. Test on examples
@@ -19,7 +19,7 @@ Traditional prompt engineering is manual iteration:
 5. Repeat
 ```
 
-Automatic optimization is programmatic:
+自動優化為程序化：
 ```
 1. Define signature (input → output)
 2. Define metric (what makes output "good")
@@ -32,12 +32,12 @@ Automatic optimization is programmatic:
 
 ### Core Concept
 
-DSPy treats prompts as **learnable programs**, not static text. You define:
-- **Signatures**: Input/output specifications
-- **Modules**: Processing steps
-- **Metrics**: Success criteria
+DSPy 視提示為**可學習程序**，非靜態文字。定義：
+- **Signatures**：輸入/輸出規格
+- **Modules**：處理步驟
+- **Metrics**：成功標準
 
-The framework optimizes prompts, examples, and chains automatically.
+框架自動優化提示、示例、鏈路。
 
 ### Basic Signature
 
@@ -89,7 +89,7 @@ class QuestionAnsweringPipeline(dspy.Module):
 
 ### COPRO (Coordinate Ascent)
 
-Iteratively refines instructions:
+逐步精煉指令：
 
 ```python
 from dspy.teleprompt import COPRO
@@ -106,11 +106,11 @@ optimized_program = optimizer.compile(
 )
 ```
 
-**Best for**: Instruction optimization, single-module programs
+**Best for**: 指令優化、單模組程序
 
 ### MIPROv2 (Bayesian Optimization)
 
-Optimizes instructions AND few-shot examples:
+同時優化指令與少樣本示例：
 
 ```python
 from dspy.teleprompt import MIPROv2
@@ -128,11 +128,11 @@ optimized_program = optimizer.compile(
 )
 ```
 
-**Best for**: Complex programs, when examples matter
+**Best for**: 複雜程序、示例影響顯著之情形
 
 ### SIMBA (Mini-Batch Sampling)
 
-Focuses on hard examples:
+聚焦難例：
 
 ```python
 from dspy.teleprompt import SIMBA
@@ -147,7 +147,7 @@ optimizer = SIMBA(
 # Generates improvement rules from failure analysis
 ```
 
-**Best for**: Improving robustness, handling edge cases
+**Best for**: 提升穩健性、處理邊界案例
 
 ## Defining Metrics
 
@@ -212,7 +212,7 @@ def composite_metric(example, prediction, trace=None):
 
 ## OPRO (Optimization by Prompting)
 
-Use an LLM to optimize prompts via meta-prompting:
+以 LLM 進行元提示優化：
 
 ### Meta-Prompt Structure
 
@@ -353,16 +353,16 @@ def check_regression(new_prompt, baseline_prompt, test_set, metric, tolerance=0.
 
 ### Metric Design Tips
 
-- **Start binary**: correct/incorrect
-- **Add granularity**: partial credit
-- **Include format**: structural requirements
-- **Consider cost**: token efficiency
-- **Test edge cases**: robustness
+- **Start binary**：正確/錯誤
+- **Add granularity**：部分分數
+- **Include format**：結構要求
+- **Consider cost**：令牌效率
+- **Test edge cases**：穩健性
 
 ### Common Pitfalls
 
-- **Overfitting**: Too few test examples
-- **Wrong metric**: Optimizing wrong thing
-- **Local optima**: Need diverse starting points
-- **Cost explosion**: Too many LLM calls
-- **Regression**: Not checking what broke
+- **Overfitting**：測試示例過少
+- **Wrong metric**：優化方向偏差
+- **Local optima**：需要多樣起點
+- **Cost explosion**：LLM 調用過多
+- **Regression**：未檢查已損壞項

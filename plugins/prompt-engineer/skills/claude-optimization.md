@@ -1,36 +1,36 @@
 ---
-description: "Claude-specific prompt optimization patterns"
+description: "Claude-specific prompt optimization patterns for Opus, Sonnet, and Haiku. Claude 專屬提示優化模式，適用 Opus、Sonnet、Haiku。 Use when: writing system prompts for Claude, tuning agentic Claude workflows, applying XML structure or explicit-action framing."
 ---
 
 # Claude Optimization Reference
 
-You are a Claude optimization specialist. This reference covers Claude-specific patterns and best practices for Claude Opus, Sonnet, and Haiku.
+汝為 Claude 優化專家。此参考涵 Claude Opus、Sonnet、Haiku 之專屬模式與最佳實踐。
 
 ## Core Characteristics
 
-Claude models are trained for **precise instruction following**. They:
-- Follow instructions literally and closely
-- Require explicit requests for "above and beyond" behavior
-- Respond well to context/motivation for instructions
-- Pay close attention to examples
+Claude 模型訓練於**精確指令遵循**。特性：
+- 字面遵循指令
+- 需顯式請求方「超額完成」
+- 對指令之背景/動機回應良好
+- 高度關注示例
 
 ## Key Optimization Patterns
 
 ### 1. Explicit Action Framing
 
-Claude takes instructions literally. Be explicit about actions.
+Claude 字面解讀指令。行動須明確。
 
-**Less effective** (Claude may only suggest):
+**Less effective** (Claude 可能僅建議):
 ```
 Can you suggest some changes to improve this function?
 ```
 
-**More effective** (Claude will act):
+**More effective** (Claude 將執行):
 ```
 Make these changes to improve this function's performance.
 ```
 
-**For proactive behavior by default**:
+**默認行動模式**:
 ```xml
 <default_to_action>
 By default, implement changes rather than only suggesting them.
@@ -41,7 +41,7 @@ and proceed, using tools to discover any missing details.
 
 ### 2. Context Motivation
 
-Explain WHY instructions matter for better compliance.
+說明指令原因以提升遵從性。
 
 **Less effective**:
 ```
@@ -56,7 +56,7 @@ ellipses since the TTS engine cannot pronounce them.
 
 ### 3. Positive Framing
 
-Tell Claude what TO DO, not what to avoid.
+告知 Claude 應做之事，而非應避之事。
 
 **Less effective**:
 ```
@@ -74,7 +74,7 @@ Only use information from the provided context.
 
 ### 4. XML Structure
 
-Claude responds exceptionally well to XML-structured prompts.
+Claude 對 XML 結構化提示回應極佳。
 
 ```xml
 <identity>
@@ -106,9 +106,9 @@ Structure your review as:
 
 ### 5. Example Alignment
 
-Claude pays close attention to examples. Ensure they match desired behavior exactly.
+Claude 高度關注示例。確保示例與期望行為完全一致。
 
-**Critical**: Examples must demonstrate the EXACT format and style you want. Inconsistent examples produce inconsistent outputs.
+**關鍵**：示例須展示所需的**確切**格式與風格。不一致示例產生不一致輸出。
 
 ```xml
 <examples>
@@ -126,32 +126,32 @@ alignment, robustness, and oversight. The author argues for...
 ## Extended Thinking
 
 ### When to Use Extended Thinking
-- Complex multi-step reasoning
-- Mathematical problems
-- Code analysis and debugging
-- Strategic planning
-- Tasks requiring 5+ reasoning steps
+- 複雜多步推理
+- 數學問題
+- 代碼分析與調試
+- 策略規劃
+- 需五步以上推理之任務
 
 ### Extended Thinking Tips
 
-**Guide initial thinking**:
+**引導初始思考**:
 ```
 After receiving tool results, carefully reflect on their quality
 and determine optimal next steps before proceeding. Use your
 thinking to plan and iterate based on this new information.
 ```
 
-**For Claude**: Extended thinking returns summarized thoughts (not full reasoning) to prevent misuse while maintaining intelligence benefits.
+**對 Claude**：擴展思考返回摘要思路（非完整推理），防止濫用同時保留智能優勢。
 
-**Interleaved thinking** (Claude only): Enables thinking between tool calls. Use beta header `interleaved-thinking-2025-05-14`.
+**Interleaved thinking**（僅 Claude）：在工具調用間啟用思考。使用 beta header `interleaved-thinking-2025-05-14`。
 
-**Avoid "think" triggers**: When extended thinking is disabled, Claude Opus is sensitive to "think" variants. Use "consider," "evaluate," "analyze" instead.
+**避免「think」觸發詞**：擴展思考禁用時，Claude Opus 對「think」變體敏感。改用「consider」、「evaluate」、「analyze」。
 
 ## Long-Horizon Task Optimization
 
 ### Context Awareness
 
-Claude models track remaining context budget. For agent harnesses with compaction:
+Claude 追蹤剩餘語境預算。對具壓縮功能之代理框架：
 
 ```
 Your context window will be automatically compacted as it approaches
@@ -201,9 +201,9 @@ Session 3:
 
 ### Parallel Tool Calling
 
-Claude, especially Sonnet, aggressively parallelizes tool calls.
+Claude（尤其 Sonnet）積極並行調用工具。
 
-**Maximize parallelism**:
+**最大化並行**:
 ```xml
 <use_parallel_tool_calls>
 If calling multiple tools with no dependencies between them,
@@ -213,7 +213,7 @@ or guess missing parameters.
 </use_parallel_tool_calls>
 ```
 
-**Reduce parallelism** (if causing issues):
+**減少並行**（若出現問題）:
 ```
 Execute operations sequentially with brief pauses between
 each step to ensure stability.
@@ -221,7 +221,7 @@ each step to ensure stability.
 
 ### Native Tool Calling
 
-Claude supports native tool calling. Prefer this over XML-based tool outputs.
+Claude 支持原生工具調用。優先使用，勿用 XML 工具輸出格式。
 
 ## Output Format Control
 
@@ -242,7 +242,7 @@ requested or truly discrete items.
 
 ### Match Prompt Style to Output
 
-The formatting in your prompt influences Claude's response style. Remove markdown from prompts to reduce markdown in outputs.
+提示格式影響 Claude 回應風格。從提示中去除 markdown 可減少輸出中的 markdown。
 
 ## Agentic Coding Patterns
 
@@ -286,8 +286,6 @@ Give grounded, hallucination-free answers.
 
 ### File Creation Control
 
-Claude may create temporary files for iteration:
-
 ```
 If you create temporary files for iteration, clean them up
 by removing them at the end of the task.
@@ -295,7 +293,7 @@ by removing them at the end of the task.
 
 ## Frontend Design
 
-Claude excels at frontend but can default to generic "AI aesthetics":
+Claude 擅長前端但可能默認「AI 泛美學」：
 
 ```xml
 <frontend_aesthetics>
@@ -316,18 +314,18 @@ Think outside the box!
 ## Model-Specific Notes
 
 ### Claude Opus
-- Most capable, highest intelligence
-- More sensitive to "think" word when thinking disabled
-- May overtrigger on tools/skills due to system prompt responsiveness
-- Dial back aggressive language ("MUST", "CRITICAL") to normal prompting
+- 最高能力、最強智能
+- 擴展思考禁用時對「think」更敏感
+- 因響應系統提示可能過度觸發工具/技能
+- 將激進語言（「MUST」、「CRITICAL」）調節為普通提示語氣
 
 ### Claude Sonnet
-- Best for most tasks
-- Aggressive parallel tool calling
-- Strong agentic capabilities
-- Context awareness for token budget tracking
+- 多數任務之最佳選擇
+- 積極並行工具調用
+- 強大代理能力
+- 追蹤令牌預算的語境感知
 
 ### Claude Haiku
-- Fastest, most cost-efficient
-- Good for simple tasks
-- May need more explicit instructions than larger models
+- 最快、最具成本效益
+- 適合簡單任務
+- 可能需比大模型更明確的指令

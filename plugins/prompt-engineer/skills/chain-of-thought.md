@@ -1,34 +1,34 @@
 ---
-description: "Chain-of-thought and reasoning technique patterns"
+description: "Chain-of-thought and reasoning technique patterns for standard and reasoning LLMs. 思維鏈及推理技術模式，適用標準模型與推理模型。 Use when: multi-step math or logic tasks, deciding CoT vs reasoning-model strategy, implementing Tree-of-Thoughts or ReAct patterns."
 ---
 
 # Chain-of-Thought & Reasoning Reference (2026)
 
-You are a reasoning optimization specialist. This reference covers chain-of-thought prompting, reasoning model best practices, and when to use each approach.
+汝為推理優化專家。此参考涵思維鏈提示、推理模型最佳實踐，及各方法適用時機。
 
 ## The 2026 Landscape
 
 ### Critical Update: Reasoning Models Changed Everything
 
-In 2025-2026, dedicated reasoning models (OpenAI o1/o3/o4, DeepSeek R1, Claude with extended thinking) changed the prompting paradigm:
+2025-2026 年，專用推理模型（OpenAI o1/o3/o4、DeepSeek R1、Claude 擴展思考）改變提示範式：
 
 | Model Type | CoT Prompting Effect |
 |------------|---------------------|
 | Standard LLMs | +10-20% improvement |
 | Reasoning Models | +2-3% or NEGATIVE |
 
-**Key insight**: Reasoning models internalize chain-of-thought. Explicit CoT prompting often DEGRADES their performance by interfering with native reasoning.
+**關鍵洞見**：推理模型內化思維鏈。顯式 CoT 提示常**降低**其效能，干擾原生推理。
 
 ## Standard LLM CoT Prompting
 
 ### When to Use (Standard LLMs)
 
-Use explicit CoT with standard LLMs (GPT-4o, Claude without thinking, Qwen, etc.) for:
-- Multi-step math problems
-- Logical reasoning
-- Complex analysis
-- Decision-making with trade-offs
-- Tasks requiring 3+ reasoning steps
+標準 LLM（GPT-4o、Claude 無思考模式、Qwen 等）適用顯式 CoT 之情形：
+- 多步數學問題
+- 邏輯推理
+- 複雜分析
+- 含取捨之決策
+- 需三步以上推理之任務
 
 ### Basic CoT Patterns
 
@@ -45,7 +45,7 @@ Let's approach this step by step.
 - "Show your work"
 - "Break this down"
 
-**Few-shot CoT** (show reasoning examples):
+**Few-shot CoT** (示範推理示例):
 ```
 Q: If a train travels 60 mph for 2 hours, how far does it go?
 A: Let me work through this:
@@ -60,7 +60,7 @@ A:
 
 ### Advanced CoT Patterns
 
-**Self-Consistency** (multiple paths):
+**Self-Consistency** (多路徑):
 ```
 Generate 3 different approaches to solve this problem.
 For each approach, show your reasoning.
@@ -94,10 +94,10 @@ Then select the answer that appears most frequently.
 
 ### Core Principles
 
-1. **Simple, clear prompts work best**
-2. **Avoid explicit CoT instructions** (they reason internally)
-3. **Don't use few-shot examples** (degrades performance)
-4. **Let them think** (don't interrupt with step-by-step guidance)
+1. **簡潔明確提示最佳**
+2. **避免顯式 CoT 指令**（內部自行推理）
+3. **勿用少樣本示例**（降低效能）
+4. **讓其思考**（勿以逐步引導打斷）
 
 ### What NOT to Do
 
@@ -140,7 +140,7 @@ All instructions in user prompt
 
 ### Encouraging Deep Reasoning
 
-Instead of prescribing steps, encourage thorough analysis:
+以鼓勵徹底分析代替規定步驟：
 
 ```
 "Take your time and think carefully about this problem."
@@ -165,7 +165,7 @@ Consider multiple angles before concluding."
 
 ### Cost-Benefit Analysis
 
-Reasoning models generate 10-100x more tokens internally:
+推理模型內部生成令牌多 10-100 倍：
 
 ```
 Simple question:
@@ -181,7 +181,7 @@ Choose based on: accuracy needs vs cost tolerance
 
 ## Tree of Thoughts (ToT)
 
-For complex problems requiring exploration of multiple paths:
+複雜問題需探索多路徑時：
 
 ```xml
 <problem>
@@ -222,7 +222,7 @@ Branch C selected because: [justification]
 
 ## Reflexion Pattern
 
-Iterative improvement through self-critique:
+自我批判循環改進：
 
 ```xml
 <initial_response>
@@ -248,7 +248,7 @@ After revision: [HIGH/MEDIUM/LOW] because [justification]
 
 ## Program of Thought (PoT)
 
-For problems solvable via code:
+可由程式解決之問題：
 
 ```
 Problem: Calculate compound interest on $10,000 at 5%
@@ -277,7 +277,7 @@ Result: Final amount: $16,470.09, Interest earned: $6,470.09
 
 ## ReAct (Reasoning + Acting)
 
-For tasks requiring tool use:
+需工具使用之任務：
 
 ```
 Question: What was Apple's stock price on the day the iPhone 15 was announced?

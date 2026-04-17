@@ -1,22 +1,22 @@
 ---
-description: "Apply current optimization techniques to improve a prompt"
+description: "Apply current optimization techniques to improve a prompt. 應用最新優化技術改善提示。 Use when: improving accuracy, consistency, creativity, speed, or safety of an existing prompt."
 allowed-tools: ["Read", "Write", "AskUserQuestion"]
 ---
 
-Optimize a prompt using current prompt engineering techniques.
+以最新提示工程技術優化提示。
 
 ## Optimization Process
 
 ### 1. Obtain the Prompt
 
-Get the prompt to optimize:
-- Read from file if path provided
-- Accept direct input
-- Use AskUserQuestion if needed
+獲取待優化提示：
+- 提供路徑則讀取文件
+- 接受直接輸入
+- 若需要則以 AskUserQuestion 詢問
 
 ### 2. Identify Optimization Goals
 
-Use AskUserQuestion to understand priorities:
+以 AskUserQuestion 了解優先事項：
 
 **Question**: "What's most important for this prompt?"
 - Accuracy (correct, factual outputs)
@@ -27,7 +27,7 @@ Use AskUserQuestion to understand priorities:
 
 ### 3. Apply Optimization Techniques
 
-Based on goals, apply relevant techniques:
+根據目標應用相關技術：
 
 #### For Accuracy
 ```markdown
@@ -122,7 +122,7 @@ Based on goals, apply relevant techniques:
 
 ### 4. Apply Claude-Specific Optimizations
 
-For Claude models, apply these specific patterns:
+對 Claude 模型應用專屬模式：
 
 ```markdown
 ## Claude Optimizations
@@ -156,7 +156,7 @@ For Claude models, apply these specific patterns:
 
 ### 5. Generate Optimized Prompt
 
-Output the optimized prompt with:
+輸出優化結果：
 
 ```markdown
 ## Optimized Prompt
@@ -181,21 +181,21 @@ Output the optimized prompt with:
 
 ### 6. Offer Variations
 
-Provide 2-3 variations optimized for different goals:
+提供針對不同目標之 2-3 個變體：
 
-- **Minimal**: Shortest effective version
-- **Balanced**: Good coverage of all goals
-- **Maximum**: Most thorough, longest version
+- **Minimal**：最短有效版本
+- **Balanced**：全面涵蓋所有目標
+- **Maximum**：最完整、最長版本
 
 ## Optimization Checklist
 
-Before finalizing, verify:
+最終化前驗證：
 
-- [ ] First sentence clearly states the task
-- [ ] All ambiguous terms are defined
-- [ ] Format is explicitly specified
-- [ ] Examples (if present) match desired output exactly
-- [ ] Negative instructions converted to positive
-- [ ] Context provides motivation for instructions
-- [ ] Token count is reasonable for task complexity
-- [ ] No redundant or repeated information
+- [ ] 首句清晰陳述任務
+- [ ] 所有模糊術語已定義
+- [ ] 格式已明確指定
+- [ ] 示例（如有）與期望輸出完全一致
+- [ ] 否定指令已轉為正面表述
+- [ ] 語境提供指令之動機
+- [ ] 令牌數與任務複雜度相稱
+- [ ] 無冗餘或重複信息

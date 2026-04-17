@@ -1,18 +1,18 @@
 ---
-description: "Design effective few-shot examples for prompts"
+description: "Design effective few-shot examples for prompts following the DICE framework. 按 DICE 框架為提示設計有效少樣本示例。 Use when: need examples for a prompt, ensuring format consistency, covering diverse task scenarios."
 allowed-tools: ["Read", "Write", "AskUserQuestion"]
 ---
 
-Design few-shot examples matched to the task and target model.
+按任務與目標模型設計匹配之少樣本示例。
 
 ## Few-Shot Design Process
 
 ### 1. Understand the Task
 
-Use AskUserQuestion to gather:
+以 AskUserQuestion 收集：
 
 **Question 1**: "What task should the examples demonstrate?"
-(Free text description)
+（自由文字說明）
 
 **Question 2**: "What's the input format?"
 - Natural language text
@@ -29,7 +29,7 @@ Use AskUserQuestion to gather:
 
 ### 2. Analyze Example Requirements
 
-Based on 2026 research, determine optimal example strategy:
+基於 2026 研究，確定最優示例策略：
 
 ```markdown
 ## Example Strategy Analysis
@@ -45,41 +45,41 @@ Based on 2026 research, determine optimal example strategy:
 - Edge cases to include: [list]
 
 ### Format Sensitivity
-- Claude pays close attention to example formatting
-- Examples MUST match exact desired output format
-- Inconsistent examples cause inconsistent outputs
+- Claude 高度關注示例格式
+- 示例**必須**與期望輸出格式完全一致
+- 不一致示例導致不一致輸出
 ```
 
 ### 3. Design Example Set
 
-Create examples following the **DICE Framework**:
+按 **DICE 框架**創建示例：
 
 ```markdown
 ## DICE Framework
 
 ### D - Diverse
-Cover different scenarios:
+涵蓋不同場景：
 - Typical/common case
 - Edge case (boundary conditions)
 - Error case (how to handle failures)
 - Complex case (multi-step reasoning)
 
 ### I - Identical Format
-All examples must have:
+所有示例須：
 - Same structure
 - Same level of detail
 - Same formatting conventions
 - Consistent tone and style
 
 ### C - Canonical
-Each example should be:
+每個示例應：
 - Representative of real use cases
 - Correct and verified
 - Clear and unambiguous
 - Teaching the "right" behavior
 
 ### E - Efficient
-Keep examples:
+示例保持：
 - As short as possible while complete
 - Free of unnecessary details
 - Token-efficient without sacrificing clarity
@@ -87,7 +87,7 @@ Keep examples:
 
 ### 4. Generate Examples
 
-Create the example set:
+創建示例集：
 
 ```markdown
 ## Few-Shot Examples
@@ -145,7 +145,7 @@ Create the example set:
 
 ### 5. Validate Examples
 
-Check each example against quality criteria:
+對照質量標準檢查每個示例：
 
 ```markdown
 ## Example Validation Checklist
@@ -177,31 +177,31 @@ Check each example against quality criteria:
 
 ### 6. Order Examples Strategically
 
-Position examples for maximum effectiveness:
+定位示例以最大化效果：
 
 ```markdown
 ## Example Ordering
 
 ### Recommended Order
-1. **Simplest case first**: Establishes baseline behavior
-2. **Typical cases**: Shows normal operation
-3. **Edge cases**: Demonstrates robustness
-4. **Complex case last**: Shows full capability
+1. **Simplest case first**：建立基線行為
+2. **Typical cases**：展示正常運行
+3. **Edge cases**：展示穩健性
+4. **Complex case last**：展示完整能力
 
 ### Position Effects
-- First example has strongest influence
-- Last example affects immediate next output
-- Middle examples establish range/diversity
+- 首個示例影響最強
+- 末個示例影響即時後續輸出
+- 中間示例建立範圍/多樣性
 
 ### For Classification Tasks
-- Balance classes across examples
-- Don't cluster same-class examples together
-- End with target class if known
+- 示例間均衡各類別
+- 勿聚集同類別示例
+- 若目標類別已知則以其收尾
 ```
 
 ### 7. Integrate into Prompt
 
-Show how to embed examples:
+展示如何嵌入示例：
 
 ```markdown
 ## Integration Template
@@ -231,30 +231,30 @@ Now, apply the same approach to this input:
 ## Testing Your Examples
 
 ### Ablation Tests
-1. Remove each example one at a time
-2. Test if output quality changes
-3. Keep only examples that improve results
+1. 逐一移除每個示例
+2. 測試輸出質量是否變化
+3. 僅保留能提升結果之示例
 
 ### Variation Tests
-1. Reorder examples
-2. Check if order affects output
-3. Find optimal ordering
+1. 重新排序示例
+2. 測試順序是否影響輸出
+3. 尋找最優排序
 
 ### Generalization Tests
-1. Test with inputs not covered by examples
-2. Verify model generalizes patterns
-3. Add examples if gaps found
+1. 以示例未涵蓋之輸入測試
+2. 驗證模型是否歸納模式
+3. 若發現缺口則添加示例
 
 ### Consistency Tests
-1. Run same input multiple times
-2. Check output consistency
-3. Add examples if high variance
+1. 以相同輸入多次運行（N 次）
+2. 檢查輸出一致性
+3. 高方差時添加示例
 ```
 
 ## Advanced Patterns
 
 ### Chain-of-Thought Examples
-For reasoning tasks, show thinking process:
+推理任務中展示思考過程：
 
 ```markdown
 <example>
@@ -269,7 +269,7 @@ Step 3: [Conclusion]
 ```
 
 ### Self-Correction Examples
-Show how to handle mistakes:
+展示錯誤處理方式：
 
 ```markdown
 <example>
@@ -281,7 +281,7 @@ Show how to handle mistakes:
 ```
 
 ### Multi-Turn Examples
-For conversational contexts:
+對話語境：
 
 ```markdown
 <example>

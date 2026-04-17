@@ -1,15 +1,15 @@
 ---
-description: "Evaluate prompt effectiveness using metrics and test cases"
+description: "Evaluate prompt effectiveness using metrics and test cases inspired by DSPy and OPRO. 以 DSPy/OPRO 啟發之指標與測試案例評估提示效果。 Use when: measuring prompt quality before/after changes, running A/B comparisons, building regression test suites."
 allowed-tools: ["Read", "Write", "AskUserQuestion", "Bash"]
 ---
 
-Evaluate prompt effectiveness using systematic metrics and test cases inspired by DSPy and OPRO methodologies.
+以系統指標與測試案例評估提示效果，方法取自 DSPy 與 OPRO 方法論。
 
 ## Evaluation Framework
 
 ### 1. Define Success Criteria
 
-Use AskUserQuestion to establish metrics:
+以 AskUserQuestion 建立指標：
 
 **Question 1**: "What does success look like for this prompt?"
 - Accurate/factual outputs
@@ -29,7 +29,7 @@ Use AskUserQuestion to establish metrics:
 
 ### 2. Create Evaluation Rubric
 
-Generate a scoring rubric:
+生成評分量規：
 
 ```markdown
 ## Evaluation Rubric
@@ -55,13 +55,13 @@ Score = (D1 * W1) + (D2 * W2) + ... / Total Weights
 
 ### 3. Design Test Cases
 
-Create comprehensive test cases:
+創建完整測試案例：
 
 ```markdown
 ## Test Cases
 
 ### Category 1: Happy Path
-Tests that should succeed with high scores.
+應以高分通過之測試。
 
 **Test 1.1: [Name]**
 - Input: [Test input]
@@ -72,7 +72,7 @@ Tests that should succeed with high scores.
 [Same structure]
 
 ### Category 2: Edge Cases
-Tests at boundaries of expected behavior.
+預期行為邊界之測試。
 
 **Test 2.1: [Name]**
 - Input: [Edge case input]
@@ -80,7 +80,7 @@ Tests at boundaries of expected behavior.
 - Success criteria: [What counts as success]
 
 ### Category 3: Adversarial Cases
-Tests that should trigger refusals or special handling.
+應觸發拒絕或特殊處理之測試。
 
 **Test 3.1: [Name]**
 - Input: [Adversarial input]
@@ -88,7 +88,7 @@ Tests that should trigger refusals or special handling.
 - Success criteria: [Appropriate handling]
 
 ### Category 4: Stress Tests
-Tests with complex or large inputs.
+複雜或大型輸入之測試。
 
 **Test 4.1: [Name]**
 - Input: [Complex/large input]
@@ -98,7 +98,7 @@ Tests with complex or large inputs.
 
 ### 4. Run Evaluation
 
-Execute tests and record results:
+執行測試並記錄結果：
 
 ```markdown
 ## Evaluation Results
@@ -127,7 +127,7 @@ Execute tests and record results:
 
 ### 5. Analyze Failure Modes
 
-Identify patterns in underperforming tests:
+識別表現不佳測試之模式：
 
 ```markdown
 ## Failure Analysis
@@ -151,7 +151,7 @@ Identify patterns in underperforming tests:
 
 ### 6. Generate Improvement Recommendations
 
-Based on analysis, suggest prompt improvements:
+基於分析提出提示改進建議：
 
 ```markdown
 ## Improvement Recommendations
@@ -178,7 +178,7 @@ Based on analysis, suggest prompt improvements:
 
 ### 7. Comparison Report (for A/B Testing)
 
-If comparing two prompts:
+比較兩個提示時：
 
 ```markdown
 ## A/B Comparison Report
@@ -204,7 +204,7 @@ If comparing two prompts:
 ## Advanced Evaluation Patterns
 
 ### LLM-as-Judge Pattern
-Use Claude to evaluate outputs:
+以 Claude 評估輸出：
 
 ```markdown
 ## LLM Evaluation Prompt
@@ -222,22 +222,22 @@ Provide scores and brief justification for each.
 ```
 
 ### Self-Consistency Check
-Test output stability:
+測試輸出穩定性：
 
 ```markdown
 ## Consistency Test Protocol
 
-1. Run same input N times (N=5 recommended)
-2. Compare outputs for:
-   - Factual consistency
-   - Format consistency
-   - Key point coverage
-3. Calculate agreement rate
-4. Flag high-variance cases
+1. 以相同輸入運行 N 次（推薦 N=5）
+2. 比較輸出之：
+   - 事實一致性
+   - 格式一致性
+   - 關鍵點覆蓋
+3. 計算一致率
+4. 標記高方差案例
 ```
 
 ### Regression Testing
-Track changes over prompt iterations:
+跨提示迭代追蹤變化：
 
 ```markdown
 ## Regression Test Suite

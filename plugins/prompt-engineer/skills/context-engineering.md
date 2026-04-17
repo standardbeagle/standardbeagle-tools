@@ -1,16 +1,16 @@
 ---
-description: "Context engineering principles and techniques for optimal LLM performance"
+description: "Context engineering principles and techniques for optimal LLM performance. 語境工程原理與技術，優化 LLM 推理效能。 Use when: designing context architecture, managing token budgets, building RAG context pipelines, or structuring multi-agent handoffs."
 ---
 
 # Context Engineering Reference (2026)
 
-You are a context engineering specialist. Context engineering is the systematic optimization of information payloads for LLMs, going beyond simple prompt design to manage everything the model encounters during inference.
+汝為語境工程專家。語境工程者，系統優化 LLM 推理所用信息負載之術，超越簡單提示設計，統管模型推理所遇一切。
 
 ## Core Principle
 
 > "Find the smallest possible set of high-signal tokens that maximize the likelihood of your desired outcome."
 
-Context is a finite resource with diminishing returns. As token count increases, model recall accuracy decreases (known as "context rot").
+語境為有限資源，邊際效益遞減。令牌增加，模型召回精度降低（即「語境腐蝕」）。
 
 ## Context Architecture
 
@@ -40,7 +40,7 @@ Context is a finite resource with diminishing returns. As token count increases,
 
 ### Token Budget Allocation
 
-For a 128K context window:
+128K 語境視窗分配建議：
 
 | Component | Recommended % | Tokens |
 |-----------|---------------|--------|
@@ -55,7 +55,7 @@ For a 128K context window:
 
 ### 1. Just-in-Time Loading
 
-Maintain lightweight identifiers and load data dynamically.
+維護輕量標識符，動態加載數據。
 
 **Anti-pattern**:
 ```
@@ -72,7 +72,7 @@ Available topics: authentication, billing, API, troubleshooting
 
 ### 2. Summarization Strategies
 
-#### Extractive (Keep key sentences)
+#### Extractive (保留關鍵句)
 ```
 Original (500 tokens):
 "The quarterly report shows... [long details]"
@@ -82,7 +82,7 @@ Extractive (100 tokens):
 new market expansion successful, Q4 outlook positive."
 ```
 
-#### Abstractive (Rewrite concisely)
+#### Abstractive (精煉重寫)
 ```
 Original: "The user expressed dissatisfaction with the product
 delivery time, noting that it took significantly longer than
@@ -91,7 +91,7 @@ the estimated timeframe provided during purchase."
 Abstractive: "User complained about slow delivery."
 ```
 
-#### Structured (Convert to efficient format)
+#### Structured (轉換高效格式)
 ```
 Original (narrative):
 "John is a software engineer who lives in Seattle.
@@ -103,7 +103,7 @@ User: John | Role: SWE | Location: Seattle | Exp: 5yr | Lang: Python
 
 ### 3. Context Compaction
 
-For long-running conversations:
+長對話壓縮：
 
 ```xml
 <session_summary>
@@ -140,7 +140,7 @@ The AuthenticationService manages tokens."
 
 ### 5. Semantic Chunking
 
-For RAG/retrieval contexts:
+RAG/取回語境之語義分塊：
 
 ```
 ❌ Fixed-size chunks (may split mid-concept):
@@ -158,40 +158,40 @@ the JWT token, then checking user permissions...
 ## Position Effects
 
 ### Primacy Bias
-Information at the beginning gets more attention.
-- Place critical instructions early in system prompt
-- Put most important retrieved docs first
+開頭信息獲更多關注。
+- 關鍵指令置於系統提示早部
+- 最重要取回文檔置首
 
 ### Recency Bias
-Recent information strongly influences immediate output.
-- Place current task/question at the end
-- Recent conversation turns get more weight
+近期信息強烈影響即時輸出。
+- 當前任務/問題置末
+- 近期對話輪次權重更高
 
 ### Lost in the Middle
-Information in large middle sections gets less attention.
-- Avoid placing critical info in long document middles
-- Use section headers to create "anchors"
-- Break large blocks into smaller, labeled sections
+大段落中間信息受關注少。
+- 避免將關鍵信息置於長文檔中部
+- 以節標題創造「錨點」
+- 大塊內容拆分為帶標籤的小節
 
 ## Context Window Strategies
 
 ### For 8K-32K Windows (Small)
-- Aggressive summarization
-- Minimal conversation history (2-3 turns)
-- Just-in-time retrieval only
-- Short, focused system prompts
+- 積極摘要
+- 最小對話歷史（2-3 輪）
+- 僅即時取回
+- 簡短聚焦系統提示
 
 ### For 32K-128K Windows (Medium)
-- Balanced approach
-- 5-10 turn history
-- Moderate retrieval context
-- Can include examples in system prompt
+- 均衡方式
+- 5-10 輪歷史
+- 適度取回語境
+- 系統提示可包含示例
 
 ### For 128K-1M+ Windows (Large)
-- Can include more reference material
-- Longer conversation history
-- But still watch for context rot!
-- Consider hierarchical organization
+- 可包含更多参考材料
+- 更長對話歷史
+- 但仍需警惕語境腐蝕！
+- 考慮分層組織
 
 ## RAG Context Optimization
 
@@ -231,10 +231,10 @@ Cite sources by [Document: section] format.
 
 ### Quality Signals for Retrieved Context
 
-- **Relevance score**: Threshold at 0.7+ for inclusion
-- **Freshness**: Prefer recent documents for time-sensitive queries
-- **Source authority**: Weight official docs over user-generated
-- **Overlap**: Deduplicate similar chunks
+- **Relevance score**：閾值 0.7+ 方可納入
+- **Freshness**：時間敏感查詢優先近期文檔
+- **Source authority**：官方文檔優於用戶生成
+- **Overlap**：去重相似塊
 
 ## Multi-Agent Context Management
 
@@ -277,17 +277,17 @@ Found 3 relevant sources on topic X:
 
 ### Key Metrics to Track
 
-1. **Context utilization**: % of window used
-2. **Retrieval precision**: Relevant chunks / total retrieved
-3. **Response quality vs context size**: Correlation analysis
-4. **Token cost per query**: Monitor for optimization
+1. **Context utilization**：視窗佔用率
+2. **Retrieval precision**：相關塊/取回總塊
+3. **Response quality vs context size**：相關性分析
+4. **Token cost per query**：監控以優化
 
 ### Warning Signs
 
-- Context consistently >80% of budget
-- Response quality declining despite more context
-- Frequent "I don't have information about..." despite relevant docs
-- High retrieval volume but low answer quality
+- 語境持續 >80% 預算
+- 語境增加但回應質量下降
+- 頻繁出現「沒有相關信息」儘管文檔相關
+- 取回量高但答案質量低
 
 ## Context Engineering vs Prompt Engineering
 
@@ -299,9 +299,9 @@ Found 3 relevant sources on topic X:
 | Optimization | Better instructions | Higher signal density |
 | Scale | Single prompt | Entire system design |
 
-Context engineering encompasses prompt engineering but extends to:
-- Memory systems
-- Retrieval strategies
-- Tool definitions
-- State management
-- Multi-agent coordination
+語境工程涵蓋提示工程，並延伸至：
+- 記憶系統
+- 取回策略
+- 工具定義
+- 狀態管理
+- 多代理協調

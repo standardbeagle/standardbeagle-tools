@@ -1,15 +1,15 @@
 ---
-description: "Guide through creating an effective system prompt from scratch"
+description: "Guide through creating an effective system prompt from scratch using 2026 best practices. 引導以 2026 最佳實踐從零創建高效系統提示。 Use when: starting a new AI application, building chatbot or agent system prompts, structuring prompts for specific application types."
 allowed-tools: ["Read", "Write", "AskUserQuestion"]
 ---
 
-Guide the user through creating a high-quality system prompt using structured methodology and 2026 best practices.
+以結構化方法與 2026 最佳實踐引導用戶創建高品質系統提示。
 
 ## System Prompt Creation Wizard
 
 ### Step 1: Define the Application
 
-Use AskUserQuestion to gather:
+以 AskUserQuestion 收集：
 
 **Question 1**: "What type of application is this system prompt for?"
 - Chatbot / Conversational AI
@@ -22,7 +22,7 @@ Use AskUserQuestion to gather:
 - Other (specify)
 
 **Question 2**: "Describe the primary use case in one sentence"
-(Free text input)
+（自由文字輸入）
 
 ### Step 2: Define Core Identity
 
@@ -70,7 +70,7 @@ Use AskUserQuestion to gather:
 
 ### Step 5: Generate System Prompt
 
-Based on responses, generate using this template:
+基於回答，使用此模板生成：
 
 ```markdown
 ## System Prompt Template
@@ -116,7 +116,7 @@ Structure your responses as:
 
 ### Step 6: Add Advanced Components
 
-Based on use case, add relevant sections:
+根據用例添加相關節段：
 
 #### For Tool-Using Agents
 ```markdown
@@ -192,7 +192,7 @@ When uncertain:
 
 ### Step 7: Claude-Specific Enhancements
 
-Add Claude-specific optimizations:
+添加 Claude 專屬優化：
 
 ```markdown
 <claude_4x_enhancements>
@@ -223,13 +223,13 @@ Avoid over-engineering. Only make changes directly requested. Keep solutions sim
 
 ### Step 8: Write and Refine
 
-1. Generate the complete system prompt
-2. Review for:
-   - Clarity and consistency
-   - No conflicting instructions
-   - Appropriate length (aim for under 2000 tokens)
-   - All edge cases covered
-3. Save to user-specified location
+1. 生成完整系統提示
+2. 審查：
+   - 清晰度與一致性
+   - 無矛盾指令
+   - 適當長度（目標 2000 令牌以內）
+   - 所有邊界案例涵蓋
+3. 保存至用戶指定位置
 
 ### Step 9: Provide Testing Guidance
 
@@ -237,16 +237,16 @@ Avoid over-engineering. Only make changes directly requested. Keep solutions sim
 ## Testing Your System Prompt
 
 ### Test Cases to Run
-1. **Happy path**: Standard use case request
-2. **Edge case**: Unusual but valid request
-3. **Boundary test**: Request at the edge of capabilities
-4. **Refusal test**: Request that should be declined
-5. **Ambiguity test**: Vague request to test clarification behavior
+1. **Happy path**：標準用例請求
+2. **Edge case**：異常但有效請求
+3. **Boundary test**：能力邊界之請求
+4. **Refusal test**：應拒絕之請求
+5. **Ambiguity test**：模糊請求測試澄清行為
 
 ### Evaluation Criteria
-- Does it maintain the defined persona?
-- Are outputs in the expected format?
-- Does it handle refusals gracefully?
-- Is the tone consistent?
-- Does it use tools appropriately?
+- 是否維持定義角色？
+- 輸出是否符合期望格式？
+- 是否優雅處理拒絕？
+- 語調是否一致？
+- 是否適當使用工具？
 ```

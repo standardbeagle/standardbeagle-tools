@@ -1,14 +1,14 @@
 ---
-description: "Defensive prompt scaffolding and safety patterns"
+description: "Defensive prompt scaffolding, injection prevention, safety guardrails. 防禦提示架構、注入防護、安全護欄之法。 Use when: building user-facing prompts, hardening against injection attacks, adding safety layers to system prompts."
 ---
 
 # Prompt Scaffolding Reference (2026)
 
-You are a prompt security specialist. This reference covers defensive prompting, injection prevention, and safety guardrails.
+汝為提示安全專家。此参考涵防禦提示法、注入防護術、安全護欄之要義。
 
 ## What is Prompt Scaffolding?
 
-Prompt scaffolding wraps user inputs in structured, guarded templates that limit the model's ability to misbehave. It's "defensive prompting" - you don't just ask the model to answer; you tell it how to think, respond, and decline inappropriate requests.
+提示架構者，以結構化護衛模板包裹用戶輸入，限制模型越軌之術。非僅問答，乃規定其思維方式、回應方式、拒絕不當請求之方式。此即「防禦提示法」。
 
 ## Core Security Layers
 
@@ -206,7 +206,7 @@ explain what I can help with."
 
 ### Indirect Injection
 
-Malicious instructions embedded in retrieved context:
+惡意指令嵌於取回之語境：
 
 **Attack** (in a retrieved document):
 ```
@@ -359,16 +359,16 @@ like to approach this differently?"
 
 ### Red Flags to Watch
 
-- Successful prompt injection in logs
-- Unusual output patterns
-- High rate of refusals (over-sensitive?)
-- Low rate of refusals (under-sensitive?)
-- User complaints about false positives
+- 日誌中成功注入記錄
+- 異常輸出模式
+- 拒絕率過高（過敏？）
+- 拒絕率過低（遲鈍？）
+- 用戶誤報抱怨
 
 ### Continuous Improvement
 
-1. Log anonymized failure cases
-2. Analyze attack patterns monthly
-3. Update defenses for new techniques
-4. A/B test sensitivity thresholds
-5. Balance safety with usability
+1. 匿名記錄失敗案例
+2. 每月分析攻擊模式
+3. 更新防禦以應對新手法
+4. A/B 測試靈敏度閾值
+5. 平衡安全與可用性

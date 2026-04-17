@@ -1,15 +1,15 @@
 ---
-description: "Compress context to fit within token limits while preserving signal"
+description: "Compress context to fit within token limits while preserving signal. 壓縮語境以適應令牌限制同時保留關鍵信號。 Use when: context approaching window limit, compressing conversation history or RAG documents, improving token efficiency."
 allowed-tools: ["Read", "Write", "AskUserQuestion"]
 ---
 
-Compress context to maximize information density while staying within token limits, using 2026 context engineering best practices.
+以 2026 語境工程最佳實踐壓縮語境，最大化信息密度，同時維持令牌限制。
 
 ## Context Compression Process
 
 ### 1. Analyze Current Context
 
-Gather the context to compress:
+收集待壓縮語境：
 
 **Question 1**: "What type of context needs compression?"
 - Conversation history
@@ -37,7 +37,7 @@ Gather the context to compress:
 ### 3. Apply Compression Techniques
 
 #### Technique 1: Extractive Summarization
-Keep only essential sentences:
+保留關鍵句：
 
 ```markdown
 ## Extractive Summary
@@ -52,7 +52,7 @@ Keep only essential sentences:
 ```
 
 #### Technique 2: Abstractive Summarization
-Rewrite to be more concise:
+精煉重寫：
 
 ```markdown
 ## Abstractive Summary
@@ -67,7 +67,7 @@ Rewrite to be more concise:
 ```
 
 #### Technique 3: Structured Compression
-Convert prose to structured format:
+將敘述轉為結構化格式：
 
 ```markdown
 ## Structured Compression
@@ -86,7 +86,7 @@ Auth Requirements:
 ```
 
 #### Technique 4: Reference Substitution
-Replace repeated content with references:
+以參考替換重複內容：
 
 ```markdown
 ## Reference Substitution
@@ -101,7 +101,7 @@ Replace repeated content with references:
 ```
 
 #### Technique 5: Code Compression
-For code context:
+代碼語境處理：
 
 ```markdown
 ## Code Compression
@@ -122,7 +122,7 @@ export async function refresh(token): Promise<Token>
 ```
 
 #### Technique 6: Conversation Summarization
-For chat history:
+對話歷史處理：
 
 ```markdown
 ## Conversation Compression
@@ -149,7 +149,7 @@ Open: [Question 1]
 
 ### 4. Verify Compression Quality
 
-Check that compressed version preserves signal:
+確認壓縮版本保留信號：
 
 ```markdown
 ## Compression Verification
@@ -250,20 +250,20 @@ Given only the compressed context, could someone:
 ## Compression Best Practices
 
 ### When to Compress
-- Approaching context limit (>70% usage)
-- Conversation exceeds 10 turns
-- Retrieved documents exceed budget
-- Multiple code files loaded
+- 接近語境限制（>70% 使用率）
+- 對話超過 10 輪
+- 取回文檔超出預算
+- 已加載多個代碼文件
 
 ### When Not to Compress
-- Exact wording matters (legal, code)
-- User explicitly wants verbatim content
-- Compression would lose critical nuance
-- Below 30% of context budget
+- 確切措辭重要（法律、代碼）
+- 用戶明確需要逐字內容
+- 壓縮將損失關鍵細微差別
+- 語境預算低於 30%
 
 ### Iterative Compression
-1. Start with aggressive compression
-2. Test if critical information preserved
-3. Add back content if needed
-4. Re-compress different sections
-5. Stop when the verification checklist passes and further compression would drop key facts
+1. 先進行積極壓縮
+2. 測試關鍵信息是否保留
+3. 若需要則補充內容
+4. 對不同節段重新壓縮
+5. 驗證清單通過且進一步壓縮將丟失關鍵事實時停止

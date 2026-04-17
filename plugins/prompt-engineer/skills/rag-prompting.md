@@ -1,10 +1,10 @@
 ---
-description: "RAG-specific prompt engineering techniques and best practices"
+description: "RAG-specific prompt engineering techniques and best practices. RAG 專屬提示工程技術與最佳實踐。 Use when: building retrieval-augmented generation pipelines, grounding LLM answers in documents, handling missing or conflicting retrieval results."
 ---
 
 # RAG Prompting Reference (2026)
 
-You are a RAG (Retrieval-Augmented Generation) specialist. This reference covers prompt engineering specifically for RAG systems.
+汝為 RAG（檢索增強生成）專家。此参考涵 RAG 系統專屬提示工程技術。
 
 ## RAG vs Fine-tuning vs Prompt Engineering
 
@@ -14,7 +14,7 @@ You are a RAG (Retrieval-Augmented Generation) specialist. This reference covers
 | RAG | Real-time data, large knowledge bases | Days/weeks | $70-1000/mo |
 | Fine-tuning | Deep specialization | Months | 6x inference |
 
-**Decision rule**: Start with prompt engineering, escalate to RAG when you need external/real-time data, use fine-tuning only for deep domain specialization.
+**決策規則**：先用提示工程，需外部/實時數據時升級至 RAG，深度領域專業化方用微調。
 
 ## RAG Prompt Architecture
 
@@ -76,16 +76,16 @@ Answer in 2-3 paragraphs. Include:
 
 ### Chunking Strategies
 
-**Fixed-size** (simple but can break concepts):
-- 200-300 words per chunk
-- 50-100 word overlap
+**Fixed-size**（簡單但可能截斷概念）:
+- 每塊 200-300 字
+- 50-100 字重疊
 
-**Semantic** (preserves concepts):
-- Chunk at section/paragraph boundaries
-- Preserve headers with content
-- Keep code blocks intact
+**Semantic**（保留概念完整）:
+- 在節/段邊界分塊
+- 保留標題與內容
+- 代碼塊保持完整
 
-**Hierarchical** (best for complex docs):
+**Hierarchical**（複雜文檔最佳）:
 ```
 Document → Sections → Subsections → Paragraphs
           (summary)   (summary)     (full text)
@@ -93,7 +93,7 @@ Document → Sections → Subsections → Paragraphs
 
 ### Contextual Headers
 
-Always include headers with chunks:
+塊中始終包含標題：
 
 ```
 ❌ Poor chunk:
@@ -106,7 +106,7 @@ The token expires after 24 hours and must be refreshed..."
 
 ### Hybrid Retrieval
 
-Combine semantic and keyword search:
+結合語義與關鍵詞搜索：
 
 ```python
 # Pseudocode
@@ -120,7 +120,7 @@ reranked = cross_encoder_rerank(query, combined, top_k=5)
 
 ### Grounding Instructions
 
-**Strong grounding** (minimize hallucination):
+**Strong grounding**（最小化幻覺）:
 ```
 Base your response EXCLUSIVELY on the provided context.
 Do not use prior knowledge or make assumptions.
@@ -128,7 +128,7 @@ If information is not in the context, clearly state:
 "This information is not available in the provided documents."
 ```
 
-**Flexible grounding** (allow general knowledge):
+**Flexible grounding**（允許通用知識）:
 ```
 Prioritize information from the provided context.
 You may supplement with general knowledge, but clearly
@@ -170,7 +170,7 @@ If confidence is low, indicate: "Based on limited context..."
 
 ### Query Augmentation
 
-Improve retrieval by transforming queries:
+通過轉換查詢改善取回：
 
 ```
 Original: "How do I fix the error?"
@@ -183,7 +183,7 @@ Augmented queries:
 
 ### HyDE (Hypothetical Document Embeddings)
 
-Generate a hypothetical answer, then search for similar content:
+生成假設答案，再搜索相似內容：
 
 ```
 Query: "How does authentication work?"
@@ -197,7 +197,7 @@ after 24 hours and can be refreshed using the refresh endpoint..."
 
 ### Multi-Turn Context
 
-For conversational RAG:
+對話式 RAG：
 
 ```xml
 <conversation_context>
@@ -269,7 +269,7 @@ Would you like me to explain based on general knowledge?
 
 ### Agentic RAG
 
-Use tool-calling to iteratively retrieve:
+以工具調用迭代取回：
 
 ```xml
 <system>
@@ -313,21 +313,21 @@ Before finalizing your response:
 ## Evaluation Metrics
 
 ### Retrieval Quality
-- **Precision**: Relevant chunks / Retrieved chunks
-- **Recall**: Retrieved relevant / Total relevant
-- **MRR**: Mean Reciprocal Rank of first relevant result
+- **Precision**：相關塊/取回塊
+- **Recall**：取回相關/全部相關
+- **MRR**：首個相關結果之平均倒數排名
 
 ### Generation Quality
-- **Faithfulness**: Is response grounded in context?
-- **Relevance**: Does response answer the question?
-- **Completeness**: Are all aspects addressed?
-- **Citation accuracy**: Do citations match content?
+- **Faithfulness**：回應是否植根語境？
+- **Relevance**：回應是否解答問題？
+- **Completeness**：各方面是否涵蓋？
+- **Citation accuracy**：引用是否對應內容？
 
 ### Testing Checklist
 
-- [ ] Handles missing information gracefully
-- [ ] Cites sources correctly
-- [ ] Doesn't hallucinate beyond context
-- [ ] Synthesizes multiple sources well
-- [ ] Handles contradictions appropriately
-- [ ] Works with edge case queries
+- [ ] 優雅處理缺失信息
+- [ ] 正確引用來源
+- [ ] 不幻覺超出語境
+- [ ] 良好綜合多來源
+- [ ] 適當處理矛盾
+- [ ] 邊界查詢正常運作

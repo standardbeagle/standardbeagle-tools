@@ -1,15 +1,15 @@
 ---
-description: "Comprehensive reference for prompt engineering patterns and techniques"
+description: "Comprehensive reference for prompt engineering patterns and techniques. 提示工程模式與技術全覽。 Use when: selecting prompting strategy, applying zero/few-shot or CoT patterns, structuring prompts for specific task types."
 ---
 
 # Prompt Engineering Patterns Reference (2026)
 
-You are a prompt engineering expert. Use this reference when helping users design, analyze, or optimize prompts.
+汝為提示工程專家。此参考供設計、分析、優化提示之用。
 
 ## Foundational Techniques
 
 ### Zero-Shot Prompting
-Direct instruction without examples. Works best with capable models on clear tasks.
+無示例直接指令。適用能力強之模型處理明確任務。
 
 ```
 Classify the sentiment of this review as positive, negative, or neutral:
@@ -18,11 +18,11 @@ Review: "The product exceeded my expectations!"
 Sentiment:
 ```
 
-**When to use**: Simple tasks, capable models, well-defined outputs
-**When to avoid**: Complex reasoning, ambiguous tasks, format-sensitive outputs
+**When to use**：簡單任務、能力強之模型、輸出格式明確
+**When to avoid**：複雜推理、模糊任務、格式敏感輸出
 
 ### Few-Shot Prompting
-Provide 3-5 diverse examples before the actual task.
+正式任務前提供 3-5 個多樣示例。
 
 ```
 Classify the sentiment:
@@ -34,16 +34,16 @@ Review: "It works as expected" -> Neutral
 Review: "Could be better but not bad" ->
 ```
 
-**Best practices**:
-- Use 3-5 diverse, high-quality examples
-- Ensure examples match exact desired output format
-- Include edge cases in examples
-- Order: simple first, complex last
+**Best practices**：
+- 使用 3-5 個多樣高品質示例
+- 示例須與期望輸出格式完全一致
+- 涵蓋邊界案例
+- 由簡至繁排序
 
-**Note on reasoning models**: Few-shot often DEGRADES performance in models like DeepSeek R1, OpenAI o1/o3. These models internalize reasoning and explicit examples interfere.
+**Note on reasoning models**：少樣本示例常**降低** DeepSeek R1、OpenAI o1/o3 等模型效能。
 
 ### Chain-of-Thought (CoT) Prompting
-Encourage step-by-step reasoning before answering.
+鼓勵逐步推理後作答。
 
 ```
 Question: If a store has 47 apples and sells 23, then receives a shipment of 35, how many apples does it have?
@@ -56,27 +56,27 @@ Let me work through this step by step:
 Answer: 59 apples
 ```
 
-**Trigger phrases**:
+**Trigger phrases**：
 - "Let's think step by step"
 - "Walk me through your reasoning"
 - "Show your work"
 
-**2026 Research Finding**: CoT effectiveness is DECREASING with newer models. For built-in reasoning models (o1, o3, R1), CoT prompting produces minimal benefits (2.9-3.1% improvement) while adding 20-80% more response time.
+**2026 研究發現**：CoT 效果隨新模型遞減。對內建推理模型（o1、o3、R1），CoT 提示僅帶微小增益（2.9-3.1%），卻增加 20-80% 回應時間。
 
-**When to use CoT**: Standard LLMs on complex multi-step problems
-**When to avoid**: Reasoning models, simple tasks, time-sensitive applications
+**When to use CoT**：標準 LLM 處理複雜多步問題
+**When to avoid**：推理模型、簡單任務、時間敏感應用
 
 ### Self-Consistency
-Generate multiple reasoning paths, then select the most consistent answer.
+生成多條推理路徑，選最一致答案。
 
 ```
 Generate 3 different approaches to solve this problem, then select the answer that appears most frequently.
 ```
 
-**Best for**: Mathematical problems, logical reasoning, high-stakes decisions
+**Best for**：數學問題、邏輯推理、高風險決策
 
 ### Tree of Thoughts (ToT)
-Explore multiple reasoning branches systematically.
+系統性探索多推理分支。
 
 ```
 Consider this problem from multiple angles:
@@ -94,12 +94,12 @@ Branch 2: [Approach B]
 Best path: [Selected branch with justification]
 ```
 
-**Best for**: Complex decision-making, strategy problems, creative exploration
+**Best for**：複雜決策、策略問題、創意探索
 
 ## Advanced Techniques
 
 ### ReAct (Reasoning + Acting)
-Alternate between reasoning and taking actions.
+推理與行動交替進行。
 
 ```
 Question: What is the population of the capital of France?
@@ -116,10 +116,10 @@ Thought: I have the answer.
 Answer: The population of Paris, the capital of France, is approximately 2.1 million.
 ```
 
-**Best for**: Tool-using agents, information gathering, multi-step tasks
+**Best for**：工具使用代理、信息收集、多步任務
 
 ### Reflexion
-Iteratively refine responses based on feedback.
+基於反饋迭代精煉回應。
 
 ```
 <initial_response>
@@ -138,7 +138,7 @@ What could be improved:
 ```
 
 ### Directional Stimulus Prompting (DSP)
-Provide hints or guidance without giving the answer.
+提供提示而不給出答案。
 
 ```
 Solve this math problem. Hint: Consider using the quadratic formula.
@@ -147,7 +147,7 @@ Problem: x² + 5x + 6 = 0
 ```
 
 ### Program-Aided Language Models (PAL)
-Generate code to solve problems.
+生成程式碼解決問題。
 
 ```
 Solve this problem by writing Python code:
@@ -166,7 +166,7 @@ print(f"Compound interest: ${compound_interest:.2f}")
 ## Structural Patterns
 
 ### Role-Task-Tone Framework
-Structure prompts with clear role, task, and tone specifications.
+以明確角色、任務、語調結構化提示。
 
 ```
 Role: You are a senior software architect with 15 years of experience in distributed systems.
@@ -177,7 +177,7 @@ Tone: Be direct and technical. Prioritize actionable feedback over praise.
 ```
 
 ### XML Delineation
-Use XML tags to structure complex prompts (especially effective for Claude).
+以 XML 標籤結構化複雜提示（對 Claude 尤為有效）。
 
 ```xml
 <context>
@@ -201,7 +201,7 @@ Expected output structure
 ```
 
 ### Markdown Structuring
-Use headers and formatting for readability.
+以標題及格式提升可讀性。
 
 ```markdown
 ## Context
@@ -221,7 +221,7 @@ Use headers and formatting for readability.
 ## Output Control Patterns
 
 ### Structured Output Forcing
-Force specific output formats.
+強制指定輸出格式。
 
 ```
 Return your response as valid JSON with this schema:
@@ -233,7 +233,7 @@ Return your response as valid JSON with this schema:
 ```
 
 ### Template Fill-in
-Provide exact template to complete.
+提供精確模板供填寫。
 
 ```
 Complete this template:
@@ -245,7 +245,7 @@ Conclusion: [1 sentence]
 ```
 
 ### Positive Framing
-State what to do, not what to avoid.
+陳述應做之事，而非應避之事。
 
 **Instead of**: "Don't use markdown"
 **Use**: "Write in flowing prose paragraphs without formatting"

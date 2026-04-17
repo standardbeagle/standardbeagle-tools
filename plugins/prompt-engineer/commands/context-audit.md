@@ -1,15 +1,15 @@
 ---
-description: "Audit context window usage and identify optimization opportunities"
+description: "Audit context window usage and identify optimization opportunities. 審計語境視窗使用情況並識別優化機會。 Use when: analyzing system prompt bloat, diagnosing context rot, planning token budget restructuring."
 allowed-tools: ["Read", "Glob", "Grep", "AskUserQuestion"]
 ---
 
-Audit context window usage to identify optimization opportunities based on 2026 context engineering best practices.
+以 2026 語境工程最佳實踐審計語境視窗使用情況，識別優化機會。
 
 ## Context Audit Process
 
 ### 1. Gather Context Sources
 
-Identify what's consuming context:
+識別語境消耗來源：
 
 **Question**: "What context sources should I audit?"
 - System prompt file(s)
@@ -21,7 +21,7 @@ Identify what's consuming context:
 
 ### 2. Measure Token Usage
 
-For each context source, estimate tokens:
+對每個語境來源估算令牌：
 
 ```markdown
 ## Token Usage Report
@@ -41,41 +41,41 @@ Available for Response: [Remaining tokens]
 
 ### 3. Analyze Context Quality
 
-For each source, evaluate using the **Signal-to-Noise Ratio**:
+對每個來源以**信噪比**評估：
 
 ```markdown
 ## Context Quality Analysis
 
 ### System Prompt
-- **High-signal content**: [What directly contributes to task success]
-- **Low-signal content**: [What could be removed without impact]
-- **Redundancy**: [Repeated or overlapping information]
+- **High-signal content**: [直接貢獻任務成功之內容]
+- **Low-signal content**: [可移除而無影響之內容]
+- **Redundancy**: [重複或重疊信息]
 - **SNR Score**: X/10
 
 ### Retrieved Documents
-- **Relevance**: How well do chunks match the query?
-- **Freshness**: Is information current?
-- **Overlap**: Do chunks repeat information?
+- **Relevance**: 塊與查詢匹配程度？
+- **Freshness**: 信息是否最新？
+- **Overlap**: 塊間是否重複信息？
 - **SNR Score**: X/10
 
 ### Tool Definitions
-- **Clarity**: Are descriptions unambiguous?
-- **Overlap**: Do tools have redundant capabilities?
-- **Completeness**: Are all parameters documented?
+- **Clarity**: 描述是否無歧義？
+- **Overlap**: 工具是否有冗餘能力？
+- **Completeness**: 所有參數是否已記錄？
 - **SNR Score**: X/10
 ```
 
 ### 4. Identify Context Rot
 
-Check for "context rot" - degradation of recall with increased context:
+檢查「語境腐蝕」— 語境增加時召回精度下降：
 
 ```markdown
 ## Context Rot Analysis
 
 ### Position Effects
-- **Primacy bias**: Is critical information at the start?
-- **Recency bias**: Is important context near the end?
-- **Lost in the middle**: Is key info buried in large blocks?
+- **Primacy bias**: 關鍵信息是否置於開頭？
+- **Recency bias**: 重要語境是否置末？
+- **Lost in the middle**: 關鍵信息是否埋藏於大塊中間？
 
 ### Recommendations
 1. Move critical instructions to [position]
@@ -85,7 +85,7 @@ Check for "context rot" - degradation of recall with increased context:
 
 ### 5. Apply Compression Techniques
 
-Recommend compression strategies:
+推薦壓縮策略：
 
 ```markdown
 ## Compression Recommendations
@@ -121,7 +121,7 @@ Recommend compression strategies:
 
 ### 6. Memory Architecture Recommendations
 
-Based on use case, recommend memory strategy:
+根據用例推薦記憶策略：
 
 ```markdown
 ## Memory Architecture
@@ -193,22 +193,22 @@ Based on use case, recommend memory strategy:
 ## Context Engineering Best Practices (2026)
 
 ### The "Right Altitude" Principle
-Balance specificity with flexibility:
-- Too high: Vague guidance assuming unshared context
-- Too low: Brittle if-else logic for every case
-- Right level: Clear principles with appropriate flexibility
+在具體性與靈活性間取得平衡：
+- 過高：模糊引導，假設未共享之語境
+- 過低：每種情形之脆弱 if-else 邏輯
+- 適當層次：清晰原則，輔以適度靈活性
 
 ### The "Minimal Viable Context" Principle
-"Find the smallest possible set of high-signal tokens that maximize the likelihood of the desired outcome."
+「尋找最小可能高信號令牌集，最大化期望結果之可能性。」
 
 ### The "Just-in-Time" Principle
-Maintain lightweight identifiers and load data dynamically:
-- Store file paths, not file contents
-- Store query templates, not query results
-- Load on demand, cache strategically
+維護輕量標識符，動態加載數據：
+- 存儲文件路徑，非文件內容
+- 存儲查詢模板，非查詢結果
+- 按需加載，策略性緩存
 
 ### The "Hierarchical Memory" Principle
-Structure information by access frequency:
-- Hot: Always in context (identity, core instructions)
-- Warm: Retrieved on demand (domain knowledge)
-- Cold: Stored externally (historical data, logs)
+按訪問頻率組織信息：
+- Hot：始終在語境中（身份、核心指令）
+- Warm：按需取回（領域知識）
+- Cold：外部存儲（歷史數據、日誌）

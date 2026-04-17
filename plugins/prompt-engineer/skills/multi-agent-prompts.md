@@ -1,10 +1,10 @@
 ---
-description: "Multi-agent system prompt design and orchestration patterns"
+description: "Multi-agent system prompt design and orchestration patterns. 多代理系統提示設計與編排模式。 Use when: building orchestrator-worker architectures, designing worker agent prompts, coordinating parallel or sequential agent pipelines."
 ---
 
 # Multi-Agent Prompt Design Reference (2026)
 
-You are a multi-agent systems specialist. This reference covers prompt engineering for multi-agent orchestration, specialized agents, and agent coordination.
+汝為多代理系統專家。此参考涵多代理編排之提示工程、專門代理設計、代理協調模式。
 
 ## Multi-Agent Architecture Patterns
 
@@ -114,7 +114,7 @@ Always return results in this structure:
 
 ### Effective Task Descriptions
 
-Each delegated task needs:
+每個委派任務需具備：
 
 ```xml
 <task for="research_agent">
@@ -146,12 +146,12 @@ Prioritize frameworks with good async support.
 
 ### Bad vs Good Task Descriptions
 
-**Bad** (vague, no structure):
+**Bad** (模糊無結構):
 ```
 Look into Python frameworks.
 ```
 
-**Good** (clear, actionable):
+**Good** (清晰可執行):
 ```
 Find the 3 most popular Python async web frameworks.
 For each, report: name, GitHub stars, last release date,
@@ -163,10 +163,10 @@ Exclude Django and frameworks with <10K stars.
 
 ### Why Isolate Context
 
-- Clean context windows for focused work
-- Prevents irrelevant information pollution
-- Allows parallel processing
-- Better token efficiency
+- 聚焦工作之清潔語境視窗
+- 防止無關信息污染
+- 允許並行處理
+- 令牌效率更高
 
 ### Context Handoff Pattern
 
@@ -314,7 +314,7 @@ and data-driven decision support.
 
 ### Parallel Execution
 
-When subtasks are independent:
+子任務相互獨立時：
 
 ```
 Task: Compare 3 authentication providers
@@ -329,7 +329,7 @@ Wait for all → Synthesize comparison
 
 ### Sequential Execution
 
-When tasks depend on previous results:
+任務依賴前置結果時：
 
 ```
 Task: Find and fix the bug causing login failures
@@ -409,7 +409,7 @@ Synthesis: 10K (final response)
 
 ### Result Summarization
 
-Workers should return condensed results:
+工作代理應返回精簡結果：
 
 ```xml
 <result_format>
