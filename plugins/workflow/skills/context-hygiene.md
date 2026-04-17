@@ -1,17 +1,17 @@
 ---
 name: context-hygiene
-description: Context management and subagent isolation principles for clean execution
+description: Context isolation and subagent barrier patterns for clean workflow loops. 隔絕上下文，杜絕污染，保循環清潔. Use when: prevent context leak, isolate subagent, manage loop state, enforce context barrier, fresh subagent spawn
 ---
 
 # Context Hygiene and Subagent Isolation
 
-Principles and patterns for maintaining clean context throughout workflow loops.
+貫穿工作流循環，維持上下文清潔之原則與模式。
 
 ## Core Principle
 
-**Every loop iteration MUST execute in a fresh subagent with clean context.**
+**每次循環迭代必在全新子代理中執行，上下文清潔。**
 
-## Why Context Hygiene Matters
+## Why Context Hygiene Matters 上下文衛生之重要
 
 ```yaml
 problems_without_hygiene:
@@ -31,23 +31,23 @@ problems_without_hygiene:
     - "Focus shifts away from original goals"
 ```
 
-## Subagent Isolation Pattern
+## Subagent Isolation Pattern 子代理隔離模式
 
 ### Main Loop (Orchestrator)
 
-**Role**: State machine that dispatches tasks to fresh subagents
+**職責**：分派任務至新鮮子代理之狀態機
 
-**Persists:**
-- Loop configuration (type, source)
-- Task queue and ordering
-- Completion statistics
-- Iteration counts
+**保留：**
+- 循環配置（類型、來源）
+- 任務隊列與順序
+- 完成統計
+- 迭代計數
 
-**Discards:**
-- ALL task-specific implementation details
-- File contents from previous iterations
-- Error messages and stack traces
-- Code changes and diffs
+**棄置：**
+- 一切任務實現細節
+- 前次迭代的文件內容
+- 錯誤消息與堆棧跡
+- 代碼變更與差異
 
 **Implementation:**
 ```yaml
@@ -70,18 +70,18 @@ main_loop:
 
 ### Task Executor Subagent
 
-**Role**: Execute single task from scratch with clean context
+**職責**：以清潔上下文從零執行單一任務
 
-**Receives:**
-- Task specification from loop state file
-- Loop type (which skill to use)
-- Acceptance criteria
-- Fresh codebase context (reads files itself)
+**接收：**
+- 循環狀態文件中的任務規格
+- 循環類型（使用何技能）
+- 驗收標準
+- 全新代碼庫上下文（自讀文件）
 
-**Returns:**
-- Success or failure
-- Completion report (written to state file)
-- Adjustments made (written to state file)
+**返回：**
+- 成功或失敗
+- 完成報告（寫入狀態文件）
+- 所作調整（寫入狀態文件）
 
 **Lifetime:**
 ```yaml
@@ -96,9 +96,9 @@ duration: "Single task only (typically 10-30 minutes)"
 key_point: "Subagent terminates completely, context is garbage collected"
 ```
 
-## Context Barriers
+## Context Barriers 上下文屏障
 
-Explicit barriers prevent context leakage:
+顯式屏障防上下文洩漏：
 
 ### Between Tasks
 ```yaml
@@ -134,9 +134,9 @@ barrier_2_between_stages:
     4. Proceed with only necessary context
 ```
 
-## State Transfer via Files
+## State Transfer via Files 文件傳遞狀態
 
-**ONLY mechanism for transferring state:**
+**唯一允許的狀態傳遞機制：**
 
 ```yaml
 state_file_protocol:
@@ -167,9 +167,9 @@ state_file_protocol:
 key_principle: "State file is CONTRACT, not implementation details"
 ```
 
-## Verification Checklist
+## Verification Checklist 驗證清單
 
-Before spawning next subagent:
+生成下一子代理前：
 
 ```yaml
 pre_spawn_checklist:
@@ -192,7 +192,7 @@ pre_spawn_checklist:
 all_must_pass: true
 ```
 
-## Anti-Patterns to Avoid
+## Anti-Patterns to Avoid 反模式警示
 
 ### ❌ Context Accumulation
 ```yaml
@@ -234,7 +234,7 @@ bad_pattern_4:
   instead: "Sequential execution, single writer per state file"
 ```
 
-## Best Practices
+## Best Practices 最佳實踐
 
 ### ✓ Explicit Context Boundaries
 ```yaml
@@ -268,9 +268,9 @@ good_practice_4:
   benefit: "Fits in subagent context, completes faster"
 ```
 
-## Monitoring Context Hygiene
+## Monitoring Context Hygiene 監控衛生指標
 
-Track these metrics:
+追蹤以下指標：
 
 ```yaml
 hygiene_metrics:
@@ -295,12 +295,12 @@ hygiene_metrics:
     alarm: "Subagents timing out or hanging"
 ```
 
-## Implementation Reference
+## Implementation Reference 實現參考
 
-See `start-loop.md` command for concrete implementation of:
-- Subagent spawning pattern
-- Context barrier enforcement
-- State file protocol
-- Verification checklist
+見 `start-loop.md` 命令之具體實現：
+- 子代理生成模式
+- 上下文屏障執行
+- 狀態文件協議
+- 驗證清單
 
-The hooks system tracks these metrics automatically.
+鉤子系統自動追蹤上列指標。

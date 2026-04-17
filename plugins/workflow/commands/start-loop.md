@@ -1,16 +1,16 @@
 ---
 name: start-loop
-description: Start an adversarial Ralph Wiggum loop for general task automation
+description: Start a Ralph Wiggum adversarial loop — context-isolated subagents, multi-stage verification, sequential task execution. 啟動Ralph Wiggum對抗循環：隔離子代理、多階段驗證、順序任務執行. Use when: start workflow loop, begin adversarial loop, run task list, start automation loop, execute tasks sequentially
 argument-hint: "[task-list-file]"
 ---
 
 # Start Ralph Wiggum Adversarial Loop
 
-Start a continuous adversarial cooperation loop that processes tasks with clean context isolation and multi-stage verification.
+啟動持續對抗協作循環，以清潔上下文隔離和多階段驗證處理任務。
 
-## Core Principles
+## Core Principles 核心原則
 
-### Context Hygiene (CRITICAL)
+### Context Hygiene (CRITICAL) 上下文衛生（重要）
 ```yaml
 context_management:
   rule: "Each loop iteration MUST run in a fresh subagent"
@@ -19,7 +19,7 @@ context_management:
   never: "Reuse subagent context across iterations"
 ```
 
-### Adversarial Cooperation Model
+### Adversarial Cooperation Model 對抗協作模型
 ```yaml
 roles:
   implementer:
@@ -35,11 +35,11 @@ roles:
     mindset: "Learn and improve iteratively"
 ```
 
-## Process
+## Process 過程
 
-### 0. Check for Interrupted Loop
+### 0. Check for Interrupted Loop 檢查中斷的循環
 
-Before starting, check if a previous session was interrupted:
+開始前，檢查上次會話是否被中斷：
 
 ```
 Read .workflow/loop-state.json if it exists.
@@ -57,15 +57,15 @@ If status is "interrupted":
     - Continue normally
 ```
 
-### 0.5 Check for Project Rules
+### 0.5 Check for Project Rules 檢查項目規則
 
-Before starting, verify the project has rules installed:
+開始前，驗證項目已安裝規則：
 
 ```bash
 test -d .claude/rules && test -f .claude/rules/karpathy-principles.md
 ```
 
-If the check fails, warn:
+若檢查失敗，警告：
 
 ```
 Project has not run /dev-standards:setup-project (or the last run predates the
@@ -73,16 +73,16 @@ grill integration). The loop will run with default thresholds. Run the setup
 command for project-specific tuning.
 ```
 
-Do NOT block. The loop can run on default thresholds — the warning is informational.
+不得阻塞。循環可在默認閾值下運行——此警告僅為信息性。
 
-### 1. Load Task List
+### 1. Load Task List 加載任務列表
 
-If task list file provided as argument, use it. Otherwise check for:
+若以參數提供任務列表文件則使用之，否則檢查：
 1. `.workflow/tasks.md` (default location)
 2. `TASKS.md` in current directory
 3. Interactive creation mode
 
-**Task list format:**
+**任務列表格式：**
 ```markdown
 # Task List
 
@@ -103,9 +103,9 @@ If task list file provided as argument, use it. Otherwise check for:
 ...
 ```
 
-### 2. Initialize Loop State
+### 2. Initialize Loop State 初始化循環狀態
 
-Create loop state file: `.workflow/loop-state.json`
+創建循環狀態文件：`.workflow/loop-state.json`
 
 ```json
 {
@@ -136,15 +136,15 @@ Create loop state file: `.workflow/loop-state.json`
 }
 ```
 
-### 4. Execute Adversarial Loop
+### 4. Execute Adversarial Loop 執行對抗循環
 
-**CRITICAL: Each task MUST run in a fresh subagent for clean context.**
+**重要：每個任務必須在全新子代理中運行以保持上下文清潔。**
 
-For each task in list:
+對列表中每個任務：
 
-#### 4.1 Context Validation Check
+#### 4.1 Context Validation Check 上下文驗證檢查
 
-Before spawning subagent, verify:
+生成子代理前，驗證：
 ```yaml
 pre_spawn_checks:
   - "Task is context-sized (max 5 files)"
@@ -153,9 +153,9 @@ pre_spawn_checks:
   - "Loop state is persisted to disk"
 ```
 
-#### 4.2 Spawn Fresh Task Executor Subagent
+#### 4.2 Spawn Fresh Task Executor Subagent 生成全新任務執行器子代理
 
-**Pattern (MANDATORY):**
+**模式（強制）：**
 ```yaml
 subagent_execution:
   tool: Task
@@ -190,7 +190,7 @@ subagent_execution:
     - This is a FRESH context - no prior task memory
 ```
 
-**Example:**
+**示例：**
 ```
 Task tool call:
   subagent_type: "workflow:task-executor"
@@ -198,21 +198,21 @@ Task tool call:
   prompt: "Execute task task-1 from workflow loop loop-abc123..."
 ```
 
-#### 4.3 Wait for Subagent Completion
+#### 4.3 Wait for Subagent Completion 等待子代理完成
 
-The subagent will:
-1. Execute the selected adversarial loop skill
-2. Track progress internally
-3. Return success or failure with detailed report
-4. Update `.workflow/loop-state.json` before terminating
+子代理將：
+1. 執行所選對抗循環技能
+2. 在內部追蹤進度
+3. 返回成功或失敗及詳細報告
+4. 終止前更新 `.workflow/loop-state.json`
 
-**Main loop waits synchronously - NO parallel task execution.**
+**主循環同步等待——不並行執行任務。**
 
-#### 4.4 Process Subagent Result
+#### 4.4 Process Subagent Result 處理子代理結果
 
-After SubagentStop hook fires:
+SubagentStop 鉤子觸發後：
 
-**On Success:**
+**成功時：**
 ```yaml
 actions:
   - "Read subagent completion report from loop state file"
@@ -221,7 +221,7 @@ actions:
   - "Continue to NEXT task with NEW subagent (fresh context)"
 ```
 
-**On Failure:**
+**失敗時：**
 ```yaml
 actions:
   - "Read subagent failure report from loop state file"
@@ -231,11 +231,11 @@ actions:
   - "If retry: spawn NEW subagent (still fresh context)"
 ```
 
-**CRITICAL: Never resume or reuse subagent - always spawn fresh.**
+**重要：絕不恢復或重用子代理——始終生成全新的。**
 
-#### 4.5 Context Barrier
+#### 4.5 Context Barrier 上下文屏障
 
-Between tasks, the main loop:
+任務之間，主循環：
 ```yaml
 context_barrier:
   persists:
@@ -252,24 +252,24 @@ context_barrier:
   principle: "Main loop is STATELESS executor, not context accumulator"
 ```
 
-### 5. Loop Control
+### 5. Loop Control 循環控制
 
-The loop continues until:
-- All tasks completed successfully
-- A task fails and user chooses to stop
-- User says "stop loop", "cancel", or "pause"
-- Session ends
-- Critical security issue found (immediate stop)
+循環持續至：
+- 所有任務成功完成
+- 任務失敗且用戶選擇停止
+- 用戶說 "stop loop"、"cancel" 或 "pause"
+- 會話結束
+- 發現嚴重安全問題（立即停止）
 
-**User can always interrupt:**
+**用戶隨時可中斷：**
 - "stop the loop"
 - "pause execution"
 - "skip current task"
 - "/workflow:stop-loop"
 
-### 6. Status Reporting
+### 6. Status Reporting 狀態報告
 
-Display progress after each iteration:
+每次迭代後顯示進度：
 ```
 Ralph Wiggum Workflow Loop
 ==========================
@@ -297,9 +297,9 @@ Stats:
 - Avg time per task: 15m 7s
 ```
 
-## Loop Iteration Example
+## Loop Iteration Example 循環迭代示例
 
-Concrete example showing context isolation:
+展示上下文隔離的具體示例：
 
 ```yaml
 main_loop_execution:
@@ -335,9 +335,9 @@ key_principles:
   no_accumulation: "Main loop doesn't accumulate implementation details"
 ```
 
-## Context-Sized Task Requirements
+## Context-Sized Task Requirements 上下文適配任務要求
 
-Every task MUST be:
+每個任務必須：
 ```yaml
 context_sized_task:
   max_files: 5
@@ -351,7 +351,7 @@ context_sized_task:
     reason: "Keeps each iteration within context limits"
 ```
 
-## Usage Examples
+## Usage Examples 使用示例
 
 ```bash
 # Start with default task list
@@ -361,28 +361,28 @@ context_sized_task:
 /workflow:start-loop my-tasks.md
 ```
 
-## Integration with Loop State File
+## Integration with Loop State File 與循環狀態文件的集成
 
-All state is persisted to `.workflow/loop-state.json`:
-- Main loop reads/writes orchestration state
-- Subagents update task-specific state before termination
-- Hooks track iterations and adjustments
-- Status command reads this file for reporting
+所有狀態持久化至 `.workflow/loop-state.json`：
+- 主循環讀寫協調狀態
+- 子代理終止前更新任務特定狀態
+- 鉤子追蹤迭代與調整
+- 狀態命令讀取此文件以報告
 
-This enables:
-- Resume after interruption
-- Parallel status monitoring
-- Historical analysis
-- Audit trail
+此機制支持：
+- 中斷後恢復
+- 並行狀態監控
+- 歷史分析
+- 審計跟蹤
 
-## Stopping the Loop
+## Stopping the Loop 停止循環
 
-Say any of:
+說以下任一語句：
 - "stop the loop"
 - "cancel workflow"
 - "pause execution"
 - "/workflow:stop-loop"
 
-Or for immediate stop:
-- "security critical" (on critical vulnerability)
-- "abort" (emergency stop)
+或立即停止：
+- "security critical"（發現嚴重漏洞）
+- "abort"（緊急停止）

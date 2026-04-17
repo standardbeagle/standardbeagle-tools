@@ -1,34 +1,34 @@
 ---
 name: adversarial-quality
-description: Full quality loop with implementation and adversarial verification
+description: Full adversarial quality loop — implement, self-attack, parallel verification, quality gates, final validation. 全品質循環：實現、自攻、並行驗證、質量關卡、最終確認. Use when: implement a task with quality, run adversarial review, verify code quality, run quality gates, complete a workflow task
 ---
 
 # Adversarial Quality Loop
 
-Complete implementation with adversarial self-review and external verification.
+含對抗自審與外部驗證之完整實現循環。
 
-## Overview
+## Overview 概覽
 
-This loop implements the full Ralph Wiggum adversarial cooperation pattern:
-1. Positive implementation (make it work)
-2. Self-adversarial review (find your own flaws)
-3. External adversarial verification (independent challenge)
-4. Quality gates (automated checks)
-5. Final validation (acceptance criteria)
+此循環實現完整的 Ralph Wiggum 對抗協作模式：
+1. 正向實現（使之運作）
+2. 自我對抗審查（尋自身缺陷）
+3. 外部對抗驗證（獨立挑戰）
+4. 質量關卡（自動化檢查）
+5. 最終確認（驗收標準）
 
-**Context Rule**: This skill runs INSIDE a subagent (fresh context for this task only).
+**上下文規則**：此技能在子代理內部運行（僅限此任務的全新上下文）。
 
-## Execution Phases
+## Execution Phases 執行階段
 
 ### Phase 0: Git Hygiene & TDD Setup
 
-**Objective**: Start from the latest code and establish TDD discipline
+**目標**：從最新代碼出發，建立 TDD 紀律
 
-**Steps**:
-1. Pull latest changes and rebase onto main
-2. Resolve any merge conflicts
-3. Verify the project builds and all tests pass on the clean base
-4. Plan TDD approach — identify which tests to write first
+**步驟**：
+1. 拉取最新變更並 rebase 至 main
+2. 解決合並衝突
+3. 驗證項目構建成功且全部測試通過
+4. 規劃 TDD 方法——識別首先撰寫哪些測試
 
 ```yaml
 git_hygiene:
@@ -71,27 +71,27 @@ tdd_cycle:
     - "NEVER skip for business logic or data transformations"
 ```
 
-**Output**: Clean, up-to-date branch ready for TDD implementation
+**輸出**：已清潔、最新之分支，備 TDD 實現
 
-**Checkpoint**: Record branch state, build status, test baseline count.
+**檢查點**：記錄分支狀態、構建狀態、測試基準數。
 
 ### Phase 1: Implementation Planning (5-10% of time)
 
-**Objective**: Understand scope, assess structural readiness, and create verification checklist
+**目標**：理解範圍、評估結構就緒性、創建驗證清單
 
-**Steps**:
-1. Read task specification from loop state file
-2. Identify all files in scope (max 5)
-3. Read current file contents
-4. **Assess structural readiness**: Does the existing code structure support this change naturally?
-   - Use LCI to find related code and understand the current shape
-   - Ask: Would new code feel like a natural extension or a hack?
-   - If structural friction exists, add a refactor step to Phase 2 before implementation
-5. Create implementation plan (with refactor-first step if needed)
-6. Create verification checklist (include findability check)
-7. Write checkpoint to state file
+**步驟**：
+1. 從循環狀態文件讀取任務規格
+2. 識別範圍內所有文件（最多5個）
+3. 讀取當前文件內容
+4. **評估結構就緒性**：現有代碼結構是否自然支持此變更？
+   - 使用 LCI 查找相關代碼，理解當前形態
+   - 問：新代碼是自然延伸還是補丁？
+   - 若存在結構摩擦，在 Phase 2 實現前添加重構步驟
+5. 創建實現計劃（含需要時的先重構步驟）
+6. 創建驗證清單（含可查找性檢查）
+7. 寫入檢查點至狀態文件
 
-**Implementer Mindset**: "Make it work correctly, in the right place, with findable names"
+**實現者心態**："使其正確運作，置於正確位置，命名可被發現"
 
 **Output**:
 ```yaml
@@ -109,50 +109,50 @@ implementation_plan:
   estimated_complexity: "Low|Medium|High"
 ```
 
-**Checkpoint**: Write plan to state file, In the next phase, read ONLY the checkpoint summary, not full implementation files.
+**檢查點**：計劃寫入狀態文件。下一階段只讀檢查點摘要，不讀完整實現文件。
 
 ### Phase 2: Positive Implementation (30-40% of time)
 
-**Objective**: Implement the task following best practices
+**目標**：依最佳實踐實現任務
 
-**Implementer Mindset**: "Make it work, make it right"
+**實現者心態**："使其運作，使其正確"
 
-**Steps**:
-1. Read implementation plan from state file (fresh context)
-2. Implement changes following positive instructions:
-   - ✓ Write clear, maintainable code
-   - ✓ Follow existing patterns
-   - ✓ Add proper error handling
-   - ✓ Write comprehensive tests
-   - ✓ Add necessary documentation
+**步驟**：
+1. 從狀態文件讀取實現計劃（全新上下文）
+2. 按正向指令實現變更：
+   - ✓ 撰寫清晰可維護代碼
+   - ✓ 遵循現有模式
+   - ✓ 添加適當錯誤處理
+   - ✓ 撰寫全面測試
+   - ✓ 添加必要文檔
 
-**Positive Instructions (DO)**:
-- **Refactor first** — if the existing structure doesn't support the change naturally, fix the structure before adding code
-- Use existing code patterns
-- Write clear variable names that describe behavior, not implementation
-- Add type annotations
-- Handle edge cases
-- Write tests FIRST (TDD — red/green/refactor cycle from Phase 0)
-- Keep functions small and focused
-- Add comments for complex logic
-- Follow security best practices
-- **Ensure findability** — names must be discoverable by future developers searching for the feature
+**正向指令（DO）**：
+- **先重構** — 若現有結構不自然支持變更，先修結構，再添代碼
+- 使用現有代碼模式
+- 變量名描述行為而非實現
+- 添加類型注釋
+- 處理邊緣情況
+- 先寫測試（TDD — Phase 0 的 red/green/refactor 週期）
+- 保持函數小而專注
+- 複雜邏輯添加注釋
+- 遵循安全最佳實踐
+- **確保可查找性** — 命名須可被未來開發者搜索發現
 
-**Output**: Implementation complete, ready for adversarial review
+**輸出**：實現完成，備對抗審查
 
-**Checkpoint**: Write implementation summary, explicitly forget code details.
+**檢查點**：寫入實現摘要，顯式遺忘代碼細節。
 
 ### Phase 3: Self-Adversarial Review (15-20% of time)
 
-**Objective**: Find flaws in your own implementation
+**目標**：在自身實現中尋找缺陷
 
-**Verifier Mindset**: "Break it, find edge cases, question assumptions"
+**驗證者心態**："破之，尋邊緣情況，質疑假設"
 
-**Steps**:
-1. Read implementation summary (NOT full code yet)
-2. Generate attack vectors and edge cases
-3. Read actual implementation
-4. Challenge every decision:
+**步驟**：
+1. 讀取實現摘要（尚不讀完整代碼）
+2. 生成攻擊向量與邊緣情況
+3. 讀取實際實現
+4. 挑戰每個決策：
    - ❌ What inputs will break this?
    - ❌ What assumptions are unsafe?
    - ❌ What edge cases are missing?
@@ -203,17 +203,17 @@ challenge_categories:
     - "Do aggregate, event, and command names match the domain model exactly?"
 ```
 
-**Output**: List of issues found + fixes applied
+**輸出**：所發現問題清單及已應用修復
 
-**Checkpoint**: Write issues found, forget implementation again.
+**檢查點**：寫入所發現問題，再次遺忘實現。
 
 ### Phase 4: Concurrent Adversarial Verification (20-30% of time)
 
-**Objective**: Independent verification by two specialized agents running in parallel
+**目標**：兩個專門代理並行運行進行獨立驗證
 
-**Pattern**: Spawn both verifier subagents simultaneously using the Task tool, then handle results
+**模式**：使用 Task 工具同時生成兩個驗證子代理，然後處理結果
 
-#### Dispatch (both in parallel)
+#### Dispatch 並行派發（兩者同時）
 
 ```yaml
 concurrent_dispatch:
@@ -254,7 +254,7 @@ concurrent_dispatch:
         Return a verification report (see schema below).
 ```
 
-#### Verification Report Schema (each agent returns this)
+#### Verification Report Schema 驗證報告模式（每個代理返回此格式）
 
 ```yaml
 verification_report:
@@ -277,7 +277,7 @@ verification_report:
       evidence: "How verified"
 ```
 
-#### Result Handling
+#### Result Handling 結果處理
 
 ```yaml
 result_routing:
@@ -299,13 +299,13 @@ result_routing:
       Return to main loop with status: failed.
 ```
 
-**Checkpoint**: Write combined verification report from all agents, forget implementation details.
+**檢查點**：寫入所有代理的綜合驗證報告，遺忘實現細節。
 
 ### Phase 4.5: Review for Plan Updates (C-class refactor discovery)
 
-**Objective**: Emit C-class refactor findings as plan-update proposals without editing code.
+**目標**：將 C 類重構發現作為計劃更新提案發出，不編輯代碼。
 
-**Pattern**: Invoke `dev-standards:review-for-plan-updates`, persist proposals into `.workflow/loop-state.json`.
+**模式**：調用 `dev-standards:review-for-plan-updates`，將提案持久化至 `.workflow/loop-state.json`。
 
 ```yaml
 invoke:
@@ -326,20 +326,20 @@ do_not:
   - "Expand trigger catalog beyond what the skill defines"
 ```
 
-**Checkpoint**: Proposals written to state file. The next tick's plan-update presentation (see `loop-orchestration.md`) handles user interaction.
+**檢查點**：提案已寫入狀態文件。下一 tick 的計劃更新呈現（見 `loop-orchestration.md`）處理用戶交互。
 
 ---
 
 ### Phase 5: Quality Gates (10-15% of time)
 
-**Objective**: Run automated checks
+**目標**：運行自動化檢查
 
-**Steps**:
-1. Run linter
-2. Run type checker
-3. Run tests
-4. Run security scanner (if available)
-5. Check code coverage
+**步驟**：
+1. 運行 linter
+2. 運行類型檢查器
+3. 運行測試
+4. 運行安全掃描器（如可用）
+5. 檢查代碼覆蓋率
 
 **Automated Checks**:
 ```bash
@@ -359,22 +359,22 @@ npm audit     # or equivalent
 npm run test:coverage  # or equivalent
 ```
 
-**Quality Thresholds**:
-- ✓ No linting errors
-- ✓ No type errors
-- ✓ All tests pass
-- ✓ No critical security issues
-- ✓ Coverage >= 80% for new code
+**質量閾值**：
+- ✓ 無 linting 錯誤
+- ✓ 無類型錯誤
+- ✓ 所有測試通過
+- ✓ 無嚴重安全問題
+- ✓ 新代碼覆蓋率 >= 80%
 
-**If Gates Fail**: Fix issues and re-run
+**若關卡失敗**：修復問題後重新運行
 
-**Checkpoint**: Write quality report, forget details.
+**檢查點**：寫入質量報告，遺忘細節。
 
 ### Phase 5b: Post-Task Deep Review
 
-**Objective**: Deep sequential review after quality gates pass
+**目標**：質量關卡通過後進行深度順序審查
 
-**Pattern**: Dispatch single post-task reviewer agent
+**模式**：派發單個後任務審查代理
 
 ```yaml
 post_task_dispatch:
@@ -396,7 +396,7 @@ post_task_dispatch:
       Return structured post-task report.
 ```
 
-**Result Handling**:
+**結果處理**：
 ```yaml
 post_task_routing:
   pass:
@@ -414,22 +414,22 @@ post_task_routing:
     action: "STOP - write security-halt report"
 ```
 
-**Checkpoint**: Write post-task findings and replan to state file.
+**檢查點**：將後任務發現與重新規劃寫入狀態文件。
 
 ### Phase 6: Final Validation (5-10% of time)
 
-**Objective**: Verify acceptance criteria met
+**目標**：驗證驗收標準已達成
 
-**Steps**:
-1. Read acceptance criteria from task spec
-2. Read all checkpoint reports
-3. Verify each criterion:
-   - Evidence from implementation
-   - Evidence from verification
-   - Evidence from quality gates
-4. Generate completion report
+**步驟**：
+1. 從任務規格讀取驗收標準
+2. 讀取所有檢查點報告
+3. 驗證每個標準：
+   - 實現佐證
+   - 驗證佐證
+   - 質量關卡佐證
+4. 生成完成報告
 
-**Validation Checklist**:
+**驗證清單**：
 ```yaml
 final_validation:
   - criterion: "Each acceptance criterion"
@@ -442,7 +442,7 @@ final_validation:
   overall_result: "complete|incomplete"
 ```
 
-**Completion Report**:
+**完成報告**：
 ```yaml
 completion_report:
   task_id: "task-3"
@@ -471,13 +471,13 @@ completion_report:
   recommendation: "Mark complete and proceed"
 ```
 
-**Write to State File**: Update loop state with completion
+**寫入狀態文件**：更新循環狀態為完成
 
-## Context Management
+## Context Management 上下文管理
 
-Throughout this loop:
+貫穿此循環：
 
-**Between Phases**:
+**階段之間**：
 ```yaml
 context_barriers:
   technique: "Write checkpoint, explicitly forget, read next phase"
@@ -493,7 +493,7 @@ context_barriers:
     THEN read full code with adversarial mindset
 ```
 
-**Within Subagent**:
+**子代理內部**：
 ```yaml
 context_accumulation:
   allowed: "Yes - this is a single task execution"
@@ -501,7 +501,7 @@ context_accumulation:
   limit: "One task only (1-5 files, 1-2 hours max)"
 ```
 
-**Between Subagents**:
+**子代理之間**：
 ```yaml
 context_isolation:
   enforced: "Yes - when spawning code-quality-reviewer, qa-reviewer, and post-task-reviewer"
@@ -509,9 +509,9 @@ context_isolation:
   mechanism: "Task tool spawns separate subagents concurrently"
 ```
 
-## Adjustments and Learning
+## Adjustments and Learning 調整與學習
 
-During execution, track adjustments:
+執行中追蹤調整：
 
 ```yaml
 adjustments:
@@ -526,9 +526,9 @@ adjustments:
   impact: "Main loop updates task list if needed"
 ```
 
-## Failure Modes
+## Failure Modes 失敗模式
 
-If loop fails at any phase:
+若循環在任意階段失敗：
 
 ```yaml
 failure_handling:
@@ -545,8 +545,8 @@ failure_handling:
   return_to_main_loop: "With failure report in state file"
 ```
 
-## Usage
+## Usage 使用說明
 
-This skill is invoked by the workflow:task-executor agent to run the full quality loop for a task.
+此技能由 `workflow:task-executor` 代理調用，以運行任務的完整品質循環。
 
-See `loop-orchestration.md` for how this integrates into the overall loop.
+見 `loop-orchestration.md` 瞭解此技能如何融入整體循環。

@@ -1,19 +1,19 @@
 ---
 name: loop-status
-description: Show status of current or recent workflow loops
+description: Show status of current or recent workflow loops with progress, metrics, and context hygiene report. 顯示工作流循環狀態：進度、指標、上下文衛生報告. Use when: check loop progress, see workflow status, how is the loop going, show workflow metrics, view completed tasks
 ---
 
 # Workflow Loop Status
 
-Display detailed status of the current or recent workflow loops.
+顯示當前或近期工作流循環之詳細狀態。
 
-## Process
+## Process 過程
 
-1. **Find loop state files**
-   - Current loop: `.workflow/loop-state.json`
-   - History: `.workflow/loop-history/` (archived completed loops)
+1. **查找循環狀態文件**
+   - 當前循環：`.workflow/loop-state.json`
+   - 歷史：`.workflow/loop-history/`（已存檔完成的循環）
 
-2. **Display current loop status** (if running)
+2. **顯示當前循環狀態**（如正在運行）
 ```
 Ralph Wiggum Workflow Loop - RUNNING
 =====================================
@@ -53,7 +53,7 @@ Statistics:
 Loop State File: .workflow/loop-state.json
 ```
 
-3. **Display recent loops** (if none running)
+3. **顯示近期循環**（如無正在運行的）
 ```
 Recent Workflow Loops
 =====================
@@ -75,7 +75,7 @@ Loop xyz789 (security) - STOPPED
 To resume: /workflow:start-loop --resume xyz789
 ```
 
-4. **Context isolation report**
+4. **上下文隔離報告**
 ```
 Context Hygiene Report:
 -----------------------
@@ -89,7 +89,7 @@ SubagentStop hooks fired: 5
 Context barrier enforced: 4 times
 ```
 
-## Usage
+## Usage 使用方法
 
 ```bash
 # Show current loop status
@@ -101,8 +101,8 @@ how's the workflow going?
 show workflow progress
 ```
 
-## Data Sources
+## Data Sources 數據來源
 
-- **Loop state file**: `.workflow/loop-state.json`
-- **Hook tracking data**: Written by SubagentStop hooks
-- **Session metrics**: Tracked by session-init.sh script
+- **循環狀態文件**：`.workflow/loop-state.json`
+- **鉤子追蹤數據**：由 SubagentStop 鉤子寫入
+- **會話指標**：由 session-init.sh 腳本追蹤

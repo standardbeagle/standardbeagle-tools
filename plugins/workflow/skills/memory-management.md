@@ -1,13 +1,13 @@
 ---
 name: memory-management
-description: Memory preservation patterns for workflow learnings before context compaction
+description: Preserve workflow learnings as structured memories before context compaction fires. 壓縮前保存工作流知識，結構化存儲，供日後檢索. Use when: save workflow memory, preserve lesson learned, review before compaction, store technical decision, manage memory lifecycle
 ---
 
 # Memory Management for Workflow Loops
 
-Preserve valuable learnings and patterns as memories before context compaction.
+上下文壓縮前，保存工作流執行中之寶貴學習與模式。
 
-## Why Memory Management Matters
+## Why Memory Management Matters 記憶管理之重要
 
 ```yaml
 problem:
@@ -23,91 +23,91 @@ solution:
   continuous_learning: "Build knowledge base over time"
 ```
 
-## Memory Categories
+## Memory Categories 記憶分類
 
-### 1. Workflow Patterns
+### 1. Workflow Patterns 工作流模式
 
-**What:** Successful execution strategies discovered during loops
+**何物：** 循環中發現的成功執行策略
 
-**Examples:**
-- "For auth tasks, always include rate limiting in security verification"
-- "UI tasks benefit from parallel verifier + screenshot comparison"
-- "Database migrations should run in refactor loop, not quality loop"
+**示例：**
+- "認證任務，安全驗證中必含速率限制"
+- "UI任務受益於並行驗證器+截圖比較"
+- "數據庫遷移應在重構循環中運行，非質量循環"
 
-**When to Save:**
-- A pattern works well repeatedly
-- You discover a better approach
-- You avoid a common pitfall
+**何時保存：**
+- 模式反覆有效
+- 發現更佳方法
+- 規避常見陷阱
 
-**Scope:** Usually `project` or `user`
+**範圍：** 通常 `project` 或 `user`
 
-### 2. Technical Decisions
+### 2. Technical Decisions 技術決策
 
-**What:** Architecture choices with rationale
+**何物：** 含理由的架構選擇
 
-**Examples:**
-- "Using JWT authentication with 24h expiry - rationale: stateless auth for microservices"
-- "Chose PostgreSQL over MongoDB - rationale: ACID requirements for financial data"
-- "Using bcrypt cost factor 12 - OWASP recommendation"
+**示例：**
+- "使用24小時過期的JWT認證——理由：微服務的無狀態認證"
+- "選PostgreSQL而非MongoDB——理由：金融數據需ACID"
+- "使用bcrypt cost factor 12——OWASP建議"
 
-**When to Save:**
-- Significant architecture decision made
-- Technology choice with specific rationale
-- Security-related configuration
+**何時保存：**
+- 重大架構決策形成
+- 有特定理由的技術選型
+- 安全相關配置
 
-**Scope:** Usually `project`
+**範圍：** 通常 `project`
 
-### 3. Code Patterns
+### 3. Code Patterns 代碼模式
 
-**What:** Project-specific coding conventions and patterns
+**何物：** 項目特定的編碼慣例與模式
 
-**Examples:**
-- "API endpoints follow pattern: /api/v1/{resource}/{action}"
-- "All database queries use parameterized queries (prevent SQL injection)"
-- "Error responses include correlation ID for debugging"
+**示例：**
+- "API端點遵循模式：/api/v1/{resource}/{action}"
+- "所有數據庫查詢使用參數化查詢（防SQL注入）"
+- "錯誤響應包含correlation ID用於調試"
 
-**When to Save:**
-- Consistent pattern emerges
-- Convention established
-- Pattern prevents bugs
+**何時保存：**
+- 一致模式浮現
+- 慣例確立
+- 模式防止錯誤
 
-**Scope:** `project` (rarely `user` if preferred across projects)
+**範圍：** `project`（跨項目偏好時少用 `user`）
 
-### 4. Verification Strategies
+### 4. Verification Strategies 驗證策略
 
-**What:** Effective approaches to verification discovered
+**何物：** 發現的有效驗證方法
 
-**Examples:**
-- "Mutation testing caught 3 weak tests in auth module"
-- "Adversarial XSS testing should include stored, reflected, and DOM-based"
-- "Edge case testing: always check null, empty, max values"
+**示例：**
+- "突變測試在auth模塊發現3個弱測試"
+- "對抗XSS測試應包括存儲型、反射型和DOM型"
+- "邊緣情況測試：總是檢查null、空、最大值"
 
-**When to Save:**
-- Verification approach proves valuable
-- Edge case pattern discovered
-- Test strategy works well
+**何時保存：**
+- 驗證方法被證明有價值
+- 發現邊緣情況模式
+- 測試策略有效
 
-**Scope:** `user` (applies across projects)
+**範圍：** `user`（跨項目適用）
 
-### 5. Lessons Learned
+### 5. Lessons Learned 教訓
 
-**What:** Failures, vulnerabilities, and insights
+**何物：** 失敗、漏洞與洞見
 
-**Examples:**
-- "XSS found in user profile - lesson: always sanitize HTML, even from authenticated users"
-- "Race condition in payment processing - lesson: use database transactions"
-- "Memory leak from unclosed connections - lesson: always use try-finally"
+**示例：**
+- "用戶資料發現XSS——教訓：始終淨化HTML，即使來自已認證用戶"
+- "支付處理中的競爭條件——教訓：使用數據庫事務"
+- "未關閉連接導致內存洩漏——教訓：始終使用try-finally"
 
-**When to Save:**
-- Bug found and fixed
-- Vulnerability discovered
-- Mistake made and corrected
+**何時保存：**
+- 發現並修復了錯誤
+- 發現漏洞
+- 犯錯並糾正
 
-**Scope:** `user` or `project` depending on specificity
+**範圍：** 視具體程度為 `user` 或 `project`
 
-## Memory Structure
+## Memory Structure 記憶結構
 
-### Standard Format
+### Standard Format 標準格式
 
 ```yaml
 title: "Brief descriptive title (max 60 chars)"
@@ -140,9 +140,9 @@ content: |
   When NOT to use, exceptions, edge cases
 ```
 
-### Minimal Format
+### Minimal Format 簡式格式
 
-For quick memories:
+快速記憶用：
 ```yaml
 title: "Brief title"
 category: "category"
@@ -151,19 +151,19 @@ tags: ["tags"]
 content: "Concise description with key points"
 ```
 
-## Memory Lifecycle
+## Memory Lifecycle 記憶生命週期
 
-### 1. Identification (PreCompact Hook)
+### 1. Identification (PreCompact Hook) 識別
 
-**Trigger:** Context compaction imminent
+**觸發：** 上下文壓縮即將發生
 
-**Process:**
-1. Analyze workflow state (completed/failed tasks)
-2. Review conversation for patterns
-3. Identify valuable knowledge
-4. Generate 3-5 specific suggestions
+**過程：**
+1. 分析工作流狀態（已完成/失敗任務）
+2. 審查對話中的模式
+3. 識別有價值的知識
+4. 生成3-5個具體建議
 
-**Criteria for Valuable Memories:**
+**有價值記憶的標準：**
 ```yaml
 include:
   - Specific and actionable (not generic)
@@ -178,23 +178,23 @@ exclude:
   - Obvious information
 ```
 
-### 2. Review and Approval
+### 2. Review and Approval 審查與批准
 
-**User Interaction:**
-- Present suggestions clearly
-- Allow editing before saving
-- Support bulk approve/reject
-- Provide preview of saved format
+**用戶交互：**
+- 清晰呈現建議
+- 允許保存前編輯
+- 支持批量批准/拒絕
+- 提供保存格式預覽
 
-**Options per Memory:**
-- ✓ Save as-is
-- ✏️ Edit before saving
-- ⏭️ Skip this memory
-- ⏭️⏭️ Skip all and continue
+**每條記憶的選項：**
+- ✓ 原樣保存
+- ✏️ 編輯後保存
+- ⏭️ 跳過此記憶
+- ⏭️⏭️ 跳過全部並繼續
 
-### 3. Storage
+### 3. Storage 存儲
 
-**Location:**
+**位置：**
 ```
 .workflow/memories/
 ├── 2026-01-14-auth-rate-limiting.md
@@ -203,39 +203,39 @@ exclude:
 └── index.json                        # Searchable index
 ```
 
-**Format:** Markdown with YAML frontmatter
+**格式：** 含YAML前置元數據的Markdown
 
-**Index:** JSON file for fast searching
+**索引：** 用於快速搜索的JSON文件
 
-### 4. Retrieval
+### 4. Retrieval 檢索
 
-**When to Retrieve:**
-- Starting new workflow loop
-- Beginning similar task
-- User asks related question
-- Pattern matching on task description
+**何時檢索：**
+- 啟動新工作流循環
+- 開始類似任務
+- 用戶提出相關問題
+- 任務描述模式匹配
 
-**Search Methods:**
-- By category
-- By tags
-- By scope (project/user/global)
-- By confidence level
-- Full-text search in content
+**搜索方法：**
+- 按分類
+- 按標籤
+- 按範圍（project/user/global）
+- 按置信度
+- 內容全文搜索
 
-### 5. Update and Refinement
+### 5. Update and Refinement 更新與完善
 
-**Update Triggers:**
-- Memory proves incorrect (update with correction)
-- Memory evolves (add new learnings)
-- Memory becomes obsolete (archive or delete)
+**更新觸發：**
+- 記憶被證明有誤（更正）
+- 記憶演化（添加新學習）
+- 記憶過時（存檔或刪除）
 
-**Versioning:** Keep history of changes
+**版本控制：** 保留變更歷史
 
-## Integration with slop-mcp
+## Integration with slop-mcp 與 slop-mcp 集成
 
-### Storage in slop-mcp
+### Storage in slop-mcp 存儲於 slop-mcp
 
-If slop-mcp memory tools are available:
+若 slop-mcp 記憶工具可用：
 
 ```bash
 # Save memory using slop-mcp
@@ -256,14 +256,14 @@ slop-mcp memory get --id "memory-123"
 slop-mcp memory update --id "memory-123" --content "Updated content"
 ```
 
-### Fallback Storage
+### Fallback Storage 備用存儲
 
-If slop-mcp not available:
-- Store in `.workflow/memories/` as markdown files
-- Maintain JSON index for searching
-- Manual retrieval via Read tool
+若 slop-mcp 不可用：
+- 存儲於 `.workflow/memories/` 作為 markdown 文件
+- 維護 JSON 索引用於搜索
+- 通過 Read 工具手動檢索
 
-## PreCompact Hook Flow
+## PreCompact Hook Flow 預壓縮鉤子流程
 
 ```yaml
 hook_execution:
@@ -298,17 +298,17 @@ hook_execution:
     action: "Allow compaction to proceed"
 ```
 
-## Example Workflow
+## Example Workflow 示例工作流
 
-### Scenario: After 3 completed tasks
+### Scenario: 3個任務完成後
 
-**Task 1:** Implemented JWT authentication
-**Task 2:** Added rate limiting
-**Task 3:** Fixed XSS vulnerability
+**任務1：** 實現JWT認證
+**任務2：** 添加速率限制
+**任務3：** 修復XSS漏洞
 
-**PreCompact Hook Fires:**
+**PreCompact Hook 觸發：**
 
-**Memory Suggestion 1:**
+**記憶建議1：**
 ```yaml
 title: "JWT auth with 24h expiry for this project"
 category: technical_decision
@@ -328,7 +328,7 @@ content: |
   Verified in Task 1 security loop - no vulnerabilities found.
 ```
 
-**Memory Suggestion 2:**
+**記憶建議2：**
 ```yaml
 title: "Rate limiting pattern: 5 attempts/min/IP for auth"
 category: workflow_pattern
@@ -348,7 +348,7 @@ content: |
   Now part of standard security verification for auth endpoints.
 ```
 
-**Memory Suggestion 3:**
+**記憶建議3：**
 ```yaml
 title: "XSS in user-generated content - always sanitize"
 category: lesson
@@ -371,30 +371,30 @@ content: |
   Testing: Add XSS test cases to security loop for all UGC features.
 ```
 
-**User Review:**
-- Suggestion 1: ✓ Save as-is
-- Suggestion 2: ✓ Save as-is
-- Suggestion 3: ✏️ Edit (user adds project-specific details)
+**用戶審查：**
+- 建議1：✓ 原樣保存
+- 建議2：✓ 原樣保存
+- 建議3：✏️ 編輯（用戶添加項目特定細節）
 
-**Result:** 3 memories saved, available for future retrieval
+**結果：** 3條記憶已保存，可供日後檢索
 
-## Best Practices
+## Best Practices 最佳實踐
 
-### DO:
-- ✓ Be specific and concrete
-- ✓ Include rationale and context
-- ✓ Tag thoroughly for retrieval
-- ✓ Set appropriate scope (project/user/global)
-- ✓ Include evidence (what validated this)
-- ✓ Update memories as they evolve
+### DO 應做：
+- ✓ 具體而明確
+- ✓ 包含理由與背景
+- ✓ 充分標籤以利檢索
+- ✓ 設置適當範圍（project/user/global）
+- ✓ 包含佐證（何以驗證）
+- ✓ 隨演化更新記憶
 
-### DON'T:
-- ✗ Save generic advice ("write tests")
-- ✗ Save common knowledge ("use git")
-- ✗ Over-save (every small detail)
-- ✗ Under-save (lose valuable patterns)
-- ✗ Duplicate existing memories
-- ✗ Skip context and rationale
+### DON'T 不應做：
+- ✗ 保存泛泛建議（"寫測試"）
+- ✗ 保存常識（"使用git"）
+- ✗ 過度保存（每個小細節）
+- ✗ 保存不足（丟失有價值模式）
+- ✗ 重複現有記憶
+- ✗ 省略背景與理由
 
 ### Memory Quality Checklist:
 ```yaml
@@ -409,19 +409,19 @@ quality_check:
   - [ ] Non-duplicate (doesn't already exist)
 ```
 
-## Future Enhancements
+## Future Enhancements 未來增強
 
-**Possible improvements:**
-- Auto-suggest memories based on task patterns
-- Link related memories (graph structure)
-- Memory retrieval at task start
-- Memory validation (test if still applicable)
-- Memory analytics (most useful, rarely used)
-- Team memory sharing (beyond user scope)
-- Memory templates for common categories
+**可能的改進：**
+- 根據任務模式自動建議記憶
+- 連接相關記憶（圖結構）
+- 任務開始時檢索記憶
+- 記憶驗證（測試是否仍適用）
+- 記憶分析（最有用的、很少使用的）
+- 團隊記憶共享（超出用戶範圍）
+- 常見分類的記憶模板
 
-## Usage
+## Usage 使用說明
 
-This skill is triggered by PreCompact hook and guides memory preservation process.
+此技能由 PreCompact 鉤子觸發，引導記憶保存過程。
 
-The hooks system handles memory suggestion automatically.
+鉤子系統自動處理記憶建議。

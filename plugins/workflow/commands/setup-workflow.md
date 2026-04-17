@@ -1,14 +1,14 @@
 ---
 name: setup-workflow
-description: Configure project-specific workflow role rules
+description: Configure project-specific workflow role rules for adversarial loop customization. 配置項目特定工作流角色規則，定制對抗循環行為. Use when: setup workflow roles, customize task-executor rules, configure quality reviewer, set project-specific thresholds, override workflow defaults
 argument-hint: "[role-name]"
 ---
 
 # Setup Workflow Role Rules
 
-Configure project-specific rules for workflow roles. This allows customization of the adversarial loop behavior per project.
+按項目配置工作流角色之特定規則，以定制對抗循環行為。
 
-## Usage
+## Usage 使用方法
 
 ```bash
 # Setup all roles (interactive)
@@ -20,56 +20,56 @@ Configure project-specific rules for workflow roles. This allows customization o
 /workflow:setup post-task-reviewer
 ```
 
-## How It Works
+## How It Works 工作原理
 
-1. **Checks for existing rules** at `.workflow/rules/`
-2. **Asks customization questions** for each role
-3. **Creates project-specific rule files** that override defaults
+1. **檢查** `.workflow/rules/` 中的現有規則
+2. **對每個角色提問**定制問題
+3. **創建項目特定規則文件**覆蓋默認值
 
-## Rule Override Hierarchy
+## Rule Override Hierarchy 規則覆蓋層次
 
-Rules are loaded in this order (later overrides earlier):
+規則按此順序加載（後者覆蓋前者）：
 
-1. Plugin defaults: `${CLAUDE_PLUGIN_ROOT}/rules/{role}/*.md`
-2. Project overrides: `.workflow/rules/{role}/*.md`
+1. 插件默認值：`${CLAUDE_PLUGIN_ROOT}/rules/{role}/*.md`
+2. 項目覆蓋：`.workflow/rules/{role}/*.md`
 
-## Available Roles
+## Available Roles 可用角色
 
 ### task-executor
 
-Customize:
-- Context hygiene rules
-- Execution pattern rules
-- State management behavior
-- Adversarial mindset
+可定制：
+- 上下文衛生規則
+- 執行模式規則
+- 狀態管理行為
+- 對抗心態
 
-**Default rules:**
+**默認規則：**
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/context-hygiene.md`
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-pattern.md`
 
 ### code-quality-reviewer
 
-Customize:
-- Verification categories (correctness, security, quality, testing)
-- Issue severity thresholds
-- Attack vector generation
-- Report format
+可定制：
+- 驗證分類（正確性、安全性、質量、測試）
+- 問題嚴重程度閾值
+- 攻擊向量生成
+- 報告格式
 
-**Default rules:**
+**默認規則：**
 - `${CLAUDE_PLUGIN_ROOT}/rules/code-quality-reviewer/verification-categories.md`
 
 ### post-task-reviewer
 
-Customize:
-- Requirements coverage scope
-- Documentation accuracy checks
-- User flow validation
-- Lean docs review format
+可定制：
+- 需求覆蓋範圍
+- 文檔準確性檢查
+- 用戶流程驗證
+- 精簡文檔審查格式
 
-**Default rules:**
+**默認規則：**
 - `${CLAUDE_PLUGIN_ROOT}/rules/post-task-reviewer/post-task-review.md`
 
-## Interactive Setup Questions
+## Interactive Setup Questions 交互式設置問題
 
 ### Task Executor Questions
 
@@ -114,16 +114,16 @@ questions:
     - "Cross-reference with task acceptance criteria? (default: yes)"
 ```
 
-## Setup Process
+## Setup Process 設置流程
 
-### Step 1: Check Existing Rules
+### Step 1: Check Existing Rules 檢查現有規則
 
 ```bash
 # List existing project rules
 ls -la .workflow/rules/
 ```
 
-### Step 2: Ask Role Selection
+### Step 2: Ask Role Selection 選擇角色
 
 ```
 Which role do you want to customize?
@@ -136,13 +136,13 @@ Which role do you want to customize?
 Enter number or role name:
 ```
 
-### Step 3: Ask Role-Specific Questions
+### Step 3: Ask Role-Specific Questions 角色特定問題
 
-Present questions for the selected role, show defaults, accept customizations.
+呈現所選角色的問題，顯示默認值，接受定制。
 
-### Step 4: Create Rule Files
+### Step 4: Create Rule Files 創建規則文件
 
-Create `.workflow/rules/{role}/{rule-name}.md` with only the customized values:
+創建 `.workflow/rules/{role}/{rule-name}.md`，僅含定制值：
 
 ```markdown
 # Project-Specific {Rule Name} Rules
@@ -162,9 +162,9 @@ This file overrides the default rules at:
 `${CLAUDE_PLUGIN_ROOT}/rules/{role}/{rule-name}.md`
 ```
 
-### Step 5: Verify and Summarize
+### Step 5: Verify and Summarize 驗證並匯總
 
-Show what was created and how it changes behavior:
+顯示所創建內容及其如何改變行為：
 
 ```
 ✅ Created .workflow/rules/task-executor/context-hygiene.md
@@ -176,7 +176,7 @@ Changes from defaults:
 To revert: Delete the file and defaults will be used.
 ```
 
-## Example Output
+## Example Output 示例輸出
 
 ```
 Setting up workflow role rules for project: my-project
@@ -226,7 +226,7 @@ To modify: Edit .workflow/rules/task-executor/*.md
 To reset: Delete the rule files to restore defaults
 ```
 
-## File Structure
+## File Structure 文件結構
 
 ```
 .workflow/rules/
@@ -239,7 +239,7 @@ To reset: Delete the rule files to restore defaults
     └── post-task-review.md         # Override post-task review rules
 ```
 
-## Reset to Defaults
+## Reset to Defaults 重置為默認值
 
 ```bash
 # Remove all project-specific rules
@@ -249,11 +249,11 @@ rm -rf .workflow/rules/
 rm .workflow/rules/task-executor/*.md
 ```
 
-## Integration with Loop Commands
+## Integration with Loop Commands 與循環命令的集成
 
-When running `/workflow:start`, the task-executor agent will:
+運行 `/workflow:start` 時，task-executor 代理將：
 
-1. Check for project rules at `.workflow/rules/`
-2. Merge with plugin defaults
-3. Apply customizations before execution
-4. Log which rules are in effect
+1. 在 `.workflow/rules/` 檢查項目規則
+2. 與插件默認值合並
+3. 執行前應用定制
+4. 記錄生效的規則

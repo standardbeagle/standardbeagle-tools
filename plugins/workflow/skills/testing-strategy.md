@@ -1,11 +1,11 @@
 ---
 name: testing-strategy
-description: Three-tier testing strategy - e2e for product validation, integration for coverage breadth, unit for exhaustive logic testing
+description: Three-tier test strategy — e2e, integration, unit pyramid for disciplined coverage. 三層測試法：e2e驗產品，整合測廣度，單元窮邏輯. Use when: choose test type, write e2e test, write integration test, write unit test, debug flaky test, enforce TDD
 ---
 
 # Testing Strategy: The Testing Pyramid
 
-A disciplined approach to test selection. Not all code needs the same kind of test. The right test at the right level catches bugs efficiently without creating a brittle, slow test suite.
+測試選擇之道。非一切代碼皆需同類測試。層次得當，則捕蟲有效，套件不脆不遲。
 
 ## The RED/GREEN Discipline
 
@@ -37,7 +37,7 @@ red_green_cycle:
 
 ## Smoke Tests: Highest Fidelity Always
 
-Smoke tests verify the system is fundamentally operational. They MUST use the highest fidelity available — real UI, real backend, real database. A smoke test that uses mocks or stubs is worthless.
+冒煙測試驗系統根本可用。必取最高仿真度——真UI、真後端、真資料庫。用模擬者，無效。
 
 ```yaml
 smoke_tests:
@@ -65,7 +65,7 @@ smoke_tests:
   failure_response: "STOP DEPLOYMENT — smoke failure means the system is broken"
 ```
 
-## Core Principle: Test at the Right Level
+## Core Principle: 測於正確層次
 
 ```yaml
 testing_tiers:
@@ -121,7 +121,7 @@ testing_tiers:
     example_scope: "Filter parser handles _eq, _gt, _between, null, nested AND/OR"
 ```
 
-## Decision Framework: Which Test Level?
+## Decision Framework: 擇何層次？
 
 ```yaml
 decision_tree:
@@ -144,7 +144,7 @@ decision_tree:
 
 ## E2E Tests: Product Validation
 
-E2E tests prove the product works. They are expensive to write and maintain, so use them sparingly for high-value journeys.
+E2E測試證產品可用。撰寫維護代價高，宜用於高價值旅程，不可濫。
 
 ```yaml
 e2e_principles:
@@ -174,7 +174,7 @@ e2e_principles:
 
 ## Integration Tests: Coverage Breadth
 
-Integration tests verify that components work together. They're faster than e2e and can cover more cases.
+整合測試驗組件協作。速逾e2e，可覆更多情形。
 
 ```yaml
 integration_principles:
@@ -206,7 +206,7 @@ integration_principles:
 
 ## Unit Tests: Exhaustive Logic Testing
 
-Unit tests are for code that benefits from exhaustive case coverage. If a function has branches, test every branch.
+單元測試窮舉分支。凡函數有岔，必測每岔。
 
 ```yaml
 unit_principles:
@@ -237,7 +237,7 @@ unit_principles:
       - "CalculateTotal_EmptyCart_ReturnsZero"
 ```
 
-## Test Quality Rules
+## Test Quality Rules 測試品質規則
 
 ```yaml
 quality_rules:
@@ -266,9 +266,9 @@ quality_rules:
     - "Use mocks or stubs in smoke tests — highest fidelity only"
 ```
 
-## TDD Integration: RED/GREEN at Every Tier
+## TDD Integration: 各層皆行 RED/GREEN
 
-This strategy integrates with the RED → GREEN → REFACTOR cycle from the quality loop:
+此策略融入品質循環之 RED → GREEN → REFACTOR 週期：
 
 ```yaml
 tdd_with_tiers:
@@ -301,9 +301,9 @@ tdd_with_tiers:
     never: "Never mock, stub, or simulate in a smoke test"
 ```
 
-## Verification
+## Verification 驗收
 
-Before marking any task complete:
+任務標完前：
 ```yaml
 test_verification:
   - "All existing tests still pass (GREEN)"

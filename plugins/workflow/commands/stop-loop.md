@@ -1,26 +1,26 @@
 ---
 name: stop-loop
-description: Stop the currently running workflow loop
+description: Gracefully stop the currently running workflow loop with checkpoint save. 優雅停止當前工作流循環，保存檢查點. Use when: stop workflow loop, cancel loop, pause execution, halt workflow, stop current loop
 ---
 
 # Stop Workflow Loop
 
-Gracefully stop the currently running Ralph Wiggum workflow loop.
+優雅停止當前正在運行的 Ralph Wiggum 工作流循環。
 
-## Process
+## Process 過程
 
-1. **Check for running loop**
-   - Read `.workflow/loop-state.json`
-   - Verify status is "running"
-   - If no loop running, inform user and exit
+1. **檢查正在運行的循環**
+   - 讀取 `.workflow/loop-state.json`
+   - 驗證狀態為 "running"
+   - 若無循環運行，通知用戶並退出
 
-2. **Graceful shutdown**
-   - Wait for current subagent to complete (if any)
-   - Update loop state to "stopped"
-   - Record stop timestamp and reason
-   - Generate final summary report
+2. **優雅關閉**
+   - 等待當前子代理完成（若有）
+   - 更新循環狀態為 "stopped"
+   - 記錄停止時間戳與原因
+   - 生成最終摘要報告
 
-3. **Update loop state**
+3. **更新循環狀態**
 ```json
 {
   "status": "stopped",
@@ -36,7 +36,7 @@ Gracefully stop the currently running Ralph Wiggum workflow loop.
 }
 ```
 
-4. **Display summary**
+4. **顯示摘要**
 ```
 Workflow Loop Stopped
 =====================
@@ -56,13 +56,13 @@ Loop state saved to: .workflow/loop-state.json
 To resume: /workflow:start-loop --resume abc123
 ```
 
-## Options
+## Options 選項
 
-- **Immediate stop**: If critical issue, stop without waiting for subagent
-- **Save checkpoint**: Always save current state before stopping
-- **Resume capability**: State file allows resuming later
+- **立即停止**：若有嚴重問題，不等待子代理直接停止
+- **保存檢查點**：停止前始終保存當前狀態
+- **恢復能力**：狀態文件允許稍後恢復
 
-## Usage
+## Usage 使用方法
 
 ```bash
 # Stop current loop

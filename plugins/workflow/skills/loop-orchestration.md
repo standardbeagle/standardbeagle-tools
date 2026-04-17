@@ -1,15 +1,15 @@
 ---
 name: loop-orchestration
-description: Main loop orchestration logic and state management patterns
+description: Main loop orchestration — task queue, subagent lifecycle, state machine, error recovery. 主循環協調：任務隊列、子代理生命週期、狀態機、錯誤恢復. Use when: orchestrate workflow loop, manage task queue, spawn subagent, handle loop state, recover from error
 ---
 
 # Loop Orchestration
 
-Patterns for orchestrating adversarial loops with clean context management.
+以清潔上下文管理協調對抗循環之模式。
 
-## Orchestrator Responsibilities
+## Orchestrator Responsibilities 協調者職責
 
-The main loop (running in primary agent) has ONLY these responsibilities:
+主循環（在主代理中運行）僅有以下職責：
 
 ```yaml
 orchestrator_role:
@@ -28,7 +28,7 @@ orchestrator_role:
     - "Make task-specific decisions"
 ```
 
-## State Machine
+## State Machine 狀態機
 
 ```yaml
 loop_states:
@@ -53,7 +53,7 @@ loop_states:
     terminal: true
 ```
 
-## Subagent Lifecycle Management
+## Subagent Lifecycle Management 子代理生命週期管理
 
 ```yaml
 lifecycle:
@@ -78,9 +78,9 @@ lifecycle:
     - "Run subagents in parallel"
 ```
 
-## Plan-Update Presentation Between Ticks
+## Plan-Update Presentation Between Ticks Tick 間的計劃更新呈現
 
-Between each tick (after a subagent returns, before the next spawn), read `.workflow/loop-state.json` for any `pending_plan_updates` written by the last task's review step.
+每個 tick 之間（子代理返回後、下次生成前），讀取 `.workflow/loop-state.json` 中上一任務審查步驟寫入的 `pending_plan_updates`。
 
 ```yaml
 tick_transition:
@@ -108,25 +108,25 @@ never:
   - "Block next tick on proposal decisions"
 ```
 
-The goal is to surface the backlog without interrupting focus. Default "no" keeps the loop moving.
+目標是呈現積壓而不中斷焦點。默認「否」保持循環推進。
 
-## State File Protocol
+## State File Protocol 狀態文件協議
 
-Single source of truth: `.workflow/loop-state.json`
+唯一真實來源：`.workflow/loop-state.json`
 
-**Writers**:
-- Main loop: Updates orchestration state
-- Subagents: Update task-specific state before termination
+**寫入者**：
+- 主循環：更新協調狀態
+- 子代理：終止前更新任務特定狀態
 
-**Readers**:
-- Main loop: Reads to decide next action
-- Subagents: Read task spec at spawn
-- Status command: Reads for reporting
-- Hooks: Read for metrics
+**讀取者**：
+- 主循環：讀取以決定下一動作
+- 子代理：生成時讀取任務規格
+- 狀態命令：讀取以報告
+- 鉤子：讀取以獲取指標
 
-**Locking**: File-based locking to prevent concurrent writes
+**鎖定**：基於文件的鎖定防止並發寫入
 
-## Error Recovery
+## Error Recovery 錯誤恢復
 
 ```yaml
 error_handling:
@@ -147,9 +147,9 @@ error_handling:
     action: "Stop loop immediately, alert user"
 ```
 
-## Progress Reporting
+## Progress Reporting 進度報告
 
-Report after each iteration:
+每次迭代後報告：
 ```
 Progress: [X of Y] ▰▰▰▰▰▰▱▱▱▱ 60%
 Current: Task 3 - [title]
@@ -157,6 +157,6 @@ Status: [stage]
 Time: 15m elapsed
 ```
 
-## Usage Patterns
+## Usage Patterns 使用模式
 
-See `start-loop.md` for concrete implementation of this orchestration pattern.
+見 `start-loop.md` 此協調模式之具體實現。

@@ -1,16 +1,16 @@
 # Task Executor Execution Pattern Rules
 
-## Role
+## Role 職責
 
-You are a task executor in a Ralph Wiggum adversarial workflow loop.
+汝乃 Ralph Wiggum 對抗工作流循環中之任務執行者。
 
-**Your job**: Execute ONE task completely, then terminate.
+**職責**：完整執行一個任務，然後終止。
 
-**CRITICAL**: You have FRESH context with NO memory of previous tasks.
+**重要**：汝有全新上下文，無前任任務之記憶。
 
-## Execution Flow
+## Execution Flow 執行流程
 
-### 1. Load Task Specification
+### 1. Load Task Specification 加載任務規格
 
 ```yaml
 task_input:
@@ -26,25 +26,25 @@ read_from_state_file:
   - context
 ```
 
-### 2. Adversarial Loop Skill
+### 2. Adversarial Loop Skill 對抗循環技能
 
-Use the `adversarial-quality` skill which dispatches code-quality-reviewer and qa-reviewer (parallel), then post-task-reviewer (sequential) at Phase 3.
+Invoke the `Skill` tool with `skill: workflow:adversarial-quality` — 執行完整對抗品質循環，並行派發 `workflow:code-quality-reviewer` 與 `workflow:qa-reviewer`，Phase 3 順序執行 `workflow:post-task-reviewer`。
 
-### 3. Execute Loop
+### 3. Execute Loop 執行循環
 
-Follow the skill phases exactly:
-1. Planning phase
-2. Implementation/Audit phase
-3. Verification phase
-4. Quality gates phase
-5. Validation phase
-6. Report generation phase
+嚴格遵循技能各階段：
+1. 規劃階段
+2. 實現/審計階段
+3. 驗證階段
+4. 質量關卡階段
+5. 確認階段
+6. 報告生成階段
 
-**Context Management**: Use checkpoints between phases as documented in skill.
+**上下文管理**：按技能文檔於各階段間使用檢查點。
 
-### 4. Spawn Verifier (if needed)
+### 4. Spawn Verifier (if needed) 生成驗證器（如需）
 
-For independent verification (Phase 4 in quality loop):
+用於獨立驗證（品質循環 Phase 4）：
 
 ```yaml
 verifier_spawn:
@@ -62,9 +62,9 @@ verifier_spawn:
     Return verification report.
 ```
 
-**Key**: Verifier gets FRESH context, knows nothing about implementation process.
+**要點**：驗證器獲全新上下文，對實現過程一無所知。
 
-### 5. Handle Failures
+### 5. Handle Failures 處理失敗
 
 If any phase fails:
 ```yaml
@@ -84,9 +84,9 @@ failure_handling:
     failure_report: [details]
 ```
 
-### 6. Update State File
+### 6. Update State File 更新狀態文件
 
-Before termination, write complete results:
+終止前寫入完整結果：
 
 ```json
 {
@@ -123,39 +123,39 @@ Before termination, write complete results:
 }
 ```
 
-### 7. Terminate
+### 7. Terminate 終止
 
-Return to main loop with final status:
-- Success: "Task completed successfully"
-- Failure: "Task failed at [phase]: [reason]"
+以最終狀態返回主循環：
+- 成功："Task completed successfully"
+- 失敗："Task failed at [phase]: [reason]"
 
-**After termination**: SubagentStop hook will fire, context will be garbage collected.
+**終止後**：SubagentStop 鉤子將觸發，上下文將被垃圾回收。
 
-## Adversarial Mindset
+## Adversarial Mindset 對抗心態
 
-During execution:
+執行中：
 
-**As Implementer** (Phases 1-2):
-- "Make it work correctly"
-- Follow best practices
-- Write clean code
-- Add comprehensive tests
+**作為實現者** (Phases 1-2)：
+- "使其正確運作"
+- 遵循最佳實踐
+- 撰寫整潔代碼
+- 添加全面測試
 
-**As Verifier** (Phases 3-4):
-- "Break it, find flaws"
-- Question every assumption
-- Find edge cases
-- Challenge implementation
+**作為驗證者** (Phases 3-4)：
+- "破之，尋缺陷"
+- 質疑每個假設
+- 尋找邊緣情況
+- 挑戰實現
 
-**As Validator** (Phases 5-6):
-- "Prove it meets criteria"
-- Verify with evidence
-- Run quality gates
-- Generate completion report
+**作為確認者** (Phases 5-6)：
+- "證明其符合標準"
+- 以佐證驗證
+- 運行質量關卡
+- 生成完成報告
 
-## Task Sizing Validation
+## Task Sizing Validation 任務大小驗證
 
-Before starting, verify task is context-sized:
+開始前，驗證任務符合上下文限制：
 
 ```yaml
 validation:
@@ -169,34 +169,34 @@ if_too_large:
   return: "Task too large for context limits"
 ```
 
-## Success Criteria
+## Success Criteria 成功標準
 
-Task is complete when:
-- ✓ All acceptance criteria met
-- ✓ Verification passed
-- ✓ Quality gates passed
-- ✓ Completion report generated
-- ✓ State file updated
-- ✓ Ready to terminate
+任務完成條件：
+- ✓ 所有驗收標準達成
+- ✓ 驗證通過
+- ✓ 質量關卡通過
+- ✓ 完成報告生成
+- ✓ 狀態文件更新
+- ✓ 準備終止
 
-## Failure Criteria
+## Failure Criteria 失敗標準
 
-Task fails if:
-- ✗ Cannot meet acceptance criteria
-- ✗ Critical security issue found
-- ✗ Quality gates cannot pass
-- ✗ Task scope too large
-- ✗ Missing required information
+任務失敗條件：
+- ✗ 無法達成驗收標準
+- ✗ 發現嚴重安全問題
+- ✗ 質量關卡無法通過
+- ✗ 任務範圍過大
+- ✗ 缺少必要信息
 
-## Communication
+## Communication 通信
 
-**With Main Loop**: Only via state file, never assume context
+**與主循環**：僅通過狀態文件，從不假設上下文
 
-**With User**: Only if need clarification via AskUserQuestion
+**與用戶**：僅在需要澄清時通過 AskUserQuestion
 
-**With Verifier**: Spawn fresh subagent, no direct communication
+**與驗證器**：生成全新子代理，無直接通信
 
-## Example Execution
+## Example Execution 執行示例
 
 ```
 1. Receive: "Execute task-3: Add user authentication"
@@ -213,4 +213,4 @@ Task fails if:
 7. Return report to task-executor
 ```
 
-**Key Success Factor**: Maintain clean context, execute one task completely, terminate cleanly.
+**關鍵成功因素**：保持清潔上下文，完整執行一個任務，清潔終止。

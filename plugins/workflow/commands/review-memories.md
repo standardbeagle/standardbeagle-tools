@@ -1,32 +1,32 @@
 ---
 name: review-memories
-description: Review, search, and manage workflow memories
+description: Search, review, and manage workflow memories — patterns, decisions, lessons, strategies. 搜索、審查、管理工作流記憶：模式、決策、教訓、策略. Use when: review workflow memories, search saved lessons, apply memory to task, find past decisions, manage memory health
 argument-hint: "[search-query]"
 ---
 
 # Review Workflow Memories
 
-Search, review, and manage memories saved from previous workflow loops.
+搜索、審查並管理從先前工作流循環保存的記憶。
 
-## Purpose
+## Purpose 目的
 
-Memories preserve valuable learnings from workflow execution:
-- Patterns that worked well
-- Technical decisions with rationale
-- Security lessons learned
-- Verification strategies
-- Code patterns and conventions
+記憶保存工作流執行中的寶貴學習：
+- 有效的模式
+- 含理由的技術決策
+- 安全教訓
+- 驗證策略
+- 代碼模式與慣例
 
-This command helps you:
-- Search existing memories
-- Review what's been learned
-- Apply learnings to current work
-- Update or remove obsolete memories
-- Export memories for sharing
+此命令幫助：
+- 搜索現有記憶
+- 審查已學習的內容
+- 將學習應用於當前工作
+- 更新或移除過時記憶
+- 導出記憶以共享
 
-## Usage
+## Usage 使用方法
 
-### Search All Memories
+### Search All Memories 搜索所有記憶
 
 ```bash
 /workflow:review-memories
@@ -34,7 +34,7 @@ This command helps you:
 
 Shows all memories organized by category.
 
-### Search by Query
+### Search by Query 按查詢搜索
 
 ```bash
 /workflow:review-memories authentication
@@ -44,9 +44,9 @@ Shows all memories organized by category.
 /workflow:review-memories security xss
 ```
 
-Searches memory titles, tags, and content.
+搜索記憶標題、標籤與內容。
 
-### Search by Category
+### Search by Category 按分類搜索
 
 ```bash
 /workflow:review-memories --category=workflow_pattern
@@ -54,7 +54,7 @@ Searches memory titles, tags, and content.
 /workflow:review-memories --category=lesson
 ```
 
-### Search by Scope
+### Search by Scope 按範圍搜索
 
 ```bash
 /workflow:review-memories --scope=project
@@ -62,7 +62,7 @@ Searches memory titles, tags, and content.
 /workflow:review-memories --scope=user
 ```
 
-### Search by Tags
+### Search by Tags 按標籤搜索
 
 ```bash
 /workflow:review-memories --tags=security,authentication
@@ -70,18 +70,18 @@ Searches memory titles, tags, and content.
 /workflow:review-memories --tags=xss
 ```
 
-## Process
+## Process 過程
 
-### 1. Load Memories
+### 1. Load Memories 加載記憶
 
-**From slop-mcp** (if available):
+**來自 slop-mcp**（若可用）：
 ```bash
 # Use slop-mcp to fetch memories
 slop-mcp memory list --scope=project
 slop-mcp memory list --scope=user
 ```
 
-**From local storage** (fallback):
+**來自本地存儲**（備用）：
 ```bash
 # Read from .workflow/memories/
 ls -1 .workflow/memories/*.md
@@ -92,24 +92,24 @@ for file in .workflow/memories/*.md; do
 done
 ```
 
-### 2. Filter and Sort
+### 2. Filter and Sort 過濾與排序
 
-Apply filters:
-- Query match (title, tags, content)
-- Category filter
-- Scope filter
-- Tag filter
-- Confidence level
+應用過濾器：
+- 查詢匹配（標題、標籤、內容）
+- 分類過濾器
+- 範圍過濾器
+- 標籤過濾器
+- 置信度
 
-Sort by:
-- Relevance (if query provided)
-- Date (newest first)
-- Confidence (high first)
-- Category (grouped)
+排序方式：
+- 相關性（若提供查詢）
+- 日期（最新在前）
+- 置信度（高在前）
+- 分類（分組）
 
-### 3. Display Results
+### 3. Display Results 顯示結果
 
-**Summary View:**
+**摘要視圖：**
 ```
 Workflow Memories
 =================
@@ -138,9 +138,9 @@ Code Patterns (2):
 To view a memory: /workflow:view-memory <title>
 ```
 
-**Detailed View:**
+**詳細視圖：**
 
-If specific query or only 1-3 results:
+若有具體查詢或僅1-3個結果：
 ```
 Memory: Auth tasks require rate limiting verification
 =========================================================
@@ -184,9 +184,9 @@ Related memories: 2
   - Rate limiting pattern: 5 attempts/min/IP for auth
 ```
 
-### 4. Action Menu
+### 4. Action Menu 操作菜單
 
-After displaying memories, offer actions:
+顯示記憶後，提供操作：
 
 ```yaml
 actions:
@@ -198,7 +198,7 @@ actions:
   link_memories: "Connect related memories"
 ```
 
-**Interactive:**
+**交互式：**
 ```
 What would you like to do?
 1. View details of a specific memory
@@ -209,20 +209,20 @@ What would you like to do?
 6. Nothing, just browsing
 ```
 
-## Memory Operations
+## Memory Operations 記憶操作
 
-### View Details
+### View Details 查看詳情
 
-Show full memory with all fields:
+顯示含所有字段的完整記憶：
 ```bash
 /workflow:view-memory "Auth tasks require rate limiting"
 ```
 
-Displays complete content with metadata.
+顯示含元數據的完整內容。
 
-### Apply to Task
+### Apply to Task 應用於任務
 
-Incorporate memory into current work:
+將記憶融入當前工作：
 ```
 Applying memory: "Auth tasks require rate limiting"
 
@@ -237,9 +237,9 @@ Should I:
 3. Just keep it in mind
 ```
 
-### Update Memory
+### Update Memory 更新記憶
 
-Modify existing memory:
+修改現有記憶：
 ```
 Update memory: "XSS in user profile"
 
@@ -254,11 +254,11 @@ What would you like to change?
 5. Cancel
 ```
 
-Save updated version with timestamp.
+保存帶時間戳的更新版本。
 
-### Delete Memory
+### Delete Memory 刪除記憶
 
-Remove obsolete memory:
+移除過時記憶：
 ```
 Delete memory: "Use Redux for state management"
 
@@ -270,11 +270,11 @@ Has it become obsolete?
 3. Archive it (keep but mark obsolete)
 ```
 
-Confirm before deletion, optionally archive instead.
+刪除前確認，可選擇改為存檔。
 
-### Export Memories
+### Export Memories 導出記憶
 
-Generate file for sharing:
+生成用於共享的文件：
 ```
 Export memories
 
@@ -295,36 +295,36 @@ Output:
 3. Display inline
 ```
 
-## Search Algorithms
+## Search Algorithms 搜索算法
 
-### Simple Search (Default)
+### Simple Search (Default) 簡單搜索（默認）
 
-- Match query words in title, tags, content
-- Case-insensitive
-- Sort by relevance (number of matches)
+- 在標題、標籤、內容中匹配查詢詞
+- 不區分大小寫
+- 按相關性排序（匹配數量）
 
-### Tag-Based Search
+### Tag-Based Search 基於標籤的搜索
 
-- Match exact tags
-- Support multiple tags (AND/OR)
-- Fast lookup via index
+- 精確標籤匹配
+- 支持多標籤（AND/OR）
+- 通過索引快速查找
 
-### Full-Text Search
+### Full-Text Search 全文搜索
 
-- Search entire content
-- Highlight matches
-- Rank by relevance
+- 搜索完整內容
+- 高亮匹配
+- 按相關性排名
 
-### Smart Search
+### Smart Search 智能搜索
 
-Semantic search if available:
-- Understand intent ("show me security issues")
-- Related terms (search "auth" finds "authentication")
-- Synonym expansion
+若可用的語義搜索：
+- 理解意圖（"show me security issues"）
+- 相關詞（搜索 "auth" 找到 "authentication"）
+- 同義詞擴展
 
-## Memory Statistics
+## Memory Statistics 記憶統計
 
-Show overview stats:
+顯示概覽統計：
 ```
 Memory Statistics
 =================
@@ -362,11 +362,11 @@ Oldest memory: 3 months ago
 Newest memory: 2 hours ago
 ```
 
-## Integration with Current Work
+## Integration with Current Work 與當前工作的集成
 
-### At Task Start
+### At Task Start 任務開始時
 
-Suggest relevant memories:
+建議相關記憶：
 ```
 Starting task: "Add OAuth2 authentication"
 
@@ -381,9 +381,9 @@ Would you like to:
 3. Continue without reviewing
 ```
 
-### During Execution
+### During Execution 執行中
 
-Alert if memory applies:
+若記憶適用則提醒：
 ```
 [During security verification phase]
 
@@ -397,9 +397,9 @@ This task involves authentication. Don't forget to:
 View full memory: /workflow:view-memory "Auth tasks require rate limiting"
 ```
 
-### Before Completion
+### Before Completion 完成前
 
-Check if memory was useful:
+檢查記憶是否有用：
 ```
 Task completed: "Add OAuth2 authentication"
 
@@ -412,22 +412,22 @@ Was this memory helpful?
 4. Memory is now obsolete (archive?)
 ```
 
-## Memory Maintenance
+## Memory Maintenance 記憶維護
 
-### Regular Review
+### Regular Review 定期審查
 
-Periodically review memories:
-- Every 10 completed tasks
-- Every month
-- On project milestones
+定期審查記憶：
+- 每完成10個任務
+- 每月一次
+- 項目里程碑時
 
-Check for:
-- Obsolete memories (update or archive)
-- Duplicate memories (merge)
-- Low-confidence memories (validate or delete)
-- Missing links (connect related memories)
+檢查：
+- 過時記憶（更新或存檔）
+- 重複記憶（合並）
+- 低置信度記憶（驗證或刪除）
+- 缺少鏈接（連接相關記憶）
 
-### Memory Health Report
+### Memory Health Report 記憶健康報告
 
 ```
 Memory Health Report
@@ -446,9 +446,9 @@ Recommendations:
   3. Update: "API versioning" (new v2 API released)
 ```
 
-## Examples
+## Examples 示例
 
-### Example 1: Search for security lessons
+### Example 1: 搜索安全教訓
 ```bash
 /workflow:review-memories security
 
@@ -460,7 +460,7 @@ Found 5 memories:
   5. OWASP Top 10 verification checklist (verification)
 ```
 
-### Example 2: Review lessons learned
+### Example 2: 審查學到的教訓
 ```bash
 /workflow:review-memories --category=lesson
 
@@ -473,7 +473,7 @@ Lessons Learned (10 memories):
   ...
 ```
 
-### Example 3: Apply memory to current task
+### Example 3: 將記憶應用於當前任務
 ```bash
 # Starting task: Add password reset
 /workflow:review-memories password
@@ -497,19 +497,19 @@ Applied to task. Checklist added:
   - [ ] Verify email ownership
 ```
 
-## Notes
+## Notes 備注
 
-- Memories are stored per-project in `.workflow/memories/`
-- User-scope memories can be shared across projects
-- Global memories are rare (universal patterns only)
-- Regular review prevents memory bloat
-- Quality over quantity - be selective
+- 記憶按項目存儲於 `.workflow/memories/`
+- 用戶範圍記憶可跨項目共享
+- 全局記憶罕見（僅通用模式）
+- 定期審查防止記憶臃腫
+- 質量重於數量——有選擇性
 
-## Success Criteria
+## Success Criteria 成功標準
 
-Memory review is successful when:
-- ✓ Relevant memories easily found
-- ✓ Learnings applied to current work
-- ✓ Obsolete memories removed
-- ✓ Memory quality maintained
-- ✓ Knowledge compound over time
+記憶審查成功條件：
+- ✓ 相關記憶易於查找
+- ✓ 學習已應用於當前工作
+- ✓ 過時記憶已移除
+- ✓ 記憶質量已維護
+- ✓ 知識隨時間累積
