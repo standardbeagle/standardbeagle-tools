@@ -34,23 +34,33 @@ fi
 # common case and pass this check correctly.
 echo "-- bilingual description check --"
 while IFS= read -r file; do
+  # Frontmatter description is always inside the first ---…--- fence;
+  # the `c==1` guard locks extraction to that block even if the body
+  # contains a line that is literally `---`.
   desc=$(awk '/^---$/{c++; next} c==1 && /^description:/ {sub(/^description: */,""); print; exit}' "$file")
   if [[ -z "$desc" ]]; then
     continue # no description, fine (some rule files have no frontmatter)
   fi
-  if ! echo "$desc" | grep -q '[A-Za-z]'; then
+  if ! rg -q '[A-Za-z]' <<<"$desc"; then
     echo "FAIL: $file description missing English"
     FAIL=1
   fi
-  if ! echo "$desc" | rg -q '\p{Han}'; then
+  if ! rg -q '\p{Han}' <<<"$desc"; then
     echo "FAIL: $file description missing Wenyan (Han chars)"
     FAIL=1
   fi
-done < <(scripts/wenyan/in-scope.sh "$PLUGIN")
+done < <("$ROOT/scripts/wenyan/in-scope.sh" "$PLUGIN")
 
 # Check 3: excluded files untouched since branch point.
 echo "-- excluded-file integrity --"
-BASE=$(git merge-base HEAD main)
+if git rev-parse --verify --quiet main >/dev/null; then
+  BASE=$(git merge-base HEAD main)
+elif git rev-parse --verify --quiet origin/main >/dev/null; then
+  BASE=$(git merge-base HEAD origin/main)
+else
+  echo "error: neither 'main' nor 'origin/main' is available locally" >&2
+  exit 2
+fi
 changed=$(git diff --name-only "$BASE" HEAD -- \
      "plugins/$PLUGIN/README.md" \
      "plugins/$PLUGIN/CHANGELOG.md" \

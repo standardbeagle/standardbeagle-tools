@@ -47,6 +47,9 @@ Rules:
 - `Use when:` clause enumerates 3–6 concrete English phrases a user might
   type, comma-separated.
 - Single YAML line unless > 300 chars, then use YAML `>` folded scalar.
+  Single-line descriptions are required because the validator
+  (`scripts/wenyan/validate-plugin.sh`) extracts only the first
+  frontmatter line. Prefer concision over folded scalars.
 
 Before:
 ```yaml
@@ -88,3 +91,8 @@ For each file you modify:
 
 Never delete files. Never create files. Never modify frontmatter keys other
 than rewriting the value of `description:`.
+
+You must not emit any Markdown, JSON, or other file outside the files you
+were handed. Do not create sibling backup files or notes. Your only
+side-effects are `Edit` calls on the listed files and the summary you
+return to the orchestrator.
