@@ -1,10 +1,10 @@
 ---
-description: "Frontend embedding pipeline for Photino.NET: Vite build to wwwroot, base path configuration, dev vs production loading, fallback HTML, and .gitignore setup"
+description: "Frontend embedding pipeline for Photino.NET: Vite build to wwwroot, base path configuration, dev vs production loading, fallback HTML, and .gitignore setup. 前端嵌入管道：Vite構建至wwwroot、基路徑配置、開發/生產加載、後備HTML及.gitignore設置. Use when: configuring Vite for Photino, setting up wwwroot output, troubleshooting asset paths, configuring dev vs prod loading"
 ---
 
 # Frontend Embedding in Photino.NET
 
-How the frontend build pipeline works: source files flow through Vite, output to `wwwroot/`, get picked up by MSBuild, and embedded in the binary.
+前端構建管道工作原理：源文件經Vite、輸出至`wwwroot/`、MSBuild拾取、嵌入二進制。
 
 ## Build Pipeline
 
@@ -21,7 +21,7 @@ public/                │  ├─ index-[hash].js
 
 ## Vite Configuration
 
-The critical settings for Photino embedding:
+Photino嵌入關鍵設置：
 
 ```typescript
 // vite.config.ts
@@ -57,7 +57,7 @@ export default defineConfig({
 
 ### Why `base: './'` is Required
 
-Without `base: './'`, Vite generates absolute paths like `/assets/index-abc123.js`. When Photino loads from a `file://` URL or embedded resource, absolute paths resolve to the filesystem root and fail silently.
+無`base: './'`，Vite生成絕對路徑如`/assets/index-abc123.js`。Photino從`file://` URL或嵌入資源加載時，絕對路徑解析至文件系統根，靜默失敗。
 
 ```html
 <!-- base: '/' (default) — BROKEN in Photino -->
@@ -71,7 +71,7 @@ Without `base: './'`, Vite generates absolute paths like `/assets/index-abc123.j
 
 ### Production Mode (Photino Window)
 
-The AppHost loads the embedded `index.html`:
+AppHost加載嵌入的`index.html`：
 
 ```csharp
 // AppHost.cs
@@ -81,7 +81,7 @@ else
     _window.Load("wwwroot/index.html");  // Prod: embedded file
 ```
 
-Photino resolves `wwwroot/index.html` relative to the executable's directory. The `Content` ItemGroup in `.csproj` ensures files are copied there:
+Photino相對可執行文件目錄解析`wwwroot/index.html`。`.csproj`中`Content` ItemGroup確保文件被複製：
 
 ```xml
 <Content Include="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
@@ -89,7 +89,7 @@ Photino resolves `wwwroot/index.html` relative to the executable's directory. Th
 
 ### Development Mode (Browser)
 
-In dev mode, the browser loads from Vite at `http://localhost:5173`. The message bridge auto-detects this and uses WebSocket instead of `window.external`:
+開發模式下，瀏覽器從Vite`http://localhost:5173`加載。消息橋自動檢測並使用WebSocket而非`window.external`：
 
 ```typescript
 // Auto-detection in message bridge
@@ -101,7 +101,7 @@ const transport = isPhotino
 
 ## index.html Template
 
-The entry HTML file must work in both contexts:
+入口HTML文件須兩種上下文均可用：
 
 ```html
 <!DOCTYPE html>
@@ -122,7 +122,7 @@ The entry HTML file must work in both contexts:
 
 ## Fallback HTML for Missing Build
 
-During initial setup or when the frontend hasn't been built yet, Photino will show a blank page. Add a fallback:
+初始設置或前端未構建時，Photino顯示空白頁。添加後備：
 
 ```csharp
 // In AppHost.cs
@@ -152,26 +152,26 @@ pnpm build</pre>
 
 ## .gitignore Setup
 
-The `wwwroot/` directory should be git-ignored since it's a build artifact:
+`wwwroot/`目錄為構建產物，應納入git忽略：
 
 ```gitignore
 # In src/MyApp/.gitignore
 wwwroot/
 ```
 
-But keep a `.gitkeep` if you want the directory to exist:
+若需目錄存在，保留`.gitkeep`：
 ```bash
 touch src/MyApp/wwwroot/.gitkeep
 echo '!wwwroot/.gitkeep' >> src/MyApp/.gitignore
 ```
 
-**Do NOT gitignore the entire wwwroot pattern globally** — only in the .NET project that receives the Vite build output.
+**勿全局忽略wwwroot模式**——僅在接收Vite構建輸出的.NET工程中忽略。
 
 ## Static Assets
 
 ### Public Directory
 
-Files in the frontend's `public/` directory are copied as-is to wwwroot:
+前端`public/`目錄中文件按原樣複製至wwwroot：
 
 ```
 src/MyApp.Frontend/
@@ -183,7 +183,7 @@ src/MyApp.Frontend/
 
 ### Imported Assets
 
-Assets imported in JavaScript/Svelte get hashed filenames:
+JavaScript/Svelte中導入的資產獲哈希文件名：
 
 ```svelte
 <script>
@@ -196,7 +196,7 @@ Assets imported in JavaScript/Svelte get hashed filenames:
 
 ## Frontend Project Structure
 
-Recommended Svelte 5 frontend layout:
+推薦Svelte 5前端佈局：
 
 ```
 src/MyApp.Frontend/
@@ -236,7 +236,7 @@ export default app;
 
 ## Build Verification
 
-After building, verify the wwwroot output:
+構建後驗證wwwroot輸出：
 
 ```bash
 # Build frontend
@@ -256,13 +256,13 @@ cd ../../ && dotnet build
 
 ## Chunk Size Considerations
 
-Photino apps often produce large bundles because they include rich UI components. The Vite warning at 500KB is informational:
+Photino應用因含豐富UI組件常產生大捆包。Vite 500KB警告僅為提示：
 
 ```
 (!) Some chunks are larger than 500 kB after minification.
 ```
 
-This is normal for desktop apps — there's no network download penalty. You can suppress with:
+桌面應用無網絡下載代價，此屬正常。可以此壓制：
 
 ```typescript
 build: {
@@ -270,7 +270,7 @@ build: {
 }
 ```
 
-For code splitting, use dynamic imports if you want lazy-loaded views:
+若需延遲加載視圖，用動態導入拆分代碼：
 
 ```svelte
 <script>

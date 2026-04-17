@@ -1,15 +1,15 @@
 ---
-description: "Run tests for a Photino.NET project with filter patterns, coverage collection, and frontend type checking"
+description: "Run tests for a Photino.NET project with filter patterns, coverage collection, and frontend type checking. 運行Photino.NET工程測試：過濾模式、覆蓋率收集及前端類型檢查. Use when: running unit tests, filtering by category or class, collecting test coverage, running Svelte/TypeScript type checks"
 allowed-tools: ["Bash", "Read", "Glob", "Grep"]
 ---
 
-Run tests for a Photino.NET application. Supports filtering by class, method, category, and combined patterns, plus coverage collection and frontend type checking.
+運行Photino.NET應用測試。支持按類、方法、類別及組合模式過濾，加覆蓋率收集及前端類型檢查。
 
 ## Steps
 
 ### 1. Detect Test Project
 
-Find the test project:
+查找測試工程：
 
 ```bash
 # Find test csproj files
@@ -69,7 +69,7 @@ dotnet test --collect:"XPlat Code Coverage"
 find . -name "coverage.cobertura.xml" -path "*/TestResults/*"
 ```
 
-Generate an HTML report:
+生成HTML報告：
 
 ```bash
 # Install report generator (one-time)
@@ -84,7 +84,7 @@ reportgenerator \
 
 ### 4. Frontend Type Checking
 
-Run Svelte/TypeScript type checks:
+運行Svelte/TypeScript類型檢查：
 
 ```bash
 # Navigate to frontend project
@@ -97,12 +97,12 @@ pnpm run check
 
 ### 5. Report Results
 
-Summarize:
-- Total tests: passed, failed, skipped
-- Any test failures with error messages
-- Coverage percentage (if collected)
-- Frontend type check results
-- Recommendations for failed tests
+匯總：
+- 總測試數：通過、失敗、跳過
+- 含錯誤消息之測試失敗
+- 覆蓋率百分比（若已收集）
+- 前端類型檢查結果
+- 失敗測試建議
 
 ## Test Filter Quick Reference
 
@@ -118,7 +118,7 @@ Summarize:
 
 ## Known Testing Considerations
 
-- **Environment-dependent tests**: Some tests read host state (PS history, installed modules). Mark with `[Trait("Environment", "Interactive")]` and skip in CI.
-- **Timing-sensitive tests**: Process exit tests may have race conditions. Use `TaskCompletionSource` with timeouts.
-- **Runspace cold start**: First test creating a PowerShell session takes 1-2s. Use `IClassFixture<>` to share sessions across tests in a class.
-- **Frontend type checks**: Run separately from `dotnet test` — they use the Node.js toolchain.
+- **環境依賴測試**：部分測試讀取宿主狀態（PS歷史、已安裝模塊）。用`[Trait("Environment", "Interactive")]`標記，在CI中跳過。
+- **時序敏感測試**：進程退出測試可能存在競爭條件。用帶超時之`TaskCompletionSource`。
+- **Runspace冷啟動**：創建PowerShell會話之首個測試耗時1-2秒。用`IClassFixture<>`在類內共享會話。
+- **前端類型檢查**：與`dotnet test`分開運行——使用Node.js工具鏈。

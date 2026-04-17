@@ -1,14 +1,14 @@
 ---
-description: ".NET build system for Photino apps: csproj configuration, MSBuild targets, frontend build integration, package references, version pinning, and common build errors"
+description: ".NET build system for Photino apps: csproj configuration, MSBuild targets, frontend build integration, package references, version pinning, and common build errors. 配置Photino.NET工程之.csproj、MSBuild目標、前端構建整合、包引用、版本釘定及常見構建錯誤. Use when: configuring csproj, setting up MSBuild targets, integrating frontend build, managing package versions, diagnosing build errors"
 ---
 
 # .NET Build System for Photino
 
-How to configure the .NET project file, MSBuild targets, package references, and frontend build integration for a Photino.NET desktop application.
+配置Photino.NET桌面應用之.NET工程文件、MSBuild目標、包引用及前端構建整合之法。
 
 ## Reference .csproj
 
-Complete project file for a Photino.NET app with PowerShell SDK:
+含PowerShell SDK之Photino.NET應用完整工程文件：
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -63,9 +63,9 @@ Complete project file for a Photino.NET app with PowerShell SDK:
 
 ### OutputType: WinExe vs Exe
 
-- **WinExe**: No console window on Windows. This is correct for desktop apps.
-- **Exe**: Shows console window. Use only if you need `Console.WriteLine` output visible in production.
-- On Linux/macOS, both behave the same.
+- **WinExe**：Windows不顯控制台窗。桌面應用正確選擇。
+- **Exe**：顯控制台窗。僅需生產環境`Console.WriteLine`輸出時用。
+- Linux/macOS兩者行為相同。
 
 ## Package Reference Version Pinning
 
@@ -78,14 +78,14 @@ Complete project file for a Photino.NET app with PowerShell SDK:
 
 ### Version Resolution Notes
 
-- **Photino.NET 4.x** targets net8/net9 but works on net10 via forward compatibility
-- **PowerShell SDK 7.5.x** targets net9 but resolves to net10 via computed TFM
-- **System.Text.Json** is part of the shared framework in .NET 10 — do NOT add a PackageReference
-- Adding explicit `System.Text.Json` can cause version conflicts with the shared framework
+- **Photino.NET 4.x**：目標net8/net9，藉前向相容性運行於net10
+- **PowerShell SDK 7.5.x**：目標net9，經計算TFM解析至net10
+- **System.Text.Json**：.NET 10共享框架內建——勿加PackageReference
+- 顯式引用`System.Text.Json`可致與共享框架版本衝突
 
 ## BuildFrontend MSBuild Target
 
-The `BuildFrontend` target runs before the .NET `Build` target to ensure the frontend is compiled:
+`BuildFrontend`目標在.NET `Build`目標前執行，確保前端已編譯：
 
 ```xml
 <Target Name="BuildFrontend" BeforeTargets="Build"
@@ -97,10 +97,10 @@ The `BuildFrontend` target runs before the .NET `Build` target to ensure the fro
 
 ### How It Works
 
-1. **Condition**: Only runs if the frontend project exists (skips in test-only builds)
-2. **pnpm install**: Ensures dependencies are up to date
-3. **pnpm run build**: Vite builds to `../MyApp/wwwroot/` (configured in `vite.config.ts`)
-4. **EmbeddedResource**: MSBuild then picks up `wwwroot/**/*` and embeds in the binary
+1. **Condition**：前端工程存在時執行（純測試構建則跳過）
+2. **pnpm install**：確保依賴最新
+3. **pnpm run build**：Vite構建至`../MyApp/wwwroot/`（於`vite.config.ts`配置）
+4. **EmbeddedResource**：MSBuild随後拾取`wwwroot/**/*`嵌入二進制
 
 ### Skipping Frontend Build
 
@@ -112,7 +112,7 @@ dotnet build -p:BuildFrontend=false
 SKIP_FRONTEND=1 dotnet build
 ```
 
-To support the environment variable:
+支持環境變量：
 ```xml
 <Target Name="BuildFrontend" BeforeTargets="Build"
         Condition="Exists('..\MyApp.Frontend\package.json') AND '$(SKIP_FRONTEND)' != '1'">
@@ -120,7 +120,7 @@ To support the environment variable:
 
 ## EmbeddedResource vs Content
 
-Both are needed for proper wwwroot handling:
+正確處理wwwroot兩者均需：
 
 ```xml
 <ItemGroup>
@@ -138,7 +138,7 @@ Both are needed for proper wwwroot handling:
 
 ## Solution Structure
 
-Recommended solution layout:
+推薦解決方案佈局：
 
 ```
 MySolution/
@@ -182,37 +182,37 @@ dotnet sln add tests/MyApp.Tests/MyApp.Tests.csproj
 
 ### Error: "The wwwroot directory is empty"
 
-**Cause**: Frontend hasn't been built yet.
+**Cause**：前端尚未構建。
 **Fix**: `cd src/MyApp.Frontend && pnpm install && pnpm build`
 
 ### Error: "Could not find a part of the path 'wwwroot\index.html'"
 
-**Cause**: Vite's `build.outDir` doesn't point to the .NET project's wwwroot.
-**Fix**: In `vite.config.ts`, set `build: { outDir: '../MyApp/wwwroot' }`
+**Cause**：Vite之`build.outDir`未指向.NET工程的wwwroot。
+**Fix**：於`vite.config.ts`設`build: { outDir: '../MyApp/wwwroot' }`
 
 ### Error: "Microsoft.PowerShell.SDK references System.Text.Json 8.x"
 
-**Cause**: Explicit `System.Text.Json` PackageReference conflicts with framework version.
-**Fix**: Remove the `<PackageReference Include="System.Text.Json" ... />` line. It's bundled in .NET 10.
+**Cause**：顯式`System.Text.Json` PackageReference與框架版本衝突。
+**Fix**：移除`<PackageReference Include="System.Text.Json" ... />`行，.NET 10已內建。
 
 ### Error: "NU1605: Detected package downgrade"
 
-**Cause**: SDK and Photino pin different transitive dependency versions.
-**Fix**: Add explicit PackageReference for the conflicting package with the higher version.
+**Cause**：SDK與Photino釘定不同傳遞依賴版本。
+**Fix**：為衝突包加顯式PackageReference，使用更高版本。
 
 ### Warning: "NETSDK1179: PublishSingleFile with SelfContained"
 
-**Cause**: Missing `RuntimeIdentifier` at publish time.
-**Fix**: `dotnet publish -r linux-x64` (specify the target RID)
+**Cause**：發布時缺`RuntimeIdentifier`。
+**Fix**: `dotnet publish -r linux-x64`（指定目標RID）
 
 ### Error: "ICE on compilation" with PowerShell SDK
 
-**Cause**: PowerShell SDK brings large transitive dependency tree.
-**Fix**: Ensure you're on the latest .NET SDK preview/release. Consider `<TrimmerSingleWarn>false</TrimmerSingleWarn>` to see individual warnings.
+**Cause**：PowerShell SDK帶入大型傳遞依賴樹。
+**Fix**：確保使用最新.NET SDK preview/release。考慮`<TrimmerSingleWarn>false</TrimmerSingleWarn>`以查看個別警告。
 
 ## InternalsVisibleTo for Testing
 
-Allow the test project to access internal types:
+允許測試工程訪問內部類型：
 
 ```xml
 <ItemGroup>
@@ -220,7 +220,7 @@ Allow the test project to access internal types:
 </ItemGroup>
 ```
 
-This enables testing internal classes like `SessionManager`, `MessageRouter`, etc. without making them public.
+此舉使測試內部類如`SessionManager`、`MessageRouter`等成為可能，無需公開。
 
 ## Test Project Configuration
 

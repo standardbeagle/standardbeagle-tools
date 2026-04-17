@@ -1,30 +1,30 @@
 ---
-description: "Build a Photino.NET app: detect csproj, build frontend, compile .NET for debug/release/platform-specific targets"
+description: "Build a Photino.NET app: detect csproj, build frontend, compile .NET for debug/release/platform-specific targets. 構建Photino.NET應用：檢測csproj、構建前端、為debug/release/特定平台目標編譯.NET. Use when: building Photino app, compiling for specific platform, skipping frontend build for backend-only changes"
 allowed-tools: ["Bash", "Read", "Glob", "Grep"]
 ---
 
-Build a Photino.NET application. Detects the project structure, builds the frontend, then compiles the .NET application.
+構建Photino.NET應用。檢測工程結構，構建前端，然後編譯.NET應用。
 
 ## Steps
 
 ### 1. Detect Project
 
-Find the Photino csproj:
+查找Photino csproj：
 
 ```bash
 # Find csproj files referencing Photino.NET
 grep -rl "Photino.NET" --include="*.csproj" .
 ```
 
-Read the csproj to determine:
+讀取csproj以確定：
 - `TargetFramework`
 - `RuntimeIdentifiers`
-- Whether `BuildFrontend` MSBuild target exists
-- Frontend project location (from target's WorkingDirectory)
+- `BuildFrontend` MSBuild目標是否存在
+- 前端工程位置（從目標之WorkingDirectory獲取）
 
 ### 2. Build Frontend (if separate)
 
-If the csproj has a `BuildFrontend` target, MSBuild handles this automatically. Otherwise, build manually:
+若csproj含`BuildFrontend`目標，MSBuild自動處理。否則手動構建：
 
 ```bash
 # Install frontend dependencies
@@ -45,10 +45,10 @@ ls -la <app-path>/wwwroot/
 dotnet build <csproj-path>
 ```
 
-This:
-1. Triggers `BuildFrontend` target (installs deps + builds frontend)
-2. Compiles C# code
-3. Copies wwwroot to output directory
+此操作：
+1. 觸發`BuildFrontend`目標（安裝依賴+構建前端）
+2. 編譯C#代碼
+3. 將wwwroot複製至輸出目錄
 
 #### Release Build
 
@@ -78,12 +78,12 @@ dotnet run --project <csproj-path> -- --help 2>/dev/null || echo "No --help flag
 
 ### 5. Report Results
 
-Tell the user:
-- Build configuration (Debug/Release)
-- Output location
-- Whether frontend was built (via MSBuild target or manually)
-- Any warnings (especially trimming or deprecated API warnings)
-- Binary size
+告知用戶：
+- 構建配置（Debug/Release）
+- 輸出位置
+- 前端是否已構建（通過MSBuild目標或手動）
+- 任何警告（尤其是裁剪或棄用API警告）
+- 二進制大小
 
 ## Common Build Flags
 
@@ -98,7 +98,7 @@ Tell the user:
 
 ## Skipping Frontend Build
 
-For backend-only changes during development:
+後端專用變更開發期間：
 
 ```bash
 # Skip the BuildFrontend MSBuild target

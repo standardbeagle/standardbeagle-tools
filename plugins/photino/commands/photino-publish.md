@@ -1,21 +1,21 @@
 ---
-description: "Publish a Photino.NET app as cross-platform self-contained executables with platform-specific packaging"
+description: "Publish a Photino.NET app as cross-platform self-contained executables with platform-specific packaging. 將Photino.NET應用發布為跨平台自含可執行文件，含平台特定打包. Use when: publishing for distribution, creating self-contained executables, building for Windows/Linux/macOS targets"
 allowed-tools: ["Bash", "Read", "Glob", "Grep"]
 ---
 
-Publish a Photino.NET application as self-contained, single-file executables for Windows, Linux, and macOS.
+將Photino.NET應用發布為Windows、Linux及macOS自含單文件可執行程序。
 
 ## Steps
 
 ### 1. Detect Project and Targets
 
-Read the csproj to find configured RuntimeIdentifiers:
+讀取csproj以查找已配置RuntimeIdentifiers：
 
 ```bash
 grep -o 'RuntimeIdentifiers>[^<]*<' <csproj-path>
 ```
 
-Common targets:
+常見目標：
 - `win-x64` — Windows 10+ (x64)
 - `linux-x64` — Linux (x64)
 - `osx-x64` — macOS Intel
@@ -23,7 +23,7 @@ Common targets:
 
 ### 2. Build Frontend for Production
 
-Ensure the frontend is built with production settings:
+確保前端以生產設置構建：
 
 ```bash
 cd <frontend-path>
@@ -31,7 +31,7 @@ pnpm install
 NODE_ENV=production pnpm build
 ```
 
-Verify the output:
+驗證輸出：
 ```bash
 ls -la <app-path>/wwwroot/
 # Should contain: index.html, assets/, favicon.ico
@@ -93,27 +93,27 @@ done
 
 ### 5. Platform-Specific Notes
 
-**Windows (win-x64)**:
-- WebView2 is pre-installed with Edge on Windows 10/11
-- For older systems, bundle the WebView2 bootstrapper
-- Output: `dist/win-x64/MyApp.exe`
+**Windows (win-x64)**：
+- WebView2隨Edge預安裝於Windows 10/11
+- 舊系統請捆綁WebView2啟動程序
+- 輸出：`dist/win-x64/MyApp.exe`
 
-**Linux (linux-x64)**:
-- Requires `libwebkit2gtk-4.1-0` on the target system
-- Consider AppImage for dependency-free distribution
-- Output: `dist/linux-x64/MyApp` (mark executable: `chmod +x`)
+**Linux (linux-x64)**：
+- 目標系統需`libwebkit2gtk-4.1-0`
+- 考慮AppImage以實現無依賴分發
+- 輸出：`dist/linux-x64/MyApp`（標記可執行：`chmod +x`）
 
-**macOS (osx-x64, osx-arm64)**:
-- WKWebView is built-in, no extra deps
-- For distribution: create `.app` bundle and notarize
-- Output: `dist/osx-arm64/MyApp`
+**macOS (osx-x64, osx-arm64)**：
+- WKWebView內置，無額外依賴
+- 分發時：創建`.app`包並公證
+- 輸出：`dist/osx-arm64/MyApp`
 
 ### 6. Report Results
 
-Summarize for each target:
-- Output path and binary size
-- Platform-specific requirements for end users
-- Any trimming warnings to review
+每個目標匯總：
+- 輸出路徑及二進制大小
+- 最終用戶之平台特定需求
+- 需審查之裁剪警告
 
 ## Publish Options
 
@@ -128,9 +128,9 @@ Summarize for each target:
 
 ## Trimming Warning
 
-If using `PublishTrimmed=true`, the PowerShell SDK uses heavy reflection and may break. Test all PowerShell functionality after enabling trimming. If issues occur, either:
-- Disable trimming: `-p:PublishTrimmed=false`
-- Add trimmer root assemblies in csproj:
+若啟用`PublishTrimmed=true`，PowerShell SDK使用大量反射可能中斷。啟用後測試所有PowerShell功能。若有問題：
+- 禁用裁剪：`-p:PublishTrimmed=false`
+- 在csproj中添加trimmer根程序集：
   ```xml
   <ItemGroup>
     <TrimmerRootAssembly Include="System.Management.Automation" />

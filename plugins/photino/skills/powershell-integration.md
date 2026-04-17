@@ -1,14 +1,14 @@
 ---
-description: "PowerShell SDK integration in Photino.NET: runspace architecture, SessionManager, streaming execution, TabExpansion2, function injection, PSObject conversion, and disposal patterns"
+description: "PowerShell SDK integration in Photino.NET: runspace architecture, SessionManager, streaming execution, TabExpansion2, function injection, PSObject conversion, and disposal patterns. PowerShell SDK嵌入Photino.NET：runspace架構、SessionManager、流式執行、TabExpansion2、函數注入、PSObject轉換及釋放模式. Use when: embedding PowerShell in .NET app, managing runspace lifecycle, implementing tab completion, injecting functions, serializing PSObjects"
 ---
 
 # PowerShell SDK Integration
 
-How to embed the PowerShell SDK in a Photino.NET application: runspace lifecycle, session management, streaming output, tab completion, function injection, and object serialization.
+Photino.NET應用嵌入PowerShell SDK之法：runspace生命周期、會話管理、流式輸出、Tab補全、函數注入及對象序列化。
 
 ## Runspace Architecture
 
-The PowerShell SDK provides an in-process PowerShell engine. Each session gets its own runspace with isolated state:
+PowerShell SDK提供進程內PowerShell引擎。每會話獲獨立runspace及隔離狀態：
 
 ```
 ┌──────────────────────────────────────────┐
@@ -28,7 +28,7 @@ The PowerShell SDK provides an in-process PowerShell engine. Each session gets i
 
 ## SessionManager
 
-The SessionManager creates, tracks, and disposes PowerShell sessions:
+SessionManager創建、追蹤並釋放PowerShell會話：
 
 ```csharp
 public sealed class SessionManager : IDisposable
@@ -66,7 +66,7 @@ public sealed class SessionManager : IDisposable
 
 ## PowerShellSession
 
-Each session wraps a runspace and provides execution, completion, and cancellation:
+每會話封裝runspace，提供執行、補全及取消功能：
 
 ```csharp
 public sealed class PowerShellSession : IDisposable
@@ -140,7 +140,7 @@ public sealed class PowerShellSession : IDisposable
 
 ## Streaming Execution
 
-PowerShell output streams as objects are produced, not after the command completes. This enables real-time display:
+PowerShell對象產生時即流式輸出，非命令完成後。此使實時顯示成為可能：
 
 ```csharp
 // The PSDataCollection fires DataAdded for each object
@@ -155,7 +155,7 @@ output.DataAdded += (sender, e) =>
 
 ### Output Streams
 
-PowerShell has multiple output streams:
+PowerShell具多輸出流：
 
 | Stream | Property | Use |
 |--------|----------|-----|
@@ -167,7 +167,7 @@ PowerShell has multiple output streams:
 | Information (6) | `ps.Streams.Information` | Information records |
 | Progress | `ps.Streams.Progress` | Progress bars |
 
-Subscribe to each stream for full output:
+訂閱各流以獲全量輸出：
 
 ```csharp
 ps.Streams.Warning.DataAdded += (s, e) =>
@@ -185,7 +185,7 @@ ps.Streams.Progress.DataAdded += (s, e) =>
 
 ## TabExpansion2
 
-The PowerShell SDK includes `TabExpansion2` for command completion:
+PowerShell SDK含`TabExpansion2`以供命令補全：
 
 ```csharp
 public CompletionResult[] GetCompletions(string input, int cursorPosition)
@@ -220,10 +220,10 @@ public CompletionResult[] GetCompletions(string input, int cursorPosition)
 
 ### Gotcha: TabExpansion2 Runs Synchronously
 
-`TabExpansion2` can be slow (100-500ms) because it introspects the runspace. Always:
-1. Run on a background thread, never block the UI
-2. Cancel in-flight completions when the user types again
-3. Debounce completion requests (150-200ms is typical)
+`TabExpansion2`可能緩慢（100-500ms），因其審視runspace。務必：
+1. 在後台線程運行，絕不阻塞UI
+2. 用戶再次輸入時取消進行中補全
+3. 對補全請求進行防抖（150-200ms為典型值）
 
 ```csharp
 private CancellationTokenSource? _completionCts;
@@ -245,7 +245,7 @@ public async Task<CompletionResult[]> GetCompletionsAsync(string input, int curs
 
 ## Function Injection
 
-Inject custom PowerShell functions into each session's runspace for app-specific features:
+向每會話runspace注入自定義PowerShell函數，以供應用特定功能：
 
 ```csharp
 private void InjectFunctions()
@@ -272,7 +272,7 @@ private void InjectFunctions()
 
 ### The `$global:__service` Pattern
 
-Expose a C# object to PowerShell via a global variable:
+通過全局變量向PowerShell暴露C#對象：
 
 ```csharp
 // Set a C# service object accessible from PowerShell
@@ -300,7 +300,7 @@ public class PowerShellServiceBridge
 
 ## PSObject Conversion
 
-PowerShell returns `PSObject` wrappers. Convert them to JSON-friendly structures for the frontend:
+PowerShell返回`PSObject`包裝器。將其轉換為前端JSON友好結構：
 
 ```csharp
 private static string FormatPSObject(PSObject obj)
@@ -328,7 +328,7 @@ private static string FormatPSObject(PSObject obj)
 
 ### Rich Object Rendering
 
-For known types, provide structured output:
+已知類型提供結構化輸出：
 
 ```csharp
 private static object ConvertPSObject(PSObject obj)
@@ -358,7 +358,7 @@ private static object ConvertPSObject(PSObject obj)
 
 ## Disposal Pattern
 
-PowerShell runspaces hold native resources. Proper disposal is critical:
+PowerShell runspace持有原生資源，正確釋放至關重要：
 
 ```csharp
 public sealed class PowerShellSession : IDisposable
@@ -389,12 +389,12 @@ public sealed class PowerShellSession : IDisposable
 
 ### Disposal Order
 
-1. Stop running pipelines
-2. Close the runspace (graceful shutdown)
-3. Dispose the runspace (release native resources)
-4. Remove from SessionManager
+1. 停止運行中管道
+2. 關閉runspace（優雅停機）
+3. 釋放runspace（釋放原生資源）
+4. 從SessionManager移除
 
-Never dispose a runspace while a pipeline is executing — call `Stop()` first.
+管道執行中絕不釋放runspace——先調用`Stop()`。
 
 ## Common Pitfalls
 

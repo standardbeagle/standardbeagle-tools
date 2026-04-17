@@ -1,14 +1,14 @@
 ---
-description: "Photino.NET desktop app architecture: PhotinoWindow APIs, threading model, native message bridge, IMessageTransport abstraction, dual-mode Program.cs, and cross-platform WebView engine table"
+description: "Photino.NET desktop app architecture: PhotinoWindow APIs, threading model, native message bridge, IMessageTransport abstraction, dual-mode Program.cs, and cross-platform WebView engine table. Photino.NET桌面應用架構：PhotinoWindow API、線程模型、原生消息橋、IMessageTransport抽象、雙模Program.cs及跨平台WebView引擎表. Use when: understanding Photino architecture, setting up AppHost, implementing transport abstraction, configuring dual-mode entry point"
 ---
 
 # Photino.NET Architecture
 
-Reference architecture for building cross-platform desktop applications with Photino.NET, covering the WebView host, threading model, message bridge, transport abstraction, and dual-mode entry point.
+構建跨平台桌面應用之Photino.NET參考架構，含WebView宿主、線程模型、消息橋、傳輸抽象及雙模入口點。
 
 ## What is Photino.NET
 
-Photino.NET wraps each platform's native WebView into a .NET window:
+Photino.NET將各平台原生WebView封裝為.NET窗口：
 
 | Platform | WebView Engine | Notes |
 |----------|---------------|-------|
@@ -16,7 +16,7 @@ Photino.NET wraps each platform's native WebView into a .NET window:
 | Linux | WebKitGTK | Install `libwebkit2gtk-4.1-dev` (Ubuntu/Debian) |
 | macOS | WKWebView | Built-in, no extra deps |
 
-The app ships as a **single .NET binary** that opens a native window, loads HTML/CSS/JS, and communicates with C# through a message bridge.
+應用以**單.NET二進制**形式交付，打開原生窗口、加載HTML/CSS/JS，並通過消息橋與C#通信。
 
 ## PhotinoWindow Core APIs
 
@@ -55,7 +55,7 @@ window.WaitForClose();
 
 ## Threading Model
 
-**Critical**: Photino requires `[STAThread]` on the main thread. The window's message loop runs on this thread. All backend work must happen on background threads.
+**關鍵**：Photino要求主線程`[STAThread]`。窗口消息循環在此線程運行。所有後端工作須在後台線程執行。
 
 ```csharp
 [STAThread]
@@ -69,14 +69,14 @@ public static void Main(string[] args)
 
 ### Thread Safety Rules
 
-1. `PhotinoWindow.SendWebMessage()` is thread-safe — can be called from any thread
-2. `PhotinoWindow.Load()` must be called before `WaitForClose()`
-3. Event handlers (web message received) run on the UI thread — dispatch long work to background threads
-4. Never block the STA thread with `Task.Wait()` or `.Result` — use fire-and-forget with `_ = HandleAsync()`
+1. `PhotinoWindow.SendWebMessage()`線程安全——可從任意線程調用
+2. `PhotinoWindow.Load()`須在`WaitForClose()`前調用
+3. 事件處理器（Web消息接收）在UI線程運行——將長任務分發至後台線程
+4. 絕不用`Task.Wait()`或`.Result`阻塞STA線程——用即發即忘`_ = HandleAsync()`
 
 ## IMessageTransport Abstraction
 
-The transport interface decouples the message router from the delivery mechanism. This enables dual-mode operation (Photino native bridge vs WebSocket for development).
+傳輸接口將消息路由器與交付機制解耦。此使雙模操作成為可能（Photino原生橋 vs 開發用WebSocket）。
 
 ```csharp
 public interface IMessageTransport : IDisposable
@@ -88,7 +88,7 @@ public interface IMessageTransport : IDisposable
 
 ### Transport Implementations
 
-**PhotinoTransport** — Production mode, uses native bridge:
+**PhotinoTransport** — 生產模式，使用原生橋：
 ```csharp
 public sealed class PhotinoTransport : IMessageTransport
 {
@@ -114,7 +114,7 @@ public sealed class PhotinoTransport : IMessageTransport
 }
 ```
 
-**WebSocketTransport** — Dev mode, enables browser hot-reload:
+**WebSocketTransport** — 開發模式，支持瀏覽器熱重載：
 ```csharp
 public sealed class WebSocketTransport : IMessageTransport, IDisposable
 {
@@ -150,7 +150,7 @@ public sealed class WebSocketTransport : IMessageTransport, IDisposable
 
 ## Dual-Mode Program.cs
 
-The entry point switches between desktop (Photino) and development (WebSocket) modes via CLI flags:
+入口點通過CLI標誌在桌面（Photino）與開發（WebSocket）模式間切換：
 
 ```csharp
 using BeagleTerm.App;
@@ -184,13 +184,13 @@ public static class Program
 ```
 
 **Modes:**
-- `dotnet run` — Opens Photino window, loads `wwwroot/index.html`
-- `dotnet run -- --dev-server` — Starts WebSocket on port 5174, no GUI
-- `dotnet run -- --dev-url http://localhost:5173` — Opens Photino window pointing at Vite dev server
+- `dotnet run` — 打開Photino窗口，加載`wwwroot/index.html`
+- `dotnet run -- --dev-server` — 在5174端口啟動WebSocket，無GUI
+- `dotnet run -- --dev-url http://localhost:5173` — 打開Photino窗口，指向Vite開發服務器
 
 ## AppHost Pattern
 
-The AppHost wires up the Photino window with the transport and router:
+AppHost將Photino窗口與傳輸及路由器連接：
 
 ```csharp
 public sealed class AppHost : IDisposable

@@ -1,10 +1,10 @@
 ---
-description: "Testing strategies for Photino.NET apps: testability tiers (pure logic, AST without runspace, live integration), environment traits, fixture patterns, and test filtering"
+description: "Testing strategies for Photino.NET apps: testability tiers (pure logic, AST without runspace, live integration), environment traits, fixture patterns, and test filtering. Photino.NET應用測試策略：可測試性層級（純邏輯、無runspace AST、實時集成）、環境特性、夾具模式及測試過濾. Use when: setting up test project, writing unit or integration tests, filtering test runs, collecting coverage, handling environment-dependent tests"
 ---
 
 # Testing Photino.NET Applications
 
-Three-tier testing strategy for Photino apps: pure logic tests (no mocks, no dependencies), AST/parsing tests (no runspace needed), and live integration tests (full PowerShell engine).
+Photino應用三層測試策略：純邏輯測試（無mock、無依賴）、AST/解析測試（無需runspace）及實時集成測試（完整PowerShell引擎）。
 
 ## Testability Tiers
 
@@ -28,7 +28,7 @@ Tier 3: Live Integration (slow, deps)       ← Use sparingly
 
 ## Tier 1: Pure Logic Tests
 
-Test business logic without any PowerShell or Photino dependencies. These run in milliseconds and need no mocks:
+不含任何PowerShell或Photino依賴測試業務邏輯。毫秒級運行，無需mock：
 
 ```csharp
 public class OutputFormatterTests
@@ -58,16 +58,16 @@ public class OutputFormatterTests
 
 ### What Belongs in Tier 1
 
-- Message type parsing (`{type, payload}` format)
-- Path normalization and validation
-- Output formatting (file sizes, dates, colors)
-- Configuration parsing
-- Event name validation
-- Keyboard shortcut parsing
+- 消息類型解析（`{type, payload}`格式）
+- 路徑規範化與驗證
+- 輸出格式化（文件大小、日期、顏色）
+- 配置解析
+- 事件名稱驗證
+- 鍵盤快捷鍵解析
 
 ## Tier 2: AST Without Runspace
 
-PowerShell's AST parser works without a runspace. Use it for script analysis tests:
+PowerShell AST解析器無需runspace。用於腳本分析測試：
 
 ```csharp
 public class ScriptAnalyzerTests
@@ -114,7 +114,7 @@ public class ScriptAnalyzerTests
 
 ### Trailing Whitespace Gotcha
 
-When testing AST token positions, be aware that the parser includes trailing whitespace in some tokens. Always trim when comparing:
+測試AST token位置時，注意解析器在某些token中包含尾隨空白。比較時務必裁剪：
 
 ```csharp
 [Fact]
@@ -133,7 +133,7 @@ public void TokenExtent_IncludesTrailingWhitespace()
 
 ## Tier 3: Live Integration Tests
 
-These tests use real PowerShell runspaces. Mark them with traits for selective execution:
+此類測試使用真實PowerShell runspace。用Trait標記以便選擇性執行：
 
 ```csharp
 [Trait("Category", "Integration")]
@@ -188,7 +188,7 @@ public class PowerShellSessionIntegrationTests : IDisposable
 
 ### Environment-Dependent Tests
 
-Some tests depend on the host environment. Mark and handle them:
+部分測試依賴宿主環境。標記並處理：
 
 ```csharp
 [Trait("Category", "Integration")]
@@ -216,7 +216,7 @@ public class HistoryTests
 
 ## Test Filter Patterns
 
-Run specific test subsets with `dotnet test --filter`:
+用`dotnet test --filter`運行特定測試子集：
 
 ```bash
 # By class name
@@ -240,7 +240,7 @@ dotnet test --filter "FullyQualifiedName~BeagleTerm.Tests.PowerShell"
 
 ## Fixture Pattern
 
-Share expensive setup (like PowerShell sessions) across tests in a class:
+在同類測試間共享昂貴設置（如PowerShell會話）：
 
 ```csharp
 public class SessionFixture : IDisposable
@@ -322,7 +322,7 @@ reportgenerator \
 
 ## Frontend Type Checking
 
-Run TypeScript/Svelte type checks as part of the test command:
+以測試命令或CI運行TypeScript/Svelte類型檢查：
 
 ```bash
 # In the test command or CI

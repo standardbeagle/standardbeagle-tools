@@ -1,64 +1,64 @@
 ---
-description: "Configure a Photino.NET project for AI-assisted development with dual-service autostart, CLAUDE.md, and memory files"
+description: "Configure a Photino.NET project for AI-assisted development with dual-service autostart, CLAUDE.md, and memory files. 配置Photino.NET工程以支持AI輔助開發：雙服務自動啟動、CLAUDE.md及記憶文件. Use when: setting up agnt.kdl for a Photino project, generating CLAUDE.md, initializing project memory, configuring dual-service autostart"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "AskUserQuestion"]
 ---
 
-Set up a Photino.NET project for AI-assisted development. Scans the project structure, asks configuration questions, then generates `.agnt.kdl`, `CLAUDE.md`, and memory files.
+配置Photino.NET工程以支持AI輔助開發。掃描工程結構，詢問配置問題，然後生成`.agnt.kdl`、`CLAUDE.md`及記憶文件。
 
 ## Steps
 
 ### 1. Detect Project Structure
 
-Scan for the Photino.NET project:
+掃描Photino.NET工程：
 
 ```bash
 # Find Photino csproj files
 find . -name "*.csproj" -exec grep -l "Photino.NET" {} \;
 ```
 
-Check for:
-- `.csproj` files referencing `Photino.NET` package
-- Frontend project (`package.json` with Vite/Svelte)
-- Test project (`*.Tests.csproj`)
-- Solution file (`*.sln`)
-- Existing `.agnt.kdl` (offer to update)
+檢查：
+- 引用`Photino.NET`包之`.csproj`文件
+- 前端工程（含Vite/Svelte之`package.json`）
+- 測試工程（`*.Tests.csproj`）
+- 解決方案文件（`*.sln`）
+- 現有`.agnt.kdl`（提供更新選項）
 
-Extract from the csproj:
-- `TargetFramework` (e.g., `net10.0`)
+從csproj提取：
+- `TargetFramework`（如`net10.0`）
 - `RuntimeIdentifiers`
-- Package references (PowerShell SDK, Porta.Pty, etc.)
-- `BuildFrontend` target and its `WorkingDirectory`
+- 包引用（PowerShell SDK、Porta.Pty等）
+- `BuildFrontend`目標及其`WorkingDirectory`
 
 ### 2. Ask Configuration Questions
 
-Use AskUserQuestion for each:
+每項用AskUserQuestion：
 
-**Question 1**: "What is the project name?"
-- Default to the csproj filename without extension
-- Used in `.agnt.kdl` and CLAUDE.md
+**Question 1**：「工程名稱是什麼？」
+- 默認為不含擴展名之csproj文件名
+- 用于`.agnt.kdl`及CLAUDE.md
 
-**Question 2**: "What is the backend dev server command?"
-- Default: `dotnet watch run --project <detected-csproj-path> -- --dev-server`
-- Alternative: `dotnet run --project <path> -- --dev-server`
+**Question 2**：「後端開發服務器命令是什麼？」
+- 默認：`dotnet watch run --project <detected-csproj-path> -- --dev-server`
+- 備選：`dotnet run --project <path> -- --dev-server`
 
-**Question 3**: "What is the frontend dev command?"
-- Default: `pnpm dev`
-- Options: `pnpm dev`, `npm run dev`, `yarn dev`
+**Question 3**：「前端開發命令是什麼？」
+- 默認：`pnpm dev`
+- 選項：`pnpm dev`、`npm run dev`、`yarn dev`
 
-**Question 4**: "Where is the frontend project relative to the repo root?"
-- Default: detect from BuildFrontend target's WorkingDirectory
-- Example: `src/MyApp.Frontend`
+**Question 4**：「前端工程相對倉庫根的路徑？」
+- 默認：從BuildFrontend目標之WorkingDirectory檢測
+- 示例：`src/MyApp.Frontend`
 
-**Question 5**: "Which backend port does the WebSocket dev server use?"
-- Default: `5174`
+**Question 5**：「後端WebSocket開發服務器使用哪個端口？」
+- 默認：`5174`
 
-**Question 6**: "Do you want browser debugging via agnt proxy?"
-- Options: Yes (recommended), No
-- If yes, creates proxy section in .agnt.kdl
+**Question 6**：「是否通過agnt代理啟用瀏覽器調試？」
+- 選項：是（推薦）、否
+- 若是，在.agnt.kdl中創建代理部分
 
 ### 3. Generate .agnt.kdl
 
-Write `.agnt.kdl` in the project root:
+在工程根目錄寫入`.agnt.kdl`：
 
 ```kdl
 // <ProjectName> - Cross-platform desktop app using Photino.NET
@@ -112,7 +112,7 @@ hooks {
 
 ### 4. Generate CLAUDE.md
 
-Write or update `CLAUDE.md` in the project root with project-specific context:
+在工程根目錄寫入或更新`CLAUDE.md`：
 
 ```markdown
 # <ProjectName>
@@ -147,13 +147,13 @@ Write or update `CLAUDE.md` in the project root with project-specific context:
 
 ### 5. Generate Memory Files
 
-Create `.claude/` memory directory structure:
+創建`.claude/`記憶目錄結構：
 
 ```bash
 mkdir -p .claude/projects/memory
 ```
 
-Write `.claude/projects/memory/MEMORY.md`:
+寫入`.claude/projects/memory/MEMORY.md`：
 
 ```markdown
 # <ProjectName> Project Memory
@@ -173,23 +173,23 @@ Write `.claude/projects/memory/MEMORY.md`:
 
 ### 6. Verify Setup
 
-After generating files, verify:
+生成文件後驗證：
 
-1. `.agnt.kdl` is valid KDL (check for syntax errors)
-2. `CLAUDE.md` references correct paths
-3. Frontend path exists
-4. csproj path exists
-5. Report what was created:
-   - `.agnt.kdl` — Dual-service autostart configuration
-   - `CLAUDE.md` — AI agent context for the project
-   - `.claude/projects/memory/MEMORY.md` — Persistent memory
+1. `.agnt.kdl`為有效KDL（檢查語法錯誤）
+2. `CLAUDE.md`引用正確路徑
+3. 前端路徑存在
+4. csproj路徑存在
+5. 報告已創建內容：
+   - `.agnt.kdl` — 雙服務自動啟動配置
+   - `CLAUDE.md` — 工程AI代理上下文
+   - `.claude/projects/memory/MEMORY.md` — 持久記憶
 
 ### 7. Explain Next Steps
 
-Tell the user:
+告知用戶：
 
-1. **Start development**: Run `agnt run claude` to auto-start both services
-2. **Manual start**: Run the backend and frontend commands in separate terminals
-3. **Browser access**: Open `http://localhost:5173` after both services start
-4. **Customize**: Edit `.agnt.kdl` for additional scripts or proxy settings
-5. **Memory**: The AI agent will update memory files as it learns about the project
+1. **開始開發**：運行`agnt run claude`自動啟動兩個服務
+2. **手動啟動**：在獨立終端運行後端和前端命令
+3. **瀏覽器訪問**：兩個服務啟動後打開`http://localhost:5173`
+4. **自定義**：編輯`.agnt.kdl`添加額外腳本或代理設置
+5. **記憶**：AI代理隨工程學習更新記憶文件

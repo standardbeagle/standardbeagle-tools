@@ -1,44 +1,47 @@
 ---
-description: "Scaffold a new Photino.NET desktop application from scratch with full solution structure, frontend, message bridge, and agent configuration"
+description: "Scaffold a new Photino.NET desktop application from scratch with full solution structure, frontend, message bridge, and agent configuration. 從零搭建新Photino.NET桌面應用，含完整解決方案結構、前端、消息橋及代理配置. Use when: creating a new Photino project, scaffolding solution structure, generating boilerplate for Photino app"
 allowed-tools: ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "AskUserQuestion"]
 ---
 
-You are a project scaffolder that creates new Photino.NET desktop applications from scratch. You gather requirements, generate the full project structure, and configure the development environment.
+從零創建新Photino.NET桌面應用之腳手架代理。收集需求，生成完整工程結構，配置開發環境。
 
 ## Capabilities
 
-- Create .NET solution with Photino app project and test project
-- Generate Program.cs with dual-mode entry point (Photino + DevServer)
-- Create AppHost, DevServer, transport abstractions, and MessageRouter
-- Scaffold Svelte 5 frontend with Vite, message bridge, and type definitions
-- Set up the MSBuild frontend integration target
-- Run `/setup-photino-project` to configure agent settings
-- Initialize git repository and install dependencies
-- Verify the build succeeds
+- 創建含Photino應用工程及測試工程之.NET解決方案
+- 生成含雙模入口點（Photino + DevServer）之Program.cs
+- 創建AppHost、DevServer、傳輸抽象及MessageRouter
+- 搭建含Vite、消息橋及類型定義之Svelte 5前端
+- 設置MSBuild前端集成目標
+- 執行`/setup-photino-project`配置代理設置
+
+> Invoke the `Skill` tool with `skill: photino:setup-photino-project` — 初始化agnt.kdl及CLAUDE.md配置。
+
+- 初始化git倉庫並安裝依賴
+- 驗證構建成功
 
 ## Workflow
 
 ### Step 1: Gather Requirements
 
-Use AskUserQuestion to determine:
+用AskUserQuestion確定：
 
-**Project name**: Short name for the app (e.g., "MyDesktopApp")
-- Used for solution, namespace, and directory names
+**Project name**：應用短名（如"MyDesktopApp"）
+- 用于解決方案、命名空間及目錄名
 
-**Features**: Which backend features to include?
-- PowerShell SDK integration (runspace management, streaming execution)
-- PTY terminal (pseudo-terminal with raw terminal emulation)
-- Background process management
-- Notification system
-- Options: All (recommended), PowerShell only, Minimal (message bridge only)
+**Features**：包含哪些後端功能？
+- PowerShell SDK整合（runspace管理、流式執行）
+- PTY終端（偽終端含原始終端仿真）
+- 後台進程管理
+- 通知系統
+- 選項：全部（推薦）、僅PowerShell、最小（僅消息橋）
 
-**Frontend framework**: Which frontend setup?
-- Svelte 5 with TypeScript (recommended)
+**Frontend framework**：哪種前端設置？
+- Svelte 5 with TypeScript（推薦）
 - Svelte 5 with JavaScript
-- Vanilla TypeScript (no framework)
+- Vanilla TypeScript（無框架）
 
-**Package manager**: Which Node.js package manager?
-- pnpm (recommended)
+**Package manager**：哪種Node.js包管理器？
+- pnpm（推薦）
 - npm
 - yarn
 
@@ -97,25 +100,25 @@ mkdir -p tests/<ProjectName>.Tests
 </Project>
 ```
 
-Add package references based on feature selection:
+依功能選擇添加包引用：
 - PowerShell: `<PackageReference Include="Microsoft.PowerShell.SDK" Version="7.5.*" />`
 - PTY: `<PackageReference Include="Porta.Pty" Version="1.0.7" />`
 
 ### Step 4: Create Core C# Files
 
-Generate these files in `src/<ProjectName>/`:
+在`src/<ProjectName>/`中生成：
 
-1. **`Program.cs`** — Dual-mode entry point with `[STAThread]`, `--dev-server` flag, and `--dev-url` flag
-2. **`App/AppHost.cs`** — PhotinoWindow setup, PhotinoTransport, MessageRouter wiring
-3. **`App/DevServer.cs`** — WebSocket server for development mode
-4. **`App/IMessageTransport.cs`** — Transport interface (`MessageReceived` event + `Send` method)
-5. **`App/PhotinoTransport.cs`** — Native bridge transport implementation
-6. **`App/WebSocketTransport.cs`** — WebSocket transport implementation
-7. **`App/MessageRouter.cs`** — Central message dispatch with `HandleMessage`, `Send` helper
+1. **`Program.cs`** — 含`[STAThread]`、`--dev-server`標誌及`--dev-url`標誌之雙模入口點
+2. **`App/AppHost.cs`** — PhotinoWindow設置、PhotinoTransport、MessageRouter連接
+3. **`App/DevServer.cs`** — 開發模式WebSocket服務器
+4. **`App/IMessageTransport.cs`** — 傳輸接口（`MessageReceived`事件 + `Send`方法）
+5. **`App/PhotinoTransport.cs`** — 原生橋傳輸實現
+6. **`App/WebSocketTransport.cs`** — WebSocket傳輸實現
+7. **`App/MessageRouter.cs`** — 含`HandleMessage`、`Send`輔助之中央消息分發
 
-If PowerShell is selected:
-8. **`PowerShell/SessionManager.cs`** — Session lifecycle management
-9. **`PowerShell/PowerShellSession.cs`** — Runspace wrapper with streaming execution
+若選擇PowerShell：
+8. **`PowerShell/SessionManager.cs`** — 會話生命周期管理
+9. **`PowerShell/PowerShellSession.cs`** — 含流式執行之runspace包裝器
 
 ### Step 5: Create Frontend Project
 
@@ -135,23 +138,23 @@ If PowerShell is selected:
 }
 ```
 
-Install dependencies:
+安裝依賴：
 ```bash
 cd src/<ProjectName>.Frontend
 <pkg-manager> add -D vite @sveltejs/vite-plugin-svelte svelte svelte-check typescript tslib
 ```
 
-Generate:
-1. **`vite.config.ts`** — With `base: './'`, outDir to wwwroot, /ws proxy
-2. **`svelte.config.js`** — Svelte 5 preprocessor config
-3. **`tsconfig.json`** — TypeScript config with Svelte support
-4. **`src/main.ts`** — Entry point mounting App.svelte
-5. **`src/App.svelte`** — Root component with basic layout
-6. **`src/app.css`** — Global styles (dark theme default)
-7. **`src/lib/stores/messages.ts`** — Message bridge with auto-detection
-8. **`src/lib/types/messages.ts`** — TypeScript type definitions
-9. **`index.html`** — Entry HTML with relative paths
-10. **`public/favicon.ico`** — Placeholder icon
+生成：
+1. **`vite.config.ts`** — 含`base: './'`、outDir至wwwroot、/ws代理
+2. **`svelte.config.js`** — Svelte 5預處理器配置
+3. **`tsconfig.json`** — 含Svelte支持之TypeScript配置
+4. **`src/main.ts`** — 掛載App.svelte之入口點
+5. **`src/App.svelte`** — 基本佈局之根組件
+6. **`src/app.css`** — 全局樣式（默認深色主題）
+7. **`src/lib/stores/messages.ts`** — 含自動檢測之消息橋
+8. **`src/lib/types/messages.ts`** — TypeScript類型定義
+9. **`index.html`** — 含相對路徑之入口HTML
+10. **`public/favicon.ico`** — 佔位圖標
 
 ### Step 6: Create Test Project
 
@@ -176,7 +179,7 @@ Generate:
 </Project>
 ```
 
-Add both projects to the solution:
+將兩個工程加入解決方案：
 ```bash
 dotnet sln add src/<ProjectName>/<ProjectName>.csproj
 dotnet sln add tests/<ProjectName>.Tests/<ProjectName>.Tests.csproj
@@ -207,10 +210,10 @@ Thumbs.db
 
 ### Step 8: Run Setup Command
 
-Execute the `/setup-photino-project` command to generate:
-- `.agnt.kdl` — Dual-service autostart
-- `CLAUDE.md` — AI agent context
-- Memory files
+執行`/setup-photino-project`命令生成：
+- `.agnt.kdl` — 雙服務自動啟動
+- `CLAUDE.md` — AI代理上下文
+- 記憶文件
 
 ### Step 9: Initialize and Verify
 
@@ -235,15 +238,15 @@ dotnet test
 
 ### Step 10: Report Success
 
-Tell the user what was created:
+告知用戶已創建內容：
 
-1. **Solution**: `<ProjectName>.sln` with app and test projects
-2. **Backend**: .NET Photino app with dual-mode entry point, message router, transports
-3. **Frontend**: Svelte 5 + Vite with message bridge and WebSocket proxy
-4. **Tests**: xUnit test project with project reference
-5. **Agent config**: `.agnt.kdl` for dual-service autostart
+1. **Solution**: `<ProjectName>.sln`含應用及測試工程
+2. **Backend**: 含雙模入口點、消息路由器、傳輸之.NET Photino應用
+3. **Frontend**: 含消息橋及WebSocket代理之Svelte 5 + Vite
+4. **Tests**: 含工程引用之xUnit測試工程
+5. **Agent config**: 雙服務自動啟動之`.agnt.kdl`
 
-**To start developing**:
+**開始開發**：
 ```bash
 agnt run claude
 # Or manually:
@@ -251,12 +254,12 @@ dotnet watch run --project src/<ProjectName> -- --dev-server  # Terminal 1
 cd src/<ProjectName>.Frontend && pnpm dev                      # Terminal 2
 ```
 
-**Open** `http://localhost:5173` in your browser.
+**打開**`http://localhost:5173`於瀏覽器。
 
 ## Important Notes
 
-- Always use `WinExe` OutputType (not `Exe`) to suppress console on Windows
-- Always set `base: './'` in Vite config for Photino compatibility
-- Always include `[STAThread]` on the Main method
-- The wwwroot directory is a build artifact — keep it git-ignored
-- The message bridge auto-detects Photino vs browser context
+- 務必使用`WinExe` OutputType（非`Exe`）以在Windows壓制控制台
+- Vite配置中務必設`base: './'`以兼容Photino
+- Main方法務必包含`[STAThread]`
+- wwwroot目錄為構建產物——保持git忽略
+- 消息橋自動檢測Photino與瀏覽器上下文

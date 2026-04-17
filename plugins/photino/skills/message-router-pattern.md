@@ -1,14 +1,14 @@
 ---
-description: "Central message routing pattern for Photino.NET: {type,payload} message format, HandleMessage dispatch, Send helper, event wiring, Svelte 5 component patterns, and IAsyncDisposable in sync contexts"
+description: "Central message routing pattern for Photino.NET: {type,payload} message format, HandleMessage dispatch, Send helper, event wiring, Svelte 5 component patterns, and IAsyncDisposable in sync contexts. Photino.NET中央消息路由模式：{type,payload}消息格式、HandleMessage分發、Send輔助、事件關聯、Svelte 5組件模式及同步上下文中IAsyncDisposable. Use when: implementing message routing, adding new message types, wiring service events, handling async disposal in Photino context"
 ---
 
 # Message Router Pattern
 
-The central hub pattern for communication between the .NET backend and the web frontend in Photino.NET applications.
+Photino.NET應用.NET後端與Web前端通信之中心樞紐模式。
 
 ## Message Format
 
-All messages use a simple JSON envelope:
+所有消息用簡單JSON信封：
 
 ```json
 {
@@ -27,7 +27,7 @@ All messages use a simple JSON envelope:
 
 ## Event Naming Convention
 
-Use colon-separated namespaces: `domain:action` or `domain:action:detail`
+用冒號分隔命名空間：`domain:action`或`domain:action:detail`
 
 ```
 Frontend → Backend (commands):
@@ -47,7 +47,7 @@ Backend → Frontend (events):
 
 ## MessageRouter Class
 
-The router receives raw JSON strings, parses them, and dispatches to handlers:
+路由器接收原始JSON字符串，解析後分發至處理器：
 
 ```csharp
 public sealed class MessageRouter : IDisposable
@@ -75,7 +75,7 @@ public sealed class MessageRouter : IDisposable
 
 ## HandleMessage Dispatch
 
-Parse the `type` field and route to the correct handler:
+解析`type`字段並路由至正確處理器：
 
 ```csharp
 public void HandleMessage(string message)
@@ -150,7 +150,7 @@ private async Task HandleMessageAsync(string type, JsonElement payload)
 
 ### Key Pattern: `_ = HandleMessageAsync()`
 
-The `HandleMessage` method is synchronous (called by the transport), but handlers may be async. Use fire-and-forget:
+`HandleMessage`方法同步（由傳輸層調用），但處理器可為異步。用即發即忘：
 
 ```csharp
 // CORRECT: Fire and forget, errors caught inside HandleMessageAsync
@@ -165,7 +165,7 @@ async void HandleMessage(string message) { ... }
 
 ## Send Helper
 
-Send messages to the frontend through the transport:
+通過傳輸層向前端發送消息：
 
 ```csharp
 private void Send(string type, object? payload = null)
@@ -182,7 +182,7 @@ private void SendError(string message)
 
 ### Thread Safety
 
-`Send()` may be called from multiple threads (event handlers, async continuations). The transport implementation must be thread-safe:
+`Send()`可從多線程調用（事件處理器、異步延續）。傳輸實現必須線程安全：
 
 ```csharp
 // WebSocketTransport: Use a lock or SemaphoreSlim for Send
@@ -209,7 +209,7 @@ public void Send(string message)
 
 ## Wiring Service Events
 
-Connect backend services to the message router so their events are forwarded to the frontend:
+將後端服務事件連接至消息路由器，以轉發至前端：
 
 ```csharp
 // In MessageRouter constructor — wire events with exception guards
@@ -250,7 +250,7 @@ _ptySessionManager.SessionExited += (_, e) =>
 
 ### Exception Guard Pattern
 
-Always wrap event handlers in try/catch. An unhandled exception in an event handler can crash the app or silently disconnect the transport:
+事件處理器務必用try/catch包裹。未處理異常可導致應用崩潰或靜默斷開傳輸：
 
 ```csharp
 // CORRECT: Exception guard
@@ -269,7 +269,7 @@ service.SomeEvent += (_, e) =>
 
 ## Svelte 5 Frontend Component Pattern
 
-The frontend uses Svelte 5 runes (`$state`, `$derived`, `$effect`) and the message store:
+前端用Svelte 5 runes（`$state`、`$derived`、`$effect`）及消息存儲：
 
 ```svelte
 <script lang="ts">
@@ -369,7 +369,7 @@ export function off(type: string, handler: MessageHandler) {
 
 ## IAsyncDisposable in Sync Context
 
-Photino's `WaitForClose()` blocks the STA thread, so you can't `await` disposal. Handle async cleanup in a sync context:
+Photino之`WaitForClose()`阻塞STA線程，故無法`await`釋放。在同步上下文中處理異步清理：
 
 ```csharp
 public sealed class MessageRouter : IDisposable
@@ -425,15 +425,15 @@ public sealed class MyService : IDisposable, IAsyncDisposable
 
 ## Adding a New Message Type
 
-Checklist for adding a new command/event pair:
+添加新命令/事件對清單：
 
-1. **Define the message type** in the naming convention (`domain:action`)
-2. **Add handler** in `HandleMessageAsync` switch statement
-3. **Implement handler method** (e.g., `HandleNewFeatureAsync`)
-4. **Wire events** in the constructor with exception guards
-5. **Add frontend handler** using `on()` in the appropriate component
-6. **Add TypeScript types** for the payload shape
-7. **Test** with manual WebSocket message in browser DevTools
+1. **定義消息類型**於命名慣例（`domain:action`）
+2. **添加處理器**至`HandleMessageAsync` switch語句
+3. **實現處理器方法**（如`HandleNewFeatureAsync`）
+4. **關聯事件**在構造器中加異常守衛
+5. **添加前端處理器**，在對應組件中用`on()`
+6. **添加TypeScript類型**定義payload形狀
+7. **測試**，在瀏覽器DevTools中手動發送WebSocket消息
 
 ```csharp
 // Step 2: Add case

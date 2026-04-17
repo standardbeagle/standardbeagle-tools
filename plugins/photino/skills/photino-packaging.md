@@ -1,10 +1,10 @@
 ---
-description: "Cross-platform packaging for Photino.NET: RID table, self-contained/single-file publish, platform-specific requirements (WebView2, WebKitGTK, WKWebView), installers, and CI pipelines"
+description: "Cross-platform packaging for Photino.NET: RID table, self-contained/single-file publish, platform-specific requirements (WebView2, WebKitGTK, WKWebView), installers, and CI pipelines. 跨平台打包Photino.NET：RID表、自含/單文件發布、平台特定需求（WebView2、WebKitGTK、WKWebView）、安裝程序及CI管道. Use when: publishing Photino app for Windows/Linux/macOS, creating installers, setting up CI build matrix, configuring trimming"
 ---
 
 # Photino.NET Cross-Platform Packaging
 
-How to publish Photino.NET apps as self-contained, single-file executables for Windows, Linux, and macOS, including platform-specific dependencies, installer creation, and CI automation.
+將Photino.NET應用發布為Windows、Linux及macOS自含單文件可執行程序之法，含平台特定依賴、安裝程序創建及CI自動化。
 
 ## Runtime Identifier (RID) Table
 
@@ -67,7 +67,7 @@ ls -la dist/*/
 
 ### Trimming Configuration
 
-Trimming reduces the binary size significantly but can break reflection-heavy code:
+裁剪顯著縮減二進制大小，但可能破壞重度反射代碼：
 
 ```xml
 <PropertyGroup>
@@ -88,7 +88,7 @@ Trimming reduces the binary size significantly but can break reflection-heavy co
 
 ### Windows: WebView2
 
-WebView2 is pre-installed with Microsoft Edge on Windows 10/11. For systems without Edge:
+WebView2隨Microsoft Edge預安裝於Windows 10/11。無Edge系統：
 
 ```xml
 <!-- Include WebView2 bootstrapper in publish -->
@@ -97,7 +97,7 @@ WebView2 is pre-installed with Microsoft Edge on Windows 10/11. For systems with
 </ItemGroup>
 ```
 
-**Installer approach**: Use Inno Setup to bundle the app + WebView2 bootstrapper:
+**Installer approach**：用Inno Setup捆綁應用與WebView2啟動程序：
 
 ```iss
 ; setup.iss - Inno Setup script
@@ -125,7 +125,7 @@ Filename: "{tmp}\MicrosoftEdgeWebview2Setup.exe"; \
 
 ### Linux: WebKitGTK
 
-WebKitGTK must be installed on the target system:
+目標系統須安裝WebKitGTK：
 
 ```bash
 # Ubuntu/Debian
@@ -138,7 +138,7 @@ sudo dnf install webkit2gtk4.1
 sudo pacman -S webkit2gtk-4.1
 ```
 
-**AppImage packaging** (bundles dependencies):
+**AppImage packaging**（捆綁依賴）：
 
 ```bash
 # Using appimagetool
@@ -173,7 +173,7 @@ appimagetool MyApp.AppDir MyPhotinoApp-x86_64.AppImage
 
 ### macOS: WKWebView + Notarization
 
-WKWebView is built into macOS. Package as a `.app` bundle:
+WKWebView內置於macOS。打包為`.app`包：
 
 ```bash
 # Create .app structure
@@ -207,7 +207,7 @@ cat > "MyApp.app/Contents/Info.plist" << 'EOF'
 EOF
 ```
 
-**Notarization** (required for distribution outside App Store):
+**Notarization**（App Store外發行必需）：
 
 ```bash
 # Sign
@@ -228,7 +228,7 @@ xcrun stapler staple MyApp.app
 
 ## Binary Size Guide
 
-Approximate sizes for a typical Photino + PowerShell app:
+典型Photino + PowerShell應用近似大小：
 
 | Configuration | Size | Notes |
 |--------------|------|-------|
@@ -237,7 +237,7 @@ Approximate sizes for a typical Photino + PowerShell app:
 | Framework-dependent | ~5-15 MB | Requires .NET runtime installed |
 | Single-file, self-contained | ~150-200 MB | One executable, extracts on first run |
 
-PowerShell SDK is the largest contributor. If PS is optional, consider loading it dynamically.
+PowerShell SDK為最大貢獻者。若PS可選，考慮動態加載。
 
 ## GitHub Actions CI
 

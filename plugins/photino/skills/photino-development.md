@@ -1,14 +1,14 @@
 ---
-description: "Photino.NET dual-service development workflow: DevServer class, Vite proxy config, MessageBridge auto-detection, debugging strategies, and .agnt.kdl configuration"
+description: "Photino.NET dual-service development workflow: DevServer class, Vite proxy config, MessageBridge auto-detection, debugging strategies, and .agnt.kdl configuration. Photino.NET雙服務開發工作流：DevServer類、Vite代理配置、MessageBridge自動檢測、調試策略及.agnt.kdl配置. Use when: starting dev environment, configuring Vite proxy, debugging backend/frontend communication, setting up agnt autostart"
 ---
 
 # Photino.NET Development Workflow
 
-How to set up and run a Photino.NET project in development mode with dual services (backend + frontend), hot-reload, and browser-based debugging.
+Photino.NET工程開發模式設置與運行：雙服務（後端+前端）、熱重載及基於瀏覽器調試。
 
 ## Dual-Service Architecture
 
-During development, two processes run simultaneously:
+開發期間兩進程同時運行：
 
 ```
 ┌─────────────────┐     WebSocket      ┌──────────────────┐
@@ -22,14 +22,14 @@ During development, two processes run simultaneously:
         └───────── Browser (localhost:5173) ─────┘
 ```
 
-1. **Backend**: `dotnet watch run --project src/BeagleTerm -- --dev-server` — Runs WebSocket server on port 5174 with hot-reload on C# changes
-2. **Frontend**: `cd src/BeagleTerm.Frontend && pnpm dev` — Runs Vite on port 5173 with HMR for Svelte/CSS changes
+1. **Backend**: `dotnet watch run --project src/BeagleTerm -- --dev-server` — 在5174端口運行WebSocket服務器，C#變更熱重載
+2. **Frontend**: `cd src/BeagleTerm.Frontend && pnpm dev` — 在5173端口運行Vite，Svelte/CSS變更HMR
 
-The frontend's Vite dev server proxies WebSocket connections to the backend.
+前端Vite開發服務器代理WebSocket連接至後端。
 
 ## DevServer Class
 
-The DevServer is a lightweight wrapper that starts a WebSocket-based backend without a GUI window:
+DevServer是輕量包裝器，無GUI窗口啟動基於WebSocket的後端：
 
 ```csharp
 public sealed class DevServer : IDisposable
@@ -60,7 +60,7 @@ public sealed class DevServer : IDisposable
 
 ## Vite Proxy Configuration
 
-The frontend's `vite.config.ts` must proxy WebSocket connections to the backend:
+前端`vite.config.ts`須代理WebSocket連接至後端：
 
 ```typescript
 import { defineConfig } from 'vite';
@@ -96,7 +96,7 @@ export default defineConfig({
 
 ## MessageBridge Auto-Detection
 
-The frontend message bridge automatically detects whether it's running inside Photino (native bridge) or a browser (WebSocket):
+前端消息橋自動檢測是否在Photino（原生橋）或瀏覽器（WebSocket）中運行：
 
 ```typescript
 // $lib/stores/messages.ts
@@ -143,7 +143,7 @@ off('ps:output', unsub);
 
 ## .agnt.kdl Configuration for Photino
 
-Reference `.agnt.kdl` for a Photino project with dual-service autostart:
+Photino工程雙服務自動啟動參考`.agnt.kdl`：
 
 ```kdl
 // .agnt.kdl - Photino.NET project configuration
@@ -204,7 +204,7 @@ agnt run claude
 ```
 
 ### Verify WebSocket Connection
-Open browser DevTools console on `http://localhost:5173`:
+在`http://localhost:5173`打開瀏覽器DevTools控制台：
 ```javascript
 // Should see WebSocket connected message in Network tab
 // Or test manually:
@@ -233,13 +233,13 @@ dotnet watch run --project src/MyApp -- --dev-server
 ```
 
 ### Frontend Debugging
-- Open `http://localhost:5173` in browser
-- Use F12 DevTools for JavaScript debugging
-- Svelte DevTools browser extension for component inspection
-- Network tab → WS filter to inspect WebSocket messages
+- 在瀏覽器打開`http://localhost:5173`
+- 用F12 DevTools調試JavaScript
+- Svelte DevTools瀏覽器擴展用於組件審查
+- Network標籤 → WS過濾器查看WebSocket消息
 
 ### Message Debugging
-Add temporary logging to the message bridge:
+在消息橋添加臨時日志：
 ```typescript
 // In message store, wrap send/receive with logging
 const originalSend = bridge.send;
@@ -250,7 +250,7 @@ bridge.send = (msg: string) => {
 ```
 
 ### Using agnt Proxy for Browser Debugging
-When running via `agnt run claude`, the proxy captures all traffic:
-- View requests/responses in agnt's traffic log
-- Use agnt's `__devtool` functions for DOM inspection
-- Toast notifications when the AI agent responds
+通過`agnt run claude`運行時，代理捕獲所有流量：
+- 在agnt流量日志中查看請求/響應
+- 用agnt的`__devtool`函數進行DOM審查
+- AI代理響應時顯示Toast通知

@@ -1,29 +1,29 @@
 ---
-description: "Start Photino.NET dual-service development environment with hot-reload and WebSocket connection verification"
+description: "Start Photino.NET dual-service development environment with hot-reload and WebSocket connection verification. 啟動Photino.NET雙服務開發環境：熱重載及WebSocket連接驗證. Use when: starting development, launching backend and frontend servers, verifying WebSocket connection, troubleshooting dev environment"
 allowed-tools: ["Bash", "Read", "Glob", "Grep"]
 ---
 
-Start the Photino.NET development environment with both backend (WebSocket dev server) and frontend (Vite) running simultaneously.
+啟動Photino.NET開發環境：後端（WebSocket開發服務器）與前端（Vite）同時運行。
 
 ## Steps
 
 ### 1. Detect Project Configuration
 
-Look for `.agnt.kdl` in the project root:
+在工程根查找`.agnt.kdl`：
 
 ```bash
 cat .agnt.kdl 2>/dev/null
 ```
 
-If found, extract:
-- Backend command from `scripts.backend.run`
-- Frontend command from `scripts.dev.run`
-- Frontend working directory from `scripts.dev.cwd`
+若找到，提取：
+- `scripts.backend.run`中之後端命令
+- `scripts.dev.run`中之前端命令
+- `scripts.dev.cwd`中之前端工作目錄
 
-If not found, scan for:
-- `*.csproj` with `Photino.NET` reference
-- `package.json` in a Frontend subdirectory
-- Default to standard commands
+若未找到，掃描：
+- 含`Photino.NET`引用之`*.csproj`
+- Frontend子目錄中之`package.json`
+- 默認至標準命令
 
 ### 2. Start Backend Dev Server
 
@@ -32,27 +32,27 @@ If not found, scan for:
 dotnet watch run --project <csproj-path> -- --dev-server
 ```
 
-Wait for output indicating the server is ready:
+等待輸出指示服務器就緒：
 ```
 Dev server running on port 5174
 ```
 
 ### 3. Start Frontend Dev Server
 
-In a separate process:
+在獨立進程中：
 
 ```bash
 cd <frontend-path> && pnpm dev
 ```
 
-Wait for Vite output:
+等待Vite輸出：
 ```
 Local: http://localhost:5173/
 ```
 
 ### 4. Verify WebSocket Connection
 
-The frontend connects to the backend via WebSocket. Verify:
+前端通過WebSocket連接至後端。驗證：
 
 ```bash
 # Check backend is listening
@@ -66,13 +66,13 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:5173
 
 ### 5. Report Status
 
-Tell the user:
-- Backend running on `ws://localhost:5174/ws`
-- Frontend running on `http://localhost:5173`
-- Open browser to `http://localhost:5173` to use the app
-- Both services have hot-reload enabled:
-  - C# changes: `dotnet watch` restarts backend automatically
-  - Frontend changes: Vite HMR updates instantly
+告知用戶：
+- 後端運行於`ws://localhost:5174/ws`
+- 前端運行於`http://localhost:5173`
+- 打開`http://localhost:5173`瀏覽器使用應用
+- 兩個服務均啟用熱重載：
+  - C#變更：`dotnet watch`自動重啟後端
+  - 前端變更：Vite HMR即時更新
 
 ## Troubleshooting
 
@@ -87,7 +87,7 @@ Tell the user:
 
 ## Using with agnt
 
-If `.agnt.kdl` is configured with autostart:
+若`.agnt.kdl`配置了autostart：
 
 ```bash
 # Start everything with one command
@@ -99,4 +99,4 @@ agnt run claude
 # 3. Proxy for browser debugging (if configured)
 ```
 
-The agnt status bar shows running services at the bottom of the terminal.
+agnt狀態欄在終端底部顯示運行中服務。
