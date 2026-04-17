@@ -1,19 +1,19 @@
 ---
 name: trace-symbol
-description: Trace function call hierarchies, dependencies, side effects, and symbol relationships using LCI
+description: Trace function call hierarchies, dependencies, side effects, and symbol relationships using LCI. 以LCI追蹤函數調用層次、依賴、副作用、符號關係。 Use when: understanding a function before modifying, finding all callers before refactoring, checking side effects, tracing call chain for debugging.
 ---
 
 # Symbol Tracing & Dependency Analysis
 
-Use LCI to trace how symbols connect: what calls them, what they call, what side effects they have, and what they depend on. Essential for understanding impact before making changes.
+以LCI追蹤符號連接：調用者、被調者、副作用、依賴。更改前理解影響之必備工具。
 
 ## When to Use
 
-- Understanding what a function does and how it works
-- Finding all callers of a function before refactoring
-- Checking if a function has side effects
-- Tracing dependencies before making changes
-- Understanding the call chain for debugging
+- 理解函數作用及工作方式
+- 重構前找到函數所有調用者
+- 查函數是否有副作用
+- 更改前追蹤依賴
+- 調試時理解調用鏈
 
 ## Tool Selection
 
@@ -32,7 +32,7 @@ Use LCI to trace how symbols connect: what calls them, what they call, what side
 
 ### Get Full Symbol Context
 
-First, search for the symbol to get its ID, then get full context:
+先搜符號獲ID，再取完整上下文：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -46,7 +46,7 @@ Parameters: {
 }
 ```
 
-Then use the ID from search results:
+使用搜索結果中之ID：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -62,7 +62,7 @@ Parameters: {
 
 ### Get Call Hierarchy
 
-See what calls this function and what it calls:
+見調用此函數者及此函數所調：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -78,7 +78,7 @@ Parameters: {
 
 ### Get All References
 
-Find every place a symbol is used:
+查符號每處使用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -94,7 +94,7 @@ Parameters: {
 
 ### Get Dependencies
 
-See what a symbol depends on (imports, types, other symbols):
+見符號所依賴（導入、類型、其他符號）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -110,7 +110,7 @@ Parameters: {
 
 ### Get Everything at Once
 
-Combine multiple includes for a complete picture:
+組合多個include獲完整圖像：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -129,7 +129,7 @@ Parameters: {
 
 ### Look Up by Name (without search first)
 
-If you know the exact symbol name:
+若知確切符號名：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -145,7 +145,7 @@ Parameters: {
 
 ### Check Side Effects
 
-Determine if a function is pure or has side effects:
+判函數是否純函數或有副作用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -221,7 +221,7 @@ Parameters: {
 
 ### Query Semantic Annotations
 
-Find symbols by semantic labels (e.g., `@lci:` annotations):
+按語義標籤查找符號（如`@lci:`注解）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -259,33 +259,33 @@ lci def handleRequest
 
 ### Understand a Function Before Modifying It
 
-1. **Find the function**: `search` with `pattern: "funcName"`, `symbol_types: "function"`
-2. **Get full context**: `get_context` with `id`, `include_full_symbol: true`, `include_call_hierarchy: true`
-3. **Check side effects**: `side_effects` with `symbol_name: "funcName"`, `include_transitive: true`
-4. **Find all callers**: `get_context` with `include_all_references: true`
-5. Now you know: what it does, what depends on it, and what it touches
+1. **找函數**：`search` `pattern: "funcName"`, `symbol_types: "function"`
+2. **取完整上下文**：`get_context` `id`, `include_full_symbol: true`, `include_call_hierarchy: true`
+3. **查副作用**：`side_effects` `symbol_name: "funcName"`, `include_transitive: true`
+4. **找所有調用者**：`get_context` `include_all_references: true`
+5. 至此知曉：其作用、依賴者、所觸及
 
 ### Trace a Bug Through the Call Chain
 
-1. **Start at the symptom**: `search` for the function where the bug manifests
-2. **Get callers**: `get_context` with `include_call_hierarchy: true`
-3. **Walk up the chain**: For each caller, get its context and callers
-4. **Check side effects**: `side_effects` on suspicious functions to identify state mutations
-5. **Find the root cause**: The function with unexpected side effects or wrong dependencies
+1. **從症狀入手**：`search`問題顯現之函數
+2. **取調用者**：`get_context` `include_call_hierarchy: true`
+3. **逐層上溯**：每個調用者，取其上下文及調用者
+4. **查副作用**：對可疑函數運行`side_effects`，識別狀態突變
+5. **找根因**：含意外副作用或錯誤依賴之函數
 
 ### Assess Refactoring Impact
 
-1. **Find the target symbol**: `search` with `pattern: "TargetType"`
-2. **Get all references**: `get_context` with `include_all_references: true`
-3. **Get dependencies**: `get_context` with `include_dependencies: true`
-4. **Check downstream**: For each reference site, check if it's in a public API or test
-5. Count affected files and call sites to estimate refactoring scope
+1. **找目標符號**：`search` `pattern: "TargetType"`
+2. **取所有引用**：`get_context` `include_all_references: true`
+3. **取依賴**：`get_context` `include_dependencies: true`
+4. **查下游**：每個引用點，查是否在公開API或測試中
+5. 計受影響文件數及調用點數，估重構範圍
 
 ### Find Testable Pure Functions
 
-1. **Get purity summary**: `side_effects` with `mode: "summary"`, `file_path: "src/module.ts"`
-2. **List pure functions**: `side_effects` with `mode: "pure"`, `file_path: "src/module.ts"`
-3. Pure functions are ideal for unit testing without mocks
+1. **取純度摘要**：`side_effects` `mode: "summary"`, `file_path: "src/module.ts"`
+2. **列純函數**：`side_effects` `mode: "pure"`, `file_path: "src/module.ts"`
+3. 純函數最適合無mock單元測試
 
 ---
 

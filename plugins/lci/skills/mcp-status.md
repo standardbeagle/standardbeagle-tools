@@ -1,17 +1,17 @@
 ---
 name: mcp-status
-description: Check LCI MCP server registration status across slop-mcp and standard configurations
+description: Check LCI MCP server registration status across slop-mcp and standard configurations. 查LCI伺服器登錄狀態。 Use when: checking if lci is registered, diagnosing connection errors, verifying index status.
 ---
 
 # LCI MCP Status
 
-This skill checks the current registration status of the LCI MCP server and reports on its configuration.
+此技能查LCI MCP伺服器之登錄狀態，報其配置。
 
 ## Status Check Flow
 
 ### Step 1: Check Binary Location
 
-First, determine where lci is installed:
+先定lci安裝處：
 
 ```bash
 # Check common installation locations
@@ -34,47 +34,47 @@ fi
 
 ### Step 2: Check slop-mcp Registration
 
-Attempt to query slop-mcp for lci registration:
+詢slop-mcp，查lci登錄狀：
 
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: { "action": "status" }
 ```
 
-**Parse the response:**
-- If slop-mcp is available and lci is listed: Note the state, tool_count, and source
-- If slop-mcp is available but lci is NOT listed: Note that slop-mcp could be used
-- If slop-mcp is not available: Skip to standard check
+**析回應：**
+- 若slop-mcp可用且lci已列：記state、tool_count、source
+- 若slop-mcp可用而lci未列：記可用slop-mcp
+- 若slop-mcp不可用：略，轉Step 3
 
 ### Step 3: Check Tool Availability
 
-Get detailed information about available tools:
+取工具詳情：
 
 ```
 Call: mcp__lci__info
 Parameters: { "tool": "version" }
 ```
 
-This returns the lci server version and capabilities.
+回lci版本及能力。
 
 ### Step 4: Verify Index Status
 
-Check if lci has indexed the current project:
+查lci是否已索引當前項目：
 
 ```
 Call: mcp__lci__code_insight
 Parameters: { "mode": "statistics" }
 ```
 
-This shows:
-- Number of indexed files
-- Indexed symbols
-- Languages detected
-- Index freshness
+示：
+- 已索文件數
+- 已索符號數
+- 檢出語言
+- 索引新鮮度
 
 ## Status Report Format
 
-Generate a status report with:
+生狀態報告：
 
 ```markdown
 ## LCI MCP Status Report
@@ -115,7 +115,7 @@ Generate a status report with:
 
 ## Diagnostic Commands
 
-If issues are detected, suggest these diagnostics:
+若檢出問題，建議以下診斷：
 
 ### Check if lci binary is accessible
 ```bash
@@ -154,44 +154,44 @@ Parameters: { "pattern": "test", "max": 1 }
 
 ### Connection Error (EOF)
 
-If lci shows "failed to connect" with EOF error:
-- The `mcp` subcommand may be missing from args
-- Correct: `args: ["mcp"]`
-- Wrong: `args: []` or no args
+若lci示"failed to connect"含EOF錯誤：
+- `mcp`子命令或缺於args
+- 正確：`args: ["mcp"]`
+- 誤：`args: []`或無args
 
 ### Binary Not Found
 
-If npx fails to find the binary:
-1. Clear npm cache: `npm cache clean --force`
-2. Try explicit install: `npm install -g @standardbeagle/lci`
-3. Verify: `npx @standardbeagle/lci --version`
+若npx找不到二進位：
+1. 清npm緩存：`npm cache clean --force`
+2. 顯式安裝：`npm install -g @standardbeagle/lci`
+3. 驗：`npx @standardbeagle/lci --version`
 
 ### Duplicate Registration
 
-If lci is registered in BOTH slop-mcp AND standard mcp.json:
-- Tools may appear twice with different prefixes
-- Recommend choosing one method
-- For slop-mcp only: The plugin's mcp.json.disabled should stay disabled
-- For standard only: Unregister from slop-mcp
+若lci同時登錄於slop-mcp與標準mcp.json：
+- 工具或以不同前綴出現兩次
+- 建選一法
+- 僅slop-mcp：插件之mcp.json.disabled保持禁用
+- 僅標準：從slop-mcp登出
 
 ### Index Not Found
 
-If code_insight returns no results:
-- lci builds its index automatically on first use
-- Or run manually: `lci status` in project root
-- Check `.lci.kdl` configuration if files are excluded
+若`code_insight`無結果：
+- lci首次使用時自動建索引
+- 或手動執行：`lci status`於項目根目錄
+- 若文件被排除，查`.lci.kdl`配置
 
 ## Migration Path
 
 ### From npx to local binary
-1. Install lci locally:
+1. 本地安裝lci：
    ```bash
    npm install -g @standardbeagle/lci
    # or
    go install github.com/standardbeagle/lci/cmd/lci@latest
    ```
-2. Update slop-mcp registration to use the local binary path
-3. Verify with `lci --version`
+2. 更新slop-mcp登錄，使用本地二進位路徑
+3. 驗：`lci --version`
 
 ### Updating slop-mcp registration
 ```

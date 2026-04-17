@@ -1,11 +1,11 @@
 ---
 name: agnt-companion
-description: Use when lci is installed and the user needs a dev server, reverse proxy, browser debugging, screenshots, or accessibility/performance/security audits of a running page - points at the sibling agnt plugin which lci does not duplicate
+description: Use when lci is installed and the user needs a dev server, reverse proxy, browser debugging, screenshots, or accessibility/performance/security audits of a running page - points at the sibling agnt plugin which lci does not duplicate. lci搜索代碼；運行代碼、觀其所為則用agnt。 Use when: dev server, browser errors, screenshots, a11y/perf/security audit, live DOM interaction.
 ---
 
 # agnt — the browser and process companion to lci
 
-lci gives you sub-millisecond code search and symbol intelligence. For **running the code and watching what it does** — dev servers, reverse proxies, browser debugging, screenshots, console errors, a11y/perf/security audits — use the sibling **agnt** plugin from the same marketplace.
+lci提供亞毫秒代碼搜索及符號智能。**運行代碼並觀察結果**——開發服務器、反向代理、瀏覽器調試、截圖、控制台錯誤、a11y/perf/安全審計——用同一市場的兄弟插件**agnt**。
 
 ## When to reach for agnt instead of lci
 
@@ -15,17 +15,17 @@ lci gives you sub-millisecond code search and symbol intelligence. For **running
 - "Run an accessibility / performance / SEO / security audit" → agnt `audit-a11y`, `audit-performance`, `audit-seo`, `audit-security`
 - "Wireframe this page" → agnt `sketch-mode`
 - "Debug this UI interaction" → agnt `browser-debug`
-- Anything that requires a live rendered DOM, not just source code
+- 任何需要實時渲染DOM而非源碼之事
 
 ## Install
 
-agnt ships in the same `standardbeagle-tools` marketplace as lci:
+agnt與lci同在`standardbeagle-tools`市場：
 
 ```
 claude mcp add agnt --source ./plugins/agnt
 ```
 
-Or install from the marketplace alongside lci. The two plugins are designed to coexist — no overlapping hooks, no MCP server conflicts.
+或從市場與lci並肩安裝。二插件設計共存——無重疊鉤子，無MCP服務器衝突。
 
 ## Typical split in a session
 
@@ -38,4 +38,4 @@ Or install from the marketplace alongside lci. The two plugins are designed to c
 | `explore-codebase` before implementing a feature | **lci** |
 | `qa-test` / `audit-security` on the running app | **agnt** |
 
-If you find yourself needing to actually *run* the code and watch the result while using lci, that's the signal to pull in agnt too.
+使用lci時若需*運行*代碼並觀察結果，即為引入agnt之信號。

@@ -1,17 +1,17 @@
 ---
 name: commit-all
-description: Orchestrate full WIP preparation and auto-commit by loading project config from memory and dispatching dedicated agents
+description: Orchestrate full WIP preparation and auto-commit by loading project config from memory and dispatching dedicated agents. 統籌WIP準備，自動提交：從記憶加載配置，分派專屬代理。 Use when: wrapping up uncommitted work, single-command test-doc-commit, end of work session.
 ---
 
 # Commit All
 
-Thin orchestrator that loads project config from slop-mcp memory, dispatches dedicated agents for each concern, and auto-commits the result.
+精薄編排器：從slop-mcp記憶加載項目配置，為各關注點分派專屬代理，自動提交結果。
 
 ## When to Use
 
-- You have uncommitted work ready to wrap up
-- You want a single command that tests, documents, and commits
-- Before ending a work session to ensure nothing is left loose
+- 有未提交工作待收尾
+- 欲單一命令完成測試、文檔、提交
+- 工作會話結束前確保無遺漏
 
 ## IMPORTANT: This is a rigid workflow. Follow each phase in order. Do not skip phases.
 
@@ -19,7 +19,7 @@ Thin orchestrator that loads project config from slop-mcp memory, dispatches ded
 
 ## Phase 1: Load Project Config
 
-Load config from slop-mcp persistent memory:
+從slop-mcp持久記憶加載配置：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__run_slop
@@ -35,13 +35,15 @@ script:
     emit(join(results, "\n"))
 ```
 
-**If `NO_CONFIG`**: The context-gatherer agent will handle detection and confirmation (see Phase 2).
+**若`NO_CONFIG`**：context-gatherer代理將處理檢測及確認（見Phase 2）。
 
-**If config returned**: Check staleness — compare stored `config-hash` against current config files (package.json, pyproject.toml, etc.). If stale, pass `re-detect: true` to context-gatherer.
+**若返回配置**：查陳舊性——對比所存`config-hash`與當前配置文件（package.json、pyproject.toml等）。若陳舊，向context-gatherer傳`re-detect: true`。
 
 ---
 
 ## Phase 2: Dispatch Context Gatherer (foreground)
+
+> Invoke the `Agent` tool with `subagent_type: lci:context-gatherer` — 收集WIP上下文，生成提交準備所需之結構化更改摘要。
 
 ```
 Agent(
@@ -51,15 +53,17 @@ Agent(
 )
 ```
 
-The context-gatherer returns a structured **Change Summary** with: branch, scope, what changed, why, task references, quality baseline, and project config.
+context-gatherer返回結構化**更改摘要**，含：分支、範圍、更改內容、原因、任務引用、質量基線、項目配置。
 
-Save the Change Summary — it's the input for all subsequent agents.
+保存更改摘要——為後續所有代理之輸入。
 
 ---
 
 ## Phase 3: Dispatch Test Fixer (foreground)
 
-Run first — code must be correct before other agents process it.
+先運行——代碼正確後其他代理才處理。
+
+> Invoke the `Agent` tool with `subagent_type: lci:test-fixer` — 運行全部測試，修復所有失敗，補充缺失覆蓋。
 
 ```
 Agent(
@@ -69,13 +73,19 @@ Agent(
 )
 ```
 
-**If test-fixer reports failures it could not resolve**: STOP. Report to user and do not proceed.
+**若test-fixer報無法解決之失敗**：停止。向用戶報告，不繼續。
 
 ---
 
 ## Phase 4: Dispatch Parallel Agents (background)
 
-Launch all three in a **single message** with multiple Agent tool calls:
+**單一消息**中發起全部三個Agent工具調用：
+
+> Invoke the `Agent` tool with `subagent_type: lci:code-quality` — 代碼質量審查，`run_in_background: true`。
+
+> Invoke the `Agent` tool with `subagent_type: lci:doc-updater` — 更新內部文檔，`run_in_background: true`。
+
+> Invoke the `Agent` tool with `subagent_type: lci:marketing-seo` — 更新公開文檔，`run_in_background: true`。
 
 ```
 Agent(
@@ -100,20 +110,20 @@ Agent(
 )
 ```
 
-Wait for all three to complete.
+等待全部三個完成。
 
 ---
 
 ## Phase 5: Reconcile & Verify
 
-After all agents complete:
+所有代理完成後：
 
-1. **Check for conflicts**: Multiple agents may have edited the same files. Review and merge.
-2. **Re-run tests**: Quality and doc agents may have changed code.
+1. **查衝突**：多個代理或已編輯同一文件，審查並合并。
+2. **重跑測試**：質量和文檔代理或已更改代碼。
    ```bash
    <test-command from config>
    ```
-3. **If tests fail**: Fix immediately — do not proceed with broken tests.
+3. **若測試失敗**：立即修復——不帶損壞測試繼續。
 
 ---
 
@@ -127,21 +137,21 @@ git diff --stat
 
 ### 6.2 Stage Files
 
-Stage all modified files EXCEPT:
-- `.env` files and credentials/secrets
-- Build artifacts (`dist/`, `build/`, `node_modules/`, `__pycache__/`)
-- Temporary files (`.tmp`, `.log`, `.swp`)
+暫存所有修改文件，**排除**：
+- `.env`文件及憑據/密鑰
+- 構建產物（`dist/`、`build/`、`node_modules/`、`__pycache__/`）
+- 臨時文件（`.tmp`、`.log`、`.swp`）
 
-Use specific file names, not `git add -A`.
+用具體文件名，不用`git add -A`。
 
 ### 6.3 Generate Commit Message
 
-Using the Change Summary from Phase 2, create a conventional commit:
-- **Type**: `feat`/`fix`/`refactor`/`docs`/`test`/`chore` based on primary change
-- **Scope**: From branch name or task context
-- **Subject**: Under 72 chars, what and why
-- **Body**: Bullet points of key changes
-- **Footer**: Task/issue references if available
+基於Phase 2之更改摘要，創建規範提交：
+- **Type**：基於主要更改選`feat`/`fix`/`refactor`/`docs`/`test`/`chore`
+- **Scope**：來自分支名或任務上下文
+- **Subject**：72字符以內，說明什麼及為何
+- **Body**：關鍵更改要點
+- **Footer**：若有，含任務/問題引用
 
 ### 6.4 Commit
 

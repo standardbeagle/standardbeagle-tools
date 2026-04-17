@@ -1,19 +1,19 @@
 ---
 name: explore-codebase
-description: Understand codebase architecture, structure, and patterns using LCI code intelligence
+description: Understand codebase architecture, structure, and patterns using LCI code intelligence. 以LCI探索代碼庫架構結構。 Use when: first look at unfamiliar codebase, understanding module layout, finding entry points, assessing complexity.
 ---
 
 # Codebase Exploration Workflows
 
-Use LCI's `code_insight` tool to understand codebases efficiently. It provides 79.8% context reduction compared to reading files directly, giving you architecture understanding without token bloat.
+以LCI之`code_insight`工具高效理解代碼庫。較直接讀取文件，節省79.8%上下文，獲架構理解而不耗令牌。
 
 ## When to Use
 
-- Exploring an unfamiliar codebase for the first time
-- Understanding project architecture and module structure
-- Finding key types, interfaces, and entry points
-- Getting statistics on codebase composition
-- Understanding how code is organized across directories
+- 首次探索陌生代碼庫
+- 理解項目架構及模塊結構
+- 查找關鍵類型、接口、入口點
+- 獲代碼庫組成統計
+- 理解目錄間代碼組織
 
 ## Understanding code_insight Modes
 
@@ -27,7 +27,7 @@ Use LCI's `code_insight` tool to understand codebases efficiently. It provides 7
 | `git_analyze` | Git change analysis | Reviewing recent changes |
 | `git_hotspots` | Frequently changed files | Finding maintenance hotspots |
 
-**Start with `overview` or `unified`, then drill down with `detailed` or `structure`.**
+**先用`overview`或`unified`，再以`detailed`或`structure`深入。**
 
 ---
 
@@ -35,7 +35,7 @@ Use LCI's `code_insight` tool to understand codebases efficiently. It provides 7
 
 ### Get Project Overview
 
-Start here for any new codebase. Returns key types, entry points, and architecture summary:
+任新代碼庫皆從此始。回關鍵類型、入口點、架構摘要：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -50,7 +50,7 @@ Parameters: {
 
 ### Get Unified Overview + Statistics
 
-Best single-call option for comprehensive understanding:
+一次調用獲全面理解：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -65,7 +65,7 @@ Parameters: {
 
 ### Analyze a Specific Directory/Module
 
-Drill into a specific area:
+深入特定區域：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -81,7 +81,7 @@ Parameters: {
 
 ### Get Directory Structure
 
-Understand file organization:
+理解文件組織：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -96,7 +96,7 @@ Parameters: {
 
 ### Get Codebase Statistics
 
-Language breakdown, file counts, complexity metrics:
+語言分布、文件數、複雜度指標：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -111,7 +111,7 @@ Parameters: {
 
 ### Filter by Language
 
-Focus analysis on specific languages:
+聚焦特定語言分析：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -127,7 +127,7 @@ Parameters: {
 
 ### Focused Analysis
 
-Narrow analysis to specific concerns:
+縮窄分析至特定關注點：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -144,7 +144,7 @@ Parameters: {
 
 ### Find Git Hotspots
 
-Files that change most frequently (maintenance targets):
+最頻繁變更之文件（維護目標）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -159,7 +159,7 @@ Parameters: {
 
 ### Browse Files by Pattern
 
-Find and list files matching a pattern:
+按模式查找並列出文件：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -201,24 +201,24 @@ lci list --lang typescript
 
 ### First Look at a New Codebase
 
-1. **Get the overview**: `code_insight` with `mode: "unified"` — gives architecture + statistics in one call
-2. **Understand structure**: `code_insight` with `mode: "structure"` — see directory organization
-3. **Drill into key areas**: `code_insight` with `mode: "detailed"`, `target: "<dir>"` — for each important module
-4. **Find entry points**: `search` with `symbol_types: "function"`, `pattern: "main"` or `"handler"` or `"route"`
+1. **取概覽**：`code_insight` `mode: "unified"` — 一次調用獲架構+統計
+2. **理解結構**：`code_insight` `mode: "structure"` — 見目錄組織
+3. **深入關鍵區域**：`code_insight` `mode: "detailed"`, `target: "<dir>"` — 每個重要模塊
+4. **找入口點**：`search` `symbol_types: "function"`, `pattern: "main"`或`"handler"`或`"route"`
 
 ### Understand a Specific Module
 
-1. **Detailed analysis**: `code_insight` with `mode: "detailed"`, `target: "src/module"`
-2. **List its files**: `find_files` with `directory: "src/module"`
-3. **Find its interfaces**: `search` with `symbol_types: "interface"`, `filter: "src/module/**"`
-4. **Check dependencies**: `get_context` on key symbols with `include_dependencies: true`
+1. **詳細分析**：`code_insight` `mode: "detailed"`, `target: "src/module"`
+2. **列其文件**：`find_files` `directory: "src/module"`
+3. **找其接口**：`search` `symbol_types: "interface"`, `filter: "src/module/**"`
+4. **查依賴**：`get_context`於關鍵符號，`include_dependencies: true`
 
 ### Assess Codebase Health
 
-1. **Get statistics**: `code_insight` with `mode: "statistics"`
-2. **Find hotspots**: `code_insight` with `mode: "git_hotspots"`
-3. **Check complexity**: `code_insight` with `mode: "statistics"`, `metrics: ["complexity"]`
-4. **Review findings and prioritize refactoring targets**
+1. **取統計**：`code_insight` `mode: "statistics"`
+2. **找熱點**：`code_insight` `mode: "git_hotspots"`
+3. **查複雜度**：`code_insight` `mode: "statistics"`, `metrics: ["complexity"]`
+4. **審查發現，優先排定重構目標**
 
 ---
 

@@ -1,33 +1,33 @@
 ---
 name: force-lci
-description: Toggle force-LCI mode to block standard search tools and require LCI
+description: Toggle force-LCI mode to block standard search tools and require LCI. 強制啟用LCI模式，封鎖Grep/Glob。 Use when: forcing all searches through LCI, benchmarking LCI, disabling force mode.
 trigger: When user asks to "force lci", "enable force lci mode", "disable force lci mode", "toggle force lci", or similar
 ---
 
 # Force LCI Mode
 
-This skill toggles "force-LCI mode" which blocks the standard Claude Code search tools (Grep, Glob) and forces all code and filename searches to go through the Lightning Code Index (LCI) MCP server.
+此技能切換「強制LCI模式」，封鎖Claude Code標準搜索工具（Grep、Glob），令所有代碼及文件名搜索均通過Lightning Code Index（LCI）MCP伺服器。
 
 ## When to Use
 
-Use this skill when:
-- User wants to ensure all searches use the semantic search capabilities of LCI
-- User wants to benchmark LCI performance by preventing fallback to standard tools
-- User prefers LCI's code intelligence features for all searches
-- User wants to disable force mode and restore normal tool access
+以下情形啟用此技能：
+- 用戶欲確保所有搜索使用LCI語義搜索能力
+- 用戶欲基準測試LCI性能，防止回退至標準工具
+- 用戶偏好LCI代碼智能功能用於所有搜索
+- 用戶欲禁用強制模式，恢復標準工具訪問
 
 ## How It Works
 
-When force-LCI mode is **enabled**:
-- `Grep` tool calls are blocked with a message to use LCI search instead
-- `Glob` tool calls are blocked with a message to use LCI search instead
-- A state file is created at `~/.config/claude-code/lci-force-mode`
-- PreToolUse hook intercepts and blocks the standard tools
+強制LCI模式**啟用**時：
+- `Grep`工具調用被封鎖，提示改用LCI搜索
+- `Glob`工具調用被封鎖，提示改用LCI搜索
+- 狀態文件創建於`~/.config/claude-code/lci-force-mode`
+- PreToolUse鉤子攔截並封鎖標準工具
 
-When force-LCI mode is **disabled**:
-- Standard Grep and Glob tools work normally
-- State file is removed
-- Hook allows all tool use
+強制LCI模式**禁用**時：
+- 標準Grep和Glob工具正常運作
+- 狀態文件刪除
+- 鉤子允許所有工具使用
 
 ## Implementation
 
@@ -60,14 +60,14 @@ fi
 
 ## What Claude Should Do
 
-When the user asks to enable/disable/toggle force-LCI mode:
+用戶請求啟用/禁用/切換強制LCI模式時：
 
-1. **Check current status** using the status check above
-2. **Toggle the mode** by creating or removing the state file
-3. **Confirm the change** to the user
-4. **Explain the effect**:
-   - When enabled: "Standard Grep and Glob tools are now blocked. Please use /search or /explore commands, or the LCI MCP tools directly."
-   - When disabled: "Standard Grep and Glob tools are now available again."
+1. **查當前狀態**，執行上述狀態檢查
+2. **切換模式**，創建或刪除狀態文件
+3. **確認更改**，告知用戶
+4. **說明效果**：
+   - 啟用時："Standard Grep and Glob tools are now blocked. Please use /search or /explore commands, or the LCI MCP tools directly."
+   - 禁用時："Standard Grep and Glob tools are now available again."
 
 ## Example Usage
 
@@ -99,9 +99,9 @@ Force-LCI mode is now disabled. Standard Grep and Glob tools are available again
 
 ## Technical Details
 
-The force-LCI mode is implemented via:
-- **State file**: `~/.config/claude-code/lci-force-mode` (presence = enabled)
-- **PreToolUse hook**: Intercepts Grep and Glob before execution
+強制LCI模式通過以下實現：
+- **State file**: `~/.config/claude-code/lci-force-mode`（存在=啟用）
+- **PreToolUse hook**: 執行前攔截Grep和Glob
 - **Hook script**: `${CLAUDE_PLUGIN_ROOT}/scripts/block-search-tools.sh`
 
-The hook checks for the state file and blocks tools with exit code 1 if mode is enabled.
+鉤子檢查狀態文件；若模式啟用，以退出碼1封鎖工具。

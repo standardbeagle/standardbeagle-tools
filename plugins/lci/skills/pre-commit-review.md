@@ -1,23 +1,23 @@
 ---
 name: pre-commit-review
-description: Analyze staged or uncommitted code changes for quality issues before committing
+description: Analyze staged or uncommitted code changes for quality issues before committing. 提交前以LCI分析暫存更改之質量問題。 Use when: pre-commit quality check, PR review, finding duplicates, checking naming conventions, analyzing complexity.
 ---
 
 # Pre-commit Code Quality Analysis
 
-Use LCI's `git_analysis` tool to catch code quality issues before committing. It compares your changes against the existing codebase to find duplicates, naming inconsistencies, and complexity problems.
+以LCI之`git_analysis`工具於提交前捕獲代碼質量問題。對比現有代碼庫，查找重複、命名不一致、複雜度問題。
 
 ## When to Use
 
-- About to commit and want a quality check
-- Reviewing your own changes before opening a PR
-- Looking for duplicate code you may have introduced
-- Checking if naming conventions match the codebase
-- Analyzing complexity of new or modified functions
+- 即將提交，欲做質量檢查
+- 開PR前自查更改
+- 查找引入之重複代碼
+- 檢查命名約定是否符合代碼庫
+- 分析新增或修改函數之複雜度
 
 ## Understanding git_analysis
 
-`git_analysis` scopes determine what code is analyzed:
+`git_analysis`範圍決定分析對象：
 
 | Scope | What It Analyzes | Use When |
 |-------|-----------------|----------|
@@ -26,7 +26,7 @@ Use LCI's `git_analysis` tool to catch code quality issues before committing. It
 | `commit` | A specific commit | Reviewing past work |
 | `range` | A range of commits | Reviewing a branch |
 
-Focus areas control what issues to look for:
+焦點區域控制查找問題類型：
 
 | Focus | What It Finds |
 |-------|---------------|
@@ -40,7 +40,7 @@ Focus areas control what issues to look for:
 
 ### Analyze Staged Changes (Default)
 
-Run this before committing:
+提交前執行：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -55,7 +55,7 @@ Parameters: {
 
 ### Analyze All Uncommitted Changes
 
-Check everything you've been working on:
+查所有在製更改：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -70,7 +70,7 @@ Parameters: {
 
 ### Focus on Duplicates Only
 
-Find functions similar to existing code:
+查與現有代碼相似之函數：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -86,7 +86,7 @@ Parameters: {
 
 ### Focus on Naming Consistency
 
-Check if new names match project conventions:
+查新命名是否符合項目約定：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -102,7 +102,7 @@ Parameters: {
 
 ### Focus on Complexity Metrics
 
-Find functions that may be too complex:
+查或過於複雜之函數：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -118,7 +118,7 @@ Parameters: {
 
 ### Adjust Duplicate Sensitivity
 
-Lower threshold catches more similar code (default 0.8):
+降低閾值捕獲更多相似代碼（默認0.8）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -149,7 +149,7 @@ Parameters: {
 
 ### Analyze a Branch Range
 
-Compare branch against main:
+對比main分析分支：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -185,37 +185,37 @@ lci git-analyze --focus duplicates
 
 ### Pre-commit Quality Check
 
-1. **Stage your changes**: `git add <files>`
-2. **Run full analysis**:
+1. **暫存更改**：`git add <files>`
+2. **運行完整分析**：
    ```
-   git_analysis with scope: "staged"
+   git_analysis，scope: "staged"
    ```
-3. **Review findings** by category:
-   - **Duplicates**: Consider extracting shared logic or reusing existing functions
-   - **Naming**: Rename to match project conventions
-   - **Metrics**: Break up complex functions, reduce nesting
-4. **Fix issues** and re-stage
-5. **Re-analyze** to verify fixes
-6. **Commit** when clean
+3. **按類別審查發現**：
+   - **Duplicates**：考慮提取共享邏輯或重用現有函數
+   - **Naming**：重命名以符合項目約定
+   - **Metrics**：拆分複雜函數，減少嵌套
+4. **修復問題**，重新暫存
+5. **重新分析**，驗修復
+6. **乾淨後提交**
 
 ### Branch Review Before PR
 
-1. **Analyze full branch**:
+1. **分析完整分支**：
    ```
-   git_analysis with scope: "range", base_ref: "main"
+   git_analysis，scope: "range", base_ref: "main"
    ```
-2. **Check for accumulated duplicates** across all branch commits
-3. **Review naming consistency** for all new symbols
-4. **Address findings** before creating PR
+2. **查所有分支提交中積累之重複**
+3. **審查所有新符號之命名一致性**
+4. **創建PR前解決發現**
 
 ### Finding Reuse Opportunities
 
-1. **Run duplicate analysis** with lower threshold:
+1. **以低閾值運行重複分析**：
    ```
-   git_analysis with scope: "wip", focus: ["duplicates"], similarity_threshold: 0.6
+   git_analysis，scope: "wip", focus: ["duplicates"], similarity_threshold: 0.6
    ```
-2. **For each duplicate finding**: review the existing function it matches
-3. **Decide**: reuse existing function, extract shared logic, or keep separate if warranted
+2. **對每個重複發現**：審查其匹配之現有函數
+3. **決策**：重用現有函數、提取共享邏輯，或有理由時保持獨立
 
 ---
 

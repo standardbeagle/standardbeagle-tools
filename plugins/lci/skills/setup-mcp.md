@@ -1,27 +1,27 @@
 ---
 name: setup-mcp
-description: Install lci MCP server with intelligent detection - uses local binary if available, falls back to npx
+description: Install lci MCP server with intelligent detection - uses local binary if available, falls back to npx. 智能安裝LCI MCP伺服器，優先本地二進位，後備npx。 Use when: first-time lci setup, registering with slop-mcp, configuring mcp.json.
 ---
 
 # LCI MCP Server Setup
 
-This skill provides adaptive installation of the LCI (Lightning Code Index) MCP server. It detects your environment and configures the MCP server appropriately.
+此技能自適應安裝LCI（Lightning Code Index）MCP伺服器，檢測環境並相應配置。
 
 ## Overview
 
-LCI can be registered in two ways:
-1. **Via slop-mcp** - Centralized management with search, discovery, and orchestration
-2. **Via standard mcp.json** - Direct configuration in Claude Code settings
+LCI可以兩種方式登錄：
+1. **Via slop-mcp** — 集中管理，含搜索、發現、編排
+2. **Via standard mcp.json** — 直接配置於Claude Code設置
 
-The MCP server command resolution follows this priority:
-1. **Local binary** - `~/.local/bin/lci`, `~/go/bin/lci`, or in PATH
-2. **npx @standardbeagle/lci** - Fallback (always available via npm)
+MCP伺服器命令解析優先級：
+1. **Local binary** — `~/.local/bin/lci`、`~/go/bin/lci`或PATH中
+2. **npx @standardbeagle/lci** — 後備（始終可通過npm獲取）
 
 ## Installation Flow
 
 ### Step 1: Detect Binary Location
 
-First, check if lci is installed locally:
+先查lci是否本地安裝：
 
 ```bash
 # Check common installation locations
@@ -42,33 +42,33 @@ else
 fi
 ```
 
-**Record the result** for use in registration:
-- If found: Use the full path as command
-- If not found: Use `npx` with args `["-y", "@standardbeagle/lci", "mcp"]`
+**記錄結果**供登錄使用：
+- 若找到：用完整路徑作命令
+- 若未找到：用`npx`，args為`["-y", "@standardbeagle/lci", "mcp"]`
 
 ### Step 2: Detect slop-mcp Availability
 
-Check if slop-mcp is available:
+查slop-mcp是否可用：
 
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: { "action": "list" }
 ```
 
-**If successful** (returns list of MCPs): slop-mcp is available, proceed to Step 3A
-**If tool not found or errors**: slop-mcp not available, proceed to Step 3B
+**若成功**（返回MCP列表）：slop-mcp可用，轉Step 3A
+**若工具未找到或報錯**：slop-mcp不可用，轉Step 3B
 
 ### Step 3A: Install via slop-mcp
 
-When slop-mcp is available, register LCI through it for centralized management.
+slop-mcp可用時，通過其登錄LCI以集中管理。
 
 #### Check if Already Registered
 
-Look for "lci" in the manage_mcps list response. If already registered, report status and skip registration.
+在manage_mcps列表回應中查找"lci"。若已登錄，報告狀態，跳過登錄。
 
 #### Ask User for Scope Preference
 
-Present the user with scope options:
+向用戶呈現範圍選項：
 
 | Scope | Location | Use Case |
 |-------|----------|----------|
@@ -76,11 +76,11 @@ Present the user with scope options:
 | `project` | `.slop-mcp.kdl` | Team-shared, committed to repo |
 | `memory` | Runtime only | Temporary, CI environments |
 
-Default recommendation: `user` for persistent personal installation.
+默認推薦：`user`用於持久個人安裝。
 
 #### Register LCI
 
-**If local binary exists:**
+**若本地二進位存在：**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
@@ -91,9 +91,9 @@ Parameters: {
   "scope": "<user's choice>"
 }
 ```
-Note: Use full path (e.g., `/home/username/.local/bin/lci` or `/home/username/go/bin/lci`)
+注：使用完整路徑（如`/home/username/.local/bin/lci`或`/home/username/go/bin/lci`）
 
-**If no local binary (use npx):**
+**若無本地二進位（使用npx）：**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
@@ -112,15 +112,15 @@ Call: mcp__plugin_slop-mcp_slop-mcp__search_tools
 Parameters: { "query": "search", "mcp_name": "lci" }
 ```
 
-If tools are returned, registration was successful.
+若返回工具，登錄成功。
 
 ### Step 3B: Standard Installation (No slop-mcp)
 
-When slop-mcp is not available, configure via mcp.json.
+slop-mcp不可用時，通過mcp.json配置。
 
 #### Install LCI Binary (Optional)
 
-For better performance, install lci locally:
+提升性能，本地安裝lci：
 
 ```bash
 # Via npm (recommended)
@@ -139,7 +139,7 @@ go install github.com/standardbeagle/lci/cmd/lci@latest
 
 #### Configure mcp.json
 
-Add to your Claude Code `.mcp.json` (or create it):
+添加至Claude Code `.mcp.json`（或創建）：
 
 **With local binary:**
 ```json
@@ -163,7 +163,7 @@ Add to your Claude Code `.mcp.json` (or create it):
 
 #### Verify Configuration
 
-Restart Claude Code to reload MCP servers, then test:
+重啟Claude Code重加載MCP伺服器，測試：
 
 ```
 Call: mcp__lci__info
@@ -172,18 +172,18 @@ Parameters: {}
 
 ## Post-Installation Verification
 
-Regardless of installation method, verify lci is working:
+無論安裝方式，驗lci正常：
 
 ```
 Call: mcp__lci__info
 Parameters: { "tool": "search" }
 ```
 
-This should return information about the search tool.
+應返回search工具信息。
 
 ## Quick Test
 
-Run a simple search to confirm everything works:
+執行簡單搜索確認一切正常：
 
 ```
 Call: mcp__lci__search
@@ -192,11 +192,11 @@ Parameters: { "pattern": "main", "max": 5 }
 
 ## Summary Output
 
-After setup, provide the user with:
+設置後，向用戶提供：
 
-1. **Binary location**: Local path or npx fallback
-2. **Installation method used**: slop-mcp or standard mcp.json
-3. **Scope** (if slop-mcp): user/project/memory
-4. **Verification status**: tools available and working
-5. **Available tools**: List of lci tools now accessible
-6. **Next steps**: Suggest running `/lci:search` or `/lci:explore` commands
+1. **Binary location**：本地路徑或npx後備
+2. **Installation method used**：slop-mcp或標準mcp.json
+3. **Scope**（若slop-mcp）：user/project/memory
+4. **Verification status**：工具可用且正常
+5. **Available tools**：現可訪問之lci工具列表
+6. **Next steps**：建議運行`/lci:search`或`/lci:explore`命令

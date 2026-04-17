@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Explore the codebase structure using Lightning Code Index
+description: Explore the codebase structure using Lightning Code Index. 以LCI探索代碼庫結構。 Use when: understanding codebase architecture, finding files by pattern, drilling into specific areas.
 allowed-tools:
   - mcp__lci__code_insight
   - mcp__lci__find_files
@@ -9,13 +9,13 @@ allowed-tools:
 
 # Explore Codebase
 
-Use the Lightning Code Index to explore and understand codebase structure.
+以Lightning Code Index探索理解代碼庫結構。
 
 ## Instructions
 
-1. Use `mcp__lci__code_insight` with mode="overview" for high-level structure
-2. Use `mcp__lci__find_files` to locate files by pattern
-3. Use `mcp__lci__code_insight` with mode="detailed" for specific areas
+1. 以`mcp__lci__code_insight` `mode="overview"`取高層結構
+2. 以`mcp__lci__find_files`按模式定位文件
+3. 以`mcp__lci__code_insight` `mode="detailed"`深入特定區域
 
 ## Examples
 

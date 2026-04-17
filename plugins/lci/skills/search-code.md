@@ -1,19 +1,19 @@
 ---
 name: search-code
-description: Find code symbols, patterns, implementations, and files using LCI semantic search
+description: Find code symbols, patterns, implementations, and files using LCI semantic search. 以LCI語義搜索查找符號、模式、實現、文件。 Use when: finding function/class/type definitions, searching symbol usages, finding files by path, filtering by language or directory.
 ---
 
 # Code Search Workflows
 
-Use LCI for all code search tasks. LCI provides sub-millisecond in-memory semantic search that outperforms grep/ripgrep for symbol-aware queries.
+所有代碼搜索任務使用LCI。LCI提供亞毫秒內存語義搜索，符號感知查詢勝過grep/ripgrep。
 
 ## When to Use
 
-- Finding function, class, type, or variable definitions
-- Searching for usage/references of a symbol
-- Finding files by path pattern
-- Searching by symbol type (functions, interfaces, etc.)
-- Filtering search to specific languages or directories
+- 查找函數、類、類型或變量定義
+- 搜索符號用法/引用
+- 按路徑模式查找文件
+- 按符號類型搜索（函數、接口等）
+- 按語言或目錄篩選搜索
 
 ## Choosing the Right Tool
 
@@ -44,7 +44,7 @@ Parameters: {
 
 ### Search with Symbol Type Filter
 
-Find only functions, classes, interfaces, etc:
+僅查函數、類、接口等：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -90,7 +90,7 @@ Parameters: {
 
 ### Content Search (grep-like)
 
-Search file contents rather than symbol names:
+搜索文件內容而非符號名：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -173,26 +173,26 @@ lci list "*.config.ts"
 
 ### Find Where a Function is Defined
 
-1. Search for the function name with type filter:
-   - `search` with `pattern: "functionName"`, `symbol_types: "function"`
-2. Results include file path, line number, and object ID
-3. Use the object ID with `get_context` for full source code
+1. 按類型篩選搜索函數名：
+   - `search` `pattern: "functionName"`, `symbol_types: "function"`
+2. 結果含文件路徑、行號、對象ID
+3. 以對象ID配合`get_context`獲完整源碼
 
 ### Find All Usages of a Symbol
 
-1. Search for the symbol: `search` with `pattern: "SymbolName"`
-2. Get context with references: `get_context` with `id: "<id>"`, `include_all_references: true`
-3. Review callers and usage sites
+1. 搜符號：`search` `pattern: "SymbolName"`
+2. 取含引用之上下文：`get_context` `id: "<id>"`, `include_all_references: true`
+3. 審查調用者及使用點
 
 ### Find All Interfaces in a Package
 
-1. Search with type filter and directory:
-   - `search` with `pattern: ""`, `symbol_types: "interface"`, `filter: "src/domain/**"`
-2. Get overview of each interface as needed
+1. 按類型及目錄篩選搜索：
+   - `search` `pattern: ""`, `symbol_types: "interface"`, `filter: "src/domain/**"`
+2. 按需取每個接口概覽
 
 ### Search Multiple Patterns
 
-Use the `patterns` parameter to search for multiple terms:
+以`patterns`參數搜索多個術語：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool

@@ -1,23 +1,23 @@
 ---
 name: context-handoff
-description: Save and load code context manifests for agent handoff and session continuity
+description: Save and load code context manifests for agent handoff and session continuity. 保存/加載代碼上下文清單供代理交接。 Use when: handing off to subagent, saving investigation state, building incremental context, multi-session continuity.
 ---
 
 # Context Manifests for Agent Handoff
 
-Use LCI's `context` tool to save compact code context manifests (2-5KB) that can be loaded later to instantly restore full context with source code and call graphs. Eliminates redundant exploration across agent sessions.
+以LCI之`context`工具保存緊湊代碼上下文清單（2-5KB），後續加載即刻恢復含源碼及調用圖之完整上下文。消除代理會話間冗餘探索。
 
 ## When to Use
 
-- Handing off an investigation to a subagent
-- Saving your current understanding before a complex change
-- Sharing code context between sessions
-- Building up context incrementally during exploration
-- Documenting which code areas need modification for a task
+- 將調查移交子代理
+- 複雜更改前保存當前理解
+- 會話間共享代碼上下文
+- 探索中增量積累上下文
+- 記錄任務需修改之代碼區域
 
 ## Understanding Context Manifests
 
-A manifest contains **refs** — pointers to code locations with metadata:
+清單含**refs**——附元數據之代碼位置指針：
 
 ### Ref Roles
 
@@ -30,7 +30,7 @@ A manifest contains **refs** — pointers to code locations with metadata:
 
 ### Expansion Directives
 
-When loading a manifest, refs can be expanded to include related context:
+加載清單時，refs可展開含關聯上下文：
 
 | Directive | What It Adds |
 |-----------|-------------|
@@ -82,7 +82,7 @@ Parameters: {
 
 ### Save Manifest as Inline String
 
-For passing directly to a subagent:
+直接傳遞給子代理：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -107,7 +107,7 @@ Parameters: {
 
 ### Load Context from File
 
-Hydrates the manifest into full source code and call graphs:
+將清單水化為完整源碼及調用圖：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -137,7 +137,7 @@ Parameters: {
 
 ### Load with Format Control
 
-Get different levels of detail:
+獲不同詳細程度：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -152,11 +152,11 @@ Parameters: {
 }
 ```
 
-Formats: `full` (default, complete source), `signatures` (declarations only), `outline` (structure overview).
+Formats: `full`（默認，完整源碼）、`signatures`（僅聲明）、`outline`（結構概覽）。
 
 ### Load with Role Filter
 
-Only load refs with specific roles:
+僅加載特定角色之refs：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -173,7 +173,7 @@ Parameters: {
 
 ### Load with Token Budget
 
-Limit context size to fit within token constraints:
+限制上下文大小以符令牌約束：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -190,7 +190,7 @@ Parameters: {
 
 ### Append to Existing Manifest
 
-Add more refs to a saved manifest:
+向已保存清單追加refs：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -219,40 +219,40 @@ Parameters: {
 
 ### Investigate Then Hand Off to Agent
 
-1. **Explore the problem** using search, get_context, code_insight
-2. **Save what you found**:
+1. **探索問題**，使用search、get_context、code_insight
+2. **保存所得**：
    ```
-   context save with refs listing each relevant symbol and its role
+   context save，refs列每個相關符號及其角色
    ```
-3. **Hand off to agent**: Agent loads the manifest to get instant context
-4. **Agent works** with full understanding, no redundant exploration
+3. **移交代理**：代理加載清單即刻獲取上下文
+4. **代理工作**，充分理解，無冗餘探索
 
 ### Incremental Context Building
 
-1. **Start with known entry point**: Save initial ref
-2. **As you discover related code**: Append refs with `append: true`
-3. **Once investigation is complete**: Load full manifest to verify completeness
-4. **Use the manifest** for implementation or handoff
+1. **從已知入口點開始**：保存初始ref
+2. **發現關聯代碼時**：以`append: true`追加refs
+3. **調查完成後**：加載完整清單驗完整性
+4. **使用清單**實現或移交
 
 ### Multi-session Continuity
 
-1. **End of session**: Save manifest capturing current understanding
+1. **會話結束**：保存清單記錄當前理解
    ```
-   context save with task description and all discovered refs, to_file: ".lci/task-context.json"
+   context save，含任務描述及所有已發現refs，to_file: ".lci/task-context.json"
    ```
-2. **Next session**: Load manifest to restore context instantly
+2. **下次會話**：加載清單即刻恢復上下文
    ```
-   context load with from_file: ".lci/task-context.json"
+   context load，from_file: ".lci/task-context.json"
    ```
-3. **Continue working** without re-exploring
+3. **繼續工作**，無需重新探索
 
 ### Build a Modification Plan
 
-1. **Identify files to change**: Save with `role: "modify"`
-2. **Identify contracts to preserve**: Save with `role: "contract"`, `x: ["implementations"]`
-3. **Identify patterns to follow**: Save with `role: "pattern"`
-4. **Identify boundaries**: Save with `role: "boundary"`, `x: ["callers"]`
-5. **Load the full manifest**: Review the complete modification scope
+1. **識別待改文件**：以`role: "modify"`保存
+2. **識別待保契約**：以`role: "contract"`, `x: ["implementations"]`保存
+3. **識別可循模式**：以`role: "pattern"`保存
+4. **識別邊界**：以`role: "boundary"`, `x: ["callers"]`保存
+5. **加載完整清單**：審查完整修改範圍
 
 ---
 
@@ -288,4 +288,4 @@ Parameters: {
 }
 ```
 
-Required: `f` (file path). All other fields are optional.
+必填：`f`（文件路徑）。其餘字段可選。
