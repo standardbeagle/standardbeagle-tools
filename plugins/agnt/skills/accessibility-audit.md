@@ -1,15 +1,15 @@
 ---
 name: accessibility-audit
-description: Accessibility auditing with axe-core, ARIA inspection, contrast checks, tab order, and screen reader simulation
+description: Accessibility auditing with axe-core, ARIA inspection, contrast checks, tab order, and screen reader simulation. 無障礙稽查：axe-core、ARIA檢查、對比度、Tab順序、屏讀模擬。 Use when: audit accessibility, check WCAG compliance, check color contrast, get tab order, check ARIA, simulate screen reader, check focus indicators, pre-release a11y review
 ---
 
-# Accessibility Audit Skill
+# 無障礙稽查技能
 
-This skill documents accessibility auditing and inspection functions available through the `__devtool` API. All functions are executed via the proxy exec action.
+記錄通過 `__devtool` API 可用之無障礙稽查與檢查函數。所有函數經代理exec操作執行。
 
-## Invocation Format
+## 調用格式
 
-All accessibility functions are called using proxy exec:
+所有無障礙函數以代理exec調用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -24,13 +24,13 @@ Parameters: {
 }
 ```
 
-**Prerequisites**: A proxy must be running and the browser must be connected via the proxy URL.
+**先決條件**：代理須運行且瀏覽器已通過代理URL連接。
 
 ---
 
-## Audit Modes Overview
+## 稽查模式概覽
 
-The `auditAccessibility` function supports multiple audit modes optimized for different use cases:
+`auditAccessibility` 函數支持針對不同用途優化之多種稽查模式：
 
 | Mode | Engine | Rules | Speed | Use Case |
 |------|--------|-------|-------|----------|
@@ -39,37 +39,37 @@ The `auditAccessibility` function supports multiple audit modes optimized for di
 | **comprehensive** | Extended | State-specific contrast, responsive | 500-2000ms | Pre-release audits |
 | **basic** | Fallback | Minimal checks | 10-50ms | Fallback when axe-core fails |
 
-### When to Use Each Mode
+### 各模式適用時機
 
-**Standard Mode** (default):
-- Regular development workflow
-- CI/CD pipeline integration
-- First pass accessibility review
-- Most common use case
+**Standard Mode**（默認）：
+- 常規開發工作流
+- CI/CD流水線集成
+- 首次無障礙審查
+- 最常見用例
 
-**Fast Mode**:
-- Rapid iteration during UI development
-- Quick sanity checks between changes
-- When you need immediate feedback
-- Resource-constrained environments
+**Fast Mode**：
+- UI開發中快速迭代
+- 更改間快速健全性檢查
+- 需要即時反饋時
+- 資源受限環境
 
-**Comprehensive Mode**:
-- Pre-release accessibility review
-- Client deliverables
-- When thoroughness matters more than speed
-- Responsive design verification
-- State-specific testing (hover, focus, active)
+**Comprehensive Mode**：
+- 發布前無障礙審查
+- 客戶交付物
+- 徹底性比速度更重要時
+- 響應式設計驗證
+- 特定狀態測試（懸停、聚焦、激活）
 
-**Basic Mode**:
-- Fallback when axe-core unavailable
-- Minimal environments
-- Quick existence checks for a11y attributes
+**Basic Mode**：
+- axe-core不可用時之備用
+- 最小環境
+- 無障礙屬性快速存在性檢查
 
 ---
 
 ## auditAccessibility
 
-Run a full accessibility audit on the page with configurable modes.
+以可配置模式對頁面運行完整無障礙稽查。
 
 **Signature**: `auditAccessibility(options?)`
 
@@ -80,9 +80,9 @@ Run a full accessibility audit on the page with configurable modes.
 
 **Returns**: `{issues: [...], summary: {critical, serious, moderate, minor}}`
 
-### Standard Mode (Default)
+### Standard模式（默認）
 
-Uses axe-core for WCAG 2.1 compliance with 90+ rules.
+用axe-core進行WCAG 2.1合規，90+規則。
 
 **Example**:
 ```
@@ -98,7 +98,7 @@ Parameters: {
 }
 ```
 
-**With explicit mode**:
+**明確指定模式**：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -112,9 +112,9 @@ Parameters: {
 }
 ```
 
-### Fast Mode
+### Fast模式
 
-Quick checks for focus indicators and color schemes.
+聚焦指示器與配色方案快速檢查。
 
 **Example**:
 ```
@@ -130,9 +130,9 @@ Parameters: {
 }
 ```
 
-### Comprehensive Mode
+### Comprehensive模式
 
-Extended audit with state-specific contrast and responsive checks.
+含特定狀態對比度與響應式檢查之擴展稽查。
 
 **Example**:
 ```
@@ -148,9 +148,9 @@ Parameters: {
 }
 ```
 
-### Basic Mode
+### Basic模式
 
-Minimal fallback checks when axe-core is unavailable.
+axe-core不可用時之最小備用檢查。
 
 **Example**:
 ```
@@ -166,9 +166,9 @@ Parameters: {
 }
 ```
 
-### Raw Output Mode
+### 原始輸出模式
 
-Get verbose detailed output with all issues and context.
+取得含所有問題及上下文之詳細輸出。
 
 **Example**:
 ```
@@ -184,9 +184,9 @@ Parameters: {
 }
 ```
 
-### Scoped Audit
+### 範圍稽查
 
-Limit audit to a specific section of the page.
+限定稽查至頁面特定區域。
 
 **Example**:
 ```
@@ -202,9 +202,9 @@ Parameters: {
 }
 ```
 
-### Response Structure
+### 響應結構
 
-**AI-optimized output (default)**:
+**AI優化輸出（默認）**：
 ```json
 {
   "issues": [
@@ -226,7 +226,7 @@ Parameters: {
 }
 ```
 
-**Raw output**:
+**原始輸出**：
 ```json
 {
   "issues": [
@@ -254,7 +254,7 @@ Parameters: {
 
 ## getA11yInfo
 
-Get ARIA and role information for a specific element.
+取得特定元素之ARIA與角色信息。
 
 **Signature**: `getA11yInfo(selector)`
 
@@ -284,13 +284,13 @@ Parameters: {
 - `state`: Current state (expanded, checked, selected, disabled, etc.)
 - `properties`: Other ARIA properties (aria-required, aria-invalid, etc.)
 
-**Use cases**:
-- Verify button/link accessibility
-- Check form field labeling
-- Debug screen reader announcements
-- Validate ARIA implementation
+**用例**：
+- 驗證按鈕/鏈接無障礙性
+- 查看表單字段標籤
+- 除錯屏幕閱讀器公告
+- 驗證ARIA實現
 
-**Example - Check form field**:
+**Example - 查看表單字段**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -304,7 +304,7 @@ Parameters: {
 }
 ```
 
-**Example - Check navigation menu**:
+**Example - 查看導航菜單**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -322,7 +322,7 @@ Parameters: {
 
 ## getContrast
 
-Calculate color contrast ratio for text elements.
+計算文字元素之顏色對比度。
 
 **Signature**: `getContrast(selector)`
 
@@ -352,13 +352,13 @@ Parameters: {
 - `passesAA`: Boolean - meets WCAG AA requirements (4.5:1 normal text, 3:1 large text)
 - `passesAAA`: Boolean - meets WCAG AAA requirements (7:1 normal text, 4.5:1 large text)
 
-**WCAG Contrast Requirements**:
+**WCAG對比度要求**：
 - **AA Normal Text**: 4.5:1 minimum
 - **AA Large Text** (18pt+ or 14pt+ bold): 3:1 minimum
 - **AAA Normal Text**: 7:1 minimum
 - **AAA Large Text**: 4.5:1 minimum
 
-**Example - Check heading contrast**:
+**Example - 查看標題對比度**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -372,7 +372,7 @@ Parameters: {
 }
 ```
 
-**Example - Check link contrast**:
+**Example - 查看鏈接對比度**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -386,17 +386,17 @@ Parameters: {
 }
 ```
 
-**Use cases**:
-- Verify text readability
-- Check link colors against backgrounds
-- Validate design system colors
-- Pre-launch accessibility review
+**用例**：
+- 驗證文字可讀性
+- 查看鏈接顏色與背景對比
+- 驗證設計系統顏色
+- 發布前無障礙審查
 
 ---
 
 ## getTabOrder
 
-Get focusable elements in keyboard tab order.
+取得鍵盤Tab順序之可聚焦元素。
 
 **Signature**: `getTabOrder()`
 
@@ -418,24 +418,24 @@ Parameters: {
 }
 ```
 
-**Response includes for each element**:
+**Response各元素包含**：
 - `element`: Selector path to the focusable element
 - `tabIndex`: The tabindex attribute value (-1, 0, or positive)
 - `natural`: Boolean - whether element is naturally focusable (buttons, links, inputs)
 
-**Tab Order Rules**:
-1. Elements with positive tabindex (in numerical order)
-2. Elements with tabindex="0" and naturally focusable elements (in DOM order)
-3. Elements with tabindex="-1" are focusable via JavaScript only
+**Tab順序規則**：
+1. 正tabindex元素（按數字順序）
+2. tabindex="0"與自然可聚焦元素（按DOM順序）
+3. tabindex="-1"元素僅可通過JavaScript聚焦
 
-**Use cases**:
-- Verify logical tab order
-- Find skip links
-- Debug keyboard navigation
-- Identify focus traps
-- Check for missing focusable elements
+**用例**：
+- 驗證邏輯Tab順序
+- 找跳轉鏈接
+- 除錯鍵盤導航
+- 識別焦點陷阱
+- 查找缺失可聚焦元素
 
-**Example - Check form tab order**:
+**Example - 查看表單Tab順序**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -449,17 +449,17 @@ Parameters: {
 }
 ```
 
-**Common issues to look for**:
-- Positive tabindex values (usually indicates problems)
-- Important controls missing from tab order
-- Visual order not matching tab order
-- Interactive elements with tabindex="-1" that should be focusable
+**常見問題**：
+- 正tabindex值（通常表示問題）
+- Tab順序中缺少重要控件
+- 視覺順序與Tab順序不符
+- 應可聚焦但tabindex="-1"之互動元素
 
 ---
 
 ## getScreenReaderText
 
-Get text as a screen reader would announce it.
+取得屏幕閱讀器公告之文字。
 
 **Signature**: `getScreenReaderText(selector)`
 
@@ -482,24 +482,24 @@ Parameters: {
 }
 ```
 
-**The function considers**:
-- aria-label attribute
-- aria-labelledby referenced content
-- aria-describedby descriptions
-- Visible text content
-- alt text for images
-- title attributes
-- Hidden elements (aria-hidden="true")
-- Visually hidden text (.sr-only, .visually-hidden)
+**函數考慮**：
+- aria-label屬性
+- aria-labelledby引用內容
+- aria-describedby描述
+- 可見文字內容
+- 圖片alt文字
+- title屬性
+- 隱藏元素（aria-hidden="true"）
+- 視覺隱藏文字（.sr-only, .visually-hidden）
 
-**Use cases**:
-- Verify button announces correctly
-- Check image alt text
-- Debug confusing screen reader output
-- Test icon-only buttons
-- Validate form field announcements
+**用例**：
+- 驗證按鈕公告是否正確
+- 查看圖片alt文字
+- 除錯令人困惑的屏讀輸出
+- 測試純圖標按鈕
+- 驗證表單字段公告
 
-**Example - Check icon button**:
+**Example - 查看圖標按鈕**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -513,7 +513,7 @@ Parameters: {
 }
 ```
 
-**Example - Check complex widget**:
+**Example - 查看複雜組件**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -529,9 +529,9 @@ Parameters: {
 
 ---
 
-## Interpreting Audit Results
+## 解讀稽查結果
 
-### Impact Levels
+### 影響級別
 
 | Level | Description | Action Required |
 |-------|-------------|-----------------|
@@ -540,17 +540,17 @@ Parameters: {
 | **moderate** | Causes confusion or difficulty | Plan to fix |
 | **minor** | Minor annoyance | Fix when convenient |
 
-### Common Issues and Remediation
+### 常見問題與修復
 
-#### Color Contrast Issues
+#### 顏色對比度問題
 
-**Problem**: Insufficient contrast between text and background.
+**問題**：文字與背景間對比度不足。
 
-**Remediation**:
-1. Use the getContrast function to check specific elements
-2. Adjust foreground or background color to meet WCAG requirements
-3. For AA compliance: 4.5:1 for normal text, 3:1 for large text
-4. Consider adding high-contrast mode option
+**修復**：
+1. 用 getContrast 函數查看特定元素
+2. 調整前景或背景顏色符合WCAG要求
+3. AA合規：普通文字4.5:1，大文字3:1
+4. 考慮添加高對比度模式選項
 
 **Check**:
 ```
@@ -566,14 +566,14 @@ Parameters: {
 }
 ```
 
-#### Missing Form Labels
+#### 缺失表單標籤
 
-**Problem**: Form inputs without associated labels.
+**問題**：表單輸入無關聯標籤。
 
-**Remediation**:
-1. Add `<label for="input-id">` elements
-2. Or use aria-label for simple inputs
-3. Or use aria-labelledby for complex labels
+**修復**：
+1. 添加 `<label for="input-id">` 元素
+2. 或對簡單輸入用 aria-label
+3. 或對複雜標籤用 aria-labelledby
 
 **Check**:
 ```
@@ -589,14 +589,14 @@ Parameters: {
 }
 ```
 
-#### Images Without Alt Text
+#### 圖片缺失Alt文字
 
-**Problem**: Images missing alt attribute.
+**問題**：圖片缺少alt屬性。
 
-**Remediation**:
-1. Add descriptive alt text for informative images
-2. Use alt="" for decorative images
-3. Use aria-hidden="true" for purely decorative icons
+**修復**：
+1. 為信息性圖片添加描述性alt文字
+2. 裝飾性圖片用 alt=""
+3. 純裝飾性圖標用 aria-hidden="true"
 
 **Check**:
 ```
@@ -612,14 +612,14 @@ Parameters: {
 }
 ```
 
-#### Missing Button Names
+#### 缺失按鈕名稱
 
-**Problem**: Buttons without accessible names (icon-only buttons).
+**問題**：無可訪問名稱之按鈕（純圖標按鈕）。
 
-**Remediation**:
-1. Add aria-label to describe the action
-2. Or add visually hidden text inside the button
-3. Or use aria-labelledby to reference visible text
+**修復**：
+1. 添加 aria-label 描述操作
+2. 或在按鈕內添加視覺隱藏文字
+3. 或用 aria-labelledby 引用可見文字
 
 **Check**:
 ```
@@ -635,16 +635,16 @@ Parameters: {
 }
 ```
 
-#### Missing Focus Indicators
+#### 缺失焦點指示器
 
-**Problem**: Focus state not visible for keyboard users.
+**問題**：鍵盤用戶不可見焦點狀態。
 
-**Remediation**:
-1. Never remove outline without replacement
-2. Add visible focus styles (:focus-visible)
-3. Use sufficient contrast for focus indicator
+**修復**：
+1. 不可移除outline而不提供替代
+2. 添加可見焦點樣式（:focus-visible）
+3. 焦點指示器需有足夠對比度
 
-**Check with fast mode**:
+**用fast模式查看**：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -658,14 +658,14 @@ Parameters: {
 }
 ```
 
-#### Keyboard Navigation Issues
+#### 鍵盤導航問題
 
-**Problem**: Content not reachable via keyboard.
+**問題**：內容無法通過鍵盤訪問。
 
-**Remediation**:
-1. Use native interactive elements (button, a, input)
-2. Add tabindex="0" to custom interactive elements
-3. Implement keyboard event handlers for custom widgets
+**修復**：
+1. 使用原生互動元素（button, a, input）
+2. 對自定義互動元素添加 tabindex="0"
+3. 為自定義組件實現鍵盤事件處理器
 
 **Check**:
 ```
@@ -683,11 +683,11 @@ Parameters: {
 
 ---
 
-## Common Accessibility Workflows
+## 常用無障礙工作流
 
-### Workflow 1: Initial Page Audit
+### 工作流一：初始頁面稽查
 
-Run a comprehensive check on a new page:
+對新頁面進行全面檢查：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -719,9 +719,9 @@ Parameters: {
 
 ---
 
-### Workflow 2: Form Accessibility Check
+### 工作流二：表單無障礙查看
 
-Check each form field has proper labels:
+查看各表單字段是否有正確標籤：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -736,7 +736,7 @@ Parameters: {
 }
 ```
 
-Verify error messages are announced:
+驗證錯誤信息是否被公告：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -751,7 +751,7 @@ Parameters: {
 }
 ```
 
-Check submit button is accessible:
+查看提交按鈕是否可訪問：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -768,9 +768,9 @@ Parameters: {
 
 ---
 
-### Workflow 3: Navigation Accessibility
+### 工作流三：導航無障礙性
 
-Check main navigation:
+查看主導航：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -785,7 +785,7 @@ Parameters: {
 }
 ```
 
-Verify skip links exist:
+驗證跳轉鏈接存在：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -800,7 +800,7 @@ Parameters: {
 }
 ```
 
-Check dropdown menu accessibility:
+查看下拉菜單無障礙性：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -817,9 +817,9 @@ Parameters: {
 
 ---
 
-### Workflow 4: Modal/Dialog Check
+### 工作流四：模態/對話框查看
 
-Check dialog has proper role:
+查看對話框有正確角色：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -834,7 +834,7 @@ Parameters: {
 }
 ```
 
-Verify screen reader announcement:
+驗證屏讀公告：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -849,7 +849,7 @@ Parameters: {
 }
 ```
 
-Check focus is trapped in modal:
+查看焦點是否被模態框限制：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -866,9 +866,9 @@ Parameters: {
 
 ---
 
-### Workflow 5: Pre-Release Comprehensive Audit
+### 工作流五：發布前全面稽查
 
-Run comprehensive mode for thorough check:
+運行comprehensive模式進行徹底查看：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -883,7 +883,7 @@ Parameters: {
 }
 ```
 
-Get raw output for detailed remediation:
+取得詳細修復之原始輸出：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -900,9 +900,9 @@ Parameters: {
 
 ---
 
-### Workflow 6: Quick Development Check
+### 工作流六：開發快速查看
 
-Use fast mode during active development:
+積極開發時用fast模式：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -934,7 +934,7 @@ Parameters: {
 
 ---
 
-## Quick Reference Table
+## 快速參考表
 
 | Function | Purpose | Key Return Values |
 |----------|---------|-------------------|
@@ -946,16 +946,16 @@ Parameters: {
 
 ---
 
-## WCAG Quick Reference
+## WCAG快速參考
 
-### WCAG 2.1 Principles (POUR)
+### WCAG 2.1原則（POUR）
 
 1. **Perceivable**: Information must be presentable in ways users can perceive
 2. **Operable**: Interface must be operable by various input methods
 3. **Understandable**: Information and operation must be understandable
 4. **Robust**: Content must be robust enough for various assistive technologies
 
-### Key Success Criteria
+### 關鍵成功標準
 
 | Level | Criteria | Test Function |
 |-------|----------|---------------|
@@ -969,12 +969,12 @@ Parameters: {
 
 ---
 
-## Tips for Effective Accessibility Testing
+## 有效無障礙測試技巧
 
-1. **Start with standard mode** - Catches most issues with reasonable speed
-2. **Use fast mode during iteration** - Quick feedback while coding
-3. **Run comprehensive before release** - Thorough check for edge cases
-4. **Check tab order separately** - Logical order matters for keyboard users
-5. **Verify screen reader text** - What you see is not always what's announced
-6. **Test with real assistive tech** - Automated tools catch ~30% of issues
-7. **Consider different user needs** - Low vision, motor impairments, cognitive
+1. **先用standard模式** - 以合理速度捕捉大多數問題
+2. **迭代時用fast模式** - 編碼時快速反饋
+3. **發布前運行comprehensive** - 邊緣情況徹底查看
+4. **單獨查看Tab順序** - 邏輯順序對鍵盤用戶很重要
+5. **驗證屏讀文字** - 你看到的不一定是公告的
+6. **用真實輔助技術測試** - 自動化工具僅捕捉約30%問題
+7. **考慮不同用戶需求** - 弱視、運動障礙、認知障礙

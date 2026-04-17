@@ -1,57 +1,55 @@
 ---
-description: "Run comprehensive accessibility audit on the current page"
+description: "Run comprehensive accessibility audit on the current page. 全面審現頁無障礙性. Use when: audit accessibility, check WCAG compliance, find a11y issues, test screen reader support, review ARIA labels"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
 ---
 
-Run a comprehensive accessibility (a11y) audit on the current browser page using agnt's diagnostic tools.
+藉agnt診斷工具對當前瀏覽器頁面執行完整無障礙稽核。
 
-## Steps
+## 步驟
 
-1. Run the full accessibility audit:
+1. 執行完整無障礙稽核：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditAccessibility()"}
    ```
 
-2. Get the tab order to check keyboard navigation:
+2. 取Tab鍵順序以查鍵盤導航：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.getTabOrder()"}
    ```
 
-3. Take a screenshot for reference:
+3. 截圖供參考：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.screenshot('a11y-audit')"}
    ```
 
-## What the Audit Checks
+## 稽核檢查內容
 
-The accessibility audit checks for:
+### 嚴重問題（錯誤）
+- **無alt文字之圖片** — 螢幕閱讀器無法描述圖片
+- **無標籤之表單輸入** — 用戶不知輸入什麼
+- **無無障礙名稱之按鈕** — 用戶不知按鈕作用
+- **空連結** — 無文字內容或aria-label之連結
 
-### Critical Issues (Errors)
-- **Images without alt text** - Screen readers can't describe the image
-- **Form inputs without labels** - Users can't understand what to enter
-- **Buttons without accessible names** - Users don't know what the button does
-- **Empty links** - Links with no text content or aria-label
+### 警告
+- **無href之連結** — 可能引起導航問題
 
-### Warnings
-- **Links without href** - May cause navigation issues
+## 解讀結果
 
-## Interpreting Results
+稽核回傳：
+- `issues`：找到之無障礙問題陣列
+- `count`：問題總數
+- `errors`：嚴重問題數
+- `warnings`：非嚴重問題數
 
-The audit returns:
-- `issues`: Array of accessibility problems found
-- `count`: Total number of issues
-- `errors`: Number of critical issues
-- `warnings`: Number of non-critical issues
+每個問題含：
+- `type`：無障礙違規類型
+- `severity`："error" 或 "warning"
+- `selector`：定位元素之CSS選擇器
+- `message`：問題描述
 
-For each issue:
-- `type`: The type of accessibility violation
-- `severity`: "error" or "warning"
-- `selector`: CSS selector to locate the element
-- `message`: Description of the problem
+## 附加診斷工具
 
-## Additional Diagnostic Tools
-
-For deeper accessibility analysis:
+更深入無障礙分析：
 
 ```
 // Get detailed accessibility info for a specific element
@@ -64,8 +62,8 @@ proxy {action: "exec", id: "dev", code: "__devtool.getContrast('rgb(0,0,0)', 'rg
 proxy {action: "exec", id: "dev", code: "__devtool.getScreenReaderText('#element')"}
 ```
 
-## WCAG Guidelines Reference
+## WCAG指南參考
 
-- **4.5:1** contrast ratio required for normal text (AA)
-- **3:1** contrast ratio required for large text (AA)
-- **7:1** contrast ratio required for enhanced contrast (AAA)
+- **4.5:1** — 一般文字所需對比度（AA）
+- **3:1** — 大文字所需對比度（AA）
+- **7:1** — 增強對比度所需（AAA）

@@ -1,15 +1,15 @@
 ---
 name: visual-diagnostics
-description: Visual overlays for layout debugging - outline elements, show grid/flex containers, typography audit, z-index analysis, interactive element visualization
+description: Visual overlays for layout debugging - outline elements, show grid/flex containers, typography audit, z-index analysis, interactive element visualization. 視覺疊層排版除錯：輪廓、網格、彈性、字排、z序、互動元素。 Use when: debug layout, outline elements, show grid containers, show flexbox, audit typography, check z-index, visualize interactive elements, debug spacing
 ---
 
 # Visual Diagnostics Skill
 
-This skill provides visual CSS-based debugging overlays using agnt's diagnostics module. Turn invisible layout concepts into visible patterns for rapid debugging.
+視覺CSS疊層除錯，借agnt診斷模組。使不可見之佈局概念可視，以速除錯。
 
-## Prerequisites
+## 先決條件
 
-A proxy must be running and the browser connected:
+代理須運行且瀏覽器已連：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -26,9 +26,9 @@ Parameters: {
 
 ---
 
-## First: Check for Errors
+## 先查錯誤
 
-Visual issues often stem from JavaScript errors. Check first:
+視覺問題常源於JS錯誤，先查：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -39,15 +39,15 @@ Parameters: {
 }
 ```
 
-Fix errors before auditing layout.
+修錯後再稽查佈局。
 
 ---
 
-## Structure & Layout Diagnostics
+## 結構與佈局診斷
 
-### Outline All Elements
+### 輪廓所有元素
 
-Color-code elements by depth level:
+按嵌套深度色碼標示元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -62,11 +62,11 @@ Parameters: {
 }
 ```
 
-Colors cycle through: red → green → blue → yellow → cyan based on nesting depth.
+色彩循環：紅→綠→藍→黃→青，按嵌套深度。
 
-### Show Semantic Elements
+### 顯示語義元素
 
-Highlight HTML5 semantic elements by type:
+按類型高亮HTML5語義元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -81,7 +81,7 @@ Parameters: {
 }
 ```
 
-Returns color legend:
+返回色彩圖例：
 - `div` - red
 - `span` - blue
 - `section` - green
@@ -92,9 +92,9 @@ Returns color legend:
 - `aside` - lime
 - `main` - pink
 
-### Show Container Classes
+### 顯示容器類
 
-Highlight container/wrapper elements:
+高亮容器/包裹元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -109,11 +109,11 @@ Parameters: {
 }
 ```
 
-Targets: `.container`, `.wrapper`, `[class*="container"]`, `[class*="wrapper"]`
+目標：`.container`、`.wrapper`、`[class*="container"]`、`[class*="wrapper"]`
 
-### Show Grid Containers
+### 顯示網格容器
 
-Visualize CSS Grid layouts:
+可視化CSS Grid佈局：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -128,11 +128,11 @@ Parameters: {
 }
 ```
 
-Adds "GRID" label and purple outline to grid containers.
+於網格容器添加 "GRID" 標籤及紫色輪廓。
 
-### Show Flexbox Containers
+### 顯示彈性容器
 
-Visualize Flexbox layouts:
+可視化Flexbox佈局：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -147,11 +147,11 @@ Parameters: {
 }
 ```
 
-Adds "FLEX" label and cyan outline to flex containers.
+於彈性容器添加 "FLEX" 標籤及青色輪廓。
 
-### Show Gap Usage
+### 顯示間距用法
 
-Highlight elements using CSS gap:
+高亮使用CSS gap之元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -168,11 +168,11 @@ Parameters: {
 
 ---
 
-## Typography Diagnostics
+## 字排診斷
 
-### Typography Audit Panel
+### 字排稽查面板
 
-Open a panel showing all unique text styles on the page:
+開啟面板顯示頁面所有唯一文字樣式：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -187,15 +187,15 @@ Parameters: {
 }
 ```
 
-Returns:
-- Count of unique style combinations
-- Font size, family, weight, line-height, color for each
-- Usage count (flag if only used once = potential inconsistency)
-- Preview text in each style
+返回：
+- 唯一樣式組合計數
+- 各組字號、字族、字重、行高、顏色
+- 使用次數（僅用一次=疑為不一致）
+- 各樣式預覽文字
 
-### Highlight Inconsistent Text
+### 高亮不一致文字
 
-Find text styles used only once (likely inconsistent):
+找僅用一次之文字樣式（疑為不一致）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -210,11 +210,11 @@ Parameters: {
 }
 ```
 
-Highlights one-off font sizes in red.
+以紅色高亮單次出現字號。
 
-### Show Text Bounds
+### 顯示文字邊界
 
-Outline all text elements:
+輪廓所有文字元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -229,15 +229,15 @@ Parameters: {
 }
 ```
 
-Blue dotted outline on `<p>`, `<h1>`-`<h6>`, `<span>`, `<a>`.
+藍色虛線輪廓 `<p>`、`<h1>`-`<h6>`、`<span>`、`<a>`。
 
 ---
 
-## Stacking & Layering
+## 疊層分析
 
-### Show Z-Index Elements
+### 顯示Z序元素
 
-Find and highlight all elements with z-index:
+找出並高亮所有有z-index之元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -252,11 +252,11 @@ Parameters: {
 }
 ```
 
-Returns sorted list of elements by z-index value (highest first).
+返回按z-index值排序之元素列表（最高在前）。
 
-### Show Positioned Elements
+### 顯示定位元素
 
-Highlight elements by position type:
+按定位類型高亮元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -271,14 +271,14 @@ Parameters: {
 }
 ```
 
-Color legend:
+色彩圖例：
 - `absolute` - red outline
 - `fixed` - orange outline
 - `sticky` - purple outline
 
-### Reduce Opacity
+### 降低透明度
 
-Fade all elements to see layering:
+淡化所有元素以查看疊層：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -293,15 +293,15 @@ Parameters: {
 }
 ```
 
-Useful for seeing overlapping elements.
+用於查看重疊元素。
 
 ---
 
-## Interactive Element Diagnostics
+## 互動元素診斷
 
-### Show Interactive Elements
+### 顯示互動元素
 
-Highlight all clickable/focusable elements:
+高亮所有可點擊/可聚焦元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -316,11 +316,11 @@ Parameters: {
 }
 ```
 
-Lime outline on: `<a>`, `<button>`, `<input>`, `<select>`, `<textarea>`, `[onclick]`, `[role="button"]`.
+青綠輪廓標示：`<a>`、`<button>`、`<input>`、`<select>`、`<textarea>`、`[onclick]`、`[role="button"]`。
 
-### Show Focus Order
+### 顯示焦點順序
 
-Number all focusable elements by tab order:
+對所有可聚焦元素按Tab順序編號：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -335,11 +335,11 @@ Parameters: {
 }
 ```
 
-Adds numbered badges (1, 2, 3...) showing keyboard navigation sequence.
+添加編號徽章（1, 2, 3...）顯示鍵盤導航順序。
 
-### Show Click Targets
+### 顯示點擊目標
 
-Enforce minimum 44x44px click target visualization:
+強制顯示最小 44x44px 點擊目標：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -354,15 +354,15 @@ Parameters: {
 }
 ```
 
-Shows dashed orange outline where 44x44 minimum would be.
+橙色虛線輪廓標示44x44最小範圍。
 
 ---
 
-## Color & Spacing Analysis
+## 顏色與間距分析
 
-### Show Color Palette
+### 顯示色板
 
-Open panel with all colors used on page:
+開啟面板顯示頁面所用所有顏色：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -377,11 +377,11 @@ Parameters: {
 }
 ```
 
-Shows color swatches with hex/rgb values and usage counts.
+顯示色樣及hex/rgb值與使用次數。
 
-### Show Spacing Scale
+### 顯示間距比例
 
-Open panel with all margin/padding values:
+開啟面板顯示所有margin/padding值：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -396,15 +396,15 @@ Parameters: {
 }
 ```
 
-Shows values in px and rem with usage counts. Helps identify spacing inconsistencies.
+以px和rem顯示值及使用次數。助識間距不一致。
 
 ---
 
-## Viewport Information
+## 視口資訊
 
-### Show Viewport Panel
+### 顯示視口面板
 
-Display current viewport info in a panel:
+面板顯示當前視口資訊：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -419,15 +419,15 @@ Parameters: {
 }
 ```
 
-Shows: viewport dimensions, screen dimensions, device pixel ratio.
+顯示：視口尺寸、螢幕尺寸、設備像素比。
 
 ---
 
-## Control Functions
+## 控制函數
 
-### Clear Specific Mode
+### 清除指定模式
 
-Remove one diagnostic overlay:
+移除單一診斷疊層：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -442,9 +442,9 @@ Parameters: {
 }
 ```
 
-### Clear All Diagnostics
+### 清除所有診斷
 
-Remove all overlays and panels:
+移除所有疊層與面板：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -459,9 +459,9 @@ Parameters: {
 }
 ```
 
-### List Active Modes
+### 列出活躍模式
 
-See what diagnostics are currently active:
+查看當前活躍診斷：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -478,9 +478,9 @@ Parameters: {
 
 ---
 
-## Quick Reference
+## 快速參考
 
-### Structure Diagnostics
+### 結構診斷
 
 | Function | Purpose |
 |----------|---------|
@@ -491,7 +491,7 @@ Parameters: {
 | `showFlexbox()` | Flexbox containers |
 | `showGaps()` | Gap properties |
 
-### Typography Diagnostics
+### 字排診斷
 
 | Function | Purpose |
 |----------|---------|
@@ -499,7 +499,7 @@ Parameters: {
 | `highlightInconsistentText()` | One-off font sizes |
 | `showTextBounds()` | Text element bounds |
 
-### Stacking Diagnostics
+### 疊層診斷
 
 | Function | Purpose |
 |----------|---------|
@@ -507,7 +507,7 @@ Parameters: {
 | `showPositioned()` | Absolute/fixed/sticky |
 | `opacity(level)` | Fade all elements |
 
-### Interactive Diagnostics
+### 互動診斷
 
 | Function | Purpose |
 |----------|---------|
@@ -515,7 +515,7 @@ Parameters: {
 | `showFocusOrder()` | Tab sequence numbers |
 | `showClickTargets()` | 44x44px minimum |
 
-### Analysis Panels
+### 分析面板
 
 | Function | Purpose |
 |----------|---------|
@@ -525,9 +525,9 @@ Parameters: {
 
 ---
 
-## Common Workflows
+## 常用工作流
 
-### Debug Layout Structure
+### 除錯佈局結構
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -556,7 +556,7 @@ Parameters: {
 }
 ```
 
-### Audit Typography Consistency
+### 字排一致性稽查
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -571,7 +571,7 @@ Parameters: {
 }
 ```
 
-### Check Keyboard Navigation
+### 鍵盤導航檢查
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -586,7 +586,7 @@ Parameters: {
 }
 ```
 
-### Find Z-Index Conflicts
+### 查找Z序衝突
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -603,8 +603,10 @@ Parameters: {
 
 ---
 
-## Related Skills
+## 相關技能
 
-- **`responsive-check`** - Responsive layout risk detection
-- **`browser-debug`** - Element inspection and interaction tracking
-- **`quality-audits`** - DOM complexity and CSS architecture audits
+> Invoke the `Skill` tool with `skill: agnt:responsive-check` — 響應式佈局風險檢測。
+
+> Invoke the `Skill` tool with `skill: agnt:browser-debug` — 元素檢查與互動追蹤。
+
+> Invoke the `Skill` tool with `skill: agnt:quality-audits` — DOM複雜度與CSS架構稽查。

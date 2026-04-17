@@ -1,15 +1,15 @@
 ---
 name: quality-audits
-description: Page quality audits for DOM complexity, CSS architecture, security vulnerabilities, and SEO/meta tag validation
+description: Page quality audits for DOM complexity, CSS architecture, security vulnerabilities, and SEO/meta tag validation. 頁品稽查：DOM繁度、CSS構、安全漏洞、SEO元標。 Use when: audit page quality, check DOM complexity, audit CSS architecture, check security vulnerabilities, validate SEO meta tags, run pre-release quality check
 ---
 
 # Quality Audits Skill
 
-This skill documents page quality audit functions available through the `__devtool` API. These audits detect DOM complexity issues, CSS architecture problems, security vulnerabilities, and SEO deficiencies.
+此技能記載 `__devtool` API 可用之頁品稽查函數。諸稽查可偵DOM繁度缺陷、CSS構問題、安全漏洞、SEO缺項。
 
 ## Invocation Format
 
-All audit functions are called using proxy exec:
+諸稽查函數皆以 proxy exec 調用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -30,7 +30,7 @@ Parameters: {
 
 ## Output Modes
 
-All audit functions support two output modes:
+諸稽查函數皆支二種輸出模式：
 
 | Mode | Flag | Description | Use Case |
 |------|------|-------------|----------|
@@ -38,16 +38,16 @@ All audit functions support two output modes:
 | **Raw** | `raw: true` | Verbose detailed format with all issues and full context | Deep investigation, manual review |
 
 **When to use raw mode**:
-- Need to see every individual issue
-- Debugging specific elements
-- Generating detailed reports
-- Need full HTML context for fixes
+- 需覽每一具體問題
+- 除錯特定元素
+- 生成詳報
+- 需完整HTML以施修正
 
 ---
 
 ## auditDOMComplexity
 
-Analyze DOM structure for performance issues including depth, element count, and structural complexity.
+分析DOM結構之效能問題，含深度、元素數、結構繁度。
 
 **Signature**: `auditDOMComplexity(options?)`
 
@@ -129,10 +129,10 @@ Parameters: {
 ```
 
 **Raw response includes**:
-- Full selector path for every problematic element
-- HTML snippets for context
-- Individual impact scores per issue
-- Specific fix recommendations per element
+- 每一問題元素之完整選擇器路徑
+- 脈絡HTML片段
+- 各問題單項影響分數
+- 各元素具體修正建議
 
 ### Issue Types
 
@@ -150,7 +150,7 @@ Parameters: {
 
 ## auditCSS
 
-Comprehensive CSS architecture audit analyzing specificity, containment, responsive strategies, and design consistency.
+全面CSS構稽查，分析特異性、容納性、響應策略、設計一致性。
 
 **Signature**: `auditCSS(options?)`
 
@@ -251,7 +251,7 @@ Parameters: {
 
 ## auditSecurity
 
-Comprehensive security audit checking for XSS vulnerabilities, mixed content, CSP issues, and framework security.
+全面安全稽查：XSS漏洞、混合內容、CSP問題、框架安全。
 
 **Signature**: `auditSecurity(options?)`
 
@@ -364,7 +364,7 @@ Parameters: {
 
 ## auditPageQuality
 
-Comprehensive page quality audit combining DOM, CSS, accessibility, security, and performance checks.
+全面頁品稽查：綜合DOM、CSS、無障礙、安全、效能諸項。
 
 **Signature**: `auditPageQuality(options?)`
 
@@ -470,13 +470,13 @@ Parameters: {
 
 ### Priority-Based Remediation
 
-When fixing issues, follow this priority order:
+問題修正，依優先序：
 
-1. **Critical/Error severity** - Fix immediately
-2. **Security issues** - Fix before deployment
-3. **Performance blockers** (TBT, DOM complexity) - Fix before release
-4. **Maintainability issues** (CSS specificity, naming) - Plan for refactoring
-5. **Informational** - Address during regular maintenance
+1. **Critical/Error severity** — 即刻修正
+2. **Security issues** — 部署前修正
+3. **Performance blockers** (TBT, DOM complexity) — 發布前修正
+4. **Maintainability issues** (CSS specificity, naming) — 排期重構
+5. **Informational** — 日常維護處理
 
 ---
 
@@ -538,7 +538,7 @@ Parameters: {
 }
 ```
 
-If issues found, get detailed information:
+若發現問題，取詳情：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -633,7 +633,7 @@ Parameters: {
 - No `react-dev-build` issues
 - No `javascript-urls` issues
 
-If issues found, get raw details:
+若發現問題，取原始詳情：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -720,9 +720,9 @@ Parameters: {
 | `auditPageQuality` | Slow (500-2000ms) | Runs all audits |
 
 **Tips**:
-- Use individual audits for targeted checks
-- Use `auditPageQuality` for comprehensive pre-release review
-- Default mode is faster than raw mode
+- 各別稽查用於有目標之檢查
+- `auditPageQuality` 用於發布前全面審查
+- 預設模式較 raw 模式更快
 
 ---
 

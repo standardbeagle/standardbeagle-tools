@@ -1,84 +1,84 @@
 ---
-description: "Configure scripts and proxies to auto-start when opening this project"
+description: "Configure scripts and proxies to auto-start when opening this project. 配置腳本代理自啟於開項目. Use when: setup project automation, configure auto-start, initialize dev environment, register startup scripts, project onboarding"
 allowed-tools: ["mcp__agnt__detect", "Read", "Write", "AskUserQuestion"]
 ---
 
-Configure project-level automation for agnt. The `.agnt.kdl` file is the primary configuration for scripts, proxies, hooks, toast settings, alerts, and AI context.
+為agnt配置專案層級自動化。`.agnt.kdl` 是腳本、代理、勾子、通知、警報與AI上下文之主要配置。
 
-## How .agnt.kdl Works
+## `.agnt.kdl` 運作方式
 
-`.agnt.kdl` configures everything agnt needs to auto-start your dev environment:
+`.agnt.kdl` 配置agnt自動啟動開發環境所需之一切：
 
-- **`scripts {}`**: Define scripts with `run`, `command/args`, `autostart`, `url-matchers`, `env`, `cwd`, `depends-on`, `shell`
-- **`proxies {}`**: Define reverse proxies with `url`/`port`, `script` (link to script for URL detection), `url-pattern`, `bind`, `autostart`, `fallback-port`
-- **`project {}`**: Optional metadata (name, type)
-- **`hooks {}`**: Browser notification config (toast, indicator, sound)
-- **`toast {}`**: Toast notification settings (duration, position, max-visible)
-- **`alerts {}`**: Process output monitoring (patterns, batch-window, dedupe-window)
-- **`ai {}`**: AI agent config (skill, system-prompt, append-system-prompt, env)
+- **`scripts {}`**：用 `run`、`command/args`、`autostart`、`url-matchers`、`env`、`cwd`、`depends-on`、`shell` 定義腳本
+- **`proxies {}`**：用 `url`/`port`、`script`（連結至腳本供URL偵測）、`url-pattern`、`bind`、`autostart`、`fallback-port` 定義反向代理
+- **`project {}`**：可選元資料（name、type）
+- **`hooks {}`**：瀏覽器通知配置（toast、indicator、sound）
+- **`toast {}`**：Toast通知設定（duration、position、max-visible）
+- **`alerts {}`**：進程輸出監控（patterns、batch-window、dedupe-window）
+- **`ai {}`**：AI代理配置（skill、system-prompt、append-system-prompt、env）
 
-### Script Detection (detect tool)
+### 腳本偵測（detect工具）
 
-The `detect` tool auto-detects available scripts from package managers/build systems for discovery purposes:
-- **Node.js**: reads `scripts` from `package.json`
-- **Go**: detects from `Makefile` targets
-- **Python**: detects from `Makefile` or common entry points
+`detect` 工具從套件管理器/建置系統自動偵測可用腳本：
+- **Node.js**：從 `package.json` 讀取 `scripts`
+- **Go**：從 `Makefile` 目標偵測
+- **Python**：從 `Makefile` 或常見入口點偵測
 
-These detected scripts help you decide what to configure in `.agnt.kdl`. Scripts defined in `.agnt.kdl` with `autostart true` are started automatically by the daemon.
+偵測到的腳本幫助決定在 `.agnt.kdl` 中配置什麼。`.agnt.kdl` 中含 `autostart true` 之腳本由daemon自動啟動。
 
-## Steps
+## 步驟
 
-### 1. Detect Project Type
+### 1. 偵測專案類型
 
-First, detect the project to find available scripts:
+先偵測專案以尋找可用腳本：
 
 ```
 detect {path: "."}
 ```
 
-Check the response for:
-- `type`: Project type (go, node, python)
-- `metadata.framework`: Framework detection (e.g., "wails" for Go desktop apps)
-- `commands`: Available commands with their descriptions
+查回應中：
+- `type`：專案類型（go、node、python）
+- `metadata.framework`：框架偵測（如Go桌面應用之 "wails"）
+- `commands`：可用命令及描述
 
-**Framework-specific URL matchers** (used in `url-matchers` for script output URL detection):
-- **Wails** (`metadata.framework == "wails"`): `"Using DevServer URL:\\s*{url}"` (must include "Using" to avoid matching "Frontend DevServer URL")
-- **Next.js** (node with next in scripts): `"(Local|Network):\\s*{url}"`
-- **Vite** (node projects): `"Local:\\s+{url}"` (Vite outputs `Local:   http://...`)
-- **Astro** (node projects): `"Local\\s+{url}"` (Astro outputs `Local    http://...`)
+**框架特定URL匹配器**（用於腳本輸出URL偵測之 `url-matchers`）：
+- **Wails**（`metadata.framework == "wails"`）：`"Using DevServer URL:\\s*{url}"`（必須含「Using」以避免匹配「Frontend DevServer URL」）
+- **Next.js**（含next腳本之node）：`"(Local|Network):\\s*{url}"`
+- **Vite**（node專案）：`"Local:\\s+{url}"`（Vite輸出 `Local:   http://...`）
+- **Astro**（node專案）：`"Local\\s+{url}"`（Astro輸出 `Local    http://...`）
 
-### 2. Ask About Scripts to Auto-Start
+### 2. 詢問自動啟動腳本
 
-Based on the detected scripts, use AskUserQuestion to ask:
+依偵測到的腳本，用AskUserQuestion詢問：
 
-**Question**: "Which scripts should auto-start when you open this project?"
-- Present available scripts (dev, start, serve, watch, etc.)
-- Allow multiple selections (multiSelect: true)
-- Common choices: dev server, watch mode
+**問題**：「開啟此專案時哪些腳本應自動啟動？」
+- 呈現可用腳本（dev、start、serve、watch等）
+- 允許多選（multiSelect: true）
+- 常見選擇：開發伺服器、監視模式
 
-### 3. Ask About Proxy Configuration
+### 3. 詢問代理配置
 
-Use AskUserQuestion to ask:
+用AskUserQuestion詢問：
 
-**Question**: "Do you want to create debugging proxies for your dev servers?"
+**問題**：「是否要為開發伺服器建立除錯代理？」
 
-If yes, ask:
-- **Proxy ID**: A short name (e.g., "dev", "app")
-- **Target**: The URL/port the dev server listens on, OR link to a script for auto-detection
-- **Bind address**: `127.0.0.1` (default) or `0.0.0.0` for mobile/Tailscale access
+若是，詢問：
+- **代理ID**：短名稱（如 "dev"、"app"）
+- **目標**：開發伺服器監聽之URL/埠，或連結至腳本供自動偵測
+- **繫結位址**：`127.0.0.1`（預設）或 `0.0.0.0` 供行動/Tailscale存取
 
-Proxies can be:
-- **Explicit target**: `url "http://localhost:3000"` or `port 3000`
-- **Script-linked**: `script "dev"` with optional `fallback-port 3000` — auto-creates when URL detected in script output
-- **URL-filtered**: `url-pattern ":34115"` to select specific URLs when a script outputs multiple
+代理可為：
+- **明確目標**：`url "http://localhost:3000"` 或 `port 3000`
+- **腳本連結**：`script "dev"` 含可選 `fallback-port 3000` — 在腳本輸出偵測到URL時自動建立
+- **URL篩選**：`url-pattern ":34115"` 當腳本輸出多個URL時選擇特定URL
 
-### 4. Ask About Multi-Service Orchestration
+### 4. 詢問多服務協調
 
-If the project has multiple services (e.g., .NET backend + Vite frontend, or API + SPA):
+若專案有多個服務（如.NET後端 + Vite前端，或API + SPA）：
 
-**Question**: "Does this project need multiple services running together?"
+**問題**：「此專案是否需要多個服務同時運行？」
 
-If yes, configure multiple scripts in `.agnt.kdl` with `depends-on` for ordering:
+若是，在 `.agnt.kdl` 中配置多個腳本並用 `depends-on` 排序：
 ```kdl
 scripts {
     backend {
@@ -95,7 +95,7 @@ scripts {
 }
 ```
 
-Alternatively, for complex orchestration, create a shell script and reference it:
+或複雜協調用shell腳本：
 ```kdl
 scripts {
     dev {
@@ -105,22 +105,22 @@ scripts {
 }
 ```
 
-### 5. Ask About Browser Notifications
+### 5. 詢問瀏覽器通知
 
-Use AskUserQuestion to ask:
+用AskUserQuestion詢問：
 
-**Question**: "Do you want browser notifications when your AI agent responds?"
+**問題**：「AI代理回應時是否要瀏覽器通知？」
 
-Options:
-- **Toast notifications**: Show popup messages in the browser
-- **Indicator flash**: Flash the floating bug indicator
-- **Sound alerts**: Play notification sounds (requires browser permission)
+選項：
+- **Toast通知**：在瀏覽器顯示彈出訊息
+- **指示器閃爍**：閃爍浮動蟲子指示器
+- **聲音警報**：播放通知聲（需瀏覽器權限）
 
-### 6. Write .agnt.kdl Configuration
+### 6. 寫入.agnt.kdl配置
 
-Create or update `.agnt.kdl` in the project root with KDL format.
+以KDL格式建立或更新專案根目錄之 `.agnt.kdl`。
 
-**KDL String Escaping**: KDL strings interpret backslash sequences. Unknown escapes like `\s`, `\d`, `\w` silently drop the backslash -- `"Local\s+{url}"` becomes the regex `Locals+{url}` which won't match. Always double the backslash for regex metacharacters:
+**KDL字串跳脫**：KDL字串解釋反斜線序列。未知跳脫如 `\s`、`\d`、`\w` 靜默丟棄反斜線——`"Local\s+{url}"` 成為regex `Locals+{url}` 無法匹配。regex元字元始終雙寫反斜線：
 ```
 BAD:  url-matchers "Local\s+{url}"       // KDL drops \s -> "Locals+{url}"
 GOOD: url-matchers "Local\\s+{url}"      // KDL keeps \\ -> regex "Local\s+{url}"
@@ -170,34 +170,34 @@ toast {
 }
 ```
 
-### 7. Explain What Happens
+### 7. 說明後續運作
 
-After creating the config, inform the user:
+建立配置後，告知用戶：
 
-1. **Starting your dev environment**: Run `agnt run claude` to start your AI coding session. Scripts with `autostart true` start automatically. Proxies with explicit targets or `autostart true` also start automatically. Script-linked proxies start when their script's URL is detected.
+1. **啟動開發環境**：執行 `agnt run claude` 啟動AI編碼session。含 `autostart true` 之腳本自動啟動。含明確目標或 `autostart true` 之代理亦自動啟動。腳本連結代理在偵測到腳本URL時啟動。
 
-2. **Status bar information**: The bottom status bar shows:
-   - Running processes count (e.g., "2 proc")
-   - Proxy URLs for browser access (e.g., "frontend:3000 -> proxy:18080")
-   - Use **CTRL+Y** to toggle the overlay menu for more options
+2. **狀態欄資訊**：底部狀態欄顯示：
+   - 運行進程數（如 "2 proc"）
+   - 瀏覽器存取之代理URL（如 "frontend:3000 -> proxy:18080"）
+   - **CTRL+Y** 切換覆蓋選單取更多選項
 
-3. **Overlay menu (CTRL+Y)**: Press CTRL+Y to access:
-   - List of running processes and proxies
-   - Quick actions (restart, stop, view output)
-   - Browser access links
-   - System status
+3. **覆蓋選單（CTRL+Y）**：按CTRL+Y存取：
+   - 運行中進程與代理列表
+   - 快速操作（重啟、停止、查輸出）
+   - 瀏覽器存取連結
+   - 系統狀態
 
-4. **Port visibility for OAuth**: The status bar shows both your dev server port AND proxy port (e.g., "dev:3000 -> proxy:18080"). Add BOTH to your OAuth redirect URLs:
-   - Dev server: `http://localhost:3000`
-   - Proxy: `http://localhost:18080` (for browser debugging)
+4. **OAuth端口可見性**：狀態欄顯示開發伺服器埠與代理埠（如 "dev:3000 -> proxy:18080"）。兩者均加入OAuth重導向URL：
+   - 開發伺服器：`http://localhost:3000`
+   - 代理：`http://localhost:18080`（用於瀏覽器除錯）
 
-5. **To modify**: Edit `.agnt.kdl` directly, or re-run `/setup-project`
+5. **修改方式**：直接編輯 `.agnt.kdl`，或重新執行 `/setup-project`
 
-6. **To restart a service**: Use the MCP tool `proc {action: "restart", process_id: "dev"}` or access via CTRL+Y menu
+6. **重啟服務**：用MCP工具 `proc {action: "restart", process_id: "dev"}` 或透過CTRL+Y選單
 
-## Example Configurations
+## 配置範例
 
-### Simple Node.js Project
+### 簡單Node.js專案
 
 **.agnt.kdl**:
 ```kdl
@@ -229,7 +229,7 @@ hooks {
 }
 ```
 
-### Multi-Service Project (e.g., .NET + Vite)
+### 多服務專案（如.NET + Vite）
 
 **.agnt.kdl**:
 ```kdl
@@ -266,9 +266,9 @@ hooks {
 }
 ```
 
-### Multi-Service with Shell Orchestrator
+### 含Shell協調器之多服務
 
-For complex startup sequences, use a shell script:
+複雜啟動序列用shell腳本：
 
 **dev-ui.sh**:
 ```bash
@@ -325,7 +325,7 @@ hooks {
 }
 ```
 
-### Wails (Go Desktop App)
+### Wails（Go桌面應用）
 
 **.agnt.kdl**:
 ```kdl
@@ -358,7 +358,7 @@ hooks {
 }
 ```
 
-### Python Development
+### Python開發
 
 **.agnt.kdl**:
 ```kdl

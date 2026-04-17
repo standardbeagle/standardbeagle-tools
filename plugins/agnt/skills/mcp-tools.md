@@ -1,15 +1,15 @@
 ---
 name: mcp-tools
-description: Complete reference for all agnt MCP tools with exact parameter schemas and copy-paste examples
+description: Complete reference for all agnt MCP tools with exact parameter schemas and copy-paste examples. agnt全部MCP工具完整參考，含精確參數模式與可複製示例。 Use when: need agnt tool parameter reference, look up tool schema, find correct parameter names, check tool invocation format
 ---
 
-# Agnt MCP Tools Reference
+# Agnt MCP工具參考
 
-This skill provides exact parameter schemas and ready-to-use examples for all agnt MCP tools. Use `mcp__plugin_slop-mcp_slop-mcp__execute_tool` with `mcp_name: "agnt"` to call these tools.
+精確參數模式及所有agnt MCP工具之即用示例。以 `mcp__plugin_slop-mcp_slop-mcp__execute_tool` 配合 `mcp_name: "agnt"` 調用這些工具。
 
-## Tool Invocation Format
+## 工具調用格式
 
-All tools are called using the slop-mcp execute_tool format:
+所有工具以slop-mcp execute_tool格式調用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -22,9 +22,9 @@ Parameters: {
 
 ---
 
-## ⚠️ Common Parameter Mistakes
+## ⚠️ 常見參數錯誤
 
-These are frequently confused parameters. Using wrong names causes validation errors.
+以下為頻繁混淆之參數。用錯名稱導致驗證錯誤。
 
 | Tool | ❌ WRONG | ✅ RIGHT | Notes |
 |------|----------|----------|-------|
@@ -38,21 +38,21 @@ These are frequently confused parameters. Using wrong names causes validation er
 | `snapshot` | `proxy_id: "dev"` | (not a parameter) | snapshot doesn't take proxy_id |
 | `snapshot` | `pages: "page-10"` | `pages: [{url: "/", ...}]` | Must be array of objects |
 
-**Key difference**: `proxy` tool uses `id`, while `proxylog`, `currentpage`, and `get_errors` use `proxy_id`.
+**關鍵區別**：`proxy` 工具用 `id`，而 `proxylog`、`currentpage`、`get_errors` 用 `proxy_id`。
 
 ---
 
 ## 1. detect
 
-Detect project type and available scripts.
+探測項目類型及可用腳本。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `path` | string | No | Directory path (defaults to current dir) |
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -64,9 +64,9 @@ Detect project type and available scripts.
 }
 ```
 
-### Examples
+### 示例
 
-**Detect current project:**
+**探測當前項目：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -76,7 +76,7 @@ Parameters: {
 }
 ```
 
-**Detect specific directory:**
+**探測指定目錄：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -92,9 +92,9 @@ Parameters: {
 
 ## 2. run
 
-Run a project script or raw command.
+運行項目腳本或原始命令。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -108,7 +108,7 @@ Run a project script or raw command.
 
 *Either `script_name` OR (`raw: true` + `command`) is required.
 
-### Execution Modes
+### 執行模式
 
 | Mode | Behavior |
 |------|----------|
@@ -116,7 +116,7 @@ Run a project script or raw command.
 | `foreground` | Waits for completion, returns exit_code/state/runtime (output via proc) |
 | `foreground-raw` | Waits for completion, returns exit_code/state/runtime + stdout/stderr |
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -131,9 +131,9 @@ Run a project script or raw command.
 }
 ```
 
-### Examples
+### 示例
 
-**Run a project script (background):**
+**後台運行項目腳本：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -145,7 +145,7 @@ Parameters: {
 }
 ```
 
-**Run tests and wait for result:**
+**運行測試並等待結果：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -158,7 +158,7 @@ Parameters: {
 }
 ```
 
-**Run tests with full output:**
+**帶完整輸出運行測試：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -171,7 +171,7 @@ Parameters: {
 }
 ```
 
-**Run raw command:**
+**運行原始命令：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -186,7 +186,7 @@ Parameters: {
 }
 ```
 
-**Run with custom process ID:**
+**以自訂進程ID運行：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -203,9 +203,9 @@ Parameters: {
 
 ## 3. proc
 
-Manage running processes.
+管理運行中進程。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -220,7 +220,7 @@ Manage running processes.
 | `port` | int | No* | Port number (required for cleanup_port) |
 | `global` | boolean | No | For list: include processes from all directories (default: false) |
 
-### Actions
+### 操作
 
 | Action | Description | Required Parameters |
 |--------|-------------|---------------------|
@@ -230,7 +230,7 @@ Manage running processes.
 | `stop` | Gracefully stop a process | `process_id` |
 | `cleanup_port` | Kill any process using a specific port | `port` |
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -271,9 +271,9 @@ Manage running processes.
 }
 ```
 
-### Examples
+### 示例
 
-**List all processes:**
+**列出所有進程：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -285,7 +285,7 @@ Parameters: {
 }
 ```
 
-**List processes globally:**
+**全局列出進程：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -298,7 +298,7 @@ Parameters: {
 }
 ```
 
-**Get process status:**
+**取得進程狀態：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -311,7 +311,7 @@ Parameters: {
 }
 ```
 
-**Get last 20 lines of output:**
+**取得最後20行輸出：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -325,7 +325,7 @@ Parameters: {
 }
 ```
 
-**Get output filtered by regex:**
+**正則過濾輸出：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -339,7 +339,7 @@ Parameters: {
 }
 ```
 
-**Get stderr only:**
+**僅取stderr：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -354,7 +354,7 @@ Parameters: {
 }
 ```
 
-**Stop a process gracefully:**
+**優雅停止進程：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -367,7 +367,7 @@ Parameters: {
 }
 ```
 
-**Force kill a process:**
+**強制殺死進程：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -381,7 +381,7 @@ Parameters: {
 }
 ```
 
-**Cleanup port 3000:**
+**清理端口3000：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -398,9 +398,9 @@ Parameters: {
 
 ## 4. proxy
 
-Manage reverse proxy servers with traffic logging and frontend instrumentation.
+管理含流量日誌與前端儀器之反向代理服務器。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -421,7 +421,7 @@ Manage reverse proxy servers with traffic logging and frontend instrumentation.
 | `toast_message` | string | No* | For toast: notification message (required for toast) |
 | `toast_duration` | int | No | For toast: duration in milliseconds |
 
-### Tunnel Parameters (for start action)
+### 隧道參數（start操作用）
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -431,7 +431,7 @@ Manage reverse proxy servers with traffic logging and frontend instrumentation.
 | `tunnel_region` | string | Tunnel region |
 | `tunnel_command` | string | Custom tunnel command (use `{{PORT}}` as placeholder) |
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -474,9 +474,9 @@ Manage reverse proxy servers with traffic logging and frontend instrumentation.
 }
 ```
 
-### Examples
+### 示例
 
-**Start a proxy:**
+**啟動代理：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -490,7 +490,7 @@ Parameters: {
 }
 ```
 
-**Start proxy on specific port:**
+**指定端口啟動代理：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -505,7 +505,7 @@ Parameters: {
 }
 ```
 
-**Start proxy with tunnel:**
+**帶隧道啟動代理：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -521,7 +521,7 @@ Parameters: {
 }
 ```
 
-**Get proxy status:**
+**取得代理狀態：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -534,7 +534,7 @@ Parameters: {
 }
 ```
 
-**List all proxies:**
+**列出所有代理：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -546,7 +546,7 @@ Parameters: {
 }
 ```
 
-**Execute JavaScript in browser:**
+**在瀏覽器執行JavaScript：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -560,7 +560,7 @@ Parameters: {
 }
 ```
 
-**Take a screenshot:**
+**截圖：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -574,7 +574,7 @@ Parameters: {
 }
 ```
 
-**Get __devtool API help:**
+**取得 __devtool API 幫助：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -587,7 +587,7 @@ Parameters: {
 }
 ```
 
-**Get docs for specific function:**
+**取得特定函數文檔：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -600,7 +600,7 @@ Parameters: {
 }
 ```
 
-**Show toast notification:**
+**顯示toast通知：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -616,7 +616,7 @@ Parameters: {
 }
 ```
 
-**Stop a proxy:**
+**停止代理：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -633,9 +633,9 @@ Parameters: {
 
 ## 5. proxylog
 
-Query and analyze proxy traffic logs.
+查詢並分析代理流量日誌。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -653,7 +653,7 @@ Query and analyze proxy traffic logs.
 | `errors_only` | boolean | No | Filter to errors from all sources |
 | `diagnostic_levels` | string[] | No | Filter diagnostics by level: info, warning, error |
 
-### Log Types
+### 日誌類型
 
 | Type | Description |
 |------|-------------|
@@ -667,7 +667,7 @@ Query and analyze proxy traffic logs.
 | `interaction` | User interactions (clicks, scrolls, inputs) |
 | `mutation` | DOM mutations |
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -706,9 +706,9 @@ Query and analyze proxy traffic logs.
 }
 ```
 
-### Examples
+### 示例
 
-**Query all HTTP logs:**
+**查詢所有HTTP日誌：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -721,7 +721,7 @@ Parameters: {
 }
 ```
 
-**Query errors only:**
+**僅查詢錯誤：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -734,7 +734,7 @@ Parameters: {
 }
 ```
 
-**Query API calls with errors:**
+**查詢有錯誤的API調用：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -749,7 +749,7 @@ Parameters: {
 }
 ```
 
-**Query logs from last 5 minutes:**
+**查詢最近5分鐘日誌：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -763,7 +763,7 @@ Parameters: {
 }
 ```
 
-**Query POST requests:**
+**查詢POST請求：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -777,7 +777,7 @@ Parameters: {
 }
 ```
 
-**Get log summary:**
+**取得日誌摘要：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -790,7 +790,7 @@ Parameters: {
 }
 ```
 
-**Get log statistics:**
+**取得日誌統計：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -803,7 +803,7 @@ Parameters: {
 }
 ```
 
-**Clear logs:**
+**清除日誌：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -820,9 +820,9 @@ Parameters: {
 
 ## 6. currentpage
 
-Get current page sessions with grouped resources and metrics.
+取得含分組資源與指標之當前頁面會話。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -833,7 +833,7 @@ Get current page sessions with grouped resources and metrics.
 | `limit` | int | No | For summary: max items per detailed section (default: 5, max: 100) |
 | `raw` | boolean | No | For get: return full raw data instead of compact format (default: false) |
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -884,9 +884,9 @@ Get current page sessions with grouped resources and metrics.
 }
 ```
 
-### Examples
+### 示例
 
-**List active page sessions:**
+**列出活躍頁面會話：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -898,7 +898,7 @@ Parameters: {
 }
 ```
 
-**Get specific session details:**
+**取得特定會話詳情：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -912,7 +912,7 @@ Parameters: {
 }
 ```
 
-**Get session summary:**
+**取得會話摘要：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -926,7 +926,7 @@ Parameters: {
 }
 ```
 
-**Get summary with interaction details:**
+**帶互動詳情的摘要：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -942,7 +942,7 @@ Parameters: {
 }
 ```
 
-**Clear all page sessions:**
+**清除所有頁面會話：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -959,9 +959,9 @@ Parameters: {
 
 ## 7. session
 
-Manage agnt run sessions and schedule messages for AI agents.
+管理agnt運行會話並為AI代理排程消息。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -972,14 +972,14 @@ Manage agnt run sessions and schedule messages for AI agents.
 | `task_id` | string | No* | Task ID (required for cancel) |
 | `global` | boolean | No | For list/tasks: include from all directories (default: false) |
 
-### Duration Format
+### 時長格式
 
 - `30s` - 30 seconds
 - `5m` - 5 minutes
 - `1h` - 1 hour
 - `1h30m` - 1 hour 30 minutes
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -1023,9 +1023,9 @@ Manage agnt run sessions and schedule messages for AI agents.
 }
 ```
 
-### Examples
+### 示例
 
-**List active sessions:**
+**列出活躍會話：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1037,7 +1037,7 @@ Parameters: {
 }
 ```
 
-**List all sessions globally:**
+**全局列出所有會話：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1050,7 +1050,7 @@ Parameters: {
 }
 ```
 
-**Get session details:**
+**取得會話詳情：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1063,7 +1063,7 @@ Parameters: {
 }
 ```
 
-**Send message immediately:**
+**立即發送消息：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1077,7 +1077,7 @@ Parameters: {
 }
 ```
 
-**Schedule a message for 5 minutes:**
+**排程5分鐘後消息：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1092,7 +1092,7 @@ Parameters: {
 }
 ```
 
-**List scheduled tasks:**
+**列出排程任務：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1104,7 +1104,7 @@ Parameters: {
 }
 ```
 
-**Cancel a scheduled task:**
+**取消排程任務：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1121,15 +1121,15 @@ Parameters: {
 
 ## 8. daemon
 
-Manage the agnt daemon process.
+管理agnt守護進程。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `action` | string | Yes | Action: `status`, `info`, `start`, `stop`, `restart` |
 
-### Output Schema
+### 輸出模式
 
 ```json
 {
@@ -1144,9 +1144,9 @@ Manage the agnt daemon process.
 }
 ```
 
-### Examples
+### 示例
 
-**Check daemon status:**
+**查看守護進程狀態：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1158,7 +1158,7 @@ Parameters: {
 }
 ```
 
-**Get daemon info:**
+**取得守護進程信息：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1174,9 +1174,9 @@ Parameters: {
 
 ## 9. get_errors
 
-Aggregate errors across all proxies and processes with deduplication and filtering.
+跨所有代理與進程匯聚錯誤，含去重與過濾。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -1187,7 +1187,7 @@ Aggregate errors across all proxies and processes with deduplication and filteri
 | `limit` | int | No | Max results (default: 25) |
 | `raw` | boolean | No | Return full JSON (default: false) |
 
-### Error Sources
+### 錯誤來源
 
 | Source | Label | Captures |
 |--------|-------|----------|
@@ -1197,7 +1197,7 @@ Aggregate errors across all proxies and processes with deduplication and filteri
 | Proxy | `proxy:diagnostic` | Transport and connection failures |
 | Custom | `browser:custom` | `__devtool.log("error", msg)` calls |
 
-### Output Schema
+### 輸出模式
 
 ```json
 // Compact output (raw: false)
@@ -1218,9 +1218,9 @@ Aggregate errors across all proxies and processes with deduplication and filteri
 ]
 ```
 
-### Examples
+### 示例
 
-**Check all errors:**
+**查看所有錯誤：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1230,7 +1230,7 @@ Parameters: {
 }
 ```
 
-**Check recent errors (last 5 minutes):**
+**查看近期錯誤（最近5分鐘）：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1242,7 +1242,7 @@ Parameters: {
 }
 ```
 
-**Errors only (no warnings):**
+**僅看錯誤（無警告）：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1254,7 +1254,7 @@ Parameters: {
 }
 ```
 
-**Filter to specific proxy:**
+**過濾至特定代理：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1267,7 +1267,7 @@ Parameters: {
 }
 ```
 
-**Full JSON for analysis:**
+**分析用完整JSON：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1284,9 +1284,9 @@ Parameters: {
 
 ## 10. snapshot
 
-Visual regression testing with baseline/compare screenshots.
+含基線/比較截圖之視覺回歸測試。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -1296,7 +1296,7 @@ Visual regression testing with baseline/compare screenshots.
 | `pages` | object[] | No | Pages to capture: array of `{url, viewport, screenshot_data}` |
 | `diff_threshold` | float | No | Diff sensitivity threshold 0.0-1.0 (default: 0.01) |
 
-### Actions
+### 操作
 
 | Action | Description | Required Parameters |
 |--------|-------------|---------------------|
@@ -1306,9 +1306,9 @@ Visual regression testing with baseline/compare screenshots.
 | `delete` | Delete a saved baseline | `name` |
 | `get` | Get details of a saved baseline | `name` |
 
-### Pages Array Format
+### Pages陣列格式
 
-Each entry in `pages` must be an object (NOT a string):
+`pages` 中各條目必須為對象（非字符串）：
 
 ```json
 {
@@ -1318,9 +1318,9 @@ Each entry in `pages` must be an object (NOT a string):
 }
 ```
 
-### Examples
+### 示例
 
-**Capture a baseline:**
+**採集基線：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1337,7 +1337,7 @@ Parameters: {
 }
 ```
 
-**Compare against a baseline:**
+**與基線比較：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1355,7 +1355,7 @@ Parameters: {
 }
 ```
 
-**List all baselines:**
+**列出所有基線：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1369,11 +1369,11 @@ Parameters: {
 
 ---
 
-## Common Workflows
+## 常用工作流
 
-### Start Development Environment
+### 啟動開發環境
 
-1. Detect project and start dev server:
+1. 探測項目並啟動開發服務器：
 ```
 # Detect project
 detect {}
@@ -1385,24 +1385,24 @@ run {script_name: "dev", id: "dev-server"}
 proxy {action: "start", id: "dev", target_url: "http://localhost:3000"}
 ```
 
-### Debug Frontend Issues
+### 除錯前端問題
 
-1. Check for JavaScript errors:
+1. 查看JavaScript錯誤：
 ```
 proxylog {proxy_id: "dev", types: ["error"]}
 ```
 
-2. Get current page context:
+2. 取得當前頁面上下文：
 ```
 currentpage {proxy_id: "dev", action: "summary", session_id: "page-1", detail: ["errors", "interactions"]}
 ```
 
-3. Take a screenshot for visual inspection:
+3. 截圖以視覺檢查：
 ```
 proxy {action: "exec", id: "dev", code: "__devtool.screenshot('debug')"}
 ```
 
-### Restart Dev Server
+### 重啟開發服務器
 
 ```
 # Stop the running server
@@ -1412,7 +1412,7 @@ proc {action: "stop", process_id: "dev-server"}
 run {script_name: "dev", id: "dev-server"}
 ```
 
-### Run Tests with Output
+### 帶輸出運行測試
 
 ```
 # Run tests and wait for result
@@ -1423,7 +1423,7 @@ run {script_name: "test", id: "test-run"}
 proc {action: "output", process_id: "test-run", grep: "FAIL|PASS"}
 ```
 
-### Schedule Follow-up Checks
+### 排程後續查看
 
 ```
 # Schedule a reminder to check deployment
@@ -1433,7 +1433,7 @@ session {action: "schedule", code: "claude-1", duration: "10m", message: "Verify
 session {action: "tasks"}
 ```
 
-### Clean Up Resources
+### 清理資源
 
 ```
 # Stop all processes

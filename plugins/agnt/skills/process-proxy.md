@@ -1,15 +1,15 @@
 ---
 name: process-proxy
-description: Dev server lifecycle and reverse proxy management workflows with troubleshooting patterns
+description: Dev server lifecycle and reverse proxy management workflows with troubleshooting patterns. 開發服務器生命週期與反向代理管理，含排障模式。 Use when: start dev server, manage processes, start proxy, debug API issues, stop processes, cleanup port, restart server, multi-service orchestration
 ---
 
-# Process and Proxy Management Skill
+# 進程與代理管理技能
 
-This skill provides deep workflow guidance for managing dev servers and reverse proxies using agnt's `run`, `proc`, `proxy`, `automation`, and `proxylog` tools. These are the most commonly used tools in the agnt workflow.
+深度工作流指導：借agnt之 `run`、`proc`、`proxy`、`automation`、`proxylog` 工具管理開發服務器與反向代理。此為agnt工作流中最常用工具。
 
-## Tool Invocation Format
+## 工具調用格式
 
-All tools are called using the slop-mcp execute_tool format:
+所有工具以slop-mcp execute_tool格式調用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -22,17 +22,17 @@ Parameters: {
 
 ---
 
-## Script Auto-Detection
+## 腳本自動探測
 
-Agnt auto-detects available scripts from your project's package manager or build system. When you use `run {script_name: "dev"}`, agnt looks for a script named "dev" in:
+Agnt自動從項目包管理器或構建系統探測可用腳本。使用 `run {script_name: "dev"}` 時，agnt在以下位置查找名為 "dev" 的腳本：
 
 - **Node.js**: `scripts` in `package.json` (npm/pnpm/yarn)
 - **Go**: targets in `Makefile`
 - **Python**: targets in `Makefile` or common entry points
 
-Scripts can also be configured in `.agnt.kdl` under the `scripts {}` block with `run`, `command/args`, `autostart`, `url-matchers`, `env`, `cwd`, `depends-on`, and `shell` fields. Scripts with `autostart true` are started automatically by the daemon. The `.agnt.kdl` file is the primary configuration for scripts, proxies, hooks, toast, alerts, and AI context.
+腳本亦可在 `.agnt.kdl` 的 `scripts {}` 塊中配置，含 `run`、`command/args`、`autostart`、`url-matchers`、`env`、`cwd`、`depends-on`、`shell` 字段。`autostart true` 之腳本由守護進程自動啟動。`.agnt.kdl` 為腳本、代理、鉤子、toast、告警、AI上下文之主配置文件。
 
-To see what scripts agnt can find, use the `detect` tool:
+探測agnt可找到之腳本：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -44,11 +44,11 @@ Parameters: {
 
 ---
 
-## Run Tool - Starting Processes
+## Run工具——啟動進程
 
-The `run` tool starts scripts and commands with three execution modes.
+`run` 工具以三種執行模式啟動腳本與命令。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -63,7 +63,7 @@ The `run` tool starts scripts and commands with three execution modes.
 
 *Either `script_name` OR (`raw: true` + `command`) is required.
 
-### Execution Modes
+### 執行模式
 
 | Mode | Behavior | Use Case |
 |------|----------|----------|
@@ -71,9 +71,9 @@ The `run` tool starts scripts and commands with three execution modes.
 | `foreground` | Waits for completion, returns exit_code | Build scripts, test runs when you need result |
 | `foreground-raw` | Waits and returns full stdout/stderr | Scripts where output content matters |
 
-### Start Dev Server (Background)
+### 後台啟動開發服務器
 
-The most common workflow - start a dev server that runs continuously:
+最常見工作流——啟動持續運行之開發服務器：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -96,11 +96,11 @@ Parameters: {
 }
 ```
 
-**Why use custom ID**: Using `"id": "dev-server"` creates a predictable ID for later commands. Without it, you get auto-generated IDs like `dev-abc123`.
+**為何用自訂ID**：使用 `"id": "dev-server"` 創建可預測ID供後續命令使用。不設則自動生成如 `dev-abc123` 之ID。
 
-### Run Tests (Foreground)
+### 前台運行測試
 
-Wait for tests to complete and get the result:
+等待測試完成並取得結果：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -126,9 +126,9 @@ Parameters: {
 }
 ```
 
-### Run Tests with Full Output
+### 取得完整輸出之測試運行
 
-When you need to see test failures or build errors:
+需查看測試失敗或構建錯誤時：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -154,9 +154,9 @@ Parameters: {
 }
 ```
 
-### Run Raw Commands
+### 運行原始命令
 
-For commands not defined as project scripts:
+非項目腳本之命令：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -172,9 +172,9 @@ Parameters: {
 }
 ```
 
-### Run with Extra Arguments
+### 帶額外參數運行
 
-Pass additional arguments to a script:
+向腳本傳遞額外參數：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -189,9 +189,9 @@ Parameters: {
 }
 ```
 
-### Start Without Auto-Restart
+### 禁用自動重啟啟動
 
-By default, background processes auto-restart on crash. Disable this:
+後台進程默認崩潰後自動重啟，可禁用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -208,11 +208,11 @@ Parameters: {
 
 ---
 
-## Proc Tool - Process Management
+## Proc工具——進程管理
 
-The `proc` tool monitors and controls running processes.
+`proc` 工具監控並控制運行中進程。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -230,7 +230,7 @@ The `proc` tool monitors and controls running processes.
 | `max_restarts` | int | No | Max restarts per minute (for autorestart action) |
 | `only_on_error` | boolean | No | Only restart on non-zero exit (for autorestart action) |
 
-### Actions Reference
+### 操作參考
 
 | Action | Description | Required Parameters |
 |--------|-------------|---------------------|
@@ -242,7 +242,7 @@ The `proc` tool monitors and controls running processes.
 | `autorestart` | Check/toggle auto-restart | `process_id` |
 | `cleanup_port` | Kill process on port | `port` |
 
-### List Running Processes
+### 列出運行中進程
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -274,9 +274,9 @@ Parameters: {
 }
 ```
 
-**Note**: By default, lists only processes from current directory. Use `global: true` for all.
+**注意**：默認僅列當前目錄進程。用 `global: true` 取全部。
 
-### List All Processes Globally
+### 全局列出所有進程
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -290,7 +290,7 @@ Parameters: {
 }
 ```
 
-### Get Process Status
+### 取得進程狀態
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -315,11 +315,11 @@ Parameters: {
 }
 ```
 
-**Process states**: `pending`, `starting`, `running`, `stopping`, `stopped`, `failed`
+**進程狀態**: `pending`, `starting`, `running`, `stopping`, `stopped`, `failed`
 
-### Get Process Output
+### 取得進程輸出
 
-Get recent output with filtering options:
+含過濾選項之近期輸出：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -343,9 +343,9 @@ Parameters: {
 }
 ```
 
-### Filter Output with Grep
+### Grep過濾輸出
 
-Find errors in test output:
+在測試輸出中找錯誤：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -360,9 +360,9 @@ Parameters: {
 }
 ```
 
-### Get Only Stderr
+### 僅取stderr
 
-Useful for finding error messages:
+用於找錯誤信息：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -378,9 +378,9 @@ Parameters: {
 }
 ```
 
-### Exclude Noise from Output
+### 排除輸出噪音
 
-Filter out verbose logging:
+過濾冗長日誌：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -397,7 +397,7 @@ Parameters: {
 }
 ```
 
-### Stop Process Gracefully
+### 優雅停止進程
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -411,11 +411,11 @@ Parameters: {
 }
 ```
 
-**Behavior**: Sends SIGTERM, waits 5 seconds, then SIGKILL if still running.
+**行為**：發送SIGTERM，等待5秒，仍運行則SIGKILL。
 
-### Force Stop Process
+### 強制停止進程
 
-When graceful shutdown doesn't work:
+優雅關閉無效時：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -430,11 +430,11 @@ Parameters: {
 }
 ```
 
-**Behavior**: Immediate SIGKILL.
+**行為**：立即SIGKILL。
 
-### Restart Process
+### 重啟進程
 
-Restart a running process (stop + start with same configuration):
+重啟運行中進程（停止後以相同配置啟動）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -448,9 +448,9 @@ Parameters: {
 }
 ```
 
-### Configure Auto-Restart
+### 配置自動重啟
 
-Check or toggle auto-restart behavior for a process:
+檢查或切換進程自動重啟行為：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -465,7 +465,7 @@ Parameters: {
 }
 ```
 
-With full options:
+完整選項：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -481,9 +481,9 @@ Parameters: {
 }
 ```
 
-### Cleanup Port
+### 清理端口
 
-Kill any process using a specific port (useful when port is stuck):
+殺死使用指定端口之進程（端口卡住時有用）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -507,37 +507,37 @@ Parameters: {
 
 ---
 
-## Auto-Restart Behavior
+## 自動重啟行為
 
-Background processes auto-restart on crash by default. The restart is rate-limited to 5 restarts per minute to prevent crash loops.
+後台進程默認崩潰後自動重啟。重啟速率限制為每分鐘5次，防止崩潰循環。
 
-**Disable at launch**: Use `no_auto_restart: true` on the `run` tool:
+**啟動時禁用**：`run` 工具用 `no_auto_restart: true`：
 ```
 run {script_name: "dev", id: "dev-server", no_auto_restart: true}
 ```
 
-**Disable for a running process**: Use the `autorestart` action on the `proc` tool:
+**對運行中進程禁用**：`proc` 工具用 `autorestart` 操作：
 ```
 proc {action: "autorestart", process_id: "dev-server", auto_restart_enable: false}
 ```
 
-**Restart only on errors** (not clean exits): Use `only_on_error: true`:
+**僅在錯誤時重啟**（非正常退出）：用 `only_on_error: true`：
 ```
 proc {action: "autorestart", process_id: "dev-server", auto_restart_enable: true, only_on_error: true}
 ```
 
-**Adjust rate limit**: Use `max_restarts` to change the per-minute limit:
+**調整速率限制**：用 `max_restarts` 改變每分鐘限制：
 ```
 proc {action: "autorestart", process_id: "dev-server", max_restarts: 3}
 ```
 
 ---
 
-## Proxy Tool - Reverse Proxy Management
+## Proxy工具——反向代理管理
 
-The `proxy` tool manages reverse proxies that add browser debugging capabilities.
+`proxy` 工具管理添加瀏覽器除錯能力之反向代理。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -557,7 +557,7 @@ The `proxy` tool manages reverse proxies that add browser debugging capabilities
 | `toast_message` | string | No* | Notification message (for toast) |
 | `toast_duration` | int | No | Duration in milliseconds |
 
-### Actions Reference
+### 操作參考
 
 | Action | Description | Required Parameters |
 |--------|-------------|---------------------|
@@ -568,11 +568,11 @@ The `proxy` tool manages reverse proxies that add browser debugging capabilities
 | `exec` | Execute JavaScript | `id`, `code` |
 | `toast` | Show browser notification | `id`, `toast_message` |
 
-**Important**: Proxies can be configured in `.agnt.kdl` under the `proxies {}` block with `url`/`port`, `script` (link to script for URL detection), `url-pattern`, `bind`, `autostart`, and `fallback-port`. Proxies with explicit targets or `autostart true` start automatically. Script-linked proxies start when their script's URL is detected in output.
+**重要**：代理可在 `.agnt.kdl` 的 `proxies {}` 塊中配置，含 `url`/`port`、`script`（腳本鏈接用於URL探測）、`url-pattern`、`bind`、`autostart`、`fallback-port`。有明確目標或 `autostart true` 之代理自動啟動。鏈接腳本之代理在腳本URL於輸出中探測到時啟動。
 
-### Start Proxy
+### 啟動代理
 
-Start a proxy pointing to your dev server:
+啟動指向開發服務器之代理：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -598,9 +598,9 @@ Parameters: {
 }
 ```
 
-**Port behavior**: If not specified, port is deterministically hashed from target URL (stable across restarts).
+**端口行為**：未指定時，端口從目標URL確定性哈希（跨重啟穩定）。
 
-### Start Proxy on Specific Port
+### 指定端口啟動代理
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -616,9 +616,9 @@ Parameters: {
 }
 ```
 
-### Start Proxy for External Access
+### 對外訪問啟動代理
 
-For testing on mobile devices or sharing:
+用於行動設備測試或分享：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -635,7 +635,7 @@ Parameters: {
 }
 ```
 
-### Get Proxy Status
+### 取得代理狀態
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -667,7 +667,7 @@ Parameters: {
 }
 ```
 
-### List All Proxies
+### 列出所有代理
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -680,7 +680,7 @@ Parameters: {
 }
 ```
 
-### Execute JavaScript in Browser
+### 在瀏覽器中執行JavaScript
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -695,7 +695,7 @@ Parameters: {
 }
 ```
 
-### Take Screenshot
+### 截圖
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -710,7 +710,7 @@ Parameters: {
 }
 ```
 
-### Get __devtool API Help
+### 取得 __devtool API 幫助
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -724,7 +724,7 @@ Parameters: {
 }
 ```
 
-### Describe Specific Function
+### 描述特定函數
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -738,9 +738,9 @@ Parameters: {
 }
 ```
 
-### Show Toast Notification
+### 顯示Toast通知
 
-Notify the user in the browser:
+在瀏覽器中通知用戶：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -760,7 +760,7 @@ Parameters: {
 
 **Toast types**: `success`, `error`, `warning`, `info`
 
-### Stop Proxy
+### 停止代理
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -776,13 +776,13 @@ Parameters: {
 
 ---
 
-## Automation Tool - Headless Browser
+## Automation工具——無頭瀏覽器
 
-The `automation` tool starts headless Chrome sessions through a proxy for automated browser testing and interaction.
+`automation` 工具通過代理啟動無頭Chrome會話，用於自動化瀏覽器測試與互動。
 
-### Start Automation Session
+### 啟動自動化會話
 
-Launch headless Chrome pointing at a proxy:
+啟動指向代理之無頭Chrome：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -796,9 +796,9 @@ Parameters: {
 }
 ```
 
-**Response** includes a `session_id` for subsequent commands.
+**Response** 包含後續命令用 `session_id`。
 
-### Take Screenshot
+### 截圖
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -814,7 +814,7 @@ Parameters: {
 }
 ```
 
-### Navigate to URL
+### 導航至URL
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -829,7 +829,7 @@ Parameters: {
 }
 ```
 
-### Evaluate JavaScript
+### 執行JavaScript
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -846,11 +846,11 @@ Parameters: {
 
 ---
 
-## Proxylog Tool - Traffic Analysis
+## Proxylog工具——流量分析
 
-The `proxylog` tool queries and analyzes traffic logs from a proxy.
+`proxylog` 工具查詢並分析代理流量日誌。
 
-### Parameters
+### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -865,7 +865,7 @@ The `proxylog` tool queries and analyzes traffic logs from a proxy.
 | `limit` | int | No | Maximum results (default: 100) |
 | `detail` | string[] | No | Sections for full detail in summary |
 
-### Log Types
+### 日誌類型
 
 | Type | Description |
 |------|-------------|
@@ -879,7 +879,7 @@ The `proxylog` tool queries and analyzes traffic logs from a proxy.
 | `interaction` | User interactions (clicks, scrolls) |
 | `mutation` | DOM mutations |
 
-### Query All HTTP Traffic
+### 查詢所有HTTP流量
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -893,7 +893,7 @@ Parameters: {
 }
 ```
 
-### Query JavaScript Errors
+### 查詢JavaScript錯誤
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -907,7 +907,7 @@ Parameters: {
 }
 ```
 
-### Query Failed API Calls
+### 查詢失敗API調用
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -923,7 +923,7 @@ Parameters: {
 }
 ```
 
-### Query POST/PUT Requests
+### 查詢POST/PUT請求
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -938,7 +938,7 @@ Parameters: {
 }
 ```
 
-### Query Recent Activity
+### 查詢近期活動
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -953,7 +953,7 @@ Parameters: {
 }
 ```
 
-### Get Traffic Summary
+### 取得流量摘要
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -982,7 +982,7 @@ Parameters: {
 }
 ```
 
-### Get Log Statistics
+### 取得日誌統計
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -1008,9 +1008,9 @@ Parameters: {
 }
 ```
 
-**Note**: `dropped` indicates entries lost due to buffer overflow. Default buffer is 1000 entries.
+**注意**：`dropped` 表示因緩衝區溢出丟失之條目。默認緩衝區1000條。
 
-### Clear Logs
+### 清除日誌
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -1026,13 +1026,13 @@ Parameters: {
 
 ---
 
-## Common Workflows
+## 常用工作流
 
-### Workflow 1: Start Development Environment
+### 工作流一：啟動開發環境
 
-The most common workflow - start dev server and proxy together. Scripts are auto-detected from `package.json` (or equivalent).
+最常見工作流——共同啟動開發服務器與代理。腳本從 `package.json`（或同等）自動探測。
 
-**Step 1: Detect project and available scripts**
+**步驟一：探測項目及可用腳本**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1042,7 +1042,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Start dev server in background** (uses script from package.json)
+**步驟二：後台啟動開發服務器**（使用package.json中的腳本）
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1055,7 +1055,7 @@ Parameters: {
 }
 ```
 
-**Step 3: Wait for server to start, then check output**
+**步驟三：等待服務器啟動後查看輸出**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1069,7 +1069,7 @@ Parameters: {
 }
 ```
 
-**Step 4: Start proxy with target_url** (NOT via .agnt.kdl config)
+**步驟四：以target_url啟動代理**（非通過 .agnt.kdl 配置）
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1083,15 +1083,15 @@ Parameters: {
 }
 ```
 
-**Result**: Browser opens proxy URL (e.g., http://localhost:12345) with debugging enabled.
+**結果**：瀏覽器以代理URL（如 http://localhost:12345）開啟，除錯已啟用。
 
 ---
 
-### Workflow 2: Restart Dev Server
+### 工作流二：重啟開發服務器
 
-When you need to restart after code changes:
+代碼更改後需重啟：
 
-**Option A: Use the restart action** (preferred)
+**選項A：用restart操作**（首選）
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1104,9 +1104,9 @@ Parameters: {
 }
 ```
 
-**Option B: Manual stop + start**
+**選項B：手動停止+啟動**
 
-**Step 1: Stop running server**
+**步驟一：停止運行中服務器**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1119,7 +1119,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Start server again (same ID)**
+**步驟二：重新啟動服務器（相同ID）**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1132,13 +1132,13 @@ Parameters: {
 }
 ```
 
-**Note**: Proxy auto-reconnects when target becomes available again.
+**注意**：代理在目標可用後自動重連。
 
 ---
 
-### Workflow 3: Debug JavaScript Errors
+### 工作流三：除錯JavaScript錯誤
 
-**Step 1: Check for errors in proxy logs**
+**步驟一：查看代理日誌中的錯誤**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1151,7 +1151,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Get more context from traffic summary**
+**步驟二：從流量摘要取得更多上下文**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1164,7 +1164,7 @@ Parameters: {
 }
 ```
 
-**Step 3: Take screenshot to see current state**
+**步驟三：截圖查看當前狀態**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1180,9 +1180,9 @@ Parameters: {
 
 ---
 
-### Workflow 4: Debug API Issues
+### 工作流四：除錯API問題
 
-**Step 1: Find failing API calls**
+**步驟一：找出失敗的API調用**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1197,7 +1197,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Check server-side errors**
+**步驟二：查看服務端錯誤**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1212,7 +1212,7 @@ Parameters: {
 }
 ```
 
-**Step 3: Check for related frontend errors**
+**步驟三：查看相關前端錯誤**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1228,11 +1228,11 @@ Parameters: {
 
 ---
 
-### Workflow 5: Clean Shutdown
+### 工作流五：清潔關閉
 
-Stop all processes and proxies cleanly:
+清潔停止所有進程與代理：
 
-**Step 1: List running processes**
+**步驟一：列出運行中進程**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1244,7 +1244,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Stop each process**
+**步驟二：停止各進程**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1257,7 +1257,7 @@ Parameters: {
 }
 ```
 
-**Step 3: Stop proxy**
+**步驟三：停止代理**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1272,19 +1272,19 @@ Parameters: {
 
 ---
 
-### Workflow 6: Multi-Service Orchestration
+### 工作流六：多服務編排
 
-For projects with multiple processes (e.g., .NET backend + Vite frontend), use a shell script orchestrator.
+含多進程項目（如 .NET後端 + Vite前端），用shell腳本編排器。
 
-**Step 1: Create an orchestrator script** (e.g., `dev-ui.sh`):
+**步驟一：創建編排器腳本**（如 `dev-ui.sh`）：
 
-The script should:
-- Kill stale port listeners before starting
-- Start services in dependency order (backend first)
-- Wait for health checks before starting dependent services
-- Use `--no-hot-reload` for `dotnet watch` to prevent zombie listeners
+腳本應：
+- 啟動前殺死過時端口監聽器
+- 依依賴順序啟動服務（先後端）
+- 在啟動依賴服務前等待健康檢查
+- `dotnet watch` 用 `--no-hot-reload` 防止僵屍監聽器
 
-Example structure:
+示例結構：
 ```bash
 #!/bin/bash
 # Kill stale listeners
@@ -1310,7 +1310,7 @@ wait -n
 kill $BACKEND_PID $FRONTEND_PID 2>/dev/null
 ```
 
-**Step 2: Reference it in package.json** so agnt auto-detects it:
+**步驟二：在 package.json 中引用**，使agnt可自動探測：
 ```json
 {
   "scripts": {
@@ -1319,7 +1319,7 @@ kill $BACKEND_PID $FRONTEND_PID 2>/dev/null
 }
 ```
 
-**Step 3: Start with run**
+**步驟三：用run啟動**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1332,7 +1332,7 @@ Parameters: {
 }
 ```
 
-**Step 4: Start proxy for the frontend**
+**步驟四：為前端啟動代理**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1346,21 +1346,21 @@ Parameters: {
 }
 ```
 
-**Key points**:
-- `--no-hot-reload` on `dotnet watch` prevents hot-reload from creating zombie processes that hold ports
-- Kill stale ports at the start of the script to handle unclean shutdowns
-- Health check the backend before starting the frontend to avoid connection errors
-- The orchestrator script consolidates multiple services into a single `run` command
+**要點**：
+- `dotnet watch` 用 `--no-hot-reload` 防熱重載創建持有端口之僵屍進程
+- 腳本啟動時殺死過時端口，處理非正常關閉
+- 啟動前端前先對後端做健康檢查，避免連接錯誤
+- 編排器腳本將多服務合併為單一 `run` 命令
 
 ---
 
-## Troubleshooting Patterns
+## 排障模式
 
-### Problem: Port Already in Use
+### 問題：端口已佔用
 
-**Symptom**: "address already in use" error when starting dev server
+**症狀**：啟動開發服務器時出現 "address already in use" 錯誤
 
-**Solution 1: Kill process using the port**
+**方案一：殺死使用該端口的進程**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1373,7 +1373,7 @@ Parameters: {
 }
 ```
 
-**Solution 2: If that doesn't work, check for zombie processes**
+**方案二：若無效，查找僵屍進程**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1402,18 +1402,18 @@ Parameters: {
 
 ---
 
-### Problem: dotnet watch Zombie Listeners
+### 問題：dotnet watch 僵屍監聽器
 
-**Symptom**: After stopping `dotnet watch`, the port is still in use. New starts fail with "address already in use".
+**症狀**：停止 `dotnet watch` 後端口仍被佔用。新啟動失敗，報 "address already in use"。
 
-**Cause**: `dotnet watch` with hot-reload enabled can spawn child processes that survive the parent being killed, holding onto the port.
+**原因**：啟用熱重載的 `dotnet watch` 可生成在父進程被殺後仍存活的子進程，持有端口。
 
-**Prevention**: Always use `--no-hot-reload` flag when running `dotnet watch` as a background process:
+**預防**：運行 `dotnet watch` 作後台進程時始終用 `--no-hot-reload` 標誌：
 ```bash
 dotnet watch --no-hot-reload --project src/MyApp
 ```
 
-**Fix**: Use `cleanup_port` to kill the zombie:
+**修復**：用 `cleanup_port` 殺死僵屍：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1428,11 +1428,11 @@ Parameters: {
 
 ---
 
-### Problem: Process Crashes on Start
+### 問題：進程啟動即崩潰
 
-**Symptom**: Process starts but immediately changes to `failed` state
+**症狀**：進程啟動後立即變為 `failed` 狀態
 
-**Step 1: Check the exit code and status**
+**步驟一：查看退出碼與狀態**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1445,7 +1445,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Get the full output to see error message**
+**步驟二：取得完整輸出查看錯誤信息**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1458,7 +1458,7 @@ Parameters: {
 }
 ```
 
-**Step 3: Check stderr specifically**
+**步驟三：特別查看stderr**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1474,11 +1474,11 @@ Parameters: {
 
 ---
 
-### Problem: Proxy Not Connecting
+### 問題：代理無法連接
 
-**Symptom**: Proxy started but browser shows connection refused
+**症狀**：代理已啟動但瀏覽器顯示連接拒絕
 
-**Step 1: Check proxy status**
+**步驟一：查看代理狀態**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1491,7 +1491,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Verify target server is running**
+**步驟二：確認目標服務器運行中**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1504,7 +1504,7 @@ Parameters: {
 }
 ```
 
-**Step 3: Check if target URL is correct in server output**
+**步驟三：在服務器輸出中確認目標URL**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1521,11 +1521,11 @@ Parameters: {
 
 ---
 
-### Problem: Process Won't Stop
+### 問題：進程停不下來
 
-**Symptom**: Graceful stop times out
+**症狀**：優雅停止超時
 
-**Solution: Force kill**
+**方案：強制殺死**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1541,11 +1541,11 @@ Parameters: {
 
 ---
 
-### Problem: Lost Track of Processes
+### 問題：丟失進程追蹤
 
-**Symptom**: Don't know what's running after context switch
+**症狀**：上下文切換後不知什麼在運行
 
-**Solution: List all processes globally**
+**方案：全局列出所有進程**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1558,7 +1558,7 @@ Parameters: {
 }
 ```
 
-**Also check proxies**:
+**同時查看代理**：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1573,11 +1573,11 @@ Parameters: {
 
 ---
 
-### Problem: Log Buffer Full
+### 問題：日誌緩衝區已滿
 
-**Symptom**: `dropped` count is high in stats, missing logs
+**症狀**：統計中 `dropped` 計數高，日誌丟失
 
-**Step 1: Check current stats**
+**步驟一：查看當前統計**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1590,7 +1590,7 @@ Parameters: {
 }
 ```
 
-**Step 2: Clear logs to reset buffer**
+**步驟二：清除日誌重置緩衝區**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1603,15 +1603,15 @@ Parameters: {
 }
 ```
 
-**Prevention**: Query logs more frequently, or restart proxy with larger `max_log_size` if needed.
+**預防**：更頻繁查詢日誌，或在需要時以更大 `max_log_size` 重啟代理。
 
 ---
 
-### Problem: Finding Specific Log Entry
+### 問題：查找特定日誌條目
 
-**Symptom**: Need to find a specific request or error
+**症狀**：需找特定請求或錯誤
 
-**Search by URL pattern**:
+**按URL模式搜尋**：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1625,7 +1625,7 @@ Parameters: {
 }
 ```
 
-**Search by time window**:
+**按時間窗口搜尋**：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1639,7 +1639,7 @@ Parameters: {
 }
 ```
 
-**Combine filters**:
+**組合過濾器**：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1657,9 +1657,9 @@ Parameters: {
 
 ---
 
-## Quick Reference Tables
+## 快速參考表
 
-### Run Modes
+### 運行模式
 
 | Mode | Returns | Blocks | Best For |
 |------|---------|--------|----------|
@@ -1667,7 +1667,7 @@ Parameters: {
 | `foreground` | exit_code, state, runtime | Yes | Builds, deploys |
 | `foreground-raw` | + stdout, stderr | Yes | Tests, debugging |
 
-### Process States
+### 進程狀態
 
 | State | Meaning | Can Stop? |
 |-------|---------|-----------|
@@ -1678,7 +1678,7 @@ Parameters: {
 | `stopped` | Clean exit | No |
 | `failed` | Crashed/error | No |
 
-### Proxy Configuration
+### 代理配置
 
 | Setting | Default | Notes |
 |---------|---------|-------|
@@ -1687,7 +1687,7 @@ Parameters: {
 | Log Buffer | 1000 entries | Circular buffer |
 | Max Body Log | 10KB | Truncated in logs |
 
-### Output Filtering
+### 輸出過濾
 
 | Parameter | Effect | Example |
 |-----------|--------|---------|

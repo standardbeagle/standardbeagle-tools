@@ -1,86 +1,86 @@
 ---
-description: "Comprehensive frontend analysis including DOM, CSS, layout, and structure"
+description: "Comprehensive frontend analysis including DOM, CSS, layout, and structure. 全面析前端含DOM樣式布局結構. Use when: analyze frontend code, inspect DOM structure, review CSS layout, audit page structure, diagnose rendering issues"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
 ---
 
-Run a comprehensive frontend analysis on the current page using agnt's diagnostic tools.
+藉agnt診斷工具對當前頁面執行完整前端分析。
 
-## Steps
+## 步驟
 
-1. Analyze DOM complexity:
+1. 分析DOM複雜度：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditDOMComplexity()"}
    ```
 
-2. Audit CSS for issues:
+2. 稽核CSS問題：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditCSS()"}
    ```
 
-3. Find layout overflows:
+3. 找佈局溢出：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.findOverflows()"}
    ```
 
-4. Find stacking contexts (z-index layers):
+4. 找堆疊上下文（z-index層次）：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.findStackingContexts()"}
    ```
 
-5. Capture full page state:
+5. 捕獲完整頁面狀態：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.captureDOM()"}
    ```
 
-6. Capture network resources:
+6. 捕獲網路資源：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.captureNetwork()"}
    ```
 
-7. Take a screenshot:
+7. 截圖：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.screenshot('frontend-analysis')"}
    ```
 
-## DOM Complexity Analysis
+## DOM複雜度分析
 
-The `auditDOMComplexity()` function returns:
+`auditDOMComplexity()` 回傳：
 
 | Metric | Healthy Range | Concern |
 |--------|---------------|---------|
-| `totalElements` | < 1500 | > 3000 impacts performance |
-| `maxDepth` | < 20 | > 32 causes issues |
-| `duplicateIds` | 0 | Any duplicate breaks JS/CSS |
-| `scripts` | < 20 | > 50 slows loading |
-| `stylesheets` | < 10 | > 20 blocks rendering |
-| `iframes` | < 5 | Each adds overhead |
+| `totalElements` | < 1500 | > 3000 影響效能 |
+| `maxDepth` | < 20 | > 32 引起問題 |
+| `duplicateIds` | 0 | 任何重複破壞JS/CSS |
+| `scripts` | < 20 | > 50 減慢載入 |
+| `stylesheets` | < 10 | > 20 阻擋渲染 |
+| `iframes` | < 5 | 各增加開銷 |
 
-## CSS Analysis
+## CSS分析
 
-The `auditCSS()` function checks:
+`auditCSS()` 檢查：
 
 | Issue | Description | Impact |
 |-------|-------------|--------|
-| `excessive-inline-styles` | Many elements with `style=""` | Maintainability, caching |
-| `excessive-important` | Many `!important` rules | Specificity wars |
+| `excessive-inline-styles` | 大量元素含 `style=""` | 可維護性、快取 |
+| `excessive-important` | 大量 `!important` 規則 | 特異性衝突 |
 
-Returns:
-- `inlineStyleCount`: Elements with inline styles
-- `importantCount`: Rules using !important
-- `stylesheetCount`: Total stylesheets
+回傳：
+- `inlineStyleCount`：含內聯樣式之元素數
+- `importantCount`：使用!important之規則數
+- `stylesheetCount`：總樣式表數
 
-## Layout Analysis
+## 佈局分析
 
-### Overflows
-Elements with content exceeding their bounds:
-- Type: `hidden` (content clipped) or `scrollable`
-- Dimensions: scroll vs client width/height
+### 溢出
+內容超出容器邊界之元素：
+- 類型：`hidden`（內容被裁剪）或 `scrollable`
+- 尺寸：捲動 vs 客戶端寬高
 
-### Stacking Contexts
-Elements creating new z-index layers:
-- Reasons: positioned, opacity, transform, filter
+### 堆疊上下文
+建立新z-index層之元素：
+- 原因：定位、opacity、transform、filter
 
-## Element Inspection Commands
+## 元素檢測命令
 
 ```
 // Inspect a specific element comprehensively
@@ -102,24 +102,24 @@ proxy {action: "exec", id: "dev", code: "__devtool.getStacking('#my-element')"}
 proxy {action: "exec", id: "dev", code: "__devtool.walkChildren('#container', 3)"}
 ```
 
-## Frontend Health Indicators
+## 前端健康指標
 
-### Good
-- DOM elements < 1500
-- No duplicate IDs
-- Minimal inline styles
-- Few !important declarations
-- Logical z-index usage
+### 良好
+- DOM元素 < 1500
+- 無重複ID
+- 最少內聯樣式
+- 極少!important宣告
+- 邏輯z-index使用
 
-### Needs Attention
-- DOM elements 1500-3000
-- Some inline styles (> 10)
-- Several !important rules
-- Deep nesting (> 20 levels)
+### 需關注
+- DOM元素1500-3000
+- 部分內聯樣式（> 10）
+- 若干!important規則
+- 深嵌套（> 20層）
 
-### Critical
-- DOM elements > 3000
-- Duplicate IDs present
-- Excessive inline styles (> 50)
-- Many !important (> 10)
-- Very deep nesting (> 32)
+### 嚴重
+- DOM元素 > 3000
+- 存在重複ID
+- 過多內聯樣式（> 50）
+- 大量!important（> 10）
+- 極深嵌套（> 32）

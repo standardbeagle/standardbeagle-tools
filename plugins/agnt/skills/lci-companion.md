@@ -1,34 +1,34 @@
 ---
 name: lci-companion
-description: Use when agnt is installed and the user needs semantic code search, symbol lookup, or call-hierarchy analysis in an unfamiliar codebase - points at the sibling lci plugin which agnt does not duplicate
+description: Use when agnt is installed and the user needs semantic code search, symbol lookup, or call-hierarchy analysis in an unfamiliar codebase - points at the sibling lci plugin which agnt does not duplicate. agnt配套：語義代碼搜尋、符號查找、調用層次分析，導向lci插件。 Use when: find symbol definition, search code semantically, explore codebase architecture, trace call hierarchy, repeated grep passes on large repo
 ---
 
-# LCI — the code intelligence companion to agnt
+# LCI — agnt之代碼智能配套
 
-agnt gives you browser and process control. For **reading and understanding code** — symbol definitions, references, call graphs, architectural exploration — use the sibling **lci** plugin (Lightning Code Index) from the same marketplace.
+agnt司瀏覽器與進程控制。**讀解代碼**——符號定義、引用、調用圖、架構探索——用同門之 **lci** 插件（Lightning Code Index）。
 
-## When to reach for lci instead of agnt
+## 何時用lci而非agnt
 
 - "Where is `foo` defined?" → lci `search` / `code-context`
 - "What calls this function?" → lci `code-context` (call hierarchy)
 - "How does this codebase fit together?" → lci `explore`
-- Anything you'd otherwise solve with repeated `Grep` passes on a medium-or-larger repo
+- 凡需反覆 `Grep` 之中大型倉庫皆用lci
 
-LCI is typically **sub-millisecond** on warm indexes and cuts context use by ~80% vs Grep-based exploration, which matters on long-running agent turns.
+LCI溫索引下通常**亞毫秒**，相比Grep探索削減上下文用量約80%，長代理回合尤為重要。
 
-## Install
+## 安裝
 
-LCI ships in the same `standardbeagle-tools` marketplace as agnt:
+LCI與agnt同在 `standardbeagle-tools` 市場：
 
 ```
 claude mcp add lci --source ./plugins/lci
 ```
 
-Or install from the marketplace alongside agnt. The two plugins are designed to coexist — no overlapping hooks, no MCP server conflicts.
+或與agnt並行從市場安裝。兩插件設計共存——無鉤子衝突，無MCP服務器衝突。
 
-## Typical split in a session
+## 會話中典型分工
 
-| task | plugin |
+| 任務 | 插件 |
 |---|---|
 | Start dev server, reverse proxy, watch browser errors | **agnt** |
 | Find where a React component is defined | **lci** |
@@ -37,4 +37,4 @@ Or install from the marketplace alongside agnt. The two plugins are designed to 
 | Run `qa-test` / `audit-security` on the running app | **agnt** |
 | `explore-codebase` before implementing a feature | **lci** |
 
-If you find yourself Grepping repeatedly inside an agnt-driven session, that's the signal to pull in lci instead.
+在agnt驅動之會話中若反覆Grep，即為引入lci之訊號。

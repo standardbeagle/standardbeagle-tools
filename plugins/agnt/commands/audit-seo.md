@@ -1,82 +1,82 @@
 ---
-description: "Audit page for SEO best practices and issues"
+description: "Audit page for SEO best practices and issues. 審頁面搜尋優化得失. Use when: check SEO score, fix meta tags, audit page titles, review structured data, improve search ranking"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
 ---
 
-Audit the current page for SEO (Search Engine Optimization) best practices using agnt's diagnostic tools.
+藉agnt診斷工具稽核當前頁面之SEO最佳實踐。
 
-## Steps
+## 步驟
 
-1. Run the page quality audit (includes SEO checks):
+1. 執行頁面品質稽核（含SEO檢查）：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditPageQuality()"}
    ```
 
-2. Analyze DOM structure for SEO-relevant elements:
+2. 分析DOM結構中SEO相關元素：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditDOMComplexity()"}
    ```
 
-3. Check accessibility (affects SEO):
+3. 查無障礙性（影響SEO）：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditAccessibility()"}
    ```
 
-4. Take a screenshot for visual reference:
+4. 截圖供視覺參考：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.screenshot('seo-audit')"}
    ```
 
-## What the Audit Checks
+## 稽核檢查內容
 
-### Page Quality Issues
+### 頁面品質問題
 
 | Issue | Severity | Description |
 |-------|----------|-------------|
-| `missing-viewport` | warning | No viewport meta tag (mobile SEO) |
-| `missing-description` | info | No meta description (search snippets) |
-| `missing-h1` | warning | No H1 heading (content hierarchy) |
-| `multiple-h1` | info | Multiple H1 headings (confusing hierarchy) |
-| `missing-lang` | warning | No lang attribute (language detection) |
-| `missing-title` | error | No page title (critical for SEO) |
+| `missing-viewport` | warning | 無viewport meta標籤（行動SEO） |
+| `missing-description` | info | 無meta描述（搜尋摘要） |
+| `missing-h1` | warning | 無H1標題（內容層次） |
+| `multiple-h1` | info | 多個H1標題（層次混亂） |
+| `missing-lang` | warning | 無lang屬性（語言偵測） |
+| `missing-title` | error | 無頁面標題（SEO關鍵） |
 
-### DOM Structure Relevant to SEO
-- `links`: Number of links on page
-- `images`: Number of images (should have alt text)
-- `forms`: Number of forms
+### 與SEO相關之DOM結構
+- `links`：頁面連結數
+- `images`：圖片數（應有alt文字）
+- `forms`：表單數
 
-## Manual SEO Checklist
+## 手動SEO清單
 
-After running the automated audit, also verify:
+自動稽核後，另行驗證：
 
-### Title & Meta
-- [ ] Title is 50-60 characters
-- [ ] Meta description is 150-160 characters
-- [ ] Keywords appear naturally in content
+### 標題與Meta
+- [ ] 標題50-60字元
+- [ ] Meta描述150-160字元
+- [ ] 關鍵字自然出現於內容中
 
-### Content Structure
-- [ ] Single H1 containing primary keyword
-- [ ] Logical heading hierarchy (H1 > H2 > H3)
-- [ ] Content is unique and valuable
+### 內容結構
+- [ ] 含主要關鍵字之單一H1
+- [ ] 邏輯標題層次（H1 > H2 > H3）
+- [ ] 內容獨特且有價值
 
-### Technical SEO
-- [ ] Page loads in under 3 seconds
-- [ ] Mobile-friendly design
-- [ ] HTTPS enabled
-- [ ] Canonical URL set
-- [ ] Structured data (JSON-LD) present
+### 技術SEO
+- [ ] 頁面載入3秒內
+- [ ] 行動裝置友好設計
+- [ ] 啟用HTTPS
+- [ ] 設定canonical URL
+- [ ] 存在結構化資料（JSON-LD）
 
-### Images
-- [ ] All images have descriptive alt text
-- [ ] Images are optimized for size
-- [ ] Images have descriptive filenames
+### 圖片
+- [ ] 所有圖片有描述性alt文字
+- [ ] 圖片尺寸已優化
+- [ ] 圖片有描述性檔名
 
-### Links
-- [ ] Internal links use descriptive anchor text
-- [ ] External links open in new tab with rel="noopener"
-- [ ] No broken links (404s)
+### 連結
+- [ ] 內部連結使用描述性錨點文字
+- [ ] 外部連結在新分頁開啟含rel="noopener"
+- [ ] 無斷連（404）
 
-## Additional Diagnostic Commands
+## 附加診斷命令
 
 ```
 // Check all images for alt text

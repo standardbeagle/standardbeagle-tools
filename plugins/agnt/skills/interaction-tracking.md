@@ -1,15 +1,15 @@
 ---
 name: interaction-tracking
-description: Track user interactions and DOM mutations for debugging click handlers, form inputs, and dynamic UI changes
+description: Track user interactions and DOM mutations for debugging click handlers, form inputs, and dynamic UI changes. 追蹤用戶互動與DOM變動，除錯點擊處理器、表單輸入、動態UI變化。 Use when: debug click handler, track interactions, DOM mutations, form validation debug, dynamic content debug, mutation rate
 ---
 
-# Interaction & Mutation Tracking Skill
+# 互動與變動追蹤技能
 
-This skill documents how to track and debug user interactions (clicks, keyboard, scroll) and DOM mutations (added, removed, modified elements) through the `__devtool` API.
+記錄如何透過 `__devtool` API追蹤並除錯用戶互動（點擊、鍵盤、捲動）與DOM變動（新增、移除、修改元素）。
 
-## Invocation Format
+## 呼叫格式
 
-All tracking functions are called using proxy exec:
+所有追蹤函數均以proxy exec呼叫：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -24,20 +24,20 @@ Parameters: {
 }
 ```
 
-**Prerequisites**: A proxy must be running and the browser must be connected via the proxy URL.
+**前提條件**：代理必須運行且瀏覽器已透過代理URL連接。
 
 ---
 
-## Interaction Tracking Functions
+## 互動追蹤函數
 
 ### interactions.getHistory
 
-Get recent interaction history including clicks, keyboard events, scroll, and form inputs.
+取近期互動歷史：點擊、鍵盤事件、捲動、表單輸入。
 
 **Signature**: `interactions.getHistory(count?)`
 
 **Parameters**:
-- `count`: number - Number of interactions to return (default: 50)
+- `count`: number — 回傳互動數（預設：50）
 
 **Returns**: `[{event_type, target, position?, key?, timestamp}, ...]`
 
@@ -55,7 +55,7 @@ Parameters: {
 }
 ```
 
-**Response Structure**:
+**回應結構**：
 ```json
 [
   {
@@ -92,22 +92,22 @@ Parameters: {
 ]
 ```
 
-**Tracked Event Types**:
-- `click` - Mouse clicks
-- `dblclick` - Double clicks
-- `keydown` - Keyboard key presses
-- `input` - Form input changes (debounced)
-- `focus` - Element focus
-- `blur` - Element blur
-- `scroll` - Scroll events (debounced)
-- `submit` - Form submissions
-- `contextmenu` - Right-click menu
+**追蹤事件類型**：
+- `click` — 滑鼠點擊
+- `dblclick` — 雙擊
+- `keydown` — 鍵盤按鍵
+- `input` — 表單輸入變化（防抖）
+- `focus` — 元素獲焦
+- `blur` — 元素失焦
+- `scroll` — 捲動事件（防抖）
+- `submit` — 表單送出
+- `contextmenu` — 右鍵選單
 
 ---
 
 ### interactions.getLastClick
 
-Get the most recent click event.
+取最近一次點擊事件。
 
 **Signature**: `interactions.getLastClick()`
 
@@ -129,21 +129,18 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Debug what element the user clicked
-- Verify click coordinates
-- Check if button received the click
+適用：除錯用戶點擊之元素、驗證點擊座標、確認按鈕是否收到點擊。
 
 ---
 
 ### interactions.getLastClickContext
 
-Get the last click with surrounding mouse movement trail for full interaction context.
+取最近點擊含前後滑鼠移動軌跡，提供完整互動上下文。
 
 **Signature**: `interactions.getLastClickContext(trailMs?)`
 
 **Parameters**:
-- `trailMs`: number - Time window for mouse trail in ms (default: 2000)
+- `trailMs`: number — 滑鼠軌跡時間窗口（毫秒，預設：2000）
 
 **Returns**: `{click, mouseTrail}|null`
 
@@ -161,7 +158,7 @@ Parameters: {
 }
 ```
 
-**Response Structure**:
+**回應結構**：
 ```json
 {
   "click": {
@@ -200,21 +197,18 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Analyze user's path to a click target
-- Debug hover-triggered UI that disappeared before click
-- Understand interaction patterns
+適用：分析用戶到達點擊目標之路徑、除錯在點擊前消失之懸浮觸發UI、了解互動模式。
 
 ---
 
 ### interactions.getClicksOn
 
-Get all clicks on elements matching a selector pattern.
+取符合選擇器模式之元素上的所有點擊。
 
 **Signature**: `interactions.getClicksOn(selector)`
 
 **Parameters**:
-- `selector`: string - Selector pattern to match in target
+- `selector`: string — 目標中比對之選擇器模式
 
 **Returns**: `[{event_type, target, position, timestamp}, ...]`
 
@@ -232,22 +226,19 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Find all clicks on buttons
-- Track clicks on navigation links
-- Debug specific element interactions
+適用：找所有按鈕點擊、追蹤導航連結點擊、除錯特定元素互動。
 
 ---
 
 ### interactions.getMouseTrail
 
-Get mouse movement samples around a specific timestamp.
+取特定時間戳附近之滑鼠移動樣本。
 
 **Signature**: `interactions.getMouseTrail(timestamp, windowMs?)`
 
 **Parameters**:
-- `timestamp`: number - Center timestamp
-- `windowMs`: number - Time window in ms (default: 5000)
+- `timestamp`: number — 中心時間戳
+- `windowMs`: number — 時間窗口（毫秒，預設：5000）
 
 **Returns**: `[{position, wall_time, interaction_time}, ...]`
 
@@ -265,13 +256,13 @@ Parameters: {
 }
 ```
 
-**Note**: Mouse movement is sampled every 100ms within a 60-second window after each click.
+**注意**：每次點擊後60秒內，滑鼠移動每100ms取樣一次。
 
 ---
 
 ### interactions.clear
 
-Clear all interaction history.
+清除所有互動歷史。
 
 **Signature**: `interactions.clear()`
 
@@ -291,16 +282,16 @@ Parameters: {
 
 ---
 
-## Mutation Tracking Functions
+## 變動追蹤函數
 
 ### mutations.getHistory
 
-Get recent DOM mutation history.
+取近期DOM變動歷史。
 
 **Signature**: `mutations.getHistory(count?)`
 
 **Parameters**:
-- `count`: number - Number of mutations to return (default: 50)
+- `count`: number — 回傳變動數（預設：50）
 
 **Returns**: `[{mutation_type, target, added?, removed?, attribute?, triggered_by?, timestamp}, ...]`
 
@@ -318,7 +309,7 @@ Parameters: {
 }
 ```
 
-**Response Structure**:
+**回應結構**：
 ```json
 [
   {
@@ -362,21 +353,21 @@ Parameters: {
 ]
 ```
 
-**Mutation Types**:
-- `added` - Elements added to DOM
-- `removed` - Elements removed from DOM
-- `attributes` - Attribute changes on existing elements
+**變動類型**：
+- `added` — 新增至DOM之元素
+- `removed` — 從DOM移除之元素
+- `attributes` — 現有元素之屬性變更
 
 ---
 
 ### mutations.highlightRecent
 
-Visually highlight recently added elements with a green overlay.
+以綠色覆蓋層視覺高亮最近新增之元素。
 
 **Signature**: `mutations.highlightRecent(duration?)`
 
 **Parameters**:
-- `duration`: number - How far back to look in ms (default: 5000)
+- `duration`: number — 回溯時間（毫秒，預設：5000）
 
 **Returns**: void
 
@@ -394,12 +385,9 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Visualize what changed after an action
-- Debug dynamic content loading
-- Find elements added by JavaScript
+適用：視覺化某動作後之變更、除錯動態內容載入、找JavaScript新增之元素。
 
-**Note**: Highlighting is disabled by default for React compatibility. Enable it first:
+**注意**：高亮預設停用（React相容性）。先啟用：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -417,16 +405,16 @@ Parameters: {
 
 ### mutations.getAdded
 
-Get elements added to DOM since a timestamp.
+取自某時間戳後新增至DOM之元素。
 
 **Signature**: `mutations.getAdded(since?)`
 
 **Parameters**:
-- `since`: number - Timestamp filter (default: 0)
+- `since`: number — 時間戳篩選（預設：0）
 
 **Returns**: `[{mutation_type: 'added', target, added, timestamp}, ...]`
 
-**Example - Get additions in last 5 seconds**:
+**取近5秒內新增：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -444,12 +432,12 @@ Parameters: {
 
 ### mutations.getRemoved
 
-Get elements removed from DOM since a timestamp.
+取自某時間戳後從DOM移除之元素。
 
 **Signature**: `mutations.getRemoved(since?)`
 
 **Parameters**:
-- `since`: number - Timestamp filter (default: 0)
+- `since`: number — 時間戳篩選（預設：0）
 
 **Returns**: `[{mutation_type: 'removed', target, removed, timestamp}, ...]`
 
@@ -471,12 +459,12 @@ Parameters: {
 
 ### mutations.getModified
 
-Get attribute changes since a timestamp.
+取自某時間戳後之屬性變更。
 
 **Signature**: `mutations.getModified(since?)`
 
 **Parameters**:
-- `since`: number - Timestamp filter (default: 0)
+- `since`: number — 時間戳篩選（預設：0）
 
 **Returns**: `[{mutation_type: 'attributes', target, attribute, timestamp}, ...]`
 
@@ -494,21 +482,18 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Track class changes (CSS state changes)
-- Debug attribute-based animations
-- Monitor data attribute updates
+適用：追蹤類別變更（CSS狀態變化）、除錯屬性驅動動畫、監控data屬性更新。
 
 ---
 
 ### mutations.getTriggeredBy
 
-Get mutations triggered by a specific interaction type.
+取由特定互動類型觸發之變動。
 
 **Signature**: `mutations.getTriggeredBy(interactionType)`
 
 **Parameters**:
-- `interactionType`: string - Interaction type (click, keydown, input, etc.)
+- `interactionType`: string — 互動類型（click, keydown, input等）
 
 **Returns**: `[{mutation_type, target, triggered_by, timestamp}, ...]`
 
@@ -526,16 +511,13 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Find what DOM changes resulted from clicks
-- Debug cause-and-effect relationships
-- Understand UI response to user actions
+適用：找點擊導致之DOM變更、除錯因果關係、了解UI對用戶動作之回應。
 
 ---
 
 ### mutations.getUntriggered
 
-Get mutations with no associated user interaction (spontaneous updates).
+取無關聯用戶互動之變動（自發更新）。
 
 **Signature**: `mutations.getUntriggered()`
 
@@ -555,16 +537,13 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Find polling/timer-based updates
-- Identify WebSocket-driven changes
-- Debug unexpected DOM modifications
+適用：找輪詢/計時器驅動更新、識別WebSocket驅動變更、除錯非預期DOM修改。
 
 ---
 
 ### mutations.getCorrelationStats
 
-Get statistics about interaction-mutation correlations.
+取互動-變動關聯統計。
 
 **Signature**: `mutations.getCorrelationStats()`
 
@@ -584,7 +563,7 @@ Parameters: {
 }
 ```
 
-**Response Structure**:
+**回應結構**：
 ```json
 {
   "total": 150,
@@ -612,12 +591,12 @@ Parameters: {
 
 ### mutations.getRateStats
 
-Get mutation rate statistics for performance monitoring.
+取變動速率統計供效能監控。
 
 **Signature**: `mutations.getRateStats(windows?)`
 
 **Parameters**:
-- `windows`: number[] - Time windows in ms (default: [1000, 5000, 30000])
+- `windows`: number[] — 時間窗口（毫秒，預設：[1000, 5000, 30000]）
 
 **Returns**: `{windows, counts, acceleration, status, health, max}`
 
@@ -635,7 +614,7 @@ Parameters: {
 }
 ```
 
-**Response Structure**:
+**回應結構**：
 ```json
 {
   "windows": {
@@ -662,16 +641,16 @@ Parameters: {
 }
 ```
 
-**Health Levels**:
-- `ok`: < 20 mutations/second
-- `warning`: 20-50 mutations/second
-- `critical`: > 50 mutations/second
+**健康等級**：
+- `ok`：< 20次變動/秒
+- `warning`：20-50次變動/秒
+- `critical`：> 50次變動/秒
 
 ---
 
 ### mutations.pause / mutations.resume
 
-Temporarily pause or resume mutation tracking.
+暫時暫停或恢復變動追蹤。
 
 **Example**:
 ```
@@ -687,16 +666,13 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Pause during bulk DOM operations
-- Reduce noise during known heavy updates
-- Resume after operation completes
+適用：批量DOM操作期間暫停、減少已知大量更新之雜訊、操作完成後恢復。
 
 ---
 
 ### mutations.clear
 
-Clear mutation history.
+清除變動歷史。
 
 **Signature**: `mutations.clear()`
 
@@ -716,13 +692,13 @@ Parameters: {
 
 ---
 
-## Practical Debugging Scenarios
+## 實際除錯情境
 
-### Scenario 1: Debug Click Handler Not Working
+### 情境1：除錯點擊處理器不觸發
 
-When a button click doesn't seem to trigger the expected action:
+按鈕點擊似乎未觸發預期動作時：
 
-1. Get the last click to verify target:
+1. 取最後點擊以驗證目標：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -736,7 +712,7 @@ Parameters: {
 }
 ```
 
-2. Check if any mutations occurred after the click:
+2. 檢查點擊後是否發生任何變動：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -750,7 +726,7 @@ Parameters: {
 }
 ```
 
-3. If click target is unexpected, check full context:
+3. 若點擊目標非預期，取完整上下文：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -764,18 +740,18 @@ Parameters: {
 }
 ```
 
-**Common Issues**:
-- Click hit wrong element (check target selector)
-- Event propagation stopped
-- Element changed between mousedown and mouseup
+**常見問題**：
+- 點擊命中錯誤元素（檢查target選擇器）
+- 事件冒泡被阻止
+- mousedown與mouseup間元素改變
 
 ---
 
-### Scenario 2: Debug Modal Not Opening
+### 情境2：除錯模態框不開啟
 
-When clicking a button should open a modal but nothing happens:
+點擊按鈕應開啟模態框但無反應時：
 
-1. Verify click was registered:
+1. 驗證點擊已被記錄：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -789,7 +765,7 @@ Parameters: {
 }
 ```
 
-2. Check for recent DOM additions:
+2. 檢查近期DOM新增：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -803,7 +779,7 @@ Parameters: {
 }
 ```
 
-3. Enable highlighting and retry action:
+3. 啟用高亮後重試動作：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -819,11 +795,11 @@ Parameters: {
 
 ---
 
-### Scenario 3: Debug Form Validation
+### 情境3：除錯表單驗證
 
-When form validation errors don't appear correctly:
+表單驗證錯誤未正確顯示時：
 
-1. Check recent interactions on form elements:
+1. 檢查表單元素近期互動：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -837,7 +813,7 @@ Parameters: {
 }
 ```
 
-2. Look for class changes (error states):
+2. 尋找類別變更（錯誤狀態）：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -851,7 +827,7 @@ Parameters: {
 }
 ```
 
-3. Check correlation between blur and class changes:
+3. 檢查blur與類別變更之關聯：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -867,11 +843,11 @@ Parameters: {
 
 ---
 
-### Scenario 4: Debug Dynamic Content Loading
+### 情境4：除錯動態內容載入
 
-When content should load dynamically but doesn't appear:
+內容應動態載入但未出現時：
 
-1. Check for any recent additions:
+1. 檢查任何近期新增：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -885,7 +861,7 @@ Parameters: {
 }
 ```
 
-2. Check for spontaneous (non-user-triggered) mutations:
+2. 檢查自發（非用戶觸發）變動：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -899,7 +875,7 @@ Parameters: {
 }
 ```
 
-3. Check mutation rate for loading activity:
+3. 檢查變動速率是否有載入活動：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -915,11 +891,11 @@ Parameters: {
 
 ---
 
-### Scenario 5: Debug Performance Issue from Excessive DOM Updates
+### 情境5：除錯過多DOM更新引發效能問題
 
-When page feels sluggish due to too many DOM changes:
+頁面因過多DOM變更而遲緩時：
 
-1. Get mutation rate statistics:
+1. 取變動速率統計：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -933,7 +909,7 @@ Parameters: {
 }
 ```
 
-2. Check correlation statistics:
+2. 檢查關聯統計：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -947,7 +923,7 @@ Parameters: {
 }
 ```
 
-3. Get full mutation history to identify patterns:
+3. 取完整變動歷史以識別模式：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -961,18 +937,18 @@ Parameters: {
 }
 ```
 
-**Red Flags**:
-- `health: "critical"` (> 50 mutations/second)
-- High `untriggered` count (polling issues)
-- High `max_latency` (slow event handlers)
+**危險信號**：
+- `health: "critical"` （> 50次變動/秒）
+- `untriggered` 計數高（輪詢問題）
+- `max_latency` 高（事件處理器緩慢）
 
 ---
 
-### Scenario 6: Debug Dropdown/Menu Disappearing
+### 情境6：除錯下拉選單/選單消失
 
-When hover-based UI disappears before you can click:
+懸浮UI在點擊前消失時：
 
-1. Get last click context with mouse trail:
+1. 取含滑鼠軌跡之最後點擊上下文：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -986,7 +962,7 @@ Parameters: {
 }
 ```
 
-2. Check for element removal before click:
+2. 檢查點擊前之元素移除：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -1000,55 +976,55 @@ Parameters: {
 }
 ```
 
-**Diagnosis**: If dropdown was removed before the click timestamp, there's likely a mouseout handler closing it prematurely.
+**診斷**：若下拉選單在點擊時間戳前被移除，可能是mouseout處理器過早關閉之。
 
 ---
 
-## Quick Reference Table
+## 快速參考表
 
 | Function | Purpose | Key Return Values |
 |----------|---------|-------------------|
-| `interactions.getHistory(n)` | All interactions | event_type, target, position, key |
-| `interactions.getLastClick()` | Last click event | target, position, timestamp |
-| `interactions.getLastClickContext(ms)` | Click + mouse trail | click, mouseTrail |
-| `interactions.getClicksOn(sel)` | Clicks on selector | Array of click events |
-| `interactions.getMouseTrail(ts, ms)` | Mouse movement | positions, timestamps |
-| `interactions.clear()` | Clear history | void |
-| `mutations.getHistory(n)` | All mutations | mutation_type, target, triggered_by |
-| `mutations.highlightRecent(ms)` | Visual highlight | void |
-| `mutations.getAdded(since)` | Added elements | added, target, timestamp |
-| `mutations.getRemoved(since)` | Removed elements | removed, target, timestamp |
-| `mutations.getModified(since)` | Attribute changes | attribute (name, old, new) |
-| `mutations.getTriggeredBy(type)` | Mutations by trigger | filtered mutations |
-| `mutations.getUntriggered()` | Spontaneous mutations | mutations without trigger |
-| `mutations.getCorrelationStats()` | Trigger statistics | by_type, latency stats |
-| `mutations.getRateStats()` | Performance stats | rate, health, max |
-| `mutations.pause()` | Pause tracking | void |
-| `mutations.resume()` | Resume tracking | void |
-| `mutations.clear()` | Clear history | void |
+| `interactions.getHistory(n)` | 所有互動 | event_type, target, position, key |
+| `interactions.getLastClick()` | 最後點擊事件 | target, position, timestamp |
+| `interactions.getLastClickContext(ms)` | 點擊含滑鼠軌跡 | click, mouseTrail |
+| `interactions.getClicksOn(sel)` | 選擇器上之點擊 | 點擊事件陣列 |
+| `interactions.getMouseTrail(ts, ms)` | 滑鼠移動 | positions, timestamps |
+| `interactions.clear()` | 清除歷史 | void |
+| `mutations.getHistory(n)` | 所有變動 | mutation_type, target, triggered_by |
+| `mutations.highlightRecent(ms)` | 視覺高亮 | void |
+| `mutations.getAdded(since)` | 新增元素 | added, target, timestamp |
+| `mutations.getRemoved(since)` | 移除元素 | removed, target, timestamp |
+| `mutations.getModified(since)` | 屬性變更 | attribute (name, old, new) |
+| `mutations.getTriggeredBy(type)` | 觸發器篩選變動 | 已篩選之變動 |
+| `mutations.getUntriggered()` | 自發變動 | 無觸發器之變動 |
+| `mutations.getCorrelationStats()` | 觸發器統計 | by_type, latency統計 |
+| `mutations.getRateStats()` | 效能統計 | rate, health, max |
+| `mutations.pause()` | 暫停追蹤 | void |
+| `mutations.resume()` | 恢復追蹤 | void |
+| `mutations.clear()` | 清除歷史 | void |
 
 ---
 
-## Configuration Notes
+## 設定說明
 
-**Interaction Tracking**:
-- Max history: 500 interactions
-- Scroll debounce: 100ms
-- Input debounce: 300ms
-- Mouse move sampling: 100ms intervals, 60s window after click
+**互動追蹤**：
+- 最大歷史：500次互動
+- 捲動防抖：100ms
+- 輸入防抖：300ms
+- 滑鼠移動取樣：每點擊後100ms間隔，60秒窗口
 
-**Mutation Tracking**:
-- Max history: 200 mutations
-- Highlight duration: 2000ms
-- Highlighting: Disabled by default (call `enableHighlighting()` to enable)
-- Ignored: devtool UI elements, script, style, link tags
-- Correlation window: 500ms (mutations linked to interactions within this window)
+**變動追蹤**：
+- 最大歷史：200次變動
+- 高亮持續：2000ms
+- 高亮：預設停用（呼叫 `enableHighlighting()` 啟用）
+- 忽略：devtool UI元素、script、style、link標籤
+- 關聯窗口：500ms（此窗口內之互動與變動相關聯）
 
 ---
 
-## Integration Tips
+## 整合提示
 
-**Combine with Element Inspection**:
+**結合元素檢測**：
 ```javascript
 // Get last click and inspect the target
 var click = __devtool.interactions.getLastClick();
@@ -1057,16 +1033,16 @@ if (click && click.target.selector) {
 }
 ```
 
-**Take Screenshot After Mutations**:
+**變動後截圖**：
 ```javascript
 // After enabling highlighting
 __devtool.mutations.highlightRecent(5000);
 await __devtool.screenshot("recent-mutations");
 ```
 
-**Debug Workflow**:
-1. Clear history before testing
-2. Perform user action
-3. Check interactions to verify input
-4. Check mutations to verify response
-5. Use correlation stats to understand cause-effect
+**除錯工作流**：
+1. 測試前清除歷史
+2. 執行用戶動作
+3. 檢查互動以驗證輸入
+4. 檢查變動以驗證回應
+5. 用關聯統計了解因果

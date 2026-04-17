@@ -1,15 +1,15 @@
 ---
 name: browser-diagnostics
-description: Browser element inspection, layout diagnostics, tree walking, and visual checks via proxy exec
+description: Browser element inspection, layout diagnostics, tree walking, and visual checks via proxy exec. 瀏覽器元素檢測、佈局診斷、樹遍歷、視覺檢查（代理exec執行）。 Use when: inspect element, debug layout, check z-index, find overflow, element position, box model, flex debug, grid debug
 ---
 
-# Browser Diagnostics Skill
+# 瀏覽器診斷技能
 
-This skill documents browser element inspection and layout diagnostics functions available through the `__devtool` API. All functions are executed via the proxy exec action.
+記錄透過 `__devtool` API可用之瀏覽器元素檢測與佈局診斷函數。所有函數均透過proxy exec動作執行。
 
-## Invocation Format
+## 呼叫格式
 
-All diagnostics are called using proxy exec:
+所有診斷均以proxy exec呼叫：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -24,20 +24,20 @@ Parameters: {
 }
 ```
 
-**Prerequisites**: A proxy must be running and the browser must be connected via the proxy URL.
+**前提條件**：代理必須運行且瀏覽器已透過代理URL連接。
 
 ---
 
-## Element Inspection Functions
+## 元素檢測函數
 
 ### getElementInfo
 
-Get comprehensive information about an element including tag, classes, attributes, dimensions, and position.
+取元素完整資訊：標籤、類別、屬性、尺寸、位置。
 
 **Signature**: `getElementInfo(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{tag, id, classes, attributes, text, html, dimensions, position}`
 
@@ -55,26 +55,26 @@ Parameters: {
 }
 ```
 
-**Response includes**:
-- `tag`: Element tag name (e.g., "button", "div")
-- `id`: Element ID if present
-- `classes`: Array of class names
-- `attributes`: Object of all attributes
-- `text`: Text content (truncated)
-- `html`: Inner HTML (truncated)
-- `dimensions`: Width and height
-- `position`: Bounding rect coordinates
+回應包含：
+- `tag`：元素標籤名（如 "button", "div"）
+- `id`：元素ID（若有）
+- `classes`：類別名稱陣列
+- `attributes`：所有屬性物件
+- `text`：文字內容（截斷）
+- `html`：內部HTML（截斷）
+- `dimensions`：寬高
+- `position`：邊界矩形座標
 
 ---
 
 ### getPosition
 
-Get element position via bounding client rect.
+透過邊界用戶端矩形取元素位置。
 
 **Signature**: `getPosition(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{top, right, bottom, left, width, height, x, y}`
 
@@ -92,26 +92,23 @@ Parameters: {
 }
 ```
 
-**Use cases**:
-- Verify element placement
-- Calculate distances between elements
-- Check if element is in expected location
+適用：驗證元素位置、計算元素間距離、確認元素在預期位置。
 
 ---
 
 ### getComputed
 
-Get computed CSS styles for an element.
+取元素計算CSS樣式。
 
 **Signature**: `getComputed(selector, properties?)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
-- `properties`: string[] - Specific properties to get (default: common properties)
+- `selector`: string|Element — CSS選擇器或DOM元素
+- `properties`: string[] — 指定屬性（預設：常用屬性）
 
 **Returns**: `{property: value, ...}`
 
-**Example - Get specific properties**:
+**取特定屬性：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -125,7 +122,7 @@ Parameters: {
 }
 ```
 
-**Example - Get all common properties**:
+**取所有常用屬性：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -139,7 +136,7 @@ Parameters: {
 }
 ```
 
-**Common properties returned by default**:
+預設回傳常用屬性：
 - display, position, float
 - width, height, margin, padding
 - color, background-color
@@ -150,14 +147,14 @@ Parameters: {
 
 ### getBox
 
-Get box model dimensions including content, padding, border, and margin.
+取盒模型尺寸：內容、padding、border、margin。
 
 **Signature**: `getBox(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
-**Returns**: `{content, padding, border, margin}` with `{top, right, bottom, left}` for each
+**Returns**: `{content, padding, border, margin}`，各含 `{top, right, bottom, left}`
 
 **Example**:
 ```
@@ -173,25 +170,22 @@ Parameters: {
 }
 ```
 
-**Use cases**:
-- Debug spacing issues
-- Verify padding/margin values
-- Understand element's total size footprint
+適用：除錯間距問題、驗證padding/margin值、了解元素總體佔用。
 
 ---
 
 ### getLayout
 
-Get layout information including display type, position, and flexbox/grid properties.
+取佈局資訊：顯示類型、位置、flexbox/grid屬性。
 
 **Signature**: `getLayout(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{display, position, float, flexbox?, grid?}`
 
-**Example - Check flex container**:
+**檢查flex容器：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -205,24 +199,24 @@ Parameters: {
 }
 ```
 
-**Response for flex container includes**:
-- `display`: "flex" or "inline-flex"
-- `flexbox`: `{direction, wrap, justifyContent, alignItems, gap}`
+flex容器回應包含：
+- `display`："flex" 或 "inline-flex"
+- `flexbox`：`{direction, wrap, justifyContent, alignItems, gap}`
 
-**Response for grid container includes**:
-- `display`: "grid" or "inline-grid"
-- `grid`: `{columns, rows, gap, areas}`
+grid容器回應包含：
+- `display`："grid" 或 "inline-grid"
+- `grid`：`{columns, rows, gap, areas}`
 
 ---
 
 ### getStacking
 
-Get stacking context information including z-index and whether the element creates a new stacking context.
+取堆疊上下文資訊：z-index及元素是否建立新堆疊上下文。
 
 **Signature**: `getStacking(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{zIndex, createsContext, reason?, parentContext}`
 
@@ -240,27 +234,24 @@ Parameters: {
 }
 ```
 
-**Response includes**:
-- `zIndex`: Current z-index value (number or "auto")
-- `createsContext`: Boolean indicating if element creates stacking context
-- `reason`: Why it creates a context (e.g., "position: fixed", "opacity < 1", "transform")
-- `parentContext`: Selector for nearest ancestor stacking context
+回應包含：
+- `zIndex`：當前z-index值（數字或 "auto"）
+- `createsContext`：布林值，元素是否建立堆疊上下文
+- `reason`：建立上下文之原因（如 "position: fixed", "opacity < 1", "transform"）
+- `parentContext`：最近祖先堆疊上下文之選擇器
 
-**Use cases**:
-- Debug z-index issues
-- Understand why elements appear above/below others
-- Find stacking context boundaries
+適用：除錯z-index問題、理解元素覆蓋原因、尋找堆疊上下文邊界。
 
 ---
 
 ### getContainer
 
-Get containing block and scroll container information.
+取包含塊與捲動容器資訊。
 
 **Signature**: `getContainer(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{containingBlock, scrollContainer, offsetParent}`
 
@@ -278,26 +269,23 @@ Parameters: {
 }
 ```
 
-**Response includes**:
-- `containingBlock`: The element that positions this element (for absolute/fixed)
-- `scrollContainer`: Nearest scrollable ancestor
-- `offsetParent`: The offsetParent element
+回應包含：
+- `containingBlock`：定位此元素之元素（用於absolute/fixed）
+- `scrollContainer`：最近可捲動祖先
+- `offsetParent`：offsetParent元素
 
-**Use cases**:
-- Debug absolute positioning issues
-- Find which element controls scrolling
-- Understand positioning context
+適用：除錯絕對定位問題、找控制捲動之元素、了解定位上下文。
 
 ---
 
 ### getTransform
 
-Get CSS transform information.
+取CSS transform資訊。
 
 **Signature**: `getTransform(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{transform, transformOrigin, matrix}`
 
@@ -315,21 +303,21 @@ Parameters: {
 }
 ```
 
-**Response includes**:
-- `transform`: The transform CSS property value
-- `transformOrigin`: The transform-origin value
-- `matrix`: The computed transformation matrix
+回應包含：
+- `transform`：transform CSS屬性值
+- `transformOrigin`：transform-origin值
+- `matrix`：計算後之變換矩陣
 
 ---
 
 ### getOverflow
 
-Get overflow and scroll information.
+取溢出與捲動資訊。
 
 **Signature**: `getOverflow(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{overflow, overflowX, overflowY, scrollWidth, scrollHeight, isScrollable}`
 
@@ -347,22 +335,22 @@ Parameters: {
 }
 ```
 
-**Response includes**:
-- `overflow`: The overflow CSS property
-- `overflowX`, `overflowY`: Individual axis overflow values
-- `scrollWidth`, `scrollHeight`: Total scrollable dimensions
-- `isScrollable`: Boolean indicating if content overflows
+回應包含：
+- `overflow`：overflow CSS屬性
+- `overflowX`, `overflowY`：各軸溢出值
+- `scrollWidth`, `scrollHeight`：可捲動總尺寸
+- `isScrollable`：內容是否溢出之布林值
 
 ---
 
-### inspect (Composite)
+### inspect（複合）
 
-Get comprehensive inspection combining multiple inspection calls in one request.
+一次呼叫合併多項檢測之綜合檢視。
 
 **Signature**: `inspect(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{info, position, box, layout, stacking, container, visibility, viewport}`
 
@@ -380,15 +368,15 @@ Parameters: {
 }
 ```
 
-**Use this when**: You need multiple pieces of information about a single element. More efficient than making separate calls.
+**適用時機**：需某元素多項資訊時。比多次獨立呼叫更有效率。
 
 ---
 
-## Layout Diagnostics Functions
+## 佈局診斷函數
 
 ### findOverflows
 
-Find elements causing horizontal overflow (common cause of horizontal scrollbars).
+找引起水平溢出之元素（水平捲動條常見原因）。
 
 **Signature**: `findOverflows()`
 
@@ -410,22 +398,19 @@ Parameters: {
 }
 ```
 
-**Response includes for each overflow**:
-- `element`: Selector path to the overflowing element
-- `overflow`: How many pixels it overflows
-- `width`: Element's width
-- `parentWidth`: Parent container's width
+每個溢出項回應包含：
+- `element`：溢出元素之選擇器路徑
+- `overflow`：溢出像素數
+- `width`：元素寬度
+- `parentWidth`：父容器寬度
 
-**Use cases**:
-- Debug unwanted horizontal scrollbars
-- Find elements breaking responsive layouts
-- Identify elements wider than viewport
+適用：除錯非預期水平捲動條、找破壞響應式佈局之元素、識別寬於視窗之元素。
 
 ---
 
 ### findStackingContexts
 
-Find all stacking contexts in the document.
+找文件中所有堆疊上下文。
 
 **Signature**: `findStackingContexts()`
 
@@ -447,14 +432,14 @@ Parameters: {
 }
 ```
 
-**Response includes for each context**:
-- `element`: Selector path to the element
-- `zIndex`: The z-index value
-- `reason`: What property creates the stacking context
+每個上下文回應包含：
+- `element`：元素選擇器路徑
+- `zIndex`：z-index值
+- `reason`：建立堆疊上下文之屬性
 
-**Common reasons**:
-- `position: relative/absolute/fixed` with z-index
-- `opacity` less than 1
+常見原因：
+- `position: relative/absolute/fixed` 含z-index
+- `opacity` 小於1
 - `transform`, `filter`, `backdrop-filter`
 - `isolation: isolate`
 - `will-change`
@@ -463,7 +448,7 @@ Parameters: {
 
 ### findOffscreen
 
-Find elements positioned outside the viewport.
+找定位於視窗外之元素。
 
 **Signature**: `findOffscreen()`
 
@@ -485,30 +470,27 @@ Parameters: {
 }
 ```
 
-**Response includes for each offscreen element**:
-- `element`: Selector path to the element
-- `position`: The element's bounding rect
-- `distance`: How far off each edge (top, right, bottom, left)
+每個螢幕外元素回應包含：
+- `element`：元素選擇器路徑
+- `position`：元素邊界矩形
+- `distance`：各邊超出距離（top, right, bottom, left）
 
-**Use cases**:
-- Find hidden elements that may be unintentionally positioned off-screen
-- Debug navigation menus that slide in from off-screen
-- Identify content that users cannot see
+適用：找無意間定位至螢幕外之隱藏元素、除錯從螢幕外滑入之導航選單、識別用戶看不見之內容。
 
 ---
 
-### diagnoseLayout (Composite)
+### diagnoseLayout（複合）
 
-Run comprehensive layout diagnostics combining all layout checks.
+執行綜合佈局診斷，合併所有佈局檢查。
 
 **Signature**: `diagnoseLayout(selector?)`
 
 **Parameters**:
-- `selector`: string - Optional element to focus analysis on
+- `selector`: string — 可選，聚焦分析之元素
 
 **Returns**: `{overflows, stackingContexts, offscreen, element?}`
 
-**Example - Full page diagnosis**:
+**全頁診斷：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -522,7 +504,7 @@ Parameters: {
 }
 ```
 
-**Example - Focus on specific element**:
+**聚焦特定元素：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -536,25 +518,25 @@ Parameters: {
 }
 ```
 
-**Use this when**: You need a complete layout health check.
+**適用時機**：需完整佈局健康檢查時。
 
 ---
 
-## Tree Walking Functions
+## 樹遍歷函數
 
 ### walkChildren
 
-Get all child elements with optional depth limiting and filtering.
+取所有子元素，可選深度限制與篩選。
 
 **Signature**: `walkChildren(selector, options?)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
-- `options`: `{maxDepth?, filter?}` - Walk options
+- `selector`: string|Element — CSS選擇器或DOM元素
+- `options`: `{maxDepth?, filter?}` — 遍歷選項
 
 **Returns**: `[{element, depth, path}, ...]`
 
-**Example - Get immediate children**:
+**取直接子元素：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -568,7 +550,7 @@ Parameters: {
 }
 ```
 
-**Example - Walk to depth 3**:
+**遍歷至深度3：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -582,21 +564,21 @@ Parameters: {
 }
 ```
 
-**Response includes for each element**:
-- `element`: Selector path to the element
-- `depth`: How deep in the tree (1 = direct child)
-- `path`: Array of ancestor elements
+每個元素回應包含：
+- `element`：元素選擇器路徑
+- `depth`：樹中深度（1 = 直接子元素）
+- `path`：祖先元素陣列
 
 ---
 
 ### walkParents
 
-Get all parent elements up to document root.
+取從元素至文件根之所有父元素。
 
 **Signature**: `walkParents(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `[{element, depth}, ...]`
 
@@ -614,26 +596,23 @@ Parameters: {
 }
 ```
 
-**Use cases**:
-- Find containing elements
-- Trace element's position in DOM hierarchy
-- Debug styling inheritance issues
+適用：找包含元素、追蹤元素在DOM層次中之位置、除錯樣式繼承問題。
 
 ---
 
 ### findAncestor
 
-Find the closest ancestor matching a selector or condition.
+找符合選擇器或條件之最近祖先。
 
 **Signature**: `findAncestor(selector, condition)`
 
 **Parameters**:
-- `selector`: string|Element - Starting element
-- `condition`: string|function - CSS selector or predicate function
+- `selector`: string|Element — 起始元素
+- `condition`: string|function — CSS選擇器或判斷函數
 
 **Returns**: Element|null
 
-**Example - Find by selector**:
+**按選擇器查找：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -647,7 +626,7 @@ Parameters: {
 }
 ```
 
-**Example - Find form container**:
+**找表單容器：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -661,23 +640,20 @@ Parameters: {
 }
 ```
 
-**Use cases**:
-- Find containing form for a button
-- Find modal container for an element
-- Find scrollable parent
+適用：找按鈕所屬表單、找元素所屬模態框、找可捲動父元素。
 
 ---
 
-## Visual State Functions
+## 視覺狀態函數
 
 ### isVisible
 
-Check if an element is visible (not hidden by CSS).
+檢查元素是否可見（未被CSS隱藏）。
 
 **Signature**: `isVisible(selector)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
+- `selector`: string|Element — CSS選擇器或DOM元素
 
 **Returns**: `{visible: boolean, reasons?: string[]}`
 
@@ -695,14 +671,14 @@ Parameters: {
 }
 ```
 
-**Checks for**:
+檢查項目：
 - `display: none`
 - `visibility: hidden`
 - `opacity: 0`
-- Zero dimensions
-- `clip-path` hiding
+- 零尺寸
+- `clip-path` 隱藏
 
-**Response when hidden**:
+隱藏時回應：
 ```json
 {
   "visible": false,
@@ -714,17 +690,17 @@ Parameters: {
 
 ### isInViewport
 
-Check if an element is within the viewport.
+檢查元素是否在視窗內。
 
 **Signature**: `isInViewport(selector, threshold?)`
 
 **Parameters**:
-- `selector`: string|Element - CSS selector or DOM element
-- `threshold`: number - Percentage visible required (default: 0, meaning any part visible)
+- `selector`: string|Element — CSS選擇器或DOM元素
+- `threshold`: number — 需可見百分比（預設：0，即任何部分可見即算）
 
 **Returns**: `{inViewport: boolean, percentVisible: number, position}`
 
-**Example - Check if any part is visible**:
+**檢查是否任何部分可見：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -738,7 +714,7 @@ Parameters: {
 }
 ```
 
-**Example - Check if at least 50% visible**:
+**檢查至少50%可見：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -752,22 +728,19 @@ Parameters: {
 }
 ```
 
-**Use cases**:
-- Check if important elements are visible without scrolling
-- Verify lazy-loaded content visibility
-- Debug viewport-dependent behaviors
+適用：確認重要元素無需捲動即可見、驗證延遲載入內容可見性、除錯視窗依賴行為。
 
 ---
 
 ### checkOverlap
 
-Check if two elements overlap.
+檢查兩元素是否重疊。
 
 **Signature**: `checkOverlap(selector1, selector2)`
 
 **Parameters**:
-- `selector1`: string|Element - First element
-- `selector2`: string|Element - Second element
+- `selector1`: string|Element — 第一個元素
+- `selector2`: string|Element — 第二個元素
 
 **Returns**: `{overlaps: boolean, intersection?: {x, y, width, height}}`
 
@@ -785,7 +758,7 @@ Parameters: {
 }
 ```
 
-**Response when overlapping**:
+重疊時回應：
 ```json
 {
   "overlaps": true,
@@ -798,18 +771,15 @@ Parameters: {
 }
 ```
 
-**Use cases**:
-- Detect overlapping UI elements
-- Verify modal/dropdown positioning
-- Debug collision issues
+適用：偵測重疊UI元素、驗證模態框/下拉選單定位、除錯碰撞問題。
 
 ---
 
-## Common Debugging Scenarios
+## 常見除錯情境
 
-### Scenario 1: Debug Horizontal Scrollbar
+### 情境1：除錯水平捲動條
 
-When the page has an unwanted horizontal scrollbar:
+頁面出現非預期水平捲動條時：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -824,7 +794,7 @@ Parameters: {
 }
 ```
 
-Then inspect the problematic elements:
+再檢測問題元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -841,11 +811,11 @@ Parameters: {
 
 ---
 
-### Scenario 2: Debug Z-Index Issues
+### 情境2：除錯Z-Index問題
 
-When elements appear above/below others unexpectedly:
+元素覆蓋順序與預期不符時：
 
-1. Find all stacking contexts:
+1. 找所有堆疊上下文：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -859,7 +829,7 @@ Parameters: {
 }
 ```
 
-2. Check specific element's stacking:
+2. 檢查特定元素堆疊：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -873,7 +843,7 @@ Parameters: {
 }
 ```
 
-3. Verify overlap:
+3. 驗證重疊：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -889,11 +859,11 @@ Parameters: {
 
 ---
 
-### Scenario 3: Debug Flexbox/Grid Layout
+### 情境3：除錯Flexbox/Grid佈局
 
-When flex or grid layout isn't working as expected:
+flex或grid佈局表現不如預期時：
 
-1. Check the container's layout properties:
+1. 檢查容器佈局屬性：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -907,7 +877,7 @@ Parameters: {
 }
 ```
 
-2. Walk through children to see their dimensions:
+2. 遍歷子元素查看尺寸：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -921,7 +891,7 @@ Parameters: {
 }
 ```
 
-3. Check specific child's box model:
+3. 檢查特定子元素盒模型：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -937,11 +907,11 @@ Parameters: {
 
 ---
 
-### Scenario 4: Debug Absolute Positioning
+### 情境4：除錯絕對定位
 
-When an absolutely positioned element isn't where expected:
+絕對定位元素位置非預期時：
 
-1. Find the containing block:
+1. 找包含塊：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -955,7 +925,7 @@ Parameters: {
 }
 ```
 
-2. Walk up the parent chain:
+2. 沿父鏈向上遍歷：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -969,7 +939,7 @@ Parameters: {
 }
 ```
 
-3. Check computed position values:
+3. 檢查計算後定位值：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -985,9 +955,9 @@ Parameters: {
 
 ---
 
-### Scenario 5: Full Element Investigation
+### 情境5：完整元素調查
 
-When you need complete information about an element:
+需某元素完整資訊時：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -1002,13 +972,13 @@ Parameters: {
 }
 ```
 
-This returns info, position, box, layout, stacking, container, visibility, and viewport status in one call.
+一次呼叫回傳：info、position、box、layout、stacking、container、visibility、viewport狀態。
 
 ---
 
-### Scenario 6: Complete Layout Health Check
+### 情境6：完整佈局健康檢查
 
-Run all diagnostics at once:
+一次執行所有診斷：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -1023,31 +993,31 @@ Parameters: {
 }
 ```
 
-This returns overflows, stacking contexts, and offscreen elements.
+回傳：溢出、堆疊上下文、螢幕外元素。
 
 ---
 
-## Quick Reference Table
+## 快速參考表
 
 | Function | Purpose | Key Return Values |
 |----------|---------|-------------------|
-| `getElementInfo(sel)` | Basic element info | tag, classes, attributes, dimensions |
-| `getPosition(sel)` | Bounding rect | top, left, width, height |
-| `getComputed(sel, props)` | CSS values | computed style values |
-| `getBox(sel)` | Box model | content, padding, border, margin |
-| `getLayout(sel)` | Layout type | display, position, flexbox/grid props |
-| `getStacking(sel)` | Z-index context | zIndex, createsContext, reason |
-| `getContainer(sel)` | Positioning context | containingBlock, scrollContainer |
-| `getTransform(sel)` | Transform info | transform, transformOrigin, matrix |
-| `getOverflow(sel)` | Scroll state | overflow, scrollWidth, isScrollable |
-| `inspect(sel)` | Everything combined | All inspection data |
-| `findOverflows()` | Find overflow issues | Elements causing horizontal scroll |
-| `findStackingContexts()` | Find z-index contexts | All stacking context elements |
-| `findOffscreen()` | Find hidden elements | Elements outside viewport |
-| `diagnoseLayout(sel?)` | Full layout check | overflows, contexts, offscreen |
-| `walkChildren(sel, opts)` | Traverse down | Child elements with depth |
-| `walkParents(sel)` | Traverse up | Parent elements to root |
-| `findAncestor(sel, cond)` | Find parent | Matching ancestor element |
-| `isVisible(sel)` | Visibility check | visible boolean, reasons |
-| `isInViewport(sel, thresh)` | Viewport check | inViewport, percentVisible |
-| `checkOverlap(sel1, sel2)` | Collision check | overlaps, intersection |
+| `getElementInfo(sel)` | 基本元素資訊 | tag, classes, attributes, dimensions |
+| `getPosition(sel)` | 邊界矩形 | top, left, width, height |
+| `getComputed(sel, props)` | CSS值 | 計算後樣式值 |
+| `getBox(sel)` | 盒模型 | content, padding, border, margin |
+| `getLayout(sel)` | 佈局類型 | display, position, flexbox/grid props |
+| `getStacking(sel)` | Z-index上下文 | zIndex, createsContext, reason |
+| `getContainer(sel)` | 定位上下文 | containingBlock, scrollContainer |
+| `getTransform(sel)` | Transform資訊 | transform, transformOrigin, matrix |
+| `getOverflow(sel)` | 捲動狀態 | overflow, scrollWidth, isScrollable |
+| `inspect(sel)` | 所有檢測合併 | 所有檢測資料 |
+| `findOverflows()` | 找溢出問題 | 引起水平捲動之元素 |
+| `findStackingContexts()` | 找z-index上下文 | 所有堆疊上下文元素 |
+| `findOffscreen()` | 找隱藏元素 | 視窗外元素 |
+| `diagnoseLayout(sel?)` | 完整佈局檢查 | overflows, contexts, offscreen |
+| `walkChildren(sel, opts)` | 向下遍歷 | 含深度之子元素 |
+| `walkParents(sel)` | 向上遍歷 | 至根之父元素 |
+| `findAncestor(sel, cond)` | 找父元素 | 符合條件之祖先 |
+| `isVisible(sel)` | 可見性檢查 | visible布林值, reasons |
+| `isInViewport(sel, thresh)` | 視窗檢查 | inViewport, percentVisible |
+| `checkOverlap(sel1, sel2)` | 碰撞檢查 | overlaps, intersection |

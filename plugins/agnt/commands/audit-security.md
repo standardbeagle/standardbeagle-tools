@@ -1,75 +1,75 @@
 ---
-description: "Audit page for security vulnerabilities and best practices"
+description: "Audit page for security vulnerabilities and best practices. 審頁面安全漏洞最佳法. Use when: check security issues, find XSS vulnerabilities, audit CSP headers, review auth flows, scan for security risks"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
 ---
 
-Audit the current page for security vulnerabilities using agnt's diagnostic tools.
+藉agnt診斷工具稽核當前頁面之安全漏洞。
 
-## Steps
+## 步驟
 
-1. Run the security audit:
+1. 執行安全稽核：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditSecurity()"}
    ```
 
-2. Check for JavaScript errors (may indicate security issues):
+2. 查JavaScript錯誤（可能指示安全問題）：
    ```
    proxylog {proxy_id: "dev", types: ["error"], limit: 20}
    ```
 
-3. Capture the page state to review cookies and storage:
+3. 捕獲頁面狀態以審查cookie與儲存：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.captureState()"}
    ```
 
-4. Take a screenshot for documentation:
+4. 截圖存檔：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.screenshot('security-audit')"}
    ```
 
-## What the Audit Checks
+## 稽核檢查內容
 
-### Critical Security Issues (Errors)
-
-| Issue | Description |
-|-------|-------------|
-| `mixed-content` | HTTP resources loaded on HTTPS page (blocks secure content) |
-| `insecure-form` | Form submitting to HTTP URL (credentials exposed) |
-
-### Security Warnings
+### 嚴重安全問題（錯誤）
 
 | Issue | Description |
 |-------|-------------|
-| `missing-noopener` | `target="_blank"` links without `rel="noopener"` (tabnabbing risk) |
-| `password-autocomplete` | Password fields with autocomplete enabled |
+| `mixed-content` | HTTPS頁面載入HTTP資源（阻擋安全內容） |
+| `insecure-form` | 表單提交至HTTP URL（憑證外洩） |
 
-## Interpreting Results
+### 安全警告
 
-The audit returns:
-- `issues`: Array of security vulnerabilities found
-- `count`: Total number of issues
-- `errors`: Critical security issues
-- `warnings`: Non-critical security concerns
+| Issue | Description |
+|-------|-------------|
+| `missing-noopener` | `target="_blank"` 連結無 `rel="noopener"`（標籤劫持風險） |
+| `password-autocomplete` | 密碼欄位啟用自動完成 |
 
-For mixed content issues, the `resources` array shows:
-- `type`: Resource type (script, stylesheet, image)
-- `url`: The insecure HTTP URL
+## 解讀結果
 
-## State Capture Review
+稽核回傳：
+- `issues`：找到之安全漏洞陣列
+- `count`：問題總數
+- `errors`：嚴重安全問題
+- `warnings`：非嚴重安全顧慮
 
-The `captureState()` function reveals:
+混合內容問題中，`resources` 陣列顯示：
+- `type`：資源類型（script、stylesheet、image）
+- `url`：不安全HTTP URL
 
-### Cookies
-- Check for `HttpOnly` flag on sensitive cookies
-- Verify `Secure` flag on HTTPS sites
-- Look for session tokens or sensitive data
+## 狀態捕獲審查
+
+`captureState()` 揭露：
+
+### Cookie
+- 查敏感cookie之 `HttpOnly` 旗標
+- 驗證HTTPS站點之 `Secure` 旗標
+- 尋找session令牌或敏感資料
 
 ### Local/Session Storage
-- Identify what data is stored client-side
-- Look for tokens, credentials, or PII
-- Check for sensitive data that should be server-side
+- 識別客戶端儲存之資料
+- 尋找令牌、憑證或PII
+- 查應在伺服器端之敏感資料
 
-## Additional Security Checks
+## 附加安全檢查
 
 ```
 // Check Content Security Policy
@@ -85,15 +85,15 @@ proxy {action: "exec", id: "dev", code: "Array.from(document.scripts).map(s => s
 proxy {action: "exec", id: "dev", code: "document.querySelectorAll('[onclick], [onerror], [onload]').length"}
 ```
 
-## Security Best Practices Checklist
+## 安全最佳實踐清單
 
-- [ ] All resources loaded over HTTPS
-- [ ] Forms submit to HTTPS endpoints
-- [ ] External links have `rel="noopener noreferrer"`
-- [ ] Sensitive cookies have `HttpOnly` and `Secure` flags
-- [ ] No credentials stored in localStorage
-- [ ] Content Security Policy header configured
-- [ ] X-Frame-Options or CSP frame-ancestors set
-- [ ] Input validation on all user inputs
-- [ ] No inline event handlers (onclick, etc.)
-- [ ] Third-party scripts from trusted sources only
+- [ ] 所有資源透過HTTPS載入
+- [ ] 表單提交至HTTPS端點
+- [ ] 外部連結含 `rel="noopener noreferrer"`
+- [ ] 敏感cookie有 `HttpOnly` 與 `Secure` 旗標
+- [ ] localStorage中無憑證
+- [ ] Content Security Policy標頭已設定
+- [ ] X-Frame-Options或CSP frame-ancestors已設定
+- [ ] 所有用戶輸入有輸入驗證
+- [ ] 無內聯事件處理器（onclick等）
+- [ ] 第三方腳本來自可信來源

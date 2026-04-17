@@ -1,20 +1,20 @@
 ---
-description: "Chain commands to run automatically when events occur"
+description: "Chain commands to run automatically when events occur. 事發自動鏈接命令. Use when: automate command chains, trigger on events, set up command pipeline, react to file changes, event-driven automation"
 allowed-tools: ["mcp__agnt__session", "Read", "Write"]
 ---
 
-Set up command chains that execute automatically when specific events occur.
+設置事件觸發後自動執行之命令鏈。
 
-## Usage
+## 用法
 
-Chain commands to trigger on:
-- **Tool completion**: Run after specific tools finish (Write, Edit, Bash, Task, etc.)
-- **Task completion**: Run when a Task agent completes
-- **Any success/failure**: Conditional execution based on outcome
+鏈接命令於以下觸發：
+- **工具完成**：特定工具完成後執行（Write、Edit、Bash、Task等）
+- **任務完成**：Task代理完成時執行
+- **任何成功/失敗**：基於結果之條件執行
 
-## Chain Configuration
+## 鏈配置
 
-Chains are stored in `.agnt/chains.json` in your project:
+鏈儲存於專案中之 `.agnt/chains.json`：
 
 ```json
 {
@@ -30,20 +30,20 @@ Chains are stored in `.agnt/chains.json` in your project:
 }
 ```
 
-## Steps
+## 步驟
 
-### 1. List Current Chains
+### 1. 列出當前鏈
 
-Read the chains file to see what's configured:
+讀鏈文件查現有配置：
 ```
 Read .agnt/chains.json
 ```
 
-### 2. Add a New Chain
+### 2. 新增鏈
 
-Create or update the chains file:
+建立或更新鏈文件：
 
-**Example: Code review after editing:**
+**範例：編輯後代碼審查：**
 ```json
 {
   "chains": [
@@ -58,7 +58,7 @@ Create or update the chains file:
 }
 ```
 
-**Example: Run tests after writing files:**
+**範例：寫文件後執行測試：**
 ```json
 {
   "chains": [
@@ -73,7 +73,7 @@ Create or update the chains file:
 }
 ```
 
-**Example: One-shot chain (runs once then removes itself):**
+**範例：一次性鏈（執行一次後自動移除）：**
 ```json
 {
   "chains": [
@@ -88,43 +88,43 @@ Create or update the chains file:
 }
 ```
 
-### 3. Remove a Chain
+### 3. 移除鏈
 
-Edit the chains file to remove unwanted chains.
+編輯鏈文件移除不需要的鏈。
 
-## Trigger Types
+## 觸發器類型
 
 | Trigger | Description |
 |---------|-------------|
-| `tool:Edit` | After Edit tool completes |
-| `tool:Write` | After Write tool completes |
-| `tool:Bash` | After Bash tool completes |
-| `tool:Task` | After Task agent completes |
-| `tool:*` | After any tool completes |
-| `task:complete` | After a Task agent finishes |
+| `tool:Edit` | Edit工具完成後 |
+| `tool:Write` | Write工具完成後 |
+| `tool:Bash` | Bash工具完成後 |
+| `tool:Task` | Task代理完成後 |
+| `tool:*` | 任何工具完成後 |
+| `task:complete` | Task代理結束後 |
 
-## Conditions
+## 條件
 
 | Condition | Description |
 |-----------|-------------|
-| `success` | Only run if tool succeeded (default) |
-| `failure` | Only run if tool failed |
-| `always` | Run regardless of outcome |
+| `success` | 僅工具成功時執行（預設） |
+| `failure` | 僅工具失敗時執行 |
+| `always` | 無論結果均執行 |
 
-## Chain Properties
+## 鏈屬性
 
 | Property | Required | Description |
 |----------|----------|-------------|
-| `id` | Yes | Unique identifier for the chain |
-| `trigger` | Yes | Event that triggers the chain |
-| `command` | Yes | Message/command to send to session |
-| `condition` | No | When to execute (default: "success") |
-| `session` | No | Target session code (default: current project) |
-| `oneshot` | No | Remove after first execution (default: false) |
+| `id` | 是 | 鏈之唯一識別符 |
+| `trigger` | 是 | 觸發鏈之事件 |
+| `command` | 是 | 送至session之訊息/命令 |
+| `condition` | 否 | 執行時機（預設："success"） |
+| `session` | 否 | 目標session代碼（預設：當前專案） |
+| `oneshot` | 否 | 首次執行後移除（預設：false） |
 
-## Example Workflows
+## 範例工作流
 
-### Auto Code Review Pipeline
+### 自動代碼審查管道
 ```json
 {
   "chains": [
@@ -144,7 +144,7 @@ Edit the chains file to remove unwanted chains.
 }
 ```
 
-### Build Verification Pipeline
+### 建置驗證管道
 ```json
 {
   "chains": [
@@ -158,10 +158,10 @@ Edit the chains file to remove unwanted chains.
 }
 ```
 
-## Notes
+## 說明
 
-- Chains are project-specific (stored in `.agnt/chains.json`)
-- The chain hook runs on PostToolUse events
-- Commands can be plain messages or slash commands
-- Use oneshot for temporary chains that should auto-remove
-- Chains can trigger other chains (be careful of loops!)
+- 鏈為專案專屬（儲存於 `.agnt/chains.json`）
+- 鏈勾子在PostToolUse事件上執行
+- 命令可為純文字訊息或斜線命令
+- 用oneshot處理應自動移除之臨時鏈
+- 鏈可觸發其他鏈（注意迴圈！）

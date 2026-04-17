@@ -1,13 +1,13 @@
 ---
 name: error-monitor
-description: Check errors across all proxies and processes with unified aggregation, deduplication, and periodic monitoring
+description: Check errors across all proxies and processes with unified aggregation, deduplication, periodic monitoring. 跨所有代理與進程統一聚合、去重、週期監控錯誤。 Use when: check errors, monitor errors, get browser errors, check HTTP errors, check process errors, error summary, error dashboard
 ---
 
-# Error Monitor Skill
+# 錯誤監控技能
 
-Check errors across browser JavaScript, HTTP responses, process output, and proxy diagnostics in one query.
+一次查詢跨瀏覽器JavaScript、HTTP回應、進程輸出與代理診斷之錯誤。
 
-## Quick Check
+## 快速檢查
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -18,7 +18,7 @@ Parameters: {
 }
 ```
 
-Returns compact output:
+回傳精簡輸出：
 
 ```
 === Errors (2) ===
@@ -33,22 +33,22 @@ Returns compact output:
 
 ---
 
-## Parameters
+## 參數
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `proxy_id` | all | Filter to specific proxy |
-| `process_id` | all | Filter to specific process |
-| `since` | none | Time filter: `"5m"`, `"1h"`, RFC3339 timestamp |
-| `include_warnings` | true | Include 4xx HTTP and warnings |
-| `limit` | 25 | Max results |
-| `raw` | false | Return full JSON |
+| `proxy_id` | all | 篩選至特定代理 |
+| `process_id` | all | 篩選至特定進程 |
+| `since` | none | 時間篩選：`"5m"`, `"1h"`, RFC3339時間戳 |
+| `include_warnings` | true | 含4xx HTTP及警告 |
+| `limit` | 25 | 最大結果數 |
+| `raw` | false | 回傳完整JSON |
 
 ---
 
-## Common Queries
+## 常見查詢
 
-**Recent errors only:**
+**僅近期錯誤：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -60,7 +60,7 @@ Parameters: {
 }
 ```
 
-**Errors only, no warnings:**
+**僅錯誤，不含警告：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -72,7 +72,7 @@ Parameters: {
 }
 ```
 
-**Specific proxy:**
+**特定代理：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -84,7 +84,7 @@ Parameters: {
 }
 ```
 
-**Full JSON for analysis:**
+**完整JSON供分析：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -99,23 +99,23 @@ Parameters: {
 
 ---
 
-## Error Sources
+## 錯誤來源
 
 | Source | Label | Captures |
 |--------|-------|----------|
-| Browser JS | `browser:js` | Runtime exceptions via `window.onerror` |
-| HTTP | `proxy:http` | 4xx (warning) and 5xx (error) responses |
-| Process | `process:<id>` | Compile errors, panics, exceptions |
-| Proxy | `proxy:diagnostic` | Transport and connection failures |
-| Custom | `browser:custom` | `__devtool.log("error", msg)` calls |
+| Browser JS | `browser:js` | 透過 `window.onerror` 之執行時異常 |
+| HTTP | `proxy:http` | 4xx（警告）與5xx（錯誤）回應 |
+| Process | `process:<id>` | 編譯錯誤、panic、異常 |
+| Proxy | `proxy:diagnostic` | 傳輸與連線失敗 |
+| Custom | `browser:custom` | `__devtool.log("error", msg)` 呼叫 |
 
 ---
 
-## Continuous Monitoring
+## 持續監控
 
-### Preferred: real-time streaming via Monitor
+### 首選：透過Monitor即時串流
 
-For real-time error detection, use the `error-watch` skill. It asks agnt's `watch` tool for a monitor command, then streams errors through Claude Code's `Monitor` tool so every new error arrives as a notification instead of waiting for the next poll.
+即時錯誤偵測用 `error-watch` 技能。該技能向agnt `watch` 工具請求monitor命令，再透過Claude Code `Monitor` 工具串流錯誤，每個新錯誤即時以通知送達，無需等待下次輪詢。
 
 ```
 # 1. Ask agnt for the command
@@ -130,11 +130,11 @@ Parameters: {
 Monitor({ command: "<command from step 1>", cwd: "." })
 ```
 
-See the `error-watch` skill for the full pattern, target reference, and event handling guidance. Monitor is strictly preferred because errors are delivered the instant they happen rather than at a fixed polling interval.
+> Invoke the `Skill` tool with `skill: agnt:error-watch` — 完整模式、target參考、事件處理指引。Monitor嚴格優先，因錯誤在發生瞬間送達而非固定輪詢間隔。
 
-### Fallback: scheduled polling
+### 備用：排程輪詢
 
-If the client does not have the `Monitor` tool (pre-v2.1.98 or non-Claude-Code clients), fall back to recurring `get_errors` checks via the `schedule` tool:
+客戶端無 `Monitor` 工具（v2.1.98前或非Claude Code客戶端），退而以 `schedule` 工具週期執行 `get_errors`：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -148,13 +148,13 @@ Parameters: {
 }
 ```
 
-This is a fallback only — prefer `error-watch` + Monitor whenever available.
+此為備用——有Monitor可用時優先使用 `error-watch`。
 
-### Development Workflow
+### 開發工作流
 
-1. **Start dev environment:**
+1. **啟動開發環境：**
 
-   Start the dev server:
+   啟動開發伺服器：
    ```
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
@@ -167,7 +167,7 @@ This is a fallback only — prefer `error-watch` + Monitor whenever available.
    }
    ```
 
-   Start the proxy:
+   啟動代理：
    ```
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
@@ -181,7 +181,7 @@ This is a fallback only — prefer `error-watch` + Monitor whenever available.
    }
    ```
 
-2. **Check errors after changes:**
+2. **變更後檢查錯誤：**
    ```
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
@@ -193,7 +193,7 @@ This is a fallback only — prefer `error-watch` + Monitor whenever available.
    }
    ```
 
-3. **Deep dive into browser errors:**
+3. **深入瀏覽器錯誤：**
    ```
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
@@ -206,7 +206,7 @@ This is a fallback only — prefer `error-watch` + Monitor whenever available.
    }
    ```
 
-4. **Check process compilation errors:**
+4. **檢查進程編譯錯誤：**
    ```
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
@@ -221,21 +221,21 @@ This is a fallback only — prefer `error-watch` + Monitor whenever available.
 
 ---
 
-## Built-in Intelligence
+## 內建智慧
 
-**Deduplication:** Identical errors merge. Count shows occurrences.
+**去重：** 相同錯誤合併。計數顯示發生次數。
 
-**Stack trace reduction:** First application frame only, skipping `node_modules/`, `webpack/`, runtime.
+**堆疊追蹤精簡：** 僅顯示第一個應用框架，略過 `node_modules/`、`webpack/`、執行時。
 
-**Noise filtering:** Ignores 301/302/304, `.map` 404s, favicon 404s, webpack HMR.
+**雜訊過濾：** 忽略301/302/304、`.map` 404、favicon 404、webpack HMR。
 
 ---
 
-## Integration with Other Skills
+## 與其他技能整合
 
-### Before Visual Diagnostics
+### 視覺診斷前
 
-Check errors first:
+先檢查錯誤：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -248,11 +248,11 @@ Parameters: {
 }
 ```
 
-If errors exist, fix them before auditing layout.
+若有錯誤，先修復再審查佈局。
 
-### With Responsive Check
+### 配合響應式檢查
 
-After running `checkResponsiveRisk()`, check for console errors that may indicate responsive JS failures:
+執行 `checkResponsiveRisk()` 後，查控制台錯誤以確認是否有響應式JS失敗：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -266,9 +266,9 @@ Parameters: {
 }
 ```
 
-### With Current Page
+### 配合當前頁面
 
-When inspecting a page, also check for errors:
+檢查頁面時一併查錯誤：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -282,9 +282,9 @@ Parameters: {
 }
 ```
 
-### With Full Audit
+### 完整稽核
 
-Include error check in comprehensive audit:
+綜合稽核中含錯誤檢查：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -297,15 +297,15 @@ Parameters: {
 }
 ```
 
-Then run `__devtool_audit.auditPageQuality()` via the proxy exec tool.
+再透過proxy exec工具執行 `__devtool_audit.auditPageQuality()`。
 
 ---
 
-## Correlating with Proxy Logs
+## 與代理日誌關聯
 
-For detailed investigation:
+深入調查時：
 
-**Aggregated errors:**
+**聚合錯誤：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -317,7 +317,7 @@ Parameters: {
 }
 ```
 
-**Raw HTTP traffic for context (500s):**
+**原始HTTP流量取上下文（500s）：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -331,7 +331,7 @@ Parameters: {
 }
 ```
 
-**Raw frontend error entries:**
+**原始前端錯誤條目：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -346,9 +346,9 @@ Parameters: {
 
 ---
 
-## Raw JSON Output
+## 原始JSON輸出
 
-With `raw: true`:
+`raw: true` 時：
 
 ```json
 [
@@ -367,24 +367,28 @@ With `raw: true`:
 
 ---
 
-## Quick Reference
+## 快速參考
 
 | Query | Description | Tool + Key Parameters |
 |-------|-------------|----------------------|
-| All errors | Check everything | `get_errors` with `{}` |
-| Recent (5 min) | Errors since 5m ago | `get_errors` with `since: "5m"` |
-| Errors only | Exclude 4xx warnings | `get_errors` with `include_warnings: false` |
-| Specific proxy | Scope to one proxy | `get_errors` with `proxy_id: "dev"` |
-| Full details | Raw JSON output | `get_errors` with `raw: true` |
+| 所有錯誤 | 查全部 | `get_errors` with `{}` |
+| 近期（5分鐘） | 5m前以來之錯誤 | `get_errors` with `since: "5m"` |
+| 僅錯誤 | 排除4xx警告 | `get_errors` with `include_warnings: false` |
+| 特定代理 | 限定某代理範圍 | `get_errors` with `proxy_id: "dev"` |
+| 完整詳情 | 原始JSON輸出 | `get_errors` with `raw: true` |
 
-All queries use `mcp__plugin_slop-mcp_slop-mcp__execute_tool` with `mcp_name: "agnt"` and `tool_name: "get_errors"`.
+所有查詢使用 `mcp__plugin_slop-mcp_slop-mcp__execute_tool`，`mcp_name: "agnt"`, `tool_name: "get_errors"`。
 
 ---
 
-## Related Skills
+## 相關技能
 
-- **`error-watch`** - Stream errors in real time via Monitor (preferred over polling)
-- **`event-watch`** - Stream user interactions from the browser overlay
-- **`browser-debug`** - Inspect elements causing errors
-- **`current-page`** - Get page context for error investigation
-- **`visual-diagnostics`** - Debug layout after fixing errors
+> Invoke the `Skill` tool with `skill: agnt:error-watch` — 透過Monitor即時串流錯誤（優先於輪詢）。
+
+> Invoke the `Skill` tool with `skill: agnt:event-watch` — 從瀏覽器覆蓋層串流用戶互動。
+
+> Invoke the `Skill` tool with `skill: agnt:browser-debug` — 檢測引發錯誤之元素。
+
+> Invoke the `Skill` tool with `skill: agnt:current-page` — 取錯誤調查之頁面上下文。
+
+> Invoke the `Skill` tool with `skill: agnt:visual-diagnostics` — 修復錯誤後除錯佈局。

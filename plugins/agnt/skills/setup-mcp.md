@@ -1,27 +1,27 @@
 ---
 name: setup-mcp
-description: Install agnt MCP server with intelligent detection - uses ~/.local/bin if available, falls back to npx, supports slop-mcp
+description: Install agnt MCP server with intelligent detection - uses ~/.local/bin if available, falls back to npx, supports slop-mcp. 智能安裝agnt MCP服務器：優先本地二進制，退而npx，支持slop-mcp。 Use when: install agnt MCP, setup agnt server, register agnt with slop-mcp, configure agnt MCP server
 ---
 
-# Agnt MCP Server Setup
+# Agnt MCP服務器設置
 
-This skill provides adaptive installation of the agnt MCP server for browser superpowers, process management, and frontend debugging.
+自適應安裝agnt MCP服務器，用於瀏覽器超能力、進程管理及前端除錯。
 
-## Overview
+## 概覽
 
-Agnt can be registered in two ways:
-1. **Via slop-mcp** - Centralized management with search, discovery, and orchestration
-2. **Via standard mcp.json** - Direct plugin-based configuration
+Agnt可以兩種方式注冊：
+1. **通過slop-mcp** - 集中管理，含搜尋、發現與編排
+2. **通過標準mcp.json** - 直接插件配置
 
-The MCP server command resolution follows this priority:
-1. **~/.local/bin/agnt** - Preferred if exists (local installation)
-2. **npx @standardbeagle/agnt@latest** - Fallback (always available via npm)
+MCP服務器命令解析優先順序：
+1. **~/.local/bin/agnt** - 若存在則首選（本地安裝）
+2. **npx @standardbeagle/agnt@latest** - 備用（通過npm始終可用）
 
-## Installation Flow
+## 安裝流程
 
-### Step 1: Detect Binary Location
+### 步驟一：探測二進制位置
 
-First, check if agnt is installed locally:
+先查 agnt 是否本地安裝：
 
 ```bash
 if [ -x "$HOME/.local/bin/agnt" ]; then
@@ -32,29 +32,29 @@ else
 fi
 ```
 
-**Record the result** for use in registration:
-- If found: Use `~/.local/bin/agnt` as command
-- If not found: Use `npx` with args `["-y", "@standardbeagle/agnt@latest", "mcp"]`
+**記錄結果**以用於注冊：
+- 若找到：使用 `~/.local/bin/agnt` 作命令
+- 若未找到：使用 `npx` 及參數 `["-y", "@standardbeagle/agnt@latest", "mcp"]`
 
-### Step 2: Detect slop-mcp Availability
+### 步驟二：探測slop-mcp可用性
 
-Check if slop-mcp is available:
+查看slop-mcp是否可用：
 
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: { "action": "list" }
 ```
 
-**If successful**: slop-mcp is available, proceed to Step 3A
-**If tool not found**: slop-mcp not available, proceed to Step 3B
+**若成功**：slop-mcp可用，進至步驟3A
+**若工具未找到**：slop-mcp不可用，進至步驟3B
 
-### Step 3A: Install via slop-mcp
+### 步驟3A：通過slop-mcp安裝
 
-#### Check if Already Registered
+#### 查看是否已注冊
 
-Look for "agnt" in the manage_mcps list response. If already registered, report status and skip.
+在 manage_mcps 列表響應中找 "agnt"。若已注冊，報告狀態並跳過。
 
-#### Ask User for Scope Preference
+#### 詢問用戶範圍偏好
 
 | Scope | Location | Use Case |
 |-------|----------|----------|
@@ -62,9 +62,9 @@ Look for "agnt" in the manage_mcps list response. If already registered, report 
 | `project` | `.slop-mcp.kdl` | Team-shared, committed to repo |
 | `memory` | Runtime only | Temporary, CI environments |
 
-#### Register Agnt
+#### 注冊Agnt
 
-**If ~/.local/bin/agnt exists:**
+**若 ~/.local/bin/agnt 存在：**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
@@ -75,9 +75,9 @@ Parameters: {
   "scope": "<user's choice>"
 }
 ```
-Note: Expand `~` to full path (e.g., `/home/username/.local/bin/agnt`)
+注意：將 `~` 展開為完整路徑（如 `/home/username/.local/bin/agnt`）
 
-**If ~/.local/bin/agnt does NOT exist (use npx):**
+**若 ~/.local/bin/agnt 不存在（用npx）：**
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 Parameters: {
@@ -89,18 +89,18 @@ Parameters: {
 }
 ```
 
-#### Verify Registration
+#### 驗證注冊
 
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__search_tools
 Parameters: { "query": "proxy", "mcp_name": "agnt" }
 ```
 
-### Step 3B: Standard Installation (No slop-mcp)
+### 步驟3B：標準安裝（無slop-mcp）
 
-#### Verify Agnt Binary
+#### 驗證Agnt二進制
 
-Check installation locations in order:
+按順序查看安裝位置：
 
 ```bash
 # Check ~/.local/bin first (preferred)
@@ -116,7 +116,7 @@ else
 fi
 ```
 
-If not found and user wants local installation:
+若未找到且用戶想本地安裝：
 
 ```bash
 # Via npm (installs to ~/.local/bin with proper npm config)
@@ -127,19 +127,19 @@ curl -sSL https://github.com/standardbeagle/agnt/releases/latest/download/agnt-l
 chmod +x ~/.local/bin/agnt
 ```
 
-#### Enable mcp.json
+#### 啟用mcp.json
 
-Rename the disabled file back:
+將禁用文件重命名：
 ```bash
 mv plugins/agnt/mcp.json.disabled plugins/agnt/mcp.json
 ```
 
-Update plugin.json to add:
+更新 plugin.json 添加：
 ```json
 "mcpServers": "./mcp.json"
 ```
 
-## Available Tools After Setup
+## 安裝後可用工具
 
 | Tool | Description |
 |------|-------------|
@@ -151,7 +151,7 @@ Update plugin.json to add:
 | `screenshot` | Capture browser screenshots |
 | `sketch_mode` | Enable wireframe mode |
 
-## Quick Test
+## 快速測試
 
 ```
 Call: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -162,12 +162,12 @@ Parameters: {
 }
 ```
 
-## Summary Output
+## 摘要輸出
 
-After setup, provide the user with:
+設置後，向用戶提供：
 
-1. **Binary location**: ~/.local/bin/agnt or npx fallback
-2. **Installation method used**: slop-mcp or standard
-3. **Scope** (if slop-mcp): user/project/memory
-4. **Verification status**: tools available and working
-5. **Available tools**: List of agnt tools now accessible
+1. **二進制位置**：~/.local/bin/agnt 或 npx 備用
+2. **使用的安裝方法**：slop-mcp 或標準
+3. **範圍**（若slop-mcp）：user/project/memory
+4. **驗證狀態**：工具可用且正常
+5. **可用工具**：現可訪問之agnt工具列表

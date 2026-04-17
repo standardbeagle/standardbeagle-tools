@@ -1,15 +1,15 @@
 ---
 name: current-page
-description: Get comprehensive information about the current page the user is browsing - URL, content, navigation, links, structured data, performance, and visual state
+description: Extract comprehensive browser page info - URL, content, navigation, links, structured data, performance, visual state. 取瀏覽器當前頁面全覽：URL、內容、導航、連結、結構資料、效能、視覺狀態。 Use when: get current page, what page is user on, extract page content, page URL, page title, screenshot page
 ---
 
-# Current Page Information Skill
+# 當前頁面資訊技能
 
-This skill provides comprehensive page information extraction using agnt's browser integration. Use this to understand what the user is currently viewing in their browser.
+藉agnt瀏覽器整合提取完整頁面資訊。用此技能了解用戶瀏覽器當前所覽之頁。
 
-## Prerequisites
+## 前提條件
 
-A proxy must be running and the browser connected:
+代理必須運行且瀏覽器已連接：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -26,9 +26,9 @@ Parameters: {
 
 ---
 
-## Quick Overview: Get All Page Info
+## 快速概覽：取全頁資訊
 
-**First, check for errors:**
+**先檢查錯誤：**
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -39,7 +39,7 @@ Parameters: {
 }
 ```
 
-Then get page context:
+再取頁面上下文：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -56,9 +56,9 @@ Parameters: {
 
 ---
 
-## Page Basics
+## 頁面基本資訊
 
-### URL and Title
+### URL與標題
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -73,9 +73,9 @@ Parameters: {
 }
 ```
 
-Returns: Full URL, origin, path, and page title.
+回傳：完整URL、來源、路徑、頁面標題。
 
-### Viewport and Scroll Position
+### 視窗與捲動位置
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -92,11 +92,11 @@ Parameters: {
 
 ---
 
-## Content Extraction
+## 內容提取
 
-### Page Content as Markdown
+### 頁面內容轉Markdown
 
-Extract main content formatted as markdown:
+提取主內容並格式化為Markdown：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -111,11 +111,11 @@ Parameters: {
 }
 ```
 
-**Options:**
-- `selector` - CSS selector for content area (auto-detected if not provided)
-- `includeImages` - Include image references (default: true)
-- `includeLinks` - Include link URLs (default: true)
-- `maxLength` - Maximum content length (default: 50000)
+**選項：**
+- `selector` — 內容區CSS選擇器（未提供則自動偵測）
+- `includeImages` — 含圖片引用（預設：true）
+- `includeLinks` — 含連結URL（預設：true）
+- `maxLength` — 最大內容長度（預設：50000）
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -130,18 +130,18 @@ Parameters: {
 }
 ```
 
-Returns:
-- `url` - Page URL
-- `title` - Page title
-- `markdown` - Content as markdown
-- `meta` - Meta description, keywords, author, OpenGraph
-- `headings` - Heading hierarchy (level, text, id)
-- `wordCount` - Approximate word count
-- `truncated` - Whether content was truncated
+回傳：
+- `url` — 頁面URL
+- `title` — 頁面標題
+- `markdown` — Markdown格式內容
+- `meta` — Meta描述、關鍵字、作者、OpenGraph
+- `headings` — 標題層次結構（level, text, id）
+- `wordCount` — 估算字數
+- `truncated` — 是否被截斷
 
-### Heading Hierarchy
+### 標題層次結構
 
-Get document outline structure:
+取文件大綱結構：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -156,9 +156,9 @@ Parameters: {
 }
 ```
 
-Returns: Array of `{ level, text, id }` for all h1-h6 elements.
+回傳：所有h1-h6元素之 `{ level, text, id }` 陣列。
 
-### Meta Tags
+### Meta標籤
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -175,11 +175,11 @@ Parameters: {
 
 ---
 
-## Navigation Structure
+## 導航結構
 
-### Extract Full Navigation
+### 提取完整導航
 
-Get all navigation elements, breadcrumbs, header/footer nav:
+取所有導航元素、麵包屑、header/footer導航：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -194,14 +194,14 @@ Parameters: {
 }
 ```
 
-Returns:
-- `navElements` - All `<nav>` elements with nested structure
-- `header` - Header navigation links
-- `footer` - Footer navigation links
-- `breadcrumbs` - Breadcrumb trail if present
-- `sidebar` - Sidebar navigation if present
+回傳：
+- `navElements` — 所有 `<nav>` 元素含嵌套結構
+- `header` — Header導航連結
+- `footer` — Footer導航連結
+- `breadcrumbs` — 麵包屑路徑（若有）
+- `sidebar` — 側欄導航（若有）
 
-### Breadcrumbs
+### 麵包屑
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -218,11 +218,11 @@ Parameters: {
 
 ---
 
-## Links
+## 連結
 
-### All Links with Context
+### 含上下文之所有連結
 
-Extract and categorize all links:
+提取並分類所有連結：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -237,19 +237,19 @@ Parameters: {
 }
 ```
 
-Returns:
-- `internal` - Links to same origin
-- `external` - Links to other domains
-- `anchors` - Same-page anchor links
-- `mailto` - Email links
-- `tel` - Phone links
-- `stats` - Counts by category
+回傳：
+- `internal` — 同來源連結
+- `external` — 外部域名連結
+- `anchors` — 同頁錨點連結
+- `mailto` — 電子郵件連結
+- `tel` — 電話連結
+- `stats` — 各分類計數
 
-Each link includes: `href`, `url`, `text`, `title`, `ariaLabel`, `selector`, `inNav`, `inFooter`, `inHeader`, `rel`.
+每個連結含：`href`, `url`, `text`, `title`, `ariaLabel`, `selector`, `inNav`, `inFooter`, `inHeader`, `rel`。
 
-### Filter Links
+### 篩選連結
 
-Only internal links:
+僅內部連結：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -263,7 +263,7 @@ Parameters: {
 }
 ```
 
-Include anchor links, scoped to a section:
+含錨點連結，限定範圍：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -279,9 +279,9 @@ Parameters: {
 
 ---
 
-## Structured Data
+## 結構化資料
 
-### JSON-LD, OpenGraph, Twitter Cards
+### JSON-LD、OpenGraph、Twitter Cards
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -296,12 +296,12 @@ Parameters: {
 }
 ```
 
-Returns:
-- `jsonLd` - Parsed JSON-LD structured data
-- `openGraph` - All `og:*` meta tags
-- `twitter` - All `twitter:*` meta tags
+回傳：
+- `jsonLd` — 解析後之JSON-LD結構化資料
+- `openGraph` — 所有 `og:*` meta標籤
+- `twitter` — 所有 `twitter:*` meta標籤
 
-### OpenGraph Only
+### 僅OpenGraph
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -318,9 +318,9 @@ Parameters: {
 
 ---
 
-## Performance Metrics
+## 效能指標
 
-Performance metrics are automatically captured by agnt. Check the proxy logs:
+效能指標由agnt自動捕獲。查閱代理日誌：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -334,7 +334,7 @@ Parameters: {
 }
 ```
 
-### Manual Performance Check
+### 手動效能檢查
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -349,9 +349,9 @@ Parameters: {
 }
 ```
 
-Returns: Navigation timing metrics in milliseconds.
+回傳：毫秒單位之導航時序指標。
 
-### Paint Timing (FCP, FP)
+### 繪製時序（FCP, FP）
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -368,9 +368,9 @@ Parameters: {
 
 ---
 
-## DOM Statistics
+## DOM統計
 
-### Document Size
+### 文件大小
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -385,9 +385,9 @@ Parameters: {
 }
 ```
 
-Returns: Total elements, HTML size in bytes, max DOM depth.
+回傳：元素總數、HTML大小（位元組）、最大DOM深度。
 
-### Forms and Inputs
+### 表單與輸入
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -404,11 +404,11 @@ Parameters: {
 
 ---
 
-## Visual State
+## 視覺狀態
 
-### Screenshot
+### 截圖
 
-Take a screenshot of the current page:
+截取當前頁面：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -423,10 +423,10 @@ Parameters: {
 }
 ```
 
-**Options:**
-- `fullPage: true` - Capture entire scrollable page
-- `selector: '.content'` - Capture specific element
-- `region: {x, y, width, height}` - Capture pixel region
+**選項：**
+- `fullPage: true` — 捕獲整個可捲動頁面
+- `selector: '.content'` — 捕獲特定元素
+- `region: {x, y, width, height}` — 捕獲像素區域
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -441,9 +441,9 @@ Parameters: {
 }
 ```
 
-### Wireframe
+### 線框圖
 
-Generate structural wireframe:
+生成結構線框：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -460,9 +460,9 @@ Parameters: {
 
 ---
 
-## Complete Page Snapshot
+## 完整頁面快照
 
-Get everything at once:
+一次取全部：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -479,49 +479,45 @@ Parameters: {
 
 ---
 
-## Quick Reference
+## 快速參考
 
-### Content Module Functions
+### 內容模組函數
 
 | Function | Purpose |
 |----------|---------|
-| `extractContent(opts)` | Page content as markdown |
-| `extractHeadings(scope)` | Heading hierarchy |
-| `extractNavigation()` | All navigation structures |
-| `extractLinks(opts)` | Categorized links with context |
-| `extractStructuredData()` | JSON-LD, OG, Twitter cards |
-| `buildSitemap(opts)` | Site structure from internal links |
+| `extractContent(opts)` | 頁面內容轉Markdown |
+| `extractHeadings(scope)` | 標題層次結構 |
+| `extractNavigation()` | 所有導航結構 |
+| `extractLinks(opts)` | 含上下文之分類連結 |
+| `extractStructuredData()` | JSON-LD、OG、Twitter Cards |
+| `buildSitemap(opts)` | 由內部連結建站點結構 |
 
-### Common Options
+### 常用選項
 
-**extractContent:**
-- `selector` - Content area selector
-- `includeImages` - Include images (default: true)
-- `includeLinks` - Include links (default: true)
-- `maxLength` - Max length (default: 50000)
+**extractContent：**
+- `selector` — 內容區選擇器
+- `includeImages` — 含圖片（預設：true）
+- `includeLinks` — 含連結（預設：true）
+- `maxLength` — 最大長度（預設：50000）
 
-**extractLinks:**
-- `internal` - Only internal links
-- `external` - Only external links
-- `includeAnchors` - Include anchors
-- `selector` - Scope to element
+**extractLinks：**
+- `internal` — 僅內部連結
+- `external` — 僅外部連結
+- `includeAnchors` — 含錨點
+- `selector` — 限定至某元素
 
-### When to Use
+### 適用時機
 
-- **"What page am I on?"** → Basic URL/title check
-- **"What's on this page?"** → extractContent()
-- **"Show me the navigation"** → extractNavigation()
-- **"What links are here?"** → extractLinks()
-- **"Is there structured data?"** → extractStructuredData()
-- **"How's the page performing?"** → proxylog performance
-- **"Show me what it looks like"** → screenshot()
+- **「我在哪個頁面？」** → 基本URL/標題檢查
+- **「此頁有什麼？」** → extractContent()
+- **「顯示導航」** → extractNavigation()
+- **「有哪些連結？」** → extractLinks()
+- **「有結構化資料嗎？」** → extractStructuredData()
+- **「頁面效能如何？」** → proxylog performance
+- **「顯示視覺樣貌」** → screenshot()
 
 ---
 
-## Related Skills
+## 相關技能
 
-For debugging issues on the current page, see the **browser-debug** skill which covers:
-- Element inspection
-- Layout diagnostics
-- Interaction tracking
-- Mutation monitoring
+> Invoke the `Skill` tool with `skill: agnt:browser-debug` — 深查當前頁面問題：元素檢測、佈局診斷、互動追蹤、變動監控。

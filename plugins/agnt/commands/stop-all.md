@@ -1,34 +1,34 @@
 ---
-description: "Stop all running processes and proxies"
+description: "Stop all running processes and proxies. 止諸進程代理. Use when: kill all servers, stop dev environment, shut down proxies, clean up background processes, halt everything"
 allowed-tools: ["mcp__agnt__proc", "mcp__agnt__proxy"]
 ---
 
-Stop all running agnt processes and proxies.
+停止所有運行中之agnt進程與代理。
 
-## Steps
+## 步驟
 
-1. List all running processes:
+1. 列出所有運行中進程：
    ```
    proc {action: "list", global: true}
    ```
 
-2. List all running proxies:
+2. 列出所有運行中代理：
    ```
    proxy {action: "list", global: true}
    ```
 
-3. Stop each proxy first (to cleanly disconnect browsers):
+3. 先停止各代理（以乾淨方式斷開瀏覽器）：
    ```
    proxy {action: "stop", id: "<proxy_id>"}
    ```
-   Repeat for each proxy.
+   對每個代理重複執行。
 
-4. Stop each process:
+4. 停止各進程：
    ```
    proc {action: "stop", process_id: "<process_id>"}
    ```
-   Repeat for each process.
+   對每個進程重複執行。
 
-5. Confirm to the user that all processes and proxies have been stopped.
+5. 向用戶確認所有進程與代理已停止。
 
-Note: This uses `global: true` to include items from all directories, not just the current one.
+注：使用 `global: true` 包含所有目錄之項目，而非僅當前目錄。

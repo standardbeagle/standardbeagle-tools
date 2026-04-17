@@ -1,77 +1,77 @@
 ---
-description: "Analyze page performance including load times and network resources"
+description: "Analyze page performance including load times and network resources. 析頁性能含載時網絡資源. Use when: check page speed, audit load times, analyze network waterfall, optimize performance, find slow resources"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
 ---
 
-Analyze the performance of the current browser page using agnt's diagnostic tools.
+藉agnt診斷工具分析當前瀏覽器頁面效能。
 
-## Steps
+## 步驟
 
-1. Capture network performance data:
+1. 捕獲網路效能資料：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.captureNetwork()"}
    ```
 
-2. Check for layout issues that affect performance:
+2. 查影響效能之佈局問題：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.findOverflows()"}
    ```
 
-3. Analyze DOM complexity (affects rendering performance):
+3. 分析DOM複雜度（影響渲染效能）：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditDOMComplexity()"}
    ```
 
-4. Check for stacking contexts (can cause repaint issues):
+4. 查堆疊上下文（可能引發重繪問題）：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.findStackingContexts()"}
    ```
 
-5. Query the proxy logs for performance metrics:
+5. 從代理日誌查效能指標：
    ```
    proxylog {proxy_id: "dev", types: ["performance"], limit: 10}
    ```
 
-## Interpreting Results
+## 解讀結果
 
-### Network Analysis (`captureNetwork`)
-- `resources`: Array of all loaded resources
-- `count`: Total number of resources
-- Each resource includes:
-  - `name`: URL of the resource
-  - `type`: initiator type (script, img, css, etc.)
-  - `duration`: Load time in ms
-  - `size`: Transfer size in bytes
-  - `startTime`: When loading started
+### 網路分析（`captureNetwork`）
+- `resources`：所有已載入資源陣列
+- `count`：資源總數
+- 每個資源含：
+  - `name`：資源URL
+  - `type`：initiator類型（script、img、css等）
+  - `duration`：載入時間（毫秒）
+  - `size`：傳輸大小（位元組）
+  - `startTime`：開始載入時間
 
-### DOM Complexity (`auditDOMComplexity`)
-- `totalElements`: Total DOM nodes (aim for < 1500)
-- `maxDepth`: Maximum nesting depth (aim for < 32)
-- `duplicateIds`: IDs used more than once (should be 0)
-- `scripts`: Number of scripts (minimize)
-- `stylesheets`: Number of stylesheets (minimize)
+### DOM複雜度（`auditDOMComplexity`）
+- `totalElements`：DOM節點總數（目標<1500）
+- `maxDepth`：最大嵌套深度（目標<32）
+- `duplicateIds`：重複使用之ID（應為0）
+- `scripts`：腳本數量（最小化）
+- `stylesheets`：樣式表數量（最小化）
 
-### Layout Issues (`findOverflows`)
-- Elements with scroll overflow (potential layout thrashing)
-- Hidden overflow elements (may cause reflow)
+### 佈局問題（`findOverflows`）
+- 有捲動溢出之元素（潛在佈局抖動）
+- 隱藏溢出元素（可能引發重排）
 
-### Stacking Contexts
-- Elements creating new stacking contexts
-- Reasons: positioned with z-index, opacity < 1, transform, filter
+### 堆疊上下文
+- 建立新堆疊上下文之元素
+- 原因：有z-index之定位、opacity < 1、transform、filter
 
-## Performance Best Practices
+## 效能最佳實踐
 
-1. **Reduce DOM size** - Fewer elements = faster rendering
-2. **Minimize network requests** - Bundle and lazy-load
-3. **Avoid layout thrashing** - Batch DOM reads/writes
-4. **Optimize images** - Use appropriate formats and sizes
-5. **Reduce JavaScript** - Minimize, defer, or async load
-6. **Use efficient CSS** - Avoid deep nesting and complex selectors
+1. **減少DOM大小** — 元素越少，渲染越快
+2. **最小化網路請求** — 打包與延遲載入
+3. **避免佈局抖動** — 批量DOM讀寫
+4. **優化圖片** — 使用適當格式與大小
+5. **減少JavaScript** — 最小化、延遲或非同步載入
+6. **使用高效CSS** — 避免深嵌套與複雜選擇器
 
-## Performance Metrics from Proxy Logs
+## 來自代理日誌之效能指標
 
-The proxy automatically captures Navigation Timing API metrics:
-- `domContentLoaded`: Time to DOMContentLoaded
-- `loadEventEnd`: Time to full page load
-- `firstPaint`: Time to first paint
-- `largestContentfulPaint`: Time to LCP (Core Web Vital)
+代理自動捕獲Navigation Timing API指標：
+- `domContentLoaded`：至DOMContentLoaded時間
+- `loadEventEnd`：至完整頁面載入時間
+- `firstPaint`：至首次繪製時間
+- `largestContentfulPaint`：至LCP時間（核心Web指標）

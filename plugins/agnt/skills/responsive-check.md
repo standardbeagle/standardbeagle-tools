@@ -1,15 +1,15 @@
 ---
 name: responsive-check
-description: Detect responsive layout risks before they cause problems - fixed widths, touch targets, horizontal scroll, positioning issues
+description: Detect responsive layout risks before they cause problems - fixed widths, touch targets, horizontal scroll, positioning issues. 響應式佈局風險預檢：固定寬度、觸控目標、橫向滾動、定位問題。 Use when: check responsive layout, detect mobile issues, validate touch targets, pre-launch mobile check, check horizontal scroll, audit fixed widths
 ---
 
-# Responsive Layout Check Skill
+# 響應式佈局檢查技能
 
-This skill provides responsive design validation using agnt's responsive risk analysis. Detect layout issues that will cause problems at different viewport sizes before users encounter them.
+借agnt響應式風險分析，提供響應式設計驗證。在不同視口尺寸下引發問題之前，預先探測佈局問題。
 
-## Prerequisites
+## 先決條件
 
-A proxy must be running and the browser connected:
+代理須運行且瀏覽器已連：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -26,9 +26,9 @@ Parameters: {
 
 ---
 
-## First: Check for Errors
+## 先查錯誤
 
-Responsive layouts often fail due to JavaScript errors. Check first:
+響應式佈局常因JS錯誤而失效，先查：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -41,9 +41,9 @@ Parameters: {
 
 ---
 
-## Quick Check: Full Responsive Audit
+## 快速檢查：完整響應式稽查
 
-Run a comprehensive responsive risk analysis:
+執行全面響應式風險分析：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -58,19 +58,19 @@ Parameters: {
 }
 ```
 
-Returns:
-- `issues` - Array of elements with responsive problems
-- `summary` - Total, errors, warnings count
-- `currentViewport` - Width and height at time of check
-- `breakpointsTested` - Standard breakpoints: [320, 375, 414, 768, 1024, 1280, 1440, 1920]
+返回：
+- `issues` - 含響應式問題之元素陣列
+- `summary` - 總計、錯誤、警告數
+- `currentViewport` - 檢查時之寬高
+- `breakpointsTested` - 標準斷點：[320, 375, 414, 768, 1024, 1280, 1440, 1920]
 
 ---
 
-## Individual Checks
+## 個別檢查
 
-### Fixed Dimensions
+### 固定尺寸
 
-Find elements with fixed pixel widths that may cause horizontal scroll:
+找可能引起橫向滾動之固定像素寬度元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -85,9 +85,9 @@ Parameters: {
 }
 ```
 
-### Touch Targets
+### 觸控目標
 
-Find interactive elements smaller than 44x44px (Apple HIG minimum):
+找小於44x44px之互動元素（Apple HIG最小值）：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -102,11 +102,11 @@ Parameters: {
 }
 ```
 
-Checks: `<a>`, `<button>`, `<input>`, `<select>`, `<textarea>`, elements with `onclick`, `role="button"`, or `tabindex`.
+檢查：`<a>`、`<button>`、`<input>`、`<select>`、`<textarea>`、含 `onclick`、`role="button"` 或 `tabindex` 之元素。
 
-### Horizontal Scroll
+### 橫向滾動
 
-Find elements causing unintended horizontal overflow:
+找引起非預期橫向溢出之元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -121,11 +121,11 @@ Parameters: {
 }
 ```
 
-Detects elements where `scrollWidth > clientWidth` without intentional `overflow-x` settings.
+探測 `scrollWidth > clientWidth` 且無意圖性 `overflow-x` 設置之元素。
 
-### Positioning Issues
+### 定位問題
 
-Find absolute/fixed elements that may go offscreen or obscure content:
+找可能離屏或遮蔽內容之絕對/固定元素：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -140,14 +140,14 @@ Parameters: {
 }
 ```
 
-Checks:
-- Positioned elements extending past viewport edges
-- Large fixed elements that may obscure content on mobile
-- High z-index fixed elements
+檢查：
+- 定位元素超出視口邊緣
+- 可能在移動端遮蔽內容之大型固定元素
+- 高z-index固定元素
 
-### Text Sizing
+### 文字大小
 
-Find text that may be unreadable on mobile:
+找移動端可能不可讀之文字：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -162,13 +162,13 @@ Parameters: {
 }
 ```
 
-Flags:
-- Font size < 12px (hard to read on mobile)
-- Extreme font sizes (> 48px or < 10px) with viewport units
+標記：
+- 字號 < 12px（移動端難以閱讀）
+- 極端字號（> 48px 或 < 10px）含視口單位
 
-### Table Layout
+### 表格佈局
 
-Find tables that will cause horizontal scroll:
+找引起橫向滾動之表格：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -183,13 +183,13 @@ Parameters: {
 }
 ```
 
-Detects:
-- Tables wider than viewport
-- Wide tables without scroll wrapper
+探測：
+- 寬於視口之表格
+- 無滾動包裹之寬表格
 
 ---
 
-## Issue Types Reference
+## 問題類型參考
 
 | Type | Severity | Description | Fix |
 |------|----------|-------------|-----|
@@ -207,7 +207,7 @@ Detects:
 
 ---
 
-## Workflow: Pre-Launch Mobile Check
+## 工作流：發布前移動端檢查
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -224,9 +224,9 @@ Parameters: {
 
 ---
 
-## Workflow: Check Specific Element
+## 工作流：檢查特定元素
 
-Check responsive risks for a specific element:
+檢查特定元素之響應式風險：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -243,9 +243,9 @@ Parameters: {
 
 ---
 
-## Viewport Context
+## 視口上下文
 
-Always check current viewport before running responsive checks:
+運行響應式檢查前始終先查當前視口：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -262,9 +262,9 @@ Parameters: {
 
 ---
 
-## Quick Reference
+## 快速參考
 
-### Check Functions
+### 檢查函數
 
 | Function | Purpose |
 |----------|---------|
@@ -276,25 +276,27 @@ Parameters: {
 | `checkTextSizing(el)` | Font size readability |
 | `checkTableLayout(el)` | Table responsiveness |
 
-### Breakpoints Tested
+### 測試斷點
 
 ```
 [320, 375, 414, 768, 1024, 1280, 1440, 1920]
 ```
 
-Standard device widths for comparison.
+標準設備寬度供比較。
 
-### When to Use
+### 適用時機
 
-- **Before launch** - Run full `checkResponsiveRisk()`
-- **Debugging mobile issues** - Check specific problem elements
-- **Component development** - Validate new components for all breakpoints
-- **Code review** - Add to pre-commit checks
+- **發布前** - 運行完整 `checkResponsiveRisk()`
+- **除錯移動端問題** - 檢查特定問題元素
+- **組件開發** - 驗證新組件在所有斷點
+- **代碼審查** - 加入預提交檢查
 
 ---
 
-## Related Skills
+## 相關技能
 
-- **`visual-diagnostics`** - Visual overlays for layout debugging
-- **`browser-debug`** - Element inspection and interaction tracking
-- **`accessibility-audit`** - WCAG compliance (overlaps with touch targets)
+> Invoke the `Skill` tool with `skill: agnt:visual-diagnostics` — 佈局除錯視覺疊層。
+
+> Invoke the `Skill` tool with `skill: agnt:browser-debug` — 元素檢查與互動追蹤。
+
+> Invoke the `Skill` tool with `skill: agnt:accessibility-audit` — WCAG合規（與觸控目標重疊）。

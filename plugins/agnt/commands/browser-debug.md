@@ -1,58 +1,58 @@
 ---
-description: "Debug browser issues using agnt diagnostic tools"
+description: "Debug browser issues using agnt diagnostic tools. 用診斷工具除瀏覽器患. Use when: debug browser problems, diagnose page issues, use agnt diagnostics, inspect browser state, troubleshoot frontend bugs"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog", "mcp__agnt__currentpage"]
 ---
 
-Comprehensive browser debugging using agnt diagnostic tools.
+藉agnt診斷工具進行完整瀏覽器除錯。
 
-## Steps
+## 步驟
 
-1. Get an overview of the current page session:
+1. 取當前頁面session概覽：
    ```
    currentpage {proxy_id: "dev"}
    ```
-   This shows active pages, resource counts, error counts, and interaction/mutation counts.
+   顯示：活動頁面、資源計數、錯誤計數、互動/變動計數。
 
-2. Check for JavaScript errors:
+2. 查JavaScript錯誤：
    ```
    proxylog {proxy_id: "dev", types: ["error"], limit: 10}
    ```
 
-3. Check for recent user interactions (helps understand user flow):
+3. 查近期用戶互動（助理解用戶流程）：
    ```
    proxylog {proxy_id: "dev", types: ["interaction"], limit: 10}
    ```
 
-4. Check for DOM mutations (helps debug dynamic UI issues):
+4. 查DOM變動（助除錯動態UI問題）：
    ```
    proxylog {proxy_id: "dev", types: ["mutation"], limit: 10}
    ```
 
-5. If the user reported clicking something:
+5. 若用戶回報點擊了某處：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.interactions.getLastClickContext()"}
    ```
-   This returns detailed context about the last click: element, ancestors, text content, and position.
+   回傳最後點擊之詳細上下文：元素、祖先、文字內容、位置。
 
-6. To highlight recent DOM changes visually:
+6. 視覺高亮近期DOM變更：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.mutations.highlightRecent(5000)"}
    ```
-   This highlights elements that changed in the last 5 seconds.
+   高亮最後5秒內變更之元素。
 
-7. For accessibility issues:
+7. 無障礙問題：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.auditAccessibility()"}
    ```
 
-8. For CSS/layout issues:
+8. CSS/佈局問題：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.findOverflows()"}
    ```
 
-9. To inspect a specific element:
+9. 檢測特定元素：
    ```
    proxy {action: "exec", id: "dev", code: "__devtool.inspect('#element-selector')"}
    ```
 
-Based on the findings, suggest fixes and explain the issues to the user.
+依據發現，建議修復方案並向用戶解釋問題。

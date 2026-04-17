@@ -1,15 +1,15 @@
 ---
 name: sketch-visual
-description: Wireframing with sketch mode and visual highlighting including screenshots, overlays, and UI annotation tools
+description: Wireframing with sketch mode and visual highlighting including screenshots, overlays, and UI annotation tools. 線框圖模式與視覺高亮：截圖、疊層、UI標注工具。 Use when: create wireframe, annotate UI, sketch mode, highlight elements, take screenshot, export wireframe, draw UI mockup
 ---
 
-# Sketch Mode & Visual Tools Skill
+# 草圖模式與視覺工具技能
 
-This skill documents sketch mode for wireframing annotations and visual highlighting functions available through the `__devtool` API.
+記錄草圖模式線框標注及通過 `__devtool` API 可用之視覺高亮函數。
 
-## Invocation Format
+## 調用格式
 
-All visual tools are called using proxy exec:
+所有視覺工具以代理exec調用：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -24,19 +24,19 @@ Parameters: {
 }
 ```
 
-**Prerequisites**: A proxy must be running and the browser must be connected via the proxy URL.
+**先決條件**：代理須運行且瀏覽器已通過代理URL連接。
 
 ---
 
-## Sketch Mode Overview
+## 草圖模式概覽
 
-Sketch mode provides Excalidraw-like wireframing capabilities directly on top of web pages. Use it to:
-- Annotate UI elements for feedback
-- Draw wireframe mockups for proposed changes
-- Create visual guides for UI discussions
-- Export designs as JSON or PNG
+草圖模式直接在網頁上方提供類Excalidraw線框能力。用於：
+- 標注UI元素以提供反饋
+- 繪製建議更改之線框原型
+- 為UI討論創建視覺指南
+- 導出為JSON或PNG
 
-**Keyboard Shortcuts**:
+**鍵盤快捷鍵**：
 - `Escape` - Close sketch mode
 - `Delete` - Erase selected element
 - `Ctrl+Z` - Undo last action
@@ -44,11 +44,11 @@ Sketch mode provides Excalidraw-like wireframing capabilities directly on top of
 
 ---
 
-## Sketch Mode Functions
+## 草圖模式函數
 
 ### sketch.open
 
-Open sketch mode to start wireframing on the current page.
+開啟草圖模式，在當前頁面開始線框繪製。
 
 **Signature**: `sketch.open()`
 
@@ -70,13 +70,13 @@ Parameters: {
 }
 ```
 
-**Result**: A full-screen canvas overlay appears with drawing tools.
+**結果**：全屏畫布疊層與繪圖工具出現。
 
 ---
 
 ### sketch.close
 
-Close sketch mode and return to normal page view.
+關閉草圖模式，返回正常頁面視圖。
 
 **Signature**: `sketch.close()`
 
@@ -102,7 +102,7 @@ Parameters: {
 
 ### sketch.toggle
 
-Toggle sketch mode on or off.
+切換草圖模式開/關。
 
 **Signature**: `sketch.toggle()`
 
@@ -128,7 +128,7 @@ Parameters: {
 
 ### sketch.setTool
 
-Set the active drawing tool.
+設置活躍繪圖工具。
 
 **Signature**: `sketch.setTool(tool)`
 
@@ -137,9 +137,7 @@ Set the active drawing tool.
 
 **Returns**: void
 
-**Available Tools**:
-
-**Basic Shape Tools**:
+**基本形狀工具**：
 | Tool | Description |
 |------|-------------|
 | `select` | Select and move existing elements |
@@ -151,7 +149,7 @@ Set the active drawing tool.
 | `text` | Add text annotations |
 | `eraser` | Erase elements |
 
-**Wireframe UI Elements**:
+**線框UI元素**：
 | Tool | Description |
 |------|-------------|
 | `button` | Draw button wireframe components |
@@ -159,7 +157,7 @@ Set the active drawing tool.
 | `note` | Add sticky note annotations |
 | `image` | Draw image placeholder areas |
 
-**Example - Set rectangle tool**:
+**Example - 設置矩形工具**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -173,7 +171,7 @@ Parameters: {
 }
 ```
 
-**Example - Set button wireframe tool**:
+**Example - 設置按鈕線框工具**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -187,7 +185,7 @@ Parameters: {
 }
 ```
 
-**Example - Set note tool for annotations**:
+**Example - 設置便條工具用於標注**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -205,7 +203,7 @@ Parameters: {
 
 ### sketch.save
 
-Save the current sketch and send it to the proxy server. The sketch data is logged and can be retrieved via proxylog.
+保存當前草圖並發送至代理服務器。草圖數據被記錄，可通過proxylog取回。
 
 **Signature**: `sketch.save()`
 
@@ -227,7 +225,7 @@ Parameters: {
 }
 ```
 
-**Note**: After saving, retrieve sketch data from proxy logs using:
+**注意**：保存後，從代理日誌取回草圖數據：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -244,7 +242,7 @@ Parameters: {
 
 ### sketch.toJSON
 
-Export the current sketch data as a JSON object. Useful for saving sketches for later use.
+以JSON對象導出當前草圖數據。用於保存草圖供後用。
 
 **Signature**: `sketch.toJSON()`
 
@@ -297,7 +295,7 @@ Parameters: {
 
 ### sketch.fromJSON
 
-Load sketch data from a previously exported JSON object.
+從先前導出之JSON對象加載草圖數據。
 
 **Signature**: `sketch.fromJSON(data)`
 
@@ -320,16 +318,16 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Restore a previous wireframe session
-- Share wireframes between team members
-- Create templates for common UI patterns
+**用例**：
+- 恢復先前線框會話
+- 團隊成員間分享線框
+- 為常見UI模式創建模板
 
 ---
 
 ### sketch.toDataURL
 
-Export the current sketch as a PNG image data URL.
+以PNG圖片數據URL導出當前草圖。
 
 **Signature**: `sketch.toDataURL()`
 
@@ -351,22 +349,13 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Export wireframes for documentation
-- Share visual mockups without JSON data
-- Include in design review discussions
-
 ---
 
 ### sketch.undo
 
-Undo the last sketch action.
+撤銷最後草圖操作。
 
 **Signature**: `sketch.undo()`
-
-**Parameters**: None
-
-**Returns**: void
 
 **Example**:
 ```
@@ -386,13 +375,9 @@ Parameters: {
 
 ### sketch.redo
 
-Redo a previously undone sketch action.
+重做先前撤銷之草圖操作。
 
 **Signature**: `sketch.redo()`
-
-**Parameters**: None
-
-**Returns**: void
 
 **Example**:
 ```
@@ -412,13 +397,9 @@ Parameters: {
 
 ### sketch.clear
 
-Clear all sketch elements and start with a blank canvas.
+清除所有草圖元素，從空白畫布開始。
 
 **Signature**: `sketch.clear()`
-
-**Parameters**: None
-
-**Returns**: void
 
 **Example**:
 ```
@@ -436,11 +417,11 @@ Parameters: {
 
 ---
 
-## Visual Overlay Functions
+## 視覺疊層函數
 
 ### highlight
 
-Highlight an element with a colored overlay. Returns an ID for later removal.
+以彩色疊層高亮元素。返回ID供後續移除。
 
 **Signature**: `highlight(selector, options?)`
 
@@ -453,7 +434,7 @@ Highlight an element with a colored overlay. Returns an ID for later removal.
 
 **Returns**: string - Overlay ID for removal
 
-**Example - Basic highlight**:
+**Example - 基本高亮**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -467,7 +448,7 @@ Parameters: {
 }
 ```
 
-**Example - Highlight with label and color**:
+**Example - 帶標籤與顏色高亮**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -481,7 +462,7 @@ Parameters: {
 }
 ```
 
-**Example - Temporary highlight (auto-removes after 3s)**:
+**Example - 臨時高亮（3秒後自動移除）**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -495,23 +476,16 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Mark elements during debugging
-- Visually identify specific components
-- Create guided walkthroughs
-
 ---
 
 ### removeHighlight
 
-Remove a specific highlight overlay by its ID.
+按ID移除特定高亮疊層。
 
 **Signature**: `removeHighlight(id)`
 
 **Parameters**:
 - `id`: string - Overlay ID returned by `highlight()`
-
-**Returns**: void
 
 **Example**:
 ```
@@ -531,13 +505,9 @@ Parameters: {
 
 ### clearAllOverlays
 
-Remove all highlight overlays from the page.
+移除頁面上所有高亮疊層。
 
 **Signature**: `clearAllOverlays()`
-
-**Parameters**: None
-
-**Returns**: void
 
 **Example**:
 ```
@@ -553,18 +523,13 @@ Parameters: {
 }
 ```
 
-**Use Cases**:
-- Clean up after debugging session
-- Reset visual state before new analysis
-- Remove all annotations at once
-
 ---
 
-## Screenshot Capture
+## 截圖採集
 
 ### screenshot
 
-Capture a screenshot of the page or a specific element.
+採集頁面或特定元素截圖。
 
 **Signature**: `screenshot(name?, selector?)`
 
@@ -574,7 +539,7 @@ Capture a screenshot of the page or a specific element.
 
 **Returns**: Promise<{name, width, height, selector}>
 
-**Example - Full page screenshot**:
+**Example - 全頁截圖**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -588,7 +553,7 @@ Parameters: {
 }
 ```
 
-**Example - Element screenshot**:
+**Example - 元素截圖**:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -598,20 +563,6 @@ Parameters: {
     "action": "exec",
     "id": "dev",
     "code": "await __devtool.screenshot('header', '#main-header')"
-  }
-}
-```
-
-**Example - Screenshot with auto-generated name**:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "await __devtool.screenshot()"
   }
 }
 ```
@@ -626,7 +577,7 @@ Parameters: {
 }
 ```
 
-**Note**: Screenshots are saved to disk and logged. Retrieve screenshot entries from proxy logs:
+**注意**：截圖保存至磁盤並被記錄。從代理日誌取回截圖條目：
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
@@ -641,323 +592,31 @@ Parameters: {
 
 ---
 
-## Wireframing Workflows
+## 線框工作流
 
-### Workflow 1: Creating UI Feedback Annotations
+### 工作流一：創建UI反饋標注
 
-When providing feedback on existing UI:
+為現有UI提供反饋時：
 
-1. Open sketch mode:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.open()"
-  }
-}
-```
+1. 開啟草圖模式；2. 設置便條工具；3. 繪製箭頭指出問題；4. 保存導出。
 
-2. Set the note tool for annotations:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.setTool('note')"
-  }
-}
-```
+### 工作流二：為新UI區域繪製線框
 
-3. Draw arrows to point out issues:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.setTool('arrow')"
-  }
-}
-```
+提議新UI元素時：
 
-4. Save and export:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.save()"
-  }
-}
-```
+1. 截圖當前狀態；2. 開啟草圖模式繪製線框；3. 添加按鈕線框；4. 添加輸入字段線框；5. 用文字工具添加標籤；6. 導出PNG和JSON。
+
+### 工作流三：高亮元素以供討論
+
+指出特定元素時：
+
+1. 高亮主要焦點區域；2. 高亮相關元素；3. 帶高亮截圖；4. 完成後清理。
 
 ---
 
-### Workflow 2: Wireframing a New UI Section
+## 快速參考表
 
-When proposing new UI elements:
-
-1. Take a screenshot of the current state:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "await __devtool.screenshot('before-wireframe')"
-  }
-}
-```
-
-2. Open sketch mode and draw wireframes:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.open(); __devtool.sketch.setTool('rectangle')"
-  }
-}
-```
-
-3. Add button wireframes:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.setTool('button')"
-  }
-}
-```
-
-4. Add input field wireframes:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.setTool('input')"
-  }
-}
-```
-
-5. Add labels with text tool:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.setTool('text')"
-  }
-}
-```
-
-6. Export as PNG and JSON:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "var png = __devtool.sketch.toDataURL(); var json = __devtool.sketch.toJSON(); __devtool.sketch.save()"
-  }
-}
-```
-
----
-
-### Workflow 3: Highlighting Elements for Discussion
-
-When pointing out specific elements:
-
-1. Highlight the main area of focus:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.highlight('#navigation', {color: 'blue', label: 'Navigation Area'})"
-  }
-}
-```
-
-2. Highlight related elements:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.highlight('.sidebar', {color: 'green', label: 'Sidebar'})"
-  }
-}
-```
-
-3. Take a screenshot with highlights:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "await __devtool.screenshot('highlighted-areas')"
-  }
-}
-```
-
-4. Clean up when done:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.clearAllOverlays()"
-  }
-}
-```
-
----
-
-### Workflow 4: Iterative Design with Undo/Redo
-
-When refining wireframes:
-
-1. Draw initial layout:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.open(); __devtool.sketch.setTool('rectangle')"
-  }
-}
-```
-
-2. If a shape is wrong, undo it:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.undo()"
-  }
-}
-```
-
-3. Changed your mind? Redo:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.redo()"
-  }
-}
-```
-
-4. Start fresh if needed:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.clear()"
-  }
-}
-```
-
----
-
-### Workflow 5: Saving and Restoring Wireframes
-
-When working on complex wireframes across sessions:
-
-1. Export current work before closing:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.toJSON()"
-  }
-}
-```
-
-2. Store the JSON response for later use.
-
-3. Restore in a new session:
-```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "exec",
-    "id": "dev",
-    "code": "__devtool.sketch.open(); __devtool.sketch.fromJSON(<saved_json>)"
-  }
-}
-```
-
----
-
-## Quick Reference Table
-
-### Sketch Functions
+### 草圖函數
 
 | Function | Purpose | Key Parameters |
 |----------|---------|----------------|
@@ -973,7 +632,7 @@ Parameters: {
 | `sketch.redo()` | Redo undone action | None |
 | `sketch.clear()` | Clear all elements | None |
 
-### Available Sketch Tools
+### 可用草圖工具
 
 | Category | Tools |
 |----------|-------|
@@ -982,7 +641,7 @@ Parameters: {
 | Drawing | `freedraw`, `text` |
 | Wireframe | `button`, `input`, `note`, `image` |
 
-### Visual Overlay Functions
+### 視覺疊層函數
 
 | Function | Purpose | Key Parameters |
 |----------|---------|----------------|
@@ -990,7 +649,7 @@ Parameters: {
 | `removeHighlight(id)` | Remove specific overlay | overlay ID |
 | `clearAllOverlays()` | Remove all overlays | None |
 
-### Screenshot Function
+### 截圖函數
 
 | Function | Purpose | Key Parameters |
 |----------|---------|----------------|
@@ -998,28 +657,28 @@ Parameters: {
 
 ---
 
-## Tips and Best Practices
+## 技巧與最佳實踐
 
-**Sketch Mode Tips**:
-- Use keyboard shortcuts for faster workflow (Escape, Delete, Ctrl+Z, Ctrl+Shift+Z)
-- Export JSON to preserve complex wireframes
-- Use the `note` tool for text annotations with backgrounds
-- Combine `button` and `input` tools for form wireframes
+**草圖模式技巧**：
+- 使用鍵盤快捷鍵提速（Escape, Delete, Ctrl+Z, Ctrl+Shift+Z）
+- 導出JSON保存複雜線框
+- 用 `note` 工具添加帶背景之文字標注
+- 組合 `button` 和 `input` 工具繪製表單線框
 
-**Highlight Tips**:
-- Use distinct colors for different element types
-- Add labels to make highlights self-documenting
-- Use temporary highlights (duration option) for quick demos
-- Clear all overlays before taking final screenshots
+**高亮技巧**：
+- 對不同元素類型使用不同顏色
+- 添加標籤使高亮自文檔化
+- 快速演示用臨時高亮（duration選項）
+- 最終截圖前清除所有疊層
 
-**Screenshot Tips**:
-- Name screenshots descriptively for easy identification
-- Use element selectors to capture specific components
-- Combine with highlights for annotated screenshots
-- Check proxylog for saved screenshot metadata
+**截圖技巧**：
+- 用描述性名稱命名截圖便於識別
+- 用元素選擇器採集特定組件
+- 與高亮組合取得帶標注截圖
+- 查看proxylog取得保存截圖元數據
 
-**Workflow Tips**:
-- Take a "before" screenshot before making wireframe changes
-- Save JSON exports frequently during complex sessions
-- Use `clearAllOverlays()` to reset visual state
-- Export both PNG and JSON for complete documentation
+**工作流技巧**：
+- 更改前先截「前」圖
+- 複雜會話中頻繁保存JSON導出
+- 用 `clearAllOverlays()` 重置視覺狀態
+- 同時導出PNG和JSON供完整記錄

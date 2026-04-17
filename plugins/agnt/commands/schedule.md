@@ -1,78 +1,78 @@
 ---
-description: "Schedule a message to be sent to your AI agent at a future time"
+description: "Schedule a message to be sent to your AI agent at a future time. 定時遣信於智代. Use when: schedule reminder, run task later, send delayed message, automate future action, set timed trigger"
 allowed-tools: ["mcp__agnt__session"]
 ---
 
-Schedule a message to be delivered to an AI coding agent session at a specified time.
+排程訊息，於指定時間送達AI編碼代理session。
 
-## Usage
+## 用法
 
-The user can specify:
-- **Session code**: Target session (e.g., "claude-1", "dev"). If omitted, list available sessions.
-- **Duration**: When to send (e.g., "5m", "1h", "30s", "2h30m")
-- **Message**: What to send to the agent
+用戶可指定：
+- **Session代碼**：目標session（如 "claude-1", "dev"）。省略則列出可用session。
+- **時長**：何時送出（如 "5m", "1h", "30s", "2h30m"）
+- **訊息**：送給代理之內容
 
-## Steps
+## 步驟
 
-1. If no arguments provided, list available sessions:
+1. 若未提供參數，列出可用session：
    ```
    session {action: "list"}
    ```
 
-2. If session code provided but no duration/message, show session details:
+2. 若提供session代碼但無時長/訊息，顯示session詳情：
    ```
    session {action: "get", code: "<session_code>"}
    ```
 
-3. To schedule a message:
+3. 排程訊息：
    ```
    session {action: "schedule", code: "<session_code>", duration: "<duration>", message: "<message>"}
    ```
 
-4. To list pending scheduled tasks:
+4. 列出待執行排程任務：
    ```
    session {action: "tasks"}
    ```
 
-5. To cancel a scheduled task:
+5. 取消排程任務：
    ```
    session {action: "cancel", task_id: "<task_id>"}
    ```
 
-## Examples
+## 範例
 
-**Schedule a verification reminder:**
+**排程驗證提醒：**
 ```
 /schedule claude-1 5m "Please verify the build completed successfully"
 ```
 
-**Schedule a test check:**
+**排程測試檢查：**
 ```
 /schedule dev 10m "Run the test suite and report any failures"
 ```
 
-**List all sessions:**
+**列出所有session：**
 ```
 /schedule
 ```
 
-**View pending tasks:**
+**查待執行任務：**
 ```
 /schedule --tasks
 ```
 
-## Duration Format
+## 時長格式
 
-Durations use Go duration syntax:
-- `30s` - 30 seconds
-- `5m` - 5 minutes
-- `1h` - 1 hour
-- `1h30m` - 1 hour 30 minutes
-- `2h45m30s` - 2 hours 45 minutes 30 seconds
+使用Go時長語法：
+- `30s` — 30秒
+- `5m` — 5分鐘
+- `1h` — 1小時
+- `1h30m` — 1小時30分鐘
+- `2h45m30s` — 2小時45分30秒
 
-## Notes
+## 說明
 
-- Sessions are created by `agnt run <command>` (e.g., `agnt run claude`)
-- Each session has a unique code like "claude-1" or "dev"
-- Scheduled messages are persisted and survive daemon restarts
-- Messages are delivered as synthetic user input to the target session
+- Session由 `agnt run <command>` 建立（如 `agnt run claude`）
+- 每個session有唯一代碼，如 "claude-1" 或 "dev"
+- 排程訊息持久化，daemon重啟後仍存在
+- 訊息以合成用戶輸入形式送達目標session

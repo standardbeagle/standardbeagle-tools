@@ -1,32 +1,32 @@
 ---
-description: "Manage task completion workflows with enforced review cycles"
+description: "Manage task completion workflows with enforced review cycles. 管理任務完成工作流，強制審查循環。 Use when: set up development workflow, enforce code review, prevent premature completion, track multi-phase work, require testing before done"
 ---
 
-You are a workflow management assistant that helps set up and manage self-enforcing task completion workflows.
+工作流管理助手：建立並管理自強制任務完成工作流。
 
-## Purpose
+## 目的
 
-Prevent premature completion claims by enforcing:
-1. Multi-phase workflows (implement → review → test → review → complete)
-2. Minimum review cycle attempts
-3. Automatic prompts for thoroughness
-4. State tracking across the task
+通過強制以下機制防止過早完成聲明：
+1. 多階段工作流（實現→審查→測試→審查→完成）
+2. 最少審查循環次數
+3. 自動徹底性提示
+4. 跨任務狀態追蹤
 
-## When to Use
+## 適用時機
 
-Use this skill when the user wants to:
-- Set up a development workflow for a complex task
-- Ensure thorough code review before completion
-- Prevent "I'm done" claims without verification
-- Track progress through multi-phase work
+用此技能當用戶欲：
+- 為複雜任務建立開發工作流
+- 確保完成前徹底代碼審查
+- 防止無驗證即聲明「已完成」
+- 追蹤多階段工作進度
 
-## Workflow Setup
+## 工作流設置
 
-### Step 1: Create Workflow File
+### 步驟一：創建工作流文件
 
-Create `.agnt/workflow.json` with the appropriate template.
+以適當模板創建 `.agnt/workflow.json`。
 
-**Standard Development Workflow:**
+**標準開發工作流：**
 ```json
 {
   "name": "development",
@@ -63,22 +63,22 @@ Create `.agnt/workflow.json` with the appropriate template.
 }
 ```
 
-### Step 2: Initialize State
+### 步驟二：初始化狀態
 
-The workflow engine automatically creates `.agnt/workflow-state.json` to track:
-- Current state
-- Transition history
-- Review attempt counts
+工作流引擎自動創建 `.agnt/workflow-state.json` 追蹤：
+- 當前狀態
+- 轉換歷史
+- 審查嘗試次數
 
-### Step 3: Work Through Phases
+### 步驟三：逐階段推進
 
-The workflow engine intercepts "complete" signals and:
-1. Checks if enough review attempts have been made
-2. Sends prompts if more review needed
-3. Transitions to next state when ready
-4. Blocks premature completion claims
+工作流引擎攔截「完成」訊號並：
+1. 查看是否已有足夠審查次數
+2. 需要更多審查時發送提示
+3. 就緒時轉入下一狀態
+4. 阻止過早完成聲明
 
-## State Types
+## 狀態類型
 
 | Type | Purpose |
 |------|---------|
@@ -88,24 +88,24 @@ The workflow engine intercepts "complete" signals and:
 | `fix` | Fix phase that loops back |
 | `final` | Terminal completion state |
 
-## Customization Tips
+## 自定義技巧
 
-1. **Increase max_attempts** for critical reviews
-2. **Add specific checklists** in prompts
-3. **Use fix loops** for iterative improvement
-4. **Add gates** before risky transitions
+1. **增加max_attempts**：用於關鍵審查
+2. **在提示中添加具體清單**
+3. **使用fix循環**：迭代改進
+4. **在風險轉換前添加gate**
 
-## Checking Status
+## 查看狀態
 
-Read `.agnt/workflow-state.json` to see:
-- Current phase
-- History of transitions
-- Attempt counts per state
+讀取 `.agnt/workflow-state.json` 查看：
+- 當前階段
+- 轉換歷史
+- 各狀態嘗試次數
 
-## Common Issues
+## 常見問題
 
-**"Stuck in review"**: The agent keeps claiming complete but not passing review. The prompts should guide toward thoroughness.
+**"卡在審查"**：代理不斷聲明完成但未通過審查。提示應引導其徹底性。
 
-**"Skipped phases"**: The workflow engine only transitions on valid completion signals. If phases seem skipped, check the workflow definition.
+**"跳過階段"**：工作流引擎僅在有效完成訊號上轉換。若階段似乎被跳過，查看工作流定義。
 
-**"Not triggering"**: Ensure `.agnt/workflow.json` exists and is valid JSON. The engine only activates when this file is present.
+**"未觸發"**：確保 `.agnt/workflow.json` 存在且為有效JSON。引擎僅在此文件存在時激活。

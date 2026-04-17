@@ -1,31 +1,31 @@
 ---
-description: "Set up a self-enforcing workflow state machine for task completion"
+description: "Set up a self-enforcing workflow state machine for task completion. 建自律工作流狀態機以竟任務. Use when: enforce task workflow, set up state machine, automate task progression, track task states, structured multi-step process"
 allowed-tools: ["Read", "Write", "mcp__agnt__session"]
 ---
 
-Create a workflow state machine that prevents premature completion claims and enforces review cycles.
+建立防止過早完成聲明並強制審查循環之工作流狀態機。
 
-## The Problem
+## 問題
 
-LLMs often:
-- Claim "complete" after phase 1 of a 3-phase task
-- Skip work or invent phases mid-task
-- Need reminding to finish ALL the work
-- Require multiple review/fix cycles before truly done
+LLM常：
+- 3階段任務完成第1階段後聲稱「完成」
+- 跳過工作或中途虛構階段
+- 需要提醒完成所有工作
+- 真正完成前需多輪審查/修復循環
 
-## The Solution
+## 解決方案
 
-A self-transitioning state machine that:
-1. Tracks current workflow phase
-2. Intercepts "complete" signals
-3. Enforces review cycles before allowing completion
-4. Automatically prompts for next phase
+自轉換狀態機：
+1. 追蹤當前工作流階段
+2. 攔截「完成」信號
+3. 允許完成前強制審查循環
+4. 自動提示下一階段
 
-## Workflow Templates
+## 工作流模板
 
-### Standard Development Workflow
+### 標準開發工作流
 
-Create `.agnt/workflow.json`:
+建立 `.agnt/workflow.json`：
 
 ```json
 {
@@ -64,7 +64,7 @@ Create `.agnt/workflow.json`:
 }
 ```
 
-### Strict Review Workflow (More Cycles)
+### 嚴格審查工作流（多輪循環）
 
 ```json
 {
@@ -110,7 +110,7 @@ Create `.agnt/workflow.json`:
 }
 ```
 
-### Fix-Review Loop Workflow
+### 修復審查迴圈工作流
 
 ```json
 {
@@ -153,30 +153,30 @@ Create `.agnt/workflow.json`:
 }
 ```
 
-## State Types
+## 狀態類型
 
 | Type | Behavior |
 |------|----------|
-| `work` | Normal work phase, transitions on completion |
-| `review` | Enforces N attempts before allowing "complete" |
-| `gate` | Checkpoint that requires explicit passage |
-| `fix` | Fix phase that loops back to review |
-| `final` | Terminal state, workflow complete |
+| `work` | 正常工作階段，完成時轉換 |
+| `review` | 允許「完成」前強制N次嘗試 |
+| `gate` | 需明確通過之檢查點 |
+| `fix` | 迴圈回審查之修復階段 |
+| `final` | 終止狀態，工作流完成 |
 
-## State Properties
+## 狀態屬性
 
 | Property | Description |
 |----------|-------------|
-| `type` | State type (see above) |
-| `prompt` | Message sent when entering this state |
-| `review_prompt` | Message sent when review attempt insufficient |
-| `max_attempts` | Minimum review attempts before allowing passage |
-| `on_complete` | Next state when "complete" is valid |
-| `next` | Alternative next state |
+| `type` | 狀態類型（見上） |
+| `prompt` | 進入此狀態時送出之訊息 |
+| `review_prompt` | 審查嘗試不足時送出之訊息 |
+| `max_attempts` | 允許通過前最少審查次數 |
+| `on_complete` | 「完成」有效時之下一狀態 |
+| `next` | 替代下一狀態 |
 
-## Checking Workflow Status
+## 查看工作流狀態
 
-The current state is stored in `.agnt/workflow-state.json`:
+當前狀態儲存於 `.agnt/workflow-state.json`：
 
 ```json
 {
@@ -190,10 +190,10 @@ The current state is stored in `.agnt/workflow-state.json`:
 }
 ```
 
-## Tips
+## 提示
 
-1. **Be specific in prompts** - Tell the agent exactly what to check
-2. **Use max_attempts** - Require multiple review passes for thoroughness
-3. **Include checklists** - Give concrete items to verify
-4. **Loop for fixes** - Use fix→review loops for iterative improvement
-5. **Gate important transitions** - Use gates before testing/deployment
+1. **提示中寫具體內容** — 明確告訴代理要檢查什麼
+2. **使用max_attempts** — 要求多輪審查確保徹底性
+3. **含清單** — 給出具體驗證項目
+4. **迴圈修復** — 用修復→審查迴圈作迭代改進
+5. **重要轉換前設閘門** — 測試/部署前使用gate
