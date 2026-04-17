@@ -30,6 +30,5 @@
     "./skills/refactor-first-assessment/SKILL.md",
     "./skills/review-for-plan-updates/SKILL.md"
   ],
-  "hooks": "./hooks/hooks.json",
   "agents": []
 }

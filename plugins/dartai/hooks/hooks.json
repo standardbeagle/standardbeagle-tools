@@ -1,27 +1,5 @@
 {
   "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "mcp__dart-query__list_tasks|mcp__dart-query__create_task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-dartboard.js\"",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__plugin_slop-mcp_slop-mcp__execute_tool",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/track-dartboard.js\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": [
