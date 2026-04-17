@@ -278,3 +278,36 @@ Open for the implementation plan to resolve:
 - User global instructions: `~/.claude/CLAUDE.md` (Wenyan internal mode)
 - Project instructions: `CLAUDE.md` (marketplace structure)
 - User memory: `feedback_no_allowed_tools_skills.md` (related, out of scope)
+
+## Completion notes
+
+- Rollout completed on 2026-04-16.
+- Branch: `feat/wenyan-internal-docs`, 15 per-plugin commits plus 3 tooling + 1 spot-fix commits.
+- Per-plugin file counts transformed (all via Sonnet translator subagent dispatched by Opus orchestrator):
+
+| Plugin | Files | Commit |
+|---|---:|---|
+| workflow (pilot) | 17 | `f541576` |
+| dart-query | 10 | `9538ea0` |
+| mcp-tester | 12 | `ef90410` |
+| dev-standards | 8 | `639bd9b` |
+| slop-coder | 7 | `d48755e` |
+| slop-mcp | 15 | `e338778` |
+| lci | 19 | `47dcfb0` |
+| photino | 14 | `b91b1af` |
+| mcp-architect | 13 | `9b24548` |
+| ux-developer | 23 | `1b40fed` |
+| prompt-engineer | 20 | `bf3e1a7` |
+| ux-design | 14 | `c3897f2` |
+| figma-query | 35 | `4587398` |
+| dartai | 31 | `07ee659` |
+| agnt | 41 | `1200057` |
+| **Total** | **279** | |
+
+- Deviations from plan:
+  - Pilot-gate manual trigger-match smoke test waived by user ("go for it all").
+  - Per-plugin full two-stage review (spec + code-quality) collapsed to: validator + 3-file spot-check per plugin + one final 10-file sweep after all plugins. Pilot received the full two-stage review.
+  - Several per-plugin translator runs required one inline fix-up pass (e.g., missed `description:` bilingualization on agents/commands, one hallucinated skill name set in `slop-coder` corrected via `sed`, one invented skill-target `ux-design:component-library` corrected to `component-design`).
+- Known follow-ups:
+  - `allowed-tools` frontmatter cleanup on skills (separate refactor; see user memory `feedback_no_allowed_tools_skills.md`).
+  - No user-run fresh-session trigger-match verification occurred; recommended before wide distribution.

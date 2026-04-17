@@ -1,6 +1,6 @@
 ---
 name: slop-explain
-description: Explain SLOP code - understand what SLOP code does and how it works. 解析SLOP代碼結構、邏輯與行為。Use when: understanding unfamiliar SLOP code, tracing data flow, identifying patterns and safety features.
+description: Explain SLOP code - understand what SLOP code does and how it works. 解析SLOP代碼結構、邏輯與行為。 Use when: understanding unfamiliar SLOP code, tracing data flow, identifying patterns and safety features.
 ---
 
 # Explain SLOP Code
