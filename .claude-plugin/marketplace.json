@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-    "version": "1.2.0"
+    "version": "1.3.0"
   },
   "plugins": [
     {
@@ -57,29 +57,6 @@
         "symbol-lookup",
         "call-hierarchy",
         "codebase-navigation"
-      ],
-      "category": "development"
-    },
-    {
-      "name": "tools",
-      "source": "./plugins/tools",
-      "description": "Complete Standard Beagle toolkit - combines agnt (browser superpowers) and lci (code intelligence) for the ultimate AI coding experience",
-      "version": "1.0.0",
-      "author": {
-        "name": "Standard Beagle",
-        "url": "https://github.com/standardbeagle"
-      },
-      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
-      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
-      "license": "MIT",
-      "keywords": [
-        "mcp",
-        "agnt",
-        "lci",
-        "toolkit",
-        "code-intelligence",
-        "browser-debugging",
-        "process-management"
       ],
       "category": "development"
     },
