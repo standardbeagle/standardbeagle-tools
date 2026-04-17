@@ -61,10 +61,13 @@ All `.md` files matching any of:
 - `plugins/*/agents/**/*.md`
 - `plugins/*/commands/**/*.md`
 
-Across all 15 plugins: `agnt`, `dart-query`, `dartai`, `dev-standards`,
-`figma-query`, `lci`, `mcp-architect`, `mcp-tester`, `photino`,
-`prompt-engineer`, `slop-coder`, `slop-mcp`, `tools`, `ux-design`,
-`ux-developer`, `workflow`.
+Across all 15 plugins (confirmed by `ls plugins/` on 2026-04-16):
+`agnt`, `dart-query`, `dartai`, `dev-standards`, `figma-query`, `lci`,
+`mcp-architect`, `mcp-tester`, `photino`, `prompt-engineer`, `slop-coder`,
+`slop-mcp`, `ux-design`, `ux-developer`, `workflow`.
+
+The `tools` plugin referenced in this repo's `CLAUDE.md` is not present in
+the working tree and is out of scope.
 
 Estimated file count: ~327 `.md` files (`find plugins -type f -name "*.md"`).
 
@@ -211,10 +214,16 @@ After the pilot commit:
   must trigger the correct skill.
 - Manually invoke one command by explicit `/workflow:<name>` path. Must work
   unchanged (commands match by filename, not description).
-- Grep all pilot files for residual English narrative prose outside carve-outs
-  — should be zero paragraphs of plain English left after conversion.
-- Grep all pilot files for `Skill` tool references using the old soft-prose
-  pattern — should be zero.
+- Residual-English check: there is no reliable automated grep for "English
+  prose left in body after conversion" (English words legitimately survive
+  inside code, identifiers, and bilingual descriptions). The heuristic is
+  **random-sample manual review**: pick 3 files per plugin at random and
+  scan the body for paragraphs that are plainly English prose outside
+  carve-outs. Any such paragraph is a defect; fix and re-sample.
+- Grep-based check for cross-references: `grep -nE 'see the .* skill|use .*
+  skill|invoke .* skill|via the .* skill' plugins/<plugin>/` must return zero
+  matches. This is automatable because the soft-reference phrasing is
+  English-only and narrow.
 
 ### 7. Acceptance criteria
 
@@ -243,7 +252,11 @@ Open for the implementation plan to resolve:
   subagent (Haiku or Sonnet), or by a scripted pipeline. Writing-plans will
   decide based on cost/time trade-offs.
 - Whether `allowed-tools` frontmatter fields (see user feedback memory) get
-  removed as part of this pass or deferred to a separate refactor.
+  removed as part of this pass or deferred to a separate refactor. **This
+  decision must be resolved before the first per-plugin commit lands** — once
+  the rollout starts, changing the `allowed-tools` policy mid-stream would
+  inflate every subsequent diff and break the "one-plugin-per-commit" review
+  boundary.
 
 ## References
 
