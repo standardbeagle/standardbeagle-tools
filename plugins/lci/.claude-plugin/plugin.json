@@ -34,7 +34,8 @@
     "./skills/trace-symbol.md",
     "./skills/pre-commit-review.md",
     "./skills/context-handoff.md",
-    "./skills/commit-all.md"
+    "./skills/commit-all.md",
+    "./skills/agnt-companion.md"
   ],
   "agents": [
     "./agents/tdd-refactor.md",

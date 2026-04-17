@@ -60,7 +60,8 @@
     "./skills/error-watch.md",
     "./skills/event-watch.md",
     "./skills/responsive-check.md",
-    "./skills/visual-diagnostics.md"
+    "./skills/visual-diagnostics.md",
+    "./skills/lci-companion.md"
   ],
   "agents": [
     "./agents/browser-debugger.md",
