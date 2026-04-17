@@ -1,6 +1,6 @@
 ---
 name: MCP Examples
-description: This skill should be used when the user asks for "MCP examples", "real-world patterns", "code search patterns", "browser proxy patterns", "process management patterns", "show me examples", or wants to see actual implementations from lci, agnt, or other real MCPs.
+description: Real-world MCP patterns from production servers. 實例展示搜碼、瀏覽器代理、進程管理諸模式。Use when: user asks for MCP examples, real-world patterns, code search patterns, browser proxy patterns, process management patterns, show me examples, or wants to see actual implementations from lci, agnt, or other real MCPs.
 version: 0.1.0
 ---
 
@@ -8,14 +8,14 @@ version: 0.1.0
 
 ## Purpose
 
-Provide real-world MCP patterns from production servers: code search (lci), browser integration (agnt), process management, and knowledge bases.
+示產品級MCP實例：搜碼（lci）、瀏覽器整合（agnt）、進程管理、知識庫諸模式。
 
 ## When to Use
 
-- Need concrete examples of patterns
-- Want to see actual implementations
-- Designing similar functionality
-- Learning from working systems
+- 需具體實例
+- 欲觀實際實現
+- 設計同類功能
+- 從運行系統取法
 
 ## Code Search Pattern (lci)
 
@@ -120,7 +120,7 @@ session_id (page-1)
 request_id (req_a1b2)
 ```
 
-Each level provides more specificity.
+層層遞進，各級更具體。
 
 ## Process Management Pattern
 
@@ -197,7 +197,7 @@ get_article("a1")
 
 ### 1. ID Reference System
 
-All use IDs to avoid repeating data:
+諸例皆以ID避免重複傳遞：
 - **lci:** result_id → symbol_id
 - **agnt:** proxy_id → session_id → request_id
 - **process:** process_id
@@ -207,7 +207,7 @@ All use IDs to avoid repeating data:
 
 ### 2. Progressive Detail
 
-All vary detail by context:
+諸例皆依情境調整詳略：
 - **lci:** By confidence (0.95 = full, 0.40 = minimal)
 - **agnt:** By request (counts vs. full arrays)
 - **process:** By depth (count → list → status → full)
@@ -215,7 +215,7 @@ All vary detail by context:
 
 ### 3. Automation Flags
 
-All include standard flags:
+諸例皆含標準標誌：
 ```json
 {
   "has_more": boolean,
@@ -227,7 +227,7 @@ All include standard flags:
 
 ### 4. Accept Extra Parameters
 
-All accept unknown params with warnings:
+諸例皆接受未知參數並警示：
 ```typescript
 const {known, params, ...extra} = input
 if (extra) warnings.push(`Unknown: ${Object.keys(extra)}`)
@@ -339,4 +339,4 @@ Management: create_user, update_user
 - Accept extra params with warnings
 - Automation flags for AI agents
 
-Study these real-world examples when designing similar functionality.
+設計同類功能時，以此諸例為法。

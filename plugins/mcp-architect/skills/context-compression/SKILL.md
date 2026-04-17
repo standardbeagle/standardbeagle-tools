@@ -1,6 +1,6 @@
 ---
 name: Context Compression
-description: This skill should be used when the user asks about "token efficiency", "compress responses", "reduce token usage", "minimize context", "compact format", "token optimization", or discusses reducing token consumption in MCP responses while maintaining value.
+description: Maximize information value per token in MCP responses via abbreviation, schema optimization, selective fields, and efficient formatting. 壓縮MCP響應、縮略字段、引用系統、token預算分配。Use when: user asks about token efficiency, compress responses, reduce token usage, minimize context, compact format, token optimization, or discusses reducing token consumption in MCP responses while maintaining value.
 version: 0.1.0
 ---
 
@@ -8,16 +8,16 @@ version: 0.1.0
 
 ## Purpose
 
-Maximize information value per token in MCP responses through abbreviation, schema optimization, selective field inclusion, and efficient formatting.
+以縮寫、模式優化、選擇性字段包含及高效格式化，最大化MCP響應中每token的信息價值。
 
 ## When to Use
 
-Apply when:
-- Token budgets are constrained
-- Responses are repetitive or verbose
-- Large datasets need representation
-- Multiple tools share similar data structures
-- Response size directly impacts performance
+適用情形：
+- token預算受限
+- 響應重複或冗長
+- 需要表示大型數據集
+- 多工具共享相似數據結構
+- 響應大小直接影響性能
 
 ## Compression Techniques
 
@@ -214,7 +214,7 @@ Apply when:
 
 ## Token Budget Allocation
 
-Allocate token budget by information value:
+按信息價值分配token預算：
 
 | Information | Priority | Budget % | Example |
 |-------------|----------|----------|---------|
@@ -229,7 +229,7 @@ Allocate token budget by information value:
 
 ## Abbreviation Dictionary
 
-Standard abbreviations for consistency:
+標準縮寫以保一致性：
 
 ```
 id       → i
@@ -260,11 +260,11 @@ interface → ifc
 
 ## When NOT to Compress
 
-Avoid over-compression for:
-- Small responses (<100 tokens) - overhead not worth it
-- Critical error messages - clarity over brevity
-- Security-related fields - explicit is safer
-- User-facing documentation - readability matters
+以下情形避免過度壓縮：
+- 小型響應（<100 tokens）— 開銷不值
+- 關鍵錯誤消息 — 清晰優先於簡潔
+- 安全相關字段 — 顯式更安全
+- 面向用戶的文檔 — 可讀性重要
 
 **Example - Don't compress:**
 ```json
@@ -293,7 +293,7 @@ Avoid over-compression for:
 }
 ```
 
-**Recommendation:** Compress field names moderately, keep structure clear.
+**Recommendation:** 適度壓縮字段名，保持結構清晰。
 
 ## Quick Reference
 
@@ -316,4 +316,4 @@ Avoid over-compression for:
 4. **Abbreviation** - 20-35% savings
 5. **Table format** - 25-40% savings for lists
 
-Focus on ID references and selective fields first for maximum impact.
+優先以ID引用與選擇性字段取得最大收益。

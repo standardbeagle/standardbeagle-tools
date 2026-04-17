@@ -1,19 +1,19 @@
 ---
 name: design-mcp
-description: Design a new MCP server with interactive guidance and generate comprehensive JSON skeleton specification
+description: Design a new MCP server with interactive guidance and generate comprehensive JSON skeleton specification. 交互式引導設計新MCP服務器，生成完整JSON骨架規範。
 argument-hint: "[server-name]"
 allowed-tools: [Read, Write, AskUserQuestion, Glob, Grep]
 ---
 
 # MCP Server Design
 
-Generate a comprehensive design specification for a new MCP server following best practices for multi-tool organization, progressive discovery, and token efficiency.
+按最佳實踐為新MCP服務器生成完整設計規範，涵蓋多工具組織、漸進式發現及token效率。
 
 ## Process
 
 ### Step 1: Understand Requirements
 
-Ask the user about the MCP server:
+詢問用戶MCP服務器相關信息：
 
 1. **Purpose**: What problem does this MCP server solve?
 2. **Domain**: What domain/area does it cover? (code, browser, process management, data, etc.)
@@ -25,7 +25,7 @@ Use AskUserQuestion to gather this information interactively.
 
 ### Step 2: Design Tool Architecture
 
-Based on requirements, recommend:
+基於需求建議：
 
 1. **Architectural pattern**: Hub-and-Spoke, CRUD, Discovery-Detail, Aggregation, or combination
 2. **Tool grouping**: Logical categories (query, lookup, management, analysis)
@@ -159,14 +159,14 @@ Create a detailed JSON specification that includes:
 
 ### Step 4: Write Skeleton to File
 
-Save the JSON skeleton to a file:
+保存JSON骨架到文件：
 - Ask user for output path (default: `./mcp-design-{name}.json`)
 - Write comprehensive JSON using Write tool
 - Confirm file written and provide next steps
 
 ### Step 5: Provide Guidance
 
-After generating the skeleton, tell the user:
+生成骨架後，告知用戶：
 
 **Next steps:**
 1. **Review the design** - Check tool organization and workflows
@@ -177,8 +177,10 @@ After generating the skeleton, tell the user:
 
 **Resources:**
 - Use `/analyze-mcp` command to validate design
-- Invoke mcp-architect agent for detailed assistance
-- Reference mcp-examples skill for real-world patterns
+
+> Invoke the `Skill` tool with `skill: mcp-architect:mcp-architecture` — 深入架構模式與命名慣例指引。
+
+> Invoke the `Skill` tool with `skill: mcp-architect:mcp-examples` — 參照lci、agnt等真實MCP實例。
 
 ## Output Format
 
@@ -271,21 +273,21 @@ Generate skeleton with:
 
 ## Error Handling
 
-If user requirements are unclear:
+需求不明確時：
 - Use AskUserQuestion to clarify
 - Provide example options
 - Don't guess critical design decisions
 
-If output path already exists:
+輸出路徑已存在時：
 - Ask user if they want to overwrite
 - Offer to save with different name
 
 ## Tips
 
-- Focus skeleton on **architecture and relationships**, not implementation details
-- Include **specific existing functions** user mentioned
-- Provide **realistic token budgets** based on similar MCPs
-- Make **workflows concrete** with actual tool calls
-- Ensure **handoff-ready** for junior developer
+- 骨架聚焦**架構與關係**，非實現細節
+- 包含用戶提到的**具體現有函數**
+- 基於類似MCP提供**真實token預算**
+- 以實際工具調用**具體化工作流**
+- 確保**可交接**給初級開發者
 
-The goal is a comprehensive design document that a developer can implement without needing to make major architectural decisions.
+目標：提供完整設計文檔，使開發者無需做出主要架構決策即可實現。

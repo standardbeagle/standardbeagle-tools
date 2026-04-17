@@ -1,6 +1,6 @@
 ---
 name: Progressive Discovery
-description: This skill should be used when the user asks to "implement info tool", "create discovery tool", "progressive disclosure", "help system", "enumerate MCP capabilities", "info tool pattern", or discusses how users discover what an MCP server can do. Provides the info tool pattern for progressive capability discovery.
+description: Info/discovery tool pattern for layered MCP capability exploration. 漸進披露能力、info工具模式。Use when: user asks to implement info tool, create discovery tool, progressive disclosure, help system, enumerate MCP capabilities, info tool pattern, or discusses how users discover what an MCP server can do.
 version: 0.1.0
 ---
 
@@ -8,25 +8,25 @@ version: 0.1.0
 
 ## Purpose
 
-Implement the info/discovery tool pattern that helps users explore MCP server capabilities progressively. Prevent overwhelming users with too many tools by providing layered access to information: overview → category → specific tool → detailed documentation.
+實現info/discovery工具模式，使用戶逐層探索MCP服務器能力。防止工具過多令人茫然，以分層訪問提供概覽→類別→具體工具→詳細文檔。
 
 ## When to Use
 
-Apply this pattern when:
-- MCP server has 5+ tools
-- Tool count will grow over time
-- Tools group into logical categories
-- Users need guidance on what's available
-- Tool discovery is a problem
+適用情形：
+- MCP服務器有5+工具
+- 工具數將增長
+- 工具可分邏輯類別
+- 用戶需指引了解現有工具
+- 工具發現存在困難
 
 ## The Info Tool Pattern
 
 ### Core Concept
 
-**Single entry point** (`info`) that enumerates:
-1. **What exists** - Tool categories and counts
-2. **How to learn more** - Next discovery steps
-3. **Common workflows** - Typical usage patterns
+**單一入口**（`info`）枚舉：
+1. **現有內容** - 工具類別與計數
+2. **如何深入** - 下一發現步驟
+3. **常用工作流** - 典型使用模式
 
 **Example sparse table output:**
 
@@ -361,7 +361,7 @@ User asks: "Tell me everything"
 
 ## Accept Extra Parameters Pattern
 
-**Critical learned lesson:** Always accept extra/hallucinated parameters with warnings.
+**Critical learned lesson:** 常接受額外/幻覺參數並警示。
 
 ```typescript
 // Pseudocode
@@ -383,11 +383,11 @@ function info(options: any) {
 }
 ```
 
-**Why:** AI agents sometimes hallucinate parameters. Be permissive unless parameters cause severe issues.
+**Why:** AI代理有時幻覺參數。除非造成嚴重問題，否則寬容接受。
 
 ## Common Workflows Section
 
-Always include common workflows in overview:
+概覽中常包含常用工作流：
 
 ```
 Common Workflows
@@ -418,7 +418,7 @@ function info() {
 }
 ```
 
-**Why bad:** Overwhelming, wastes tokens
+**Why bad:** 信息過載，浪費token
 
 ### ❌ No Categories
 
@@ -431,7 +431,7 @@ function info() {
 }
 ```
 
-**Why bad:** No organization, hard to scan
+**Why bad:** 無組織，難以掃視
 
 ### ❌ Reject Unknown Parameters
 
@@ -443,7 +443,7 @@ function info(options) {
 }
 ```
 
-**Why bad:** Brittle, rejects AI hallucinations unnecessarily
+**Why bad:** 脆弱，拒絕AI幻覺參數
 
 ## Real-World Examples
 
@@ -526,4 +526,4 @@ function info(category?: string, detail_level: "sparse" | "medium" | "full" = "s
 3. **Tool** - Single tool full documentation (~400 tokens)
 4. **Comprehensive** - Everything (use sparingly, ~1000+ tokens)
 
-Focus on helping users discover capabilities without overwhelming them with information.
+助用戶發現能力，勿以信息過載。

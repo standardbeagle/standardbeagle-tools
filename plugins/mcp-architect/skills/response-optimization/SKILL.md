@@ -1,6 +1,6 @@
 ---
 name: Response Optimization
-description: This skill should be used when the user asks about "JSON flags", "token IDs", "cross-tool references", "progressive detail", "response optimization", "human and LLM readable", "automation flags", "confidence-based detail", or discusses optimizing MCP responses for both human and machine consumption. Provides patterns for human/LLM readable responses with automation-friendly structures.
+description: Patterns for human/LLM readable MCP responses with automation flags, token/ID cross-tool references, and confidence-based progressive detail. 人機雙讀響應設計、自動化標誌、token效率優化。Use when: user asks about JSON flags, token IDs, cross-tool references, progressive detail, response optimization, human and LLM readable, automation flags, confidence-based detail, or discusses optimizing MCP responses for both human and machine consumption.
 version: 0.1.0
 ---
 
@@ -8,34 +8,34 @@ version: 0.1.0
 
 ## Purpose
 
-Design MCP tool responses that work for both humans (readable) and AI agents (parseable), with JSON flags for automation, token/ID systems for cross-tool references, and progressive detail levels based on relevance or confidence.
+設計既適人閱讀又可機器解析之MCP工具響應，含自動化JSON標誌、跨工具token/ID系統，及按相關性或置信度的漸進詳細層次。
 
 ## When to Use
 
-Apply these patterns when:
-- Responses need to be both human-readable and machine-parseable
-- Tools generate data consumed by other tools
-- Detail level should vary by relevance/confidence
-- Automation needs status flags (`has_more`, `truncated`)
-- Token efficiency is critical
+適用情形：
+- 響應需同時適合人類閱讀和機器解析
+- 工具產生的數據將被其他工具消費
+- 詳細程度應按相關性/置信度調整
+- 自動化需要狀態標誌（`has_more`、`truncated`）
+- token效率至關重要
 
 ## Core Concepts
 
 ### 1. Human/LLM Readable Format
 
-Design responses that serve both audiences:
+響應設計服務兩類受眾：
 
 **Human needs:**
-- Scannable structure
-- Clear labels
-- Sparse tables for overview
-- Narrative descriptions
+- 可掃視的結構
+- 清晰標籤
+- 概覽用稀疏表格
+- 敘述性描述
 
 **LLM/AI needs:**
-- Structured JSON
-- Consistent schemas
-- Automation flags
-- Parseable data
+- 結構化JSON
+- 一致模式
+- 自動化標誌
+- 可解析數據
 
 **Example response:**
 
@@ -57,7 +57,7 @@ Design responses that serve both audiences:
 
 ### 2. JSON Automation Flags
 
-Standard flags that enable AI agents to understand response state:
+使AI代理理解響應狀態之標準標誌：
 
 **Common flags:**
 
@@ -101,7 +101,7 @@ if (response.metadata.has_more) {
 
 ### 3. Token/ID Systems for Cross-Tool References
 
-Use IDs instead of repeating data between tools:
+以ID取代工具間重複傳遞數據：
 
 **Anti-pattern (wasteful):**
 ```json
@@ -152,11 +152,11 @@ Sequential:     result_1, result_2, result_3
 UUID subset:    a1b2c3d4
 ```
 
-**Recommendation:** Short hash (4-8 chars) with optional prefix for clarity
+**Recommendation:** 短哈希（4-8字符），可選前綴以增清晰度
 
 ### 4. Progressive Detail by Relevance
 
-Vary detail level based on match strength, confidence, or relevance:
+按匹配強度、置信度或相關性調整詳細程度：
 
 **Example: Search results with confidence-based detail**
 
@@ -201,13 +201,13 @@ Vary detail level based on match strength, confidence, or relevance:
 - Low: ~10 tokens each
 
 **Benefits:**
-- Most relevant results get full attention
-- Token budget focused on likely matches
-- User can request details for any result
+- 最相關結果獲完整關注
+- token預算集中於可能匹配項
+- 用戶可按需請求任意結果詳情
 
 ### 5. Sparse Tables + JSON Arrays
 
-Provide both formats for different consumers:
+為不同消費者提供兩種格式：
 
 **Sparse table (human-friendly):**
 ```
@@ -237,8 +237,8 @@ Use get_definition(id) for full details
 ```
 
 **When to use each:**
-- Sparse table: Info tools, overview outputs, human-focused
-- JSON array: All programmatic outputs, AI agent consumption
+- Sparse table: Info工具、概覽輸出、面向人類
+- JSON array: 所有程序化輸出、AI代理消費
 
 ## Automation Flag Patterns
 
@@ -309,7 +309,7 @@ search() → result_id[]
 get_definition(result_id) → details
 ```
 
-Simple, works for small MCPs (5-10 tools)
+簡單，適合小型MCP（5-10工具）
 
 ### Pattern 2: Typed IDs
 
@@ -319,7 +319,7 @@ get_definition(result_id) → symbol_id (prefixed: sym_*)
 find_references(symbol_id) → reference_id[] (prefixed: ref_*)
 ```
 
-Clear type distinction, works for 10-20 tools
+類型清晰，適合中型MCP（10-20工具）
 
 ### Pattern 3: Hierarchical IDs
 
@@ -329,7 +329,7 @@ currentpage(proxy_id) → session_id
 proxylog(proxy_id, session_id) → request_id[]
 ```
 
-Parent-child relationships, works for complex stateful MCPs
+父子關係，適合複雜有狀態MCP
 
 ## Progressive Detail Examples
 
@@ -429,7 +429,7 @@ Parent-child relationships, works for complex stateful MCPs
 
 ## Accept Extra Parameters (Critical Pattern)
 
-**Always accept, warn, don't reject:**
+**常接受、警示，不拒絕：**
 
 ```typescript
 // Pseudocode
@@ -454,7 +454,7 @@ function search(params: any) {
 }
 ```
 
-**Why critical:** AI agents hallucinate parameters. Be permissive unless severe issue (security, corruption).
+**Why critical:** AI代理幻覺參數。除非嚴重問題（安全、數據損壞），否則寬容接受。
 
 ## Quick Reference
 
@@ -477,4 +477,4 @@ function search(params: any) {
 4. **Progressive detail:** More detail for higher confidence
 5. **Permissive inputs:** Accept and warn, don't reject
 
-Focus on making responses useful for both humans reading them and AI agents processing them.
+使響應對閱讀的人類和處理的AI代理皆有用。

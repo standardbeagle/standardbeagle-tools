@@ -1,6 +1,6 @@
 ---
 name: Client Guidance
-description: This skill should be used when the user asks about "error messages", "did you mean", "similar tools", "parameter suggestions", "schema hints", "MCP error handling", "guide the client", "helpful errors", "fuzzy matching", or discusses how MCP servers should guide clients with progressive error enhancement and corrective feedback.
+description: MCP error responses that guide clients toward success via progressive enhancement, similar tool suggestions, parameter corrections, and schema hints. 錯誤即漸進引導、模糊匹配、模式提示。Use when: user asks about error messages, did you mean, similar tools, parameter suggestions, schema hints, MCP error handling, guide the client, helpful errors, fuzzy matching, or discusses how MCP servers should guide clients with progressive error enhancement and corrective feedback.
 version: 0.1.0
 ---
 
@@ -8,19 +8,19 @@ version: 0.1.0
 
 ## Purpose
 
-Design MCP error responses that guide clients toward success through progressive enhancement: suggesting similar tools, recommending correct parameters, providing schema subsets, and offering corrective feedback rather than just rejecting requests.
+設計MCP錯誤響應，通過漸進增強引導客戶端走向成功：建議相似工具、推薦正確參數、提供模式子集、給出糾正反饋，而非僅拒絕請求。
 
 ## When to Use
 
-- Designing error handling for MCP tools
-- Implementing "did you mean" suggestions
-- Adding fuzzy matching for tool/parameter names
-- Including schema hints in error responses
-- Building robust client guidance patterns
+- 為MCP工具設計錯誤處理
+- 實現「您是否意思是」建議
+- 為工具/參數名稱添加模糊匹配
+- 在錯誤響應中包含模式提示
+- 構建健壯的客戶端引導模式
 
 ## Core Principle: Errors as Progressive Enhancement
 
-Traditional errors reject and stop. **Progressive enhancement errors** reject but guide:
+傳統錯誤只拒絕並停止。**漸進增強錯誤**拒絕但引導：
 
 ```
 Traditional:
@@ -36,7 +36,7 @@ Progressive Enhancement:
 
 ## Pattern 1: Similar Tool Suggestions
 
-When a client calls an invalid tool, suggest similar ones:
+客戶端調用無效工具時，建議相似工具：
 
 ### Implementation
 
@@ -102,7 +102,7 @@ function findSimilarTools(input: string, available: string[]): string[] {
 
 ### Similarity Algorithm
 
-Combine multiple signals for best matches:
+複合多信號以獲最佳匹配：
 
 ```typescript
 function calculateSimilarity(input: string, candidate: string): number {
@@ -124,7 +124,7 @@ function calculateSimilarity(input: string, candidate: string): number {
 
 ## Pattern 2: Parameter Correction
 
-When parameters are invalid, suggest corrections:
+參數無效時建議糾正：
 
 ### Unknown Parameter Handling
 
@@ -181,7 +181,7 @@ function validateParams(params: any, schema: Schema) {
 
 ### Auto-Correction Option
 
-For high-confidence matches, optionally auto-correct:
+高置信度匹配時可選自動糾正：
 
 ```typescript
 function handleParams(params: any, schema: Schema) {
@@ -229,7 +229,7 @@ function handleParams(params: any, schema: Schema) {
 
 ## Pattern 3: Schema Hints in Errors
 
-Include relevant schema information in error responses:
+錯誤響應中包含相關模式信息：
 
 ### Missing Required Parameter
 
@@ -299,7 +299,7 @@ Include relevant schema information in error responses:
 
 ## Pattern 4: Progressive Schema Disclosure
 
-Provide schema at different detail levels based on context:
+按情境提供不同詳細程度的模式：
 
 ### Level 1: Minimal (in error messages)
 
@@ -382,7 +382,7 @@ function getSchemaHint(schema: Schema, level: 'minimal' | 'typed' | 'full') {
 
 ## Pattern 5: Contextual Next Steps
 
-Always provide actionable next steps:
+始終提供可操作的下一步：
 
 ### After Successful Query
 
@@ -436,7 +436,7 @@ Always provide actionable next steps:
 
 ## Pattern 6: Preemptive Guidance
 
-Include helpful hints even in successful responses:
+成功響應中也包含有用提示：
 
 ### Query Tool Response
 
@@ -558,7 +558,9 @@ function determineErrorSeverity(error: ValidationError): Severity {
 
 ## Testing Client Guidance
 
-Use the mcp-fuzzer agent to validate:
+> Invoke the `Skill` tool with `skill: mcp-architect:tool-design` — 驗證工具設計符合client guidance要求。
+
+亦可用mcp-fuzzer代理驗證：
 
 ```markdown
 ## Test: Unknown Tool Handling

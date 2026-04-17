@@ -1,6 +1,6 @@
 # MCP Architecture Patterns
 
-Comprehensive organizational patterns for multi-tool MCP servers.
+多工具MCP服務器綜合組織模式。
 
 ## Pattern Catalog
 
@@ -201,7 +201,7 @@ code-search-v2 (beta)
 code-search-v3 (experimental)
 ```
 
-**Recommendation:** Use parameter approach for minor changes, separate servers for major breaking changes.
+**Recommendation:** 微小變更用參數法，重大破壞性變更用獨立服務器。
 
 ### 8. Lazy Loading Pattern
 
@@ -385,7 +385,7 @@ Lazy Loading:
 
 ## Pattern Combinations
 
-Most real-world MCPs use multiple patterns:
+現實MCP多用複合模式：
 
 **Code Search Example:**
 - Hub-and-Spoke (search → details)
@@ -401,4 +401,4 @@ Most real-world MCPs use multiple patterns:
 4. trace_callers(id1) → Deep dive on one result
 ```
 
-This combines patterns for optimal token efficiency and user experience.
+複合模式實現最優token效率與用戶體驗。

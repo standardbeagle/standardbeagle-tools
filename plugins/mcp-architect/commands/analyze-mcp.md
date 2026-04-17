@@ -1,13 +1,13 @@
 ---
 name: analyze-mcp
-description: Analyze an existing MCP server implementation for optimization opportunities and best practice compliance
+description: Analyze an existing MCP server implementation for optimization opportunities and best practice compliance. 分析現有MCP服務器實現，識別優化機會與最佳實踐合規性。
 argument-hint: "[path-to-mcp]"
 allowed-tools: [Read, Glob, Grep, Write]
 ---
 
 # Analyze MCP Server
 
-Review an existing MCP server implementation and identify opportunities for:
+審查現有MCP服務器實現，識別以下改進機會：
 - Tool organization improvements
 - Token efficiency optimizations
 - Progressive discovery enhancements
@@ -18,7 +18,7 @@ Review an existing MCP server implementation and identify opportunities for:
 
 ### Step 1: Discover MCP Structure
 
-Ask user for MCP location:
+詢問用戶MCP位置：
 - Directory containing MCP server code
 - Specific files to analyze
 - Running MCP server endpoint (if applicable)
@@ -120,7 +120,7 @@ After:
 
 ### Step 4: Prioritize Recommendations
 
-Rank recommendations by impact:
+按影響力排列建議：
 
 **High Impact (implement first):**
 - ID systems for cross-tool references (70-90% token savings)
@@ -148,7 +148,7 @@ Write analysis to file:
 
 ### Architecture Patterns
 
-Identify which pattern(s) the MCP uses:
+識別MCP使用哪種模式：
 - Hub-and-Spoke
 - CRUD
 - Discovery-Detail
@@ -156,7 +156,7 @@ Identify which pattern(s) the MCP uses:
 - Pipeline
 - Lazy Loading
 
-Assess if pattern is appropriate for use case.
+評估模式是否適合用例。
 
 ### Token Efficiency Score
 
@@ -295,15 +295,23 @@ function info(category?: string) {
 }
 ```
 
-**Impact:** Users can discover capabilities without trial and error
+**Impact:** 用戶無需試錯即可發現能力
 ```
+
+## Additional Resources
+
+> Invoke the `Skill` tool with `skill: mcp-architect:mcp-architecture` — 架構模式深入參考。
+
+> Invoke the `Skill` tool with `skill: mcp-architect:response-optimization` — 響應優化與token效率模式。
+
+> Invoke the `Skill` tool with `skill: mcp-architect:client-guidance` — 錯誤響應漸進增強模式。
 
 ## Tips
 
-- **Be specific** - Don't just say "improve token efficiency", show exact changes
-- **Show examples** - Before/after code snippets
-- **Quantify impact** - Token savings percentages, UX improvements
-- **Prioritize** - Focus on high-impact improvements first
-- **Be constructive** - Frame as opportunities, not criticism
+- **Be specific** - 不只說「提升token效率」，展示具體變更
+- **Show examples** - Before/after代碼片段
+- **Quantify impact** - Token節省百分比、用戶體驗改進
+- **Prioritize** - 聚焦高影響力改進
+- **Be constructive** - 以機會而非批評表述
 
-The goal is actionable recommendations that improve the MCP without requiring a complete rewrite.
+目標：提供可操作的建議，無需完全重寫即可改善MCP。

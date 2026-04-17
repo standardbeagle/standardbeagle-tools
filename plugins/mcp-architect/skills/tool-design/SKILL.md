@@ -1,6 +1,6 @@
 ---
 name: Tool Design
-description: This skill should be used when the user asks to "design MCP tool", "create tool schema", "tool best practices", "input validation", "output schema", "error handling for tools", or discusses designing individual MCP tools with proper schemas and responses.
+description: Design individual MCP tools with clear input/output schemas, error handling, and token-efficient responses. 單工具模式設計、輸入輸出模式、漸進詳情、錯誤處理。Use when: user asks to design MCP tool, create tool schema, tool best practices, input validation, output schema, error handling for tools, or discusses designing individual MCP tools with proper schemas and responses.
 version: 0.1.0
 ---
 
@@ -8,15 +8,15 @@ version: 0.1.0
 
 ## Purpose
 
-Design individual MCP tools with clear input/output schemas, proper error handling, and token-efficient responses following best practices.
+以清晰輸入/輸出模式、適當錯誤處理及遵循最佳實踐的token高效響應設計單個MCP工具。
 
 ## When to Use
 
-- Designing new MCP tools
-- Refining existing tool schemas
-- Implementing error handling
-- Optimizing tool responses
-- Validating tool design
+- 設計新MCP工具
+- 精煉現有工具模式
+- 實現錯誤處理
+- 優化工具響應
+- 驗證工具設計
 
 ## Input Schema Design
 
@@ -114,7 +114,7 @@ function search(params) {
 
 ## Error Handling
 
-> **See also:** [Client Guidance](../client-guidance/SKILL.md) for comprehensive error-as-progressive-enhancement patterns including similar tool suggestions, parameter corrections, and schema hints.
+> Invoke the `Skill` tool with `skill: mcp-architect:client-guidance` — 全面錯誤漸進增強模式，含相似工具建議、參數糾正及模式提示。
 
 ### Error Response Structure
 
@@ -162,7 +162,7 @@ MISSING_REQUIRED    - Required parameter missing (include schema)
 
 ### Client Guidance in Errors
 
-Errors should guide clients toward success:
+錯誤應引導客戶端走向成功：
 
 ```json
 {

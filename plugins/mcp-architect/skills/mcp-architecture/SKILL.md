@@ -1,6 +1,6 @@
 ---
 name: MCP Architecture
-description: This skill should be used when the user asks to "organize MCP tools", "structure multi-tool MCP", "design MCP architecture", "group MCP tools", "organize 10+ tools", or discusses how to architect complex MCP servers with many tools. Provides patterns for organizing, naming, and structuring multi-tool MCP servers.
+description: Patterns for organizing, naming, and structuring multi-tool MCP servers (10+ tools). 多工具MCP服務器架構、分組、命名慣例。Use when: user asks to organize MCP tools, structure multi-tool MCP, design MCP architecture, group MCP tools, organize 10+ tools, or discusses how to architect complex MCP servers with many tools.
 version: 0.1.0
 ---
 
@@ -8,22 +8,22 @@ version: 0.1.0
 
 ## Purpose
 
-Design the overall architecture and organization of Model Context Protocol servers with multiple tools (10+ tools). Provide patterns for grouping related tools, naming conventions for discoverability, and structural approaches that scale as MCP servers grow.
+設計含多工具（10+）MCP服務器之整體架構與組織。提供相關工具分組、可發現性命名慣例及隨MCP服務器增長而擴展之結構方案。
 
 ## When to Use
 
-Apply these patterns when:
-- Designing an MCP server with 10 or more tools
-- Reorganizing an existing MCP for better discoverability
-- Planning tool relationships and data flow
-- Structuring tools for progressive discovery
-- Creating consistent naming across related tools
+適用情形：
+- 設計含10+工具之MCP服務器
+- 重組現有MCP以提升可發現性
+- 規劃工具關係與數據流
+- 為漸進式發現構建工具結構
+- 在相關工具間建立一致命名
 
 ## Core Principles
 
 ### 1. Logical Grouping
 
-Group tools by domain, workflow, or data type rather than technical implementation.
+按領域、工作流或數據類型分組，而非按技術實現。
 
 **Example: Code Search MCP**
 
@@ -35,7 +35,7 @@ Group tools by domain, workflow, or data type rather than technical implementati
 | get_context | enrichment | Get full context for symbol |
 | info | discovery | Enumerate available tools |
 
-**Sparse table format** - Human readable, shows relationships at a glance.
+**Sparse table format** - 人機皆可快速掃視關係。
 
 **JSON array format** for automation:
 ```json
@@ -57,9 +57,9 @@ Group tools by domain, workflow, or data type rather than technical implementati
 
 ### 2. Naming Conventions
 
-Use consistent verb-noun patterns that indicate:
-- **Action**: What the tool does (search, get, find, list, create)
-- **Target**: What it operates on (file, symbol, process, session)
+使用一致動詞-名詞模式，明示：
+- **Action**: 工具所作何事 (search, get, find, list, create)
+- **Target**: 操作對象 (file, symbol, process, session)
 
 **Good naming patterns:**
 
@@ -83,7 +83,7 @@ Discovery:       info, help, describe_*
 
 ### 3. Tool Relationships
 
-Define explicit relationships between tools using token/ID systems for cross-tool references.
+以token/ID系統定義工具間顯式關係，用於跨工具引用。
 
 **Example: Browser Integration MCP**
 
@@ -108,11 +108,11 @@ proxy_replay
 | proxy_log | request_id | proxy_id | Log retrieval |
 | proxy_replay | - | request_id | Request replay |
 
-This shows data flow and tool dependencies at a glance.
+一覽數據流與工具依賴。
 
 ### 4. Server Metadata
 
-Structure server metadata for clarity and automation.
+為清晰性與自動化構建服務器元數據結構。
 
 **Minimal metadata:**
 ```json
@@ -144,13 +144,13 @@ Structure server metadata for clarity and automation.
 }
 ```
 
-Automation flags like `progressive_discovery` and `has_info_tool` help AI agents understand how to use the server effectively.
+`progressive_discovery`、`has_info_tool`等自動化標誌助AI代理有效使用服務器。
 
 ## Organizational Patterns
 
 ### Pattern 1: Layered Discovery
 
-Organize tools in progressive layers of detail:
+以遞進詳細層次組織工具：
 
 **Layer 1: Discovery** - `info` tool
 **Layer 2: Overview** - `search`, `list_*` tools
@@ -168,7 +168,7 @@ Organize tools in progressive layers of detail:
 
 ### Pattern 2: Workflow Grouping
 
-Organize tools around common workflows:
+圍繞常用工作流組織工具：
 
 **Code Search Workflows:**
 
@@ -185,11 +185,11 @@ Workflow: Understand Usage
   3. get_context(reference_id)
 ```
 
-Document workflows in server metadata or info tool output.
+在服務器元數據或info工具輸出中記錄工作流。
 
 ### Pattern 3: Domain Separation
 
-For servers handling multiple domains, use prefixes:
+對處理多領域的服務器，使用前綴：
 
 ```
 Code domain:     code_search, code_definition, code_references
@@ -209,11 +209,11 @@ Project domain:  project_info, project_structure, project_deps
 
 ### When to Split an MCP Server
 
-Consider splitting when:
-- Tool count exceeds 20
-- Distinct domains with different deployment requirements
-- Different authentication/authorization needs
-- Tools have different performance characteristics
+考慮拆分情形：
+- 工具數超過20
+- 不同領域有不同部署需求
+- 不同認證/授權需求
+- 工具性能特性差異大
 
 **Example: Split recommendation**
 
@@ -233,11 +233,11 @@ After (3 servers):
 
 ### When to Keep Tools Together
 
-Keep tools in one server when:
-- They share common data/state
-- Cross-tool workflows are frequent
-- Combined tool count < 15
-- Deployment complexity isn't worth the split
+保持合併情形：
+- 共享公共數據/狀態
+- 跨工具工作流頻繁
+- 合計工具數 < 15
+- 部署複雜度不值得拆分
 
 ## Naming Examples
 
@@ -283,7 +283,7 @@ run             - Ambiguous (run what?)
 
 ## Architecture Documentation
 
-Document architecture in server metadata, README, or info tool output.
+在服務器元數據、README或info工具輸出中記錄架構。
 
 **Example info tool output (sparse table):**
 
@@ -332,7 +332,7 @@ Use get_help(tool_name) for detailed tool documentation.
 
 ### Reference Files
 
-For detailed patterns and advanced techniques, consult:
+詳細模式與進階技術，參見：
 - **`references/patterns.md`** - Comprehensive organizational patterns
 
 ### Examples
@@ -343,7 +343,7 @@ Working examples in `examples/`:
 
 ## Quick Reference
 
-**When architecting an MCP server:**
+**架構MCP服務器時：**
 
 1. **Group logically** - By domain, workflow, or data type
 2. **Name consistently** - Use verb-noun patterns
@@ -364,4 +364,4 @@ Working examples in `examples/`:
 - [ ] Workflows documented
 - [ ] Scaling strategy considered
 
-Focus on discoverability and progressive access to prevent overwhelming users with too many tools at once.
+以可發現性與漸進訪問為重，防止工具過多令用戶茫然。
