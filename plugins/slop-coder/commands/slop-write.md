@@ -1,11 +1,11 @@
 ---
 name: slop-write
-description: Write SLOP code with AI assistance - generates correct, safe, and idiomatic SLOP code
+description: Write SLOP code with AI assistance - generates correct, safe, and idiomatic SLOP code. AI輔助生成正確、安全、慣用的SLOP代碼。Use when: generating new SLOP programs from requirements, scaffolding agents/pipelines/batch processors.
 ---
 
 # Write SLOP Code
 
-Generate SLOP code based on requirements. This command helps you write correct, safe, and idiomatic SLOP code.
+按需求生成SLOP代碼。此命令助汝編寫正確、安全、慣用之SLOP代碼。
 
 ## Usage
 
@@ -23,28 +23,28 @@ Generate SLOP code based on requirements. This command helps you write correct, 
 
 ## What You Should Do
 
-When asked to write SLOP code, follow these guidelines:
+編寫SLOP代碼時，遵循以下準則：
 
 ### 1. Understand the Requirements
 
-- What is the input?
-- What is the output?
-- Are there external services (LLM, API, MCP)?
-- Are there performance constraints (rate limits, timeouts)?
+- 輸入為何？
+- 輸出為何？
+- 是否涉及外部服務（LLM、API、MCP）？
+- 是否有性能約束（速率限制、超時）？
 
 ### 2. Apply SLOP Best Practices
 
 **Always:**
-- Bound all loops with `limit()`, `rate()`, or bounded collections
-- Use `emit` for streaming output
-- Handle errors with `try/catch`
-- Use schemas for LLM calls
+- 以`limit()`、`rate()`或有界集合限制所有循環
+- 使用`emit`進行流式輸出
+- 以`try/catch`處理錯誤
+- LLM調用定義模式
 
 **Prefer:**
-- Pipelines over nested loops
-- Lambda functions for simple transforms
-- `match` expressions for branching
-- Meaningful variable names
+- 管道優於嵌套循環
+- 簡單轉換用lambda函數
+- 分支用`match`表達式
+- 有意義的變量名
 
 ### 3. Structure the Code
 
@@ -110,7 +110,7 @@ emit result
 
 ## Code Generation Template
 
-When generating SLOP code, produce output in this format:
+生成SLOP代碼時，按以下格式輸出：
 
 ```python
 # Description: <what the code does>
@@ -130,17 +130,17 @@ emit(result: result, status: "complete")
 
 ## Validation Checklist
 
-Before presenting code, verify:
+呈現代碼前，驗證：
 
-- [ ] All loops are bounded (limit, rate, or finite collection)
-- [ ] LLM calls have schemas defined
-- [ ] Error handling is present for risky operations
-- [ ] Variables are properly scoped
-- [ ] Output uses emit statements
-- [ ] No infinite recursion possible
-- [ ] String interpolation uses `{variable}` syntax
-- [ ] Pipelines use `|` operator correctly
-- [ ] Lambda syntax is `x -> expression` or `(a, b) -> expression`
+- [ ] 所有循環有界（limit、rate或有限集合）
+- [ ] LLM調用已定義模式
+- [ ] 危險操作有錯誤處理
+- [ ] 變量作用域正確
+- [ ] 輸出使用emit語句
+- [ ] 無無限遞歸可能
+- [ ] 字符串插值使用`{variable}`語法
+- [ ] 管道正確使用`|`運算符
+- [ ] Lambda語法為`x -> expression`或`(a, b) -> expression`
 
 ## Common Mistakes to Avoid
 

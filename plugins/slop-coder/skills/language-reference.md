@@ -1,18 +1,18 @@
 ---
 name: slop-language
-description: Complete SLOP language reference - syntax, data types, operators, control flow, and LLM integration
+description: Complete SLOP language reference - syntax, types, operators, control flow, LLM integration. SLOP語言完整參考，含語法、類型、運算符、控制流、LLM集成。Use when: learning SLOP syntax, looking up operators/keywords, understanding loop modifiers or emit patterns.
 ---
 
 # SLOP Language Reference
 
-SLOP (Structured Language for Orchestrating Prompts) is a domain-specific language for building AI agents and LLM orchestration workflows. It features Python-like syntax with built-in safety guarantees.
+SLOP（Structured Language for Orchestrating Prompts）——構建AI代理及LLM編排工作流之領域特定語言。語法近Python，內置安全保障。
 
 ## Key Characteristics
 
-- **Python-like syntax** - Familiar indentation-based blocks
-- **Safety-first** - All loops must be bounded, no infinite recursion
-- **AI-native** - Built-in LLM calls and schema validation
-- **Streaming** - `emit` statements for progressive output
+- **Python-like syntax** — 熟悉的縮進塊結構
+- **Safety-first** — 所有循環必須有界，禁止無限遞歸
+- **AI-native** — 內置LLM調用與模式校驗
+- **Streaming** — `emit`語句支持漸進輸出
 
 ---
 
@@ -180,7 +180,7 @@ else:
 
 ### For Loops
 
-All loops must be bounded for safety.
+所有循環必須有界，以保安全。
 
 ```python
 # Iterate over collection
@@ -453,17 +453,17 @@ pairs = [(x, y) for x in xs for y in ys]
 
 ## Truthiness
 
-Values that are **falsy** (evaluate to false in boolean context):
+以下值為**假**（布爾上下文中為false）：
 
 - `none`
 - `false`
-- `0` (integer zero)
-- `0.0` (float zero)
-- `""` (empty string)
-- `[]` (empty list)
-- `{}` (empty map/set)
+- `0`（整數零）
+- `0.0`（浮點零）
+- `""`（空字符串）
+- `[]`（空列表）
+- `{}`（空映射/集合）
 
-Everything else is **truthy**.
+其余皆為**真**。
 
 ---
 
@@ -479,10 +479,10 @@ try catch break continue source use main export input output
 
 ## Best Practices
 
-1. **Always bound loops** - Use `limit()`, `rate()`, or bounded collections
-2. **Use schemas for LLM calls** - Get structured, type-safe responses
-3. **Emit incrementally** - Stream results for long operations
-4. **Handle errors** - Use try/catch for risky operations
-5. **Use pipelines** - Chain transformations for readability
-6. **Keep functions small** - Single responsibility
-7. **Use meaningful names** - Self-documenting code
+1. **Always bound loops** — 使用`limit()`、`rate()`或有界集合
+2. **Use schemas for LLM calls** — 獲得結構化、類型安全的響應
+3. **Emit incrementally** — 長操作漸進輸出
+4. **Handle errors** — 危險操作使用try/catch
+5. **Use pipelines** — 鏈式轉換提升可讀性
+6. **Keep functions small** — 單一職責
+7. **Use meaningful names** — 代碼自文檔化

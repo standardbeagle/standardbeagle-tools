@@ -1,21 +1,21 @@
 ---
 name: slop-modules
-description: SLOP module system - creating, using, and composing reusable code modules
+description: SLOP module system - creating, using, and composing reusable code modules. SLOP模組系統，創建、使用、組合可復用模組。Use when: structuring multi-file projects, declaring module dependencies, remapping module implementations, testing with mocks.
 ---
 
 # SLOP Module System
 
-SLOP supports modular code organization through a source/use/main pattern that enables reusable, composable code.
+SLOP以SOURCE/USE/MAIN三段式支持模組化組織，實現可復用、可組合之代碼。
 
 ---
 
 ## Module Structure
 
-A SLOP file with modules has three sections:
+SLOP文件含模組者，分三節：
 
-1. **SOURCE** - Define reusable modules
-2. **USE** - Import modules
-3. **MAIN** - Entry point
+1. **SOURCE** — 定義可復用模組
+2. **USE** — 導入模組
+3. **MAIN** — 入口點
 
 ```python
 ===SOURCE: utils===
@@ -93,7 +93,7 @@ result = utils.clean(input)
 
 ### Module Alias
 
-The module is accessible by its short name (last part of ID):
+模組以ID末段短名訪問：
 
 ```python
 ===USE: mycompany/data-utils===
@@ -109,7 +109,7 @@ data-utils.process(data)
 
 ### Declaring Dependencies
 
-Modules can depend on other modules:
+模組可依賴其他模組：
 
 ```python
 ===SOURCE: processor===
@@ -125,7 +125,7 @@ def process(item):
 
 ### Wiring Dependencies
 
-When using a module with dependencies, import all required modules:
+使用含依賴之模組時，需導入全部所需模組：
 
 ```python
 ===USE: mycompany/processor===
@@ -138,7 +138,7 @@ emit result
 
 ### Dependency Remapping
 
-Override which implementation a module uses:
+覆蓋模組所用實現：
 
 ```python
 ===USE: mycompany/processor with {utils: custom/utils}===
@@ -235,7 +235,7 @@ emit(
 
 ### 1. Single Responsibility
 
-Each module should do one thing well:
+各模組職責單一：
 
 ```python
 # GOOD: Focused modules
@@ -252,7 +252,7 @@ provides: [everything_under_the_sun]
 
 ### 2. Explicit Dependencies
 
-Declare all dependencies explicitly:
+顯式聲明所有依賴：
 
 ```python
 # GOOD: Clear dependencies
@@ -266,15 +266,15 @@ uses: {
 
 ### 3. Semantic Versioning
 
-Use semantic versions in module IDs:
+模組ID使用語義版本：
 
-- `@v1` - Major version only (compatible changes expected)
-- `@v1.2` - Minor version (new features, backwards compatible)
-- `@v1.2.3` - Patch version (bug fixes only)
+- `@v1` — 主版本（預期兼容變更）
+- `@v1.2` — 次版本（新功能，向後兼容）
+- `@v1.2.3` — 補丁版本（僅修復缺陷）
 
 ### 4. Minimal Exports
 
-Only export what's needed:
+僅導出所需接口：
 
 ```python
 # GOOD: Export public API only
@@ -287,7 +287,7 @@ def _internal_helper():
 
 ### 5. Documentation in Modules
 
-Include usage examples:
+模組內含使用示例：
 
 ```python
 ===SOURCE: email===
@@ -310,13 +310,13 @@ def send(to, subject, body):
 
 ### Resolution Order
 
-1. Look for SOURCE section with matching ID
-2. Look for USE statement with matching ID
-3. Error if not found
+1. 查SOURCE節中匹配ID
+2. 查USE語句中匹配ID
+3. 未找到則報錯
 
 ### Circular Dependencies
 
-SLOP prevents circular dependencies:
+SLOP禁止循環依賴：
 
 ```python
 # ERROR: Circular dependency detected
@@ -329,7 +329,7 @@ uses: {a: "pkg/a@v1"}  # Not allowed!
 
 ### Version Conflicts
 
-When multiple versions are requested, SLOP uses the first imported:
+多版本請求時，以首次導入者勝：
 
 ```python
 ===USE: mycompany/utils@v1===      # This version wins

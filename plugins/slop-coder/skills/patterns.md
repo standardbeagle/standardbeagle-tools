@@ -1,17 +1,17 @@
 ---
 name: slop-patterns
-description: Common SLOP patterns and idioms for building AI agents, data processing, and orchestration workflows
+description: SLOP patterns and idioms for AI agents, data processing, orchestration. 常用SLOP範式與慣用法。Use when: writing agent/pipeline boilerplate, rate-limited batches, parallel fetches, classification, retry logic.
 ---
 
 # SLOP Patterns and Idioms
 
-This guide covers common patterns for writing effective SLOP code.
+常用SLOP編程範式，備查。
 
 ---
 
 ## Pattern 1: Simple AI Agent
 
-Basic pattern for an AI agent that processes user input.
+基本AI代理範式，處理用戶輸入。
 
 ```python
 def agent(user_message: string) -> string:
@@ -30,7 +30,7 @@ emit result
 
 ## Pattern 2: Structured Data Extraction
 
-Extract structured data from unstructured text.
+從非結構化文本抽取結構化數據。
 
 ```python
 def extract_entities(text: string):
@@ -57,7 +57,7 @@ emit(
 
 ## Pattern 3: Chain of Thought Reasoning
 
-Multi-step reasoning with intermediate steps.
+多步推理，含中間步驟。
 
 ```python
 def reason(question: string):
@@ -93,7 +93,7 @@ emit(final_answer: result)
 
 ## Pattern 4: Data Pipeline
 
-Transform and filter data through a pipeline.
+管道過濾與轉換數據。
 
 ```python
 # Raw data
@@ -117,7 +117,7 @@ emit result
 
 ## Pattern 5: Batch Processing with Rate Limiting
 
-Process items with rate limiting and progress tracking.
+批量處理，含速率限制與進度追蹤。
 
 ```python
 def process_batch(items):
@@ -157,7 +157,7 @@ process_batch(items)
 
 ## Pattern 6: Retry with Backoff
 
-Retry failed operations with increasing delays.
+失敗重試，遞增延遲。
 
 ```python
 def with_retry(operation, max_attempts=3):
@@ -187,7 +187,7 @@ else:
 
 ## Pattern 7: Parallel Processing
 
-Process items in parallel for better throughput.
+並行處理，提升吞吐量。
 
 ```python
 def fetch_all(urls):
@@ -214,7 +214,7 @@ emit(total: len(data))
 
 ## Pattern 8: Conversational Agent
 
-Multi-turn conversation with context.
+多輪對話，保留上下文。
 
 ```python
 def chat_agent(messages):
@@ -252,7 +252,7 @@ emit(reply: response.reply, intent: response.intent)
 
 ## Pattern 9: Classification with Confidence
 
-Classify items with confidence scores.
+含置信度評分的分類。
 
 ```python
 def classify(text, categories):
@@ -289,7 +289,7 @@ emit result
 
 ## Pattern 10: Aggregation and Summary
 
-Aggregate data and generate summaries.
+聚合數據並生成摘要。
 
 ```python
 def summarize_feedback(reviews):
@@ -329,7 +329,7 @@ emit report
 
 ## Pattern 11: Validation and Sanitization
 
-Validate and clean user input.
+校驗並清理用戶輸入。
 
 ```python
 def validate_user_input(input):
@@ -371,7 +371,7 @@ else:
 
 ## Pattern 12: MCP Service Integration
 
-Call external services via MCP.
+經MCP調用外部服務。
 
 ```python
 def search_and_summarize(query):
@@ -402,7 +402,7 @@ emit(
 
 ## Pattern 13: Decision Tree
 
-Implement decision logic with match.
+以`match`實現決策邏輯。
 
 ```python
 def route_request(request):
@@ -438,7 +438,7 @@ emit result
 
 ## Pattern 14: Progress Tracking
 
-Track and report progress for long operations.
+長任務進度追蹤與報告。
 
 ```python
 def process_with_progress(items):
@@ -475,7 +475,7 @@ def process_with_progress(items):
 
 ## Pattern 15: Configuration-Driven Processing
 
-Use configuration to control behavior.
+以配置驅動處理行為。
 
 ```python
 def process_with_config(data, config):
