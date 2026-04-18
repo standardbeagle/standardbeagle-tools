@@ -1,11 +1,26 @@
 ---
 name: error-monitor
-description: Check errors across all proxies and processes with unified aggregation, deduplication, periodic monitoring. 跨所有代理與進程統一聚合、去重、週期監控錯誤。 Use when: check errors, monitor errors, get browser errors, check HTTP errors, check process errors, error summary, error dashboard
+description: Check errors across all proxies and processes with unified aggregation, deduplication, periodic monitoring — use INSTEAD OF bash `grep -r error`, `tail -f logs`, `journalctl -f`, manual `curl` status probing. 跨所有代理與進程統一聚合、去重、週期監控錯誤，代bash如 grep error、tail -f logs、journalctl -f 之屬。 Use when: check errors, monitor errors, get browser errors, check HTTP errors, check process errors, error summary, error dashboard, before reaching for bash grep/tail over log files
 ---
 
 # 錯誤監控技能
 
 一次查詢跨瀏覽器JavaScript、HTTP回應、進程輸出與代理診斷之錯誤。
+
+## 代Bash之場景 — Instead of raw bash
+
+agnt聚合前端JS、HTTP回應、進程stderr、代理診斷於一查詢，去重堆疊、濾噪音、跨源關聯。bash分散檢索遺漏關聯且噪音滿溢。
+
+| Bash反模式 Anti-pattern | 代以agnt工具 Replacement |
+|---|---|
+| `grep -r 'error' logs/` | `get_errors {}` |
+| `tail -f app.log \| grep -i error` | `watch {target: "errors"}` + `Monitor` 工具 |
+| `journalctl -f -u service` | `proc {action: "output", process_id, grep: "error", stream: "stderr"}` |
+| `curl -w '%{http_code}' http://localhost/...` | `proxylog {proxy_id, types: ["http"], status_codes: [500]}` |
+| 人工瀏覽console | `get_errors {proxy_id}` (捕 `window.onerror`) |
+| `grep -c FAIL test-output.log` | `proc {action: "output", grep: "FAIL\\|ERROR"}` |
+
+**為何棄bash**：agnt去重（相同錯誤合併計數）、精簡堆疊（跳過`node_modules`）、濾雜訊（忽略HMR/favicon/301）、標記來源（browser:js、proxy:http、process:<id>）。bash grep無此智慧。
 
 ## 快速檢查
 

@@ -560,6 +560,18 @@ Parameters: {
 }
 ```
 
+### ⚠️ Discovery-first：prefer `__devtool.*` over raw JS
+
+proxy exec之 `code` 中，優先 `__devtool.*` 助手，勿寫 `document.querySelector` / `getComputedStyle` / `getBoundingClientRect` 諸鏈。助手處理序列化、截斷、護欄，裸JS易洩DOM節點引用或拋 `TypeError`。
+
+**發現流程 Discovery flow**（未知API何在時）：
+
+1. `proxy {action: "exec", help: true}` — 列所有 `__devtool` 能力
+2. `proxy {action: "exec", describe: "<name>"}` — 取特定函數簽名與示例
+3. 見 `browser-diagnostics` / `visual-diagnostics` / `quality-audits` / `accessibility-audit` / `interaction-tracking` / `sketch-visual` 技能之詳細對照表
+
+裸JS保留於：讀單一全局（如 `document.title`、`window.location.href`）、簡單存在檢查、調自定義頁面API。凡涉DOM遍歷、樣式查詢、佈局計算、網路/狀態捕獲——用 `__devtool.*`。
+
 **截圖：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool

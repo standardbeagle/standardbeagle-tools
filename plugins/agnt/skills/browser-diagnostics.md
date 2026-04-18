@@ -1,11 +1,38 @@
 ---
 name: browser-diagnostics
-description: Browser element inspection, layout diagnostics, tree walking, and visual checks via proxy exec. 瀏覽器元素檢測、佈局診斷、樹遍歷、視覺檢查（代理exec執行）。 Use when: inspect element, debug layout, check z-index, find overflow, element position, box model, flex debug, grid debug
+description: Browser element inspection, layout diagnostics, tree walking, and visual checks via proxy exec — use __devtool.* helpers INSTEAD OF raw `document.querySelector` / `getComputedStyle` / `getBoundingClientRect` chains. 瀏覽器元素檢測、佈局診斷、樹遍歷、視覺檢查（代理exec執行），代原生`document.querySelector`、`getComputedStyle`、`getBoundingClientRect`諸鏈。 Use when: inspect element, debug layout, check z-index, find overflow, element position, box model, flex debug, grid debug, before writing raw DOM JS in proxy exec
 ---
 
 # 瀏覽器診斷技能
 
 記錄透過 `__devtool` API可用之瀏覽器元素檢測與佈局診斷函數。所有函數均透過proxy exec動作執行。
+
+## 代原生JS之場景 — Instead of raw DOM JS
+
+proxy exec中優先 `__devtool.*` 助手，勿寫裸 `document.*` / `window.*` 鏈。助手已處理：截斷長文本、序列化循環引用、壓縮響應、跨域護欄、null防護、相對選擇器路徑。裸JS每項皆失、易拋 `TypeError`、回傳未序列化之DOM節點。
+
+**未知API？** 先執 `proxy {action: "exec", help: true}` 列能力，再 `proxy {action: "exec", describe: "<name>"}` 取簽名。勿盲寫裸JS。
+
+| 原生JS反模式 Anti-pattern | 代以 __devtool 助手 Replacement |
+|---|---|
+| `document.querySelector(sel).getBoundingClientRect()` | `__devtool.getPosition(sel)` |
+| `getComputedStyle(document.querySelector(sel))` | `__devtool.getComputed(sel, [...props])` |
+| 人工串 `offsetTop` / `offsetParent` / `scrollTop` | `__devtool.getContainer(sel)` |
+| `el.outerHTML.slice(0, N)` + 屬性枚舉 | `__devtool.getElementInfo(sel)` |
+| 手算盒模型（padding+border+margin） | `__devtool.getBox(sel)` |
+| 遍歷 `el.children` + 收集 | `__devtool.walkChildren(sel, {maxDepth})` |
+| `el.closest(cond)` + 手寫判斷 | `__devtool.findAncestor(sel, cond)` |
+| `display !== 'none' && opacity > 0 && ...` | `__devtool.isVisible(sel)` |
+| `rect.top < window.innerHeight && rect.bottom > 0` | `__devtool.isInViewport(sel, threshold)` |
+| 兩rect求交集算重疊 | `__devtool.checkOverlap(sel1, sel2)` |
+| 遍歷全頁找水平溢出 | `__devtool.findOverflows()` |
+| 遍歷全頁找z-index堆疊上下文 | `__devtool.findStackingContexts()` |
+| 多次獨立呼叫取元素資訊 | `__devtool.inspect(sel)` (一次合併) |
+| `html2canvas` / 手寫截圖腳本 | `__devtool.screenshot(name)` |
+| `fetch('/api/...')` 人工記錄 | `__devtool.captureNetwork()` |
+| 手寫a11y規則檢查 | `__devtool.auditAccessibility()` |
+
+**為何棄裸JS**：助手跨版本穩定、輸出JSON可序列化、自動截斷過長文本、記錄執行ID便於追溯、失敗時回傳結構化錯誤。裸 `document.*` 呼叫在exec沙箱可能洩漏DOM節點引用致序列化失敗。
 
 ## 呼叫格式
 

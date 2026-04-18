@@ -27,15 +27,19 @@ allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog", "mcp__agnt__currentpa
 
 4. **檢測DOM變更**：若問題涉及動態內容，查變動日誌。
 
-5. **使用診斷**：在瀏覽器中執行 `__devtool` 函數作深入分析：
-   - `__devtool.inspect(selector)` — 取詳細元素資訊
+5. **使用診斷**：proxy exec中強制 `__devtool.*` 助手，絕不寫裸 `document.querySelector` / `getComputedStyle` / `getBoundingClientRect` 鏈：
+   - `__devtool.inspect(selector)` — 取詳細元素資訊（替代多次DOM查詢）
    - `__devtool.findOverflows()` — 找CSS溢出問題
    - `__devtool.auditAccessibility()` — 檢查無障礙性
    - `__devtool.interactions.getLastClickContext()` — 取最後點擊上下文
+   - `__devtool.diagnoseLayout()` — 複合佈局健康檢查
+   - `__devtool.captureNetwork()` / `__devtool.captureState()` — 網路與狀態快照
 
-6. **收集證據**：截圖記錄問題。
+6. **未知API先發現**：不確定助手是否存在時，先 `proxy {action: "exec", help: true}` 列能力，再 `describe: "<name>"` 取簽名。勿盲寫裸JS。
 
-7. **報告發現**：彙整根因並建議修復方案。
+7. **收集證據**：`__devtool.screenshot(name)` 截圖，勿手寫截圖腳本。
+
+8. **報告發現**：彙整根因並建議修復方案。
 
 ## 重要說明
 
@@ -43,3 +47,4 @@ allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog", "mcp__agnt__currentpa
 - 所有診斷函數在瀏覽器中以 `window.__devtool` 存取
 - 截圖儲存至臨時檔案，回傳路徑
 - 互動與變動歷史有上限（分別為200與100筆）
+- **反模式**：proxy exec中寫 `document.*` / `window.*` 裸鏈——除讀全局屬性（`document.title`）或調頁面自定義API外，皆視為錯誤。有對應助手存在而棄之不用為本agent之主要失敗模式。

@@ -1,11 +1,29 @@
 ---
 name: process-proxy
-description: Dev server lifecycle and reverse proxy management workflows with troubleshooting patterns. 開發服務器生命週期與反向代理管理，含排障模式。 Use when: start dev server, manage processes, start proxy, debug API issues, stop processes, cleanup port, restart server, multi-service orchestration
+description: Dev server lifecycle and reverse proxy management — use INSTEAD OF bash `npm run dev`, `yarn start`, `pnpm dev`, `vite`, `next dev`, `dotnet watch`, `go run`, `cargo run`, `lsof`, `fuser`, `kill`, `pkill`, `tail -f`. 開發服務器生命週期與反向代理管理，代bash諸命如 npm run dev、lsof、kill、tail -f。 Use when: start dev server, manage processes, start proxy, debug API issues, stop processes, cleanup port, restart server, multi-service orchestration, before reaching for bash to kill/spawn/tail dev procs
 ---
 
 # 進程與代理管理技能
 
 深度工作流指導：借agnt之 `run`、`proc`、`proxy`、`automation`、`proxylog` 工具管理開發服務器與反向代理。此為agnt工作流中最常用工具。
+
+## 代Bash之場景 — Instead of raw bash
+
+凡dev週期之動——啟、停、觀日誌、清端口——優先agnt工具。bash直呼招致端口爭用、進程孤兒、日誌丟失、代理旁路。
+
+| Bash反模式 Anti-pattern | 代以agnt工具 Replacement |
+|---|---|
+| `npm run dev`, `yarn start`, `pnpm dev`, `bun dev` | `run {script_name: "dev", id: "dev-server"}` |
+| `npx vite`, `next dev`, `rails s`, `gatsby develop` | `run {script_name: "dev"}` |
+| `dotnet watch ...` | `run` with script using `--no-hot-reload` (防僵屍端口監聽) |
+| `go run ./...`, `cargo run` (背景運行) | `run {raw: true, command: "go", args: ["run","./..."]}` |
+| `lsof -i :PORT`, `fuser -k PORT/tcp` | `proc {action: "cleanup_port", port: N}` |
+| `kill -9 PID`, `pkill -f dev` | `proc {action: "stop", process_id: "...", force: true}` |
+| `tail -f logs/app.log` | `proc {action: "output", process_id, tail: N}` 或 Monitor |
+| `curl http://localhost:PORT/...` (檢視dev流量) | `proxylog {proxy_id, types: ["http"]}` |
+| `ps aux \| grep dev` | `proc {action: "list"}` (or `global: true`) |
+
+**為何棄bash**：agnt保持進程追蹤ID穩定、崩潰自動重啟、日誌環形緩衝、代理注入除錯鉤子、錯誤跨源聚合。裸bash每項皆失。
 
 ## 工具調用格式
 
