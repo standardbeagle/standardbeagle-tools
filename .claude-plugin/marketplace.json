@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-    "version": "1.3.2"
+    "version": "1.3.3"
   },
   "plugins": [
     {
       "name": "agnt",
       "source": "./plugins/agnt",
       "description": "Browser superpowers for AI coding agents: process management, reverse proxy with traffic logging, frontend instrumentation with 50+ diagnostic functions, sketch mode for wireframing, and design mode for UI iteration",
-      "version": "0.8.2",
+      "version": "0.8.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/agnt"
