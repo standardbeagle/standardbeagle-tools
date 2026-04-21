@@ -67,8 +67,10 @@ schema 確認後，方可調用：
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
   mcp_name: "<server>"
   tool_name: "<tool>"
-  arguments: { ... }   # keys match verified schema exactly
+  parameters: { ... }   # keys match verified schema exactly
 ```
+
+> **Parameter field is `parameters`, not `arguments`.** See [Common Errors](#common-errors) below.
 
 ### Alternative: Capability Discovery → Search Tools
 
@@ -113,7 +115,7 @@ EOF
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
   mcp_name: "filesystem"
   tool_name: "read_file"
-  arguments: { "path": "/etc/hosts" }
+  parameters: { "path": "/etc/hosts" }
 ```
 
 ### Pair 2 — User: "用 github 服務器開 issue"
@@ -124,7 +126,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
   mcp_name: "github"
   tool_name: "create_issue"
-  arguments: { "repo": "owner/name", "title": "Bug", "body": "..." }
+  parameters: { "repo": "owner/name", "title": "Bug", "body": "..." }
 # 未驗證 schema — 參數鍵名可能為 "repository" 或 "owner"+"name" 分離
 ```
 
@@ -162,6 +164,20 @@ npx -y some-pdf-mcp mcp
 2. 執行步驟 (1) → (3) 補足發現。
 3. 以驗證後之 schema 重試。
 4. 將違規模式記入本會話筆記，勿復蹈。
+
+## Common Errors
+
+These wrong-key mistakes silently drop the payload in naive validators; `execute_tool` rejects them with a hint naming the correct field.
+
+| Wrong | Right | Symptom when wrong |
+|-------|-------|--------------------|
+| `arguments: {...}` ❌ | `parameters: {...}` ✅ | Tool runs with empty params, returns generic "missing required field" from downstream MCP |
+| `args: {...}` ❌ | `parameters: {...}` ✅ | Same as above |
+| `input: {...}` ❌ | `parameters: {...}` ✅ | Same as above |
+| `js: "..."` ❌ | `code: "..."` ✅ | JS-exec tools reject `js`; schema uses `code` |
+| `last: N` ❌ | `limit: N` ✅ | Log/list tools ignore `last` silently; `limit` is canonical |
+
+If `execute_tool` replies `unexpected field "arguments" -- execute_tool expects 'parameters'`, rewrap the payload under the `parameters` key — do not retry with the same shape.
 
 ## Related
 
