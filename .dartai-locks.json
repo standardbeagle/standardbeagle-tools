@@ -1,3 +1,12 @@
 {
-  "claims": {}
+  "claims": {
+    "trVIxtsUku9C": {
+      "runner_instance_id": "beagle-ab2-2355460",
+      "runner_email": "claude@anthropic.com",
+      "claimed_at": "2026-04-21T11:00:00-05:00",
+      "agent_id": "beagle-ab2-2355460",
+      "parent_loop_id": "iVG3vFYs4vHF",
+      "purpose": "dartai loop task execution"
+    }
+  }
 }
