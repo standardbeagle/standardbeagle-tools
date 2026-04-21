@@ -329,6 +329,35 @@
       "category": "design"
     },
     {
+      "name": "color",
+      "source": "./plugins/color",
+      "description": "Precise color operations MCP server: WCAG contrast checking, color blindness simulation (deuteranopia/protanopia/tritanopia), k-means palette extraction from images, color space conversion (HEX/RGB/HSL/LAB/OKLCH/HSV), and harmony generation (complementary/triadic/analogous/split-complementary).",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/color",
+      "repository": "https://github.com/standardbeagle/color",
+      "license": "MIT",
+      "keywords": [
+        "mcp",
+        "color",
+        "wcag",
+        "contrast",
+        "accessibility",
+        "color-blindness",
+        "palette-extraction",
+        "k-means",
+        "color-conversion",
+        "oklch",
+        "lab",
+        "color-harmony",
+        "design-tools"
+      ],
+      "category": "design"
+    },
+    {
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
