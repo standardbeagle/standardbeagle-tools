@@ -358,6 +358,34 @@
       "category": "design"
     },
     {
+      "name": "a11y-audit",
+      "source": "./plugins/a11y-audit",
+      "description": "Static accessibility audit MCP server: HTML audit against WCAG 2.1/2.2 rules, ARIA role/property validation, heading outline analysis, link text quality checks, and tagged PDF accessibility inspection - all without a browser.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/a11y-audit",
+      "repository": "https://github.com/standardbeagle/a11y-audit",
+      "license": "MIT",
+      "keywords": [
+        "mcp",
+        "accessibility",
+        "wcag",
+        "aria",
+        "audit",
+        "a11y",
+        "axe-core",
+        "pa11y",
+        "heading-structure",
+        "link-text",
+        "pdf-accessibility",
+        "static-analysis"
+      ],
+      "category": "design"
+    },
+    {
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",

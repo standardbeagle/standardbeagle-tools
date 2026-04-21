@@ -1,0 +1,32 @@
+{
+  "name": "a11y-audit",
+  "version": "0.1.0",
+  "description": "Static accessibility audit MCP server: HTML audit against WCAG 2.1/2.2 rules, ARIA role/property validation, heading outline analysis, link text quality checks, and tagged PDF accessibility inspection - all without a browser.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/a11y-audit",
+  "repository": "https://github.com/standardbeagle/a11y-audit",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "accessibility",
+    "wcag",
+    "aria",
+    "audit",
+    "a11y",
+    "axe-core",
+    "pa11y",
+    "heading-structure",
+    "link-text",
+    "pdf-accessibility",
+    "static-analysis"
+  ],
+  "commands": [
+    "./commands/overview.md"
+  ],
+  "skills": [
+    "./skills/a11y-audit-quick-start.md"
+  ]
+}
