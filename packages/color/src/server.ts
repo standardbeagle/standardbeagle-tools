@@ -10,6 +10,8 @@ import { HarmonyGenerateInputSchema } from './tools/harmony-generate.schema.js';
 import { generateHarmony } from './tools/harmony-generate.js';
 import { ColorBlindnessInputSchema } from './tools/color-blindness.schema.js';
 import { colorBlindness } from './tools/color-blindness.js';
+import { PaletteExtractInputSchema } from './tools/palette-extract.schema.js';
+import { paletteExtract } from './tools/palette-extract.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -59,6 +61,19 @@ export function createServer(): Server {
           required: ['colors'],
         },
       },
+      {
+        name: 'palette_extract',
+        description: 'Extract dominant colors from an image using k-means clustering',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            image: { type: 'string', description: 'Absolute path to image file' },
+            k: { type: 'integer', minimum: 2, maximum: 16, default: 5 },
+            sample_pixels: { type: 'integer', minimum: 100, maximum: 100000, default: 10000 },
+          },
+          required: ['image'],
+        },
+      },
     ],
   }));
 
@@ -80,6 +95,12 @@ export function createServer(): Server {
     if (name === 'color_blindness_simulate') {
       const parsed = ColorBlindnessInputSchema.parse(args);
       const result = colorBlindness(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'palette_extract') {
+      const parsed = PaletteExtractInputSchema.parse(args);
+      const result = await paletteExtract(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 

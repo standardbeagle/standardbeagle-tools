@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@standardbeagle/ux-core": "workspace:*"
+    "@standardbeagle/ux-core": "workspace:*",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "eslint": "^10.2.1",
     "typescript": "^5.4.0",
-    "vitest": "^1.6.0",
-    "eslint": "^10.2.1"
+    "vitest": "^1.6.0"
   }
 }
