@@ -334,6 +334,43 @@ classify:
     - "User gave specific approach → use that approach"
 ```
 
+### Step 0.6: Risk shadow classification (optional, shadow-mode)
+
+並行風險分級，影子模式——層級邏輯仍為主；風險輸出僅遙測。
+
+```yaml
+availability_check:
+  required:
+    - "plugins/risk-pipeline/skills/risk-classify.md exists"
+    - ".claude/rules/risk.md exists with frontmatter risk_pipeline.enabled == true"
+  if_unavailable:
+    action: "Skip invocation; write telemetry record with risk:{enabled:false}"
+    outcome: "Legacy tier flow unchanged (silent no-op)"
+
+if_available:
+  invoke: "risk-pipeline:classify with {task_id, task_spec, touched_files}"
+  do_not:
+    - "Route planning off risk verdict"
+    - "Skip tier classification in Step 0.5"
+    - "Reword existing complexity tier logic"
+```
+
+**遙測寫入 (telemetry write)**：追加一行 JSON 至 `.dartai/telemetry.jsonl`：
+
+```json
+{
+  "ts": "<ISO timestamp>",
+  "event": "plan",
+  "task_id": "<dart id or spec hash>",
+  "legacy_tier": "<minimal|standard|comprehensive|architectural>",
+  "risk": { "enabled": true, "verdict": "...", "pipeline_tier": "...", "scalar": 0, "vector": {} },
+  "agreement": "<match|diverge>",
+  "authoritative": "legacy"
+}
+```
+
+`risk.enabled == false` 時，`risk` 欄記 `{"enabled": false}`，其餘 risk 欄略；`agreement` 仍寫 `match`（無風險輸出可比）；`authoritative` 恒為 `"legacy"`（Phase 1 影子模式不變）。
+
 ### Step 0.7: Invoke grill-task (after tier classification)
 
 若Step 0.5之層級為`minimal`，跳過此步——`dev-standards:grill-task`中的minimal層門控亦會跳過。

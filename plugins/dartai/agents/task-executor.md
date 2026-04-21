@@ -62,11 +62,14 @@ Rule override precedence (highest first):
 提示中將收到循環上下文：
 - **Loop Task ID**: 追蹤循環會話的父任務
 - **Iteration**: 當前迭代編號
+- **risk_vector** *(optional, shadow-mode)*: 風險管道分級摘要 `{b,d,s,r,u,scalar,verdict,pipeline_tier}`
 
 用途：
 - 更新任務標籤記錄階段進度
 - 向循環任務添加追蹤評論
 - 需時在循環任務下創建修復子任務
+
+**風險向量處置 (risk_vector handling, shadow-mode)**：若呼叫方供 `risk_vector`，於完成評論附 `risk_vector` 原文供審計；**勿**以此改執行行為——review 集合、階段順序、TDD 強度皆仍由既有邏輯定。欄缺為合法態，續舊流無礙。
 
 ## Execution Flow (Automatic - Never Stop for Confirmation)
 ```yaml

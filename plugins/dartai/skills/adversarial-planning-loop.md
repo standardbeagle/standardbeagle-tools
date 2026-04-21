@@ -87,6 +87,33 @@ size_check:
     action: "Split into multiple tasks"
 ```
 
+**風險預算影子（shadow-mode budget check）**：現有切片邏輯仍為主；若風險管道裝且啟（見 simple-planning Step 0.6 之可用性檢），並行調用 `risk-pipeline:budget` 以同入參，比對兩方之切片提議，共寫遙測：
+
+```yaml
+if_risk_pipeline_available:
+  invoke: "risk-pipeline:budget with {touched_units, config, lci_client}"
+  compare:
+    - "Legacy size_check verdict (fits | split)"
+    - "Risk budget verdict (ok | split_required | refactor_first_required | escalate)"
+  telemetry:
+    path: ".dartai/telemetry.jsonl"
+    record:
+      event: "budget"
+      legacy_tier: "<minimal|standard|comprehensive|architectural>"
+      risk: { enabled: true, verdict: "...", pipeline_tier: "...", scalar: 0, vector: {} }
+      agreement: "<match|diverge>"
+      authoritative: "legacy"
+  do_not:
+    - "Apply risk split_proposal to the plan"
+    - "Change size_check thresholds"
+    - "Override existing split decision"
+
+if_unavailable:
+  action: "Write {event:'budget', risk:{enabled:false}, authoritative:'legacy'} record; legacy size_check drives split"
+```
+
+風險裁決於 Phase 1 僅為觀察；切片決策仍由 `size_check` 驅動。
+
 ### Step 5: Review for Plan Updates (comprehensive/architectural only)
 
 對於comprehensive及architectural層級任務，以提議計劃調用`dev-standards:review-for-plan-updates`。持久化返回的提案供規劃者在下一規劃週期評估。

@@ -490,6 +490,30 @@ phases:
     - Confirm no scope creep
 ```
 
+**風險影子視 (shadow-mode risk context, non-authoritative)**：派遣前，若此任務已於規劃時寫過風險記錄（見 simple-planning Step 0.6），讀 `.dartai/telemetry.jsonl` 最末一條該 `task_id` 之紀錄，摘 `risk.verdict` 與 `risk.pipeline_tier`。**勿以此改派遣**——subagent 型、max_turns、review 集合皆仍由既有邏輯定。僅將該摘要附於循環任務評論供審計：
+
+```yaml
+shadow_context_read:
+  path: ".dartai/telemetry.jsonl"
+  filter: "last record where task_id == <this task>"
+  extract: ["risk.verdict", "risk.pipeline_tier", "legacy_tier"]
+
+telemetry_write:
+  event: "start"
+  legacy_tier: "<from existing logic>"
+  risk: "<passthrough from plan record, or {enabled:false} if absent>"
+  agreement: "<match|diverge>"
+  authoritative: "legacy"
+
+do_not:
+  - "Change subagent_type based on risk verdict"
+  - "Change max_turns based on risk scalar"
+  - "Gate dispatch on risk verdict"
+  - "Override pre_spawn_checks"
+```
+
+風險管道缺或禁時，此段退化為靜默無操作——主派遣路徑不變。
+
 #### 5.6 Handle Subagent Result (SubagentStop Hook Fires Here)
 
 After the task-executor subagent returns, the `SubagentStop` hook fires and updates `.dartai/loop-state.json`.
