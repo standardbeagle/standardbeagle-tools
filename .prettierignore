@@ -1,0 +1,12 @@
+node_modules/
+dist/
+pnpm-lock.yaml
+*.md
+docs/
+plugins/
+tests/
+.dartai/
+.workflow/
+.claude/
+.superpowers/
+.github/
