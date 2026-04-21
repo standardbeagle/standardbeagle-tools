@@ -21,6 +21,11 @@ Thumbs.db
 *.dll
 *.so
 *.dylib
+dist/
+node_modules/
+
+# Changesets
+.changeset/
 
 # Test artifacts
 *.test
