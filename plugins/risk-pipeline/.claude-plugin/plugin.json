@@ -20,8 +20,18 @@
     "depends:lci"
   ],
   "dependencies": ["lci"],
-  "commands": [],
-  "skills": [],
+  "commands": [
+    "./commands/tag-sweep.md",
+    "./commands/audit.md"
+  ],
+  "skills": [
+    "./skills/risk-tag-unit.md",
+    "./skills/risk-tag-sweep.md",
+    "./skills/risk-classify.md",
+    "./skills/risk-budget.md",
+    "./skills/risk-pipeline-dispatch.md",
+    "./skills/risk-telemetry-audit.md"
+  ],
   "agents": [
     "./agents/security-reviewer.md",
     "./agents/data-reviewer.md",
