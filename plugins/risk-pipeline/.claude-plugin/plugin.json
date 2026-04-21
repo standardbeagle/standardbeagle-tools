@@ -22,6 +22,11 @@
   "dependencies": ["lci"],
   "commands": [],
   "skills": [],
-  "agents": [],
+  "agents": [
+    "./agents/security-reviewer.md",
+    "./agents/data-reviewer.md",
+    "./agents/reversibility-reviewer.md",
+    "./agents/novelty-reviewer.md"
+  ],
   "hooks": "./hooks/hooks.json"
 }
