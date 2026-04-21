@@ -126,6 +126,35 @@ never:
 
 **鎖定**：基於文件的鎖定防止並發寫入
 
+### 影子模式欄位（shadow-mode fields; optional; backward-compatible）
+
+風險管道啟用時（`.claude/rules/risk.md` frontmatter `risk_pipeline.enabled == true`），狀態文件可含下列可選欄位。舊版讀者未知此欄者須略之；缺欄不破任何既有路徑。
+
+```yaml
+loop_state_schema_extensions:
+  top_level:
+    risk_shadow_file:
+      type: "string"
+      default: ".workflow/risk-shadow.jsonl"
+      optional: true
+      purpose: "指向 add-task + review-dispatch 記錄之遙測流"
+
+  per_task_entry:
+    risk_vector:
+      type: "object"
+      optional: true
+      shape: { b: 0, d: 0, s: 0, r: 0, u: 0, scalar: 0, crit_axes: [] }
+      source: "risk-pipeline:classify 輸出，自規劃期寫入"
+      purpose: "後續階段（Phase 4 派遣比對）無需重算；僅讀"
+
+backward_compat:
+  - "舊讀者略過未知欄即可"
+  - "風險管道缺或禁則兩欄皆省，schema 仍合法"
+  - "無 migration 需；新欄純增"
+
+write_note: "若風險管道啟，tasks[] 之每項應含 risk_vector；主循環與 task-executor subagent 皆可寫。"
+```
+
 ## Error Recovery 錯誤恢復
 
 ```yaml

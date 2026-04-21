@@ -45,6 +45,44 @@ if_too_large:
   prompt: "This task seems large. Would you like to split it?"
 ```
 
+**風險影子分級 (shadow-mode risk classify, non-authoritative)**：既有 file-count 與 tier 邏輯仍為主；若風險管道裝且啟，並行調 `risk-pipeline:classify` 以同入參，寫遙測至 `.workflow/risk-shadow.jsonl`：
+
+```yaml
+availability_check:
+  required:
+    - "plugins/risk-pipeline/skills/risk-classify.md exists"
+    - ".claude/rules/risk.md exists with frontmatter risk_pipeline.enabled == true"
+  if_unavailable:
+    action: "Skip invocation; write record with risk:{enabled:false}"
+    outcome: "Legacy file-count flow unchanged (silent no-op)"
+
+if_available:
+  invoke: "risk-pipeline:classify with {task_id, task_spec, touched_files}"
+  do_not:
+    - "Route add-task off risk verdict"
+    - "Skip file-count validation above"
+    - "Reword grill-task verdict handling"
+
+telemetry_write:
+  path: ".workflow/risk-shadow.jsonl"
+  append_json_line:
+    ts: "<ISO timestamp>"
+    event: "add_task"
+    task_id: "<dart id or spec hash>"
+    legacy_reviewers: []
+    risk:
+      enabled: true
+      verdict: "<classify verdict>"
+      pipeline_tier: "<smoke|light|dim_matched|architectural>"
+      scalar: 0
+      vector: { b: 0, d: 0, s: 0, r: 0, u: 0, crit_axes: [] }
+      required_reviewers: []
+    reviewer_agreement: "match"
+    authoritative: "legacy"
+```
+
+`risk.enabled == false` 時 `risk` 欄略為 `{"enabled": false}`，其餘 risk 欄與 `required_reviewers` 省；`reviewer_agreement` 仍寫 `match`（add-task 階段無 reviewer 集合可比，固定記 `match`）；`authoritative` 恒為 `"legacy"`。
+
 4. **添加至任務列表**
 
 Append to `.workflow/tasks.md`:

@@ -301,6 +301,55 @@ result_routing:
 
 **檢查點**：寫入所有代理的綜合驗證報告，遺忘實現細節。
 
+**風險影子派遣（shadow-mode reviewer dispatch）**：上之全套 reviewer roster 仍為主派發；若風險管道裝且啟，並行調 `risk-pipeline-dispatch`（或先經 `risk-pipeline:classify` 再取 `pipeline_spec.reviewers`）算所提議 reviewer 集，比之於既有既派 roster，共寫遙測至 `.workflow/risk-shadow.jsonl`：
+
+```yaml
+availability_check:
+  required:
+    - "plugins/risk-pipeline/skills/risk-pipeline-dispatch.md exists"
+    - ".claude/rules/risk.md exists with frontmatter risk_pipeline.enabled == true"
+  if_unavailable:
+    action: "Skip invocation; write record with risk:{enabled:false}"
+    outcome: "Legacy full-roster dispatch unchanged (silent no-op)"
+
+if_available:
+  invoke: "risk-pipeline:classify then risk-pipeline-dispatch with {task_risk, verdict, pipeline_tier, trivial_bypass, config}"
+  extract: "pipeline_spec.reviewers[]"
+  compare:
+    legacy_set: "既派 roster（默認 code-quality-reviewer + qa-reviewer）"
+    risk_set: "pipeline_spec.reviewers[]"
+    agreement:
+      match: "兩集合相等"
+      subset: "risk ⊂ legacy（風險提議較少）"
+      superset: "risk ⊃ legacy（風險提議較多）"
+      diverge: "兩集合既非子亦非超（有差異）"
+
+telemetry_write:
+  path: ".workflow/risk-shadow.jsonl"
+  append_json_line:
+    ts: "<ISO timestamp>"
+    event: "review_dispatch"
+    task_id: "<task id from state file>"
+    legacy_reviewers: ["code-quality-reviewer", "qa-reviewer"]
+    risk:
+      enabled: true
+      verdict: "<from classify>"
+      pipeline_tier: "<from classify>"
+      scalar: 0
+      vector: { b: 0, d: 0, s: 0, r: 0, u: 0, crit_axes: [] }
+      required_reviewers: "<pipeline_spec.reviewers[]>"
+    reviewer_agreement: "<match|subset|superset|diverge>"
+    authoritative: "legacy"
+
+do_not:
+  - "Change reviewer dispatch based on risk proposal"
+  - "Skip any legacy-selected reviewer"
+  - "Gate Phase 4 retry logic on risk verdict"
+  - "Reword reviewer prompt schema above"
+```
+
+風險管道缺或禁時，退化為靜默無操作：寫 `{enabled:false}` 記錄，`reviewer_agreement` 記 `match`，既有並行派發路徑不變。
+
 ### Phase 4.5: Review for Plan Updates (C-class refactor discovery)
 
 **目標**：將 C 類重構發現作為計劃更新提案發出，不編輯代碼。
