@@ -45,7 +45,7 @@ if_too_large:
   prompt: "This task seems large. Would you like to split it?"
 ```
 
-**風險影子分級 (shadow-mode risk classify, non-authoritative)**：既有 file-count 與 tier 邏輯仍為主；若風險管道裝且啟，並行調 `risk-pipeline:classify` 以同入參，寫遙測至 `.workflow/risk-shadow.jsonl`：
+**風險權威分級 (authoritative risk classify when enabled; legacy fallback)**：若風險管道裝且啟，調 `risk-pipeline:classify` 以同入參，風險裁決為權威驅動 add-task 通/拒與 reviewer 規劃；`enabled: false` 時退回既有 file-count 邏輯：
 
 ```yaml
 availability_check:
@@ -54,14 +54,14 @@ availability_check:
     - ".claude/rules/risk.md exists with frontmatter risk_pipeline.enabled == true"
   if_unavailable:
     action: "Skip invocation; write record with risk:{enabled:false}"
-    outcome: "Legacy file-count flow unchanged (silent no-op)"
+    outcome: "Legacy file-count flow drives add-task (fallback path)"
 
 if_available:
   invoke: "risk-pipeline:classify with {task_id, task_spec, touched_files}"
-  do_not:
-    - "Route add-task off risk verdict"
-    - "Skip file-count validation above"
-    - "Reword grill-task verdict handling"
+  do:
+    - "Route add-task off risk verdict (refuse on verdict == split_required)"
+    - "Apply risk.required_reviewers to persisted reviewer plan"
+    - "Preserve file-count validation above as secondary signal"
 
 telemetry_write:
   path: ".workflow/risk-shadow.jsonl"
@@ -78,10 +78,10 @@ telemetry_write:
       vector: { b: 0, d: 0, s: 0, r: 0, u: 0, crit_axes: [] }
       required_reviewers: []
     reviewer_agreement: "match"
-    authoritative: "legacy"
+    authoritative: "risk"
 ```
 
-`risk.enabled == false` 時 `risk` 欄略為 `{"enabled": false}`，其餘 risk 欄與 `required_reviewers` 省；`reviewer_agreement` 仍寫 `match`（add-task 階段無 reviewer 集合可比，固定記 `match`）；`authoritative` 恒為 `"legacy"`。
+`risk.enabled == false` 時 `risk` 欄略為 `{"enabled": false}`，其餘 risk 欄與 `required_reviewers` 省；`reviewer_agreement` 仍寫 `match`；`authoritative` 於回退路徑記 `"legacy"`，啟用態恒記 `"risk"`。
 
 4. **添加至任務列表**
 

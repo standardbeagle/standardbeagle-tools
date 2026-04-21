@@ -140,7 +140,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines.",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -332,7 +332,7 @@
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -364,7 +364,7 @@
       "name": "dev-standards",
       "source": "./plugins/dev-standards",
       "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -389,7 +389,7 @@
       "name": "risk-pipeline",
       "source": "./plugins/risk-pipeline",
       "description": "Risk-driven task classification, splitting, and review dispatch pipeline",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"

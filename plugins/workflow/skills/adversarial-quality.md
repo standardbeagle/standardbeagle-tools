@@ -301,7 +301,7 @@ result_routing:
 
 **檢查點**：寫入所有代理的綜合驗證報告，遺忘實現細節。
 
-**風險影子派遣（shadow-mode reviewer dispatch）**：上之全套 reviewer roster 仍為主派發；若風險管道裝且啟，並行調 `risk-pipeline-dispatch`（或先經 `risk-pipeline:classify` 再取 `pipeline_spec.reviewers`）算所提議 reviewer 集，比之於既有既派 roster，共寫遙測至 `.workflow/risk-shadow.jsonl`：
+**風險權威派遣（authoritative reviewer dispatch when enabled; legacy fallback）**：若風險管道裝且啟，調 `risk-pipeline-dispatch`（或先經 `risk-pipeline:classify` 再取 `pipeline_spec.reviewers`），風險提議之 reviewer 集為權威派發對象；`enabled: false` 時退回既有全套 roster：
 
 ```yaml
 availability_check:
@@ -310,14 +310,15 @@ availability_check:
     - ".claude/rules/risk.md exists with frontmatter risk_pipeline.enabled == true"
   if_unavailable:
     action: "Skip invocation; write record with risk:{enabled:false}"
-    outcome: "Legacy full-roster dispatch unchanged (silent no-op)"
+    outcome: "Legacy full-roster dispatch drives Phase 4 (fallback path)"
 
 if_available:
   invoke: "risk-pipeline:classify then risk-pipeline-dispatch with {task_risk, verdict, pipeline_tier, trivial_bypass, config}"
   extract: "pipeline_spec.reviewers[]"
+  authoritative_action: "Spawn risk-proposed reviewer set; legacy full roster retained as fallback only when enabled:false"
   compare:
-    legacy_set: "既派 roster（默認 code-quality-reviewer + qa-reviewer）"
-    risk_set: "pipeline_spec.reviewers[]"
+    legacy_set: "既有全套 roster（code-quality-reviewer + qa-reviewer）— 僅遙測對比"
+    risk_set: "pipeline_spec.reviewers[]（權威派發集）"
     agreement:
       match: "兩集合相等"
       subset: "risk ⊂ legacy（風險提議較少）"
@@ -339,16 +340,17 @@ telemetry_write:
       vector: { b: 0, d: 0, s: 0, r: 0, u: 0, crit_axes: [] }
       required_reviewers: "<pipeline_spec.reviewers[]>"
     reviewer_agreement: "<match|subset|superset|diverge>"
-    authoritative: "legacy"
+    authoritative: "risk"
 
-do_not:
-  - "Change reviewer dispatch based on risk proposal"
-  - "Skip any legacy-selected reviewer"
-  - "Gate Phase 4 retry logic on risk verdict"
-  - "Reword reviewer prompt schema above"
+if_enabled_do:
+  - "Spawn pipeline_spec.reviewers[] as the dispatch roster"
+  - "Gate Phase 4 retry logic on risk verdict when verdict != ok"
+if_disabled_do:
+  - "Spawn full legacy roster (code-quality-reviewer + qa-reviewer)"
+  - "Write {authoritative:'legacy'} telemetry record"
 ```
 
-風險管道缺或禁時，退化為靜默無操作：寫 `{enabled:false}` 記錄，`reviewer_agreement` 記 `match`，既有並行派發路徑不變。
+風險管道缺或禁時，退化為既有全套 roster 派發路徑（legacy fallback）：寫 `{enabled:false, authoritative:'legacy'}` 記錄，既有並行派發路徑不變。
 
 ### Phase 4.5: Review for Plan Updates (C-class refactor discovery)
 

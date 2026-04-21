@@ -1,6 +1,6 @@
 {
   "name": "risk-pipeline",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Risk-driven task classification, splitting, and review dispatch pipeline",
   "author": {
     "name": "Standard Beagle",

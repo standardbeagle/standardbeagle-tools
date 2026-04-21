@@ -490,29 +490,32 @@ phases:
     - Confirm no scope creep
 ```
 
-**風險影子視 (shadow-mode risk context, non-authoritative)**：派遣前，若此任務已於規劃時寫過風險記錄（見 simple-planning Step 0.6），讀 `.dartai/telemetry.jsonl` 最末一條該 `task_id` 之紀錄，摘 `risk.verdict` 與 `risk.pipeline_tier`。**勿以此改派遣**——subagent 型、max_turns、review 集合皆仍由既有邏輯定。僅將該摘要附於循環任務評論供審計：
+**風險權威派遣 (authoritative risk dispatch when enabled; legacy fallback)**：派遣前讀 `.dartai/telemetry.jsonl` 最末一條該 `task_id` 之紀錄，摘 `risk.verdict`、`risk.pipeline_tier`、`risk.required_reviewers`、`risk.model`、`risk.tdd_required`。啟用時此裁決權威驅派遣——subagent 型、max_turns、review 集合、model 選擇皆依風險裁決。`enabled: false` 時退回既有層級邏輯：
 
 ```yaml
-shadow_context_read:
+context_read:
   path: ".dartai/telemetry.jsonl"
   filter: "last record where task_id == <this task>"
-  extract: ["risk.verdict", "risk.pipeline_tier", "legacy_tier"]
+  extract: ["risk.verdict", "risk.pipeline_tier", "risk.required_reviewers", "risk.model", "risk.tdd_required", "legacy_tier"]
 
 telemetry_write:
   event: "start"
   legacy_tier: "<from existing logic>"
   risk: "<passthrough from plan record, or {enabled:false} if absent>"
   agreement: "<match|diverge>"
-  authoritative: "legacy"
+  authoritative: "risk"  # or "legacy" when enabled:false
 
-do_not:
-  - "Change subagent_type based on risk verdict"
-  - "Change max_turns based on risk scalar"
-  - "Gate dispatch on risk verdict"
-  - "Override pre_spawn_checks"
+if_enabled:
+  - "Apply risk.model to subagent dispatch"
+  - "Apply risk.required_reviewers to review set"
+  - "Apply risk.tdd_required to TDD gating"
+  - "Gate dispatch on risk.verdict (refuse on escalate/split_required)"
+
+if_disabled:
+  - "Fall back to legacy tier logic; write {authoritative:'legacy'} record"
 ```
 
-風險管道缺或禁時，此段退化為靜默無操作——主派遣路徑不變。
+風險管道缺或禁時，退化為既有派遣路徑（legacy fallback）。
 
 #### 5.6 Handle Subagent Result (SubagentStop Hook Fires Here)
 

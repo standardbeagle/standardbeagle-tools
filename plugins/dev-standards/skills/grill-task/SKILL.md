@@ -129,9 +129,9 @@ notes:
 - 若達上限仍模糊，上報：返回 `task_spec.verdict = "TOO_LARGE_TO_GRILL"`，建議拆分任務
 - 若 Step 5 風險分級出 `risk.vector.scalar > 25`（顯超 architectural 預算），亦觸 `TOO_LARGE_TO_GRILL`，附 `reason: risk_budget_exceeded`；若 `risk.verdict == split_required`，將 `risk.split_proposal` 併入回報供呼叫方直接建片，併附 `recommended_action: "Split per proposal then re-run grill"`
 
-## Step 5 — Risk classification (risk-pipeline integration)
+## Step 5 — Risk classification (risk-pipeline integration; authoritative when enabled)
 
-風險分級若插件在。不在則舊流繼，`task_spec.risk = {enabled: false}` 顯記之。
+風險分級若插件在。啟用時風險裁決為權威——驅 `TOO_LARGE_TO_GRILL` 觸發（`risk.vector.scalar > 25` 或 `verdict == split_required`）及下游 `pipeline_tier` 路由。不在或 `enabled: false` 則舊流繼，`task_spec.risk = {enabled: false}` 顯記之，層級邏輯回退驅動管道（legacy fallback path）。
 
 ### 可用性檢 (Availability check)
 
@@ -176,12 +176,13 @@ task_spec:
     findability_notes: "..."   # 切片決策或 findability 檢查述
 ```
 
-### 向後兼容 (Legacy behavior when disabled)
+### 向後兼容 (Legacy fallback when disabled)
 
 - `task_spec.risk = {enabled: false}` 顯記，非略 —— 呼叫方可查而無需揣
-- 層級邏輯驅管道如舊，無分級驅動裁決
+- 層級邏輯驅管道（fallback path），無風險驅動裁決
 - 不報錯，禁用為合法態
 - 其餘 `task_spec` 欄一如既往，`risk` 純加性
+- 啟用時風險驅 verdict/scalar/pipeline_tier；禁用時層級驅，二態皆合法
 
 ## Step 6 — Planning-Time Quality Review
 

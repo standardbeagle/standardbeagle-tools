@@ -87,14 +87,15 @@ size_check:
     action: "Split into multiple tasks"
 ```
 
-**風險預算影子（shadow-mode budget check）**：現有切片邏輯仍為主；若風險管道裝且啟（見 simple-planning Step 0.6 之可用性檢），並行調用 `risk-pipeline:budget` 以同入參，比對兩方之切片提議，共寫遙測：
+**風險預算權威（authoritative budget check when enabled; legacy fallback）**：若風險管道裝且啟（見 simple-planning Step 0.6 之可用性檢），調用 `risk-pipeline:budget` 以同入參，風險裁決為權威驅動切片決策；`enabled: false` 時退回既有 `size_check` 邏輯：
 
 ```yaml
 if_risk_pipeline_available:
   invoke: "risk-pipeline:budget with {touched_units, config, lci_client}"
-  compare:
-    - "Legacy size_check verdict (fits | split)"
-    - "Risk budget verdict (ok | split_required | refactor_first_required | escalate)"
+  authoritative_action:
+    - "Apply risk.split_proposal when verdict == split_required"
+    - "Apply risk.refactor_proposal when verdict == refactor_first_required"
+    - "Legacy size_check retained as secondary signal; diffs written to telemetry"
   telemetry:
     path: ".dartai/telemetry.jsonl"
     record:
@@ -102,17 +103,13 @@ if_risk_pipeline_available:
       legacy_tier: "<minimal|standard|comprehensive|architectural>"
       risk: { enabled: true, verdict: "...", pipeline_tier: "...", scalar: 0, vector: {} }
       agreement: "<match|diverge>"
-      authoritative: "legacy"
-  do_not:
-    - "Apply risk split_proposal to the plan"
-    - "Change size_check thresholds"
-    - "Override existing split decision"
+      authoritative: "risk"
 
 if_unavailable:
-  action: "Write {event:'budget', risk:{enabled:false}, authoritative:'legacy'} record; legacy size_check drives split"
+  action: "Write {event:'budget', risk:{enabled:false}, authoritative:'legacy'} record; legacy size_check drives split (fallback path)"
 ```
 
-風險裁決於 Phase 1 僅為觀察；切片決策仍由 `size_check` 驅動。
+啟用時風險裁決權威驅切片；`enabled: false` 時 `size_check` 為後備。
 
 ### Step 5: Review for Plan Updates (comprehensive/architectural only)
 
