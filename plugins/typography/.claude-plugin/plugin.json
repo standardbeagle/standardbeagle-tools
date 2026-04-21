@@ -1,0 +1,31 @@
+{
+  "name": "typography",
+  "version": "0.1.0",
+  "description": "Typography MCP server: modular type scales (ratio-based px/rem), font metrics analysis (x-height, cap-height, ascender, descender, line-height recommendations), variable font axis parsing (wght/wdth/slnt with CSS), font subsetting to WOFF2 by Unicode range, and system-fallback font stacks with size-adjust - a complete type-system toolkit for design and web delivery.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/typography",
+  "repository": "https://github.com/standardbeagle/typography",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "typography",
+    "fonts",
+    "type-scale",
+    "modular-scale",
+    "variable-fonts",
+    "font-metrics",
+    "woff2",
+    "font-subsetting",
+    "font-stack",
+    "size-adjust"
+  ],
+  "commands": [
+    "./commands/overview.md"
+  ],
+  "skills": [
+    "./skills/typography-quick-start.md"
+  ]
+}
