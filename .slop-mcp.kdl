@@ -1,0 +1,30 @@
+mcp "standardbeagle-design-token" {
+    type "stdio"
+    command "node"
+    args "packages/design-token/dist/index.js"
+}
+
+mcp "standardbeagle-image-processing" {
+    type "stdio"
+    command "node"
+    args "packages/image-processing/dist/index.js"
+}
+
+mcp "standardbeagle-color" {
+    type "stdio"
+    command "node"
+    args "packages/color/dist/index.js"
+}
+
+mcp "standardbeagle-a11y-audit" {
+    type "stdio"
+    command "node"
+    args "packages/a11y-audit/dist/index.js"
+}
+
+mcp "standardbeagle-typography" {
+    type "stdio"
+    command "node"
+    args "packages/typography/dist/index.js"
+}
+
