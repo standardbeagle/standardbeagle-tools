@@ -1,0 +1,23 @@
+{
+  "name": "@standardbeagle/design-token",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "design-token": "./bin/mcp.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --passWithNoTests",
+    "lint": "eslint src",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@standardbeagle/ux-core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0",
+    "eslint": "^10.2.1"
+  }
+}
