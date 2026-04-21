@@ -13,8 +13,11 @@ description: Interrogate any new task before it is persisted — extract intent,
 Called by:
   dartai: /dartai:task, skills/simple-planning, skills/adversarial-planning-loop
   workflow: /workflow:add-task
+Delegates to:
+  risk-pipeline:classify (optional; Step 5 — skipped if plugin absent or disabled)
 Returns:
-  task_spec (required)
+  task_spec (required)  — includes task_spec.risk from risk-pipeline:classify
+                          or {enabled: false} when pipeline disabled/missing
   backflow_writes (list of {skill, path, changes}; may be empty)
 ```
 
@@ -124,6 +127,61 @@ notes:
 - 初輪後最多 **2 輪**追問
 - 縱Architectural級，最多 **12 問**
 - 若達上限仍模糊，上報：返回 `task_spec.verdict = "TOO_LARGE_TO_GRILL"`，建議拆分任務
+- 若 Step 5 風險分級出 `risk.vector.scalar > 25`（顯超 architectural 預算），亦觸 `TOO_LARGE_TO_GRILL`，附 `reason: risk_budget_exceeded`；若 `risk.verdict == split_required`，將 `risk.split_proposal` 併入回報供呼叫方直接建片，併附 `recommended_action: "Split per proposal then re-run grill"`
+
+## Step 5 — Risk classification (risk-pipeline integration)
+
+風險分級若插件在。不在則舊流繼，`task_spec.risk = {enabled: false}` 顯記之。
+
+### 可用性檢 (Availability check)
+
+先探二事：
+
+- 技藝存否：`plugins/risk-pipeline/skills/risk-classify.md` 可達
+- 配置啟否：`.claude/rules/risk.md` frontmatter `risk_pipeline.enabled == true`
+
+二者缺一 → 跳此步，`task_spec.risk = {enabled: false}`，續舊流。無錯，禁用為合法態。
+
+### 調用 (Invocation)
+
+> Invoke the `Skill` tool with `skill: risk-pipeline:classify` — 任務級風險分級，出向量、裁決、管道層。
+
+入參：
+
+- `task_id` — dartai 上下文或合成識別符
+- `task_spec` — 當前已審之規格主體
+- `touched_files` — 自 Step 1 層級偵測導出
+
+出二態之一：
+
+- `{enabled: false}` → 插件或配置禁用，記「risk-pipeline disabled」，`task_spec.risk = {enabled: false}`，跳合併
+- 完整分級輸出 → 併入 `task_spec.risk`
+
+### 合入 (Merge into task_spec)
+
+規格附：
+
+```yaml
+task_spec:
+  # ... 原欄不動 ...
+  risk:
+    enabled: true
+    vector: {b, d, s, r, u, scalar, crit_axes}
+    verdict: ok | split_required | refactor_first_required | escalate
+    pipeline_tier: smoke | light | dim_matched | architectural
+    required_reviewers: [...]
+    model: haiku-4.5 | sonnet-4.6 | opus-4.7
+    tdd_required: <bool>
+    split_proposal: [...]      # 僅 verdict == split_required 時出
+    findability_notes: "..."   # 切片決策或 findability 檢查述
+```
+
+### 向後兼容 (Legacy behavior when disabled)
+
+- `task_spec.risk = {enabled: false}` 顯記，非略 —— 呼叫方可查而無需揣
+- 層級邏輯驅管道如舊，無分級驅動裁決
+- 不報錯，禁用為合法態
+- 其餘 `task_spec` 欄一如既往，`risk` 純加性
 
 ## Step 6 — Planning-Time Quality Review
 
@@ -235,8 +293,12 @@ task_spec:
   verification:
     runner: vitest                             # or pytest, go test, etc.
     manual: <optional manual check>
+  risk:                                        # from risk-pipeline:classify (Step 5)
+    enabled: true | false                      # false when pipeline missing/disabled — all other risk.* fields absent
+    # when enabled: vector, verdict, pipeline_tier, required_reviewers, model, tdd_required, split_proposal?, findability_notes
   notes: []                                    # populated on graceful degradation
   verdict: OK | TOO_LARGE_TO_GRILL | ABORTED
+  # TOO_LARGE_TO_GRILL may carry reason: risk_budget_exceeded + recommended_action + risk.split_proposal
 
 backflow_writes:
   - skill: <skill-name>
