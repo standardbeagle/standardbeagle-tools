@@ -386,6 +386,33 @@
       "category": "design"
     },
     {
+      "name": "design-token",
+      "source": "./plugins/design-token",
+      "description": "Design token MCP server: generate tokens, export to CSS/Tailwind/Style Dictionary/SCSS/JSON, validate schemas, diff token sets across versions, merge theme layers, and generate Tailwind configs - a Style Dictionary-compatible pipeline for design system token management.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/design-token",
+      "repository": "https://github.com/standardbeagle/design-token",
+      "license": "MIT",
+      "keywords": [
+        "mcp",
+        "design-tokens",
+        "style-dictionary",
+        "tailwind",
+        "css",
+        "theming",
+        "scss",
+        "design-system",
+        "token-pipeline",
+        "theme-layering",
+        "token-validation"
+      ],
+      "category": "design"
+    },
+    {
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
