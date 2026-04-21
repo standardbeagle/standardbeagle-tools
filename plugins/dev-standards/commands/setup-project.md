@@ -286,6 +286,16 @@ mkdir -p .claude/rules .claude/skills
 
 若文檔級別為 **standard**，從生成文件中移除「User Stories」和「User Flows」節（這兩節僅用於 **full** 級別）。
 
+### Step 6e: Copy Risk Pipeline Config
+
+讀取 `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/risk.md` 並複製到 `.claude/rules/risk.md`。
+
+**僅當目標文件不存在時寫入**——風險管道配置為項目可覆寫模板，既存文件保留用戶定制。此行為獨立於 Step 9（其覆蓋全目錄衝突策略）；風險配置默認絕不覆寫。
+
+另追加 `.risk-pipeline/` 至項目根 `.gitignore`（若 `.gitignore` 存在且未含此行）。此目錄存遙測 jsonl，默認不入版本。若 `.gitignore` 不存在，跳過——不為此創建文件。
+
+若用戶明表欲將遙測入版本（罕見），跳過 `.gitignore` 追加並在完成摘要中提示。
+
 ### Step 7: Copy Skill Templates
 
 依項目類型，讀取並複製技能模板到 `.claude/skills/`。以訪談中的值替換每個技能中的所有 `{{placeholders}}`。
@@ -404,6 +414,7 @@ Rules (loaded automatically by Claude):
   .claude/rules/data-integrity.md (if persistence detected)
   .claude/rules/ddd.md (if DDD or event-driven architecture)
   .claude/rules/documentation.md (if docs full or standard)
+  .claude/rules/risk.md (risk-pipeline config, never overwritten)
 
 Skills (available workflows):
   .claude/skills/<skill-name>/SKILL.md (for each skill)
