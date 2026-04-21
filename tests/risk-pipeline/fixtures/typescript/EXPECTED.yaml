@@ -1,0 +1,43 @@
+# Expected @risk vectors for typescript fixtures.
+# Used by a future test harness to assert tagger output within tolerances.
+# Scalar formula (default weights): s*4 + d*3 + r*3 + b*2 + u*2.
+# conf_target is a tolerance range; tagger conf within [lo, hi] = pass.
+
+verify-jwt.ts:
+  units:
+    - name: verifyJWT
+      b: 2
+      d: 0
+      s: 3
+      r: 1
+      u: 0
+      conf_target: [0.80, 1.00]
+      why_theme: "signature bypass / auth compromise"
+      why_required: true  # s=! mandates @risk-why
+      module_risk: {b: 2, d: 0, s: 3, r: 1, u: 0, scalar: 19}
+
+format-name.ts:
+  units:
+    - name: formatName
+      b: 0
+      d: 0
+      s: 0
+      r: 0
+      u: 0
+      conf_target: [0.70, 1.00]
+      why_theme: "pure string formatting / no I/O"
+      why_required: false
+      module_risk: {b: 0, d: 0, s: 0, r: 0, u: 0, scalar: 0}
+
+migrate-schema.ts:
+  units:
+    - name: migrateEmailColumn
+      b: 1
+      d: 3
+      s: 0
+      r: 3
+      u: 1
+      conf_target: [0.70, 0.95]
+      why_theme: "schema change + data mutation / backup + rollback required"
+      why_required: true  # d=! and r=! both mandate @risk-why
+      module_risk: {b: 1, d: 3, s: 0, r: 3, u: 1, scalar: 22}

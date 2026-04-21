@@ -1,0 +1,86 @@
+# Expected @risk vectors for python fixtures.
+# Scalar formula: s*4 + d*3 + r*3 + b*2 + u*2.
+# Python uses docstring section `@risk:` per codedoc-schema.md language mapping.
+
+crypto_keys.py:
+  units:
+    - name: derive_key
+      b: 2
+      d: 0
+      s: 3
+      r: 0
+      u: 0
+      conf_target: [0.80, 0.98]
+      why_theme: "KDF compromise = credential compromise"
+      why_required: true
+      module_risk: {b: 2, d: 0, s: 3, r: 0, u: 0, scalar: 16}
+    - name: constant_time_compare
+      b: 0
+      d: 0
+      s: 2
+      r: 0
+      u: 0
+      conf_target: [0.75, 0.95]
+      why_theme: "timing-attack safe primitive"
+      why_required: false
+      module_risk: {b: 0, d: 0, s: 2, r: 0, u: 0, scalar: 8}
+    - name: generate_token
+      b: 0
+      d: 0
+      s: 1
+      r: 0
+      u: 0
+      conf_target: [0.75, 0.95]
+      why_theme: "CSPRNG token generation"
+      why_required: false
+      module_risk: {b: 0, d: 0, s: 1, r: 0, u: 0, scalar: 4}
+  # Module-level roll-up = max across units per axis.
+  module_risk: {b: 2, d: 0, s: 3, r: 0, u: 0, scalar: 16}
+
+cache_get.py:
+  units:
+    - name: "Cache.__init__"
+      b: 0
+      d: 0
+      s: 0
+      r: 0
+      u: 0
+      conf_target: [0.80, 1.00]
+      why_theme: "constructor, no external state"
+      why_required: false
+      module_risk: {b: 0, d: 0, s: 0, r: 0, u: 0, scalar: 0}
+    - name: "Cache.get"
+      b: 0
+      d: 0
+      s: 0
+      r: 0
+      u: 0
+      conf_target: [0.80, 1.00]
+      why_theme: "dict lookup"
+      why_required: false
+      module_risk: {b: 0, d: 0, s: 0, r: 0, u: 0, scalar: 0}
+    - name: "Cache.put"
+      b: 0
+      d: 0
+      s: 0
+      r: 0
+      u: 0
+      conf_target: [0.80, 1.00]
+      why_theme: "dict insert with LRU eviction"
+      why_required: false
+      module_risk: {b: 0, d: 0, s: 0, r: 0, u: 0, scalar: 0}
+  module_risk: {b: 0, d: 0, s: 0, r: 0, u: 0, scalar: 0}
+
+audit_log.py:
+  units:
+    - name: write_audit_event
+      b: 3
+      d: 2
+      s: 1
+      r: 2
+      u: 0
+      conf_target: [0.70, 0.92]
+      why_theme: "high-blast audit sink / immutable cold storage / data mutation"
+      why_required: true  # b=! mandates @risk-why
+      module_risk: {b: 3, d: 2, s: 1, r: 2, u: 0, scalar: 22}
+  module_risk: {b: 3, d: 2, s: 1, r: 2, u: 0, scalar: 22}
