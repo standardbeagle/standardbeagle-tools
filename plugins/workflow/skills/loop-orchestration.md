@@ -157,6 +157,54 @@ backward_compat:
 write_note: "風險管道啟用時，tasks[] 每項**必寫** risk_vector；主循環於規劃期寫入，task-executor subagent 讀之驅執行。"
 ```
 
+## Claim Schema 索賠模式
+
+多代理並發下，主循環通過 git-locked `.dartai-locks.json` 獲取任務獨占權。索賠條目為 6 欄位結構，後 3 欄為代理身份擴展（2026-04 新增）：
+
+```yaml
+claim_entry_schema:
+  path: ".dartai-locks.json"
+  shape:
+    claims:
+      "<task-id>":
+        runner_instance_id: "hostname-pid"     # machine/PID disambiguation (legacy, existing)
+        runner_email: "user@example.com"       # git identity (legacy, existing)
+        claimed_at: "ISO-8601 timestamp"       # claim acquisition time (legacy, existing)
+        agent_id: "CLAUDE_AGENT_ID or fallback" # agent persona id (NEW)
+        parent_loop_id: "dart-task-id"         # owning loop task id (NEW)
+        purpose: "short why string"            # audit-filterable free text (NEW)
+
+resolution:
+  agent_id:
+    source: "env CLAUDE_AGENT_ID"
+    fallback: "{hostname}-{pid}"
+    pseudocode: |
+      agent_id = os.environ.get('CLAUDE_AGENT_ID') or f"{hostname}-{pid}"
+  parent_loop_id:
+    source: "loop_task_id created in start-loop Section 4"
+  purpose:
+    source: "loop invocation context or task description excerpt"
+
+backward_compat:
+  legacy_entries:
+    shape: "first 3 fields only"
+    reader_pseudocode: |
+      # Missing new fields in a claim entry are legitimate legacy data
+      agent_id       = claim.get("agent_id")       or claim["runner_instance_id"]
+      parent_loop_id = claim.get("parent_loop_id") or None
+      purpose        = claim.get("purpose")        or ""
+  must:
+    - "Legacy 3-field claims still parse without crash"
+    - "No migration required for existing lock files"
+    - "New entries written by updated runners include all 6 fields"
+
+cross_reference:
+  source_of_truth: "plugins/dartai/commands/start.md §2.5 + §5.1.5 + §5.2"
+  related_env_var: "CLAUDE_AGENT_ID (see plugins/dartai/README.md 'Agent identity configuration')"
+```
+
+審計聚合示例：按 `agent_id` 分組統計索賠數，按 `parent_loop_id` 追溯任務至循環會話，按 `purpose` 過濾定向運行。
+
 ## Error Recovery 錯誤恢復
 
 ```yaml

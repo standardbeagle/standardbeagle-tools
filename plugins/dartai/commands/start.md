@@ -115,12 +115,33 @@ Identify this runner instance for multi-runner concurrency:
 
 4. **Check `.dartai/config.local.md`** for cached `runner_dart_id`. If cached and still valid, use it. Otherwise update the config with the matched value.
 
-5. **Store in loop state** (written later in Section 4):
+5. **Resolve agent identity 解析代理身份:**
+
+   `runner_instance_id` disambiguates machine/PID concurrency, but N AI agents sharing one Dart user + shared git identity all resolve to the same `runner_instance_id` when hostname/PID happen to collide across launches. The **agent_id** layer identifies the agent persona itself (e.g. `ralph-risk-pipeline-v1`, `kibeth-planner`, `loop-runner-main`).
+
+   ```bash
+   # Preferred: explicit env var set by launcher / shell rc / CI
+   # Fallback: reuse hostname-pid when CLAUDE_AGENT_ID unset
+   AGENT_ID="${CLAUDE_AGENT_ID:-$(hostname)-$$}"
+   ```
+
+   Pseudocode for readers of claim entries (backward-compat):
+   ```python
+   # When agent_id is absent from a claim (legacy entry), treat it as equal to runner_instance_id
+   agent_id = claim.get("agent_id") or claim["runner_instance_id"]
+   ```
+
+   Persist `agent_id` to:
+   - `.dartai/config.local.md` frontmatter field `agent_id: "<value>"` alongside existing `runner_instance_id`
+   - `.dartai/loop-state.json` top-level field `agent_id` (written in Section 4)
+
+6. **Store in loop state** (written later in Section 4):
    - `runner_instance_id`: the hostname-pid value
    - `runner_email`: from git config
    - `runner_dart_id`: matched Dart assignee (or null)
+   - `agent_id`: `CLAUDE_AGENT_ID` env or hostname-pid fallback
 
-6. **If no email match found:** Warn and proceed without claiming. Tasks will still execute but without concurrency protection. Log: "No Dart assignee matches git email [email]. Running without claim protocol."
+7. **If no email match found:** Warn and proceed without claiming. Tasks will still execute but without concurrency protection. Log: "No Dart assignee matches git email [email]. Running without claim protocol."
 
 ### 3. Fetch Active Tasks
 
@@ -333,18 +354,31 @@ Read `.dartai-locks.json` and check if `[task-id]` is already claimed:
 
 **Step 2: Write claim to lock file + commit + push:**
 
-Write the claim entry to `.dartai-locks.json`:
+Write the claim entry to `.dartai-locks.json` with the full 6-field meta shape:
 ```json
 {
   "claims": {
     "[task-id]": {
       "runner_instance_id": "[hostname-pid]",
       "runner_email": "[email]",
-      "claimed_at": "[ISO timestamp]"
+      "claimed_at": "[ISO timestamp]",
+      "agent_id": "[CLAUDE_AGENT_ID or hostname-pid fallback]",
+      "parent_loop_id": "[loop_task_id from Section 4]",
+      "purpose": "[short why string, e.g. 'risk-pipeline Phase 17 rollout']"
     }
   }
 }
 ```
+
+Field semantics 欄位語義：
+- `runner_instance_id` — machine/PID level disambiguation (existing)
+- `runner_email` — git identity for human-visible attribution (existing)
+- `claimed_at` — ISO timestamp of claim acquisition (existing)
+- `agent_id` — stable per-agent persona id; audit can aggregate by this
+- `parent_loop_id` — Dart task id of the owning loop; enables tracing iteration → loop
+- `purpose` — short free-text why string; filterable in audits
+
+**Backward compat 向後兼容:** Old claim entries containing only the first 3 fields MUST still parse without crash. Readers treat missing `agent_id` as equal to `runner_instance_id`, missing `parent_loop_id` as null, missing `purpose` as empty string. See pseudocode in §2.5 step 5.
 
 Then atomically commit and push:
 ```bash
@@ -380,7 +414,7 @@ If `runner_dart_id` is null (no Dart identity match), skip the assignee update b
 
 #### 5.2 Tag Task as Loop-Active
 
-Tag the task with loop metadata (status already set to "In Progress" in 5.1.5):
+Tag the task with loop metadata (status already set to "In Progress" in 5.1.5). Include `agent:<id>` alongside the existing loop tags so Dart UI filters can group by agent persona even when multiple agents share one Dart assignee:
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -389,8 +423,10 @@ params:
   tool_name: "update_task"
   parameters:
     dart_id: "[task-id]"
-    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting"]
+    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:starting", "agent:[agent_id]"]
 ```
+
+The `agent:<id>` tag value comes from the resolved `agent_id` in §2.5 step 5 (env `CLAUDE_AGENT_ID` or hostname-pid fallback). Tag values must be lowercase-kebab to match Dart tag conventions; if `agent_id` contains uppercase or spaces, lowercase+kebab it before tagging.
 
 #### 5.3 Spawn Task Executor Subagent
 
