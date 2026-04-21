@@ -165,6 +165,19 @@ claude plugin add agnt --source ./plugins/agnt
 
 Plugins are published via the Claude Code marketplace. The `marketplace.json` defines all available plugins and their metadata.
 
+### Release Setup
+
+This monorepo uses [Changesets](https://github.com/changesets/changesets) for version management and release automation.
+
+**Required secret:**
+- `NPM_TOKEN` — npm authentication token for publishing packages. Add this in **Settings > Secrets and variables > Actions** in the GitHub repository.
+
+**Workflow:**
+1. Run `pnpm changeset` to create a changeset describing your changes
+2. Commit the changeset file (`.changeset/*.md`)
+3. On merge to `main`, the release workflow creates a Version Packages PR
+4. Merging the Version Packages PR publishes updated packages to npm
+
 ## License
 
 MIT
