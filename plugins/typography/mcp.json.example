@@ -1,0 +1,6 @@
+{
+  "typography": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/typography@latest", "mcp"]
+  }
+}

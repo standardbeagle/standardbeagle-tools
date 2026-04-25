@@ -1,0 +1,6 @@
+{
+  "color": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/color@latest", "mcp"]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "design-token": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/design-token@latest", "mcp"]
+  }
+}
