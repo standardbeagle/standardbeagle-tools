@@ -20,6 +20,8 @@ import { HeadingStructureInputSchema } from './tools/heading-structure.schema.js
 import { headingStructure } from './tools/heading-structure.js';
 import { WcagScoreInputSchema } from './tools/wcag-score.schema.js';
 import { wcagScore } from './tools/wcag-score.js';
+import { AriaValidateInputSchema } from './tools/aria-validate.schema.js';
+import { ariaValidate } from './tools/aria-validate.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -160,6 +162,17 @@ export function createServer(): Server {
           required: ['html'],
         },
       },
+      {
+        name: 'aria_validate',
+        description: 'Pure-parse WAI-ARIA 1.2 validator: invalid roles, missing required props, prohibited props, redundant roles, invalid prop values',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            html: { type: 'string', description: 'HTML string to validate' },
+          },
+          required: ['html'],
+        },
+      },
     ],
   }));
 
@@ -211,6 +224,12 @@ export function createServer(): Server {
     if (name === 'wcag_score') {
       const parsed = WcagScoreInputSchema.parse(args);
       const result = await wcagScore(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'aria_validate') {
+      const parsed = AriaValidateInputSchema.parse(args);
+      const result = await ariaValidate(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
