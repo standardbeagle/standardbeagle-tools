@@ -20,6 +20,9 @@
     "research-report"
   ],
   "agents": [
-    "./agents/web-researcher.md"
+    "./agents/web-researcher.md",
+    "./agents/learnings-researcher.md",
+    "./agents/best-practices-researcher.md",
+    "./agents/framework-docs-researcher.md"
   ]
 }
