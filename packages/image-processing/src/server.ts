@@ -25,6 +25,8 @@ import { ResponsiveGenerateInputSchema } from './tools/responsive-generate.schem
 import { responsiveGenerate } from './tools/responsive-generate.js';
 import { BlurHashInputSchema } from './tools/blur-hash.schema.js';
 import { blurHash } from './tools/blur-hash.js';
+import { SvgOptimizeInputSchema } from './tools/svg-optimize.schema.js';
+import { svgOptimize } from './tools/svg-optimize.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -181,6 +183,20 @@ export function createServer(): Server {
           required: ['input_path'],
         },
       },
+      {
+        name: 'svg_optimize',
+        description: 'Optimize an SVG with SVGO v3+. Accepts inline svg or svg_path; supports aggressive mode (preset-default with cleanupIds.force and removeDimensions overrides) and symbol_sprite mode (wraps the optimized SVG in <svg style="display:none"><symbol id="..." viewBox="..."> for icon-sprite usage). Writes to output_path when provided and reports byte reduction.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            svg: { type: 'string', description: 'Inline SVG source (mutually compatible with svg_path; one is required)' },
+            svg_path: { type: 'string', description: 'Absolute path to source SVG file (one of svg/svg_path is required)' },
+            output_path: { type: 'string', description: 'Absolute path to write the optimized SVG (utf8); omit to return only in-memory result' },
+            aggressive: { type: 'boolean', default: false, description: 'When true, enables preset-default with cleanupIds.force and removeDimensions overrides for maximum reduction' },
+            symbol_sprite: { type: 'boolean', default: false, description: 'When true, wraps the optimized SVG in <svg style="display:none"><symbol id="..."> using svg_path basename as id' },
+          },
+        },
+      },
     ],
   }));
 
@@ -244,6 +260,12 @@ export function createServer(): Server {
     if (name === 'blur_hash') {
       const parsed = BlurHashInputSchema.parse(args);
       const result = await blurHash(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'svg_optimize') {
+      const parsed = SvgOptimizeInputSchema.parse(args);
+      const result = await svgOptimize(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
