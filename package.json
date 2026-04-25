@@ -6,6 +6,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "test": "vitest run --passWithNoTests",
+    "smoke": "pnpm --filter @standardbeagle/e2e test",
     "lint": "eslint .",
     "format": "prettier --write .",
     "clean": "pnpm -r clean && rm -rf node_modules"

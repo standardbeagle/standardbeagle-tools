@@ -31,3 +31,8 @@ jobs:
       - run: pnpm build
 
       - run: pnpm test
+
+      # E2E smoke — spawn each MCP server's built bin and exercise one tool
+      # per server via stdio JSON-RPC. Requires `pnpm build` to have run first
+      # (the smoke spawns from packages/<name>/dist via bin/mcp.js).
+      - run: pnpm smoke
