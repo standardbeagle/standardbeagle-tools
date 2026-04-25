@@ -46,6 +46,25 @@ This plugin ships with `mcp.json.disabled` because the marketplace manages MCP s
 1. Publish `@standardbeagle/a11y-audit` to npm
 2. Register via `slop-mcp:slop-add` (recommended) or enable the bundled mcp config out-of-band
 
+## Installation via slop-mcp
+
+```bash
+# Register MCP server
+claude mcp add standardbeagle-a11y-audit -- npx -y @standardbeagle/a11y-audit@latest mcp
+```
+
+Or via slop-mcp KDL config:
+
+```kdl
+// .slop-mcp/servers.kdl
+server "standardbeagle-a11y-audit" {
+    command "npx"
+    args "-y" "@standardbeagle/a11y-audit@latest" "mcp"
+}
+```
+
+Verify by calling `list_tools` on the registered server.
+
 ## Related
 
 - `ux-developer:a11y-check` — WCAG 2.2 audit workflow with manual checklist

@@ -41,6 +41,25 @@ This plugin ships with `mcp.json.disabled` because the marketplace manages MCP s
 1. Publish `@standardbeagle/image-processing` to npm
 2. Register via `slop-mcp:slop-add` (recommended) or enable the bundled mcp config out-of-band
 
+## Installation via slop-mcp
+
+```bash
+# Register MCP server
+claude mcp add standardbeagle-image-processing -- npx -y @standardbeagle/image-processing@latest mcp
+```
+
+Or via slop-mcp KDL config:
+
+```kdl
+// .slop-mcp/servers.kdl
+server "standardbeagle-image-processing" {
+    command "npx"
+    args "-y" "@standardbeagle/image-processing@latest" "mcp"
+}
+```
+
+Verify by calling `list_tools` on the registered server.
+
 ## Related
 
 - `color` plugin — deeper color operations on the palette extracted here (contrast, blindness simulation, conversion)

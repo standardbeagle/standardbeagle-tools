@@ -41,6 +41,25 @@ This plugin ships with `mcp.json.disabled` because the marketplace manages MCP s
 1. Publish `@standardbeagle/typography` to npm
 2. Register via `slop-mcp:slop-add` (recommended) or enable the bundled mcp config out-of-band
 
+## Installation via slop-mcp
+
+```bash
+# Register MCP server
+claude mcp add standardbeagle-typography -- npx -y @standardbeagle/typography@latest mcp
+```
+
+Or via slop-mcp KDL config:
+
+```kdl
+// .slop-mcp/servers.kdl
+server "standardbeagle-typography" {
+    command "npx"
+    args "-y" "@standardbeagle/typography@latest" "mcp"
+}
+```
+
+Verify by calling `list_tools` on the registered server.
+
 ## Related
 
 - `ux-design:typography-system` — design-time typography system planning skill

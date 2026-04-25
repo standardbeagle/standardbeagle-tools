@@ -41,6 +41,25 @@ This plugin ships with `mcp.json.disabled` because the marketplace manages MCP s
 1. Publish `@standardbeagle/color` to npm
 2. Register via `slop-mcp:slop-add` (recommended) or enable the bundled mcp config out-of-band
 
+## Installation via slop-mcp
+
+```bash
+# Register MCP server
+claude mcp add standardbeagle-color -- npx -y @standardbeagle/color@latest mcp
+```
+
+Or via slop-mcp KDL config:
+
+```kdl
+// .slop-mcp/servers.kdl
+server "standardbeagle-color" {
+    command "npx"
+    args "-y" "@standardbeagle/color@latest" "mcp"
+}
+```
+
+Verify by calling `list_tools` on the registered server.
+
 ## Related
 
 - `ux-design` plugin — color theory, palette design guidance

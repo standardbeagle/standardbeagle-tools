@@ -1,12 +1,3 @@
 {
-  "claims": {
-    "26S4mxkXY28w": {
-      "runner_instance_id": "beagle-ab2-2135044",
-      "runner_email": "claude@anthropic.com",
-      "claimed_at": "2026-04-25T15:38:00-05:00",
-      "agent_id": "beagle-ab2-2135044",
-      "parent_loop_id": "Svu14LNGwHsd",
-      "purpose": "I2 slop-mcp registration docs (I1 deferred — needs user auth)"
-    }
-  }
+  "claims": {}
 }
