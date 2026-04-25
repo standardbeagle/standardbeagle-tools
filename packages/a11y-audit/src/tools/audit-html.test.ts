@@ -41,4 +41,41 @@ describe('auditHtml', () => {
     expect(violation).toBeDefined();
     expect(violation!.wcag_refs.length).toBeGreaterThan(0);
   });
+
+  it('detects heading order issue', async () => {
+    const html = loadFixture('heading-order.html');
+    const result = await auditHtml({ html, tags: ['best-practice'] });
+    const headingOrder = result.violations.find((v) => v.id === 'heading-order');
+    expect(headingOrder).toBeDefined();
+  });
+
+  it('handles ~100KB HTML in under 2s', async () => {
+    let articles = '';
+    for (let i = 0; i < 130; i++) {
+      const para = ('Content for article ' + i + '. ').repeat(30);
+      articles +=
+        '<article><h2>Article ' +
+        i +
+        '</h2><p>' +
+        para +
+        '</p><img src="a' +
+        i +
+        '.jpg" alt="art ' +
+        i +
+        '"><a href="#a' +
+        i +
+        '">more</a></article>';
+    }
+    const html =
+      '<!DOCTYPE html><html lang="en"><head><title>Real</title></head><body><h1>Site</h1><main>' +
+      articles +
+      '</main></body></html>';
+    expect(html.length).toBeGreaterThan(100 * 1024);
+    // Warm-up run (first jsdom + axe load is slow)
+    await auditHtml({ html: '<html lang="en"><body><p>warm</p></body></html>', tags: ['wcag21aa'] });
+    const t0 = Date.now();
+    await auditHtml({ html, tags: ['wcag21aa'] });
+    const elapsed = Date.now() - t0;
+    expect(elapsed).toBeLessThan(2000);
+  }, 10000);
 });
