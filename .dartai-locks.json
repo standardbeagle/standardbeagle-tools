@@ -1,3 +1,12 @@
 {
-  "claims": {}
+  "claims": {
+    "aoXyoGXLyuhV": {
+      "runner_instance_id": "beagle-ab2-2135044",
+      "runner_email": "claude@anthropic.com",
+      "claimed_at": "2026-04-25T15:55:00-05:00",
+      "agent_id": "beagle-ab2-2135044",
+      "parent_loop_id": "Svu14LNGwHsd",
+      "purpose": "I4 E2E smoke test (local builds since I1 publish deferred)"
+    }
+  }
 }
