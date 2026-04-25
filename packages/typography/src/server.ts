@@ -14,6 +14,8 @@ import { LineHeightInputSchema } from './tools/line-height.schema.js';
 import { lineHeight } from './tools/line-height.js';
 import { LetterSpacingInputSchema } from './tools/letter-spacing.schema.js';
 import { letterSpacing } from './tools/letter-spacing.js';
+import { ModularScaleInputSchema } from './tools/modular-scale.schema.js';
+import { modularScale } from './tools/modular-scale.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -88,6 +90,22 @@ export function createServer(): Server {
           required: ['fontSize'],
         },
       },
+      {
+        name: 'modular_scale',
+        description: 'Generate a modular type scale with caption/small/body/h6-h1 labels in px and/or rem',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            base: { type: 'number', default: 16, description: 'Base font size in px (step 0)' },
+            ratio: { type: 'number', default: 1.25, description: 'Modular scale ratio (e.g. 1.2, 1.25, 1.333, 1.414, 1.5, 1.618)' },
+            steps_up: { type: 'integer', default: 6, description: 'Number of steps above body (h6..h1 by default)' },
+            steps_down: { type: 'integer', default: 2, description: 'Number of steps below body (small, caption by default)' },
+            output: { type: 'string', enum: ['px', 'rem', 'both'], default: 'both', description: 'Output unit(s); px is always included, rem optional' },
+            root_px: { type: 'number', default: 16, description: 'Root font size in px for rem conversion' },
+            labels: { type: 'array', items: { type: 'string' }, description: 'Optional custom labels; length must equal steps_down + steps_up + 1' },
+          },
+        },
+      },
     ],
   }));
 
@@ -121,6 +139,12 @@ export function createServer(): Server {
     if (name === 'letter_spacing') {
       const parsed = LetterSpacingInputSchema.parse(args);
       const result = letterSpacing(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'modular_scale') {
+      const parsed = ModularScaleInputSchema.parse(args);
+      const result = modularScale(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
