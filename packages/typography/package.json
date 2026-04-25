@@ -15,6 +15,7 @@
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@standardbeagle/ux-core": "workspace:*",
     "fontkit": "^2.0.0",
+    "subset-font": "^2.5.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {

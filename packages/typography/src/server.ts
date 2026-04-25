@@ -20,6 +20,8 @@ import { FontMetricsInputSchema } from './tools/font-metrics.schema.js';
 import { fontMetrics } from './tools/font-metrics.js';
 import { VariableFontAxesInputSchema } from './tools/variable-font-axes.schema.js';
 import { variableFontAxes } from './tools/variable-font-axes.js';
+import { FontSubsetInputSchema } from './tools/font-subset.schema.js';
+import { fontSubset } from './tools/font-subset.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -132,6 +134,30 @@ export function createServer(): Server {
           required: ['font_path'],
         },
       },
+      {
+        name: 'font_subset',
+        description: 'Subset a font to a set of unicode ranges using harfbuzz-wasm (via subset-font); writes WOFF2/WOFF/TTF output and reports byte reduction and glyph count',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            font_path: { type: 'string', description: 'Filesystem path to source font (TTF, OTF, WOFF, or WOFF2)' },
+            unicode_ranges: {
+              type: 'array',
+              items: { type: 'string' },
+              default: ['U+0020-007F', 'U+00A0-00FF'],
+              description: 'Unicode ranges to keep, e.g. ["U+0020-007F","U+00A0-00FF"]',
+            },
+            output_path: { type: 'string', description: 'Destination path; if omitted, writes to os.tmpdir()' },
+            format: {
+              type: 'string',
+              enum: ['woff2', 'woff', 'ttf'],
+              default: 'woff2',
+              description: 'Output format. ttf maps to SFNT (preserves OTF/TTF flavor of source).',
+            },
+          },
+          required: ['font_path'],
+        },
+      },
     ],
   }));
 
@@ -183,6 +209,12 @@ export function createServer(): Server {
     if (name === 'variable_font_axes') {
       const parsed = VariableFontAxesInputSchema.parse(args);
       const result = variableFontAxes(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'font_subset') {
+      const parsed = FontSubsetInputSchema.parse(args);
+      const result = await fontSubset(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 

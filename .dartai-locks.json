@@ -1,12 +1,3 @@
 {
-  "claims": {
-    "y81vIJ9xiImA": {
-      "runner_instance_id": "beagle-ab2-2135044",
-      "runner_email": "claude@anthropic.com",
-      "claimed_at": "2026-04-25T14:32:00-05:00",
-      "agent_id": "beagle-ab2-2135044",
-      "parent_loop_id": "Svu14LNGwHsd",
-      "purpose": "G4 font_subset tool (harfbuzz-wasm/subset-font)"
-    }
-  }
+  "claims": {}
 }
