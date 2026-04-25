@@ -16,6 +16,8 @@ import { AuditFormInputSchema } from './tools/audit-form.schema.js';
 import { auditForm } from './tools/audit-form.js';
 import { AuditHeadingInputSchema } from './tools/audit-heading.schema.js';
 import { auditHeading } from './tools/audit-heading.js';
+import { HeadingStructureInputSchema } from './tools/heading-structure.schema.js';
+import { headingStructure } from './tools/heading-structure.js';
 import { WcagScoreInputSchema } from './tools/wcag-score.schema.js';
 import { wcagScore } from './tools/wcag-score.js';
 
@@ -131,6 +133,17 @@ export function createServer(): Server {
         },
       },
       {
+        name: 'heading_structure',
+        description: 'Pure-parse heading outline + issue detector (skipped levels, missing/multiple h1, empty headings)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            html: { type: 'string', description: 'HTML string to analyze' },
+          },
+          required: ['html'],
+        },
+      },
+      {
         name: 'wcag_score',
         description: 'Score HTML against WCAG 2.2 success criteria across A/AA/AAA conformance levels and emit a markdown compliance report',
         inputSchema: {
@@ -186,6 +199,12 @@ export function createServer(): Server {
     if (name === 'audit_heading') {
       const parsed = AuditHeadingInputSchema.parse(args);
       const result = await auditHeading(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'heading_structure') {
+      const parsed = HeadingStructureInputSchema.parse(args);
+      const result = await headingStructure(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
