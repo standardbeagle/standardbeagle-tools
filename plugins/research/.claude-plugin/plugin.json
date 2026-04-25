@@ -1,0 +1,25 @@
+{
+  "name": "research",
+  "version": "0.1.0",
+  "description": "External and repo research agents ported from Compound Engineering. Web research, repo analysis, git history, learnings, session history, and issue intelligence — all reachable via the Task tool with structured research_report output (R2 §4.2).",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "web-research",
+    "prior-art",
+    "external-grounding",
+    "compound-engineering-port",
+    "ce-port",
+    "task-tool",
+    "research-report"
+  ],
+  "agents": [
+    "./agents/web-researcher.md"
+  ]
+}

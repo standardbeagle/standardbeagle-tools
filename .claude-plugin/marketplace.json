@@ -549,6 +549,28 @@
       "category": "development"
     },
     {
+      "name": "research",
+      "source": "./plugins/research",
+      "description": "External and repo research agents ported from Compound Engineering. Web research, prior-art scanning, and external grounding for planning workflows. Reachable via Task tool with structured research_report output.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "research",
+        "web-research",
+        "prior-art",
+        "external-grounding",
+        "compound-engineering-port",
+        "ce-port"
+      ],
+      "category": "development"
+    },
+    {
       "name": "photino",
       "source": "./plugins/photino",
       "description": "Photino.NET desktop app development: build workflows, cross-platform packaging, PowerShell SDK integration, dual-service development, and agent configuration for AI-assisted .NET desktop projects.",
