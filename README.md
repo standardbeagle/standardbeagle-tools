@@ -1,8 +1,8 @@
 # Standard Beagle Tools
 
-AI coding agent toolkit - browser superpowers, code intelligence, and development tools.
+AI coding agent toolkit and UX MCP package monorepo — Claude Code plugins, MCP servers, and reusable npm packages for design, accessibility, and frontend tooling.
 
-## Plugins
+## Plugins (Claude Code marketplace)
 
 This marketplace contains 13 plugins for Claude Code:
 
@@ -21,6 +21,38 @@ This marketplace contains 13 plugins for Claude Code:
 | **ux-design** | UX design principles, color theory, typography, and accessibility | 0.1.0 | design |
 | **ux-developer** | UX-driven development with WCAG 2.2 and usability best practices | 0.1.0 | development |
 | **prompt-engineer** | State-of-the-art prompt and context engineering for 2026 | 0.1.0 | ai |
+
+## Packages (npm `@standardbeagle/*`)
+
+This monorepo also publishes six npm packages under `packages/` — UX-focused MCP servers and shared libraries:
+
+| Package | Version | Description |
+|---------|---------|-------------|
+| [`@standardbeagle/ux-core`](./packages/ux-core/README.md) | ![npm](https://img.shields.io/npm/v/@standardbeagle/ux-core) | Shared types, validators, k-means clustering |
+| [`@standardbeagle/color`](./packages/color/README.md) | ![npm](https://img.shields.io/npm/v/@standardbeagle/color) | Color tools — contrast, palette generation, accessibility |
+| [`@standardbeagle/a11y-audit`](./packages/a11y-audit/README.md) | ![npm](https://img.shields.io/npm/v/@standardbeagle/a11y-audit) | Accessibility audit MCP server (axe-core, WCAG 2.2) |
+| [`@standardbeagle/design-token`](./packages/design-token/README.md) | ![npm](https://img.shields.io/npm/v/@standardbeagle/design-token) | DTCG design tokens — validate, transform, generate |
+| [`@standardbeagle/typography`](./packages/typography/README.md) | ![npm](https://img.shields.io/npm/v/@standardbeagle/typography) | Typography tools — modular scale, font pairing |
+| [`@standardbeagle/image-processing`](./packages/image-processing/README.md) | ![npm](https://img.shields.io/npm/v/@standardbeagle/image-processing) | Image tools — sharp, blurhash, svgo |
+
+### Architecture
+
+```mermaid
+flowchart LR
+  Client[MCP Client] --> Color[packages/color]
+  Client --> A11y[packages/a11y-audit]
+  Client --> DT[packages/design-token]
+  Client --> Typo[packages/typography]
+  Client --> Img[packages/image-processing]
+  Color --> Core[packages/ux-core]
+  A11y --> Core
+  DT --> Core
+  Typo --> Core
+  Img --> Core
+  Img -.palette.-> Color
+```
+
+Each MCP server package exposes tools to MCP clients (Claude Code, Cursor, etc.) and depends on `ux-core` for shared utilities. The `image-processing` package optionally calls into `color` for palette extraction.
 
 ## Installation
 
@@ -137,7 +169,27 @@ Note: The `mcp.json.disabled` files contain example configurations. MCP servers 
 
 ## Development
 
-### Local Development Setup
+### Monorepo Setup (pnpm packages)
+
+The `packages/` directory is a [pnpm workspace](https://pnpm.io/workspaces). On a fresh clone:
+
+```bash
+pnpm install          # install all workspace deps
+pnpm -r build         # build every package
+pnpm -r test          # run vitest across all packages
+pnpm smoke            # E2E smoke test (1 tool per MCP server)
+pnpm lint             # lint all packages
+```
+
+### Release flow (Changesets)
+
+```bash
+pnpm changeset            # describe changes (interactive)
+pnpm changeset version    # bump versions + update CHANGELOG
+git push                  # release.yml workflow handles npm publish
+```
+
+### Plugin Local Development Setup
 
 After cloning, run the setup script to configure git filters for local development:
 
@@ -177,6 +229,10 @@ This monorepo uses [Changesets](https://github.com/changesets/changesets) for ve
 2. Commit the changeset file (`.changeset/*.md`)
 3. On merge to `main`, the release workflow creates a Version Packages PR
 4. Merging the Version Packages PR publishes updated packages to npm
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) (forthcoming) for contribution guidelines, or open a pull request against `main` for review.
 
 ## License
 
