@@ -16,8 +16,9 @@
     "@standardbeagle/ux-core": "workspace:*"
   },
   "devDependencies": {
+    "eslint": "^10.2.1",
+    "sass": "^1.99.0",
     "typescript": "^5.4.0",
-    "vitest": "^1.6.0",
-    "eslint": "^10.2.1"
+    "vitest": "^1.6.0"
   }
 }
