@@ -1,30 +1,70 @@
 import sharp from 'sharp';
+import { readFile, stat } from 'fs/promises';
+import { extname } from 'path';
 import type { ImageOptimizeInput, ImageOptimizeOutput } from './image-optimize.schema.js';
 
+// Map user-facing format aliases to sharp's canonical format names.
+// User spec: 'png' | 'jpg' | 'webp' | 'avif'.  Sharp uses 'jpeg' instead of 'jpg'.
+type SharpFormat = 'png' | 'jpeg' | 'webp' | 'avif';
+
+const EXT_TO_FORMAT: Record<string, SharpFormat> = {
+  '.png': 'png',
+  '.jpg': 'jpeg',
+  '.jpeg': 'jpeg',
+  '.webp': 'webp',
+  '.avif': 'avif',
+};
+
+function resolveFormat(
+  explicit: ImageOptimizeInput['format'] | undefined,
+  outputPath: string,
+): SharpFormat {
+  if (explicit) {
+    return explicit === 'jpg' ? 'jpeg' : explicit;
+  }
+  const ext = extname(outputPath).toLowerCase();
+  const fromExt = EXT_TO_FORMAT[ext];
+  if (!fromExt) {
+    throw new Error(
+      `Cannot infer format from output_path "${outputPath}"; pass format explicitly (png, jpg, webp, or avif).`,
+    );
+  }
+  return fromExt;
+}
+
 export async function imageOptimize(input: ImageOptimizeInput): Promise<ImageOptimizeOutput> {
-  const format = input.format ?? 'jpeg';
-  const options: sharp.JpegOptions | sharp.PngOptions | sharp.WebpOptions | sharp.AvifOptions = {};
+  const inputBuffer = await readFile(input.input_path);
+  const inputBytes = inputBuffer.length;
 
-  if (input.quality !== undefined) {
-    (options as { quality?: number }).quality = input.quality;
+  const format = resolveFormat(input.format, input.output_path);
+
+  let pipeline = sharp(inputBuffer).toFormat(format, { quality: input.quality });
+
+  // strip_metadata=false: preserve EXIF/orientation by passing through metadata.
+  // strip_metadata=true (default): no withMetadata() call → sharp drops it.
+  if (!input.strip_metadata) {
+    pipeline = pipeline.withMetadata();
   }
 
-  if (format === 'jpeg' && input.progressive !== undefined) {
-    (options as sharp.JpegOptions).progressive = input.progressive;
-  }
+  const info = await pipeline.toFile(input.output_path);
 
-  if (format === 'png') {
-    (options as sharp.PngOptions).compressionLevel = 9;
-  }
+  // Re-stat the output: sharp's `info.size` is reliable, but stat() handles
+  // any platform quirk where size is reported as 0.
+  const outputStat = await stat(input.output_path);
+  const outputBytes = outputStat.size;
 
-  await sharp(input.input)
-    .toFormat(format, options)
-    .toFile(input.output);
+  const reductionPercent = inputBytes > 0
+    ? Number((((inputBytes - outputBytes) / inputBytes) * 100).toFixed(2))
+    : 0;
 
   return {
-    input: input.input,
-    output: input.output,
-    format,
-    quality: input.quality,
+    input_bytes: inputBytes,
+    output_bytes: outputBytes,
+    reduction_percent: reductionPercent,
+    format_used: info.format,
+    dimensions: {
+      width: info.width,
+      height: info.height,
+    },
   };
 }

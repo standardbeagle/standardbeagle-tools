@@ -78,17 +78,17 @@ export function createServer(): Server {
       },
       {
         name: 'image_optimize',
-        description: 'Optimize an image for web use',
+        description: 'Optimize an image for web use; re-encodes to the target format with the requested quality, optionally stripping metadata, and reports byte reduction.',
         inputSchema: {
           type: 'object',
           properties: {
-            input: { type: 'string', description: 'Absolute path to input image' },
-            output: { type: 'string', description: 'Absolute path to output image' },
-            quality: { type: 'integer', minimum: 1, maximum: 100, description: 'Output quality' },
-            format: { type: 'string', enum: ['jpeg', 'png', 'webp', 'avif'], description: 'Target format' },
-            progressive: { type: 'boolean', description: 'Use progressive encoding for JPEG' },
+            input_path: { type: 'string', description: 'Absolute path to input image' },
+            output_path: { type: 'string', description: 'Absolute path to output image; format is inferred from extension when format is omitted' },
+            format: { type: 'string', enum: ['png', 'jpg', 'webp', 'avif'], description: 'Target format; if omitted, inferred from output_path extension' },
+            quality: { type: 'integer', minimum: 1, maximum: 100, default: 80, description: 'Output quality (1-100)' },
+            strip_metadata: { type: 'boolean', default: true, description: 'When true, drops EXIF/ICC metadata; when false, preserves it' },
           },
-          required: ['input', 'output'],
+          required: ['input_path', 'output_path'],
         },
       },
       {
