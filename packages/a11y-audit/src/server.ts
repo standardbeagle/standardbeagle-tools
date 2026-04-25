@@ -24,6 +24,8 @@ import { AriaValidateInputSchema } from './tools/aria-validate.schema.js';
 import { ariaValidate } from './tools/aria-validate.js';
 import { LinkTextCheckInputSchema } from './tools/link-text-check.schema.js';
 import { linkTextCheck } from './tools/link-text-check.js';
+import { PdfA11yInputSchema } from './tools/pdf-a11y.schema.js';
+import { pdfA11y } from './tools/pdf-a11y.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -186,6 +188,17 @@ export function createServer(): Server {
           required: ['html'],
         },
       },
+      {
+        name: 'document_accessibility',
+        description: 'PDF accessibility audit: tagged tree presence, MarkInfo, language, title, Figure /Alt coverage, AcroForm field labeling, reading-order signal, weighted 0-100 score',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            pdf_path: { type: 'string', description: 'Absolute path to a PDF file on disk' },
+          },
+          required: ['pdf_path'],
+        },
+      },
     ],
   }));
 
@@ -249,6 +262,12 @@ export function createServer(): Server {
     if (name === 'link_text_check') {
       const parsed = LinkTextCheckInputSchema.parse(args);
       const result = await linkTextCheck(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'document_accessibility') {
+      const parsed = PdfA11yInputSchema.parse(args);
+      const result = await pdfA11y(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 

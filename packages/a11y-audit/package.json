@@ -16,7 +16,8 @@
     "@standardbeagle/ux-core": "workspace:*",
     "axe-core": "^4.11.3",
     "cheerio": "^1.0.0-rc.12",
-    "jsdom": "^29.0.2"
+    "jsdom": "^29.0.2",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "@types/jsdom": "^28.0.1",
