@@ -1,3 +1,12 @@
 {
-  "claims": {}
+  "claims": {
+    "R9bYi0wB366T": {
+      "runner_instance_id": "beagle-ab2-2135044",
+      "runner_email": "claude@anthropic.com",
+      "claimed_at": "2026-04-25T16:08:00-05:00",
+      "agent_id": "beagle-ab2-2135044",
+      "parent_loop_id": "Svu14LNGwHsd",
+      "purpose": "J1 README per package (6 READMEs) — precondition for I1"
+    }
+  }
 }
