@@ -10,6 +10,8 @@ import { TokenTransformInputSchema } from './tools/token-transform.schema.js';
 import { tokenTransform } from './tools/token-transform.js';
 import { TokensValidateInputSchema } from './tools/tokens-validate.schema.js';
 import { tokensValidate } from './tools/tokens-validate.js';
+import { TokensGenerateInputSchema } from './tools/tokens-generate.schema.js';
+import { tokensGenerate } from './tools/tokens-generate.js';
 import { TokenExportInputSchema } from './tools/token-export.schema.js';
 import { tokenExport } from './tools/token-export.js';
 import { TokenImportInputSchema } from './tools/token-import.schema.js';
@@ -64,6 +66,36 @@ export function createServer(): Server {
         },
       },
       {
+        name: 'tokens_generate',
+        description: 'Generate a W3C DTCG token tree from a flat color palette + modular type scale + linear spacing scale. Output is a nested object with color.<name>, font.size.{caption,small,body,h6..h1}, and spacing.0..N — every leaf carries $value/$type so the result passes tokens_validate. Deterministic from inputs.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            palette: {
+              type: 'object',
+              description: 'Flat record of {colorName: cssColorString}, e.g. {"primary":"#0066cc"}',
+              additionalProperties: { type: 'string' },
+            },
+            type_scale: {
+              type: 'object',
+              description: 'Modular type-scale parameters: base px and ratio (e.g. 1.25 for major third)',
+              properties: {
+                base: { type: 'number', default: 16 },
+                ratio: { type: 'number', default: 1.25 },
+              },
+            },
+            spacing: {
+              type: 'object',
+              description: 'Linear spacing scale: emits spacing.0..spacing.<steps> as base*step px',
+              properties: {
+                base: { type: 'number', default: 4 },
+                steps: { type: 'number', default: 10 },
+              },
+            },
+          },
+        },
+      },
+      {
         name: 'token_export',
         description: 'Export tokens to a specific platform format with optional prefix and category filtering',
         inputSchema: {
@@ -111,6 +143,12 @@ export function createServer(): Server {
     if (name === 'tokens_validate') {
       const parsed = TokensValidateInputSchema.parse(args);
       const result = tokensValidate(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'tokens_generate') {
+      const parsed = TokensGenerateInputSchema.parse(args);
+      const result = tokensGenerate(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
