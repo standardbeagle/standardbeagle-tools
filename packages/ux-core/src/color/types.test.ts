@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Color, RGB, HSL, HSV, LAB, OKLCH, Hex } from './types.js';
+import type { Color, RGB, LAB, OKLCH, Hex } from './types.js';
 
 describe('Color types', () => {
   it('discriminated union narrows to RGB', () => {

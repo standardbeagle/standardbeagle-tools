@@ -23,7 +23,9 @@ describe('REFERENCE_COLORS fixture table', () => {
     for (const color of REFERENCE_COLORS) {
       expect(isHex(color.hex)).toBe(true);
       const hex = color.hex.toUpperCase();
-      let r = 0, g = 0, b = 0;
+      let r: number;
+      let g: number;
+      let b: number;
       if (hex.length === 4) {
         r = parseInt(hex[1]! + hex[1]!, 16);
         g = parseInt(hex[2]! + hex[2]!, 16);

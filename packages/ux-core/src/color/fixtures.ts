@@ -1,19 +1,35 @@
 import type { RGB, HSL, HSV, LAB, OKLCH, Hex } from './types.js';
 
+/**
+ * Single reference color expressed in every supported color space.
+ *
+ * Used by cross-space conversion tests as ground truth. See {@link RGB},
+ * {@link HSL}, {@link HSV}, {@link LAB}, {@link OKLCH}, {@link Hex}.
+ */
 export interface ColorFixture {
+  /** Human-readable label (e.g. `"pure red"`). */
   name: string;
+  /** Canonical {@link Hex} form. */
   hex: Hex;
+  /** {@link RGB} form. */
   rgb: RGB;
+  /** {@link HSL} form. */
   hsl: HSL;
+  /** {@link HSV} form. */
   hsv: HSV;
+  /** {@link LAB} form. */
   lab: LAB;
+  /** {@link OKLCH} form. */
   oklch: OKLCH;
 }
 
 /**
  * Reference colors for cross-space round-trip testing.
- * Values cross-verified against colormine.org and oklch.com
- * within 0.5 unit tolerance.
+ *
+ * Values cross-verified against colormine.org and oklch.com within 0.5 unit
+ * tolerance. Covers the RGB primaries/secondaries plus white, black, mid-gray,
+ * navy, teal, and orange to exercise saturation, lightness, and chromatic
+ * adaptation edge cases.
  */
 export const REFERENCE_COLORS: ColorFixture[] = [
   {

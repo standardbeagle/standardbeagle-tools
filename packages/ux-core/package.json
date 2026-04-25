@@ -14,11 +14,13 @@
     "build": "tsc",
     "test": "vitest run --passWithNoTests",
     "lint": "eslint src",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "docs": "typedoc"
   },
   "devDependencies": {
+    "eslint": "^10.2.1",
+    "typedoc": "^0.28.19",
     "typescript": "^5.4.0",
-    "vitest": "^1.6.0",
-    "eslint": "^10.2.1"
+    "vitest": "^1.6.0"
   }
 }

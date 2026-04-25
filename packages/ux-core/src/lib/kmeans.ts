@@ -1,11 +1,29 @@
+/**
+ * 3-D point used as input to {@link kmeans}.
+ *
+ * Channel meaning is caller-defined — for color quantization, x/y/z are
+ * typically RGB or LAB axes.
+ */
 export interface Point {
+  /** First axis (e.g. R or L*). */
   x: number;
+  /** Second axis (e.g. G or a*). */
   y: number;
+  /** Third axis (e.g. B or b*). */
   z: number;
 }
 
+/**
+ * One k-means cluster: its centroid and the {@link Point | points} assigned to it.
+ *
+ * Note: {@link kmeans}'s current return value populates `centroid` but leaves
+ * `points` empty — callers wanting cluster membership must re-bucket against
+ * the returned centroids.
+ */
 export interface Cluster {
+  /** Cluster center after convergence. */
   centroid: Point;
+  /** Points assigned to this cluster. May be empty in returned values. */
   points: Point[];
 }
 
@@ -13,6 +31,19 @@ function distance(a: Point, b: Point): number {
   return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2);
 }
 
+/**
+ * k-means clustering with k-means++ initialization and Lloyd iteration.
+ *
+ * Runs at most `maxIterations` Lloyd passes and stops early once no centroid
+ * shifts by more than `tolerance` Euclidean distance. Empty input or `k <= 0`
+ * returns `[]`. If `k` exceeds `points.length`, it is clamped down.
+ *
+ * @param points Input {@link Point | points} to cluster.
+ * @param k Target number of clusters.
+ * @param maxIterations Hard cap on Lloyd passes (default `50`).
+ * @param tolerance Centroid-shift threshold for early termination (default `1.0`).
+ * @returns Array of {@link Cluster}s with populated `centroid` and empty `points`.
+ */
 export function kmeans(points: Point[], k: number, maxIterations = 50, tolerance = 1.0): Cluster[] {
   if (points.length === 0 || k <= 0) return [];
   if (k > points.length) k = points.length;
