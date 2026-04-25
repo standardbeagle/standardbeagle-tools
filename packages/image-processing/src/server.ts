@@ -23,6 +23,8 @@ import { ImageLazyAnalysisInputSchema } from './tools/image-lazy-analysis.schema
 import { imageLazyAnalysis } from './tools/image-lazy-analysis.js';
 import { ResponsiveGenerateInputSchema } from './tools/responsive-generate.schema.js';
 import { responsiveGenerate } from './tools/responsive-generate.js';
+import { BlurHashInputSchema } from './tools/blur-hash.schema.js';
+import { blurHash } from './tools/blur-hash.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -165,6 +167,20 @@ export function createServer(): Server {
           required: ['input_path', 'output_dir'],
         },
       },
+      {
+        name: 'blur_hash',
+        description: 'Compute a BlurHash string and optional low-quality image placeholder (LQIP) JPEG data URI from a source image. Useful for image placeholder UX while full assets load.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            input_path: { type: 'string', description: 'Absolute path to source image' },
+            components_x: { type: 'integer', minimum: 1, maximum: 9, default: 4, description: 'BlurHash X components (1-9)' },
+            components_y: { type: 'integer', minimum: 1, maximum: 9, default: 3, description: 'BlurHash Y components (1-9)' },
+            include_lqip: { type: 'boolean', default: true, description: 'When true, emit a 32px-wide JPEG data URI as lqip_base64' },
+          },
+          required: ['input_path'],
+        },
+      },
     ],
   }));
 
@@ -222,6 +238,12 @@ export function createServer(): Server {
     if (name === 'responsive_generate') {
       const parsed = ResponsiveGenerateInputSchema.parse(args);
       const result = await responsiveGenerate(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'blur_hash') {
+      const parsed = BlurHashInputSchema.parse(args);
+      const result = await blurHash(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
