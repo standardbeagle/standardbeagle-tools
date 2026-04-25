@@ -1,3 +1,9 @@
 {
-  "claims": {}
+  "claims": {
+    "qAtBXdvusQ58": {
+      "runner_instance_id": "beagle-ab2-1587382",
+      "runner_email": "claude@anthropic.com",
+      "claimed_at": "2026-04-25T16:00:00-05:00"
+    }
+  }
 }
