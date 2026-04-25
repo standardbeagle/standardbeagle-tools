@@ -221,6 +221,13 @@ export const GroupSchema = z
 export type DtcgNode = Record<string, unknown>;
 
 /**
+ * The whole DTCG document: the root group. Structurally identical to DtcgNode (any object
+ * keyed by token/group names), but named separately so exporter signatures read as
+ * "consumes the tree" rather than "consumes a node". Use this in public APIs.
+ */
+export type DTCGTree = DtcgNode;
+
+/**
  * Validation issue produced by the validator. `path` is dotted JSON-pointer-ish
  * (e.g. "color.brand.primary"); `code` is a stable machine-readable identifier.
  */
