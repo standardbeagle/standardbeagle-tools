@@ -16,6 +16,8 @@ import { LetterSpacingInputSchema } from './tools/letter-spacing.schema.js';
 import { letterSpacing } from './tools/letter-spacing.js';
 import { ModularScaleInputSchema } from './tools/modular-scale.schema.js';
 import { modularScale } from './tools/modular-scale.js';
+import { FontMetricsInputSchema } from './tools/font-metrics.schema.js';
+import { fontMetrics } from './tools/font-metrics.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -106,6 +108,17 @@ export function createServer(): Server {
           },
         },
       },
+      {
+        name: 'font_metrics',
+        description: 'Read font metrics (ascent, descent, x-height, cap-height, line-gap, units-per-em) from a font file using fontkit',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            font_path: { type: 'string', description: 'Filesystem path to a font file (TTF, OTF, WOFF, WOFF2, or TTC)' },
+          },
+          required: ['font_path'],
+        },
+      },
     ],
   }));
 
@@ -145,6 +158,12 @@ export function createServer(): Server {
     if (name === 'modular_scale') {
       const parsed = ModularScaleInputSchema.parse(args);
       const result = modularScale(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'font_metrics') {
+      const parsed = FontMetricsInputSchema.parse(args);
+      const result = fontMetrics(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
