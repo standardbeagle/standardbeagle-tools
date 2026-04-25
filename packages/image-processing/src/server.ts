@@ -21,6 +21,8 @@ import { SpriteGenerateInputSchema } from './tools/sprite-generate.schema.js';
 import { spriteGenerate } from './tools/sprite-generate.js';
 import { ImageLazyAnalysisInputSchema } from './tools/image-lazy-analysis.schema.js';
 import { imageLazyAnalysis } from './tools/image-lazy-analysis.js';
+import { ResponsiveGenerateInputSchema } from './tools/responsive-generate.schema.js';
+import { responsiveGenerate } from './tools/responsive-generate.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -143,6 +145,26 @@ export function createServer(): Server {
           required: ['images'],
         },
       },
+      {
+        name: 'responsive_generate',
+        description: 'Generate responsive image variants at multiple breakpoints; emits an HTML5 srcset string and a sizes hint. Skips breakpoints wider than the source (no upscaling).',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            input_path: { type: 'string', description: 'Absolute path to source image' },
+            output_dir: { type: 'string', description: 'Absolute path to directory for variant outputs' },
+            breakpoints: {
+              type: 'array',
+              items: { type: 'integer', minimum: 1 },
+              default: [320, 640, 960, 1280, 1920],
+              description: 'Target widths in pixels; widths greater than the source are skipped',
+            },
+            format: { type: 'string', enum: ['webp', 'avif', 'jpg'], default: 'webp', description: 'Output format' },
+            quality: { type: 'integer', minimum: 1, maximum: 100, default: 80, description: 'Encoder quality (1-100)' },
+          },
+          required: ['input_path', 'output_dir'],
+        },
+      },
     ],
   }));
 
@@ -194,6 +216,12 @@ export function createServer(): Server {
     if (name === 'image_lazy_analysis') {
       const parsed = ImageLazyAnalysisInputSchema.parse(args);
       const result = await imageLazyAnalysis(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'responsive_generate') {
+      const parsed = ResponsiveGenerateInputSchema.parse(args);
+      const result = await responsiveGenerate(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
