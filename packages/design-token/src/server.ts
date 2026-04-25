@@ -20,6 +20,8 @@ import { TokensDiffInputSchema } from './tools/tokens-diff.schema.js';
 import { tokensDiff } from './tools/tokens-diff.js';
 import { TokensMergeInputSchema } from './tools/tokens-merge.schema.js';
 import { tokensMerge } from './tools/tokens-merge.js';
+import { TailwindGenerateInputSchema } from './tools/tailwind-generate.schema.js';
+import { tailwindGenerate } from './tools/tailwind-generate.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -160,6 +162,50 @@ export function createServer(): Server {
           required: ['base'],
         },
       },
+      {
+        name: 'tailwind_generate',
+        description: 'Orchestrator: generate a Tailwind theme-extend config (and optionally a JS or TS module source) from a flat palette + modular type scale + linear spacing scale, with optional semantic-color aliases. Composes tokens_generate (F2) and the toTailwindTheme exporter (F5) — adds no new primitives. semantic_map entries are resolved eagerly against the palette (Tailwind has no native ref concept). Pure and deterministic.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            palette: {
+              type: 'object',
+              description: 'Flat record of {colorName: cssColorString}.',
+              additionalProperties: { type: 'string' },
+            },
+            type_scale: {
+              type: 'object',
+              description: 'Modular type-scale {base, ratio}.',
+              properties: {
+                base: { type: 'number' },
+                ratio: { type: 'number' },
+              },
+              required: ['base', 'ratio'],
+            },
+            spacing: {
+              type: 'object',
+              description: 'Linear spacing {base, steps} → emits 0..steps inclusive.',
+              properties: {
+                base: { type: 'number' },
+                steps: { type: 'number' },
+              },
+              required: ['base', 'steps'],
+            },
+            semantic_map: {
+              type: 'object',
+              description: 'Optional alias map {semanticName: paletteKey}, e.g. {"success":"green"}. Each alias resolves to its palette hex value in the Tailwind colors slot. Unknown targets throw.',
+              additionalProperties: { type: 'string' },
+            },
+            output_format: {
+              type: 'string',
+              enum: ['object', 'js-module', 'ts-module'],
+              default: 'object',
+              description: 'object: return config only. js-module: also emit CommonJS source. ts-module: also emit ESM TypeScript source with `satisfies Pick<Config, "theme">`.',
+            },
+          },
+          required: ['palette', 'type_scale', 'spacing'],
+        },
+      },
     ],
   }));
 
@@ -211,6 +257,12 @@ export function createServer(): Server {
     if (name === 'tokens_merge') {
       const parsed = TokensMergeInputSchema.parse(args);
       const result = tokensMerge(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'tailwind_generate') {
+      const parsed = TailwindGenerateInputSchema.parse(args);
+      const result = tailwindGenerate(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
