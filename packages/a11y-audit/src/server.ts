@@ -16,6 +16,8 @@ import { AuditFormInputSchema } from './tools/audit-form.schema.js';
 import { auditForm } from './tools/audit-form.js';
 import { AuditHeadingInputSchema } from './tools/audit-heading.schema.js';
 import { auditHeading } from './tools/audit-heading.js';
+import { WcagScoreInputSchema } from './tools/wcag-score.schema.js';
+import { wcagScore } from './tools/wcag-score.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -128,6 +130,23 @@ export function createServer(): Server {
           required: ['html'],
         },
       },
+      {
+        name: 'wcag_score',
+        description: 'Score HTML against WCAG 2.2 success criteria across A/AA/AAA conformance levels and emit a markdown compliance report',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            html: { type: 'string', description: 'HTML string to score' },
+            target_level: {
+              type: 'string',
+              enum: ['A', 'AA', 'AAA'],
+              default: 'AA',
+              description: 'Target WCAG conformance level for the report',
+            },
+          },
+          required: ['html'],
+        },
+      },
     ],
   }));
 
@@ -167,6 +186,12 @@ export function createServer(): Server {
     if (name === 'audit_heading') {
       const parsed = AuditHeadingInputSchema.parse(args);
       const result = await auditHeading(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'wcag_score') {
+      const parsed = WcagScoreInputSchema.parse(args);
+      const result = await wcagScore(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
