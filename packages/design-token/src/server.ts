@@ -16,6 +16,10 @@ import { TokenExportInputSchema } from './tools/token-export.schema.js';
 import { tokenExport } from './tools/token-export.js';
 import { TokenImportInputSchema } from './tools/token-import.schema.js';
 import { tokenImport } from './tools/token-import.js';
+import { TokensDiffInputSchema } from './tools/tokens-diff.schema.js';
+import { tokensDiff } from './tools/tokens-diff.js';
+import { TokensMergeInputSchema } from './tools/tokens-merge.schema.js';
+import { tokensMerge } from './tools/tokens-merge.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -122,6 +126,40 @@ export function createServer(): Server {
           required: ['source', 'format'],
         },
       },
+      {
+        name: 'tokens_diff',
+        description: 'Diff two W3C DTCG token trees at the leaf level. Flattens both trees and reports added (paths only in b), removed (paths only in a), and changed (different $value). Output arrays are sorted by path. $description-only edits are not reported as changes. Pure, deterministic.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            a: { type: 'object', description: 'First DTCG token tree (the "before" or baseline).' },
+            b: { type: 'object', description: 'Second DTCG token tree (the "after" or candidate).' },
+          },
+          required: ['a', 'b'],
+        },
+      },
+      {
+        name: 'tokens_merge',
+        description: 'Merge a base DTCG token tree with an ordered list of overrides. Resolution modes: last-wins (default; rightmost source wins), first-wins (earliest source wins, base preferred), error (throws on first leaf-vs-leaf conflict with payload). Group-vs-leaf structural conflicts always throw. Every contested path is reported in conflicts[] regardless of mode, so callers can audit silent resolutions.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            base: { type: 'object', description: 'Base DTCG token tree.' },
+            overrides: {
+              type: 'array',
+              items: { type: 'object' },
+              description: 'Ordered list of override trees applied left-to-right on top of base.',
+            },
+            conflict_resolution: {
+              type: 'string',
+              enum: ['last-wins', 'first-wins', 'error'],
+              default: 'last-wins',
+              description: 'How to resolve leaf-vs-leaf conflicts (group-vs-leaf always throws).',
+            },
+          },
+          required: ['base'],
+        },
+      },
     ],
   }));
 
@@ -161,6 +199,18 @@ export function createServer(): Server {
     if (name === 'token_import') {
       const parsed = TokenImportInputSchema.parse(args);
       const result = tokenImport(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'tokens_diff') {
+      const parsed = TokensDiffInputSchema.parse(args);
+      const result = tokensDiff(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'tokens_merge') {
+      const parsed = TokensMergeInputSchema.parse(args);
+      const result = tokensMerge(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
