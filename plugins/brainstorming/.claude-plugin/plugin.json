@@ -1,0 +1,26 @@
+{
+  "name": "brainstorming",
+  "version": "0.1.0",
+  "description": "Brainstorming visual companion ported from superpowers. Mini-IDE web app for divergent-thinking sessions: question/demo/decision screens plus the SBT-S3 cards extension for card-sort and clustering. Bun + Preact + Vite stack runs against a session directory and emits events.jsonl.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "brainstorming",
+    "ideation",
+    "visual-companion",
+    "mini-ide",
+    "card-sort",
+    "superpowers-port",
+    "sp-port",
+    "preact",
+    "bun"
+  ],
+  "skills": [
+    "./skills/brainstorming"
+  ]
+}

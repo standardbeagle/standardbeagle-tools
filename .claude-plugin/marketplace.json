@@ -549,6 +549,31 @@
       "category": "development"
     },
     {
+      "name": "brainstorming",
+      "source": "./plugins/brainstorming",
+      "description": "Brainstorming skill + visual companion ported from superpowers. Mini-IDE web app for divergent-thinking sessions: question/demo/decision screens plus the SBT-S3 cards extension for card-sort and clustering. Bun + Preact + Vite stack runs against a session directory and emits events.jsonl for Claude to observe.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "brainstorming",
+        "ideation",
+        "visual-companion",
+        "mini-ide",
+        "card-sort",
+        "superpowers-port",
+        "sp-port",
+        "preact",
+        "bun"
+      ],
+      "category": "development"
+    },
+    {
       "name": "ideation",
       "source": "./plugins/ideation",
       "description": "Idea-generation skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, and post-ideation handoff to brainstorming or planning. Dispatches research:* agents for grounding.",
