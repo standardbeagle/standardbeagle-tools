@@ -13,11 +13,6 @@ function distance(a: Point, b: Point): number {
   return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2);
 }
 
-function randomSample<T>(arr: T[], count: number): T[] {
-  const shuffled = [...arr].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
-}
-
 export function kmeans(points: Point[], k: number, maxIterations = 50, tolerance = 1.0): Cluster[] {
   if (points.length === 0 || k <= 0) return [];
   if (k > points.length) k = points.length;

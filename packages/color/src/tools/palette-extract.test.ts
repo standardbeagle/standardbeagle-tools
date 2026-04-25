@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { kmeans } from '../lib/kmeans.js';
+import { kmeans } from '@standardbeagle/ux-core';
 
 describe('palette-extract (kmeans integration)', () => {
   it('kmeans clusters RGB points into color groups', () => {

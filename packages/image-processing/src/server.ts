@@ -27,6 +27,8 @@ import { BlurHashInputSchema } from './tools/blur-hash.schema.js';
 import { blurHash } from './tools/blur-hash.js';
 import { SvgOptimizeInputSchema } from './tools/svg-optimize.schema.js';
 import { svgOptimize } from './tools/svg-optimize.js';
+import { PaletteFromImageInputSchema } from './tools/palette-from-image.schema.js';
+import { paletteFromImage } from './tools/palette-from-image.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -184,6 +186,19 @@ export function createServer(): Server {
         },
       },
       {
+        name: 'palette_from_image',
+        description: 'Extract a dominant-color palette from an image via k-means clustering on a sub-sampled pixel set. Output shape matches color.palette_extract (D6); semantic overlap is intentional — this is the image-processing MCP surface for the same algorithm.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            input_path: { type: 'string', description: 'Absolute path to source image' },
+            count: { type: 'integer', minimum: 2, maximum: 16, default: 5, description: 'Number of palette colors (k for k-means)' },
+            sample_pixels: { type: 'integer', minimum: 100, maximum: 100000, default: 10000, description: 'Number of pixels to sub-sample before clustering' },
+          },
+          required: ['input_path'],
+        },
+      },
+      {
         name: 'svg_optimize',
         description: 'Optimize an SVG with SVGO v3+. Accepts inline svg or svg_path; supports aggressive mode (preset-default with cleanupIds.force and removeDimensions overrides) and symbol_sprite mode (wraps the optimized SVG in <svg style="display:none"><symbol id="..." viewBox="..."> for icon-sprite usage). Writes to output_path when provided and reports byte reduction.',
         inputSchema: {
@@ -266,6 +281,12 @@ export function createServer(): Server {
     if (name === 'svg_optimize') {
       const parsed = SvgOptimizeInputSchema.parse(args);
       const result = await svgOptimize(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'palette_from_image') {
+      const parsed = PaletteFromImageInputSchema.parse(args);
+      const result = await paletteFromImage(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 

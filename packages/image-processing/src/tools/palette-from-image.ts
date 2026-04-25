@@ -1,25 +1,32 @@
+// Semantic overlap with @standardbeagle/color D6 palette_extract is intentional —
+// image-processing MCP surface for the same algorithm. Both tools share the kmeans
+// implementation in @standardbeagle/ux-core/lib/kmeans and emit the identical
+// { palette: [{ hex, rgb, percentage }] } shape (percentage scaled 0-100).
 import sharp from 'sharp';
 import { kmeans } from '@standardbeagle/ux-core';
-import type { PaletteExtractInput, PaletteExtractOutput } from './palette-extract.schema.js';
+import type {
+  PaletteFromImageInput,
+  PaletteFromImageOutput,
+} from './palette-from-image.schema.js';
 
 function rgbToHex(r: number, g: number, b: number): string {
   return `#${Math.round(r).toString(16).padStart(2, '0')}${Math.round(g).toString(16).padStart(2, '0')}${Math.round(b).toString(16).padStart(2, '0')}`;
 }
 
-export async function paletteExtract(input: PaletteExtractInput): Promise<PaletteExtractOutput> {
-  const { data, info } = await sharp(input.image)
+export async function paletteFromImage(
+  input: PaletteFromImageInput,
+): Promise<PaletteFromImageOutput> {
+  const { data, info } = await sharp(input.input_path)
     .raw()
     .ensureAlpha()
     .toBuffer({ resolveWithObject: true });
 
   const { width, height } = info;
-  const pixels: Array<{ x: number; y: number; z: number }> = [];
-
-  // Random subsample
   const totalPixels = width * height;
   const sampleCount = Math.min(input.sample_pixels, totalPixels);
   const stride = Math.floor(totalPixels / sampleCount);
 
+  const pixels: Array<{ x: number; y: number; z: number }> = [];
   for (let i = 0; i < sampleCount; i++) {
     const idx = Math.min(i * stride, totalPixels - 1) * 4;
     pixels.push({
@@ -29,9 +36,8 @@ export async function paletteExtract(input: PaletteExtractInput): Promise<Palett
     });
   }
 
-  const clusters = kmeans(pixels, input.k, 50, 1.0);
+  const clusters = kmeans(pixels, input.count, 50, 1.0);
 
-  // Assign all sampled pixels to nearest centroid for percentages
   const counts = new Array(clusters.length).fill(0);
   for (const p of pixels) {
     let minDist = Infinity;
@@ -50,7 +56,11 @@ export async function paletteExtract(input: PaletteExtractInput): Promise<Palett
   const palette = clusters
     .map((c, i) => ({
       hex: rgbToHex(c.centroid.x, c.centroid.y, c.centroid.z),
-      rgb: { r: Math.round(c.centroid.x), g: Math.round(c.centroid.y), b: Math.round(c.centroid.z) },
+      rgb: {
+        r: Math.round(c.centroid.x),
+        g: Math.round(c.centroid.y),
+        b: Math.round(c.centroid.z),
+      },
       percentage: Number(((counts[i] / pixels.length) * 100).toFixed(2)),
     }))
     .sort((a, b) => b.percentage - a.percentage);
