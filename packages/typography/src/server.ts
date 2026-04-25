@@ -18,6 +18,8 @@ import { ModularScaleInputSchema } from './tools/modular-scale.schema.js';
 import { modularScale } from './tools/modular-scale.js';
 import { FontMetricsInputSchema } from './tools/font-metrics.schema.js';
 import { fontMetrics } from './tools/font-metrics.js';
+import { VariableFontAxesInputSchema } from './tools/variable-font-axes.schema.js';
+import { variableFontAxes } from './tools/variable-font-axes.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -119,6 +121,17 @@ export function createServer(): Server {
           required: ['font_path'],
         },
       },
+      {
+        name: 'variable_font_axes',
+        description: 'Inspect a variable font: list variation axes (wght, wdth, slnt, ital, opsz, custom), named instances, and emit a CSS @font-face + font-variation-settings example',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            font_path: { type: 'string', description: 'Filesystem path to a font file (TTF, OTF, WOFF, WOFF2, or TTC)' },
+          },
+          required: ['font_path'],
+        },
+      },
     ],
   }));
 
@@ -164,6 +177,12 @@ export function createServer(): Server {
     if (name === 'font_metrics') {
       const parsed = FontMetricsInputSchema.parse(args);
       const result = fontMetrics(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'variable_font_axes') {
+      const parsed = VariableFontAxesInputSchema.parse(args);
+      const result = variableFontAxes(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
