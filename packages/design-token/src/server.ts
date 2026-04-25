@@ -8,8 +8,8 @@ import { TokenCreateInputSchema } from './tools/token-create.schema.js';
 import { tokenCreate } from './tools/token-create.js';
 import { TokenTransformInputSchema } from './tools/token-transform.schema.js';
 import { tokenTransform } from './tools/token-transform.js';
-import { TokenValidateInputSchema } from './tools/token-validate.schema.js';
-import { tokenValidate } from './tools/token-validate.js';
+import { TokensValidateInputSchema } from './tools/tokens-validate.schema.js';
+import { tokensValidate } from './tools/tokens-validate.js';
 import { TokenExportInputSchema } from './tools/token-export.schema.js';
 import { tokenExport } from './tools/token-export.js';
 import { TokenImportInputSchema } from './tools/token-import.schema.js';
@@ -52,12 +52,13 @@ export function createServer(): Server {
         },
       },
       {
-        name: 'token_validate',
-        description: 'Validate a token set for consistency: check references, circular dependencies, type matching, and duplicates',
+        name: 'tokens_validate',
+        description: 'Validate a W3C DTCG (Design Tokens Community Group) token tree. Recursively walks groups, validates each leaf $value against its $type-specific schema (12+ types: color, dimension, fontFamily, fontWeight, duration, cubicBezier, number, strokeStyle, border, transition, shadow, gradient, typography). Strict mode treats unknown $type as error; default treats it as warning.',
         inputSchema: {
           type: 'object',
           properties: {
-            tokens: { type: 'array', description: 'Array of tokens to validate' },
+            tokens: { type: 'object', description: 'DTCG token tree (nested object of groups and leaf tokens with $value/$type)' },
+            strict: { type: 'boolean', description: 'If true, unknown $type produces an error instead of a warning', default: false },
           },
           required: ['tokens'],
         },
@@ -107,9 +108,9 @@ export function createServer(): Server {
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
-    if (name === 'token_validate') {
-      const parsed = TokenValidateInputSchema.parse(args);
-      const result = tokenValidate(parsed);
+    if (name === 'tokens_validate') {
+      const parsed = TokensValidateInputSchema.parse(args);
+      const result = tokensValidate(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
