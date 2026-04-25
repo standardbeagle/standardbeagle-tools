@@ -22,6 +22,8 @@ import { VariableFontAxesInputSchema } from './tools/variable-font-axes.schema.j
 import { variableFontAxes } from './tools/variable-font-axes.js';
 import { FontSubsetInputSchema } from './tools/font-subset.schema.js';
 import { fontSubset } from './tools/font-subset.js';
+import { FontStackInputSchema } from './tools/font-stack.schema.js';
+import { fontStack } from './tools/font-stack.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -158,6 +160,23 @@ export function createServer(): Server {
           required: ['font_path'],
         },
       },
+      {
+        name: 'font_stack',
+        description: 'Build a CLS-minimizing font-family stack for a custom font: emits an @font-face block with size-adjust + ascent/descent/line-gap overrides tuned to a system fallback, plus a ready-to-paste font-family declaration',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            custom_font_path: { type: 'string', description: 'Filesystem path to the primary font (TTF, OTF, WOFF, WOFF2, or TTC)' },
+            family_type: {
+              type: 'string',
+              enum: ['sans-serif', 'serif', 'monospace'],
+              default: 'sans-serif',
+              description: 'Generic family used to pick the system fallback chain and metric source',
+            },
+          },
+          required: ['custom_font_path'],
+        },
+      },
     ],
   }));
 
@@ -215,6 +234,12 @@ export function createServer(): Server {
     if (name === 'font_subset') {
       const parsed = FontSubsetInputSchema.parse(args);
       const result = await fontSubset(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'font_stack') {
+      const parsed = FontStackInputSchema.parse(args);
+      const result = fontStack(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
