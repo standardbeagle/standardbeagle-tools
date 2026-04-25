@@ -22,6 +22,8 @@ import { WcagScoreInputSchema } from './tools/wcag-score.schema.js';
 import { wcagScore } from './tools/wcag-score.js';
 import { AriaValidateInputSchema } from './tools/aria-validate.schema.js';
 import { ariaValidate } from './tools/aria-validate.js';
+import { LinkTextCheckInputSchema } from './tools/link-text-check.schema.js';
+import { linkTextCheck } from './tools/link-text-check.js';
 
 export function createServer(): Server {
   const server = new Server(
@@ -173,6 +175,17 @@ export function createServer(): Server {
           required: ['html'],
         },
       },
+      {
+        name: 'link_text_check',
+        description: 'Pure-parse link-text auditor: vague phrases, URL-as-text, empty links, duplicate text with different hrefs; emits suggested_text fallback chain (aria-label → title → preceding heading)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            html: { type: 'string', description: 'HTML string to analyze' },
+          },
+          required: ['html'],
+        },
+      },
     ],
   }));
 
@@ -230,6 +243,12 @@ export function createServer(): Server {
     if (name === 'aria_validate') {
       const parsed = AriaValidateInputSchema.parse(args);
       const result = await ariaValidate(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+    }
+
+    if (name === 'link_text_check') {
+      const parsed = LinkTextCheckInputSchema.parse(args);
+      const result = await linkTextCheck(parsed);
       return { content: [{ type: 'text', text: JSON.stringify(result) }] };
     }
 
