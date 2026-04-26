@@ -30,6 +30,46 @@ the `cards` kind is documented under I4 follow-up.
 
 每 project 遵此程。To-do 列、單函工具、config 變——皆然。「簡」project 即未察假設生最多廢工之所。設計可短（真簡者數句即可），然汝**必**呈之並取許。
 
+## Anti-Pattern: "Reflexive Question Batching"
+
+別於上條。前者乃跳過設計；此者乃反射性堆問。於 user 大半 context 已可自 codebase / memory / prompt / git log 推斷時，仍硬批 4 問之 `AskUserQuestion`——此乃廢工之另形：問汝本可推之事，問互可束之事，問 user 已默述之事。徵兆：問題清單寫好後**未**自察「Phase 0 摘要可否吸收此問？」「3 題在同一 sub-domain，可否束為 strategy bundle？」「此題答案可自既有檔推得?」逕直發送。
+
+對策：問前一頓——對照下面之 `<QUESTION-BUDGET-GUIDANCE>` 自察。問題未必減，但須**經審**而非反射。
+
+<QUESTION-BUDGET-GUIDANCE>
+**為偏好（preference），非硬界（cap）。**
+
+汝之問題預算為一**典型形 landmark**，非 limit / cap / max。意在於汝之反射性堆問前置一頓自察，非斷汝之問。
+
+**Typical-case landmark：**
+
+- **Phase 0 architect summary**：自由文，**不計數**。摘要本質為 Claude 之單則推斷呈現，非問。
+- **Phase 1 big strategy-bundle questions**：`~3 typical`。多數 project 三 big question（shape / approach / constraint 之類）即足切大分支。
+- **Phase 2 detail-layer strategy/atomic questions**：`~2 typical`。Phase 1 已收窄空間後，Phase 2 之細項通常一兩束 strategy 或一兩個原子 knob 即可收尾。
+- **總計 landmark ~5**：Phase 1 加 Phase 2，~5 為 typical 形之地標。**非 cap。** Project 確需更多原子 q 時（見下 allowlist），照當問。
+
+**接近 landmark 時之自察（3 introspection q's）：**
+
+當汝預備之問題群將令本 session 累計問題數靠近或越過 ~5 時，先停一拍，於汝 own context 中自答此三問：
+
+1. **Could a strategy bundle absorb some of these?** ——預備之問題群中是否 3+ 題群於同一 sub-domain 且 knob 連動？若是，束之而非逐一原子問。
+2. **Would Phase 0 inference cover any?** ——彼批問題中是否有可自 codebase / memory / prompt / git log 推得者？若是，先以 Phase 0 推斷呈，user 確認方略當問。
+3. **Is this genuinely a checklist of independent decisions?** ——彼批問題是否為下面 allowlist 所列之合法重問場景（config 矩陣、合規清單、brownfield 審計、多方需求收集）？若是，當問即當問。
+
+**三答俱「是，必要且原子」→ continue asking。** 此自察非 gate，非阻汝之問；乃確保問為經審之問。
+
+**合法重問場景（allowlist）：**
+
+下列 case 確當期望問題數超 ~5 landmark，**勿**反硬限：
+
+- **Long config matrices**：CI/CD 多環境變數、feature flag 矩陣、build target 組合——數十獨立 knob 須各定，無 strategy 可束
+- **Regulatory checklists**：HIPAA / GDPR / SOC2 合規條目逐項確認——每條為獨立 yes/no 法律事實，不可推斷亦不可束
+- **Brownfield audits with many independent unknowns**：陌生 legacy codebase 之初探，10+ 獨立疑點待 user 釐——Phase 0 推斷無足信號，須逐項問
+- **Multi-stakeholder requirement gathering**：多方利益關係人各持不同需求 / 限制——須逐方逐關注點原子收集，不可代為合併
+
+此清單為示例非窮舉。判定原則：問是否真為獨立、不可推斷、不可束之 atomic decision？是則當問。
+</QUESTION-BUDGET-GUIDANCE>
+
 ## Checklist
 
 汝必為下每項立 task 並依序竟：
@@ -39,13 +79,14 @@ the `cards` kind is documented under I4 follow-up.
 3. **Offer visual companion**（若議涉視覺）— 為獨訊，勿合於問。見下 Visual Companion 節。
 4. **Phase 1 — ask big strategy-bundle questions** — 默以 ~3 big questions 開（每 option 為策略束，連動數個下游 knob，依下節 schema）；Phase 0 低信度條目為首批問題候選；單旋鈕之問仍可原子；迭至足以設計
 5. **Phase 2 — strategy-selection on detail layer** — 讀 Phase 1 答後，於各擇定之大分支下察當問之細項；若 3+ atomic 問題群於同一 sub-domain 且 knob 連動，宜束為 2–3 named strategies；確獨立之 knob 仍以原子問。見下 Phase 2 節。
-6. **Propose 2-3 approaches** — 附權衡與汝薦
-7. **Honor backtrack — surface invalidation, then regenerate** — User 隨時可說「回 Phase X 重議」；汝**先**列下游將失效之擇、徵其同意，**後**自該層重 diverge。見下 Diverge / Converge 節。
-8. **Present design** — 按複雜度縮放分節，每節後取許
-9. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
-10. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
-11. **User reviews written spec** — 請 user 審 spec 檔後再進
-12. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
+6. **Question-budget self-check at ~5 landmark** — 累計問題（Phase 1 + Phase 2）靠近或越 ~5 typical landmark 時，跑上節 `<QUESTION-BUDGET-GUIDANCE>` 之 3 introspection 自察；allowlist 之合法重問場景（config 矩陣、合規清單、brownfield 審計、多方需求）適用時照當問。**此非 gate，乃自察。**
+7. **Propose 2-3 approaches** — 附權衡與汝薦
+8. **Honor backtrack — surface invalidation, then regenerate** — User 隨時可說「回 Phase X 重議」；汝**先**列下游將失效之擇、徵其同意，**後**自該層重 diverge。見下 Diverge / Converge 節。
+9. **Present design** — 按複雜度縮放分節，每節後取許
+10. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
+11. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
+12. **User reviews written spec** — 請 user 審 spec 檔後再進
+13. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
 
 ## Process Flow
 
@@ -309,7 +350,7 @@ Bad — open-ended with no options (use free text via Other instead):
 
 **Inputs to Phase 1**：Phase 0 之 architect summary 之 **low-confidence 條目**為首批 Phase 1 問題之候選來源（high-confidence 者通常可略，待 user 反對方追問）。Phase 0 跳過時，Phase 1 從此處的標準開場開始。
 
-**Default shape：strategy-bundle big questions**。不再以原子資料點（「what's your deployment target」「what's your primary constraint」）逐一探，而以 **~3 big questions** 為目標，每問之 options 為一束策略——每擇連動下游數個 knob，依上節 schema。Aim for ~3 big questions in typical cases；project 確有更多獨立高層分支時 4-5 亦可，硬上限非此處之事（見 question-budget 子任務）。
+**Default shape：strategy-bundle big questions**。不再以原子資料點（「what's your deployment target」「what's your primary constraint」）逐一探，而以 **~3 big questions** 為目標，每問之 options 為一束策略——每擇連動下游數個 knob，依上節 schema。Aim for ~3 big questions in typical cases——此為 typical landmark, 非 cap；project 確有更多獨立高層分支時 4-5 亦可，依上節 `<QUESTION-BUDGET-GUIDANCE>` 之 allowlist 判定。
 
 #### Standard opening — strategy-bundle template
 
@@ -369,6 +410,8 @@ User picks 1 option per big question → ~3 picks resolve 9-15 downstream decisi
 ### Phase 2: Detail-layer strategy selection
 
 **Inputs to Phase 2**：Phase 1 之答（user 已擇定之 ~3 big-question option）。各擇定大分支下，會自然湧現一批細 knob 待定——cache TTL、eviction 法、retry 次、deploy 區。Phase 2 之事即察彼批細 knob 之**結構**：彼為連動之策略簇？或為獨立 config 之 checklist？
+
+**典型 landmark：~2 questions**。多數 project 經 Phase 1 收窄空間後，Phase 2 一兩束 strategy 或一兩個獨立 atomic knob 即可收尾，與 Phase 1 之 ~3 合計 ~5 為 typical 形之地標。確需更多原子 q 時——allowlist 場景（config 矩陣、合規清單、brownfield 審計、多方需求）——照當問即可，**此為 landmark, 非 cap**。詳見上節 `<QUESTION-BUDGET-GUIDANCE>` 之自察與 allowlist。
 
 #### Cluster-detection heuristic（決策規則）
 
