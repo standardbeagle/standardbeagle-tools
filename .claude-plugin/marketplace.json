@@ -597,6 +597,34 @@
       "category": "development"
     },
     {
+      "name": "compound-review",
+      "source": "./plugins/compound-review",
+      "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers reachable via the Task tool with structured review_report output (R2 §4.1). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "code-review",
+        "reviewer-agents",
+        "compound-engineering-port",
+        "ce-port",
+        "task-tool",
+        "review-report",
+        "correctness",
+        "maintainability",
+        "testing",
+        "typescript-strict",
+        "cli-readiness",
+        "adversarial-review"
+      ],
+      "category": "development"
+    },
+    {
       "name": "research",
       "source": "./plugins/research",
       "description": "External and repo research agents ported from Compound Engineering. Web research, prior-art scanning, learnings search, best-practices and framework-docs research. Reachable via Task tool with structured research_report output.",
