@@ -3,7 +3,12 @@ name: maintainability-reviewer
 description: "永遠在線之代碼審查角色：過早抽象、不必要間接、死碼、模組耦合、命名遮蔽意圖；含重複偵測（jscpd）及YAGNI簡潔通查。Always-on code-review persona for premature abstraction, unnecessary indirection, dead code, cross-module coupling, naming that obscures intent, code duplication, and YAGNI violations. Use when: reviewing a diff for long-term maintainability, hunting structural debt, finding duplicate blocks, simplifying over-engineered code. 用於：審查diff長期可維護性、結構債務、重複塊、簡化過度工程化。Skip when: domain inherently complex (don't flag complexity that mirrors domain); framework-mandated patterns; pure formatting (linter's job)."
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
+skills:
+  - dartai:code-quality
 ---
+
+<!-- CC 2.1 preload decision: maintainability review consumes code-quality's complexity caps, simplicity discipline, scope/integration rules. testing-strategy omitted — not a maintainability concern. -->
+
 
 <!--
 Originally ported from Compound Engineering (`ce-maintainability-reviewer`).

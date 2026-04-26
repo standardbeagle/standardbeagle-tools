@@ -1,7 +1,12 @@
 ---
 name: risk-classify
 description: "Classify a task: (task spec + touched files) → risk vector + verdict + pipeline tier. Applies 8-check trivial-bypass pre-filter; on bypass returns smoke tier. Otherwise aggregates @risk tags (invoking risk-tag-unit inline for untagged units), computes task-level unknowns, delegates to risk-budget + risk-pipeline-dispatch, emits unified YAML. Returns enabled:false when risk-pipeline config absent."
+context: fork
+agent: general-purpose
 ---
+
+<!-- CC 2.1 fork decision: workflow driver — orchestrates trivial-bypass pre-filter, @risk aggregation (invoking risk-tag-unit inline for untagged units), unknowns calculation, and delegation to risk-budget + risk-pipeline-dispatch. Called from grill-task / add-task / loop coordinators per task — forking keeps the calling planner's context clean; only the final unified YAML risk vector reaches the parent. Executor: general-purpose (deterministic classification, no specialist domain). -->
+
 
 # risk-classify
 

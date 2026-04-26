@@ -8,7 +8,12 @@ tools:
   - Glob
   - Grep
 color: purple
+skills:
+  - dartai:testing-strategy
 ---
+
+<!-- CC 2.1 preload decision: novelty review benefits from testing-strategy's failure-mode taxonomy and edge-case enumeration patterns when brainstorming unknown-unknowns. code-quality omitted — novelty review is research/prior-art driven, not implementation-quality driven. -->
+
 
 # Novelty Reviewer Agent
 

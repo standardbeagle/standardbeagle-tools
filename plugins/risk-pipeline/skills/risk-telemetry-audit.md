@@ -1,7 +1,12 @@
 ---
 name: risk-telemetry-audit
 description: "Replay .risk-pipeline/telemetry.jsonl to surface calibration drift: false-skip rate (low-scored tasks with post-deploy bugs), over-review rate (high-scored tasks reviewers pass empty), token/time distribution per pipeline tier. Emits markdown audit report with weight/budget tuning recommendations. Default window: --last 50 or --since 30d."
+context: fork
+agent: general-purpose
 ---
+
+<!-- CC 2.1 fork decision: workflow driver — replays telemetry JSONL across hundreds of records, computes 8 calibration metrics, generates markdown audit report. Multi-phase analysis with sub-skill calls. Forking keeps the calling /risk-pipeline:audit command's context free of intermediate calculation chatter; parent receives only the final markdown/JSON report. Executor: general-purpose (no specialist agent — this is pure analytical drive). -->
+
 
 # risk-telemetry-audit
 

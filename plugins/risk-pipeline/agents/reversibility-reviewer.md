@@ -8,7 +8,12 @@ tools:
   - Glob
   - Grep
 color: yellow
+skills:
+  - dartai:code-quality
 ---
+
+<!-- CC 2.1 preload decision: reversibility review consumes the code-quality completeness/markers discipline (rollback runbook complete? feature-flag wired both directions? down-migration present and tested?). testing-strategy omitted — rollback verification is integration/staging discipline rather than a unit-test taxonomy concern. -->
+
 
 # Reversibility Reviewer Agent
 

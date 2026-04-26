@@ -8,7 +8,13 @@ tools:
   - Glob
   - Grep
 color: red
+skills:
+  - dartai:code-quality
+  - dartai:testing-strategy
 ---
+
+<!-- CC 2.1 preload decision: security review needs the code-quality checklist (error handling, input boundaries, completeness markers) and testing-strategy (negative-test taxonomy, edge cases for auth/crypto/injection paths). Risk-pipeline does not own its own equivalent skills — it dispatches its dimension reviewers preloaded with the standard quality + testing reference content from dartai. -->
+
 
 # Security Reviewer Agent
 

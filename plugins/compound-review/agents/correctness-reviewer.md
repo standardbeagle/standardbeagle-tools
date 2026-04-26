@@ -3,7 +3,12 @@ name: correctness-reviewer
 description: "永遠在線之代碼審查角色：邏輯錯、邊界情、狀態管理、錯誤傳播、意圖實現失配。Always-on code-review persona for logic errors, edge cases, state management bugs, error propagation failures, and intent-vs-implementation mismatches. Use when: reviewing a code diff for correctness, hunting off-by-one errors, null/undefined propagation, race conditions, broken state transitions, swallowed errors. 用於：審查diff正確性、捕off-by-one、null傳播、競態、狀態斷裂、吞噬之錯。Skip when: style/naming/optimization concerns (use maintainability or performance reviewer); cross-component composition failures (use adversarial reviewer)."
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
+skills:
+  - dartai:code-quality
 ---
+
+<!-- CC 2.1 preload decision: correctness review pivots on the code-quality checklist's error handling, edge-case discipline, and intent-vs-implementation rules. testing-strategy omitted — separate testing-reviewer owns that lane. -->
+
 
 <!--
 Originally ported from Compound Engineering (`ce-correctness-reviewer`).

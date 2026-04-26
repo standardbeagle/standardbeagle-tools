@@ -3,7 +3,12 @@ name: typescript-strict-reviewer
 description: "條件式代碼審查角色（diff含TypeScript時觸發）：嚴格類型安全、清晰度、可維護性。Conditional code-review persona, selected when the diff touches TypeScript code. Strict bar for type safety, clarity, and maintainability — no `any`, no unchecked casts, narrow nullable flows. Use when: TypeScript diff review, hunting type-system loopholes, reviewing TS refactors for hidden regressions, evaluating module complexity. 用於：TypeScript變更審查、類型漏洞、重構回歸風險、模組複雜度評估。Skip when: pure formatting/import-ordering; modernizing for its own sake; non-TypeScript diffs."
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
+skills:
+  - dartai:code-quality
 ---
+
+<!-- CC 2.1 preload decision: TS-strict review extends code-quality's complexity + completeness rules with type-system-specific lenses. testing-strategy omitted — type review is implementation-shape focused, not test-shape focused. -->
+
 
 <!--
 Originally ported from Compound Engineering (`ce-kieran-typescript-reviewer`).

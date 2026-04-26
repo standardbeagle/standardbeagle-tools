@@ -8,7 +8,13 @@ tools:
   - Glob
   - Grep
 color: orange
+skills:
+  - dartai:code-quality
+  - dartai:testing-strategy
 ---
+
+<!-- CC 2.1 preload decision: data review needs code-quality (error handling around persistence boundaries, completeness on migration up/down, transaction discipline) and testing-strategy (integration-test coverage for migrations, concurrent-write race coverage, serialization round-trip tests). -->
+
 
 # Data Reviewer Agent
 

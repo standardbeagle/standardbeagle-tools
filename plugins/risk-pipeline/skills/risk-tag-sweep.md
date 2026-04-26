@@ -1,7 +1,12 @@
 ---
 name: risk-tag-sweep
 description: "Backfill @risk tags across a codebase. Enumerates untagged (or stale, or all with --force) symbols via LCI, drains hook queue, processes in 10-wide parallel batches invoking risk-tag-unit per symbol. Progress + resumable checkpoints to .risk-pipeline/sweep-state.json. Supports --scope glob narrowing and --force re-tag. Safe for monorepos via per-package scoping."
+context: fork
+agent: general-purpose
 ---
+
+<!-- CC 2.1 fork decision: workflow driver — bulk LLM tagging across thousands of symbols, 10-wide parallel batches, multi-phase (enumerate → drain queue → batch tag → checkpoint). Forking keeps the orchestrator free of per-symbol tag-unit chatter; parent sees only final JSON summary. Executor: general-purpose (no specialist agent needed; this skill drives sub-skill invocations not domain reasoning). -->
+
 
 # risk-tag-sweep
 
