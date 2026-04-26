@@ -1,7 +1,12 @@
 ---
 description: "Audit page for SEO best practices and issues. 審頁面搜尋優化得失. Use when: check SEO score, fix meta tags, audit page titles, review structured data, improve search ranking"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
+context: fork
+agent: agnt:browser-debugger
 ---
+
+<!-- CC 2.1 fork decision: workflow driver (meta-tag scan, structured-data validation, title/heading review). Fork keeps parent free of SEO detail dumps. Executor: agnt:browser-debugger. -->
+
 
 藉agnt診斷工具稽核當前頁面之SEO最佳實踐。
 

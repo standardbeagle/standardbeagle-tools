@@ -1,7 +1,12 @@
 ---
 description: "Audit page for security vulnerabilities and best practices. 審頁面安全漏洞最佳法. Use when: check security issues, find XSS vulnerabilities, audit CSP headers, review auth flows, scan for security risks"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
+context: fork
+agent: agnt:browser-debugger
 ---
+
+<!-- CC 2.1 fork decision: workflow driver (CSP/header inspection, XSS probes, auth review = multi-step). Fork keeps parent loop free of audit verbosity. Executor: agnt:browser-debugger. -->
+
 
 藉agnt診斷工具稽核當前頁面之安全漏洞。
 

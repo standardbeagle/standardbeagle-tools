@@ -12,7 +12,14 @@ tools:
   - Task
   - TodoWrite
 color: blue
+skills:
+  - adversarial-quality
+  - context-hygiene
+  - testing-strategy
 ---
+
+<!-- CC 2.1 preload decision: this agent is the executor target for the forked adversarial-quality skill. Preload covers the implementation pipeline (adversarial-quality), context isolation rules (context-hygiene), and test-tier guidance (testing-strategy). memory-management omitted — orchestrator-side only. loop-orchestration omitted — orchestrator-side only. -->
+
 
 # Task Executor Agent
 

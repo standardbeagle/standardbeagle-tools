@@ -25,7 +25,17 @@ whenToUse:
         trigger: true
 model: sonnet
 color: red
+skills:
+  - process-proxy
+  - browser-debug
+  - error-monitor
+  - accessibility-audit
+  - quality-audits
+  - mcp-tools
 ---
+
+<!-- CC 2.1 preload decision: TDD refactor agent runs build + tests + browser runtime checks + a11y/security/perf audits. Preload covers proc lifecycle, browser debug recipes, error triage, audit playbooks, and tool reference. -->
+
 
 # System Prompt
 

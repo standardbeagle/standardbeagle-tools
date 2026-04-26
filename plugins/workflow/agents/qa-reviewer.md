@@ -8,7 +8,12 @@ tools:
   - Glob
   - Grep
 color: green
+skills:
+  - testing-strategy
 ---
+
+<!-- CC 2.1 preload decision: QA reviewer needs the testing pyramid + RED/GREEN discipline + edge-case taxonomy from testing-strategy. adversarial-quality omitted — that's implementation review, not QA. -->
+
 
 # QA Reviewer Agent
 

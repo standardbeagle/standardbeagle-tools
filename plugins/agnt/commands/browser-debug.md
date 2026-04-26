@@ -1,7 +1,12 @@
 ---
 description: "Debug browser issues using agnt diagnostic tools. 用診斷工具除瀏覽器患. Use when: debug browser problems, diagnose page issues, use agnt diagnostics, inspect browser state, troubleshoot frontend bugs"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog", "mcp__agnt__currentpage"]
+context: fork
+agent: agnt:browser-debugger
 ---
+
+<!-- CC 2.1 fork decision: workflow driver (iterative debug loop, many proxy/proxylog/currentpage calls). Forking shields the parent from accumulated diagnostic output. Executor agent: agnt:browser-debugger. -->
+
 
 藉agnt診斷工具進行完整瀏覽器除錯。
 

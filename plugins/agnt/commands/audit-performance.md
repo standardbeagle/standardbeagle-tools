@@ -1,7 +1,12 @@
 ---
 description: "Analyze page performance including load times and network resources. 析頁性能含載時網絡資源. Use when: check page speed, audit load times, analyze network waterfall, optimize performance, find slow resources"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
+context: fork
+agent: agnt:browser-debugger
 ---
+
+<!-- CC 2.1 fork decision: workflow driver (perf trace, network waterfall, multiple proxy diagnostic calls). Fork keeps parent loop free of large trace dumps. Executor: agnt:browser-debugger. -->
+
 
 藉agnt診斷工具分析當前瀏覽器頁面效能。
 

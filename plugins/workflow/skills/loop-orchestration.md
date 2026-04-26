@@ -1,7 +1,12 @@
 ---
 name: loop-orchestration
-description: Main loop orchestration — task queue, subagent lifecycle, state machine, error recovery. 主循環協調：任務隊列、子代理生命週期、狀態機、錯誤恢復. Use when: orchestrate workflow loop, manage task queue, spawn subagent, handle loop state, recover from error
+description: "Main loop orchestration — task queue, subagent lifecycle, state machine, error recovery. 主循環協調：任務隊列、子代理生命週期、狀態機、錯誤恢復. Use when: orchestrate workflow loop, manage task queue, spawn subagent, handle loop state, recover from error"
+context: fork
+agent: general-purpose
 ---
+
+<!-- CC 2.1 fork decision: workflow driver — long-running orchestrator that spawns subagents per iteration. Forking the orchestrator itself means parent context stays bounded regardless of iter count (this is the same pattern dartai start.md uses). Executor: general-purpose (no specialized agent needed; orchestrator just dispatches). -->
+
 
 # Loop Orchestration
 

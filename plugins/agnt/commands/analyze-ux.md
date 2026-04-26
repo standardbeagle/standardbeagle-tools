@@ -1,7 +1,12 @@
 ---
 description: "Analyze user experience including layout, interactions, and usability. 析用戶體驗含布局交互可用性. Use when: review UX, analyze interactions, check usability, audit user flows, evaluate interface design"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
+context: fork
+agent: agnt:ui-designer
 ---
+
+<!-- CC 2.1 fork decision: workflow driver (layout/interaction/usability review with multiple visual diagnostics). Fork keeps parent free of overlay/screenshot output. Executor: agnt:ui-designer (preloads sketch-visual, visual-diagnostics, responsive-check, mcp-tools). -->
+
 
 藉agnt診斷工具分析當前頁面之用戶體驗（UX）。
 

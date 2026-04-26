@@ -1,7 +1,12 @@
 ---
 description: "Run comprehensive accessibility audit on the current page. 全面審現頁無障礙性. Use when: audit accessibility, check WCAG compliance, find a11y issues, test screen reader support, review ARIA labels"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog"]
+context: fork
+agent: agnt:browser-debugger
 ---
+
+<!-- CC 2.1 fork decision: workflow driver (axe-core run + ARIA + contrast + tab-order + screen-reader simulation = many tool calls). Fork keeps parent loop free of audit detail. Executor: agnt:browser-debugger (preloads accessibility-audit via skills array). -->
+
 
 藉agnt診斷工具對當前瀏覽器頁面執行完整無障礙稽核。
 

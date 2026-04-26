@@ -8,7 +8,12 @@ tools:
   - Glob
   - Grep
 color: red
+skills:
+  - adversarial-quality
 ---
+
+<!-- CC 2.1 preload decision: reviewer needs the adversarial-quality playbook (gate definitions, attack vectors, completeness checklist) at boot. testing-strategy not preloaded here — that belongs to qa-reviewer; this agent reviews implementation, not tests. -->
+
 
 # Code Quality Reviewer Agent
 

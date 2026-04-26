@@ -8,7 +8,13 @@ tools:
   - Glob
   - Grep
 color: purple
+skills:
+  - adversarial-quality
+  - testing-strategy
 ---
+
+<!-- CC 2.1 preload decision: deep reviewer needs adversarial-quality (architecture/completeness lens) and testing-strategy (test-tier verification). Runs after fast gate; preload keeps both reference sets resident through the long deep-review pass. -->
+
 
 # Post-Task Reviewer Agent
 

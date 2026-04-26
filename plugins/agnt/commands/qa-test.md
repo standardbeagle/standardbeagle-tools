@@ -1,7 +1,12 @@
 ---
 description: "Comprehensive QA testing suite for the current page. 全面品保測試現頁. Use when: run QA tests, validate page functionality, test user flows, check for broken features, comprehensive page verification"
 allowed-tools: ["mcp__agnt__proxy", "mcp__agnt__proxylog", "mcp__agnt__currentpage"]
+context: fork
+agent: agnt:browser-debugger
 ---
+
+<!-- CC 2.1 fork decision: workflow driver (multi-step QA pipeline with several diagnostic calls). Forking keeps the parent loop free of intermediate proxy/proxylog output. Executor agent: agnt:browser-debugger (preloads browser-debug, browser-diagnostics, error-monitor, mcp-tools). -->
+
 
 藉agnt診斷工具對當前頁面執行完整QA測試套件。
 

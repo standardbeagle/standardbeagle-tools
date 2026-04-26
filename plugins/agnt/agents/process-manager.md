@@ -1,7 +1,14 @@
 ---
 description: "Specialized agent for managing development processes and servers. 管理開發進程服務之智. Use when: start dev server, stop processes, manage background services, restart server, monitor running processes"
 allowed-tools: ["mcp__agnt__detect", "mcp__agnt__run", "mcp__agnt__proc", "mcp__agnt__daemon"]
+skills:
+  - process-proxy
+  - error-monitor
+  - mcp-tools
 ---
+
+<!-- CC 2.1 preload decision: agent runs dev-server / proxy / daemon lifecycle. process-proxy is the canonical recipe set; error-monitor for triaging proc output; mcp-tools for exact agnt tool params. No browser-debug needed (this agent is process-side, not page-side). -->
+
 
 進程管理專家，藉agnt運行並管理開發伺服器與背景任務。
 

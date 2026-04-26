@@ -2,7 +2,12 @@
 name: add-task
 description: "Add a context-sized task to the workflow queue via grill-task interrogation. 添加上下文適配任務至工作流隊列，通過grill-task審訊. Use when: add workflow task, queue a new task, create task for loop, add task interactively, submit task to workflow"
 argument-hint: "[task-title]"
+context: fork
+agent: general-purpose
 ---
+
+<!-- CC 2.1 fork decision: grill-task interrogation is multi-step and verbose (probe project, hierarchy gating, planning review). Forking keeps the parent free of grill detail — only final task spec returns. general-purpose is sufficient; no specialized agent skill set required. -->
+
 
 # Add Task to Workflow
 
