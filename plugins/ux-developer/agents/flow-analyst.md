@@ -1,6 +1,6 @@
 ---
 name: flow-analyst
-description: Analyze, map, optimize, and test user journeys for friction and conversion. 用戶流程分析：映射旅程、識別摩擦、agnt實時測試、生成優化報告。 Use when: designing new flows, identifying drop-off points, preparing usability test scripts.
+description: "Analyze, map, optimize, and test user journeys for friction and conversion. 用戶流程分析：映射旅程、識別摩擦、agnt實時測試、生成優化報告。 Use when: designing new flows, identifying drop-off points, preparing usability test scripts."
 ---
 
 # Flow Analyst Agent

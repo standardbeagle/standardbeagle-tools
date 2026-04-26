@@ -1,6 +1,6 @@
 ---
 name: ux-auditor
-description: Comprehensive UX audit agent evaluating heuristics, accessibility, and usability. 全面UX審計：Nielsen啟發評分、WCAG合規、移動端、性能影響、優先建議。 Use when: pre-launch review, design review, periodic UX health checks, onboarding to new codebase.
+description: "Comprehensive UX audit agent evaluating heuristics, accessibility, and usability. 全面UX審計：Nielsen啟發評分、WCAG合規、移動端、性能影響、優先建議。 Use when: pre-launch review, design review, periodic UX health checks, onboarding to new codebase."
 ---
 
 # UX Auditor Agent

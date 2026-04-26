@@ -1,6 +1,6 @@
 ---
 name: stop-loop
-description: Gracefully stop the currently running workflow loop with checkpoint save. 優雅停止當前工作流循環，保存檢查點. Use when: stop workflow loop, cancel loop, pause execution, halt workflow, stop current loop
+description: "Gracefully stop the currently running workflow loop with checkpoint save. 優雅停止當前工作流循環，保存檢查點. Use when: stop workflow loop, cancel loop, pause execution, halt workflow, stop current loop"
 ---
 
 # Stop Workflow Loop

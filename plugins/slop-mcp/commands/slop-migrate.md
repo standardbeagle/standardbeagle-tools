@@ -1,6 +1,6 @@
 ---
 name: slop-migrate
-description: Import existing MCP server configs from Claude Desktop, VS Code, or Claude Code settings into slop-mcp. 將現有 MCP 配置遷移至 slop-mcp 管理。 Use when: onboarding to slop-mcp, consolidating MCP registrations, importing from other clients.
+description: "Import existing MCP server configs from Claude Desktop, VS Code, or Claude Code settings into slop-mcp. 將現有 MCP 配置遷移至 slop-mcp 管理。 Use when: onboarding to slop-mcp, consolidating MCP registrations, importing from other clients."
 ---
 
 # Migrate MCP Configurations to slop-mcp

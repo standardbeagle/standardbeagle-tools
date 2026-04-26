@@ -1,6 +1,6 @@
 ---
 name: ux-review
-description: Comprehensive UX review of a page, component, or flow using heuristics and best practices. 綜合UX審查：Nielsen啟發評分、無障礙快查、移動端、性能影響、優先行動項。 Use when: reviewing a page or component, design critique, investigating reported usability issues.
+description: "Comprehensive UX review of a page, component, or flow using heuristics and best practices. 綜合UX審查：Nielsen啟發評分、無障礙快查、移動端、性能影響、優先行動項。 Use when: reviewing a page or component, design critique, investigating reported usability issues."
 ---
 
 # UX Review Command

@@ -1,6 +1,6 @@
 ---
 name: a11y-specialist
-description: Deep accessibility specialist for WCAG compliance, assistive tech, and inclusive design. 深度無障礙專家：WCAG 2.2全級別、屏幕閱讀器、鍵盤、ARIA、合規文檔。 Use when: accessibility certification, VPAT prep, complex widget implementation, screen reader optimization.
+description: "Deep accessibility specialist for WCAG compliance, assistive tech, and inclusive design. 深度無障礙專家：WCAG 2.2全級別、屏幕閱讀器、鍵盤、ARIA、合規文檔。 Use when: accessibility certification, VPAT prep, complex widget implementation, screen reader optimization."
 ---
 
 # Accessibility Specialist Agent

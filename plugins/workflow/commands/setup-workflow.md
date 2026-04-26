@@ -1,6 +1,6 @@
 ---
 name: setup-workflow
-description: Configure project-specific workflow role rules for adversarial loop customization. 配置項目特定工作流角色規則，定制對抗循環行為. Use when: setup workflow roles, customize task-executor rules, configure quality reviewer, set project-specific thresholds, override workflow defaults
+description: "Configure project-specific workflow role rules for adversarial loop customization. 配置項目特定工作流角色規則，定制對抗循環行為. Use when: setup workflow roles, customize task-executor rules, configure quality reviewer, set project-specific thresholds, override workflow defaults"
 argument-hint: "[role-name]"
 ---
 

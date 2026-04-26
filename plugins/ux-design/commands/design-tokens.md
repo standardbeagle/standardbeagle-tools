@@ -1,6 +1,6 @@
 ---
 name: design-tokens
-description: Create a comprehensive design token system for design-to-development handoff. 建立完整設計token系統以橋接設計與開發交接。 Use when: defining design tokens, setting up a token architecture, creating theme support, generating CSS custom properties or multi-platform token outputs.
+description: "Create a comprehensive design token system for design-to-development handoff. 建立完整設計token系統以橋接設計與開發交接。 Use when: defining design tokens, setting up a token architecture, creating theme support, generating CSS custom properties or multi-platform token outputs."
 ---
 
 # Design Token System Creation

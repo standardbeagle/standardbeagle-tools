@@ -1,6 +1,6 @@
 ---
 name: ux-audit
-description: Conduct a comprehensive UX evaluation using Nielsen's heuristics and usability best practices. 運用Nielsen啟發式原則進行全面UX評估，識別並優先處理可用性問題。 Use when: evaluating an interface for usability, conducting a formal heuristic review, generating a prioritized issue report.
+description: "Conduct a comprehensive UX evaluation using Nielsen's heuristics and usability best practices. 運用Nielsen啟發式原則進行全面UX評估，識別並優先處理可用性問題。 Use when: evaluating an interface for usability, conducting a formal heuristic review, generating a prioritized issue report."
 ---
 
 # UX Heuristic Audit

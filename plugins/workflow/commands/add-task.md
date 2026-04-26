@@ -1,6 +1,6 @@
 ---
 name: add-task
-description: Add a context-sized task to the workflow queue via grill-task interrogation. 添加上下文適配任務至工作流隊列，通過grill-task審訊. Use when: add workflow task, queue a new task, create task for loop, add task interactively, submit task to workflow
+description: "Add a context-sized task to the workflow queue via grill-task interrogation. 添加上下文適配任務至工作流隊列，通過grill-task審訊. Use when: add workflow task, queue a new task, create task for loop, add task interactively, submit task to workflow"
 argument-hint: "[task-title]"
 ---
 

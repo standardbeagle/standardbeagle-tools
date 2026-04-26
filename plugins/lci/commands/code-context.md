@@ -1,6 +1,6 @@
 ---
 name: code-context
-description: Get detailed context for code symbols using Lightning Code Index. 以LCI取符號詳細上下文含調用層次、引用、依賴。 Use when: getting symbol details, call hierarchy, saving context manifests for handoff.
+description: "Get detailed context for code symbols using Lightning Code Index. 以LCI取符號詳細上下文含調用層次、引用、依賴。 Use when: getting symbol details, call hierarchy, saving context manifests for handoff."
 allowed-tools:
   - mcp__lci__get_context
   - mcp__lci__context

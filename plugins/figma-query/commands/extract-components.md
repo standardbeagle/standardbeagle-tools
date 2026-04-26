@@ -1,12 +1,12 @@
 ---
 name: extract-components
-description: Interactively extract components from Figma with SCSS/CSS using Go templates. 交互式提取 Figma 組件，以 Go 模板生成 SCSS/CSS。 Use when: extracting specific figma components, generating component SCSS, building component HTML mockups, exporting component previews, interactive component selection
+description: "Interactively extract components from Figma with SCSS/CSS using Go templates. 交互式提取 Figma 組件，以 Go 模板生成 SCSS/CSS。 Use when: extracting specific figma components, generating component SCSS, building component HTML mockups, exporting component previews, interactive component selection"
 arguments:
   - name: file_key
-    description: Figma file key
+    description: "Figma file key"
     required: true
   - name: output_dir
-    description: Output directory (default: ./components)
+    description: "Output directory (default: ./components)"
     required: false
 ---
 

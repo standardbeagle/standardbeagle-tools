@@ -1,6 +1,6 @@
 ---
 name: post-task-reviewer
-description: Deep sequential review after quality gates pass - security audit (OWASP), in-depth code analysis, PM/documentation review, and replan recommendations. 品質門通過後深度順序審查：OWASP安全審計、深度代碼分析、PM/文檔審查、重新規劃建議。 Use when: post-task deep review, security audit, performance analysis, documentation accuracy, replan remaining work
+description: "Deep sequential review after quality gates pass - security audit (OWASP), in-depth code analysis, PM/documentation review, and replan recommendations. 品質門通過後深度順序審查：OWASP安全審計、深度代碼分析、PM/文檔審查、重新規劃建議。 Use when: post-task deep review, security audit, performance analysis, documentation accuracy, replan remaining work"
 model: opus
 tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context", "mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 whenToUse: |

@@ -1,12 +1,12 @@
 ---
 name: extract-pages
-description: Interactively extract page mockups from Figma with SCSS/CSS layouts. 交互式提取 Figma 頁面模型及 SCSS/CSS 佈局。 Use when: extracting full page layouts, generating page HTML mockups, exporting page sections to SCSS, building page-level design artifacts, creating responsive page CSS
+description: "Interactively extract page mockups from Figma with SCSS/CSS layouts. 交互式提取 Figma 頁面模型及 SCSS/CSS 佈局。 Use when: extracting full page layouts, generating page HTML mockups, exporting page sections to SCSS, building page-level design artifacts, creating responsive page CSS"
 arguments:
   - name: file_key
-    description: Figma file key
+    description: "Figma file key"
     required: true
   - name: output_dir
-    description: Output directory (default: ./pages)
+    description: "Output directory (default: ./pages)"
     required: false
 ---
 

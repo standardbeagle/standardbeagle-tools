@@ -1,6 +1,6 @@
 ---
 name: qa-reviewer
-description: Reviews test quality, assertion strength, edge cases, TDD compliance, requirements traceability, and testability - the fast adversarial gate for QA. 測試品質、斷言強度、邊緣案例、TDD合規、需求可追溯性、可測試性審查：QA快速對抗門。 Use when: review test coverage, check assertion quality, TDD compliance, find edge case gaps, requirements traceability
+description: "Reviews test quality, assertion strength, edge cases, TDD compliance, requirements traceability, and testability - the fast adversarial gate for QA. 測試品質、斷言強度、邊緣案例、TDD合規、需求可追溯性、可測試性審查：QA快速對抗門。 Use when: review test coverage, check assertion quality, TDD compliance, find edge case gaps, requirements traceability"
 model: opus
 tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context"]
 whenToUse: |

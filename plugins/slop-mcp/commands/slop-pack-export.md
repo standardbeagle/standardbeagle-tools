@@ -1,6 +1,6 @@
 ---
 name: slop-pack-export
-description: Export a slop-mcp customization scope as a portable JSON pack and write it to `.slop-mcp-packs/<name>.json` for git sharing. 將 slop-mcp 某範圍之覆蓋與自定義工具導出為可攜 JSON 包，寫入 `.slop-mcp-packs/<name>.json` 供 git 分發。 Use when: sharing customizations with teammates, snapshotting a project scope before an MCP upgrade, backing up overrides + custom tools, packaging a single MCP's customizations for distribution.
+description: "Export a slop-mcp customization scope as a portable JSON pack and write it to `.slop-mcp-packs/<name>.json` for git sharing. 將 slop-mcp 某範圍之覆蓋與自定義工具導出為可攜 JSON 包，寫入 `.slop-mcp-packs/<name>.json` 供 git 分發。 Use when: sharing customizations with teammates, snapshotting a project scope before an MCP upgrade, backing up overrides + custom tools, packaging a single MCP's customizations for distribution."
 ---
 
 # Export Customization Pack

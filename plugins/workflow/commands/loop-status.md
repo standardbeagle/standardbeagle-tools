@@ -1,6 +1,6 @@
 ---
 name: loop-status
-description: Show status of current or recent workflow loops with progress, metrics, and context hygiene report. 顯示工作流循環狀態：進度、指標、上下文衛生報告. Use when: check loop progress, see workflow status, how is the loop going, show workflow metrics, view completed tasks
+description: "Show status of current or recent workflow loops with progress, metrics, and context hygiene report. 顯示工作流循環狀態：進度、指標、上下文衛生報告. Use when: check loop progress, see workflow status, how is the loop going, show workflow metrics, view completed tasks"
 ---
 
 # Workflow Loop Status

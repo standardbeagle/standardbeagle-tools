@@ -1,6 +1,6 @@
 ---
 name: setup-figma
-description: Set up figma-query MCP server with SLOP management and configure Figma access token. 配置 figma-query MCP 服務器及 Figma 訪問令牌。 Use when: setting up figma-query for first time, configuring figma access token, installing figma mcp server, troubleshooting figma connection, registering figma-query with slop
+description: "Set up figma-query MCP server with SLOP management and configure Figma access token. 配置 figma-query MCP 服務器及 Figma 訪問令牌。 Use when: setting up figma-query for first time, configuring figma access token, installing figma mcp server, troubleshooting figma connection, registering figma-query with slop"
 ---
 
 # Figma Query Setup

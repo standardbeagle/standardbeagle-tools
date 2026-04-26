@@ -1,6 +1,6 @@
 ---
 name: slop-init
-description: Check slop-mcp status, display registered MCP servers, and show quick-start guidance. 查 slop-mcp 狀態，顯示已注冊服務器，提供快速入門指引。 Use when: starting a new session, verifying slop-mcp is working, onboarding to the plugin.
+description: "Check slop-mcp status, display registered MCP servers, and show quick-start guidance. 查 slop-mcp 狀態，顯示已注冊服務器，提供快速入門指引。 Use when: starting a new session, verifying slop-mcp is working, onboarding to the plugin."
 ---
 
 # Initialize slop-mcp

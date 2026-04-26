@@ -1,6 +1,6 @@
 ---
 name: post-task-reviewer
-description: Deep post-task review — OWASP security audit, performance, architecture, PM/docs, replan. 深度後任務審查：OWASP安全、性能、架構、文檔、重新規劃. Use when: run deep security audit, review after quality gates, check OWASP compliance, generate replan recommendations, review documentation accuracy
+description: "Deep post-task review — OWASP security audit, performance, architecture, PM/docs, replan. 深度後任務審查：OWASP安全、性能、架構、文檔、重新規劃. Use when: run deep security audit, review after quality gates, check OWASP compliance, generate replan recommendations, review documentation accuracy"
 when-to-use: Use this agent as the final deep review after the fast adversarial gate and quality gates pass
 tools:
   - Read

@@ -1,6 +1,6 @@
 ---
 name: sync
-description: Synchronize local work with Dart task statuses and comments. 同步本地工作與Dart任務狀態及評論。 Use when: sync dart tasks, update task status, commit progress to dart, post completion comments, sync changes
+description: "Synchronize local work with Dart task statuses and comments. 同步本地工作與Dart任務狀態及評論。 Use when: sync dart tasks, update task status, commit progress to dart, post completion comments, sync changes"
 argument-hint: "[--force]"
 ---
 

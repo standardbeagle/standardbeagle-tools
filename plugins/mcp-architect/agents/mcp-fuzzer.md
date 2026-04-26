@@ -1,5 +1,5 @@
 ---
-description: MCP testing and fuzzing specialist that validates server robustness, tests edge cases, generates comprehensive test reports, and ensures MCP servers handle invalid inputs gracefully. MCP測試與模糊測試専家，驗證健壯性、生成測試報告。Use when: user needs to test an MCP server, validate robustness, fuzz test tools, or verify error handling. Also trigger proactively after MCP design or implementation to ensure quality.
+description: "MCP testing and fuzzing specialist that validates server robustness, tests edge cases, generates comprehensive test reports, and ensures MCP servers handle invalid inputs gracefully. MCP測試與模糊測試専家，驗證健壯性、生成測試報告。Use when: user needs to test an MCP server, validate robustness, fuzz test tools, or verify error handling. Also trigger proactively after MCP design or implementation to ensure quality."
 capabilities:
   - Generate comprehensive test cases (valid, invalid, edge cases)
   - Fuzz MCP tool inputs with malformed data

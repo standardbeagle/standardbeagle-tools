@@ -1,6 +1,6 @@
 ---
 name: review-memories
-description: Search, review, and manage workflow memories — patterns, decisions, lessons, strategies. 搜索、審查、管理工作流記憶：模式、決策、教訓、策略. Use when: review workflow memories, search saved lessons, apply memory to task, find past decisions, manage memory health
+description: "Search, review, and manage workflow memories — patterns, decisions, lessons, strategies. 搜索、審查、管理工作流記憶：模式、決策、教訓、策略. Use when: review workflow memories, search saved lessons, apply memory to task, find past decisions, manage memory health"
 argument-hint: "[search-query]"
 ---
 

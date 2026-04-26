@@ -1,6 +1,6 @@
 ---
 name: MCP Architecture
-description: Patterns for organizing, naming, and structuring multi-tool MCP servers (10+ tools). 多工具MCP服務器架構、分組、命名慣例。Use when: user asks to organize MCP tools, structure multi-tool MCP, design MCP architecture, group MCP tools, organize 10+ tools, or discusses how to architect complex MCP servers with many tools.
+description: "Patterns for organizing, naming, and structuring multi-tool MCP servers (10+ tools). 多工具MCP服務器架構、分組、命名慣例。Use when: user asks to organize MCP tools, structure multi-tool MCP, design MCP architecture, group MCP tools, organize 10+ tools, or discusses how to architect complex MCP servers with many tools."
 version: 0.1.0
 ---
 

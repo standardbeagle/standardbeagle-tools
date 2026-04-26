@@ -1,6 +1,6 @@
 ---
 name: Client Guidance
-description: MCP error responses that guide clients toward success via progressive enhancement, similar tool suggestions, parameter corrections, and schema hints. 錯誤即漸進引導、模糊匹配、模式提示。Use when: user asks about error messages, did you mean, similar tools, parameter suggestions, schema hints, MCP error handling, guide the client, helpful errors, fuzzy matching, or discusses how MCP servers should guide clients with progressive error enhancement and corrective feedback.
+description: "MCP error responses that guide clients toward success via progressive enhancement, similar tool suggestions, parameter corrections, and schema hints. 錯誤即漸進引導、模糊匹配、模式提示。Use when: user asks about error messages, did you mean, similar tools, parameter suggestions, schema hints, MCP error handling, guide the client, helpful errors, fuzzy matching, or discusses how MCP servers should guide clients with progressive error enhancement and corrective feedback."
 version: 0.1.0
 ---
 

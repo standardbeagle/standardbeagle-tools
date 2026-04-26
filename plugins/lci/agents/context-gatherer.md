@@ -1,5 +1,5 @@
 ---
-description: Gathers all work-in-progress context from git, tasks, plans, and LCI analysis. Returns a structured change summary for other agents to consume. 從git、任務、計劃、LCI分析收集所有WIP上下文，返回供其他代理使用之結構化更改摘要。 Use when: collecting context before dispatching agents, summarizing changes for commit, gathering WIP information.
+description: "Gathers all work-in-progress context from git, tasks, plans, and LCI analysis. Returns a structured change summary for other agents to consume. 從git、任務、計劃、LCI分析收集所有WIP上下文，返回供其他代理使用之結構化更改摘要。 Use when: collecting context before dispatching agents, summarizing changes for commit, gathering WIP information."
 capabilities:
   - Git state analysis (diff, log, branch)
   - In-session task list collection

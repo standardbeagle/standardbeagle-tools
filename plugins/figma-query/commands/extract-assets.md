@@ -1,12 +1,12 @@
 ---
 name: extract-assets
-description: Comprehensive asset extraction from Figma - finds ALL images, icons, and vectors including those without export settings. 全量提取 Figma 資產：含無導出設置的圖標與矢量。 Use when: exporting figma icons, extracting all images from figma, finding vector nodes without export settings, building asset manifest, exporting SVG icons
+description: "Comprehensive asset extraction from Figma - finds ALL images, icons, and vectors including those without export settings. 全量提取 Figma 資產：含無導出設置的圖標與矢量。 Use when: exporting figma icons, extracting all images from figma, finding vector nodes without export settings, building asset manifest, exporting SVG icons"
 arguments:
   - name: file_key
-    description: Figma file key
+    description: "Figma file key"
     required: true
   - name: output_dir
-    description: Output directory (default: ./assets)
+    description: "Output directory (default: ./assets)"
     required: false
 ---
 

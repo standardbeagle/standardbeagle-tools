@@ -1,6 +1,6 @@
 ---
 name: slop-add
-description: Register a new MCP server with slop-mcp supporting command, SSE, streamable, or Python package types. 向 slop-mcp 注冊新 MCP 服務器，支持命令、SSE、streamable 及 Python 包類型。 Use when: adding a new MCP server, setting scope, configuring env vars or HTTP headers.
+description: "Register a new MCP server with slop-mcp supporting command, SSE, streamable, or Python package types. 向 slop-mcp 注冊新 MCP 服務器，支持命令、SSE、streamable 及 Python 包類型。 Use when: adding a new MCP server, setting scope, configuring env vars or HTTP headers."
 ---
 
 # Add MCP Server

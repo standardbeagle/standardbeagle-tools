@@ -1,6 +1,6 @@
 ---
 name: dartai-config
-description: Configure dartai settings for the current project. 配置當前項目的dartai設置。 Use when: configure dartai, set default dartboard, setup quality pipeline settings, configure runner identity, dartai project setup
+description: "Configure dartai settings for the current project. 配置當前項目的dartai設置。 Use when: configure dartai, set default dartboard, setup quality pipeline settings, configure runner identity, dartai project setup"
 ---
 
 # Configure DartAI

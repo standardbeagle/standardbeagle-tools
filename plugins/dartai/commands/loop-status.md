@@ -1,6 +1,6 @@
 ---
 name: loop-status
-description: Show current Ralph Wiggum loop status and task progress. 顯示當前Ralph Wiggum循環狀態及任務進度。 Use when: check loop status, view task queue, loop progress, is loop running, current task
+description: "Show current Ralph Wiggum loop status and task progress. 顯示當前Ralph Wiggum循環狀態及任務進度。 Use when: check loop status, view task queue, loop progress, is loop running, current task"
 ---
 
 # Loop Status

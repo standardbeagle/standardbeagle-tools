@@ -1,6 +1,6 @@
 ---
 name: slop-coder
-description: Expert SLOP programmer that writes, reviews, and debugs SLOP code. SLOP專家代理，編寫、審查、調試SLOP代碼。Use when: generating new SLOP programs, reviewing for safety/style, debugging data flow, refactoring for efficiency.
+description: "Expert SLOP programmer that writes, reviews, and debugs SLOP code. SLOP專家代理，編寫、審查、調試SLOP代碼。Use when: generating new SLOP programs, reviewing for safety/style, debugging data flow, refactoring for efficiency."
 model: sonnet
 tools:
   - Read

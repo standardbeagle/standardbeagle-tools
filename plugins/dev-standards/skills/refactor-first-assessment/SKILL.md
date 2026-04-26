@@ -1,6 +1,6 @@
 ---
 name: refactor-first-assessment
-description: During planning after grill-task, decide whether a preparatory refactor step is needed before implementation — runs four parallel A-rule checks. 規劃時評估現有結構是否支持計劃變更，按需插入預備重構步驟。 Use when: creating implementation plan, after grill-task, before writing implementation steps, assess codebase for refactor, planning refactor-first
+description: "During planning after grill-task, decide whether a preparatory refactor step is needed before implementation — runs four parallel A-rule checks. 規劃時評估現有結構是否支持計劃變更，按需插入預備重構步驟。 Use when: creating implementation plan, after grill-task, before writing implementation steps, assess codebase for refactor, planning refactor-first"
 ---
 
 # Refactor-First Assessment

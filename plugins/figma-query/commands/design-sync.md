@@ -1,12 +1,12 @@
 ---
 name: design-sync
-description: Sync Figma file to local storage for offline analysis and faster queries. 同步 Figma 文件至本地，供離線分析與快速查詢。 Use when: syncing figma file locally, caching figma for offline use, speeding up repeated queries, preparing for grep-based search, downloading full figma structure
+description: "Sync Figma file to local storage for offline analysis and faster queries. 同步 Figma 文件至本地，供離線分析與快速查詢。 Use when: syncing figma file locally, caching figma for offline use, speeding up repeated queries, preparing for grep-based search, downloading full figma structure"
 arguments:
   - name: file_key
-    description: Figma file key (from URL)
+    description: "Figma file key (from URL)"
     required: true
   - name: output_dir
-    description: Output directory (default: ./figma-export)
+    description: "Output directory (default: ./figma-export)"
     required: false
 ---
 

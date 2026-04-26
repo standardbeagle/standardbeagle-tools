@@ -1,6 +1,6 @@
 ---
 name: qa-reviewer
-description: Independent adversarial QA review — assertions, edge cases, TDD compliance, traceability, testability. 獨立對抗QA審查：斷言、邊緣、TDD合規、可溯性、可測性. Use when: review test quality, check TDD compliance, verify edge case coverage, audit test assertions, check requirements traceability
+description: "Independent adversarial QA review — assertions, edge cases, TDD compliance, traceability, testability. 獨立對抗QA審查：斷言、邊緣、TDD合規、可溯性、可測性. Use when: review test quality, check TDD compliance, verify edge case coverage, audit test assertions, check requirements traceability"
 when-to-use: Use this agent for independent QA verification of test coverage and quality
 tools:
   - Read

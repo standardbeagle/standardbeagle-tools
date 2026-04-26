@@ -1,6 +1,6 @@
 ---
 name: setup-dart-query
-description: Set up dart-query MCP server with SLOP management and configure Dart access token. 以SLOP管理配置dart-query MCP服務器及Dart訪問令牌. Use when: install dart-query, setup dart integration, configure DART_TOKEN, first time dart setup, connect dart to claude
+description: "Set up dart-query MCP server with SLOP management and configure Dart access token. 以SLOP管理配置dart-query MCP服務器及Dart訪問令牌. Use when: install dart-query, setup dart integration, configure DART_TOKEN, first time dart setup, connect dart to claude"
 ---
 
 # dart-query Setup

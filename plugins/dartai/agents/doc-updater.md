@@ -1,6 +1,6 @@
 ---
 name: doc-updater
-description: Update documentation after task completion including CHANGELOG, README, and Dart comments. 任務完成後更新文檔：CHANGELOG、README及Dart評論。 Use when: update changelog, update readme, add completion comment, document task, post-task docs
+description: "Update documentation after task completion including CHANGELOG, README, and Dart comments. 任務完成後更新文檔：CHANGELOG、README及Dart評論。 Use when: update changelog, update readme, add completion comment, document task, post-task docs"
 model: haiku
 tools: ["Read", "Write", "Edit", "Glob", "Grep", "mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
 whenToUse: |

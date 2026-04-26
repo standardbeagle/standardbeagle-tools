@@ -1,6 +1,6 @@
 ---
 name: slop-exec
-description: Execute a tool on a specific slop-mcp managed MCP server after discovery verifies the target exists. 先以元工具驗證後，方在 slop-mcp 管理之 MCP 服務器執行工具。 Use when: running a known tool, testing a tool's output, executing server.tool format calls.
+description: "Execute a tool on a specific slop-mcp managed MCP server after discovery verifies the target exists. 先以元工具驗證後，方在 slop-mcp 管理之 MCP 服務器執行工具。 Use when: running a known tool, testing a tool's output, executing server.tool format calls."
 ---
 
 # Execute MCP Tool

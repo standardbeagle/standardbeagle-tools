@@ -1,5 +1,5 @@
 ---
-description: MCP server design agent that helps architects and developers design complex multi-tool MCP servers with progressive discovery, token efficiency, and best practice patterns. 複雜MCP服務器設計、架構模式、JSON設計規範生成。Use when: user needs help designing a complex MCP server, wants to architect tool organization, needs a comprehensive design specification, or discusses implementing progressive discovery patterns.
+description: "MCP server design agent that helps architects and developers design complex multi-tool MCP servers with progressive discovery, token efficiency, and best practice patterns. 複雜MCP服務器設計、架構模式、JSON設計規範生成。Use when: user needs help designing a complex MCP server, wants to architect tool organization, needs a comprehensive design specification, or discusses implementing progressive discovery patterns."
 capabilities:
   - Design MCP server architecture and tool organization
   - Generate comprehensive JSON design specifications

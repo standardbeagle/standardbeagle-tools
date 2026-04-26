@@ -1,5 +1,5 @@
 ---
-description: Updates public-facing documentation (README, package metadata) with clear, benefit-oriented language and SEO-aware content. Skips if changes are purely internal. 更新公開文檔（README、包元數據）為清晰利益導向語言；純內部更改則跳過。 Use when: updating README for new features, improving package description, making docs more discoverable.
+description: "Updates public-facing documentation (README, package metadata) with clear, benefit-oriented language and SEO-aware content. Skips if changes are purely internal. 更新公開文檔（README、包元數據）為清晰利益導向語言；純內部更改則跳過。 Use when: updating README for new features, improving package description, making docs more discoverable."
 capabilities:
   - README feature description writing
   - Package metadata optimization

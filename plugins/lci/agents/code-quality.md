@@ -1,5 +1,5 @@
 ---
-description: Performs code quality analysis using LCI, runs linters and formatters, removes debug artifacts, and fixes all findings. 以LCI分析代碼質量，運行lint/format，移除調試產物，修復所有發現。 Use when: ensuring code meets quality standards, linting and formatting changes, checking for quality issues before commit.
+description: "Performs code quality analysis using LCI, runs linters and formatters, removes debug artifacts, and fixes all findings. 以LCI分析代碼質量，運行lint/format，移除調試產物，修復所有發現。 Use when: ensuring code meets quality standards, linting and formatting changes, checking for quality issues before commit."
 capabilities:
   - LCI duplicate detection and resolution
   - Naming consistency enforcement

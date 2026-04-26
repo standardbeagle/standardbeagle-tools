@@ -1,12 +1,12 @@
 ---
 name: extract-library
-description: Extract complete design library from Figma with CSS, assets, HTML mockups, and documentation using adversarial quality verification. 對抗式全量提取設計庫：CSS、資產、HTML、文檔。 Use when: extracting full design library, building complete component system, running adversarial extraction loop, generating production-ready design artifacts, full figma-to-code pipeline
+description: "Extract complete design library from Figma with CSS, assets, HTML mockups, and documentation using adversarial quality verification. 對抗式全量提取設計庫：CSS、資產、HTML、文檔。 Use when: extracting full design library, building complete component system, running adversarial extraction loop, generating production-ready design artifacts, full figma-to-code pipeline"
 arguments:
   - name: file_key
-    description: Figma file key (from URL)
+    description: "Figma file key (from URL)"
     required: true
   - name: output_dir
-    description: Output directory (default: ./design-library)
+    description: "Output directory (default: ./design-library)"
     required: false
 ---
 

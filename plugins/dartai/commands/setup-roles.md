@@ -1,6 +1,6 @@
 ---
 name: setup-roles
-description: Configure project-specific DartAI role rules. 配置項目特定DartAI角色規則。 Use when: customize dartai roles, override execution rules, configure quality thresholds, setup project rules, role customization
+description: "Configure project-specific DartAI role rules. 配置項目特定DartAI角色規則。 Use when: customize dartai roles, override execution rules, configure quality thresholds, setup project rules, role customization"
 argument-hint: "[role-name]"
 ---
 

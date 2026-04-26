@@ -1,6 +1,6 @@
 ---
 name: mcp-orchestrator
-description: Discover-first coordinator for multiple MCP servers via slop-mcp — register, enumerate, execute, customize, monitor, and troubleshoot without bypassing meta-tools. 以 slop-mcp 九元工具協調多 MCP 服務器，先發現後執行，含定制與事件監聽，禁直呼 MCP 二進製。 Use when: registering or removing servers, discovering tools, running multi-server workflows, customizing tool descriptions, setting up event monitors, diagnosing connection failures.
+description: "Discover-first coordinator for multiple MCP servers via slop-mcp — register, enumerate, execute, customize, monitor, and troubleshoot without bypassing meta-tools. 以 slop-mcp 九元工具協調多 MCP 服務器，先發現後執行，含定制與事件監聽，禁直呼 MCP 二進製。 Use when: registering or removing servers, discovering tools, running multi-server workflows, customizing tool descriptions, setting up event monitors, diagnosing connection failures."
 model: sonnet
 tools:
   - mcp__plugin_slop-mcp_slop-mcp__search_tools

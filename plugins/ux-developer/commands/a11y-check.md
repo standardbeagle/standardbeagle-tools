@@ -1,6 +1,6 @@
 ---
 name: a11y-check
-description: Run comprehensive accessibility audit against WCAG 2.2 with actionable fix recommendations. 執行WCAG 2.2無障礙審計：自動化axe審計、手動清單、修復代碼。 Use when: pre-deploy a11y check, reviewing new component, fixing accessibility bugs.
+description: "Run comprehensive accessibility audit against WCAG 2.2 with actionable fix recommendations. 執行WCAG 2.2無障礙審計：自動化axe審計、手動清單、修復代碼。 Use when: pre-deploy a11y check, reviewing new component, fixing accessibility bugs."
 ---
 
 # Accessibility Check Command

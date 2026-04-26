@@ -1,5 +1,5 @@
 ---
-description: Runs the full test suite, fixes all failures (including pre-existing), and adds missing test coverage for changed code. Uses LCI to find uncovered code paths. 運行全部測試套件，修復所有失敗（含預存在），為已更改代碼添加缺失覆蓋；以LCI查找未覆蓋代碼路徑。 Use when: fixing broken tests, adding coverage for changes, running and fixing all tests.
+description: "Runs the full test suite, fixes all failures (including pre-existing), and adds missing test coverage for changed code. Uses LCI to find uncovered code paths. 運行全部測試套件，修復所有失敗（含預存在），為已更改代碼添加缺失覆蓋；以LCI查找未覆蓋代碼路徑。 Use when: fixing broken tests, adding coverage for changes, running and fixing all tests."
 capabilities:
   - Test framework detection and execution
   - Root cause analysis for test failures

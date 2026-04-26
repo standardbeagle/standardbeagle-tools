@@ -1,6 +1,6 @@
 ---
 name: ux-verify
-description: Pre-commit/pre-deploy UX verification checklist to catch issues before they ship. 部署前UX驗證：無障礙、交互、響應式、性能清單，含agnt自動化。 Use when: before commit, before deployment, after implementing UI changes.
+description: "Pre-commit/pre-deploy UX verification checklist to catch issues before they ship. 部署前UX驗證：無障礙、交互、響應式、性能清單，含agnt自動化。 Use when: before commit, before deployment, after implementing UI changes."
 ---
 
 # UX Verify Command

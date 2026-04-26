@@ -1,6 +1,6 @@
 ---
 name: build-docs
-description: Interactive wizard to build component and page documentation site from Figma using Go templates. 交互式嚮導：以 Go 模板從 Figma 構建組件與頁面文檔站點。 Use when: building design system documentation, generating component docs site, creating figma-to-html docs, interactive docs wizard, full documentation from figma
+description: "Interactive wizard to build component and page documentation site from Figma using Go templates. 交互式嚮導：以 Go 模板從 Figma 構建組件與頁面文檔站點。 Use when: building design system documentation, generating component docs site, creating figma-to-html docs, interactive docs wizard, full documentation from figma"
 arguments:
   - name: file_key
     description: Figma file key (optional - will prompt if not provided)

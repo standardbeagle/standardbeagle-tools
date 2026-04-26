@@ -1,6 +1,6 @@
 ---
 name: design-consultant
-description: Specialized agent for comprehensive UX design consultation, combining multiple design disciplines to provide holistic design guidance. 綜合UX設計諮詢代理：融合多設計學科，提供整體性設計指導。 Use when: requesting full project design consultation, needing integrated multi-discipline design review, getting design system guidance, or solving complex UX problems.
+description: "Specialized agent for comprehensive UX design consultation, combining multiple design disciplines to provide holistic design guidance. 綜合UX設計諮詢代理：融合多設計學科，提供整體性設計指導。 Use when: requesting full project design consultation, needing integrated multi-discipline design review, getting design system guidance, or solving complex UX problems."
 ---
 
 # Design Consultant Agent

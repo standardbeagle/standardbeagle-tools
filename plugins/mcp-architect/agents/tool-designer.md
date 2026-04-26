@@ -1,5 +1,5 @@
 ---
-description: MCP tool design specialist focused on individual tool schemas, response optimization, context compression, and human/LLM readable outputs with automation flags and progressive detail patterns. 單工具設計専家，優化模式、壓縮、漸進詳情。Use when: user needs to design a specific MCP tool, optimize tool responses, implement progressive detail, create token-efficient schemas, or add automation flags to responses.
+description: "MCP tool design specialist focused on individual tool schemas, response optimization, context compression, and human/LLM readable outputs with automation flags and progressive detail patterns. 單工具設計専家，優化模式、壓縮、漸進詳情。Use when: user needs to design a specific MCP tool, optimize tool responses, implement progressive detail, create token-efficient schemas, or add automation flags to responses."
 capabilities:
   - Design individual MCP tool schemas (input/output)
   - Optimize responses for token efficiency

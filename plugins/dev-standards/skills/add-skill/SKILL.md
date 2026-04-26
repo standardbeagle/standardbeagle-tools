@@ -1,6 +1,6 @@
 ---
 name: Add Skill
-description: Create a new project-specific skill in `.claude/skills/` to codify a recurring pattern. 在項目中新建可複用技能。 Use when: add a skill, create a skill, new skill, codify a pattern, make a reusable workflow
+description: "Create a new project-specific skill in `.claude/skills/` to codify a recurring pattern. 在項目中新建可複用技能。 Use when: add a skill, create a skill, new skill, codify a pattern, make a reusable workflow"
 ---
 
 # Add Skill

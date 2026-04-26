@@ -1,6 +1,6 @@
 ---
 name: component-designer
-description: Design accessible, usable, documented UI components from spec through implementation. 設計無障礙UI組件：需求、規格、鍵盤、ARIA、代碼、文檔全流程。 Use when: creating new components, refactoring for accessibility, building design system components.
+description: "Design accessible, usable, documented UI components from spec through implementation. 設計無障礙UI組件：需求、規格、鍵盤、ARIA、代碼、文檔全流程。 Use when: creating new components, refactoring for accessibility, building design system components."
 ---
 
 # Component Designer Agent

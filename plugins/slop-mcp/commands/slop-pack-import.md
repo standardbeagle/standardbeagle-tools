@@ -1,6 +1,6 @@
 ---
 name: slop-pack-import
-description: Import a slop-mcp customization pack from `.slop-mcp-packs/<name>.json` into a chosen scope, merging by default or replacing when explicitly requested. 由 `.slop-mcp-packs/<name>.json` 將 slop-mcp 定制包導入指定範圍：默認合並，顯式請求方替換。 Use when: applying a teammate's shared customization pack after `git pull`, restoring overrides + custom tools from a pre-upgrade backup, moving customizations between machines, onboarding to a new repository that ships `.slop-mcp-packs/`.
+description: "Import a slop-mcp customization pack from `.slop-mcp-packs/<name>.json` into a chosen scope, merging by default or replacing when explicitly requested. 由 `.slop-mcp-packs/<name>.json` 將 slop-mcp 定制包導入指定範圍：默認合並，顯式請求方替換。 Use when: applying a teammate's shared customization pack after `git pull`, restoring overrides + custom tools from a pre-upgrade backup, moving customizations between machines, onboarding to a new repository that ships `.slop-mcp-packs/`."
 ---
 
 # Import Customization Pack

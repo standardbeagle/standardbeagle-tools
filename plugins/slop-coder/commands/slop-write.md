@@ -1,6 +1,6 @@
 ---
 name: slop-write
-description: Write SLOP code with AI assistance - generates correct, safe, and idiomatic SLOP code. AI輔助生成正確、安全、慣用的SLOP代碼。Use when: generating new SLOP programs from requirements, scaffolding agents/pipelines/batch processors.
+description: "Write SLOP code with AI assistance - generates correct, safe, and idiomatic SLOP code. AI輔助生成正確、安全、慣用的SLOP代碼。Use when: generating new SLOP programs from requirements, scaffolding agents/pipelines/batch processors."
 ---
 
 # Write SLOP Code

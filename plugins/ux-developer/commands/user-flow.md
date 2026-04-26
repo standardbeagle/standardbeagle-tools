@@ -1,6 +1,6 @@
 ---
 name: user-flow
-description: Design, document, or analyze user flows with UX best practices and friction identification. 設計或分析用戶流程：映射旅程、識別摩擦、無障礙與移動端考量、agnt測試。 Use when: designing checkout/onboarding flows, finding drop-off points, documenting user paths.
+description: "Design, document, or analyze user flows with UX best practices and friction identification. 設計或分析用戶流程：映射旅程、識別摩擦、無障礙與移動端考量、agnt測試。 Use when: designing checkout/onboarding flows, finding drop-off points, documenting user paths."
 ---
 
 # User Flow Command

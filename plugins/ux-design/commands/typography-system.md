@@ -1,6 +1,6 @@
 ---
 name: typography-system
-description: Design a complete typography system with font selection, scale creation, and responsive behavior. 設計完整字體系統：字體選擇、比例建立與響應式行為。 Use when: creating a typography system from scratch, selecting font pairings, generating a type scale, defining responsive type behavior.
+description: "Design a complete typography system with font selection, scale creation, and responsive behavior. 設計完整字體系統：字體選擇、比例建立與響應式行為。 Use when: creating a typography system from scratch, selecting font pairings, generating a type scale, defining responsive type behavior."
 ---
 
 # Typography System Design

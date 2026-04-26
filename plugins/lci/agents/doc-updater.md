@@ -1,5 +1,5 @@
 ---
-description: Updates internal project documentation — CHANGELOG, inline docs, plan files — to reflect current changes. Only updates doc types that already exist in the project. 更新內部文檔：CHANGELOG、內聯文檔、計劃文件，反映當前更改；僅更新項目中已存在之文檔類型。 Use when: updating docs after code changes, adding changelog entry, tracking plan completion.
+description: "Updates internal project documentation — CHANGELOG, inline docs, plan files — to reflect current changes. Only updates doc types that already exist in the project. 更新內部文檔：CHANGELOG、內聯文檔、計劃文件，反映當前更改；僅更新項目中已存在之文檔類型。 Use when: updating docs after code changes, adding changelog entry, tracking plan completion."
 capabilities:
   - CHANGELOG entry generation
   - Inline documentation updates (JSDoc, docstrings, rustdoc)

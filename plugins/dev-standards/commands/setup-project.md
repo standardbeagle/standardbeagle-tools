@@ -1,6 +1,6 @@
 ---
 name: setup-project
-description: Set up project with dev standards — rules, skills, and hooks. 配置項目以開發規範，立規則、技能、鉤子. Use when: setup dev standards, configure project rules, install dev hooks, bootstrap project standards, apply standard rules
+description: "Set up project with dev standards — rules, skills, and hooks. 配置項目以開發規範，立規則、技能、鉤子. Use when: setup dev standards, configure project rules, install dev hooks, bootstrap project standards, apply standard rules"
 ---
 
 以下模板文件位於 `${CLAUDE_PLUGIN_ROOT}/assets/templates/`。

@@ -1,6 +1,6 @@
 ---
 name: form-ux
-description: Design or review forms with UX best practices for usability, accessibility, and conversion. 設計或審查表單UX：標籤、驗證、無障礙清單、agnt實時檢查。 Use when: building new forms, auditing existing form UX, improving conversion.
+description: "Design or review forms with UX best practices for usability, accessibility, and conversion. 設計或審查表單UX：標籤、驗證、無障礙清單、agnt實時檢查。 Use when: building new forms, auditing existing form UX, improving conversion."
 ---
 
 # Form UX Command

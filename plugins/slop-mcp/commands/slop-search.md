@@ -1,6 +1,6 @@
 ---
 name: slop-search
-description: Search tools across all slop-mcp registered MCP servers by keyword query. 跨所有已注冊 MCP 服務器搜索工具。 Use when: finding the right tool for a task, exploring available capabilities, filtering by server.
+description: "Search tools across all slop-mcp registered MCP servers by keyword query. 跨所有已注冊 MCP 服務器搜索工具。 Use when: finding the right tool for a task, exploring available capabilities, filtering by server."
 ---
 
 # Search MCP Tools
