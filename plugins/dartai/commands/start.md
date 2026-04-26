@@ -354,9 +354,55 @@ Read `.dartai-locks.json` and check if `[task-id]` is already claimed:
 
 **On rebase conflict:** `git rebase --abort`, skip to next task.
 
+**Step 1.5: Pre-claim conflict check (knowledge-hygiene dispatch) 申領前衝突檢查:**
+
+Before writing the claim, dispatch `knowledge-hygiene:conflict-detector` to surface any contradiction between this task's stated goal and prior memory/decisions for related tasks. This is the **surface-then-proceed pattern** — loops are autonomous, so detection logs to the loop task; it does NOT block the claim. The "no silent rationalization" rule from K2 §3.3 (also encoded as `risk-pipeline` rationalization-trap class, commit 4526ba5) applies: if a conflict is found, the loop comment MUST record it verbatim — do not paper over the contradiction by re-narrating it as agreement.
+
+```yaml
+dispatch:
+  tool: Task
+  subagent_type: "knowledge-hygiene:conflict-detector"
+  description: "Pre-claim conflict scan for [task-id]"
+  prompt: |
+    Scan for conflicts between this task and prior memory.
+
+    ## Task
+    - id: [task-id]
+    - title: [title]
+    - description: [description]
+    - acceptance_criteria: [criteria]
+
+    ## Prior context (best-effort gather)
+    - Recent Dart memory entries for related tasks
+    - .dartai/loop-state.json prior task entries
+    - Recent commits touching the same files (if file list known)
+
+    Return: {conflicts: [...], severity: "none|low|medium|high"}
+
+handling:
+  no_conflict:
+    action: "Proceed to Step 2 (write claim)"
+  conflict_found:
+    action: |
+      1. Append a comment to the loop task (parent_loop_id) with:
+         - Verbatim conflict text from the agent
+         - Severity
+         - Decision: "proceeding (autonomous loop)" — do NOT silently rationalize
+      2. Continue to Step 2 (write claim) — surfacing is sufficient
+    note: |
+      MUST: record the conflict text verbatim. Do NOT rewrite or summarize
+      it as if it were not a conflict. Surface-then-proceed only works if
+      future readers can audit the original contradiction.
+  agent_unavailable:
+    action: "Skip conflict check, log skip reason, proceed to Step 2"
+    note: "knowledge-hygiene plugin not installed → graceful degradation"
+```
+
+Cite: `knowledge-hygiene:conflict-detector` agent (commit b28aa0f), K2 §3.3 no-silent-rationalization, risk-pipeline rationalization-trap class (commit 4526ba5).
+
 **Step 2: Write claim to lock file + commit + push:**
 
-Write the claim entry to `.dartai-locks.json` with the full 6-field meta shape:
+Write the claim entry to `.dartai-locks.json` with the full 7-field meta shape:
 ```json
 {
   "claims": {
@@ -366,7 +412,12 @@ Write the claim entry to `.dartai-locks.json` with the full 6-field meta shape:
       "claimed_at": "[ISO timestamp]",
       "agent_id": "[CLAUDE_AGENT_ID or hostname-pid fallback]",
       "parent_loop_id": "[loop_task_id from Section 4]",
-      "purpose": "[short why string, e.g. 'risk-pipeline Phase 17 rollout']"
+      "purpose": "[short why string, e.g. 'risk-pipeline Phase 17 rollout']",
+      "source_event": {
+        "loop_id": "[parent loop task-id]",
+        "task_id": "[claim-target task-id]",
+        "conversation_id": "[session-id if available, else null]"
+      }
     }
   }
 }
@@ -375,12 +426,19 @@ Write the claim entry to `.dartai-locks.json` with the full 6-field meta shape:
 Field semantics 欄位語義：
 - `runner_instance_id` — machine/PID level disambiguation (existing)
 - `runner_email` — git identity for human-visible attribution (existing)
-- `claimed_at` — ISO timestamp of claim acquisition (existing)
+- `claimed_at` — ISO timestamp of claim acquisition (existing, mandatory)
 - `agent_id` — stable per-agent persona id; audit can aggregate by this
 - `parent_loop_id` — Dart task id of the owning loop; enables tracing iteration → loop
 - `purpose` — short free-text why string; filterable in audits
+- `source_event` — **mandatory on new claims**; `{loop_id, task_id, conversation_id}` triple. Pairs each claim with the orchestration event that triggered it, enabling provenance audits across loop runs. Required pair: `claimed_at` (when) + `source_event` (why-from-where). Cite: dev-standards `memories-require-timestamp-and-source` rule (commit 9ab9c47), brainstorming PROVENANCE-CONTRACT (commit ebd136a).
 
-**Backward compat 向後兼容:** Old claim entries containing only the first 3 fields MUST still parse without crash. Readers treat missing `agent_id` as equal to `runner_instance_id`, missing `parent_loop_id` as null, missing `purpose` as empty string. See pseudocode in §2.5 step 5.
+**Backward compat 向後兼容:** Old claim entries written before this revision are **grandfathered** — readers MUST still parse them without crash. Soft-deprecation rules:
+- Missing `agent_id` → treat as equal to `runner_instance_id` (existing rule)
+- Missing `parent_loop_id` → null (existing rule)
+- Missing `purpose` → empty string (existing rule)
+- Missing `source_event` → null on legacy entries; **MUST be present on any claim written after this revision**. Audit tools may flag legacy claims for migration but must not crash.
+
+Migration guidance: when rewriting a legacy claim (e.g. on reclaim of a stale self-claim), populate `source_event` from current orchestration context. Do not retroactively backfill claims belonging to other runners.
 
 Then atomically commit and push:
 ```bash

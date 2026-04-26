@@ -472,6 +472,78 @@ post_task_routing:
 
 **檢查點**：將後任務發現與重新規劃寫入狀態文件。
 
+### Phase 5.5: Lightweight Cite Verify (post-commit, pre-Done)
+
+**目標**：commit 已寫、PR body 已生，標記 Done 之前對引用作輕量核驗。完整四層核驗（Tier 3，含 URL 取回）為 `citation-verifier` 任務 `qvd3VBUROdw2` 之職責；此處僅捕顯然破損之引用。
+
+Cite: mcp-architect `citation-verification-pattern`（commit 44bf8e0）、brainstorming PROVENANCE-CONTRACT（commit ebd136a）、dev-standards `multi-source-for-load-bearing-claims`（commit 9ab9c47）。
+
+**步驟**：
+1. 解析 commit message 與 PR body 中之所有引用
+2. 按引用形式運行對應檢查（見下表）
+3. 顯然破損之引用：派發單次重試子代理重新生成；仍失敗則於完成評論中浮現，不阻塞
+4. 將每條引用之結果（pass/fail/skipped/fixed-on-retry）寫入完成評論審計記錄
+
+```yaml
+cite_forms:
+  file_path_line:    # "<path>:<line>" or "<path>:<start-end>"
+    verify: "file exists; line in range; range start <= end"
+    obviously_broken: "file missing | line out of range | negative/zero line"
+
+  symbol:            # "function foo" | "class Bar" | "Type.member"
+    verify: "mcp__lci__search returns ≥1 match of cited kind"
+    obviously_broken: "zero matches | matches but no kind match"
+    skip_if: "lci MCP unavailable → mark cite as 'skipped:lci-unavailable'"
+
+  git_sha:           # "git:<sha>" or 7+-char hex in commit context
+    verify: "git rev-parse --verify <sha>^{commit} exits 0"
+    obviously_broken: "rev-parse fails | sha < 7 chars"
+
+  web_url:           # http(s)://...
+    verify: "SKIP at this tier"
+    note: "URL liveness/content match is Tier 3 (citation-verifier qvd3VBUROdw2)"
+
+  memory_id:         # "memory:<id>"
+    verify: "~/.claude/projects/<project-slug>/memory/<id>.md exists"
+    obviously_broken: "memory file missing at resolved path"
+```
+
+**"顯然破損" 之定義**：僅當 form-specific 檢查返回明確負面（檔不存在、行越界、sha 無效、memory 缺失、lci 零命中）。歧義情況（lci 多命中、無清楚匹配）**不**算顯然破損 — Tier 3 處理。
+
+**Retry protocol**:
+```yaml
+retry_on_broken_cite:
+  budget: 1  # one retry per broken cite
+  dispatch:
+    tool: Task
+    subagent_type: "general-purpose"
+    prompt: |
+      Cite "[broken-cite]" failed lightweight verification (form: X, reason: Y).
+      Re-derive corrected cite from the same intended source.
+      Return {status: "corrected", cite: "..."} or {status: "ungrounded", explanation: "..."}.
+  on_corrected: "Replace cite in completion comment (NOT in pushed commit)"
+  on_ungrounded: "Surface in comment as 'broken cite (ungrounded after retry)'; do NOT block Done"
+```
+
+**驗收**：
+```yaml
+pass_if:
+  - all_cites_parsed: true
+  - per_cite_outcome_recorded: true
+  - completion_comment_includes_cite_audit: true
+fail_if:
+  - cite_parser_crashed: true   # impl bug, not cite bug
+  - retry_budget_exceeded: true # >1 retry/cite = protocol violation
+note: "Broken cites surviving retry do NOT trigger fail_if — they surface and the task still moves to Done."
+```
+
+**Tier 分層說明**：
+- Tier 1（此階段）：cheap shape checks（file/line/sha/memory/lci）— 每任務必跑
+- Tier 2（既有）：commit provenance presence — Phase 4 reviewer 處理
+- Tier 3（延後至 `citation-verifier` 任務 `qvd3VBUROdw2`）：URL liveness、content match、語義符合、多源印證
+
+**檢查點**：將 cite 審計結果寫入狀態文件，遺忘 cite 細節。
+
 ### Phase 6: Final Validation (5-10% of time)
 
 **目標**：驗證驗收標準已達成
