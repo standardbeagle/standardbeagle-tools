@@ -38,12 +38,13 @@ the `cards` kind is documented under I4 follow-up.
 2. **Commit architect summary (Phase 0)** — 呈當前推斷之 1-頁摘要並請 user 確認或更正；當 project context 確空時可跳。見下 Phase 0 節。
 3. **Offer visual companion**（若議涉視覺）— 為獨訊，勿合於問。見下 Visual Companion 節。
 4. **Phase 1 — ask big strategy-bundle questions** — 默以 ~3 big questions 開（每 option 為策略束，連動數個下游 knob，依下節 schema）；Phase 0 低信度條目為首批問題候選；單旋鈕之問仍可原子；迭至足以設計
-5. **Propose 2-3 approaches** — 附權衡與汝薦
-6. **Present design** — 按複雜度縮放分節，每節後取許
-7. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
-8. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
-9. **User reviews written spec** — 請 user 審 spec 檔後再進
-10. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
+5. **Phase 2 — strategy-selection on detail layer** — 讀 Phase 1 答後，於各擇定之大分支下察當問之細項；若 3+ atomic 問題群於同一 sub-domain 且 knob 連動，宜束為 2–3 named strategies；確獨立之 knob 仍以原子問。見下 Phase 2 節。
+6. **Propose 2-3 approaches** — 附權衡與汝薦
+7. **Present design** — 按複雜度縮放分節，每節後取許
+8. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
+9. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
+10. **User reviews written spec** — 請 user 審 spec 檔後再進
+11. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
 
 ## Process Flow
 
@@ -55,6 +56,7 @@ digraph brainstorming {
     "Visual questions ahead?" [shape=diamond];
     "Offer Visual Companion\n(own message, no other content)" [shape=box];
     "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" [shape=box3d];
+    "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)" [shape=box3d];
     "Enough to design?" [shape=diamond];
     "Propose 2-3 approaches" [shape=box];
     "Present design sections" [shape=box];
@@ -71,8 +73,9 @@ digraph brainstorming {
     "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
     "Visual questions ahead?" -> "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" [label="no"];
     "Offer Visual Companion\n(own message, no other content)" -> "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)";
-    "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" -> "Enough to design?" ;
-    "Enough to design?" -> "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" [label="no"];
+    "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" -> "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)";
+    "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)" -> "Enough to design?";
+    "Enough to design?" -> "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)" [label="no"];
     "Enough to design?" -> "Propose 2-3 approaches" [label="yes"];
     "Propose 2-3 approaches" -> "Present design sections";
     "Present design sections" -> "User approves design?";
@@ -342,11 +345,137 @@ User picks 1 option per big question → ~3 picks resolve 9-15 downstream decisi
 
 #### After the first batch
 
-讀答後，再批 2–4 問於細（此屬 Phase 2 領域——strategy-selection-on-detail，由 sibling subtask `ooxJKSjuoKok` 規範）。通 2 輪批問即足；3 乃極限於呈法前。
+讀答後，進 Phase 2（strategy-selection-on-detail，見下節）以細化各擇定大分支下之 knob。通 2 輪批問即足（Phase 1 + Phase 2）；3 乃極限於呈法前。
 
 #### When the project has more high-level branches
 
 「~3 big questions」為 typical case 之軟目標，非硬限。Project 確跨數獨立子系統時（chat + storage + billing 混合 platform），先以「scope splitter」big question 切 sub-project（見 The Process > 探法），再對各 sub-project 各跑 ~3 big questions。勿為守 3 之數而硬塞跨領域 option 入單問。
+
+### Phase 2: Detail-layer strategy selection
+
+**Inputs to Phase 2**：Phase 1 之答（user 已擇定之 ~3 big-question option）。各擇定大分支下，會自然湧現一批細 knob 待定——cache TTL、eviction 法、retry 次、deploy 區。Phase 2 之事即察彼批細 knob 之**結構**：彼為連動之策略簇？或為獨立 config 之 checklist？
+
+#### Cluster-detection heuristic（決策規則）
+
+問前，列汝預備提之細項問題清單（即便僅心列）。若見 3+ 問題群於同一 sub-domain（caching、auth、deployment、retry、error handling 等），勿即逐一原子問——先察彼是否合一 strategy bundle。
+
+```
+Prefer 2-3 named strategies when:
+  - 3+ atomic questions cluster in the same sub-domain
+    (e.g., caching: TTL + eviction + key shape + invalidation + warm-up)
+  - Knobs co-vary: picking one value naturally implies others
+    (read-through cache → tag-based invalidation; write-through → explicit hooks)
+  - "Consistent siblings" exist — the answers hang together as a coherent
+    architectural stance, not arbitrary independent values
+
+Atomic questions are appropriate when:
+  - Knobs are genuinely independent — picking one value doesn't constrain
+    the others (port number + log directory + max-retries integer)
+  - The cluster is a checklist of unrelated config (no co-variance)
+  - The decisions are simple value selections with no architectural payload
+  - User explicitly wants to specify each knob individually
+    (escape valve — see "User override" below)
+
+Trigger to re-evaluate: count atomic questions you're about to ask in the
+same sub-domain. 3+ → consider bundling. <3 → atomic is fine. The "3+"
+threshold is a soft prompt to check, not a hard rule.
+```
+
+「Sub-domain 群聚」之判別應具體（哪幾題、屬何主題、為何 knob 連動），非泛指「感覺相關」。若無法明指 3+ 題且無法述其連動關係，彼批應留為原子。
+
+#### When atomic data q is appropriate（顯白 allowlist）
+
+下列場景**確**應原子問，勿硬塞 strategy bundle：
+
+- **Independent config values**：port、log path、timeout 秒數、max-retries 整數——彼間互不影響
+- **Simple identifier picks**：package name、dartboard、env var name——只一字串待定
+- **Polish / cosmetic knobs**：color hex、font size、icon set——皆獨立美學擇
+- **Boolean toggles unrelated to architecture**：「啟 telemetry?」「啟 dev-mode banner?」——單旗，無下游連動
+- **User-supplied data**：「用戶 email 欄位上限長度?」——非架構擇，僅資料約束
+
+此清單為示例非窮舉。判定原則仍為「knob 是否與 sibling 連動」。
+
+#### Worked examples
+
+**Example 1 — Bundle applies（cache 簇）**
+
+Phase 1 已擇「embedded module in existing app + maintainability-first constraint」。Phase 2 草擬之細項問題：
+
+```
+- "Cache TTL?" (30s / 5min / 1hr / 1day)
+- "Eviction policy?" (LRU / LFU / TTL-only / manual)
+- "Cache key shape?" (URL+headers / URL only / custom builder)
+- "Invalidation strategy?" (TTL expiry / explicit purge / tag-based / event-driven)
+- "Warm-up on deploy?" (yes / no / partial)
+```
+
+5 問群於 caching sub-domain，且 knob 連動（read-through 之 cache 自然要 tag-based invalidation；write-through 自然要 explicit hooks）。**宜束**為單問：
+
+```yaml
+question: "How should caching be structured?"
+options:
+  - label: "Read-through + TTL + tag-invalidation"
+    bundles_resolves:
+      - TTL ~5min default per resource type
+      - LRU eviction within memory cap
+      - key = URL + select request headers
+      - invalidation = tag-based on write events
+      - warm-up = top-N hot keys on deploy
+    unlocks:
+      - simple read path, low write coupling
+      - granular invalidation for related-resource updates
+    locks_out:
+      - strict read-after-write consistency
+    seen_in: "rails-style fragment cache pattern; redis tag-cache repos"
+    recommendation_confidence: high
+
+  - label: "Write-through + explicit-hooks"
+    bundles_resolves:
+      - TTL = effectively infinite (write keeps it fresh)
+      - eviction = LRU on memory cap only
+      - key = explicit per write site
+      - invalidation = explicit purge on each write path
+      - warm-up = N/A (writes populate)
+    unlocks:
+      - read-after-write consistency
+    locks_out:
+      - "drop-in cache layer" (every write site must know about cache)
+    seen_in: "common in financial / inventory systems"
+    recommendation_confidence: med
+
+  - label: "No cache + DB-only"
+    bundles_resolves:
+      - all caching knobs = N/A
+    unlocks:
+      - simplest mental model, no staleness bugs
+    locks_out:
+      - sub-100ms response on hot reads at scale
+    seen_in: "early-stage projects, low-traffic admin tools"
+    recommendation_confidence: low
+```
+
+User 擇 1 option → 5 細項一次解。
+
+**Example 2 — Atomic stays（獨立 config 簇）**
+
+Phase 1 已擇「standalone service + ship-fast constraint」。Phase 2 草擬之細項問題：
+
+```
+- "What port should the service bind to?" (3000 / 5173 / 8080 / other)
+- "Where should logs be written?" (./logs / /var/log/<svc> / stdout-only)
+- "Default max-retries on outbound calls?" (1 / 3 / 5)
+```
+
+3 問皆無連動——port 之擇不涉 log 路徑，retries 數不涉 port。無 strategy bundle 可成（強束「port=3000 + log=stdout + retries=3」為「dev preset」、「port=8080 + log=/var/log + retries=5」為「prod preset」純屬牽強，且 user 可能要 dev 之 port 配 prod 之 log）。**保持原子**，三問同批以 `AskUserQuestion` 一次發送即可。
+
+#### User pick mechanics + free-text override
+
+當 Phase 2 用 strategy bundle 時：
+
+- **User picks one strategy** → 該 strategy 之 `bundles_resolves` 全 knob 自動依 spec 落定，記入 design context
+- **Free-text override on single knob**：user 雖擇 strategy A，仍可自由文字補述「但 TTL 給我用 1hr 而非 5min」——此為 escape valve，覆寫該單 knob，其餘從 strategy。**勿**將此視為 user 拒絕整 strategy；僅當 user 明示「全錯，重來」方回 Phase 1
+- **User picks "Other"** → 視為 user 欲手調全部 knob；退回原子問各細項
+- **Confidence reporting**：選定 strategy 後，於 design context 記錄哪些 knob 為 strategy 內定（high confidence）、哪些為 user 覆寫（user-explicit），以利後續 spec self-review 時辨
 
 ### When to Use Free Text
 
