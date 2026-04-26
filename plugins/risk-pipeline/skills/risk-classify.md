@@ -135,6 +135,46 @@ findability_notes: "<str>"        # 切片決策說明或 findability 檢查結�
 
 **例 3 — architectural + split**：`b+d.s!r-u.`（security 臨界）。`scalar = 2×2 + 0×3 + 3×4 + 1×3 + 0×2 = 19`，`crit_axes: [security]`。`over_by: 9`，`scalar >= 15`。→ `pipeline_tier: architectural`，`verdict: split_required`（假設可切無 findability 違），`model: opus-4.7`（`!` 覆寫），`tdd_required: true`，`required_reviewers: [qa, security, code-quality]`，`split_proposal` 具。若不可切 → `verdict: escalate`。
 
+## 風險類別 (Risk classes — knowledge-hygiene patterns)
+
+軸分級之上，三新類別捕捉跨軸知識衛生患。各具一致形：**嚴度** / **觸發** / **偵測** / **化解**。三類偵測委派 `knowledge-hygiene` 插件（commit b28aa0f）— `risk-classify` 僅 dispatch，不重實邏輯。三類於全分級之第 5 步「定標」之前運行；命中者於 `crit_axes` 加軸名 `knowledge-hygiene`，並於 `findability_notes` 附類別與化解。
+
+### knowledge-conflict — 規格/議題/評論與實現相左
+
+- **嚴度**：load-bearing 路徑（auth/payments/data-mutations 等已標 critical 之文件）→ `high`；其餘 → `medium`
+- **觸發**：PR diff 與下列任一相左
+  - 既往 commit message / PR description（同分支或同符號之歷史）
+  - 既開 issue body 或 issue comments（提及相同符號或路徑者）
+  - memory 條（`CLAUDE.md`、`.claude/memory/MEMORY.md`、`.dartai/memory/*.md`）涉及相同決策
+- **偵測**：dispatch `knowledge-hygiene:conflict-detector` agent，輸入 `(spec_text, diff_text, prior_state)`；prior_state 由本 skill 預收集（git log + issue refs + memory grep）
+- **化解**：將衝突原文與 conflict-detector 之 `recommended_resolution` 一併呈用戶；**不得靜默合理化**（此即 sole value-rule must — 鏡 `knowledge-hygiene:rationalization-trap-check` SKILL.md §value-rule）。化解選項：confirm-override / revisit-spec / repick
+
+### rationalization-trap — 長 CoT 前置小變更於關鍵代碼
+
+- **嚴度**：代碼關鍵度 `medium` → `medium`；代碼關鍵度 `high`（觸 `pre_filter.security_paths_hardcoded` 或標 critical 之文件，如 auth/、crypto/、payments/、migrations/、data-mutations）→ `high`
+- **觸發**：三條件同時成立
+  - PR description（含合並前最末一輪 commit message 之累計）`> 800 詞`
+  - diff `< 50 LoC`（added + modified；不計 deleted）
+  - diff 觸及 critical-tagged 文件（即上述路徑）
+- **偵測**：dispatch `knowledge-hygiene:rationalization-trap-check` skill，輸入 `(cot_text, change_text)`；skill 返 verdict `pass | soft-note | flag | flag-strong`
+- **化解**：`flag` 或 `flag-strong` 時於審查輸出附「**長 CoT、小變更於關鍵代碼**」浮標 + 變更/說明比；不阻 merge（rationalization-trap-check 之 anti-pattern 第 4 條：「treating verdict as hard block」），唯使可見
+
+### single-source-claim — 架構/安全/性能斷言僅一源或無源
+
+- **嚴度**：`medium`（覆所有命中；source 不足之 claim 不直接威生產，唯威決策可信）
+- **觸發**：PR body 或評論含**架構**、**安全**、**性能**斷言（標誌詞：「we chose X because」、「this is faster than」、「safer than」、「architecturally cleaner」、「best practice」等），且該斷言之**獨立源計** `< 2`
+- **偵測**：解析 PR body / commits / 評論之源標誌（`file:path:line` | `git:sha` | `web:url` | `memory:id` | `doc:path`，鏡 brainstorming `<PROVENANCE-CONTRACT>` ebd136a 之 5 形 + 字面 `guess`）；按斷言聚源計獨立源數
+- **化解**：留評論「**load-bearing claim with single source — surface explicitly or escalate per `dev-standards:multi-source-required-for-load-bearing-claims`**」（dev-standards skill commit 9ab9c47）；不阻 merge，使作者明示「single-source-by-design」或補源
+
+### 跨類聚合 (Aggregation across classes)
+
+三類獨立檢，可同時命中。命中策略：
+
+- 任一類命中 → `crit_axes` 加 `knowledge-hygiene`（軸名，非 glyph）
+- `findability_notes` 附類別清單與各 `recommended_resolution`，格式：`"knowledge-hygiene: [knowledge-conflict:<resolution>; rationalization-trap:<verdict>; single-source-claim:<count>]"`
+- `pipeline_tier` 不直升 — 三類偵測為**透明性**而非**阻塞性**（鏡 rationalization-trap-check anti-pattern §4）；唯 `knowledge-conflict.severity == high` 觸 `required_reviewers` 加 `novelty-reviewer`（其 conflict-check 流見 `agents/novelty-reviewer.md`）
+- 三類偵測 dispatch 失敗 → `findability_notes` 記 `"knowledge-hygiene: skill_unavailable"`，不悲觀升 escalate（與 `risk-budget` 失敗不同 — knowledge-hygiene 為 advisory，可降級為 no-op）
+
 ## 依賴 (Dependencies)
 
 技藝調用鏈：
@@ -142,5 +182,8 @@ findability_notes: "<str>"        # 切片決策說明或 findability 檢查結�
 - `risk-tag-unit`（Phase 03，已建）— inline 用於補標未標/滯單元
 - `risk-budget`（Phase 07，pending，task `spRTJjH4LPHS`）— scalar + verdict 計算
 - `risk-pipeline-dispatch`（Phase 08，pending，task `xC5x62LYetPW`）— reviewers/model/tdd 派發
+- `knowledge-hygiene:conflict-detector` agent（plugin commit b28aa0f）— `knowledge-conflict` 類偵測
+- `knowledge-hygiene:rationalization-trap-check` skill（plugin commit b28aa0f）— `rationalization-trap` 類偵測
+- `dev-standards:multi-source-required-for-load-bearing-claims` skill（commit 9ab9c47）— `single-source-claim` 類化解語
 
-Phase 07/08 未建之前，本技藝依 §錯誤與回退所述 fallback 行止：預算計算失 → `escalate`；派發失 → `[qa, code-quality] + sonnet-4.6 + tdd_required:true`。Phase 07/08 落地後，此條自動接入，無需改本檔。
+Phase 07/08 未建之前，本技藝依 §錯誤與回退所述 fallback 行止：預算計算失 → `escalate`；派發失 → `[qa, code-quality] + sonnet-4.6 + tdd_required:true`。Phase 07/08 落地後，此條自動接入，無需改本檔。knowledge-hygiene 三組件失 → 該類降級為 no-op（advisory only，不悲觀升級）。

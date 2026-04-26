@@ -78,9 +78,15 @@ skills:
 1. **讀任務規格**——description + acceptance criteria 逐字讀；尤注於任務之研究任務連結（若 u>=+ 則 Phase 08 會先生研究子任務）
 2. **查項目規則**——上節三文件若存在則讀，融入後續判斷
 3. **讀實現 diff**——`git log --oneline` + `git diff HEAD~1 --name-only`；尤重 docs/research/、新依賴添加、新模組邊界
-4. **對每行挑戰表**：運行驗證（Read 研究文件、Grep prior-art 引用、Bash 依賴圖若可）
-5. **交叉核 @risk 標籤**——觸及單元之 `@risk u=? why=?` 與 spec 對照；`u>=+` 觸本代理；`u=!` 會先觸研究子任務，須驗該任務完成
-6. **發射 verification_report JSON**——結構見下節
+4. **既存知識衝突檢 (prior-knowledge conflict check)** ——**此步必行於批准任何新穎 claim 之前**。對每新穎 claim（即實現引入之未驗假設、新契約、新依賴選擇、新模式），於以下既存知識來源搜對立或重疊聲明：
+   - **memory**：`CLAUDE.md`、`.claude/CLAUDE.md`、`.claude/memory/MEMORY.md`、`.dartai/memory/*.md`（grep 涉及相同符號、路徑、決策關鍵詞）
+   - **docs**：`docs/research/*.md`、`docs/solutions/*.md`、所有 `plugins/*/skills/*/SKILL.md` frontmatter（`description`、`use-when`）涉及相關領域者
+   - 若搜出重疊或對立聲明 → dispatch `knowledge-hygiene:conflict-detector` agent（plugin commit b28aa0f），輸入 `(novel_claim, prior_state)`；prior_state 為上述搜得片段集合
+   - 若 conflict-detector 返 `conflict_type` 非 `none` → 於 `issues_found` 加一條，severity 鏡 conflict-detector 之 `recommended_resolution`（`escalate-to-user` → `high`，`prefer-authoritative` → `medium`，`merge-with-caveat` → `low`），location 指向衝突源，detail 引述兩端原文，fix_hint 為 conflict-detector 之 reasoning
+   - **不得自動批准存在衝突之 claim**——此即新穎審查之 sole hard rule（鏡 `knowledge-hygiene:rationalization-trap-check` SKILL.md value-rule 與 brainstorming `<PROVENANCE-CONTRACT>` ebd136a「不得靜默合理化」）
+5. **對每行挑戰表**：運行驗證（Read 研究文件、Grep prior-art 引用、Bash 依賴圖若可）
+6. **交叉核 @risk 標籤**——觸及單元之 `@risk u=? why=?` 與 spec 對照；`u>=+` 觸本代理；`u=!` 會先觸研究子任務，須驗該任務完成
+7. **發射 verification_report JSON**——結構見下節。若步 4 命中衝突未化解，`result` 強制為 `fail`（無論其餘挑戰結果），`blocking: true`，並於 `issues_found` 首位列衝突條
 
 ## 返回契約 (verification_report JSON schema)
 
@@ -144,6 +150,7 @@ critical/high → `result: fail`；medium 單發 → `retry_recommended`；唯 l
 - 與 reversibility-reviewer 協同——新穎方案必有 fallback，彼審 fallback 可執行性，吾審 fallback 存在性
 - 與 security-reviewer 並行——新依賴之安全審計由彼，新穎契約風險由吾
 - 與 qa-reviewer 並行——彼驗測試覆蓋，吾驗假設驗證
+- 與 `knowledge-hygiene:conflict-detector` agent 委派——本代理檢出 prior-state 重疊後 dispatch 之，由 conflict-detector 出 `conflict_type` + `recommended_resolution`；本代理不重實邏輯，唯收結果並裁阻塞
 
 ## Communication 通信
 
@@ -158,6 +165,7 @@ critical/high → `result: fail`；medium 單發 → `retry_recommended`；唯 l
 審查完成條件：
 - 所有已更改文件已讀（尤重 research docs 與新依賴）
 - 項目規則文件已查
+- **既存知識衝突檢已運行**（步 4）—— 每新穎 claim 已對 memory / docs / SKILL frontmatter 搜過；命中重疊者已 dispatch `knowledge-hygiene:conflict-detector`；無未化解之衝突進入 `pass` 路徑
 - 對抗性挑戰表所有 12 行已驗證
 - 觸及單元之 `@risk u=?` 標籤已與 spec 交叉核
 - 若 `u=!`，研究子任務完成已驗
