@@ -1,3 +1,12 @@
 {
-  "claims": {}
+  "claims": {
+    "NxpVtyAooekt": {
+      "runner_instance_id": "beagle-ab2-2635431",
+      "runner_email": "claude@anthropic.com",
+      "claimed_at": "2026-04-26T17:32:00Z",
+      "agent_id": "beagle-ab2-2635431",
+      "parent_loop_id": "T0YmyKrfmwaw",
+      "purpose": "K1a: Port 5 wave-1 reviewer agents per K0 stack-rank"
+    }
+  }
 }
