@@ -527,3 +527,10 @@ function info(category?: string, detail_level: "sparse" | "medium" | "full" = "s
 4. **Comprehensive** - Everything (use sparingly, ~1000+ tokens)
 
 助用戶發現能力，勿以信息過載。
+
+## Related Skills
+
+Progressive disclosure composes with other mcp-architect patterns when the layered output carries claims or retrieval results:
+
+- **`mcp-architect:citation-verification-pattern`** — when a layer emits sourced claims (e.g., the comprehensive layer of a research-summarizer's info tool), each claim must independently satisfy the 4-layer cite trail (source-exists, claim-derivable, no-over-extension, no-hallucinated-cite). Progressive disclosure does not exempt deeper layers from citation discipline; if anything, deeper layers carry richer claims and need stricter citation.
+- **`mcp-architect:multiview-retrieval-pattern`** — multiview retrieval is the canonical example of progressive disclosure applied to a retrieval surface: default returns a single mode (cheapest layer), explicit `mode` flag opts into a different single mode (peer layer), `multiview` opts into the merged-with-also_matched layer (richest layer). The lci `--mode` spec at `plugins/lci/docs/lci-modes-spec.md` (commit `2a649e0`) is the reference realization.

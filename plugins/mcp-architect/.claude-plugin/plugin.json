@@ -17,6 +17,21 @@
     "mcp-design",
     "mcp-patterns",
     "api-design",
-    "token-optimization"
+    "token-optimization",
+    "citation-verification",
+    "conflict-aware-response",
+    "multiview-retrieval"
+  ],
+  "skills": [
+    "./skills/client-guidance/SKILL.md",
+    "./skills/context-compression/SKILL.md",
+    "./skills/mcp-architecture/SKILL.md",
+    "./skills/mcp-examples/SKILL.md",
+    "./skills/progressive-discovery/SKILL.md",
+    "./skills/response-optimization/SKILL.md",
+    "./skills/tool-design/SKILL.md",
+    "./skills/citation-verification-pattern/SKILL.md",
+    "./skills/conflict-aware-response/SKILL.md",
+    "./skills/multiview-retrieval-pattern/SKILL.md"
   ]
 }
