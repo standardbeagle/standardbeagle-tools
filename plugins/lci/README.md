@@ -48,6 +48,28 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 }
 ```
 
+## Search Modes
+
+The `/lci:search` command accepts a `--mode` argument selecting the retrieval strategy. Default is `dense`. Other modes are **specification only** at this time — the current lci server (`0.4.0`, see `marketplace.json`) implements `dense`; `bm25`, `symbolic`, and `multiview` are reserved for downstream server releases tracked in [github.com/standardbeagle/lci](https://github.com/standardbeagle/lci). The formal contract lives in `plugins/lci/docs/lci-modes-spec.md`.
+
+| Mode | What it returns | When to prefer |
+|---|---|---|
+| `dense` | Vector-embedding retrieval. Current behavior. | Default. 1-hop semantic queries — "find code that does X." |
+| `bm25` | Lexical match only. | Exact-match queries — known function names, error strings, log messages. |
+| `symbolic` | Metadata only (file path, language, symbol kind). No content scan. | Structural enumeration — "list all classes in module X." |
+| `multiview` | Blends `dense + bm25 + symbolic` plus call hierarchy and dependency graph. | Multi-hop queries where one index alone misses the link. |
+
+### Cost trade-offs
+
+| Mode | Build-time cost | Query-time cost | Coverage class |
+|---|---|---|---|
+| `dense` | Embedding pass over corpus (one-time per change) | Sub-millisecond ANN lookup | Semantic / paraphrase-tolerant |
+| `bm25` | Lexical inverted index (cheap) | Sub-millisecond exact/prefix match | Exact-string / known-keyword |
+| `symbolic` | Symbol metadata index (cheap, already built for `code_insight`) | Sub-millisecond filter | Structural / metadata-only |
+| `multiview` | All three indices + call-hierarchy graph + dep graph (largest one-time cost) | Higher than single-mode but acceptable; merges N result streams with stable provenance | Multi-hop / cross-cutting |
+
+Rationale: K2 §3.4 *Multiview retrieval* — task-dependent lift; only complex multi-hop queries reliably benefit, so mode selection is soft guidance (default toward `dense`). The `--conflicts` flag (see `/lci:search`) surfaces multiple defs across branches or build flags per K2 §3.2 *Conflict surfacing*.
+
 ## Available Tools
 
 | Tool | Description |
