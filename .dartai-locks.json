@@ -1,12 +1,3 @@
 {
-  "claims": {
-    "aOG4Yhk3YZvg": {
-      "runner_instance_id": "beagle-ab2-2635431",
-      "runner_email": "claude@anthropic.com",
-      "claimed_at": "2026-04-26T17:38:00Z",
-      "agent_id": "beagle-ab2-2635431",
-      "parent_loop_id": "T0YmyKrfmwaw",
-      "purpose": "K1b: Port session-historian + 2 skills + research consolidation"
-    }
-  }
+  "claims": {}
 }

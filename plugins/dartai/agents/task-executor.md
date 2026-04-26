@@ -639,33 +639,40 @@ fail_if:
 
 ## Phase 9: Final Validation
 
+**CRITICAL — Invoke `dev-standards:verification-before-completion` skill before any completion claim.** That skill is the canonical pre-completion gate: identify the verification commands, RUN them this turn (not "should pass"), READ the output, VERIFY it matches the claim, and only then report success. The Iron Law: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE. Skip this and the task fails — Dart status must NOT be set to Done without fresh evidence captured this turn.
+
 ### Task: Verify All Acceptance Criteria
 
 **DO (Positive Instructions):**
+- Invoke `dev-standards:verification-before-completion` skill at the top of this phase
 - Re-read original task description
-- Verify EACH acceptance criterion explicitly
-- Run linting again
-- Run tests again
+- Verify EACH acceptance criterion explicitly with a fresh command this turn
+- Run linting again (this turn — not "I already ran it")
+- Run tests again (this turn)
 - Confirm no scope creep
+- For each acceptance criterion, record the command run AND the observed output
 
 **DO NOT (Negative Instructions):**
-- Mark done without verification
-- Skip re-running checks
-- Accept "probably works"
+- Mark done without fresh verification this turn
+- Skip re-running checks ("should still pass")
+- Accept "probably works", "looks correct", "should be fine"
 - Leave anything incomplete
+- Trust prior phases' output as sufficient — phase 5 tests passing earlier ≠ tests passing now after phase 7-8 cleanup
 
 **Final Verification:**
 ```yaml
 acceptance_check:
-  - criterion_1: "How verified"
-  - criterion_2: "How verified"
-  - criterion_N: "How verified"
+  - criterion_1: "Command run this turn + observed output"
+  - criterion_2: "Command run this turn + observed output"
+  - criterion_N: "Command run this turn + observed output"
 
 quality_check:
-  - linting: "pass"
-  - testing: "pass"
-  - coverage: "maintained"
+  - linting: "pass (command + output captured this turn)"
+  - testing: "pass (command + output captured this turn)"
+  - coverage: "maintained (command + output captured this turn)"
   - documentation: "updated if needed"
+
+verification_skill_invoked: true  # required — see dev-standards:verification-before-completion
 ```
 
 ---

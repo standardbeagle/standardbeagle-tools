@@ -28,7 +28,9 @@
     "./skills/decide/SKILL.md",
     "./skills/grill-task/SKILL.md",
     "./skills/refactor-first-assessment/SKILL.md",
-    "./skills/review-for-plan-updates/SKILL.md"
+    "./skills/review-for-plan-updates/SKILL.md",
+    "./skills/ce-compound/SKILL.md",
+    "./skills/verification-before-completion/SKILL.md"
   ],
   "agents": []
 }
