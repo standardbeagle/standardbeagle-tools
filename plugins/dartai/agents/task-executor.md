@@ -3,6 +3,7 @@ name: task-executor
 description: "Execute a Dart task through the adversarial quality pipeline with plan adjustment at each phase. 以對抗品質管道執行Dart任務，各階段計劃調整。 Use when: execute dart task, run quality pipeline, implement task, adversarial loop, code review workflow"
 model: opus
 tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context", "mcp__plugin_slop-mcp_slop-mcp__execute_tool"]
+skills: [task-execution, adversarial-quality-loop, code-quality, dart-query-reference]
 whenToUse: |
   Use this agent when the user wants to execute a task through the adversarial quality pipeline.
 

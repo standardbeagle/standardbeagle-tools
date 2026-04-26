@@ -1,12 +1,3 @@
 {
-  "claims": {
-    "HMoQxF2kcq3Y": {
-      "runner_instance_id": "beagle-ab2-2635431",
-      "runner_email": "claude@anthropic.com",
-      "claimed_at": "2026-04-26T18:32:00Z",
-      "agent_id": "beagle-ab2-2635431",
-      "parent_loop_id": "T0YmyKrfmwaw",
-      "purpose": "L1: CC 2.1 refactor for plugins/dartai (loop infra; deliberate end-of-loop placement)"
-    }
-  }
+  "claims": {}
 }

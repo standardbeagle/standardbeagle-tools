@@ -1,6 +1,7 @@
 ---
 name: adversarial-quality-loop
 description: Adversarial cooperation loop for code quality verification with plan adjustment at each phase. 對抗協作循環：實施者與驗證者互相制衡，逐階調整計劃，確保代碼品質。 Use when: execute dart task, run quality pipeline, adversarial review, implement with verification
+context: fork
 ---
 
 # Adversarial Quality Loop (Ralph Wiggum Pattern)
