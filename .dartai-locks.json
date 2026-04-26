@@ -1,12 +1,3 @@
 {
-  "claims": {
-    "9ZGkhWRzdne2": {
-      "runner_instance_id": "beagle-ab2-2635431",
-      "runner_email": "claude@anthropic.com",
-      "claimed_at": "2026-04-26T17:53:00Z",
-      "agent_id": "beagle-ab2-2635431",
-      "parent_loop_id": "T0YmyKrfmwaw",
-      "purpose": "K1c: Wire wave-1 dispatch (INT1 fast-gate + INT2)"
-    }
-  }
+  "claims": {}
 }

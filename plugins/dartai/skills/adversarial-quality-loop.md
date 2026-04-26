@@ -706,6 +706,153 @@ concurrent_agents:
       requirements traceability, and testability.
 
       Return structured verdict: PASS, FAIL, or NEEDS_WORK with issues.
+
+  # INT1 wave-1: always-on review personas (correctness, maintainability, testing).
+  # Diff-conditional dispatch per R2 §3 — these three are unconditional because
+  # their agent frontmatter is always-on (no Skip-when filter on file type).
+  correctness_reviewer:
+    subagent_type: "compound-review:correctness-reviewer"
+    description: "Correctness review for [task-title]"
+    prompt: |
+      Run correctness review for task [TASK_ID].
+
+      ## Task ID
+      [TASK_ID]
+
+      ## Changed Files
+      [list of files changed]
+
+      ## Acceptance Criteria
+      [criteria from task]
+
+      ## Risk Vector
+      [risk_vector dict from telemetry, if enabled]
+
+      ## Focus
+      Logic errors, edge cases, off-by-one, null/undefined propagation,
+      race conditions, state-transition bugs, swallowed errors,
+      intent-vs-implementation mismatch.
+
+      ## Return
+      Return structured review_report (per R2 §4.1) as the final message
+      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+
+  maintainability_reviewer:
+    subagent_type: "compound-review:maintainability-reviewer"
+    description: "Maintainability review for [task-title]"
+    prompt: |
+      Run maintainability review for task [TASK_ID].
+
+      ## Task ID
+      [TASK_ID]
+
+      ## Changed Files
+      [list of files changed]
+
+      ## Acceptance Criteria
+      [criteria from task]
+
+      ## Risk Vector
+      [risk_vector dict from telemetry, if enabled]
+
+      ## Focus
+      Premature abstraction, unnecessary indirection, dead code,
+      cross-module coupling, naming that obscures intent,
+      duplication (jscpd), YAGNI violations.
+
+      ## Return
+      Return structured review_report (per R2 §4.1) as the final message
+      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+
+  testing_reviewer:
+    subagent_type: "compound-review:testing-reviewer"
+    description: "Testing review for [task-title]"
+    prompt: |
+      Run testing review for task [TASK_ID].
+
+      ## Task ID
+      [TASK_ID]
+
+      ## Changed Files
+      [list of files changed]
+
+      ## Acceptance Criteria
+      [criteria from task]
+
+      ## Risk Vector
+      [risk_vector dict from telemetry, if enabled]
+
+      ## Focus
+      Untested branches, weak/brittle assertions, implementation-coupled
+      tests, missing error-path coverage, behavior changes without tests.
+
+      ## Return
+      Return structured review_report (per R2 §4.1) as the final message
+      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+
+  # Conditional reviewers — only dispatch when diff matches the trigger.
+  # Predicate syntax: JavaScript-expression evaluated against the changed-files
+  # list; `file` iterates each path. See R2 §6.1 for canonical form.
+  typescript_strict_reviewer:
+    enabled_when: "any(file.endsWith('.ts') || file.endsWith('.tsx'))"
+    subagent_type: "compound-review:typescript-strict-reviewer"
+    description: "TypeScript-strict review for [task-title]"
+    prompt: |
+      Run TypeScript-strict review for task [TASK_ID].
+
+      ## Task ID
+      [TASK_ID]
+
+      ## Changed Files
+      [list of *.ts / *.tsx files changed]
+
+      ## Acceptance Criteria
+      [criteria from task]
+
+      ## Risk Vector
+      [risk_vector dict from telemetry, if enabled]
+
+      ## Focus
+      Type-system loopholes (`any`, unchecked casts, broad `unknown as Foo`),
+      nullable narrowing, hidden regressions in refactors/deletions,
+      five-second-rule failures, hard-to-test structure-vs-behavior gaps.
+
+      ## Return
+      Return structured review_report (per R2 §4.1) as the final message
+      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+
+  cli_readiness_reviewer:
+    enabled_when: |
+      any(file.includes('/cli/') || file.includes('/commands/')
+          || file.includes('/bin/') || /\.cli\./.test(file)
+          || /docs\/plans\/.*cli.*\.md$/.test(file)
+          || /docs\/research\/.*cli.*\.md$/.test(file))
+    subagent_type: "compound-review:cli-readiness-reviewer"
+    description: "CLI agent-readiness review for [task-title]"
+    prompt: |
+      Run CLI agent-readiness review for task [TASK_ID].
+
+      ## Task ID
+      [TASK_ID]
+
+      ## Changed Files
+      [list of CLI source/spec/plan files changed]
+
+      ## Acceptance Criteria
+      [criteria from task]
+
+      ## Risk Vector
+      [risk_vector dict from telemetry, if enabled]
+
+      ## Focus
+      Non-interactive defaults (TTY guards, --yes flags), structured
+      output (--json/--format), actionable errors, idempotent retries,
+      bounded list output, stdout/stderr separation, help-text completeness.
+      Severity caps at P1; all findings advisory/manual.
+
+      ## Return
+      Return structured review_report (per R2 §4.1) as the final message
+      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
 ```
 
 **Handling Results:**
@@ -714,26 +861,39 @@ concurrent_agents:
 result_handling:
   all_pass:
     action: "Proceed to Phase 4"
-    note: "Both reviewers approved"
+    note: "All dispatched reviewers approved"
 
   any_needs_work:
-    action: "Fix issues, re-dispatch ONLY the failing reviewer"
+    action: "Fix issues, re-dispatch ONLY the failing reviewer(s)"
     max_retries: 2
-    note: "Don't re-run the reviewer that already passed"
+    note: "Don't re-run reviewers that already passed"
 
   any_fail:
-    action: "Fix issues, re-dispatch ONLY the failing reviewer"
+    action: "Fix issues, re-dispatch ONLY the failing reviewer(s)"
     max_retries: 2
     escalate_after: "If still failing after 2 retries, RETURN with failure"
+
+  conditional_skip:
+    note: |
+      Reviewers gated by enabled_when (typescript_strict, cli_readiness)
+      are skipped when the diff does not match. Skipped reviewers do NOT
+      block pass_if — only dispatched reviewers' verdicts join the AND.
 ```
 
 **Verification Criteria:**
 ```yaml
 pass_if:
+  # Always-dispatched reviewers — verdicts must all be PASS
   - code_quality_reviewer_verdict: "PASS"
   - qa_reviewer_verdict: "PASS"
+  - correctness_reviewer_verdict: "PASS"
+  - maintainability_reviewer_verdict: "PASS"
+  - testing_reviewer_verdict: "PASS"
+  # Conditional reviewers — verdict must be PASS when dispatched, ignored when skipped
+  - typescript_strict_reviewer_verdict_if_dispatched: "PASS"
+  - cli_readiness_reviewer_verdict_if_dispatched: "PASS"
 fail_if:
-  - any_verdict_fail_after_retries: true
+  - any_dispatched_verdict_fail_after_retries: true
 ```
 
 ### Plan Adjustment Point 3 (Automatic - Do Not Stop)

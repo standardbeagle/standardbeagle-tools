@@ -73,6 +73,109 @@ plan:
 - 研究任務在依賴實現任務**之前**
 - 按完整縱向切片實現，非橫向分層
 
+### Step 3.5: Dispatch Research Agents (INT2)
+
+當規劃者識別出需在創建上下文適配任務層級前回答之開放知識缺口時，以Task工具並行派遣研究代理。每缺口→一研究代理調用。
+
+研究代理集群（`compound-research:*` + `research:*`）以新鮮上下文並行運行，返回R2 §4.2 `research_report`形狀，規劃者消費`proposed_subtasks`創建Dart任務。
+
+**Parallel research dispatch:**
+
+```yaml
+research_dispatch:
+  # Dispatch research agents in parallel — each with fresh context, returns
+  # research_report (R2 §4.2). Planner consumes proposed_subtasks for
+  # task creation under parent epic.
+
+  session_historian:
+    # INT2 wave-1: surface prior-session context before planning anew.
+    # Run early so historian findings can inform other researchers' scope.
+    # Always-dispatched when Step 3.5 runs — the agent self-reports
+    # verdict: BLOCKED if no session history is accessible (fresh machine,
+    # first session in repo). Caller does not gate; agent gates internally
+    # via its Skip-when frontmatter clause.
+    subagent_type: "research:session-historian"
+    description: "Search prior sessions for [task-title] context"
+    prompt: |
+      Search prior session history for context relevant to this planning task.
+
+      ## Task / Topic
+      [parent_task_title]
+
+      ## Research Question
+      What was previously tried, decided, or attempted regarding this
+      problem in earlier Claude Code / Codex / Cursor sessions?
+
+      ## Time Range
+      Default 7 days; widen to 30/90 days only if narrow scan empty
+      and request implies feature-level history.
+
+      ## Context (from planning so far)
+      [planner-accumulated context: domain, prior findings, constraints]
+
+      ## Acceptance for this research
+      - At least 2 prior sessions surveyed (or "no prior sessions" reported)
+      - Cross-tool blindspots called out when present
+      - Stale findings flagged with caveat
+      - Investigation journey, user redirections, decisions extracted
+
+      ## Return
+      Return structured research_report (per R2 §4.2) as the final message
+      body, no preamble. verdict ∈ {COMPLETE, PARTIAL, BLOCKED}.
+
+  web_researcher:
+    # Optional: dispatch when external research needed (web, framework docs).
+    # Mode flag selects sub-behavior (general | best-practices | framework-docs).
+    enabled_when: "gap.requires_external_research == true"
+    subagent_type: "research:web-researcher"
+    description: "External research for [gap.question]"
+    prompt: |
+      Run external research for question: [gap.question]
+
+      ## Mode
+      [general | best-practices | framework-docs]
+
+      ## Parent Task
+      [parent_task_id] — [parent_task_title]
+
+      ## Research Question
+      [gap.question]
+
+      ## Context
+      [planner-accumulated context]
+
+      ## Acceptance
+      - At least 3 sources consulted
+      - Each finding has ≥1 source citation
+      - Each high-confidence finding has an adversarial counter-claim
+
+      ## Return
+      Return structured research_report (per R2 §4.2) as the final message
+      body, no preamble. verdict ∈ {COMPLETE, PARTIAL, BLOCKED}.
+```
+
+**Result handling:**
+
+```yaml
+result_handling:
+  complete:
+    action: "Apply proposed_subtasks — create Dart tasks under parent epic"
+    next: "Continue to Step 4"
+    note: |
+      Per project memory: parentage is set by adding subtask_ids to the
+      parent after children are created (NOT via parentId on creation).
+
+  partial:
+    action: "Create open-question tasks + apply any proposed_subtasks"
+    next: "Continue to Step 4 with reduced confidence flag"
+
+  blocked:
+    action: "RETURN with failure to outer planning loop"
+    note: "Researcher couldn't make progress — escalate to human review"
+```
+
+**Skipping rule:** if Step 3 produced no research gap and the planner has no novel context to seed historian search, skip Step 3.5 entirely. When dispatched, session-historian self-reports `verdict: BLOCKED` if no session history is accessible (fresh machine, first session in repo) — treat that as a no-op, not a failure.
+
 ### Step 4: Context-Sized Task Validation
 
 驗證約束：
