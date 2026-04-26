@@ -1,0 +1,33 @@
+{
+  "name": "knowledge-hygiene",
+  "version": "0.1.0",
+  "description": "Reasoning hygiene for AI agents: cross-source conflict detection, multi-source research with provenance, and rationalization-trap heuristics. Wave-1 Tier-2 consolidation so other plugins import skills/agents instead of duplicating. Citation grounding per K2 (docs/research/K2-knowledge-hygiene-from-papers.md): provenance per claim (OmniMEM 2604.01007), cross-source conflict surfacing (ConflictQA 2604.11209), and the rationalization-trap value-rule.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "knowledge-hygiene",
+    "provenance",
+    "conflict-detection",
+    "multi-source-research",
+    "rationalization-trap",
+    "reasoning-hygiene",
+    "citation",
+    "rag",
+    "adversarial-cooperation"
+  ],
+  "commands": [
+    "./commands/verify-claims.md"
+  ],
+  "skills": [
+    "./skills/multi-source-research/SKILL.md",
+    "./skills/rationalization-trap-check/SKILL.md"
+  ],
+  "agents": [
+    "./agents/conflict-detector.md"
+  ]
+}
