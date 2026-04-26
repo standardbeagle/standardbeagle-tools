@@ -27,5 +27,34 @@ export const Event = z.discriminatedUnion("type", [
   }),
   Base.extend({ type: z.literal("card_killed"), card_id: z.string() }),
   Base.extend({ type: z.literal("cluster_created"), cluster_id: z.string(), label: z.string() }),
+  Base.extend({
+    type: z.literal("summary_bullet_revised"),
+    bullet_id: z.string(),
+    section: z.string(),
+    old_text: z.string(),
+    new_text: z.string(),
+  }),
+  Base.extend({ type: z.literal("summary_confirmed") }),
+  Base.extend({
+    type: z.literal("summary_revised"),
+    diff: z.array(z.object({
+      bullet_id: z.string(),
+      section: z.string(),
+      old_text: z.string(),
+      new_text: z.string(),
+    })),
+    note: z.string().optional(),
+  }),
+  Base.extend({
+    type: z.literal("strategy_ranked"),
+    option_id: z.string(),
+    old_rank: z.number().int().nonnegative(),
+    new_rank: z.number().int().nonnegative(),
+  }),
+  Base.extend({
+    type: z.literal("strategy_selected"),
+    option_id: z.string(),
+    user_comments: z.string().optional(),
+  }),
 ]);
 export type Event = z.infer<typeof Event>;

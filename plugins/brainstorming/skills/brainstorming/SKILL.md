@@ -780,7 +780,23 @@ Monitor(
 
 ### Writing screens
 
-見 `skills/brainstorming/companion/docs/screen-format.md` 以察全參考。三類：`question`、`demo`、`decision`。各為一 markdown 檔，YAML frontmatter 於 `$SESSION_DIR/screens/` 下。
+見 `skills/brainstorming/companion/docs/screen-format.md` 以察全參考。Screen kinds：
+
+- `question` — structured input batches（radio / multi / text / code / file-edit）
+- `demo` — sandboxed iframe mockups（HTML/CSS/JS）
+- `decision` — proposed/approved/revised decision cards
+- `cards` — free-form card-sort（divergent ideation, generic clusters）
+- `summary-confirm` — Phase 0 architect summary as confirmable card；section per goal/constraints/system_shape/risks/alternative_framings，每節 confidence pill，bullet 可 inline 編輯，emit `summary-revised` 含 bullet-level diff
+- `strategy-card` — Phase 1/2 strategy bundle 之 flippable cards：front 為 label + summary + recommendation pill；back 為 `bundles_resolves` / `unlocks` / `locks_out` / `seen_in`（含可點 provenance link）/ `reconsider_when`；`stage: diverge` 開 drag-to-rank、`stage: converge` 開 tap-to-select，emit `strategy-selected` 含 option_id 與可選 `user_comments` 之單旋鈕覆寫
+
+各為一 markdown 檔，YAML frontmatter 於 `$SESSION_DIR/screens/` 下。
+
+**何時用何 kind：**
+
+- Phase 0 architect summary → `summary-confirm`（取代純文 markdown 訊息，使 user 可逐 bullet 修而非整段重寫）
+- Phase 1 big strategy-bundle questions → `strategy-card` with `stage: diverge` then `stage: converge`，或 `kind: question` with `radio` 若為 atomic 單旋鈕
+- Phase 2 detail-layer strategy selection → 同上：3+ 連動 knob 用 `strategy-card`，獨立 knob 用 `kind: question`
+- 一般 decision 記錄（Phase 1/2 外之獨立決策）→ `kind: decision`
 
 ### Privacy
 

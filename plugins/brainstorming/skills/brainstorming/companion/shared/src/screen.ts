@@ -113,7 +113,82 @@ export const CardsScreen = z.object({
   clusters: z.array(Cluster).default([]),
 });
 
-export const ScreenFrontmatter = z.discriminatedUnion("kind", [QuestionScreen, DemoScreen, DecisionScreen, CardsScreen]);
+export const ConfidencePill = z.enum(["high", "med", "low"]);
+export type ConfidencePill = z.infer<typeof ConfidencePill>;
+
+export const SummaryBullet = z.object({
+  id: z.string().min(1),
+  text: z.string().min(1),
+});
+export type SummaryBullet = z.infer<typeof SummaryBullet>;
+
+export const SummarySection = z.object({
+  confidence: ConfidencePill,
+  bullets: z.array(SummaryBullet).min(1),
+  mermaid: z.string().optional(),
+});
+export type SummarySection = z.infer<typeof SummarySection>;
+
+export const SummaryConfirmStatus = z.enum(["pending", "confirmed", "revised"]);
+export type SummaryConfirmStatus = z.infer<typeof SummaryConfirmStatus>;
+
+export const SummaryConfirmScreen = z.object({
+  kind: z.literal("summary-confirm"),
+  id: z.string().min(1),
+  title: z.string().min(1),
+  pinned: z.boolean().default(false),
+  status: SummaryConfirmStatus.default("pending"),
+  sections: z.object({
+    goal: SummarySection,
+    constraints: SummarySection,
+    system_shape: SummarySection,
+    risks: SummarySection,
+    alternative_framings: SummarySection,
+  }),
+});
+
+export const StrategyProvenance = z.object({
+  label: z.string().min(1),
+  path: z.string().optional(),
+});
+export type StrategyProvenance = z.infer<typeof StrategyProvenance>;
+
+export const StrategyOption = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1),
+  summary: z.string().min(1),
+  recommendation_confidence: ConfidencePill,
+  bundles_resolves: z.array(z.string()).default([]),
+  unlocks: z.array(z.string()).default([]),
+  locks_out: z.array(z.string()).default([]),
+  seen_in: z.array(StrategyProvenance).default([]),
+  reconsider_when: z.array(z.string()).default([]),
+  rank: z.number().int().nonnegative().default(0),
+});
+export type StrategyOption = z.infer<typeof StrategyOption>;
+
+export const StrategyStage = z.enum(["diverge", "converge"]);
+export type StrategyStage = z.infer<typeof StrategyStage>;
+
+export const StrategyCardScreen = z.object({
+  kind: z.literal("strategy-card"),
+  id: z.string().min(1),
+  title: z.string().min(1),
+  pinned: z.boolean().default(false),
+  stage: StrategyStage.default("diverge"),
+  options: z.array(StrategyOption).min(2),
+  selected_option: z.string().nullable().default(null),
+  user_comments: z.string().nullable().default(null),
+});
+
+export const ScreenFrontmatter = z.discriminatedUnion("kind", [
+  QuestionScreen,
+  DemoScreen,
+  DecisionScreen,
+  CardsScreen,
+  SummaryConfirmScreen,
+  StrategyCardScreen,
+]);
 export type ScreenFrontmatter = z.infer<typeof ScreenFrontmatter>;
 
 export interface Screen {
