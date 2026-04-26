@@ -40,11 +40,12 @@ the `cards` kind is documented under I4 follow-up.
 4. **Phase 1 — ask big strategy-bundle questions** — 默以 ~3 big questions 開（每 option 為策略束，連動數個下游 knob，依下節 schema）；Phase 0 低信度條目為首批問題候選；單旋鈕之問仍可原子；迭至足以設計
 5. **Phase 2 — strategy-selection on detail layer** — 讀 Phase 1 答後，於各擇定之大分支下察當問之細項；若 3+ atomic 問題群於同一 sub-domain 且 knob 連動，宜束為 2–3 named strategies；確獨立之 knob 仍以原子問。見下 Phase 2 節。
 6. **Propose 2-3 approaches** — 附權衡與汝薦
-7. **Present design** — 按複雜度縮放分節，每節後取許
-8. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
-9. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
-10. **User reviews written spec** — 請 user 審 spec 檔後再進
-11. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
+7. **Honor backtrack — surface invalidation, then regenerate** — User 隨時可說「回 Phase X 重議」；汝**先**列下游將失效之擇、徵其同意，**後**自該層重 diverge。見下 Diverge / Converge 節。
+8. **Present design** — 按複雜度縮放分節，每節後取許
+9. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
+10. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
+11. **User reviews written spec** — 請 user 審 spec 檔後再進
+12. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
 
 ## Process Flow
 
@@ -59,6 +60,7 @@ digraph brainstorming {
     "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)" [shape=box3d];
     "Enough to design?" [shape=diamond];
     "Propose 2-3 approaches" [shape=box];
+    "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" [shape=diamond, style=dashed];
     "Present design sections" [shape=box];
     "User approves design?" [shape=diamond];
     "Write design doc" [shape=box];
@@ -78,6 +80,18 @@ digraph brainstorming {
     "Enough to design?" -> "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)" [label="no"];
     "Enough to design?" -> "Propose 2-3 approaches" [label="yes"];
     "Propose 2-3 approaches" -> "Present design sections";
+
+    // Diverge/converge: each layer is a converge point user may revisit.
+    // Backtrack edges are dashed — they're a recurring affordance, not the
+    // common forward path.
+    "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" -> "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" [style=dashed, label="user says 'go back'"];
+    "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)" -> "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" [style=dashed, label="user says 'go back'"];
+    "Propose 2-3 approaches" -> "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" [style=dashed, label="user says 'go back'"];
+    "Phase 0: Architect summary\n(commit inferences, free-text confirm)" -> "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" [style=dashed, label="user corrects inference"];
+    "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" -> "Phase 0: Architect summary\n(commit inferences, free-text confirm)" [style=dashed, label="re-diverge from Phase 0"];
+    "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" -> "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" [style=dashed, label="re-diverge from Phase 1"];
+    "User backtracks?\n(surface invalidation,\nconfirm, regenerate)" -> "Phase 2: detail-layer strategy selection\n(cluster 3+ atomic q's into 2-3 named strategies\nwhen knobs co-vary; atomic when independent)" [style=dashed, label="re-diverge from Phase 2"];
+
     "Present design sections" -> "User approves design?";
     "User approves design?" -> "Present design sections" [label="no, revise"];
     "User approves design?" -> "Write design doc" [label="yes"];
@@ -113,6 +127,7 @@ digraph brainstorming {
 - **High-confidence 條目** → 通常可略相應澄清問；user 反對方需追問
 - **跳過條件**：當 project context 真空（greenfield 目錄 + 無 memory 檔 + prompt 僅一兩句模糊描述）時，跳過 Phase 0 直入澄清問——彼時無足夠信號可推斷，硬呈摘要徒造幻覺
 - **Escape valve**：若 user 反饋「全錯，重來」，視為信號汝 context 不足，回 Phase 1 從頭問澄清；勿頑守原摘要
+- **Backtrack 回 Phase 0**：Phase 0 推斷亦可作 converge 層處之——後續任何時點 user 更正 Phase 0 之原推斷（如：「我先前說 monolith，其實該是 service」），依下 Diverge / Converge 節之法處：列下游將失效之 Phase 1/2 擇、徵同意、自 Phase 0 重 diverge
 
 ### 範例（縮略）
 
@@ -484,6 +499,127 @@ Phase 1 已擇「standalone service + ship-fast constraint」。Phase 2 草擬�
 - "What are the key domain concepts?" — 無界，以文問
 - "Describe the current pain point" — context，以文問
 - "Any other constraints I should know?" — 收尾，以文問
+
+## Diverge / Converge as Recurring Shape
+
+Phase 0、Phase 1、Phase 2、最後之「propose 2-3 approaches」**皆為同一形狀之實例**：Claude diverge（生 ~3 候選覆蓋當層決策空間之廣度），user converge（擇一以窄空間），下一層於受窄之空間內再 diverge。將此形狀顯白後，下面三事得以乾淨處置：
+
+1. **層間之延續**：Phase 1 之擇決定 Phase 2 之問題形（embedded module 之擇令 Phase 2 問 in-process knob，不問 service-boundary knob）
+2. **倒退之合法**：user 隨時可說「等等，回 Phase 1 重議」——此非例外，乃此形狀之原生功能
+3. **Phase 0 之地位**：Phase 0 非「前 phase」，乃**第零層 converge**——汝之推斷即一 diverge，user 之確認 / 更正即 converge
+
+### Pattern per layer
+
+```
+Layer N:
+  diverge  → Claude generates ~3 candidate options spanning the breadth
+              of the decision space at this layer
+  converge → user picks one (or "Other"), narrowing the space
+  carry    → pick is recorded with a backtrack_pointer to this layer
+              (logical scratch-state, see Mechanics below)
+
+Layer N+1:
+  diverge happens within the constrained space the converge defined
+  ...
+```
+
+每層 converge 之後，下一層之 diverge **僅展開**已選分支內之子空間——不再呈被該擇排除之選項。若 user 後悔，需經 backtrack 路徑重開該層。
+
+### Mechanics
+
+**Scratch state — not persistent**：Claude 無持久狀態。「decision tree」乃 session 內之 logical scratchpad——以 markdown 列表 / 短 yaml 於 context 中持，每收一 converge 即更新。形如：
+
+```yaml
+# Decision tree (logical scratchpad, kept in session context)
+phase_0:
+  goal: "OAuth login on existing app"  # confirmed by user
+  shape: "monolith"                    # confirmed by user
+phase_1:
+  shape_pick: "embedded module in existing app"
+  approach_pick: "MVP slice end-to-end"
+  constraint_pick: "ship fast"
+phase_2:
+  caching_pick: "read-through + TTL + tag-invalidation"
+```
+
+汝**不必**將此 yaml 顯給 user 每輪——保於 context 即可。User 觸 backtrack 時方拿出對照「下游將失效者」清單。
+
+**Backtrack flow**：
+
+```
+User: "wait, go back to Phase 1 — let's reconsider monolith"
+
+Claude (do NOT silently regenerate):
+  1. Inspect scratchpad → list which downstream picks depend on the
+     Phase 1 'shape' choice
+  2. Surface the invalidation explicitly:
+     "Going back to Phase 1 'shape' will invalidate:
+        - Phase 2 caching pick (read-through + TTL + tag-invalidation)
+          — depends on in-process module assumption
+        - Phase 2 deploy pick (shared deploy with main app)
+          — would change for standalone service
+      Phase 1 'approach' (MVP slice) and 'constraint' (ship fast)
+      are independent — they carry over.
+      Proceed?"
+  3. Wait for confirmation
+  4. Re-diverge Phase 1 'shape' with current context (now richer —
+     user has seen Phase 2 detail and may articulate why monolith
+     bothered them)
+  5. After user converges again, regenerate ONLY the invalidated
+     downstream picks — independent siblings carry over
+```
+
+**No silent re-litigation**：勿默默重生下游。逕直跳「好的，回 Phase 1」然後一輪重出整批問題會令 user 失序——彼不知何被重做、何保留。**先 surface、後 regenerate**。
+
+**No-op backtrack short-circuit**（escape valve）：若 user 之 backtrack 在汝盤點後實**不影響任何下游 pick**（如：user 想改 Phase 1 之 'approach' 但 Phase 2 之 caching 與 'approach' 無關連），可略 surface-changes 環，逕問新值即可。形如：
+
+```
+User: "actually let's switch from MVP-slice to spike-and-rebuild"
+Claude: (inspect scratchpad → no Phase 2 pick depends on approach)
+        "That's a no-op for downstream picks — switching now."
+```
+
+此短路免硬上 ceremony 於 user 之輕量更動。判定原則：盤點之 invalidation list 為空 → 短路；非空 → 走完整 surface-then-regenerate 環。
+
+**Independent siblings carry over**：Phase N 之數個 pick 互獨時（Phase 1 之 shape / approach / constraint 三者通常獨立），backtrack 一者勿牽連他者。盤點時明指「X 受影響，Y 與 Z 不受」，下游重生亦僅及受影響者。
+
+### Worked example — 3-layer backtrack
+
+設一 OAuth 整合 brainstorm，已走至 Phase 2：
+
+**Phase 0（已 converge）**：goal=OAuth login, shape inference=monolith
+**Phase 1（已 converge）**：shape pick="embedded module"、approach pick="MVP slice"、constraint pick="ship fast"
+**Phase 2（已 converge）**：auth integration pick="hosted provider (Auth0/Clerk)"
+
+User 此時說：
+
+> 等等，回 Phase 1 — embedded module 我重想，似宜 standalone service，因 auth 涉合規，與主 app 隔離較安。
+
+Claude 之回應（**不**直接重出 Phase 1 三問）：
+
+> 回 Phase 1 改 'shape' 將令下游失效者：
+>
+> - **Phase 2 auth integration pick**（"hosted provider"）— 此擇之 `bundles_resolves` 中「session model = provider-managed JWT, called from in-process middleware」前提失效；改 standalone service 後 session 模型須跨服務協商，hosted provider 仍可選但 bundle 內細節重洗
+>
+> 不受影響者：
+>
+> - **Phase 1 approach pick**（"MVP slice"）—— 與 shape 獨立，照舊
+> - **Phase 1 constraint pick**（"ship fast"）—— 與 shape 獨立，照舊
+> - **Phase 0 goal**（"OAuth login"）—— 不變
+>
+> 確認回 Phase 1 重 diverge 'shape'？確認後我會：(1) 以 user 新 context（合規 / 隔離考量）重出 Phase 1 'shape' 三 strategy bundle，(2) user 擇後重出 Phase 2 auth-integration pick，(3) 'approach' 與 'constraint' 之擇直接帶過。
+
+User 確認後，Claude 重 diverge Phase 1 'shape'——此次之 strategy bundle 會反映合規 context（如：standalone service option 之 `unlocks` 列「合規邊界清晰」、`reconsider_when` 列「合規要求降低時」），然後 converge → 重生 Phase 2 auth-integration pick → 不碰 approach / constraint。
+
+此例展三事：
+
+- Backtrack 顯白盤點下游
+- Independent siblings 不受牽連
+- 重 diverge 時帶**新 context**——非機械重出原 3 option，而是借 user 現已表達之新關注（合規）細化選項
+
+### Scope note
+
+此形狀僅描述「user 觸發」之倒退。Claude **不應**主動倒退（除非 spec self-review 環察出矛盾，彼為另論，見後文）。「次數 / 預算 / session-level 限制」之事屬 question-budget 子任務（WtDFT9RkopJz）所轄——本節不涉。
 
 ## The Process
 
