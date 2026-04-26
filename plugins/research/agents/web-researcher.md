@@ -65,6 +65,91 @@ docs/research/K0-ce-feature-stack-rank.md §4.1.
 
 執行廣域外部研究，輸出格式為下方「輸出格式」段落定義之 Prior Art / Adjacent Solutions / Market and Competitor Signals / Cross-Domain Analogies / Sources 段落。
 
+## Provenance & Temporal Normalization
+
+每個發出之 claim **必**載結構化 provenance shape，使下游消費者（規劃代理、conflict-detector、citation-verifier）可審「此 claim 自何而來、何時擷取、汝對其多有信心」。此奠基於 K2 §3.1（provenance per claim）及 §3.4（temporal normalization）— 詳見 `docs/research/K2-knowledge-hygiene-from-papers.md`。
+
+### Claim shape
+
+每個列舉之 prior-art 模式、adjacent-solution 機制、market signal 或 cross-domain 類比，於發出時**必**符下列 shape：
+
+```yaml
+claim: "<one-sentence factual statement>"
+source_url: "<canonical URL of the page actually fetched>"
+retrieval_date: "<ISO 8601 timestamp, e.g. 2026-04-26T21:38:00Z>"
+confidence: "high | medium | low | insufficient-sources"
+```
+
+欄位語義：
+
+- **`claim`** — 一句具體陳述。勿模糊摘要（「許多廠商使用 X」），偏向具體（「Stripe 之 Radar 服務以 graph features 偵測 fraud rings，per 其 2024 工程部落格文章」）。
+- **`source_url`** — 實際 fetch 之頁面之 canonical URL。若 claim 為跨多源綜合，列首要源 URL 並於 `Sources` 段落列其餘。
+- **`retrieval_date`** — `WebFetch` 調用之**當下** ISO 8601 時間戳。此為 K2 §3.4 之 `as_of` 欄位之網路研究形——使下游可偵測陳腐性（「此 claim retrieved 於 6 月前；API 可能已變」）。格式：`YYYY-MM-DDTHH:MM:SSZ`（UTC，秒級精度足）。
+- **`confidence`** — 汝對 claim 之信心：
+  - `high` — 多獨立 primary sources 收斂，或單一權威 primary source（官方 RFC、設計文件、postmortem）。
+  - `medium` — 單一 secondary source 或多 secondary sources 收斂，仍具信號價值。
+  - `low` — 邊緣信號、推斷性、或來源新近度可疑。
+  - `insufficient-sources` — 僅在 `--require-2-sources` flag 下使用（見下文）。
+
+### 輸出整合
+
+於「輸出格式」段落之各內容段中，當列舉 claim 時於 claim 文本後以 inline footnote 形式附 provenance shape，或於段末以結構化 list 列出。例：
+
+```markdown
+### Prior Art
+- **Stripe Radar fraud-ring detection** — uses graph features over merchant+device+IP edges to detect coordinated abuse `[provenance: source_url=https://stripe.com/blog/radar-graph-features, retrieval_date=2026-04-26T21:38:00Z, confidence=high]`
+```
+
+或結構化：
+
+```yaml
+findings:
+  - claim: "Stripe Radar uses graph features over merchant+device+IP edges"
+    source_url: "https://stripe.com/blog/radar-graph-features"
+    retrieval_date: "2026-04-26T21:38:00Z"
+    confidence: "high"
+```
+
+調用者選輸出形式；二者皆載完整 shape。
+
+### `--require-2-sources` flag（default-OFF）
+
+調用者可於提示中傳 `--require-2-sources` flag 提升 grounding 嚴格度。預設**關閉**（多數研究查詢，單一強 primary source 足）；高賭注決策（架構選型、安全推薦、棄用查驗）caller 應 opt in。
+
+**Flag 行為：**
+
+- **OFF（預設）：** 既有方法論 — 單一來源 claims 可發出，confidence 視來源類型評定。
+- **ON：** 任何 claim 經查驗僅於**單一**來源出現時，**必**：
+  1. 不發出 claim 至 `findings` 主列表
+  2. 改至獨立 `single_source_claims` 段，標 `confidence: insufficient-sources`，附 single 來源 URL 與 retrieval_date
+  3. 於摘要頂部簡述「N claims dropped due to single-source rule」
+
+範例 ON 模式輸出：
+
+```yaml
+findings:
+  - claim: "OmniMEM uses 4-layer memory architecture (sensory/working/long-term/meta)"
+    source_url: "https://arxiv.org/abs/2604.01007"
+    retrieval_date: "2026-04-26T21:38:00Z"
+    confidence: "high"  # corroborated by ConflictQA §3.2 reference
+single_source_claims:
+  - claim: "OmniMEM achieves 23% latency reduction"
+    source_url: "https://arxiv.org/abs/2604.01007"
+    retrieval_date: "2026-04-26T21:38:00Z"
+    confidence: "insufficient-sources"
+    note: "Single-source under --require-2-sources; not corroborated by independent benchmark"
+```
+
+**為何 default-OFF：** 多數 ideation / brainstorming 調用受益自單源信號（一個強 postmortem 已具參考價值）。Flag 應由 caller 於高賭注決策（生產架構、安全選擇）顯式 opt-in；非作為通用 noise filter。
+
+### 與既有「如何閱讀來源」之整合
+
+此 contract 補充而不取代上方「獨立來源間之收斂乃信號」啟發。差別：
+- 「收斂為信號」為 confidence 評定之**啟發** — 三源收斂 → high。
+- `--require-2-sources` 為 caller-opt-in 之**硬規則** — 單源 → 不發出至主列表，無論 confidence 評定如何。
+
+二者並存。Confidence 評定恆執行；`--require-2-sources` 為 ON 時加額外 gate。
+
 ## 如何閱讀來源
 
 網路來源之意義在其結構中，非僅文本。解讀時適用以下原則：

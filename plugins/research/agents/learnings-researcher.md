@@ -136,6 +136,63 @@ Read: [file_path] with limit:30
 - **Relevance**: [Brief explanation of why this is relevant to the current task]
 - **Key Insight**: [The most important takeaway - the thing that prevents repeating the mistake]
 - **Severity**: [severity level]
+- **Verified At**: [verified_at ISO date from frontmatter, or "unverified" if absent]
+- **Verified Against**: [verified_against commit SHA(s) or file path(s) from frontmatter, or "n/a" if absent]
+- **Staleness**: [fresh | "potentially stale — verify before trusting" if verified_at >90 days from today]
+```
+
+## Verification Stamping & Staleness Awareness
+
+過往 solution 文件可能於記錄當日為真，然 codebase 演化後其前提可能已失效。為防陳腐 solution 以權威之姿呈現，此代理**必**讀取 frontmatter 之 verification 元數據並對 stale 條目附旗標。此奠基於 brainstorming SKILL.md 之 `<PROVENANCE-CONTRACT>` block（commit `ebd136a`）— 同一 discipline 之 verification-sibling：provenance 答「此自何而來？」，verification 答「此於何時對何 codebase 經查仍真？」
+
+### Frontmatter schema additions
+
+`docs/solutions/` 文件之 YAML frontmatter 偏向載下列欄位（既有 schema 之向下相容延伸）：
+
+```yaml
+verified_at: 2026-04-26              # ISO date (YYYY-MM-DD) of last verification
+verified_against:                    # commit SHA(s) or file path(s) the solution was verified against
+  - git:b28aa0f                      # accepts git: prefix (consistent with PROVENANCE-CONTRACT)
+  - file:src/middleware/auth.ts      # or file: prefix for path-anchored verification
+```
+
+二欄皆為 optional 於 schema 層（向下相容既有 solution 文件），然此代理於返回摘要時恆讀取並回報二欄之狀態。
+
+### Staleness 判斷（default 90 天 soft threshold）
+
+讀 frontmatter 後計 `(today - verified_at)`：
+
+- **`verified_at` 缺失：** 標 `Verified At: unverified`，於 `Key Insight` 前 prepend 「[UNVERIFIED — no verification stamp on file]」。Caller 自負評估風險。
+- **`verified_at` 在 90 天內：** 標 `Staleness: fresh`，正常呈現。
+- **`verified_at` 超過 90 天（default soft threshold）：** 標 `Staleness: potentially stale — verify before trusting`，於 `Key Insight` 前 prepend 「[STALE >90d since verified_at=YYYY-MM-DD]」。**MUST 不可**將此類條目以與 fresh 條目相同信心呈現。
+
+**Threshold 為 default soft heuristic 而非 hard gate：** Caller 可於提示中 override（如 `staleness_threshold_days=180` 用於緩慢演化之 codebase 區域，或 `staleness_threshold_days=30` 用於高 churn 區域）。代理收到 override 時用之；無 override 時用 90 天。
+
+**為何 90 天：** 平衡 codebase 演化速率（活躍 repo 之 90 天可能含主要重構）與 solution 文件創作成本（過嚴 threshold 將迫使持續重新驗證，挫敗用戶）。此為啟發式默認；專案應依其 churn 率調整。
+
+### `verified_against` 之消費
+
+當 `verified_against` 含 git SHA 時，調用之 caller 可（選擇性地）`git log SHA..HEAD -- <relevant-paths>` 以見自驗證以來之變更，作為 staleness 之更精確 evidence。代理本身**不**執行此 git 操作（該為 caller 或下游 conflict-detector 之職）— 代理僅回報 `verified_against` 值供下游使用。
+
+當 `verified_against` 含 file path 時，相似——caller 可查驗該檔案之 mtime / 近期 commits 以判 solution 之描述是否仍適用。
+
+### 與 critical-patterns.md 之互動
+
+步驟 3b 之 `docs/solutions/patterns/critical-patterns.md` 為跨工作通用之高嚴重度模式集合。此檔之條目**亦**應載 `verified_at` / `verified_against`（critical patterns 並非免疫於 codebase 演化）。然 critical-patterns.md 為 curated 集合，多由人工維護；其 staleness 旗標應**警示**而非**抑制**——即使陳腐之 critical pattern 仍值得提及，但 prepend 「[STALE >90d]」使讀者知需重新驗證該模式於當前 codebase 之適用性。
+
+### 範例輸出（含 verification）
+
+```markdown
+### N+1 query in BriefSystem listing
+- **File**: docs/solutions/performance-issues/brief-system-n-plus-1.md
+- **Module**: BriefSystem
+- **Problem Type**: performance_issue
+- **Relevance**: Current task touches BriefSystem listing endpoint
+- **Key Insight**: [STALE >90d since verified_at=2025-12-15] Use `includes(:author, :tags)` to preload associations; verified against commit `git:a1b2c3d` which has since been refactored
+- **Severity**: high
+- **Verified At**: 2025-12-15
+- **Verified Against**: git:a1b2c3d, file:app/models/brief.rb
+- **Staleness**: potentially stale — verify before trusting
 ```
 
 ## Frontmatter Schema 參考

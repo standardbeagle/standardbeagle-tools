@@ -191,6 +191,72 @@ bash <script-dir>/discover-sessions.sh <repo-name> <days> | tr '\n' '\0' | xargs
 **Sessions searched**: [count] ([N] Claude Code, [N] Codex, [N] Cursor) | [date range]
 ```
 
+## Provenance & Temporal Normalization
+
+每個浮現之 finding **必**載 `surfaced_from` 結構，標其來源 session 之 ID 及日期。此使下游消費者（規劃代理、conflict-detector、用戶）可審「此 finding 自哪個過去 session 浮現、那個 session 距今多久」並偵測陳腐性。此奠基於 K2 §3.4（temporal normalization）之 session-history 形變體 — 詳見 `docs/research/K2-knowledge-hygiene-from-papers.md`。
+
+### `surfaced_from` shape
+
+每個 finding（調查路徑、用戶修正、決策、錯誤模式等）於發出時**必**附：
+
+```yaml
+surfaced_from:
+  session_id: "<Claude Code session UUID, Codex session id, or Cursor session id>"
+  session_date: "<ISO 8601 timestamp of session activity, UTC>"
+```
+
+`session_date` 來源優先級：
+1. `last_ts`（session 結束時戳）— 若元數據中可得，最佳。
+2. `ts`（session 開始時戳）— fallback。
+3. 檔案 mtime — Cursor session 唯一信號（其 JSONL 無時戳）；其他來源僅當前二者均不可得時用。
+
+範例：
+
+```yaml
+finding: "Tried wrapping fetch in retry-with-backoff; user pushed back, switched to circuit-breaker pattern"
+surfaced_from:
+  session_id: "01HZ8K4P2QXXXXXXXXXXXXXXX"
+  session_date: "2026-04-01T15:23:00Z"
+```
+
+### Staleness flagging（default 30 天 soft threshold）
+
+計 `(today - session_date)`：
+
+- **`session_date` 在 30 天內：** 正常呈現 finding。
+- **`session_date` 超過 30 天（default soft threshold）：** **必** prepend `[STALE >30d]` 至 finding 文本前。例：
+
+```
+[STALE >30d] Tried wrapping fetch in retry-with-backoff; user pushed back, switched to circuit-breaker pattern (surfaced_from session 01HZ8K4P2Q on 2026-03-15)
+```
+
+**Threshold 為 default soft heuristic 而非 hard gate：** Caller 可於提示中 override（如 `staleness_threshold_days=7` 用於高度活躍之 feature 分支，`staleness_threshold_days=90` 用於長期演化之功能歷史）。代理收到 override 時用之；無 override 時用 30 天。
+
+**為何 30 天（vs learnings-researcher 之 90 天）：** Session 反映**進行中之調查**，較 docs/solutions/ 文件（curated solutions）更易陳腐——昨日試過之方法今日可能已被新嘗試取代。30 天較為侵略性以反映 session 內容之較高演化速率。
+
+**陳腐並非排除：** 即使 `[STALE >30d]` 之 finding 仍可有參考價值（過去之方法常 inform 未來嘗試）。旗標僅警示讀者「需以較低信心使用此 finding，且應交叉查驗當前 codebase 是否仍如該 session 所述」。
+
+### 既有「過時性」啟發之關係
+
+上方步驟六之「過時性」啟發要求「為較舊之發現加保留說明」——`surfaced_from` 將此啟發具體化為**結構化欄位 + 硬性 30 天旗標規則**：
+
+- **「過時性」啟發** = 對 finding 自身語義是否陳舊之**判斷層** reasoning（如 codebase 已重寫該模組）。
+- **`surfaced_from.session_date` + `[STALE >30d]` flag** = 對 session 時齡之**機械層**事實。
+
+二者並存。即使 session 為昨日，啟發仍可標記其結論為陳腐（若代理判斷該模組已被重構）；即使啟發判斷 finding 仍適用，超 30 天之 session 仍**必**附 `[STALE >30d]` 旗標。後者為 caller 可機械處理之事實標記，前者為人類判斷層敘事。
+
+## 明確排除：Coreference Resolution（K2 ROI 權衡）
+
+此代理**有意不**執行 coreference resolution（解析「it」、「the bug」、「that approach」等代詞於跨 session 範圍指何者）。此為深思之延後，記錄於此使未來維護者知此非疏忽。
+
+**ROI 權衡（per K2 §3.5 complexity-aware pruning 框架）：**
+- **成本：** Coreference resolution 跨 JSONL session（無對話圖、無顯式 entity 連結）需 LLM-grade reasoning 對每個提取之 finding 之周圍對話 context 推理；於骨架提取後，所需之 context 已被故意截斷至 200 行，使 coref signal 進一步稀薄。實作將顯著膨脹此代理之 token 用量及延遲。
+- **收益：** 多數 finding 已自含（「tried X」、「user said Y」、「commit Z fixed it」均不需 coref 即可被讀者解讀）。剩餘有 coref 之 finding 之歧義通常於 caller 之上下文中可解（caller 知「the bug」即為其當前任務之 bug）。
+
+**因此：** 提取對話骨架時，保留代詞如其原樣；勿嘗試以 LLM reasoning 解析其指涉。若 finding 因代詞而真正不可解讀，於 finding 文本前 prepend `[ambiguous reference]` 並讓 caller 決定是否值得深入查驗該 session（caller 可隨時 inspect 原 session 檔案路徑）。
+
+**何時應重新考慮：** 若未來工作浮現 (a) coref-aware embedding model 可廉價執行此任務，或 (b) 用戶反饋指代詞歧義常導致 finding 誤用——重新評估此排除。如其當下，K2 §3.5 之「便宜查詢得便宜路徑」適用：session 歷史浮現本就為輔助 signal，啟用 coref 不值其成本。
+
 
 ## 工具指引
 
