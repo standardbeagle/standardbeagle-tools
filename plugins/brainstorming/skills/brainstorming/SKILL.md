@@ -30,6 +30,10 @@ the `cards` kind is documented under I4 follow-up.
 
 每 project 遵此程。To-do 列、單函工具、config 變——皆然。「簡」project 即未察假設生最多廢工之所。設計可短（真簡者數句即可），然汝**必**呈之並取許。
 
+## Anti-Pattern: "Silent Rationalization Through Conflict"
+
+User 擇 Phase 1/2 strategy 與 Phase 0 high-confidence bullet（或既存 memory、或 prior decision）矛盾時，**勿默默自我合理化以續流**。彼乃廢工之又一形：將汝先前之顯白推斷悄悄改寫，或將 user 之擇硬塞入不合之框架，二者皆令 spec 既成方暴。對策見下節 `Conflict-Detect Integration` 之 surface-then-proceed 處置。此 anti-pattern 為 **value 層** rule——值與「reflexive question batching」並列，皆為 brainstorming 應主動察之失敗模式。
+
 ## Anti-Pattern: "Reflexive Question Batching"
 
 別於上條。前者乃跳過設計；此者乃反射性堆問。於 user 大半 context 已可自 codebase / memory / prompt / git log 推斷時，仍硬批 4 問之 `AskUserQuestion`——此乃廢工之另形：問汝本可推之事，問互可束之事，問 user 已默述之事。徵兆：問題清單寫好後**未**自察「Phase 0 摘要可否吸收此問？」「3 題在同一 sub-domain，可否束為 strategy bundle？」「此題答案可自既有檔推得?」逕直發送。
@@ -80,13 +84,14 @@ the `cards` kind is documented under I4 follow-up.
 4. **Phase 1 — ask big strategy-bundle questions** — 默以 ~3 big questions 開（每 option 為策略束，連動數個下游 knob，依下節 schema）；Phase 0 低信度條目為首批問題候選；單旋鈕之問仍可原子；迭至足以設計
 5. **Phase 2 — strategy-selection on detail layer** — 讀 Phase 1 答後，於各擇定之大分支下察當問之細項；若 3+ atomic 問題群於同一 sub-domain 且 knob 連動，宜束為 2–3 named strategies；確獨立之 knob 仍以原子問。見下 Phase 2 節。
 6. **Question-budget self-check at ~5 landmark** — 累計問題（Phase 1 + Phase 2）靠近或越 ~5 typical landmark 時，跑上節 `<QUESTION-BUDGET-GUIDANCE>` 之 3 introspection 自察；allowlist 之合法重問場景（config 矩陣、合規清單、brownfield 審計、多方需求）適用時照當問。**此非 gate，乃自察。**
-7. **Propose 2-3 approaches** — 附權衡與汝薦
-8. **Honor backtrack — surface invalidation, then regenerate** — User 隨時可說「回 Phase X 重議」；汝**先**列下游將失效之擇、徵其同意，**後**自該層重 diverge。見下 Diverge / Converge 節。
-9. **Present design** — 按複雜度縮放分節，每節後取許
-10. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
-11. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
-12. **User reviews written spec** — 請 user 審 spec 檔後再進
-13. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
+7. **Surface conflicts before commit** — User 之 Phase 1/2 pick 與 Phase 0 high-confidence bullet、既存 memory、或 prior decision 矛盾時，**先 surface visible message** 載衝突細節（含 provenance tag）並徵 user 處置（confirm-override / revisit Phase 0 / pick differently），**後**始更新 decision tree。見下 Conflict-Detect Integration 節。
+8. **Propose 2-3 approaches** — 附權衡與汝薦
+9. **Honor backtrack — surface invalidation, then regenerate** — User 隨時可說「回 Phase X 重議」；汝**先**列下游將失效之擇、徵其同意，**後**自該層重 diverge。見下 Diverge / Converge 節。
+10. **Present design** — 按複雜度縮放分節，每節後取許
+11. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit；每 architectural decision 載 provenance trail 自 Phase 0/1/2 carry 至 spec markdown（為 Tier 3 citation-verifier 之 audit input）
+12. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
+13. **User reviews written spec** — 請 user 審 spec 檔後再進
+14. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
 
 ## Process Flow
 
@@ -159,6 +164,30 @@ digraph brainstorming {
 - **Risk surface** — 汝預見前三大風險或不明處
 - **Alternative framings** — 兩條「此亦可框為 X」之另類解讀，助 user 察汝是否誤鎖框架
 - **Confidence per inference** — 各條註 high/med/low
+- **Provenance per bullet** — 每條 bullet 標來源 tag，使下游 conflict-detector / citation-verifier 可審。見下節 `<PROVENANCE-CONTRACT>`。
+
+<PROVENANCE-CONTRACT>
+**每 Phase 0 bullet 必載 `provenance` 欄。** 此非 nice-to-have，乃下游 reasoning-hygiene 賴之 contract。值取下列形之一：
+
+| 形式 | 義 | 例 |
+|---|---|---|
+| `file:<path>:<line>` | codebase 引用 | `file:src/middleware/auth.ts:42` |
+| `memory:<id>` | memory 條目引用（CLAUDE.md / `.dartai/memory/` 之 entry） | `memory:project_dartai_concurrency_identity` |
+| `git:<sha>` | git commit 引用（短 SHA 或 full SHA 皆可） | `git:a50381f` |
+| `web:<url>` | web research / 外部 cite | `web:https://modelcontextprotocol.io/specification/2025-11-25` |
+| `guess` | **literal**「guess」字串。當汝之推斷無 verifiable source（純自 prompt 上下文或常識推得）時，**必**用此明標，**不可**省略 `provenance` 欄。 |
+
+**Empty provenance 之處理**：勿留空、勿省、勿填 `null`。無 source 之 bullet **必**標 literal `guess`。此乃**值層 contract**——汝對自己之誠實，使 user 一覽即知何條為汝之 grounded 推斷、何條為汝之 hypothesis。
+
+**為何 literal `guess` 而非 omit**：omit 可被視為 schema 缺失或 bug；明標 `guess` 為汝之主動聲明：「此條為純推斷，無 source 可驗。」User 與下游 agent 皆可信此 tag 之缺席意 grounded、其在意 hypothesis。
+
+**下游消費者**：
+- `summary-confirm` companion screen 之 bullet renderer 將 `guess` 標以特殊 pill（區別於 high/med/low confidence——`guess` 為 source 維度，confidence 為 confidence 維度，二者正交）
+- 未來 knowledge-hygiene plugin（`rwjOh2tKXYpC`）之 conflict-detector agent 將 cross-check `provenance` 對 user 之 strategy pick；衝突即彈
+- Tier 3 citation-verifier（`qvd3VBUROdw2`）將 retroactively audit spec 文件之 provenance trail
+
+**範圍備註**：此 contract 為 brainstorming 端之 schema declaration。實際之 conflict 偵測 / cite 校驗 agent 由 `rwjOh2tKXYpC` 與 `qvd3VBUROdw2` 任務承實作；本 SKILL.md 僅定 contract 之發射端，不含 consumer 實作。
+</PROVENANCE-CONTRACT>
 
 ### Mechanics
 
@@ -174,16 +203,18 @@ digraph brainstorming {
 
 > **Architect summary（請確認或更正）**
 >
-> - **Goal**（high）：為 X 服務增 OAuth 登入
+> - **Goal**（high, `memory:project_x_oauth_request`）：為 X 服務增 OAuth 登入
 > - **Constraints**（med）：
->   - 須相容既有 session middleware
->   - 偏 hosted provider（Auth0/Clerk）勝自建
->   - 兩週內可上線
-> - **System shape**（med）：Express 中介層 + 既 user 表新增 `oauth_provider` 欄
-> - **Risks**（low–med）：既 session 與 OAuth callback 之衝突；migration 對既 user 之影響；provider 鎖定
-> - **Alternative framings**：（a）此亦可框為「換掉 session 系統」之大重構；（b）此亦可僅為 SSO 對接內網，無公網需求
+>   - 須相容既有 session middleware（`file:src/middleware/session.ts:1`）
+>   - 偏 hosted provider（Auth0/Clerk）勝自建（`guess`——自 prompt 措辭推得，未見明文）
+>   - 兩週內可上線（`memory:sprint_25_planning`）
+> - **System shape**（med, `file:src/middleware/auth.ts:42`）：Express 中介層 + 既 user 表新增 `oauth_provider` 欄
+> - **Risks**（low–med, `guess`）：既 session 與 OAuth callback 之衝突；migration 對既 user 之影響；provider 鎖定
+> - **Alternative framings**（`guess`）：（a）此亦可框為「換掉 session 系統」之大重構；（b）此亦可僅為 SSO 對接內網，無公網需求
 >
 > 何處需更正？
+
+注意：每 bullet 之 `provenance` 各異——`memory:` 引用 user 既存 memory entry，`file:path:line` 引用 codebase 具體位置，`guess` 則明標彼為汝之純推斷。下游 conflict-detector 即以此區別所信 vs 待驗條目。
 
 如此 user 一則文字回覆即可校準汝整 context，後續 `AskUserQuestion` 批次得以針對真有不明之處，而非泛泛開場。
 
@@ -251,6 +282,8 @@ become moot or reshape?" If yes, bundle. If no, atomic is fine.
 - **recommendation_confidence**：high/med/low —— Claude 之 pre-vote，使 user 知汝偏好強度
 
 欄位不必每條皆填——Phase 0 已知者可簡寫，Phase 0 不知者填全。`seen_in` 尤要：option 若無 prior art，記為「novel — no direct analogue」而非偽造。
+
+**`seen_in` provenance contract**：`seen_in` 為 strategy 層之 provenance（與 Phase 0 bullet 之 `provenance` 欄同質但作用於 strategy option）。其值應 resolve 至 verifiable source：codebase 路徑、具名 prior repo、已 cite 之 web 源、或 user 既述之 prior decision。**空 `seen_in` 之 strategy** 應顯標「novel — no direct analogue」並令該 option 之 `recommendation_confidence` 自動降一檔（`high → med`，`med → low`），使 user 知此乃 less-validated 路。下游 conflict-detector 將以 `seen_in` 之 source 對照 user 之 prior pick 與 memory，若衝突即彈。
 
 #### Worked example — strategy-bundle question
 
@@ -664,6 +697,89 @@ User 確認後，Claude 重 diverge Phase 1 'shape'——此次之 strategy bund
 
 此形狀僅描述「user 觸發」之倒退。Claude **不應**主動倒退（除非 spec self-review 環察出矛盾，彼為另論，見後文）。「次數 / 預算 / session-level 限制」之事屬 question-budget 子任務（WtDFT9RkopJz）所轄——本節不涉。
 
+## Conflict-Detect Integration
+
+Phase 0 之 `provenance` tag 與 Phase 1/2 strategy 之 `seen_in` 二者合構成 brainstorming 端之 **provenance emission contract**。下游 reasoning-hygiene agent 以此 contract 為輸入偵測矛盾——本節定 contract 之**發射端**（brainstorming 應發出何訊號），不含 consumer 實作（後者屬 `rwjOh2tKXYpC` knowledge-hygiene plugin scaffold 所轄）。
+
+### Anti-Pattern: Silent Rationalization Through Conflict
+
+User 擇之 Phase 1/2 strategy 與 Phase 0 之 high-confidence bullet 矛盾、與既存 memory 矛盾、或與 prior decision 矛盾時——**勿默默吞之**。常見之失敗模式：user 擇 Strategy A，Claude 察覺 A 與 Phase 0 推斷 X 衝突，卻自我合理化（「也許 user 改主意了」「也許推斷 X 本就 low confidence」）然後逕續至 Phase 2，spec 既成方暴。**此乃 silent rationalization——禁。**
+
+正確處置：**先 surface, 後 proceed**。
+
+```
+User picks strategy "S" at Phase 1.
+Claude (BEFORE updating decision tree):
+  1. Cross-check S's bundles_resolves / locks_out / seen_in against:
+     - Phase 0 high-confidence bullets (provenance != 'guess')
+     - Active memory entries
+     - Prior Phase 0/1/2 decisions in this session
+  2. If a conflict surfaces, emit a visible message:
+
+     "Pick 'S' conflicts with:
+        - Phase 0 bullet: '<bullet text>' (provenance: <tag>, confidence: high)
+          — '<S's locks_out item>' contradicts this bullet's claim
+        - Memory entry '<id>': '<excerpt>'
+          — picking S would invalidate this prior decision
+      Options:
+        (a) Confirm pick — overrides the conflicting bullet/memory; I'll
+            update Phase 0 / memory accordingly
+        (b) Revisit Phase 0 — go back, correct the bullet that no longer
+            holds, then re-pick at Phase 1
+        (c) Pick a different strategy at Phase 1
+      Which?"
+
+  3. Wait for user response. Do NOT silently proceed.
+```
+
+此處置之 testable 性質：**conflict 偵測時 brainstorming 必輸出 visible message**。若 conflict 存在卻無 message，乃 contract 違反——下游 conflict-detector 之測試可斷言此性。
+
+### Scope of conflict signals
+
+下游 conflict-detector（`rwjOh2tKXYpC` 所實作）將消費下列訊號：
+
+- **Phase 0 bullet provenance + text** — bullet 之 source tag 與內容文，作 ground-truth claim
+- **Phase 0 bullet confidence** — `high` confidence + 非 `guess` provenance 之 bullet 為 strong claim；`low` 或 `guess` 為 weak claim，conflict 之嚴重度自動降
+- **Phase 1/2 strategy `bundles_resolves` / `locks_out`** — strategy 自述之資源解 / 路斷，作對 Phase 0 bullet 之檢核點
+- **Strategy `seen_in`** — provenance trail，使 conflict-detector 可 cross-link 至同 source 之既存決策
+- **Memory references** — `memory:<id>` provenance 對應之 memory file，conflict-detector 讀之以查 prior decision
+
+`rwjOh2tKXYpC` 之 conflict-detector **不**修改 brainstorming 流——其僅讀 `events.jsonl`、`screens/` frontmatter、與 memory，當察覺衝突時 emit 一 advisory event，由 brainstorming 在 Phase 1/2 converge 點之前讀取並 surface。
+
+### Output design doc — provenance as audit trail
+
+Spec 寫出時（`docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`），**每架構決策**應載源指標——延 Phase 0 bullet provenance 與 Phase 1/2 strategy `seen_in` 之 contract 至 spec 端。形如：
+
+```markdown
+## Auth approach
+
+We chose **hosted provider (Auth0/Clerk)** because:
+
+- Constraint 'must coexist with existing session middleware'
+  (provenance: file:src/middleware/session.ts:1)
+- Constraint 'two-week delivery target'
+  (provenance: memory:sprint_25_planning)
+- Strategy seen_in: services/billing/README.md (Clerk usage in
+  internal billing service — proven pattern in this codebase)
+
+Conflicting signal acknowledged and overridden:
+- Phase 0 risk 'provider lock-in' (provenance: guess, confidence: low)
+  — accepted; reconsider when MAU exceeds free-tier breakpoint.
+```
+
+此 audit trail enables Tier 3 **citation-verifier**（`qvd3VBUROdw2`）retroactively 跑於 spec 上：對每 provenance tag 解析至 source（檔行 / memory id / commit / URL），驗 source 仍存在且仍 support 該決策。Source 已不在或已變者，verifier emit stale-citation warning。
+
+**Brainstorming 之責**：寫 spec 時將每 architectural decision 之 provenance trail 自 Phase 0 / 1 / 2 之 decision tree carry 至 spec markdown。**Citation-verifier 之責**（`qvd3VBUROdw2` 所轄）：retroactively 解析與驗 spec 中之 provenance tag。二者**不交疊**——brainstorming 發射，verifier 消費。
+
+### Forward references
+
+| Task ID | 角色 | 狀態 |
+|---|---|---|
+| `rwjOh2tKXYpC` | knowledge-hygiene plugin scaffold + conflict-detector agent 實作 | 未啟（本任務不 block 於此） |
+| `qvd3VBUROdw2` | Tier 3 citation-verifier（retroactive provenance audit） | 未啟（本任務不 block 於此） |
+
+本 SKILL.md 僅定 contract 之 emission 端，使彼二任務日後 land 時可即接讀。**不**在本任務中 scaffold knowledge-hygiene plugin。
+
 ## The Process
 
 **明念：**
@@ -786,7 +902,7 @@ Monitor(
 - `demo` — sandboxed iframe mockups（HTML/CSS/JS）
 - `decision` — proposed/approved/revised decision cards
 - `cards` — free-form card-sort（divergent ideation, generic clusters）
-- `summary-confirm` — Phase 0 architect summary as confirmable card；section per goal/constraints/system_shape/risks/alternative_framings，每節 confidence pill，bullet 可 inline 編輯，emit `summary-revised` 含 bullet-level diff
+- `summary-confirm` — Phase 0 architect summary as confirmable card；section per goal/constraints/system_shape/risks/alternative_framings，每節 confidence pill，bullet 載 `provenance` 欄（literal `guess` 或 `file:path:line` / `memory:id` / `git:sha` / `web:url`，見上 `<PROVENANCE-CONTRACT>`），bullet 可 inline 編輯（含 provenance），emit `summary-revised` 含 bullet-level diff（含 provenance 變動）
 - `strategy-card` — Phase 1/2 strategy bundle 之 flippable cards：front 為 label + summary + recommendation pill；back 為 `bundles_resolves` / `unlocks` / `locks_out` / `seen_in`（含可點 provenance link）/ `reconsider_when`；`stage: diverge` 開 drag-to-rank、`stage: converge` 開 tap-to-select，emit `strategy-selected` 含 option_id 與可選 `user_comments` 之單旋鈕覆寫
 
 各為一 markdown 檔，YAML frontmatter 於 `$SESSION_DIR/screens/` 下。

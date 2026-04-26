@@ -116,9 +116,25 @@ export const CardsScreen = z.object({
 export const ConfidencePill = z.enum(["high", "med", "low"]);
 export type ConfidencePill = z.infer<typeof ConfidencePill>;
 
+// Provenance tag on each Phase 0 architect-summary bullet.
+//
+// Valid forms (see brainstorming SKILL.md <PROVENANCE-CONTRACT>):
+//   - "file:<path>:<line>"   codebase reference
+//   - "memory:<id>"          memory entry reference
+//   - "git:<sha>"            git commit reference
+//   - "web:<url>"            web cite
+//   - "guess"                literal — pure inference, no verifiable source
+//
+// We model this as a non-empty string rather than a stricter regex because:
+//   (1) the contract is enforced by authors and surfaced in the UI, not by
+//       runtime regex (a paths-with-colons + URL-with-port edge case set
+//       would make a regex brittle); and
+//   (2) the literal "guess" sentinel is the load-bearing rule — empty /
+//       missing / null is a schema violation, which the .min(1) guarantees.
 export const SummaryBullet = z.object({
   id: z.string().min(1),
   text: z.string().min(1),
+  provenance: z.string().min(1),
 });
 export type SummaryBullet = z.infer<typeof SummaryBullet>;
 

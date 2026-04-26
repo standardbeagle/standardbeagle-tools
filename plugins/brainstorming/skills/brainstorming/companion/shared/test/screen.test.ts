@@ -110,21 +110,23 @@ test("summary-confirm screen with all five sections parses", () => {
     id: "phase-0",
     title: "Architect summary",
     sections: {
-      goal: { confidence: "high", bullets: [{ id: "g1", text: "Add OAuth" }] },
-      constraints: { confidence: "med", bullets: [{ id: "c1", text: "2-week ship" }] },
+      goal: { confidence: "high", bullets: [{ id: "g1", text: "Add OAuth", provenance: "memory:project_x" }] },
+      constraints: { confidence: "med", bullets: [{ id: "c1", text: "2-week ship", provenance: "memory:sprint_25" }] },
       system_shape: {
         confidence: "med",
-        bullets: [{ id: "s1", text: "Express middleware" }],
+        bullets: [{ id: "s1", text: "Express middleware", provenance: "file:src/middleware/auth.ts:42" }],
         mermaid: "graph LR\n  A-->B",
       },
-      risks: { confidence: "low", bullets: [{ id: "r1", text: "Provider lock-in" }] },
-      alternative_framings: { confidence: "low", bullets: [{ id: "a1", text: "SSO-only framing" }] },
+      risks: { confidence: "low", bullets: [{ id: "r1", text: "Provider lock-in", provenance: "guess" }] },
+      alternative_framings: { confidence: "low", bullets: [{ id: "a1", text: "SSO-only framing", provenance: "guess" }] },
     },
   });
   expect(parsed.kind).toBe("summary-confirm");
   if (parsed.kind === "summary-confirm") {
     expect(parsed.status).toBe("pending");
     expect(parsed.sections.system_shape.mermaid).toContain("graph LR");
+    expect(parsed.sections.goal.bullets[0].provenance).toBe("memory:project_x");
+    expect(parsed.sections.risks.bullets[0].provenance).toBe("guess");
   }
 });
 
@@ -135,14 +137,83 @@ test("summary-confirm screen rejects an unknown confidence pill", () => {
       id: "x",
       title: "x",
       sections: {
-        goal: { confidence: "very-high", bullets: [{ id: "g1", text: "x" }] },
-        constraints: { confidence: "med", bullets: [{ id: "c1", text: "x" }] },
-        system_shape: { confidence: "med", bullets: [{ id: "s1", text: "x" }] },
-        risks: { confidence: "low", bullets: [{ id: "r1", text: "x" }] },
-        alternative_framings: { confidence: "low", bullets: [{ id: "a1", text: "x" }] },
+        goal: { confidence: "very-high", bullets: [{ id: "g1", text: "x", provenance: "guess" }] },
+        constraints: { confidence: "med", bullets: [{ id: "c1", text: "x", provenance: "guess" }] },
+        system_shape: { confidence: "med", bullets: [{ id: "s1", text: "x", provenance: "guess" }] },
+        risks: { confidence: "low", bullets: [{ id: "r1", text: "x", provenance: "guess" }] },
+        alternative_framings: { confidence: "low", bullets: [{ id: "a1", text: "x", provenance: "guess" }] },
       },
     })
   ).toThrow();
+});
+
+test("summary-confirm bullet without provenance is rejected", () => {
+  // Empty / missing provenance is a contract violation — must use literal "guess" instead.
+  expect(() =>
+    ScreenFrontmatter.parse({
+      kind: "summary-confirm",
+      id: "x",
+      title: "x",
+      sections: {
+        // goal bullet missing provenance entirely
+        goal: { confidence: "high", bullets: [{ id: "g1", text: "x" }] },
+        constraints: { confidence: "med", bullets: [{ id: "c1", text: "x", provenance: "guess" }] },
+        system_shape: { confidence: "med", bullets: [{ id: "s1", text: "x", provenance: "guess" }] },
+        risks: { confidence: "low", bullets: [{ id: "r1", text: "x", provenance: "guess" }] },
+        alternative_framings: { confidence: "low", bullets: [{ id: "a1", text: "x", provenance: "guess" }] },
+      },
+    })
+  ).toThrow();
+});
+
+test("summary-confirm bullet with empty-string provenance is rejected", () => {
+  // Empty string is also a violation — authors must explicitly use "guess".
+  expect(() =>
+    ScreenFrontmatter.parse({
+      kind: "summary-confirm",
+      id: "x",
+      title: "x",
+      sections: {
+        goal: { confidence: "high", bullets: [{ id: "g1", text: "x", provenance: "" }] },
+        constraints: { confidence: "med", bullets: [{ id: "c1", text: "x", provenance: "guess" }] },
+        system_shape: { confidence: "med", bullets: [{ id: "s1", text: "x", provenance: "guess" }] },
+        risks: { confidence: "low", bullets: [{ id: "r1", text: "x", provenance: "guess" }] },
+        alternative_framings: { confidence: "low", bullets: [{ id: "a1", text: "x", provenance: "guess" }] },
+      },
+    })
+  ).toThrow();
+});
+
+test("summary-confirm bullet accepts all five provenance forms", () => {
+  // file:path:line, memory:id, git:sha, web:url, guess
+  const parsed = ScreenFrontmatter.parse({
+    kind: "summary-confirm",
+    id: "x",
+    title: "x",
+    sections: {
+      goal: { confidence: "high", bullets: [{ id: "g1", text: "x", provenance: "file:src/foo.ts:10" }] },
+      constraints: {
+        confidence: "med",
+        bullets: [
+          { id: "c1", text: "x", provenance: "memory:project_x_oauth" },
+          { id: "c2", text: "x", provenance: "git:a50381f" },
+        ],
+      },
+      system_shape: {
+        confidence: "med",
+        bullets: [{ id: "s1", text: "x", provenance: "web:https://example.com/spec" }],
+      },
+      risks: { confidence: "low", bullets: [{ id: "r1", text: "x", provenance: "guess" }] },
+      alternative_framings: { confidence: "low", bullets: [{ id: "a1", text: "x", provenance: "guess" }] },
+    },
+  });
+  if (parsed.kind === "summary-confirm") {
+    expect(parsed.sections.goal.bullets[0].provenance).toBe("file:src/foo.ts:10");
+    expect(parsed.sections.constraints.bullets[0].provenance).toBe("memory:project_x_oauth");
+    expect(parsed.sections.constraints.bullets[1].provenance).toBe("git:a50381f");
+    expect(parsed.sections.system_shape.bullets[0].provenance).toBe("web:https://example.com/spec");
+    expect(parsed.sections.risks.bullets[0].provenance).toBe("guess");
+  }
 });
 
 test("strategy-card screen with diverge stage parses", () => {

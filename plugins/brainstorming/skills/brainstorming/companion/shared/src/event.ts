@@ -27,12 +27,17 @@ export const Event = z.discriminatedUnion("type", [
   }),
   Base.extend({ type: z.literal("card_killed"), card_id: z.string() }),
   Base.extend({ type: z.literal("cluster_created"), cluster_id: z.string(), label: z.string() }),
+  // A bullet edit may change `text`, `provenance`, or both. Old / new
+  // pairs are optional independently; at least one pair must be present
+  // (callers should not emit a revision event with no actual change).
   Base.extend({
     type: z.literal("summary_bullet_revised"),
     bullet_id: z.string(),
     section: z.string(),
-    old_text: z.string(),
-    new_text: z.string(),
+    old_text: z.string().optional(),
+    new_text: z.string().optional(),
+    old_provenance: z.string().optional(),
+    new_provenance: z.string().optional(),
   }),
   Base.extend({ type: z.literal("summary_confirmed") }),
   Base.extend({
@@ -40,8 +45,10 @@ export const Event = z.discriminatedUnion("type", [
     diff: z.array(z.object({
       bullet_id: z.string(),
       section: z.string(),
-      old_text: z.string(),
-      new_text: z.string(),
+      old_text: z.string().optional(),
+      new_text: z.string().optional(),
+      old_provenance: z.string().optional(),
+      new_provenance: z.string().optional(),
     })),
     note: z.string().optional(),
   }),

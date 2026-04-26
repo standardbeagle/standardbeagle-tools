@@ -119,13 +119,13 @@ sections:
   goal:
     confidence: high
     bullets:
-      - {id: g1, text: "Add OAuth login to existing X service"}
+      - {id: g1, text: "Add OAuth login to existing X service", provenance: "memory:project_x_oauth_request"}
   constraints:
     confidence: med
     bullets:
-      - {id: c1, text: "Must coexist with existing session middleware"}
-      - {id: c2, text: "Prefer hosted provider over self-built"}
-      - {id: c3, text: "Two-week delivery target"}
+      - {id: c1, text: "Must coexist with existing session middleware", provenance: "file:src/middleware/session.ts:1"}
+      - {id: c2, text: "Prefer hosted provider over self-built", provenance: "guess"}
+      - {id: c3, text: "Two-week delivery target", provenance: "memory:sprint_25_planning"}
   system_shape:
     confidence: med
     mermaid: |
@@ -134,18 +134,18 @@ sections:
         B --> C[(User table)]
         B --> D[OAuth provider]
     bullets:
-      - {id: s1, text: "Express middleware + new oauth_provider column on users"}
+      - {id: s1, text: "Express middleware + new oauth_provider column on users", provenance: "file:src/middleware/auth.ts:42"}
   risks:
     confidence: low
     bullets:
-      - {id: r1, text: "Existing session vs OAuth callback collision"}
-      - {id: r2, text: "Migration impact on active users"}
-      - {id: r3, text: "Provider lock-in"}
+      - {id: r1, text: "Existing session vs OAuth callback collision", provenance: "guess"}
+      - {id: r2, text: "Migration impact on active users", provenance: "guess"}
+      - {id: r3, text: "Provider lock-in", provenance: "guess"}
   alternative_framings:
     confidence: low
     bullets:
-      - {id: a1, text: "Could be framed as session-system replacement"}
-      - {id: a2, text: "Could be SSO-only for internal network, no public OAuth"}
+      - {id: a1, text: "Could be framed as session-system replacement", provenance: "guess"}
+      - {id: a2, text: "Could be SSO-only for internal network, no public OAuth", provenance: "guess"}
 ---
 
 ## Notes
@@ -157,13 +157,30 @@ read-only (Claude-authored).
 
 The companion renders each section as a card with a confidence pill (`high`/`med`/`low`). Each bullet is editable inline; the user can also type a free-text reply that becomes a top-level revision note. The mermaid block in `system_shape.mermaid` renders inline in that section's card via the same lazy-loaded mermaid module other screens use.
 
+Each bullet also carries a **`provenance`** field — a string tag identifying the source the inference came from. Valid forms (per brainstorming `SKILL.md` `<PROVENANCE-CONTRACT>`):
+
+| value form | meaning |
+|---|---|
+| `file:<path>:<line>` | codebase reference |
+| `memory:<id>` | memory entry reference |
+| `git:<sha>` | git commit reference |
+| `web:<url>` | web cite |
+| `guess` | literal — Claude's pure inference, no verifiable source |
+
+The companion renders the `provenance` value as a small inline tag on each bullet. `file:` / `memory:` / `git:` / `web:` tags render as clickable provenance links via the existing file-open bridge (where the link target resolves locally) or as plain-text labels otherwise. The literal `guess` tag renders with a distinct visual treatment (separate from the section confidence pill — confidence and provenance are orthogonal dimensions).
+
+`provenance` is required on every bullet — empty / missing / `null` is a schema violation. Authors must use the literal string `"guess"` when no verifiable source exists; this preserves the contract surface for downstream `rwjOh2tKXYpC` (knowledge-hygiene plugin's conflict-detector) and `qvd3VBUROdw2` (Tier 3 citation-verifier).
+
+Bullets are inline-editable for both `text` and `provenance` independently. The two edit paths emit the same event shape — see the table below; the optional `provenance_old` / `provenance_new` fields on each event payload distinguish provenance edits from text edits.
+
 | User action | API endpoint | Event appended |
 |---|---|---|
-| edit a bullet | `POST /api/summary/:screen_id/edit` body `{bullet_id, section, old_text, new_text}` | `{type:"summary_bullet_revised", screen_id, bullet_id, section, old_text, new_text}` |
+| edit a bullet's text | `POST /api/summary/:screen_id/edit` body `{bullet_id, section, old_text, new_text}` | `{type:"summary_bullet_revised", screen_id, bullet_id, section, old_text, new_text}` |
+| edit a bullet's provenance | `POST /api/summary/:screen_id/edit` body `{bullet_id, section, old_provenance, new_provenance}` | `{type:"summary_bullet_revised", screen_id, bullet_id, section, old_provenance, new_provenance}` |
 | confirm summary as-is | `POST /api/summary/:screen_id/confirm` body `{}` | `{type:"summary_confirmed", screen_id}` |
-| submit final revisions | `POST /api/summary/:screen_id/submit` body `{note?}` | `{type:"summary_revised", screen_id, diff: [{bullet_id, section, old_text, new_text}, ...], note}` |
+| submit final revisions | `POST /api/summary/:screen_id/submit` body `{note?}` | `{type:"summary_revised", screen_id, diff: [{bullet_id, section, old_text?, new_text?, old_provenance?, new_provenance?}, ...], note}` |
 
-The `summary_revised` event carries the full bullet-level diff in one payload so Claude does not have to reassemble the per-edit stream. `status` in frontmatter flips to `confirmed` (no edits) or `revised` (any edits) via atomic rename, mirroring the `decision` flow. Bullet IDs are stable across edits — when a bullet is revised, the same `id` keeps its place in the section list with new `text`.
+The `summary_revised` event carries the full bullet-level diff in one payload so Claude does not have to reassemble the per-edit stream. Each diff entry may include `old_text`/`new_text`, `old_provenance`/`new_provenance`, or both — fields are optional and present only when that dimension actually changed. `status` in frontmatter flips to `confirmed` (no edits) or `revised` (any edits) via atomic rename, mirroring the `decision` flow. Bullet IDs are stable across edits — when a bullet is revised, the same `id` keeps its place in the section list with new `text` and/or `provenance`.
 
 When to use: Phase 0 architect summary (see brainstorming `SKILL.md` Phase 0 section). Not for general decisions — use `kind: decision` for those.
 
