@@ -37,7 +37,7 @@ the `cards` kind is documented under I4 follow-up.
 1. **Explore project context** — 察檔、docs、近 commit
 2. **Commit architect summary (Phase 0)** — 呈當前推斷之 1-頁摘要並請 user 確認或更正；當 project context 確空時可跳。見下 Phase 0 節。
 3. **Offer visual companion**（若議涉視覺）— 為獨訊，勿合於問。見下 Visual Companion 節。
-4. **Ask clarifying questions** — 批 2–4 相關問 per `AskUserQuestion` call；以 Phase 0 低信度條目為首批問題候選；迭至足以設計
+4. **Phase 1 — ask big strategy-bundle questions** — 默以 ~3 big questions 開（每 option 為策略束，連動數個下游 knob，依下節 schema）；Phase 0 低信度條目為首批問題候選；單旋鈕之問仍可原子；迭至足以設計
 5. **Propose 2-3 approaches** — 附權衡與汝薦
 6. **Present design** — 按複雜度縮放分節，每節後取許
 7. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
@@ -54,7 +54,7 @@ digraph brainstorming {
     "Phase 0: Architect summary\n(commit inferences, free-text confirm)" [shape=box];
     "Visual questions ahead?" [shape=diamond];
     "Offer Visual Companion\n(own message, no other content)" [shape=box];
-    "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)" [shape=box];
+    "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" [shape=box3d];
     "Enough to design?" [shape=diamond];
     "Propose 2-3 approaches" [shape=box];
     "Present design sections" [shape=box];
@@ -69,10 +69,10 @@ digraph brainstorming {
     "Project context empty?" -> "Phase 0: Architect summary\n(commit inferences, free-text confirm)" [label="no"];
     "Phase 0: Architect summary\n(commit inferences, free-text confirm)" -> "Visual questions ahead?";
     "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
-    "Visual questions ahead?" -> "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)" [label="no"];
-    "Offer Visual Companion\n(own message, no other content)" -> "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)";
-    "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)" -> "Enough to design?" ;
-    "Enough to design?" -> "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)" [label="no"];
+    "Visual questions ahead?" -> "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" [label="no"];
+    "Offer Visual Companion\n(own message, no other content)" -> "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)";
+    "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" -> "Enough to design?" ;
+    "Enough to design?" -> "Phase 1: ~3 big questions\n(strategy bundles, atomic when single-knob)" [label="no"];
     "Enough to design?" -> "Propose 2-3 approaches" [label="yes"];
     "Propose 2-3 approaches" -> "Present design sections";
     "Present design sections" -> "User approves design?";
@@ -153,16 +153,122 @@ it's a genuine decision point that gates everything else.
 
 每問應有 2–4 structured option 附述。「Other」恆自加——汝不須含之。答空或未全涵時用之。
 
-```
-Good question design:
-  question: "What's the primary deployment target?"
-  options:
-    - label: "Container / Kubernetes"      description: "Docker image, orchestrated"
-    - label: "Serverless"                  description: "Lambda, Cloud Functions"
-    - label: "Desktop app"                 description: "Packaged binary, local only"
-    - label: "Edge runtime"                description: "Cloudflare Workers, Deno Deploy"
+#### Strategy-bundle vs atomic — when each shape fits
 
-Good use of multiSelect:
+Phase 1 之高層問題，**preferred shape 為 strategy bundle**：每 option 不只一資料點，而為一束相關下游選擇之打包，user 一擇即連動數個 knob。但非每問皆宜 bundle——下決策規則：
+
+```
+Prefer strategy bundle when:
+  - 3+ downstream knobs cluster together under each option (auth choice
+    drags session model, migration shape, and provider lock-in along)
+  - Options represent meaningfully different architectures or stances,
+    not just different values of the same parameter
+  - User picking option A vs B genuinely cuts the design tree, not just
+    fills a single field
+
+Default to atomic question when:
+  - It's a genuine single-knob decision (port number, package name,
+    color hex, file path)
+  - The downstream impact is local — picking one value vs another
+    doesn't change other decisions
+  - The dimension is orthogonal to architecture (a polish / config knob)
+
+When in doubt: ask "if user picks differently here, do 3+ other questions
+become moot or reshape?" If yes, bundle. If no, atomic is fine.
+```
+
+不可硬套 bundle 於本應原子之問——強塞 bundle 於 port-number 類問題只造混淆。Bundle 為高層架構/scope/方法選擇之 default shape；原子為細節旋鈕之 default shape。
+
+#### Strategy-option schema (when bundling applies)
+
+當問題確宜 bundle 時，每 option 應含下列欄位（皆 optional 但鼓勵填寫）：
+
+- **label**（必）：一行可讀標籤
+- **bundles_resolves**：此選擇自動定下之下游 knob 列表（讓 user 一覽即知此擇所連動者）
+- **unlocks**：此擇所獲之能力 / 路徑
+- **locks_out**：此擇所封閉之能力 / 路徑（與 unlocks 對稱，使 trade-off 顯）
+- **seen_in**：prior art / 既有 repo / 既有 pattern 引用（provenance）—— 助 user 判此非空想
+- **reconsider_when**：重審此擇之 trigger 條件（規模到 X、團隊變 Y、需求新增 Z）
+- **recommendation_confidence**：high/med/low —— Claude 之 pre-vote，使 user 知汝偏好強度
+
+欄位不必每條皆填——Phase 0 已知者可簡寫，Phase 0 不知者填全。`seen_in` 尤要：option 若無 prior art，記為「novel — no direct analogue」而非偽造。
+
+#### Worked example — strategy-bundle question
+
+```yaml
+question: "How should auth integrate with the existing app?"
+# This is a bundle question: each option drags 4-6 downstream decisions.
+
+options:
+  - label: "Hosted provider (Auth0/Clerk)"
+    bundles_resolves:
+      - session model (provider-managed JWT)
+      - user-table migration (add oauth_provider + sub columns)
+      - logout/refresh semantics (provider SDK handles)
+      - billing model (per-MAU subscription)
+    unlocks:
+      - SSO, MFA, social login out of the box
+      - faster delivery (~days not weeks)
+      - SOC2 trail from provider
+    locks_out:
+      - full control of session token shape
+      - on-prem / air-gapped deploy
+    seen_in: "internal /billing service uses Clerk; team familiar"
+    reconsider_when:
+      - MAU exceeds provider free tier breakpoint
+      - compliance requires data residency
+    recommendation_confidence: high
+
+  - label: "Self-hosted (Keycloak / Ory)"
+    bundles_resolves:
+      - session model (own JWT, own rotation)
+      - user-table migration (full identity schema)
+      - ops surface (one more service to run + back up)
+      - billing model (infra cost only)
+    unlocks:
+      - data residency control
+      - custom token claims, custom flows
+    locks_out:
+      - "deliver in 2 weeks" timeline (likely)
+    seen_in: "no prior use in this codebase"
+    reconsider_when:
+      - hosted provider price ceiling hit
+      - regulatory residency requirement appears
+    recommendation_confidence: med
+
+  - label: "Roll our own on existing session middleware"
+    bundles_resolves:
+      - session model (extend current middleware)
+      - user-table migration (minimal — add provider + sub)
+      - logout/refresh semantics (write ourselves)
+    unlocks:
+      - zero new dependencies
+    locks_out:
+      - SOC2 / compliance evidence (now ours to produce)
+      - MFA, social login (build each)
+    seen_in: "current session middleware is custom; pattern matches"
+    reconsider_when:
+      - second OAuth provider needed
+      - any compliance deadline
+    recommendation_confidence: low
+```
+
+對比 — **atomic question**（單旋鈕，不應 bundle）：
+
+```yaml
+question: "What port should the dev server bind to?"
+options:
+  - label: "3000"   description: "Default for many JS dev servers"
+  - label: "5173"   description: "Vite default"
+  - label: "8080"   description: "Common alt for backend"
+# No bundles_resolves / unlocks / locks_out — picking 3000 vs 5173 doesn't
+# reshape the design. This is a config knob, atomic is correct.
+```
+
+#### Other useful question shapes
+
+```
+Good use of multiSelect (orthogonal capabilities, not strategies):
   question: "Which external services does this integrate with?"
   multiSelect: true
   options:
@@ -171,7 +277,7 @@ Good use of multiSelect:
     - label: "Email service"     description: "SendGrid, Postmark, SES"
     - label: "Storage"           description: "S3, GCS, Cloudflare R2"
 
-Good use of preview (for visual/layout choices):
+Good use of preview (visual/layout choices — atomic with picture):
   question: "Which dashboard layout fits your workflow?"
   options:
     - label: "Sidebar nav"   preview: "┌──┬────────┐\n│  │        │\n│  │        │\n└──┴────────┘"
@@ -181,25 +287,66 @@ Bad — open-ended with no options (use free text via Other instead):
   question: "What do you want to build?"   ← ask this as text, not AskUserQuestion
 ```
 
-### First Question Batch — Standard Opening
+### Phase 1: First Question Batch — strategy-bundle big questions
 
-多數 project，以此 3–4 問於一 call 開：
+**Inputs to Phase 1**：Phase 0 之 architect summary 之 **low-confidence 條目**為首批 Phase 1 問題之候選來源（high-confidence 者通常可略，待 user 反對方追問）。Phase 0 跳過時，Phase 1 從此處的標準開場開始。
+
+**Default shape：strategy-bundle big questions**。不再以原子資料點（「what's your deployment target」「what's your primary constraint」）逐一探，而以 **~3 big questions** 為目標，每問之 options 為一束策略——每擇連動下游數個 knob，依上節 schema。Aim for ~3 big questions in typical cases；project 確有更多獨立高層分支時 4-5 亦可，硬上限非此處之事（見 question-budget 子任務）。
+
+#### Standard opening — strategy-bundle template
+
+多數 project，以此類 ~3 big questions 開（具體 option 視 Phase 0 推斷而調，下為骨架）：
 
 ```
-1. Project/feature scope
-   (What is this, at a high level — new feature, bug fix, standalone tool?)
+1. SHAPE — "How should this fit into the existing system?"
+   (Strategy bundle: each option resolves architecture, integration
+    surface, deploy unit, data ownership.)
+   options (illustrative — adapt to project):
+     - "Standalone service / new repo"
+       bundles_resolves: own deploy, own data store, REST/RPC boundary
+       unlocks: independent release cadence
+       locks_out: shared transactions with main app
+       seen_in: <prior service in this codebase, if any>
+       recommendation_confidence: <claude's vote>
+     - "Embedded module in existing app"
+       bundles_resolves: shared deploy, shared db, in-process calls
+       unlocks: easy transactions, simpler ops
+       locks_out: independent scaling
+     - "Plugin / extension to existing platform"
+       bundles_resolves: piggyback on host's auth / data / ops
+       unlocks: zero new infra
+       locks_out: bound to host's release cycle
 
-2. Architecture / style preference
-   (Simple/flat, CRUD, DDD, event-driven, microservices?)
+2. APPROACH — "Which delivery strategy fits the constraints?"
+   (Strategy bundle: each option resolves scope cut, who-builds-what,
+    risk surface, time-to-first-demo.)
+   options (illustrative):
+     - "MVP slice end-to-end, then deepen"
+     - "Build foundation first, feature flag the user-facing part"
+     - "Spike + throw-away, then rebuild informed"
 
-3. Primary constraint
-   (Speed of delivery, maintainability, performance, team size?)
-
-4. Existing codebase?
-   (Greenfield, adding to existing project, replacing something?)
+3. CONSTRAINT — "Which constraint dominates?"
+   (Often atomic-feeling but actually a strategy bundle: 'speed' vs
+    'maintainability' vs 'perf' bundles different code-quality bars,
+    different test depth, different review intensity.)
+     - "Ship fast, accept tech debt to revisit"
+     - "Maintainability first, slower delivery OK"
+     - "Performance / scale, willing to invest upfront"
 ```
 
-讀答後，再批 2–4 問於細。通 2 輪批問即足；3 乃極限於呈法前。
+User picks 1 option per big question → ~3 picks resolve 9-15 downstream decisions in one round → Phase 2 (strategy-selection-on-detail) can then drill into the picks atomically.
+
+#### Atomic-question escape valve
+
+某些開場問題確為單旋鈕（語言 / runtime 已定、目標平台無懸念、port 號之類）——彼時直接以原子問即可，勿硬塞 bundle schema。判別仍依上節 decision rule：「若 user 改答此問，3+ 其他問題會否 moot 或重塑？」否則原子可矣。
+
+#### After the first batch
+
+讀答後，再批 2–4 問於細（此屬 Phase 2 領域——strategy-selection-on-detail，由 sibling subtask `ooxJKSjuoKok` 規範）。通 2 輪批問即足；3 乃極限於呈法前。
+
+#### When the project has more high-level branches
+
+「~3 big questions」為 typical case 之軟目標，非硬限。Project 確跨數獨立子系統時（chat + storage + billing 混合 platform），先以「scope splitter」big question 切 sub-project（見 The Process > 探法），再對各 sub-project 各跑 ~3 big questions。勿為守 3 之數而硬塞跨領域 option 入單問。
 
 ### When to Use Free Text
 
