@@ -35,20 +35,23 @@ the `cards` kind is documented under I4 follow-up.
 汝必為下每項立 task 並依序竟：
 
 1. **Explore project context** — 察檔、docs、近 commit
-2. **Offer visual companion**（若議涉視覺）— 為獨訊，勿合於問。見下 Visual Companion 節。
-3. **Ask clarifying questions** — 批 2–4 相關問 per `AskUserQuestion` call；迭至足以設計
-4. **Propose 2-3 approaches** — 附權衡與汝薦
-5. **Present design** — 按複雜度縮放分節，每節後取許
-6. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
-7. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
-8. **User reviews written spec** — 請 user 審 spec 檔後再進
-9. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
+2. **Commit architect summary (Phase 0)** — 呈當前推斷之 1-頁摘要並請 user 確認或更正；當 project context 確空時可跳。見下 Phase 0 節。
+3. **Offer visual companion**（若議涉視覺）— 為獨訊，勿合於問。見下 Visual Companion 節。
+4. **Ask clarifying questions** — 批 2–4 相關問 per `AskUserQuestion` call；以 Phase 0 低信度條目為首批問題候選；迭至足以設計
+5. **Propose 2-3 approaches** — 附權衡與汝薦
+6. **Present design** — 按複雜度縮放分節，每節後取許
+7. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit
+8. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
+9. **User reviews written spec** — 請 user 審 spec 檔後再進
+10. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
 
 ## Process Flow
 
 ```dot
 digraph brainstorming {
     "Explore project context" [shape=box];
+    "Project context empty?" [shape=diamond];
+    "Phase 0: Architect summary\n(commit inferences, free-text confirm)" [shape=box];
     "Visual questions ahead?" [shape=diamond];
     "Offer Visual Companion\n(own message, no other content)" [shape=box];
     "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)" [shape=box];
@@ -61,7 +64,10 @@ digraph brainstorming {
     "User reviews spec?" [shape=diamond];
     "Invoke writing-plans skill" [shape=doublecircle];
 
-    "Explore project context" -> "Visual questions ahead?";
+    "Explore project context" -> "Project context empty?";
+    "Project context empty?" -> "Visual questions ahead?" [label="yes, skip Phase 0"];
+    "Project context empty?" -> "Phase 0: Architect summary\n(commit inferences, free-text confirm)" [label="no"];
+    "Phase 0: Architect summary\n(commit inferences, free-text confirm)" -> "Visual questions ahead?";
     "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
     "Visual questions ahead?" -> "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)" [label="no"];
     "Offer Visual Companion\n(own message, no other content)" -> "Batch clarifying questions\n(AskUserQuestion, 2-4 per call)";
@@ -80,6 +86,47 @@ digraph brainstorming {
 ```
 
 **終態即呼 writing-plans。** 勿呼 frontend-design、mcp-builder、或其他實作 skill。Brainstorming 後**唯一**呼之 skill 即 writing-plans。
+
+## Phase 0: Architect Summary (Commit Inferences First)
+
+於批問澄清前，先呈一頁 architect/manager 摘要，公開汝當前推斷。多數時 codebase + memory + 初始 prompt + git log 已供大半 context；先盲問徒耗 round trip。Phase 0 將汝之假設落於文字，user 一覽即可確認或更正——通常一輪自由文字回覆即可。
+
+### Schema
+
+汝呈之摘要應含下列各項，每項標 confidence（high/med/low）：
+
+- **Inferred goal** — 一句概述汝認 user 欲達者
+- **Inferred constraints** — 三條（含技術、時間、人力、相容性等任意組合）
+- **Inferred system shape** — 架構草圖（數行文字或簡 ASCII，非完整設計）
+- **Risk surface** — 汝預見前三大風險或不明處
+- **Alternative framings** — 兩條「此亦可框為 X」之另類解讀，助 user 察汝是否誤鎖框架
+- **Confidence per inference** — 各條註 high/med/low
+
+### Mechanics
+
+- **來源**：codebase 探察 + project memory（CLAUDE.md、`.dartai/`、`docs/`）+ 初始 prompt + 近期 `git log`
+- **呈現格式**：單則訊息，markdown 列表，非 `AskUserQuestion`。User 以自由文字回覆——確認、更正、或補述
+- **Low-confidence 條目** → 成 Phase 1 澄清問之首批候選（即「我不確之處，正當問」）
+- **High-confidence 條目** → 通常可略相應澄清問；user 反對方需追問
+- **跳過條件**：當 project context 真空（greenfield 目錄 + 無 memory 檔 + prompt 僅一兩句模糊描述）時，跳過 Phase 0 直入澄清問——彼時無足夠信號可推斷，硬呈摘要徒造幻覺
+- **Escape valve**：若 user 反饋「全錯，重來」，視為信號汝 context 不足，回 Phase 1 從頭問澄清；勿頑守原摘要
+
+### 範例（縮略）
+
+> **Architect summary（請確認或更正）**
+>
+> - **Goal**（high）：為 X 服務增 OAuth 登入
+> - **Constraints**（med）：
+>   - 須相容既有 session middleware
+>   - 偏 hosted provider（Auth0/Clerk）勝自建
+>   - 兩週內可上線
+> - **System shape**（med）：Express 中介層 + 既 user 表新增 `oauth_provider` 欄
+> - **Risks**（low–med）：既 session 與 OAuth callback 之衝突；migration 對既 user 之影響；provider 鎖定
+> - **Alternative framings**：（a）此亦可框為「換掉 session 系統」之大重構；（b）此亦可僅為 SSO 對接內網，無公網需求
+>
+> 何處需更正？
+
+如此 user 一則文字回覆即可校準汝整 context，後續 `AskUserQuestion` 批次得以針對真有不明之處，而非泛泛開場。
 
 ## Asking Questions with AskUserQuestion
 
@@ -167,6 +214,7 @@ Bad — open-ended with no options (use free text via Other instead):
 **明念：**
 
 - 先察當 project 狀（檔、docs、近 commit）
+- 探畢即依 Phase 0 規範呈 architect summary，落汝推斷於文字。User 一則自由文字回覆即可校準。Project context 真空時可跳。
 - 問前察 scope：若請述多獨立子系統（例如「建 chat + file storage + billing + analytics 之平台」），立旗。勿耗問於應先分解之 project 之細。
 - 若 project 過大，助 user 分子 project：何乃獨片，如何相關，當以何序建？ 後以常設計流 brainstorm 第一子 project。每子 project 有其 spec → plan → impl 環。
 - 用 `AskUserQuestion` 於所有 structured 擇。批 2–4 per call。
