@@ -24,9 +24,6 @@ Thumbs.db
 dist/
 node_modules/
 
-# Changesets
-.changeset/
-
 # Test artifacts
 *.test
 coverage.out

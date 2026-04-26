@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { srgbToLinear, linearToSrgb } from './srgb-linear.js';
 import { linearRgbToXyz, xyzToLinearRgb } from './linear-xyz.js';
 import { xyzToLab, labToXyz } from './xyz-lab.js';
-import { rgbToCieLab, rgbToOklab, oklabToRgb, oklabToOklch, oklchToOklab } from './lab-oklch.js';
+import { rgbToOklab, oklabToRgb, oklabToOklch, oklchToOklab } from './lab-oklch.js';
 import { REFERENCE_COLORS } from '@standardbeagle/ux-core';
 
 describe('sRGB ↔ Linear', () => {

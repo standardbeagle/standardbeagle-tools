@@ -5,15 +5,16 @@ import prettier from 'eslint-config-prettier';
 export default ts.config(
   {
     ignores: [
-      'node_modules/**',
-      'dist/**',
+      '**/node_modules/**',
+      '**/dist/**',
       'docs/**',
+      '**/docs-api/**',
       'plugins/**',
       '.dartai/**',
       '.workflow/**',
       '.claude/**',
       '.superpowers/**',
-      'coverage/**',
+      '**/coverage/**',
       '*.min.js',
     ],
   },
