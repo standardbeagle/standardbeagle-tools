@@ -30,7 +30,10 @@
     "./skills/refactor-first-assessment/SKILL.md",
     "./skills/review-for-plan-updates/SKILL.md",
     "./skills/ce-compound/SKILL.md",
-    "./skills/verification-before-completion/SKILL.md"
+    "./skills/verification-before-completion/SKILL.md",
+    "./skills/no-compression-on-skill-frontmatter/SKILL.md",
+    "./skills/memories-require-timestamp-and-source/SKILL.md",
+    "./skills/multi-source-required-for-load-bearing-claims/SKILL.md"
   ],
   "agents": []
 }
