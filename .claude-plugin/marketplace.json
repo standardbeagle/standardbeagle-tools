@@ -140,7 +140,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines.",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -198,7 +198,7 @@
       "name": "mcp-tester",
       "source": "./plugins/mcp-tester",
       "description": "MCP server testing and debugging toolkit powered by mcp-debug. Dynamic server management, traffic analysis with circular buffer, schema validation, hot-swap development workflows, and protocol debugging.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -224,7 +224,7 @@
       "name": "slop-mcp",
       "source": "./plugins/slop-mcp",
       "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers. Includes Dart MCP tool reference skills for reduced get_metadata calls.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -250,7 +250,7 @@
       "name": "slop-coder",
       "source": "./plugins/slop-coder",
       "description": "SLOP language coding assistant - teaches LLMs how to write SLOP code with comprehensive language reference, patterns, built-in functions, and module system documentation for building AI agents and orchestration workflows.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -304,7 +304,7 @@
       "name": "figma-query",
       "source": "./plugins/figma-query",
       "description": "Token-efficient Figma integration with query-based data shaping, image export, design tokens, and adversarial design library extraction. Build production-ready component libraries with exact CSS, assets, HTML mockups, and comprehensive documentation using the Ralph Wiggum quality loop.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -471,7 +471,7 @@
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -528,7 +528,7 @@
       "name": "risk-pipeline",
       "source": "./plugins/risk-pipeline",
       "description": "Risk-driven task classification, splitting, and review dispatch pipeline",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -599,7 +599,7 @@
     {
       "name": "compound-review",
       "source": "./plugins/compound-review",
-      "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers reachable via the Task tool with structured review_report output (R2 §4.1). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness.",
+      "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers reachable via the Task tool with structured review_report output (R2 \u00a74.1). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness.",
       "version": "0.1.0",
       "author": {
         "name": "Standard Beagle",
@@ -675,7 +675,7 @@
       "name": "knowledge-hygiene",
       "source": "./plugins/knowledge-hygiene",
       "description": "Reasoning hygiene for AI agents: cross-source conflict detection, multi-source research with provenance, and rationalization-trap heuristics. Wave-1 Tier-2 consolidation so other plugins import skills/agents instead of duplicating. Implements provenance per claim (OmniMEM 2604.01007), cross-source conflict surfacing (ConflictQA 2604.11209), and the rationalization-trap value-rule per K2 design doc (docs/research/K2-knowledge-hygiene-from-papers.md).",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"

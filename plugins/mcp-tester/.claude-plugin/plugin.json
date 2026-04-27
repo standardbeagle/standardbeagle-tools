@@ -1,6 +1,6 @@
 {
   "name": "mcp-tester",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "MCP server testing and debugging toolkit. Dynamic server management, traffic analysis, schema validation, and hot-swap development workflows.",
   "author": {
     "name": "Standard Beagle",
