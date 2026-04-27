@@ -34,41 +34,49 @@ Prefer asking the user for `dartboard` if not given. Default `window_days` short
 
 Each agent writes session transcripts to a known path. Filter to entries that mention `project_root` or were initiated from it.
 
-| Agent | Path | Format |
-|-------|------|--------|
-| Claude Code | `~/.claude/projects/<sanitized-cwd>/*.jsonl` | JSONL, one event per line |
-| opencode | `~/.local/share/opencode/storage/session/`, `message/`, `part/` and `~/.local/share/opencode/project/<key>/` | JSON files keyed by id |
-| kimi | `~/.kimi/sessions/<id>/<id>.jsonl` and `~/.kimi/user-history/*.jsonl` | JSONL |
+| Agent | Path | Format | Project filter |
+|-------|------|--------|----------------|
+| Claude Code | `~/.claude/projects/<sanitized-cwd>/*.jsonl` | JSONL, one event per line | Directory name = absolute cwd with `/` → `-` (e.g. `/home/beagle/work/foo` → `-home-beagle-work-foo`) |
+| opencode | `~/.local/share/opencode/storage/session/<projectID>/ses_*.json` (one file per session) | JSON | Read `directory` field at top of each file |
+| kimi | `~/.kimi/sessions/<hash>/<uuid>.jsonl` and `~/.kimi/user-history/*.jsonl` | JSONL, lines have `role` field | No project metadata — content-scan for `project_root` substring in user/assistant lines |
 
-Sanitized cwd for Claude Code = absolute path with `/` replaced by `-` (e.g. `/home/beagle/work/foo` → `-home-beagle-work-foo`). If no matching project dir, fall back to scanning all and filter by message contents containing `project_root`.
+If Claude project dir absent, fall back to scanning all and filtering by message contents containing `project_root`. opencode storage may also include `message/` and `part/` subdirs for larger transcripts — read those when present, but `session/` is the index.
 
 ## Process
 
 ### 1. Gather Dart Tasks
 
-```yaml
-# Outstanding
-list_tasks:
-  filters: { dartboard: "<dartboard>", status: "Todo" }
-  detail_level: standard
-list_tasks:
-  filters: { dartboard: "<dartboard>", status: "In Progress" }
-  detail_level: standard
-list_tasks:
-  filters: { dartboard: "<dartboard>", status: "Doing" }   # if present in workspace
+First call `get_config` to enumerate workspace status names — they vary per workspace. Common set seen: `To-do`, `Doing`, `Done`, `Review`, `Parking lot`, `Cancelled`, `In Progress / Doing`, `Planning`. Match status names exactly (case + spaces + slashes preserved).
 
-# Completed within window
+`list_tasks` does NOT support `updated_after`/`updated_before`. Filter the time window client-side using the `updated_at` field returned in each task. Page with `limit`/`offset` until `has_more=false` — boards over 200 tasks are common.
+
+```yaml
+# Outstanding (one call per active status from get_config)
 list_tasks:
-  filters:
+  parameters:
+    dartboard: "<dartboard>"
+    status: "<status name>"   # e.g. "To-do", "Doing", "In Progress / Doing", "Planning", "Review"
+    detail_level: standard
+    limit: 200
+
+# Completed - pull all Done then client-side filter to window
+list_tasks:
+  parameters:
     dartboard: "<dartboard>"
     status: "Done"
-    updated_after: "<now - window_days>"
-  detail_level: standard
+    detail_level: standard
+    limit: 500
 
-# Blocked / replanned candidates
+# Cancelled = abandoned signal
 list_tasks:
-  filters: { dartboard: "<dartboard>", status: "Blocked" }
+  parameters: { dartboard: "<dartboard>", status: "Cancelled", detail_level: standard }
+
+# Parking lot = deferred signal (not the same as outstanding)
+list_tasks:
+  parameters: { dartboard: "<dartboard>", status: "Parking lot", detail_level: standard }
 ```
+
+Treat `Doing` and `In Progress / Doing` as equivalent in-flight if both exist. Treat `Parking lot` as its own category; do not collapse into outstanding.
 
 For each completed/in-progress task, fetch comments to extract replan signals:
 ```yaml
