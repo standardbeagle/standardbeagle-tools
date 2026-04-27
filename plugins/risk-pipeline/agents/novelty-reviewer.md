@@ -2,11 +2,6 @@
 name: novelty-reviewer
 description: "Independent adversarial novelty review — prior-art check, research summary, unknown-unknowns enumeration, failure mode brainstorm. 獨立對抗新穎性審查：既存技術檢、研究摘要、未知之未知枚舉、失敗模式頭腦風暴. Use when: reviewing novel approaches, checking prior-art search, auditing research summary, verifying failure-mode enumeration, hunting unknown-unknowns"
 when-to-use: "Use this agent for independent novelty-dimension verification of a completed implementation"
-tools:
-  - Read
-  - Bash
-  - Glob
-  - Grep
 color: purple
 skills:
   - dartai:testing-strategy

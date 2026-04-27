@@ -2,11 +2,6 @@
 name: security-reviewer
 description: "Independent adversarial security review — auth, authz, crypto, input validation, secrets, log leakage, ReDoS, timing side-channels. 獨立對抗安全審查：認證授權、密碼學、輸入驗證、秘密、日誌洩露、ReDoS、時序側信道. Use when: reviewing auth paths, checking crypto primitive use, auditing secrets handling, verifying input validation, hunting injection or side-channel risks"
 when-to-use: "Use this agent for independent security-dimension verification of a completed implementation"
-tools:
-  - Read
-  - Bash
-  - Glob
-  - Grep
 color: red
 skills:
   - dartai:code-quality

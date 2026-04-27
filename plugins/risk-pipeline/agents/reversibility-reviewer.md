@@ -2,11 +2,6 @@
 name: reversibility-reviewer
 description: "Independent adversarial reversibility review — rollback plan, canary strategy, feature flag wiring, schema migration undo, deployment strategy. 獨立對抗可逆性審查：回滾計劃、金絲雀策略、特性旗裝配、架構遷移撤銷、部署策略. Use when: reviewing rollback readiness, checking canary/feature-flag wiring, auditing deployment strategy, verifying rollback runbook, hunting irreversible side-effects"
 when-to-use: "Use this agent for independent reversibility-dimension verification of a completed implementation"
-tools:
-  - Read
-  - Bash
-  - Glob
-  - Grep
 color: yellow
 skills:
   - dartai:code-quality

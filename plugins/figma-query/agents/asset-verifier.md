@@ -2,7 +2,6 @@
 name: asset-verifier
 description: "Adversarial verification agent that validates extracted assets, CSS accuracy, and documentation completeness. 對抗性驗證代理，核查提取資源、CSS準確性及文檔完整性. Use when: verify extraction, validate CSS accuracy, check documentation completeness, audit extracted assets, confirm component fidelity"
 model: sonnet
-tools: ["Read", "Bash", "Glob", "Grep"]
 whenToUse: |
   Use this agent for adversarial verification of extracted design assets:
 

@@ -2,16 +2,6 @@
 name: task-executor
 description: "Execute a single workflow task end-to-end with clean context and adversarial verification. 以清潔上下文執行單一工作流任務，含對抗驗證. Use when: execute workflow task, run adversarial loop, complete a task with verification, spawn task executor"
 when-to-use: Use this agent to execute a single workflow task with fresh context
-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - Task
-  - Agent
-  - TodoWrite
 color: blue
 skills:
   - adversarial-quality

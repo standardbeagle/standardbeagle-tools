@@ -2,12 +2,6 @@
 name: mcp-debugger
 description: "Debug MCP server issues with traffic analysis and schema validation. 察MCP伺服器故障，析流量驗綱要。 Use when: debug mcp server, mcp not responding, trace mcp traffic, analyze mcp messages, mcp schema error, fix mcp tool"
 model: sonnet
-tools:
-  - Bash
-  - Read
-  - Write
-  - Grep
-  - Glob
 ---
 
 # MCP Debugger Agent

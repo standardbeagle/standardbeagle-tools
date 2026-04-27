@@ -2,7 +2,6 @@
 name: component-documenter
 description: "Generate comprehensive documentation for Figma components including README, usage examples, and API reference. 為Figma組件生成全面文檔，含用例及API說明. Use when: document a component, write component README, generate usage examples, create API reference, document extracted Figma component"
 model: haiku
-tools: ["Read", "Write", "Glob", "Grep"]
 whenToUse: |
   Use this agent when generating documentation for a Figma component:
 

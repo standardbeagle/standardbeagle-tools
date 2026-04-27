@@ -2,12 +2,6 @@
 name: test-automation
 description: "Automate MCP server testing with validation and analysis via mcp-debug. 自動測MCP伺服器，驗析之。 Use when: automate mcp tests, run mcp test suite, validate mcp server, mcp regression test, test all mcp tools"
 model: sonnet
-tools:
-  - Bash
-  - Read
-  - Write
-  - Glob
-  - Grep
 ---
 
 # Test Automation Agent

@@ -2,7 +2,6 @@
 name: conflict-detector
 description: "Detect contradictions across 2+ sources and recommend a resolution strategy. Direct port of ConflictQA mechanism (K2 §3.3, arxiv 2604.11209). Returns structured JSON: {conflict_type, sources, recommended_resolution, reasoning}. 跨多源檢測矛盾並建議處置：ConflictQA 機制直接移植。 Use when: comparing claims from 2+ sources, validating multi-source research output, surfacing contradictions before commit, gating Phase 1/2 strategy picks against Phase 0 high-confidence bullets, pre-PR fact-check on load-bearing claims."
 model: opus
-tools: ["Read", "Glob", "Grep", "Bash", "WebFetch", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context"]
 whenToUse: |
   Use this agent when 2+ sources make claims about the same entity and you need
   a structured contradiction report — not a freeform "looks fine" summary.

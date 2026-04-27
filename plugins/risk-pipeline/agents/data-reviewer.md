@@ -2,11 +2,6 @@
 name: data-reviewer
 description: "Independent adversarial data review — migrations, schema evolution, serialization compat, cache invalidation, index impact, concurrent writes. 獨立對抗資料審查：遷移、架構演進、序列化相容、緩存失效、索引影響、並發寫入. Use when: reviewing schema migrations, checking serialization changes, auditing cache invalidation, verifying index impact, hunting data loss or concurrency risks"
 when-to-use: "Use this agent for independent data-dimension verification of a completed implementation"
-tools:
-  - Read
-  - Bash
-  - Glob
-  - Grep
 color: orange
 skills:
   - dartai:code-quality

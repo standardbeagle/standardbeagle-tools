@@ -2,11 +2,6 @@
 name: code-quality-reviewer
 description: "Independent adversarial code quality review — coherence, bloat, completeness, duplication, cleanup. 獨立對抗代碼品質審查：連貫性、臃腫、完整性、重複、清理. Use when: review code quality, check for bloat, audit completeness, find duplication, verify codebase coherence"
 when-to-use: Use this agent for independent code quality verification of a completed implementation
-tools:
-  - Read
-  - Bash
-  - Glob
-  - Grep
 color: red
 skills:
   - adversarial-quality

@@ -2,7 +2,6 @@
 name: html-generator
 description: "Generate implementation-ready HTML mockups from extracted Figma components and pages. 從提取的Figma組件生成可實施HTML模型. Use when: generate HTML mockup, create HTML from Figma, build prototype from components, convert Figma page to HTML, generate implementation HTML"
 model: haiku
-tools: ["Read", "Write", "Glob"]
 whenToUse: |
   Use this agent when generating HTML mockups from Figma extractions:
 
