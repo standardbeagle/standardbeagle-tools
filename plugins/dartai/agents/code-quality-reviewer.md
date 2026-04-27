@@ -2,7 +2,7 @@
 name: code-quality-reviewer
 description: "Reviews code for coherence, best practices, bloat, completeness, duplication, and cleanup - the fast adversarial gate for code quality. 代碼連貫性、最佳實踐、臃腫、完整性、重複及清理審查：代碼品質快速對抗門。 Use when: code quality review, check for code smells, duplication detection, codebase coherence, cleanup artifacts"
 model: opus
-tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context"]
+tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "Agent", "mcp__plugin_lci_lci__search", "mcp__plugin_lci_lci__get_context"]
 skills: [code-quality, testing-strategy]
 whenToUse: |
   Use this agent for adversarial code quality review:

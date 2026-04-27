@@ -10,6 +10,7 @@ tools:
   - Glob
   - Grep
   - Task
+  - Agent
   - TodoWrite
 color: blue
 skills:

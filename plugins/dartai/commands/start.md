@@ -490,7 +490,7 @@ The `agent:<id>` tag value comes from the resolved `agent_id` in §2.5 step 5 (e
 
 #### 5.3 Spawn Task Executor Subagent
 
-**Each task iteration MUST use the Task tool with subagent_type="dartai:task-executor":**
+**Each task iteration MUST use the Task tool (or its `Agent` alias in Claude Code harnesses — same shape, different name) with subagent_type="dartai:task-executor":**
 
 ```yaml
 subagent_execution:

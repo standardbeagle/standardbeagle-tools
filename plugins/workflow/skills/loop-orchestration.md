@@ -63,7 +63,7 @@ loop_states:
 ```yaml
 lifecycle:
   spawn:
-    tool: "Task"
+    tool: "Task"  # alias: "Agent" in Claude Code harnesses — accept either
     subagent_type: "workflow:task-executor"
     context: "FRESH - no accumulated state"
     input: "Task spec from state file"

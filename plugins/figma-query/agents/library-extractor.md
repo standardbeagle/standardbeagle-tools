@@ -2,7 +2,7 @@
 name: library-extractor
 description: "Extract complete design libraries from Figma with adversarial quality verification. 從Figma提取完整設計庫，含對抗性質量驗證. Use when: extract design library, extract Figma file, pull all components from Figma, download design system, extract tokens and assets"
 model: sonnet
-tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "TodoWrite"]
+tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "Agent", "TodoWrite"]
 whenToUse: |
   Use this agent when extracting a complete design library from Figma:
 

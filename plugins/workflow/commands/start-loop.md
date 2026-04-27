@@ -197,7 +197,7 @@ subagent_execution:
 
 **示例：**
 ```
-Task tool call:
+Task tool call (or Agent — same shape, alias name in Claude Code harnesses):
   subagent_type: "workflow:task-executor"
   description: "Execute task: Add user authentication"
   prompt: "Execute task task-1 from workflow loop loop-abc123..."
