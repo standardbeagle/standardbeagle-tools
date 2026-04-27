@@ -5,9 +5,18 @@ Ralph Wiggum adversarial cooperation loop for Dart task automation. Commands, sk
 ## Components
 
 - **Commands** — `/dartai:start`, `/dartai:task`, `/dartai:sync`, `/dartai:loop-status`, `/dartai:verify`, `/dartai:setup-dart`, `/dartai:setup-roles`, `/dartai:dartai-config`
-- **Skills** — task execution pipeline, planning, quality verification
+- **Skills** — task execution pipeline, planning, quality verification, **`report`** (multi-page HTML status dashboard from Dart + Claude/opencode/kimi logs), **`review`** (adversarial audit surfacing inefficiencies and process gaps with concrete amendment recommendations)
 - **Agents** — task-executor, doc-updater, security-auditor, quality-verifier, test-strategist
 - **Hooks** — SessionStart/SessionEnd for loop state tracking, SubagentStop for autonomous continuation
+
+## Reporting & Review
+
+Two skills consume the same data layer (Dart tasks + agent session logs) with different lenses:
+
+- `Skill: dartai:report` — neutral status dashboard. Multi-page HTML at `./reports/dartai/<timestamp>/`. Pages: index, completed, outstanding, replans, timeline, agents, sessions. Every row traceable to dart_id or log path.
+- `Skill: dartai:review` — adversarial audit. Markdown with grounded findings (rework, loops, abandoned approaches, slow turns, doc/skill/planning gaps) mapped to concrete amendment recommendations. Optional `create_dart_tasks=true` files them as Dart tasks.
+
+Run `report` first for visibility, then `review` when patterns warrant process change.
 
 See `commands/start.md` for the full adversarial loop specification.
 

@@ -16,6 +16,9 @@ Thumbs.db
 .dartai/
 .workflow/
 
+# dartai:report / dartai:review output
+reports/dartai/
+
 # Build artifacts
 *.exe
 *.dll
