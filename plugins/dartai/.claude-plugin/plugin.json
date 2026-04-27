@@ -1,6 +1,6 @@
 {
   "name": "dartai",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines.",
   "author": {
     "name": "Standard Beagle",
@@ -49,7 +49,9 @@
     "./skills/simple-planning.md",
     "./skills/adversarial-planning-loop.md",
     "./skills/adversarial-quality-loop.md",
-    "./skills/hook-doctor.md"
+    "./skills/hook-doctor.md",
+    "./skills/report.md",
+    "./skills/review.md"
   ],
   "agents": [
     "./agents/task-executor.md",
