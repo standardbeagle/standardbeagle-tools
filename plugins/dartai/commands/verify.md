@@ -15,7 +15,7 @@ agent: dartai:qa-reviewer
 This command dispatches reviewer subagents in parallel via `Agent` (alias `Task`).
 
 1. **Top-level driver only.** Subagents cannot spawn subagents — if `/dartai:verify` runs inside a subagent, stop and report to the parent. The 2+1 review pattern collapses if the dispatcher tries to inline reviewer logic in a single context.
-2. **Verify `Agent` schema before first dispatch.** Preloaded → call directly. Deferred (listed in `<system-reminder>` deferred tools) → `ToolSearch query="select:Agent" max_results=1` to load schema; otherwise calls fail with `InputValidationError`.
+2. **Verify `Agent` schema before first dispatch.** Check the `<system-reminder>` deferred-tools list: if `Agent` is **absent** from it → preloaded, call directly (no ToolSearch needed). If `Agent` is **present** in the deferred list → `ToolSearch query="select:Agent" max_results=1` to load schema before calling.
 
 ## Usage
 

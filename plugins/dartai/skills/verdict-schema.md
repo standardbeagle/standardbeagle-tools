@@ -148,7 +148,16 @@ Always-dispatched (workflow plugin mirrors):
 - `plugins/workflow/agents/code-quality-reviewer.md`
 - `plugins/workflow/agents/post-task-reviewer.md`
 
-Conditional and compound reviewers (typescript-strict, cli-readiness, correctness, maintainability, testing) MAY adopt this schema in a follow-up; they currently emit the R2 §4.1 `review_report` shape. Until they migrate, orchestrators accept either shape and extract `verdict` from whichever is present.
+Always-dispatched (compound-review plugin):
+- `plugins/compound-review/agents/correctness-reviewer.md`
+- `plugins/compound-review/agents/maintainability-reviewer.md`
+- `plugins/compound-review/agents/testing-reviewer.md`
+
+Conditional (compound-review plugin — dispatched when diff matches):
+- `plugins/compound-review/agents/typescript-strict-reviewer.md` (when diff touches `*.ts`/`*.tsx`)
+- `plugins/compound-review/agents/cli-readiness-reviewer.md` (when diff touches CLI paths)
+
+Not yet migrated (rationalization-trap-reviewer) — still emits structured JSON per its bespoke schema. Orchestrators treat absence of `verdict-file:` on stdout line 1 as legacy format and read the JSON body directly.
 
 ---
 
@@ -158,12 +167,17 @@ Reviewer subagents return their decision via a **verdict file written to disk**,
 
 ### File layout 檔案佈局
 
-| path                                          | written by                | read by                   |
-| --------------------------------------------- | ------------------------- | ------------------------- |
-| `.dartai/reports/<task-id>/qa.md`             | qa-reviewer subagent      | loop driver (Monitor)     |
-| `.dartai/reports/<task-id>/quality.md`        | code-quality-reviewer     | loop driver (Monitor)     |
-| `.dartai/reports/<task-id>/security.md`       | post-task-reviewer        | loop driver (Monitor)     |
-| `.dartai/reports/<task-id>/verdict-summary.kdl` | aggregator              | final gate decision       |
+| path                                            | written by                  | read by               |
+| ----------------------------------------------- | --------------------------- | --------------------- |
+| `.dartai/reports/<task-id>/qa.md`               | qa-reviewer                 | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/quality.md`          | code-quality-reviewer       | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/correctness.md`      | correctness-reviewer        | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/maintainability.md`  | maintainability-reviewer    | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/testing.md`          | testing-reviewer            | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/ts-strict.md`        | typescript-strict-reviewer  | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/cli-readiness.md`    | cli-readiness-reviewer      | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/security.md`         | post-task-reviewer          | loop driver (Monitor) |
+| `.dartai/reports/<task-id>/verdict-summary.kdl` | aggregator                  | final gate decision   |
 
 The directory is `.dartai/reports/<task-id>/` (consistent with existing `evidence_path` references). Filenames are fixed per reviewer role so the driver can scan a known set without listing.
 
@@ -232,7 +246,7 @@ Drivers consuming the verdict-file channel:
 
 4. **Gate on file content, not stdout body**. The gate decision is `verdict:` from line 1 of the file. The subagent's transcript is discarded after parsing. Replay is possible from the file alone — re-running a gate decision means re-reading the verdict file, no need to re-dispatch the reviewer.
 
-5. **Aggregate to `verdict-summary.kdl`** after all reviewers report. The aggregator is the only consumer that reads multiple verdict files at once; it writes a final gate decision plus per-reviewer outcomes for replay.
+5. **Aggregate to `verdict-summary.kdl`** after all reviewers report. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/aggregate-verdicts.js <task-id>` (or the equivalent relative path). The aggregator reads all role-fixed verdict files, computes the overall gate verdict (any `fail` → `fail`; any `warn` and no `fail` → `warn`; else `pass`), and writes `.dartai/reports/<task-id>/verdict-summary.kdl`. The aggregator is the only consumer that reads multiple verdict files at once.
 
 ### Backward compatibility 向後兼容
 

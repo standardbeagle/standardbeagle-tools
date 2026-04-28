@@ -105,9 +105,11 @@ concurrent_agents:
       race conditions, state-transition bugs, swallowed errors,
       intent-vs-implementation mismatch.
 
-      ## Return
-      Return structured review_report (per R2 §4.1) as the final message
-      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+      ## Output
+      Write verdict to .dartai/reports/[TASK_ID]/correctness.md per
+      verdict-schema "Verdict File Delivery" (line-oriented:
+      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
+      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
 
   maintainability_reviewer:
     subagent_type: "compound-review:maintainability-reviewer"
@@ -132,9 +134,11 @@ concurrent_agents:
       cross-module coupling, naming that obscures intent,
       duplication (jscpd), YAGNI violations.
 
-      ## Return
-      Return structured review_report (per R2 §4.1) as the final message
-      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+      ## Output
+      Write verdict to .dartai/reports/[TASK_ID]/maintainability.md per
+      verdict-schema "Verdict File Delivery" (line-oriented:
+      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
+      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
 
   testing_reviewer:
     subagent_type: "compound-review:testing-reviewer"
@@ -158,9 +162,11 @@ concurrent_agents:
       Untested branches, weak/brittle assertions, implementation-coupled
       tests, missing error-path coverage, behavior changes without tests.
 
-      ## Return
-      Return structured review_report (per R2 §4.1) as the final message
-      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+      ## Output
+      Write verdict to .dartai/reports/[TASK_ID]/testing.md per
+      verdict-schema "Verdict File Delivery" (line-oriented:
+      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
+      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
 
   # Conditional reviewers — only dispatch when diff matches the trigger.
   # Predicate syntax: JavaScript-expression evaluated against the changed-files
@@ -189,9 +195,11 @@ concurrent_agents:
       nullable narrowing, hidden regressions in refactors/deletions,
       five-second-rule failures, hard-to-test structure-vs-behavior gaps.
 
-      ## Return
-      Return structured review_report (per R2 §4.1) as the final message
-      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+      ## Output
+      Write verdict to .dartai/reports/[TASK_ID]/ts-strict.md per
+      verdict-schema "Verdict File Delivery" (line-oriented:
+      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
+      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
 
   cli_readiness_reviewer:
     enabled_when: |
@@ -222,9 +230,12 @@ concurrent_agents:
       bounded list output, stdout/stderr separation, help-text completeness.
       Severity caps at P1; all findings advisory/manual.
 
-      ## Return
-      Return structured review_report (per R2 §4.1) as the final message
-      body, no preamble. verdict ∈ {PASS, FAIL, NEEDS_WORK}.
+      ## Output
+      Write verdict to .dartai/reports/[TASK_ID]/cli-readiness.md per
+      verdict-schema "Verdict File Delivery" (line-oriented:
+      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
+      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
+      All findings advisory (autofix_class: manual).
 ```
 
 ## Reading Verdicts (file-streaming via Monitor)
@@ -235,9 +246,14 @@ The driver gates on **verdict file content**, not subagent stdout. Stdout is a �
 verdict_consumption:
   channel: "file"
   reads:
-    - ".dartai/reports/<task-id>/quality.md"
-    - ".dartai/reports/<task-id>/qa.md"
-    - ".dartai/reports/<task-id>/security.md"  # post-task; written in Phase 5
+    - ".dartai/reports/<task-id>/quality.md"       # code-quality-reviewer
+    - ".dartai/reports/<task-id>/qa.md"             # qa-reviewer
+    - ".dartai/reports/<task-id>/correctness.md"    # correctness-reviewer (always-on)
+    - ".dartai/reports/<task-id>/maintainability.md" # maintainability-reviewer (always-on)
+    - ".dartai/reports/<task-id>/testing.md"        # testing-reviewer (always-on)
+    - ".dartai/reports/<task-id>/ts-strict.md"      # typescript-strict-reviewer (conditional: *.ts/*.tsx)
+    - ".dartai/reports/<task-id>/cli-readiness.md"  # cli-readiness-reviewer (conditional: CLI paths)
+    - ".dartai/reports/<task-id>/security.md"       # post-task-reviewer; written in Phase 5
 
   preferred_signal: "subagent-completion notification"
   why: "Completion notifications are the durable signal — file-system events alone can drop under load. Parse the verdict file at completion time."

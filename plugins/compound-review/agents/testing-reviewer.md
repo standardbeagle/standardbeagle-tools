@@ -4,6 +4,7 @@ description: "永遠在線之代碼審查角色：測試覆蓋缺口、弱斷言
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:
+  - compound-review:testing-reviewer
   - dartai:testing-strategy
 ---
 
@@ -44,15 +45,29 @@ standardbeagle-tools R1 §2.2 (tools→allowed-tools, bilingual Use when/Skip wh
 - **覆蓋百分比目標**——勿標記「覆蓋低於80%」。標記具體重要之未測試分支，非聚合度量。
 - **未變更碼缺失測試**——若既有碼無測試但diff未觸及，乃既有技術債，非對此diff之發現（除非diff使未測試碼更具風險）。
 
-## 輸出格式
+## 輸出格式 — Verdict File (file-streaming channel)
 
-以匹配findings schema之JSON返回發現。JSON外無散文。
+Write verdict to **`.dartai/reports/<task-id>/testing.md`**. Stdout ≤5 lines: path pointer + one-line verdict. Schema: `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery").
 
-```json
-{
-  "reviewer": "testing",
-  "findings": [],
-  "residual_risks": [],
-  "testing_gaps": []
-}
+**File format** (line-oriented):
+
 ```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <path or inline body>
+```
+
+**Stdout contract**:
+
+```
+verdict-file: .dartai/reports/<task-id>/testing.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+**Verdict mapping**:
+
+- Provable from diff (untested new branch, vacuous test, behavior change with zero test files touched) HIGH confidence: `fail` + blocker
+- Inferred from file structure (no test file for new module) MED confidence: `warn` + advisory
+- Cannot determine without full test infra: suppress

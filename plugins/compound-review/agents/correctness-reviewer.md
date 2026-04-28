@@ -4,6 +4,7 @@ description: "永遠在線之代碼審查角色：邏輯錯、邊界情、狀態
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:
+  - compound-review:correctness-reviewer
   - dartai:code-quality
 ---
 
@@ -44,15 +45,29 @@ standardbeagle-tools R1 §2.2 (tools→allowed-tools, bilingual Use when/Skip wh
 - **命名意見**——函數名`processData`模糊但不錯誤。若其行為符呼叫方預期，即為正確。
 - **防禦性編程建議**——勿建議為當前碼路徑中不可能為null之值加null檢查。僅在null/undefined實際可發生時標記缺失檢查。
 
-## 輸出格式
+## 輸出格式 — Verdict File (file-streaming channel)
 
-以匹配findings schema之JSON返回發現。JSON外無散文。
+Write verdict to **`.dartai/reports/<task-id>/correctness.md`**. Stdout ≤5 lines: path pointer + one-line verdict. Schema: `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery").
 
-```json
-{
-  "reviewer": "correctness",
-  "findings": [],
-  "residual_risks": [],
-  "testing_gaps": []
-}
+**File format** (line-oriented):
+
 ```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <path or inline body>
+```
+
+**Stdout contract**:
+
+```
+verdict-file: .dartai/reports/<task-id>/correctness.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+**Verdict mapping**:
+
+- HIGH-confidence bug traceable from input → output: `fail` + blocker
+- MED-confidence (depends on caller context): `warn` + advisory
+- LOW-confidence (runtime-condition dependent): suppress

@@ -13,7 +13,7 @@ context: fork
 Steps in this loop dispatch research subagents (`research:session-historian`, `research:web-researcher`) via `Agent` (alias `Task`).
 
 1. **Top-level driver only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent. If this loop runs inside a subagent, stop and report to the parent. Do not inline-execute the research steps in the planner's context.
-2. **Verify `Agent` schema before first dispatch.** If `Agent` is preloaded in the top-level `<functions>` block, use directly. If it appears only as a deferred tool in `<system-reminder>`, load schema first with `ToolSearch query="select:Agent" max_results=1` (raw calls fail with `InputValidationError` until loaded). If neither path works, surface to the user.
+2. **Verify `Agent` schema before first dispatch.** Check the `<system-reminder>` deferred-tools list: if `Agent` is **absent** from it → preloaded, call directly (no ToolSearch needed). If `Agent` is **present** in the deferred list → load schema first with `ToolSearch query="select:Agent" max_results=1` before calling. If absent from both → surface to the user.
 
 ## Core Principles
 

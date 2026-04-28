@@ -4,6 +4,7 @@ description: "條件式代碼審查角色（diff含CLI命令、參數解析、�
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:
+  - compound-review:cli-readiness-reviewer
   - dartai:code-quality
 ---
 
@@ -74,15 +75,29 @@ Frontmatter normalized per R1 §2.2 (tools→allowed-tools, bilingual triggers).
 - **測試檔案**——CLI命令之測試實現非CLI表面本身。
 - **僅文檔變更**——README更新、changelog條目、或不影響CLI行為之doc comment。
 
-## 輸出格式
+## 輸出格式 — Verdict File (file-streaming channel)
 
-以匹配findings schema之JSON返回發現。JSON外無散文。
+Write verdict to **`.dartai/reports/<task-id>/cli-readiness.md`**. Stdout ≤5 lines: path pointer + one-line verdict. Schema: `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery").
 
-```json
-{
-  "reviewer": "cli-readiness",
-  "findings": [],
-  "residual_risks": [],
-  "testing_gaps": []
-}
+**File format** (line-oriented):
+
 ```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <path or inline body>
+```
+
+**Stdout contract**:
+
+```
+verdict-file: .dartai/reports/<task-id>/cli-readiness.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+**Verdict mapping** (severity constraint: max P1):
+
+- Blocker (P1) directly visible (prompt without TTY guard, data command without --json, unbounded list): `fail` + blocker
+- Friction (P2) or Optimization (P3): `warn` + advisory
+- All findings are `autofix_class: manual`

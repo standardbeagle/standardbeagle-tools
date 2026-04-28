@@ -4,6 +4,7 @@ description: "條件式代碼審查角色（diff含TypeScript時觸發）：嚴�
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:
+  - compound-review:typescript-strict-reviewer
   - dartai:code-quality
 ---
 
@@ -46,15 +47,29 @@ R1 §2.2 (tools→allowed-tools, bilingual Use when/Skip when triggers).
 - **為現代TypeScript特性而現代TypeScript特性**——勿要求更聰明之類型除非實質改善安全或清晰。
 - **明確且適當類型之直接新碼**——重點為槓桿，非儀式。
 
-## 輸出格式
+## 輸出格式 — Verdict File (file-streaming channel)
 
-以匹配findings schema之JSON返回發現。JSON外無散文。
+Write verdict to **`.dartai/reports/<task-id>/ts-strict.md`**. Stdout ≤5 lines: path pointer + one-line verdict. Schema: `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery").
 
-```json
-{
-  "reviewer": "typescript-strict",
-  "findings": [],
-  "residual_risks": [],
-  "testing_gaps": []
-}
+**File format** (line-oriented):
+
 ```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <path or inline body>
+```
+
+**Stdout contract**:
+
+```
+verdict-file: .dartai/reports/<task-id>/ts-strict.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+**Verdict mapping**:
+
+- Type loophole directly visible (`any`, unchecked cast, removed nullable guard) HIGH confidence: `fail` + blocker
+- Naming / abstraction boundary judgment MED confidence: `warn` + advisory
+- LOW-confidence style preference: suppress

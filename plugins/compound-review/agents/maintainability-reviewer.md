@@ -4,6 +4,7 @@ description: "永遠在線之代碼審查角色：過早抽象、不必要間接
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:
+  - compound-review:maintainability-reviewer
   - dartai:code-quality
 ---
 
@@ -64,15 +65,29 @@ Frontmatter normalized per R1 §2.2 (tools→allowed-tools, bilingual triggers).
 - **風格偏好**——tab對space、單引號對雙引號、尾逗號、import排序。乃linter關注，非可維護性關注。
 - **框架要求之模式**——若框架要求工廠、基類或特定繼承層次，間接非作者選擇。勿標記。
 
-## 輸出格式
+## 輸出格式 — Verdict File (file-streaming channel)
 
-以匹配findings schema之JSON返回發現。JSON外無散文。
+Write verdict to **`.dartai/reports/<task-id>/maintainability.md`**. Stdout ≤5 lines: path pointer + one-line verdict. Schema: `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery").
 
-```json
-{
-  "reviewer": "maintainability",
-  "findings": [],
-  "residual_risks": [],
-  "testing_gaps": []
-}
+**File format** (line-oriented):
+
 ```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <path or inline body>
+```
+
+**Stdout contract**:
+
+```
+verdict-file: .dartai/reports/<task-id>/maintainability.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+**Verdict mapping**:
+
+- Objectively provable structural problem (dead code, single-impl abstraction, jscpd duplicate) HIGH confidence: `fail` + blocker
+- Naming / coupling judgment MED confidence: `warn` + advisory
+- LOW-confidence style preference: suppress

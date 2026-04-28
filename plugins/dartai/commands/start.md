@@ -16,13 +16,17 @@ agent: general-purpose
 
 **Verify `Agent` schema is callable before the first dispatch:**
 
-1. **Preloaded** — `Agent` (alias `Task`) appears in the top-level `<functions>` block. Use directly.
-2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema absent. Raw call fails with `InputValidationError`. Load first:
+Detection algorithm — check the `<system-reminder>` deferred-tools list:
+
+1. **`Agent` absent from deferred-tools list** → it is preloaded in `<functions>`. Use directly. **Do NOT run ToolSearch.**
+2. **`Agent` present in deferred-tools list** → schema not yet loaded. Load it:
    ```
    ToolSearch query="select:Agent" max_results=1
    ```
    The returned `<functions>` entry makes `Agent` callable for the rest of the turn.
-3. **Neither** — surface to user; do not retry inline.
+3. **`Agent` absent from both `<functions>` and deferred-tools** → surface to user; do not retry inline.
+
+**Key rule:** Absence from the deferred-tools list means preloaded — no ToolSearch needed. ToolSearch on a preloaded tool wastes tokens and may return unrelated deferred tools instead.
 
 ## Adversarial Cooperation Model
 
