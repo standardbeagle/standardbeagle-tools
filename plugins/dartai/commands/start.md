@@ -55,8 +55,17 @@ Look for: last_dartboard, default_dartboard fields
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
   mcp_name: "dart-query"
   tool_name: "get_config"
-  parameters: {}
+  parameters: {"include": ["dartboards"]}
 ```
+
+**Cache get_config for the loop session.** Workspace config (dartboards, assignees, statuses) rarely changes within a loop run. Fetch once at startup and reuse the result for the duration of the session. Prefer the `include` parameter to limit response sections to what's needed at each call site (e.g. `["dartboards"]` here, `["assignees"]` in §2.5, `["dartboards", "assignees", "statuses"]` if a single bulk fetch makes sense at startup).
+
+**Cache invalidation 緩存失效:** Re-fetch with `cache_bust: true` only when:
+1. A dartboard is created/renamed via this loop (write-then-invalidate)
+2. Every 50 iterations as a safety refresh (default; tune via `.dartai/config.local.md` `config_cache_ttl_iterations`)
+3. The user explicitly says "refresh config"
+
+Do NOT call `get_config` per-iteration or per-task — that's the wasteful pattern this revision eliminates.
 
 **After selecting a dartboard, save it as last used:**
 ```python
@@ -120,14 +129,14 @@ Identify this runner instance for multi-runner concurrency:
    RUNNER_EMAIL=$(git config user.email)
    ```
 
-3. **Match email to Dart assignee:**
+3. **Match email to Dart assignee** (reuse cached config from §1 if already fetched; otherwise scope to assignees only):
    ```
    Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
      mcp_name: "dart-query"
      tool_name: "get_config"
      parameters: {"include": ["assignees"]}
    ```
-   Match `runner_email` against assignee emails to find `runner_dart_id`.
+   Match `runner_email` against assignee emails to find `runner_dart_id`. If §1 already fetched `["dartboards", "assignees"]` together, skip this call and read from the cached result.
 
 4. **Check `.dartai/config.local.md`** for cached `runner_dart_id`. If cached and still valid, use it. Otherwise update the config with the matched value.
 
@@ -161,7 +170,7 @@ Identify this runner instance for multi-runner concurrency:
 
 ### 3. Fetch Active Tasks
 
-Query Dart for **To-do tasks only** (not "In Progress"):
+Query Dart for **To-do tasks only** (not "In Progress") at **minimal detail** — the loop driver only needs `id`, `title`, and `status` to pick the next claimable task. Full descriptions are fetched once, just-in-time, when the chosen task is dispatched to the executor (Section 5.3).
 
 ```
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
@@ -170,9 +179,28 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
   parameters: {
     "dartboard": "[selected dartboard]",
     "status": "To-do",
+    "detail_level": "minimal",
     "limit": 20
   }
 ```
+
+**Detail level rationale 細節層級理由:**
+- `detail_level: "minimal"` — sweep/queue scan; returns id+title+status only
+- `detail_level: "standard"` — needed if surfacing dependency state (blockers/blocking) before executor dispatch; upgrade only when a task's blocker tags appear in the minimal response
+- `detail_level: "full"` — reserved for the executor dispatch (§5.3), never used in the queue sweep itself
+
+**DartQL escape valve 升級至DartQL:** When you need filters beyond `list_tasks` named parameters (priority ranges, multi-status OR, tag exclusion, age windows), use a `batch_update_tasks` selector with `dry_run: true` to filter at source rather than fetching-then-filtering in driver context. Example:
+
+```
+# Find high-priority To-do tasks older than 7 days
+batch_update_tasks(
+  selector: "status = 'To-do' AND priority >= 4 AND created_at < '7 days ago'",
+  updates: {},
+  dry_run: true,
+)
+```
+
+The `dry_run: true` response returns matched task IDs without mutating anything — equivalent to a DartQL `SELECT` for the loop driver. See `dartai:batch-operations` for full DartQL syntax.
 
 **Filter returned tasks by claim status:**
 
@@ -504,6 +532,21 @@ The `agent:<id>` tag value comes from the resolved `agent_id` in §2.5 step 5 (e
 
 #### 5.3 Spawn Task Executor Subagent
 
+**Just-in-time full fetch:** The queue sweep in §3 returned only minimal fields. Before dispatching the executor, fetch the chosen task at full detail so the prompt carries the complete description and acceptance criteria. This is the **only** point in the loop where `detail_level: "full"` (or omitted, since `get_task` returns full by default) is appropriate:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "get_task"
+  parameters:
+    dart_id: "[chosen-task-id]"
+    include_relationships: true   # need blocker/dependency state for executor
+    expand_relationships: false   # titles not required for executor
+```
+
+Use the returned `description`, `acceptance_criteria` (parsed from description), and relationship state to build the executor prompt below.
+
 **Each task iteration MUST use the Task tool (or its `Agent` alias in Claude Code harnesses — same shape, different name) with subagent_type="dartai:task-executor":**
 
 ```yaml
@@ -633,7 +676,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
 
 **Dart is the source of truth for task state.** After SubagentStop fires:
 
-1. **Query Dart for remaining To-do tasks:**
+1. **Query Dart for remaining To-do tasks** (minimal detail — same rationale as §3, queue scan only needs id/title/status):
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -642,16 +685,26 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
      parameters:
        dartboard: "[dartboard]"
        status: "To-do"
+       detail_level: "minimal"
        limit: 20
    ```
 
-   Apply the same claim filter as Section 3: read `.dartai-locks.json` and skip tasks claimed by other runners.
+   Apply the same claim filter as Section 3: read `.dartai-locks.json` and skip tasks claimed by other runners. Full description is fetched at §5.3 dispatch, not here.
 
-2. **Check completed task status in Dart:**
-   - Re-read the just-processed task via `get_task`
+2. **Check completed task status in Dart** (status-only fetch — skip full description, the loop driver already dispatched it once):
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart-query"
+     tool_name: "get_task"
+     parameters:
+       dart_id: "[just-processed-task-id]"
+       include_relationships: false   # not needed for status check
+       include_comments: true         # needed only if status indicates failure
+   ```
    - If task marked "Done" → success, proceed to git commit/push (5.6.5), then get next task
-   - If task still "In Progress" with failure comment → replan, proceed to git stash (5.6.5)
-   - Read failure details from task comments
+   - If task still "In Progress" with failure comment → replan, proceed to git stash (5.6.5); read failure details from comments returned above
+   - Drop `include_comments: true` if status-only check is sufficient (executor already wrote the failure comment to Dart, so the loop driver may not need to re-read it)
 
 3. **Local loop file contains orchestration metrics AND task results:**
    ```json
@@ -926,7 +979,7 @@ params:
       [Any important observations]
 ```
 
-**Query for final state:**
+**Query for final state** (standard detail — summary needs status counts but not full descriptions):
 ```yaml
 # Get all loop-related tasks for summary
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -936,6 +989,17 @@ params:
   parameters:
     dartboard: "[dartboard-name]"
     tag: "loop-task"
+    detail_level: "standard"
+```
+
+**Bulk status flip at loop end:** If the summary needs to mark several iteration-tracking subtasks (e.g. all `tracks:[work-task-id]` rows whose status drifted), prefer a single `batch_update_tasks` call with a DartQL selector over N sequential `update_task` calls. Example:
+
+```yaml
+batch_update_tasks(
+  selector: "tag = 'loop-iteration' AND status != 'Done' AND tag CONTAINS 'tracks:[work-task-id]'",
+  updates: {status: "Done"},
+  dry_run: false,
+)
 ```
 
 ### 9. Status Reporting

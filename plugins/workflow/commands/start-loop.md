@@ -354,6 +354,41 @@ key_principles:
   no_accumulation: "Main loop doesn't accumulate implementation details"
 ```
 
+## Dart Fetch Discipline (if backed by Dart) Dart抓取規範
+
+This loop drives off a local task-list file (`.workflow/tasks.md`), so it does not call `dart-query` directly. **If a fork or extension reads tasks from Dart instead**, apply the same compaction discipline as the dartai loop driver (`/dartai:start`):
+
+```yaml
+fetch_pattern:
+  queue_sweep:
+    detail_level: minimal           # id + title + status only
+    rationale: "Driver only needs to pick the next task; full descriptions wait until dispatch"
+
+  filter_at_source:
+    use: DartQL via batch_update_tasks(dry_run: true)
+    rationale: "Don't fetch-then-filter — push the WHERE clause to the API"
+
+  full_fetch_point:
+    when: "Just-in-time, before dispatching the executor subagent"
+    detail_level: full              # description, acceptance criteria, relationships
+    rationale: "Executor needs the whole task; everything else can stay minimal"
+
+  config_caching:
+    fetch: "Once at startup with include: ['dartboards', 'assignees', 'statuses']"
+    invalidate_when:
+      - "A dartboard is created/renamed via this loop (write-then-invalidate)"
+      - "Every 50 iterations as a safety refresh"
+      - "User says 'refresh config'"
+    never: "Don't call get_config per-iteration or per-task"
+
+  bulk_status_flips:
+    use: batch_update_tasks
+    when: "3+ tasks need the same status change"
+    rationale: "Single API call beats N sequential update_task calls"
+```
+
+See `dartai:dart-query-reference` and `dartai:task-filtering` skills for parameter details.
+
 ## Context-Sized Task Requirements 上下文適配任務要求
 
 每個任務必須：

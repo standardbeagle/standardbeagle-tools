@@ -27,6 +27,42 @@ agent: general-purpose
 - 將文件更改與任務描述匹配
 - 檢查引用任務的TODO評論
 
+**Fetch candidate tasks at minimal detail.** Sync only needs `id`, `title`, `status` to match commit messages and propose updates. Full descriptions are not required for matching:
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "list_tasks"
+  parameters:
+    dartboard: "[current-dartboard]"
+    detail_level: "minimal"
+    limit: 100
+```
+
+**DartQL filter at source — don't fetch-then-filter.** When sync needs the active working set (tasks plausibly affected by this session), filter at the API rather than scanning a full list in driver context:
+
+```yaml
+# Tasks currently In Progress on this dartboard (DartQL via batch_update dry_run)
+batch_update_tasks(
+  selector: "dartboard = '[dartboard]' AND status IN ('In Progress', 'Doing')",
+  updates: {},
+  dry_run: true,
+)
+```
+
+```yaml
+# Or list_tasks with status filter when one status is enough
+list_tasks(
+  dartboard: "[dartboard]",
+  status: "In Progress",
+  detail_level: "standard",   # need title + status for the proposal table
+  limit: 50,
+)
+```
+
+Upgrade to `detail_level: "standard"` only for the subset that will appear in the §3 proposal table.
+
 ### 3. Preview Updates
 
 顯示擬議的Dart更新：
@@ -49,7 +85,22 @@ Apply these updates? (yes/no)
 
 ### 4. Apply Updates
 
-If confirmed (or --force flag):
+If confirmed (or --force flag), and the proposal contains **multiple tasks getting the same status flip** (e.g. several tasks all moving To-do → Doing for a sprint kickoff), prefer `batch_update_tasks` with a DartQL selector over N sequential `update_task` calls:
+
+```yaml
+# Batch flip for N tasks with the same target status
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "batch_update_tasks"
+  parameters:
+    selector: "id IN ('id1', 'id2', 'id3')"
+    updates: {status: "Done"}
+    dry_run: false
+```
+
+For single-task updates or per-task comments (where each task gets a different completion note), keep the per-task call:
+
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -60,6 +111,8 @@ params:
     status: "[new-status]"
     comment: "[completion note]"
 ```
+
+Rule of thumb: 3+ tasks with the same status change → `batch_update_tasks`. Mixed updates or per-task comments → `update_task` loop.
 
 ### 5. Report Results
 

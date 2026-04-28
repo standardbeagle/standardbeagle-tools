@@ -21,7 +21,7 @@ This command dispatches `dartai:task-executor` and `dartai:doc-updater` via `Age
 
 ### 1. Find the Task
 
-If argument looks like a Dart task ID (12 alphanumeric chars):
+If argument looks like a Dart task ID (12 alphanumeric chars), fetch directly at full detail — the user named one task and we're about to execute it, so the full description is needed immediately:
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -29,9 +29,11 @@ params:
   tool_name: "get_task"
   parameters:
     dart_id: "[argument]"
+    include_relationships: true
+    include_comments: false   # comments fetched only if §2 confirmation requires them
 ```
 
-Otherwise, search by title:
+Otherwise, **search by title at minimal detail** so the disambiguation list stays compact. Only the chosen result is fetched at full detail in step 1.5:
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
@@ -39,7 +41,25 @@ params:
   tool_name: "search_tasks"
   parameters:
     query: "[argument]"
+    detail_level: "minimal"
+    limit: 10
 ```
+
+### 1.5. Resolve Chosen Task to Full Detail
+
+After the user confirms which search result to execute (or if the ID lookup matched a single task), fetch full detail just-in-time:
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "get_task"
+  parameters:
+    dart_id: "[chosen-id]"
+    include_relationships: true
+    include_comments: true
+```
+
+This is the standard "minimal-for-discovery, full-for-execution" pattern. Skip step 1.5 if step 1 already returned the full task (direct ID lookup with no disambiguation).
 
 ### 2. Confirm Task
 
