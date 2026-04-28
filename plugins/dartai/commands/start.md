@@ -16,14 +16,11 @@ agent: general-purpose
 
 **Subagent dispatch: try first, handle failure.**
 
-Do NOT pre-check tool availability. Pre-flight detection is unreliable because deferred tool lists, harness versions, and platform builds vary. Instead:
+No pre-flight check. Deferred-tool lists vary by harness/version/platform.
 
-1. **Attempt `Agent` dispatch directly** when it's time to spawn a task executor.
-2. **If the call succeeds** → normal subagent execution (§5.3).
-3. **If the call fails with "not available", "no such tool", or a schema error** → enter inline-delegation mode (§5.3.1 Inline Delegation).
-4. **Never retry a failed Agent call** for the same task. One attempt per task.
-
-This "attempt-then-fallback" pattern is more robust than parsing `<system-reminder>` deferred tool lists, which differ across Claude Code versions and platforms.
+1. **Try `Agent` dispatch.** Success → §5.3.
+2. **Fail** ("not available", "no such tool", schema error) → §5.3.1 inline-delegation.
+3. **One attempt per task.** Never retry.
 
 ## Adversarial Cooperation Model
 
@@ -725,41 +722,34 @@ Task tool call:
 
 Headers like "## Task Details" and numbered instruction lists are dropped — the executor agent's spec already prescribes the pipeline. Driver supplies ids + verbatim `task_spec` only.
 
-#### 5.3.1 Inline Delegation
+#### 5.3.1 Inline Delegation 內嵌委派
 
-When `execution_mode` is `"inline-delegation"` (Agent tool unavailable), preserve subagent-style context minimization by running only what fits in the current window and escalating everything else.
+Agent不可用時，僅執行適合當前窗口的小任務，其餘升級。
 
-**Inline execution rules:**
-1. Fetch the next To-do task at minimal detail (id, title, status only)
-2. **Size check BEFORE execution:**
-   - If task touches >3 files OR has unclear acceptance criteria OR would require >10 tool calls → **do not execute inline**. Add to `delegation_queue` and skip.
-   - If task is small (≤3 files, clear criteria, bounded scope) → execute inline using the task-executor phases directly
-3. After each inline task: update Dart status, update loop state, assess remaining context
-4. If remaining context window drops below 40% → **stop and report up** immediately
-5. Continue until: queue empty, `delegation_queue` reaches 3 items, context window <40%, user says stop, or critical security found
+**規則：**
+1. 取下一To-do任務（僅id, title, status）
+2. **尺寸檢查：**
+   - >3檔 OR 條件不明 OR 預估>10次工具調用 → 加入`delegation_queue`，跳過
+   - ≤3檔 AND 條件明確 AND 範圍有界 → 內嵌執行task-executor流程
+3. 每次完成後：更新Dart狀態 + loop state + 評估剩餘上下文
+4. 上下文窗口<40% → **立即停止並上報**
+5. 終止條件：隊列空 OR delegation_queue≥3 OR 上下文<40% OR 用戶停止 OR 安全問題
 
-**Why this preserves subagent discipline:**
-Subagents exist to give each task a fresh, bounded context. Inline execution violates that if we cram everything into one conversation. By stopping early and delegating, we acknowledge the missing tool rather than pretending subagent isolation doesn't matter.
-
-**Final report (returned to parent agent):**
+**終止時輸出此YAML（供父agent解析恢復）：**
 ```yaml
 inline_delegation_report:
   dartboard: "[name]"
   completed_inline: [task_ids]
   blocked: [task_ids]
-  needs_fresh_context: [task_ids]  # tasks requiring subagent spawn
-  delegation_queue_count: N
+  needs_fresh_context: [task_ids]
   loop_task_id: "[id]"
   state_file: ".dartai/loop-state.json"
   context_remaining: "40%"
-  summary: "Completed 2 small tasks inline. 3 tasks need fresh subagent context."
+  summary: "Completed N small tasks inline. M tasks need fresh subagent context."
   recovery_request: |
-    Agent tool was unavailable in this context. Please recover by spawning
-    subagents for the tasks in `needs_fresh_context` above, or restart
-    /start in a top-level conversation where Agent is available.
+    Agent tool unavailable. Spawn subagents for needs_fresh_context tasks,
+    or restart /start in top-level conversation.
 ```
-
-Emit this YAML block verbatim at the end so the parent agent can parse it and recover appropriately.
 
 #### 5.4 Task Sizing Check (done by subagent)
 The task-executor subagent will verify task is context-sized:
