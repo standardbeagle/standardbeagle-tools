@@ -14,19 +14,16 @@ agent: general-purpose
 
 **This loop must run from the top-level agent.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. The "fresh subagent per task" pattern only works when `/dartai:start` runs in the top-level conversation. If invoked inside a subagent, stop and report to the parent — never inline-execute tasks in the driver context.
 
-**Verify `Agent` schema is callable before the first dispatch:**
+**Subagent dispatch: try first, handle failure.**
 
-Detection algorithm — check the `<system-reminder>` deferred-tools list:
+Do NOT pre-check tool availability. Pre-flight detection is unreliable because deferred tool lists, harness versions, and platform builds vary. Instead:
 
-1. **`Agent` absent from deferred-tools list** → it is preloaded in `<functions>`. Use directly. **Do NOT run ToolSearch.**
-2. **`Agent` present in deferred-tools list** → schema not yet loaded. Load it:
-   ```
-   ToolSearch query="select:Agent" max_results=1
-   ```
-   The returned `<functions>` entry makes `Agent` callable for the rest of the turn.
-3. **`Agent` absent from both `<functions>` and deferred-tools** → surface to user; do not retry inline.
+1. **Attempt `Agent` dispatch directly** when it's time to spawn a task executor.
+2. **If the call succeeds** → normal subagent execution (§5.3).
+3. **If the call fails with "not available", "no such tool", or a schema error** → enter inline-delegation mode (§5.3.1 Inline Delegation).
+4. **Never retry a failed Agent call** for the same task. One attempt per task.
 
-**Key rule:** Absence from the deferred-tools list means preloaded — no ToolSearch needed. ToolSearch on a preloaded tool wastes tokens and may return unrelated deferred tools instead.
+This "attempt-then-fallback" pattern is more robust than parsing `<system-reminder>` deferred tool lists, which differ across Claude Code versions and platforms.
 
 ## Adversarial Cooperation Model
 
@@ -652,7 +649,7 @@ params:
 
 Use the returned `description`, `acceptance_criteria` (parsed from description), and relationship state to build the executor prompt below.
 
-**Each task iteration MUST use the Task tool (or its `Agent` alias in Claude Code harnesses — same shape, different name) with subagent_type="dartai:task-executor".**
+**Each task iteration attempts the `Agent` tool (or `Task` alias) with subagent_type="dartai:task-executor". If the tool call fails with "not available", fall back to inline delegation (§5.3.1).**
 
 ##### Dispatch prompt compression 派發提示壓縮
 
@@ -685,7 +682,7 @@ Driver-to-executor prompts are compressed to cut token cost ~50–70% per dispat
 subagent_execution:
   why: "Fresh context prevents accumulated state/confusion"
   max_turns: 50
-  tool: Task
+  tool: Agent
   subagent_type: "dartai:task-executor"
   description: "Execute task: [short title]"   # ≤8 words
   prompt: |
@@ -708,6 +705,7 @@ subagent_execution:
   result_handling:
     on_success: "Task marked Done in Dart, continue to next"
     on_failure: "Task stays In Progress with failure comment, replan"
+    on_agent_unavailable: "Add task to delegation_queue; continue to next task (§5.3.1)"
 ```
 
 **Example (compressed):**
@@ -726,6 +724,42 @@ Task tool call:
 ```
 
 Headers like "## Task Details" and numbered instruction lists are dropped — the executor agent's spec already prescribes the pipeline. Driver supplies ids + verbatim `task_spec` only.
+
+#### 5.3.1 Inline Delegation
+
+When `execution_mode` is `"inline-delegation"` (Agent tool unavailable), preserve subagent-style context minimization by running only what fits in the current window and escalating everything else.
+
+**Inline execution rules:**
+1. Fetch the next To-do task at minimal detail (id, title, status only)
+2. **Size check BEFORE execution:**
+   - If task touches >3 files OR has unclear acceptance criteria OR would require >10 tool calls → **do not execute inline**. Add to `delegation_queue` and skip.
+   - If task is small (≤3 files, clear criteria, bounded scope) → execute inline using the task-executor phases directly
+3. After each inline task: update Dart status, update loop state, assess remaining context
+4. If remaining context window drops below 40% → **stop and report up** immediately
+5. Continue until: queue empty, `delegation_queue` reaches 3 items, context window <40%, user says stop, or critical security found
+
+**Why this preserves subagent discipline:**
+Subagents exist to give each task a fresh, bounded context. Inline execution violates that if we cram everything into one conversation. By stopping early and delegating, we acknowledge the missing tool rather than pretending subagent isolation doesn't matter.
+
+**Final report (returned to parent agent):**
+```yaml
+inline_delegation_report:
+  dartboard: "[name]"
+  completed_inline: [task_ids]
+  blocked: [task_ids]
+  needs_fresh_context: [task_ids]  # tasks requiring subagent spawn
+  delegation_queue_count: N
+  loop_task_id: "[id]"
+  state_file: ".dartai/loop-state.json"
+  context_remaining: "40%"
+  summary: "Completed 2 small tasks inline. 3 tasks need fresh subagent context."
+  recovery_request: |
+    Agent tool was unavailable in this context. Please recover by spawning
+    subagents for the tasks in `needs_fresh_context` above, or restart
+    /start in a top-level conversation where Agent is available.
+```
+
+Emit this YAML block verbatim at the end so the parent agent can parse it and recover appropriately.
 
 #### 5.4 Task Sizing Check (done by subagent)
 The task-executor subagent will verify task is context-sized:
