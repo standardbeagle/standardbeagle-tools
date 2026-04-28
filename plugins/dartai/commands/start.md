@@ -648,63 +648,80 @@ params:
 
 Use the returned `description`, `acceptance_criteria` (parsed from description), and relationship state to build the executor prompt below.
 
-**Each task iteration MUST use the Task tool (or its `Agent` alias in Claude Code harnesses — same shape, different name) with subagent_type="dartai:task-executor":**
+**Each task iteration MUST use the Task tool (or its `Agent` alias in Claude Code harnesses — same shape, different name) with subagent_type="dartai:task-executor".**
 
+##### Dispatch prompt compression 派發提示壓縮
+
+Driver-to-executor prompts are compressed to cut token cost ~50–70% per dispatch. The executor agent (`plugins/dartai/agents/task-executor.md`) accepts compressed input.
+
+| keep verbatim | compress / strip |
+| --- | --- |
+| file paths, line numbers | articles (a/an/the) |
+| function/symbol names | filler (just/really/basically) |
+| code blocks (fenced) | pleasantries, hedging |
+| error messages | narrative recap, role preludes |
+| commit/PR text, dart_ids, loop-ids | "please", "kindly", "as you know" |
+| URLs, hashes | step-by-step instruction lists already in agent spec |
+
+**Sentence-preservation exceptions** — keep full sentences in:
+- Acceptance criteria (disambiguates verdict)
+- Risk descriptions (mitigation depends on nuance)
+- Spec sections inside `task_spec`
+
+**Forbidden compression zones** — never compress:
+- Code blocks (fenced ``` ... ```)
+- Security text (auth flow, threat model, CVE refs)
+- Error messages quoted verbatim from logs
+- File contents quoted for review
+
+**Final user-facing summary** stays normal English — compression is driver→subagent only.
+
+**Compressed dispatch shape:**
 ```yaml
 subagent_execution:
   why: "Fresh context prevents accumulated state/confusion"
-  max_turns: 50  # Timeout mechanism - agent returns after 50 API round-trips
-  how: |
-    Use the Task tool with:
-      subagent_type: "dartai:task-executor"
-      max_turns: 50  # Ensures agent returns even if stuck
-      prompt: |
-        Execute task [TASK_ID] from dartboard [DARTBOARD_NAME].
+  max_turns: 50
+  tool: Task
+  subagent_type: "dartai:task-executor"
+  description: "Execute task: [short title]"   # ≤8 words
+  prompt: |
+    Execute Dart task [TASK_ID] from dartboard [DARTBOARD_NAME].
 
-        ## Loop Context
-        Loop Task ID: [loop_task_id]
-        Iteration: [N]
-        Active plan: .dartai/plan.md   # active slice only — do NOT read plan-archive.md
+    loop_task_id: [loop_task_id]
+    iteration: [N]
+    active_plan: .dartai/plan.md (active slice — skip plan-archive.md)
 
-        ## Task Details
-        - Title: [title]
-        - Description: [description]
-        - Acceptance Criteria: [criteria]
+    task_spec (full sentences preserved):
+      title: [title]
+      description: [full description verbatim]
+      acceptance: [criteria verbatim]
 
-        ## Instructions
-        1. Use the adversarial quality loop pattern with RED/GREEN TDD
-        2. Read .dartai/plan.md for the active phase spec. Do NOT read plan-archive.md unless this task is explicitly a retrospective or rollback investigation.
-        3. Update task tags with phase progress: loop-phase:[phase]
-        4. On completion: mark task Done, add summary comment
-        5. On failure: leave In Progress, add failure comment with:
-           - Which phase failed
-           - Recommended fix (create subtask if needed)
-           - What tasks are blocked
-        6. Add completion comment to loop task [loop_task_id]
+    Behavior: adversarial-quality skill with RED/GREEN TDD; tag
+    loop-phase:<phase> at milestones; on done → Done + summary; on
+    fail → leave In Progress + failure comment (phase, fix, blocked
+    tasks); comment loop_task_id on completion.
 
   result_handling:
     on_success: "Task marked Done in Dart, continue to next"
     on_failure: "Task stays In Progress with failure comment, replan"
 ```
 
-**Example Task tool invocation:**
+**Example (compressed):**
 ```
 Task tool call:
   subagent_type: "dartai:task-executor"
-  description: "Execute task: Add user authentication"
-  max_turns: 50  # Timeout - ensures agent returns even if stuck
+  description: "Execute: Add user auth"
+  max_turns: 50
   prompt: |
-    Execute task QiXCNniu7OQY from dartboard Personal/project-name.
-
-    ## Loop Context
-    Loop Task ID: abc123def456
-    Iteration: 1
-
-    ## Task Details
-    - Title: Add user authentication
-    - Description: Implement JWT-based auth...
-    ...
+    Execute Dart task QiXCNniu7OQY from dartboard Personal/project-name.
+    loop_task_id: abc123def456. iteration: 1.
+    task_spec:
+      title: Add user authentication
+      description: Implement JWT-based auth ...
+      acceptance: ...
 ```
+
+Headers like "## Task Details" and numbered instruction lists are dropped — the executor agent's spec already prescribes the pipeline. Driver supplies ids + verbatim `task_spec` only.
 
 #### 5.4 Task Sizing Check (done by subagent)
 The task-executor subagent will verify task is context-sized:

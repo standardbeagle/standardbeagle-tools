@@ -273,49 +273,65 @@ pre_spawn_checks:
 
 #### 4.2 Spawn Fresh Task Executor Subagent 生成全新任務執行器子代理
 
-**模式（強制）：**
+##### Dispatch prompt compression 派發提示壓縮
+
+Driver-to-executor prompts are compressed to cut token cost ~50–70% per dispatch. The executor agent (`plugins/workflow/agents/task-executor.md`) accepts compressed input.
+
+| keep verbatim | compress / strip |
+| --- | --- |
+| file paths, line numbers | articles (a/an/the) |
+| function/symbol names | filler (just/really/basically) |
+| code blocks (fenced) | pleasantries, hedging |
+| error messages | narrative recap |
+| commit/PR text, loop-ids, task-ids | role-prelude boilerplate |
+| URLs, hashes | "please", "kindly", "as you know" |
+
+**Sentence-preservation exceptions** — keep full sentences in:
+- Acceptance criteria (disambiguates verdict)
+- Risk descriptions (mitigation depends on nuance)
+- Spec sections inside `task_spec`
+
+**Forbidden compression zones** — never compress:
+- Code blocks (fenced ``` ... ```)
+- Security text (auth flow, threat model, CVE refs)
+- Error messages quoted verbatim from logs
+- File contents quoted for review
+
+**Final user-facing summary** stays normal English — compression is driver→subagent only.
+
+**模式（強制，壓縮形式）：**
 ```yaml
 subagent_execution:
   tool: Task
   subagent_type: "workflow:task-executor"
-  description: "Execute task: [short title]"
+  description: "Execute task: [short title]"   # ≤8 words
 
   prompt: |
-    Execute task from workflow loop.
+    Execute workflow task.
 
-    Loop ID: [loop-id]
-    Task ID: [task-id]
-    Task Index: [X of Y]
-    Active plan: .workflow/plan.md   # active slice only — do NOT read plan-archive.md
+    loop_id: [loop-id]
+    task_id: [task-id]
+    task_index: [X of Y]
+    active_plan: .workflow/plan.md (active slice — skip plan-archive.md)
 
-    Task Details:
-    Title: [title]
-    Priority: [priority]
-    Scope: [scope]
+    task_spec (full sentences preserved):
+      title: [title]
+      priority: [priority]
+      scope: [scope]
+      description: [full description verbatim]
+      acceptance: [criteria list verbatim]
+      context: [additional context verbatim]
 
-    Description:
-    [full description]
-
-    Acceptance Criteria:
-    [criteria list]
-
-    Context:
-    [additional context]
-
-    IMPORTANT:
-    - Use the quality adversarial skill
-    - Read .workflow/plan.md for the active phase spec. Do NOT read plan-archive.md unless this task is explicitly a retrospective or rollback investigation.
-    - Report success/failure with full details
-    - Update loop state file on completion
-    - This is a FRESH context - no prior task memory
+    Behavior: run adversarial-quality skill; report success/failure;
+    update .workflow/loop-state.json; fresh context, no prior memory.
 ```
 
 **示例：**
 ```
-Task tool call (or Agent — same shape, alias name in Claude Code harnesses):
+Task tool call (or Agent — alias in Claude Code harnesses):
   subagent_type: "workflow:task-executor"
-  description: "Execute task: Add user authentication"
-  prompt: "Execute task task-1 from workflow loop loop-abc123..."
+  description: "Execute: Add user auth"
+  prompt: "Execute workflow task. loop_id: loop-abc123. task_id: task-1. ..."
 ```
 
 #### 4.3 Wait for Subagent Completion 等待子代理完成

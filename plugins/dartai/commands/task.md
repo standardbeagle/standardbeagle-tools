@@ -84,16 +84,61 @@ Display task details and confirm:
 
 Use the task-executor agent to run the full quality pipeline.
 
-**Task tool invocation:**
+#### Dispatch prompt compression 派發提示壓縮
+
+Driver-to-subagent prompts are compressed to cut token cost ~50–70% with no fidelity loss. Subagents accept compressed input — see `plugins/dartai/agents/task-executor.md`.
+
+| keep verbatim | compress / strip |
+| --- | --- |
+| file paths, line numbers | articles (a/an/the) |
+| function/symbol names | filler (just/really/basically) |
+| code blocks (fenced) | pleasantries, hedging |
+| error messages | narrative recap |
+| commit/PR text | role-prelude boilerplate |
+| URLs, dart_ids, commit hashes | "please", "kindly", "as you know" |
+
+**Sentence-preservation exceptions** — keep full sentences in:
+- Acceptance criteria (ambiguity blocks verdict)
+- Risk descriptions (mitigation depends on nuance)
+- Spec sections inside `task_spec` (downstream reviewer reads these)
+
+**Forbidden compression zones** — never compress:
+- Code blocks (fenced ``` ... ```)
+- Security text (auth flow, threat model, CVE refs)
+- Error messages quoted verbatim from logs
+- File contents quoted for review
+
+**Final user-facing summary** stays normal English — compression is driver→subagent only.
+
+**Task tool invocation (compressed form):**
 ```yaml
 Task tool call:
   subagent_type: "dartai:task-executor"
-  max_turns: 50  # Timeout - ensures agent returns even if stuck
+  max_turns: 50
   description: "Execute task: [task-title]"
   prompt: |
-    Execute task [TASK_ID] through the quality pipeline.
-    ...task details...
+    Execute Dart task [TASK_ID] via quality pipeline.
+
+    Loop: [loop-id] iter [N]
+    Active plan: .dartai/plan.md (active slice only — skip plan-archive.md)
+    Working dir: [cwd]
+    Branch: [branch]
+
+    task_spec (full sentences preserved):
+    [grilled spec from §2.5 — acceptance + risks intact]
+
+    Touchpoints: [file paths verbatim]
+    Acceptance: [criteria verbatim]
+
+    Behavior:
+    - Run adversarial-quality skill phases 0–9
+    - Update tags loop-phase:<phase> at milestones
+    - On done: status Done, comment summary, append .dartai/loop-state.json tasks[]
+    - On fail: leave Doing, comment phase + recommendation
+    - Fresh context — no prior task memory
 ```
+
+The `description` field stays short (≤8 words). Headers like "Task Details:", "IMPORTANT:", and narrative scaffolding from earlier templates are dropped — the executor agent's spec already prescribes the pipeline.
 
 **Pipeline phases:**
 
@@ -176,15 +221,23 @@ params:
 
 ### 5. Update Documentation
 
-使用doc-updater代理更新文檔：
+使用doc-updater代理更新文檔。同樣應用§3的壓縮規則——`task_spec`中的驗收/風險全句保留，路徑/標識符逐字。
 
 ```yaml
 Task tool call:
   subagent_type: "dartai:doc-updater"
-  max_turns: 20  # Doc updates are simpler, shorter timeout
-  description: "Update docs for: [task-title]"
+  max_turns: 20
+  description: "Update docs: [task-title]"
   prompt: |
-    Update documentation for completed task [TASK_ID]...
+    Update docs for completed Dart task [TASK_ID].
+
+    Files changed: [paths verbatim]
+    Summary: [one-line completion summary]
+
+    Actions:
+    - Append CHANGELOG entry if feature/fix
+    - Update README if user-facing
+    - Add Dart task comment with summary
 ```
 
 Actions:

@@ -46,7 +46,32 @@ If target provided as argument, use it. Otherwise identify from current task con
 
 ### 3. Execute Concurrent Review
 
-Spawn two agents in parallel using the Task tool, then run a third sequentially:
+Spawn two agents in parallel using the Task tool, then run a third sequentially.
+
+#### Dispatch prompt compression 派發提示壓縮
+
+Reviewer dispatch prompts are compressed — same rules as `/dartai:task` §3 (keep paths/symbols/code/errors verbatim, strip articles/filler/recap). Reviewer agents accept compressed input. See `plugins/dartai/agents/task-executor.md` and the verdict-schema skill for the return format.
+
+**Compressed dispatch shape (apply to all three reviewers):**
+```yaml
+Task tool call:
+  subagent_type: "dartai:<reviewer>"
+  description: "Review [scope]: [target]"
+  prompt: |
+    Review target: [path verbatim]
+    Loop/task: [ids]
+    Files changed: [paths verbatim]
+
+    Acceptance (full sentences):
+    [criteria verbatim]
+
+    Focus: [reviewer-specific concerns — see agent spec]
+
+    Return verdict-schema YAML block (verdict, confidence, blockers,
+    advisories, evidence_path) per plugins/dartai/skills/verdict-schema.md.
+```
+
+Drop role-preludes ("You are a...", "Your job is to..."). Reviewer agent specs already encode role and focus areas — driver supplies scope + verbatim artifacts only.
 
 **Parallel:**
 1. `dartai:code-quality-reviewer` - Implementation quality

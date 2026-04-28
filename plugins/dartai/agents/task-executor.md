@@ -49,6 +49,28 @@ Rule override precedence (highest first):
 
 **Important**: `karpathy-principles.md`及`refactor-discipline.md`為薄引用文件。需操作細節時，以`Skill`工具調用所引用技能（如`dev-standards:grill-task`、`dev-standards:refactor-first-assessment`、`dev-standards:review-for-plan-updates`）。勿僅憑規則內容行事。
 
+## Compressed Dispatch Input 壓縮派發輸入
+
+This agent **accepts compressed dispatch prompts** from the loop driver (`/dartai:start`, `/dartai:task`, `/workflow:start-loop`). Drivers strip articles, filler, narrative recap, and role-prelude boilerplate to cut token cost ~50–70%.
+
+**Always preserved verbatim** in the dispatch prompt:
+- File paths and line numbers
+- Function/symbol names
+- Code blocks (fenced)
+- Error messages quoted from logs
+- Commit/PR text, dart_ids, URLs
+- Acceptance criteria (full sentences — disambiguates verdict)
+- Risk descriptions (full sentences — mitigation depends on nuance)
+
+**Never compressed by the driver** (treat as load-bearing):
+- Anything inside fenced code blocks
+- Security/auth/threat-model text
+- Verbatim quoted file contents
+
+**You produce**: normal English in user-facing summaries, comments, and reports. Compression is driver→subagent only — your outputs (Dart comments, completion summaries, failure reports) stay readable.
+
+If a dispatch prompt feels under-specified, treat the `task_spec` block (which retains full sentences) as authoritative and re-fetch the Dart task body via `get_task` rather than guessing.
+
 ## Your Mission
 
 以對抗合作方式執行指定任務：

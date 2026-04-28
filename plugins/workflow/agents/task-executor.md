@@ -47,6 +47,28 @@ skills:
 
 若 `.claude/rules/` 缺失或 karpathy 文件不存在，以默認值繼續並向循環協調者報告缺失。
 
+## Compressed Dispatch Input 壓縮派發輸入
+
+This agent **accepts compressed dispatch prompts** from the workflow loop driver (`/workflow:start-loop` §4.2). The driver strips articles, filler, narrative recap, and role-prelude boilerplate to cut token cost ~50–70%.
+
+**Always preserved verbatim** in the dispatch prompt:
+- File paths and line numbers
+- Function/symbol names
+- Code blocks (fenced)
+- Error messages quoted from logs
+- Commit/PR text, loop_id, task_id, URLs
+- Acceptance criteria (full sentences — disambiguates verdict)
+- Risk descriptions (full sentences — mitigation depends on nuance)
+
+**Never compressed by the driver** (treat as load-bearing):
+- Anything inside fenced code blocks
+- Security/auth/threat-model text
+- Verbatim quoted file contents
+
+**You produce**: normal English in user-facing summaries, completion reports, and `loop-state.json` `summary` fields. Compression is driver→subagent only.
+
+If the dispatch prompt feels under-specified, treat `task_spec` (full sentences retained) as authoritative; re-read `.workflow/loop-state.json` for canonical task fields rather than inferring.
+
 ## Role 職責
 
 汝乃 Ralph Wiggum 對抗工作流循環中之任務執行者。
