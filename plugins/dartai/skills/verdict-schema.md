@@ -149,3 +149,93 @@ Always-dispatched (workflow plugin mirrors):
 - `plugins/workflow/agents/post-task-reviewer.md`
 
 Conditional and compound reviewers (typescript-strict, cli-readiness, correctness, maintainability, testing) MAY adopt this schema in a follow-up; they currently emit the R2 §4.1 `review_report` shape. Until they migrate, orchestrators accept either shape and extract `verdict` from whichever is present.
+
+---
+
+## Verdict File Delivery (file-streaming channel) 裁決檔派送
+
+Reviewer subagents return their decision via a **verdict file written to disk**, not via stdout body. The loop driver consumes the file content (read fresh, parse line-oriented), not the subagent transcript. This eliminates per-iteration child-context bloat and lets the driver replay any gate decision from the verdict file alone.
+
+### File layout 檔案佈局
+
+| path                                          | written by                | read by                   |
+| --------------------------------------------- | ------------------------- | ------------------------- |
+| `.dartai/reports/<task-id>/qa.md`             | qa-reviewer subagent      | loop driver (Monitor)     |
+| `.dartai/reports/<task-id>/quality.md`        | code-quality-reviewer     | loop driver (Monitor)     |
+| `.dartai/reports/<task-id>/security.md`       | post-task-reviewer        | loop driver (Monitor)     |
+| `.dartai/reports/<task-id>/verdict-summary.kdl` | aggregator              | final gate decision       |
+
+The directory is `.dartai/reports/<task-id>/` (consistent with existing `evidence_path` references). Filenames are fixed per reviewer role so the driver can scan a known set without listing.
+
+`workflow:` orchestrator mirrors substitute `.workflow/reports/<task-id>/` for its own state dir but the file shapes are identical.
+
+### File format (line-oriented, parseable by the loop driver)
+
+Each verdict file is plain text, line-oriented:
+
+```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <inline body or relative path>
+```
+
+Rules:
+
+- **Line 1** MUST be `verdict: <pass|fail|warn>` — single token after the colon.
+- **Line 2** MUST be `confidence: <high|med|low>`.
+- **Lines 3+** are zero or more `blocker:` lines (required when `verdict: fail`), followed by zero or more `advisory:` lines.
+- **Trailing** `evidence:` line is optional. If the value starts with `./` or is a path (no spaces, no leading prose), the driver treats it as a path reference; otherwise the rest of the file (after `evidence:`) is the inline evidence body.
+- Lines starting with `#` are comments and ignored.
+- Trailing whitespace and blank lines are ignored.
+
+Example (`.dartai/reports/abc123/quality.md`):
+
+```
+verdict: fail
+confidence: high
+blocker: src/handler.ts:88 SQL string-concat with user input
+blocker: src/handler.ts:120 duplicate of util/parseQuery (LCI hit)
+advisory: src/auth.ts:42 consider extracting role-check helper
+evidence: ./quality-evidence.md
+```
+
+Example (pass with no notes):
+
+```
+verdict: pass
+confidence: high
+```
+
+### Stdout contract 標準輸出契約
+
+When a reviewer subagent uses the verdict-file channel, its stdout body MUST be **≤5 lines** and serve only as a pointer plus a one-line summary:
+
+```
+verdict-file: .dartai/reports/<task-id>/<filename>.md
+verdict: <pass|fail|warn> (<short reason if fail/warn, else empty>)
+```
+
+The first line is the file path; the second is the one-line verdict for human-readable progress logs. Reviewers MUST NOT inline the YAML block from the wire format above when delivering via file — the file is the canonical channel. The ≤5-line cap leaves room for an optional `confidence:` line and one advisory headline if the reviewer chooses, but no more.
+
+### Loop driver semantics 循環驅動語義
+
+Drivers consuming the verdict-file channel:
+
+1. **Clear the reports dir at task start**. Before dispatching reviewers for a new task, remove `.dartai/reports/<task-id>/` (if present) and re-create it empty. This is the **stale-verdict mitigation** — a previous run's verdict file in the same path would otherwise be read as the current run's gate decision.
+
+2. **React to verdict files via Monitor, not stdout consumption**. Spawn each reviewer subagent in the background; use `Monitor` over the verdict-file path (or the parent reports dir) to detect file changes. Parse the file fresh on each notification — do NOT consume the subagent's stdout body into driver context.
+
+3. **Prefer parse-on-completion over event polling**. When the harness emits a subagent-completion notification, parse the verdict file at that point. File-system event polling is a fallback for harnesses without completion notifications. This is the **missed-event mitigation** — completion notifications are the durable signal; file-system events alone can drop under load. If both are available, parse on completion AND keep the Monitor stream open for late writes.
+
+4. **Gate on file content, not stdout body**. The gate decision is `verdict:` from line 1 of the file. The subagent's transcript is discarded after parsing. Replay is possible from the file alone — re-running a gate decision means re-reading the verdict file, no need to re-dispatch the reviewer.
+
+5. **Aggregate to `verdict-summary.kdl`** after all reviewers report. The aggregator is the only consumer that reads multiple verdict files at once; it writes a final gate decision plus per-reviewer outcomes for replay.
+
+### Backward compatibility 向後兼容
+
+- Reviewers still implementing the in-stdout YAML wire format (above) remain readable. Orchestrators MUST accept either shape: file-channel reviewers expose `verdict-file:` on line 1 of stdout; legacy reviewers emit the fenced YAML block. The driver detects which by checking line 1 of stdout.
+- Existing `evidence_path` references in agent files continue to work — `evidence_path` is the YAML-block field name; `evidence:` is the line-oriented field name in the verdict file. They carry the same payload.
+- The fixed per-role filenames (`qa.md`, `quality.md`, `security.md`) replace the older `<reviewer-name>.md` convention for new gate decisions. Legacy paths are still readable for replay; new writes use the role-fixed names.

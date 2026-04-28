@@ -218,6 +218,28 @@ challenge_categories:
 
 **模式**：使用 Task 工具同時生成兩個驗證子代理，然後處理結果
 
+#### Prepare Reports Directory (verdict-file channel) 準備報告目錄
+
+Reviewers deliver their decision via **verdict files** under `.dartai/reports/<task-id>/`, not via stdout body. Before dispatching:
+
+```yaml
+prepare_reports_dir:
+  step_1_clear:
+    action: "rm -rf .dartai/reports/<task-id>/"
+    why: "Stale-verdict mitigation — a previous run's verdict file would otherwise be parsed as the current gate decision"
+  step_2_recreate:
+    action: "mkdir -p .dartai/reports/<task-id>/"
+  invariant: "Always clear before each Phase 3 entry, even on retry-after-fix"
+
+paths:
+  qa-reviewer:           ".dartai/reports/<task-id>/qa.md"
+  code-quality-reviewer: ".dartai/reports/<task-id>/quality.md"
+  post-task-reviewer:    ".dartai/reports/<task-id>/security.md"
+  aggregator:            ".dartai/reports/<task-id>/verdict-summary.kdl"
+```
+
+File format is line-oriented per `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery") — line 1 `verdict:`, line 2 `confidence:`, then `blocker:` / `advisory:` / `evidence:` lines. The driver gates on file content, not subagent stdout body.
+
 #### Dispatch 並行派發（兩者同時）
 
 ```yaml
@@ -238,7 +260,10 @@ concurrent_dispatch:
         Focus on: project coherence, best practices, no bloat, no fallbacks/TODOs, code duplication, cleanup and refactoring.
         - What inputs or states will break this?
 
-        Return a verification report (see schema below).
+        Output: write verdict to .dartai/reports/[task-id]/quality.md
+        per verdict-schema "Verdict File Delivery" (line-oriented:
+        verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
+        lines: verdict-file: <path> then verdict: <pass|fail|warn>.
 
     - subagent_type: "workflow:qa-reviewer"
       description: "Review test quality and coverage"
@@ -256,8 +281,41 @@ concurrent_dispatch:
         - What critical paths lack tests?
         - Requirements traceability, and testability
 
-        Return a verification report (see schema below).
+        Output: write verdict to .dartai/reports/[task-id]/qa.md per
+        verdict-schema "Verdict File Delivery" (line-oriented:
+        verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
+        lines: verdict-file: <path> then verdict: <pass|fail|warn>.
 ```
+
+#### Read Verdicts (file-streaming via Monitor) 經 Monitor 讀裁決
+
+The driver gates on **verdict file content**, not subagent stdout. Stdout is a ≤5-line pointer; the transcript is dropped after the path is captured.
+
+```yaml
+verdict_consumption:
+  channel: "file"
+  reads:
+    - ".dartai/reports/<task-id>/quality.md"
+    - ".dartai/reports/<task-id>/qa.md"
+
+  preferred_signal: "subagent-completion notification"
+  why: "Completion notifications are durable — file-system events alone can drop under load. Parse the verdict file at completion time."
+
+  fallback_signal: "Monitor stream over the verdict file path"
+  why: "Harnesses without completion notifications can still react to file appearance/change. Keep the Monitor stream open to catch late writes (e.g. an evidence file the reviewer writes after the verdict file)."
+
+  parse_rule:
+    - "Read line 1 — must start with 'verdict:'; extract token (pass/fail/warn)"
+    - "Read line 2 — must start with 'confidence:'; extract token (high/med/low)"
+    - "Read remaining lines — collect 'blocker:' (required when verdict=fail), 'advisory:', optional trailing 'evidence:'"
+    - "Lines starting with '#' are comments; trailing whitespace and blank lines ignored"
+
+  never:
+    - "Consume the subagent stdout body into driver context"
+    - "Re-dispatch a reviewer just to re-read a verdict — the file is replayable"
+```
+
+**Replay**: A gate decision can be reconstructed from the verdict file alone — re-running the gate means re-reading the file, no need to re-dispatch the reviewer.
 
 #### Verification Report Schema 驗證報告模式（每個代理返回此格式）
 
@@ -435,7 +493,7 @@ npm run test:coverage  # or equivalent
 ```yaml
 post_task_dispatch:
   tool: Task
-  
+
   agent:
     subagent_type: "workflow:post-task-reviewer"
     description: "Deep review for [task-id]"
@@ -449,7 +507,21 @@ post_task_dispatch:
       The fast adversarial gate and quality gates already passed.
       Run all four phases: security audit, in-depth code, PM/docs, replan.
 
-      Return structured post-task report.
+      Output: write verdict to .dartai/reports/[task-id]/security.md
+      per verdict-schema "Verdict File Delivery" (line-oriented:
+      verdict:/confidence:/blocker:/advisory:/evidence:). Use evidence:
+      for the multi-phase report — depth almost always lands there.
+      Stdout ≤5 lines: verdict-file: <path> then verdict: <pass|fail|warn>.
+
+  read_verdict:
+    channel: "file"
+    path: ".dartai/reports/[task-id]/security.md"
+    preferred_signal: "subagent-completion notification"
+    fallback_signal: "Monitor stream over the verdict file path"
+    why: |
+      Same file-streaming channel as Phase 3. The driver parses the
+      verdict file fresh on completion (or on Monitor notification);
+      the subagent stdout body is dropped after the path is captured.
 ```
 
 **結果處理**：

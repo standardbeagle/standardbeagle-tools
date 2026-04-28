@@ -42,7 +42,7 @@ Deep post-task review is the heaviest reviewer pass — OWASP walkthrough, archi
 
 ## Output Contract 輸出契約
 
-This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md` (the single source of truth across both `dartai` and `workflow` plugins). Internal phases below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. Replan recommendations and security depth that don't fit the ≤30-line budget go into `evidence_path` (a written report file). See "Report Format" section for the wire shape.
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md` (the single source of truth across both `dartai` and `workflow` plugins). Delivery is via a **verdict file** at `.dartai/reports/<task-id>/security.md`; stdout body is ≤5 lines (path pointer + one-line verdict). Internal phases below shape *how this agent thinks*; the loop driver consumes only the verdict file. Replan recommendations and security depth go into the verdict file's `evidence:` line (a written report). See "Report Format" section for the file format and stdout contract.
 
 ## Process 過程
 
@@ -146,26 +146,36 @@ replan:
       reason: "Finding X"
 ```
 
-## Report Format — Verdict-Only Schema 返回格式
+## Report Format — Verdict File (file-streaming channel) 返回格式
 
-Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`.
+Write the verdict to a **file**, not stdout body. The loop driver reads the file via `Monitor`; stdout is a ≤5-line pointer. Canonical schema defined in `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery"). This agent is the heaviest reviewer — depth almost always lands in `evidence:` (a separate report file referenced from the verdict file).
 
-```yaml
-verdict: pass | fail | warn
-confidence: high | med | low
-blockers:
-  - "<file:line> — <one-line description>"
-advisories:
-  - "<one-line nit or follow-up>"
-evidence_path: ".dartai/reports/<task-id>/post-task-reviewer.md"  # recommended for this agent
+**Verdict file path**: `.dartai/reports/<task-id>/security.md`
+
+**File format** (line-oriented):
+
+```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+advisory: <one-line replan/perf/doc note>
+evidence: ./security-evidence.md
 ```
 
-This agent typically produces deeper findings (OWASP details, replan recommendations, doc audit). When that depth would blow the ≤30-line budget — which is normal for post-task — write the full report to `.dartai/reports/<task-id>/post-task-reviewer.md` and reference it via `evidence_path`. Keep the verdict block focused on:
+- Line 1 MUST be `verdict:` followed by a single token.
+- Line 2 MUST be `confidence:`.
+- `blocker:` lines = items that genuinely block the gate (critical/high security, concurrency bugs, ship-blocking doc gaps). Required when `verdict: fail`.
+- `advisory:` lines = replan headlines, performance notes, doc gaps that are NEEDS_WORK-class.
+- `evidence:` strongly recommended for this agent — full OWASP walkthrough, attack chains, replan recommendations, and doc audit go in the referenced file.
 
-- `verdict` — the gate decision.
-- `blockers` — only the items that genuinely block the gate (critical/high security, concurrency bugs, missing-critical-docs that ship-block).
-- `advisories` — replan headlines, performance notes, doc gaps that are NEEDS_WORK-class.
-- `evidence_path` — link to the full multi-phase report.
+**Stdout contract** (≤5 lines):
+
+```
+verdict-file: .dartai/reports/<task-id>/security.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+Do NOT inline the YAML block in stdout. Do NOT prose-narrate findings. The main loop parses the file; the transcript is dropped. Operators read the `evidence:` reference when reviewing depth.
 
 **Verdict mapping**:
 
@@ -181,7 +191,7 @@ verdict_mapping:
   all_clear:                   pass
 ```
 
-`critical_security` triggers an early STOP per Phase 1 critical protocol — emit the verdict block immediately with `confidence: high`, the offending location in `blockers`, and a written `evidence_path`.
+`critical_security` triggers an early STOP per Phase 1 critical protocol — write the verdict file immediately with `verdict: fail`, `confidence: high`, the offending location in a `blocker:` line, and a written `evidence:` reference, then exit.
 
 ## Context Rules 上下文規則
 

@@ -47,7 +47,7 @@ Rule override precedence (highest first):
 
 ## Output Contract
 
-This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Return Format" section for the wire shape.
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Delivery is via a **verdict file** at `.dartai/reports/<task-id>/qa.md`; stdout body is ≤5 lines (path pointer + one-line verdict). Internal review areas below shape *how this agent thinks*; the loop driver consumes only the verdict file. See "Return Format" section for the file format and stdout contract.
 
 ## Fork-context fallback
 
@@ -366,21 +366,39 @@ testability_checks:
 
 ---
 
-## Return Format — Verdict-Only Schema
+## Return Format — Verdict File (file-streaming channel)
 
-Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`. Read that file for full semantics and examples.
+Write the verdict to a **file**, not stdout body. The loop driver reads the file via `Monitor`; stdout is a ≤5-line pointer. Canonical schema defined in `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery").
 
-```yaml
-verdict: pass | fail | warn
-confidence: high | med | low
-blockers:
-  - "<file:line> — <one-line description>"
-advisories:
-  - "<one-line nit or follow-up>"
-evidence_path: ".dartai/reports/<task-id>/qa-reviewer.md"  # optional
+**Verdict file path**: `.dartai/reports/<task-id>/qa.md`
+
+**File format** (line-oriented):
+
+```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <inline body or relative path>
 ```
 
-When findings exceed the ≤30-line budget, write detail to `.dartai/reports/<task-id>/qa-reviewer.md` and reference it via `evidence_path`. The main loop reads only `verdict` and `blockers`.
+- Line 1 MUST be `verdict:` followed by a single token.
+- Line 2 MUST be `confidence:`.
+- `blocker:` lines required when `verdict: fail` (one per finding).
+- `advisory:` lines optional, non-blocking.
+- `evidence:` optional trailing line; path or inline body. Use a path (e.g. `./qa-evidence.md`) when depth exceeds a few lines.
+
+**Stdout contract** (≤5 lines, pointer + one-line verdict):
+
+```
+verdict-file: .dartai/reports/<task-id>/qa.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+Do NOT inline the YAML block in stdout when using the file channel. Do NOT prose-narrate findings in stdout. The main loop parses the file; the transcript is dropped.
+
+When findings exceed the file budget, write detail to `.dartai/reports/<task-id>/qa-evidence.md` and reference it via the `evidence:` line in the verdict file.
 
 ---
 

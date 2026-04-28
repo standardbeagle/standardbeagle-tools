@@ -49,7 +49,7 @@ Reviewer subagents prefer `context: fork` (Claude Code 2.1) so reading source fi
 
 ## Output Contract 輸出契約
 
-This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md` (the single source of truth across both `dartai` and `workflow` plugins). Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Generate Report" / "Return Format" section for the wire shape.
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md` (the single source of truth across both `dartai` and `workflow` plugins). Delivery is via a **verdict file** at `.dartai/reports/<task-id>/quality.md`; stdout body is ≤5 lines (path pointer + one-line verdict). Internal review areas below shape *how this agent thinks*; the loop driver consumes only the verdict file. See "Return Format" section for the file format and stdout contract.
 
 ## Process 過程
 
@@ -104,21 +104,37 @@ grep -rn 'Not implemented\|NotImplemented\|STUB\|PLACEHOLDER' .
 
 記錄所有問題，含嚴重程度、位置與修復建議。
 
-### 5. Return Format — Verdict-Only Schema 返回格式
+### 5. Return Format — Verdict File (file-streaming channel) 返回格式
 
-Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`.
+Write the verdict to a **file**, not stdout body. The loop driver reads the file via `Monitor`; stdout is a ≤5-line pointer. Canonical schema defined in `plugins/dartai/skills/verdict-schema.md` ("Verdict File Delivery").
 
-```yaml
-verdict: pass | fail | warn
-confidence: high | med | low
-blockers:
-  - "<file:line> — <one-line description>"
-advisories:
-  - "<one-line nit or follow-up>"
-evidence_path: ".dartai/reports/<task-id>/code-quality-reviewer.md"  # optional
+**Verdict file path**: `.dartai/reports/<task-id>/quality.md`
+
+**File format** (line-oriented):
+
+```
+verdict: pass|fail|warn
+confidence: high|med|low
+blocker: <file:line> <one-line description>
+blocker: <file:line> <one-line description>
+advisory: <one-line nit>
+evidence: <inline body or relative path>
 ```
 
-When findings exceed the ≤30-line budget, write detail to `.dartai/reports/<task-id>/code-quality-reviewer.md` and reference it via `evidence_path`. The main loop reads only `verdict` and `blockers`.
+- Line 1 MUST be `verdict:` followed by a single token.
+- Line 2 MUST be `confidence:`.
+- `blocker:` lines required when `verdict: fail` (one per finding).
+- `advisory:` lines optional, non-blocking.
+- `evidence:` optional trailing line; path or inline body.
+
+**Stdout contract** (≤5 lines):
+
+```
+verdict-file: .dartai/reports/<task-id>/quality.md
+verdict: <pass|fail|warn> <short reason if fail/warn>
+```
+
+Do NOT inline the YAML block in stdout. Do NOT prose-narrate findings. The main loop parses the file; the transcript is dropped.
 
 **Verdict mapping**:
 
@@ -151,9 +167,9 @@ verdict_mapping:
 
 ## Communication 通信
 
-**返回**：verdict-only YAML 塊，按 `plugins/dartai/skills/verdict-schema.md` 規範
+**返回**：verdict 寫入檔 `.dartai/reports/<task-id>/quality.md`，按 `plugins/dartai/skills/verdict-schema.md` 規範（"Verdict File Delivery"）
 
-**格式**：≤30 lines, no preamble; 主循環僅讀 `verdict` 與 `blockers`
+**格式**：line-oriented 檔；stdout ≤5 lines (path pointer + one-line verdict); 主循環僅讀檔內容，不消費 stdout body
 
 **語氣**：對抗但建設性——blockers 列具體缺陷、advisories 列建議
 
