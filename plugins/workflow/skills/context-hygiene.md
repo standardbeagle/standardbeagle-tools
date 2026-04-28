@@ -11,6 +11,15 @@ description: Context isolation and subagent barrier patterns for clean workflow 
 
 **每次循環迭代必在全新子代理中執行，上下文清潔。**
 
+## Driver Constraint and Agent Schema
+
+The fresh-subagent-per-iteration pattern only works when the loop runs at the top level. Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. Any orchestrator that finds itself inside a subagent must stop and report to the parent rather than degrade to inline execution (which would defeat the entire hygiene model).
+
+Before the first `Agent`/`Task` dispatch, confirm the schema is callable:
+
+- **Preloaded** in the top-level `<functions>` block — call directly.
+- **Deferred** (name only in a `<system-reminder>` deferred-tools section) — load with `ToolSearch query="select:Agent" max_results=1`. Without the schema, raw calls fail with `InputValidationError`.
+
 ## Why Context Hygiene Matters 上下文衛生之重要
 
 ```yaml

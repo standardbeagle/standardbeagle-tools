@@ -42,27 +42,26 @@ Invoke the `Skill` tool with `skill: workflow:adversarial-quality` — 執行完
 
 **上下文管理**：按技能文檔於各階段間使用檢查點。
 
-### 4. Spawn Verifier (if needed) 生成驗證器（如需）
+### 4. Request Verifier (if needed) 請求驗證器（如需）
 
-用於獨立驗證（品質循環 Phase 4）：
+獨立驗證（品質循環 Phase 4）**不可在此代理中直接派遣**。子代理不可生成子代理——harness 按代理範圍控制 deferred-tool 列表，`Agent`/`Task` 不暴露於嵌套執行者。
+
+正確模式：在循環狀態文件中標記需要外部驗證，返回頂層協調器，由其作為兄弟派遣驗證器子代理。
 
 ```yaml
-verifier_spawn:
-  when: "External verification phase"
-  tool: Task
-  subagent_type: "workflow:code-quality-reviewer"
-  description: "Verify task implementation"
-  prompt: |
-    Verify implementation of task [task-id].
-
-    Files: [list]
-    Criteria: [list]
-
-    Challenge the implementation to find flaws.
-    Return verification report.
+verifier_request:
+  when: "External verification phase needed"
+  action: "Write verification request to .workflow/loop-state.json"
+  payload:
+    task_id: "[task-id]"
+    verifier_type: "workflow:code-quality-reviewer"
+    files: "[list]"
+    criteria: "[list]"
+  return_status: "needs_verification"
+  do_not: "Call Task/Agent tool directly — will fail in subagent context"
 ```
 
-**要點**：驗證器獲全新上下文，對實現過程一無所知。
+頂層協調器讀取請求後派遣全新驗證器子代理（兄弟而非子嗣），驗證者獲全新上下文，對實現過程一無所知。
 
 ### 5. Handle Failures 處理失敗
 

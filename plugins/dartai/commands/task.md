@@ -10,6 +10,13 @@ agent: dartai:task-executor
 
 在不啟動持續循環的情況下，對單個Dart任務運行完整品質管道。
 
+## Agent Dispatch Prerequisites
+
+This command dispatches `dartai:task-executor` and `dartai:doc-updater` via `Agent` (alias `Task`). Two prerequisites:
+
+1. **Run from top-level agent.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent. If `/dartai:task` fires inside a subagent, stop and report to the parent rather than inline-executing the pipeline.
+2. **Verify `Agent` schema before first dispatch.** If preloaded in the top-level `<functions>` block, call directly. If only listed as a deferred tool in `<system-reminder>`, load first with `ToolSearch query="select:Agent" max_results=1` — raw calls fail with `InputValidationError` until schema is fetched.
+
 ## Process
 
 ### 1. Find the Task

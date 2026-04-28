@@ -13,6 +13,20 @@ agent: general-purpose
 
 啟動持續對抗協作循環，以清潔上下文隔離和多階段驗證處理任務。
 
+## Agent Dispatch Prerequisites 代理派遣先決條件
+
+**This loop must run from the top-level agent.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. If `/workflow:start-loop` fires inside a subagent, stop immediately and report to the parent. Do not fall back to inline execution.
+
+**Verify `Agent` schema is callable before the first task dispatch:**
+
+1. **Preloaded** — `Agent` (alias `Task`) appears in the top-level `<functions>` block. Use directly.
+2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema absent. Raw call fails with `InputValidationError`. Load first:
+   ```
+   ToolSearch query="select:Agent" max_results=1
+   ```
+   The returned `<functions>` entry makes `Agent` callable for the rest of the turn.
+3. **Neither** — surface to user; do not retry inline.
+
 ## Core Principles 核心原則
 
 ### Context Hygiene (CRITICAL) 上下文衛生（重要）

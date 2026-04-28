@@ -8,6 +8,13 @@ context: fork
 
 規劃者與挑戰者對抗合作之持續精化環，確保計劃完整、可行、最小。
 
+## Agent Dispatch Prerequisites
+
+Steps in this loop dispatch research subagents (`research:session-historian`, `research:web-researcher`) via `Agent` (alias `Task`).
+
+1. **Top-level driver only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent. If this loop runs inside a subagent, stop and report to the parent. Do not inline-execute the research steps in the planner's context.
+2. **Verify `Agent` schema before first dispatch.** If `Agent` is preloaded in the top-level `<functions>` block, use directly. If it appears only as a deferred tool in `<system-reminder>`, load schema first with `ToolSearch query="select:Agent" max_results=1` (raw calls fail with `InputValidationError` until loaded). If neither path works, surface to the user.
+
 ## Core Principles
 
 規劃紀律存於項目規則文件——勿在此重複：

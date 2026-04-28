@@ -12,6 +12,20 @@ agent: general-purpose
 
 以清潔上下文管理協調對抗循環之模式。
 
+## Agent Dispatch Prerequisites 代理派遣先決條件
+
+**Driver runs at top level only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. The "fresh subagent per slice" pattern only works when this skill executes in the top-level conversation. If invoked inside a subagent, stop and report to the parent — never fall back to inline execution that would pollute the driver context.
+
+**Verify `Agent` schema is callable before first dispatch:**
+
+1. **Preloaded** — `Agent` (alias `Task`) already appears in the top-level `<functions>` block at session start. Call directly.
+2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema not loaded. Raw call fails with `InputValidationError`. Load first:
+   ```
+   ToolSearch query="select:Agent" max_results=1
+   ```
+   Returned `<functions>` entry makes `Agent` callable for the rest of the turn.
+3. **Neither** — surface to user; do not retry inline.
+
 ## Orchestrator Responsibilities 協調者職責
 
 主循環（在主代理中運行）僅有以下職責：

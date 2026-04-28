@@ -10,6 +10,13 @@ agent: dartai:qa-reviewer
 
 運行對抗性驗證循環以挑戰並驗證代碼品質。
 
+## Agent Dispatch Prerequisites
+
+This command dispatches reviewer subagents in parallel via `Agent` (alias `Task`).
+
+1. **Top-level driver only.** Subagents cannot spawn subagents — if `/dartai:verify` runs inside a subagent, stop and report to the parent. The 2+1 review pattern collapses if the dispatcher tries to inline reviewer logic in a single context.
+2. **Verify `Agent` schema before first dispatch.** Preloaded → call directly. Deferred (listed in `<system-reminder>` deferred tools) → `ToolSearch query="select:Agent" max_results=1` to load schema; otherwise calls fail with `InputValidationError`.
+
 ## Usage
 
 ```

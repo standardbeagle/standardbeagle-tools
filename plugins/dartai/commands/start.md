@@ -10,6 +10,20 @@ agent: general-purpose
 
 啟動持續任務執行循環，以對抗合作模式處理Dart看板任務，各階段含計劃調整。
 
+## Agent Dispatch Prerequisites
+
+**This loop must run from the top-level agent.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. The "fresh subagent per task" pattern only works when `/dartai:start` runs in the top-level conversation. If invoked inside a subagent, stop and report to the parent — never inline-execute tasks in the driver context.
+
+**Verify `Agent` schema is callable before the first dispatch:**
+
+1. **Preloaded** — `Agent` (alias `Task`) appears in the top-level `<functions>` block. Use directly.
+2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema absent. Raw call fails with `InputValidationError`. Load first:
+   ```
+   ToolSearch query="select:Agent" max_results=1
+   ```
+   The returned `<functions>` entry makes `Agent` callable for the rest of the turn.
+3. **Neither** — surface to user; do not retry inline.
+
 ## Adversarial Cooperation Model
 
 此循環使用對抗合作：

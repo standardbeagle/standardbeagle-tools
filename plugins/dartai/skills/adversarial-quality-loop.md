@@ -8,6 +8,13 @@ context: fork
 
 實施者與驗證者對抗協作之持續執行環，確保代碼品質。驗證者主動尋缺，實施者守護與修復。
 
+## Agent Dispatch Prerequisites
+
+This loop dispatches reviewer subagents in parallel via `Agent` (alias `Task`). Two prerequisites apply at the dispatch site:
+
+1. **Top-level driver only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. If this skill executes inside a subagent, stop and report to the parent. Do not fall back to inline reviewer logic — that would collapse the adversarial separation the loop depends on.
+2. **Verify `Agent` schema is callable before the first dispatch.** If `Agent` is preloaded in the top-level `<functions>` block, use it directly. If it appears only as a deferred tool in `<system-reminder>`, load the schema first with `ToolSearch query="select:Agent" max_results=1` — raw calls without the schema fail with `InputValidationError`. If neither path works, surface to the user.
+
 ## Core Principles
 
 ### Context-Sized Tasks
