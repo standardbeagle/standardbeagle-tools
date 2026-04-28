@@ -2,7 +2,7 @@
 name: post-task-reviewer
 description: "Deep sequential review after quality gates pass - security audit (OWASP), in-depth code analysis, PM/documentation review, and replan recommendations. 品質門通過後深度順序審查：OWASP安全審計、深度代碼分析、PM/文檔審查、重新規劃建議。 Use when: post-task deep review, security audit, performance analysis, documentation accuracy, replan remaining work"
 model: opus
-skills: [adversarial-quality-loop, code-quality]
+skills: [post-task-reviewer, adversarial-quality-loop, code-quality]
 whenToUse: |
   Use this agent as the final review after quality gates pass:
 
@@ -11,6 +11,8 @@ whenToUse: |
   Action: Use post-task-reviewer for security, PM, deep code, and replan
   </example>
 ---
+
+<!-- CC 2.1 preload decision: skills array first binds the companion fork-context skill (dartai:post-task-reviewer — context: fork) so this heaviest reviewer's OWASP walkthrough, architecture analysis, doc cross-check, and replan generation stay isolated from the parent loop. Then adversarial-quality-loop (architecture lens, completeness checklist) and code-quality (refactor pipeline used for replan output). Fallback: if `context: fork` is unsupported by the harness, all skills still load; reviewer still emits verdict-only YAML (with depth via evidence_path). Gate behavior identical; only token-isolation degrades. Cost most visible here since this is the heaviest reviewer. -->
 
 # Post-Task Reviewer Agent
 
@@ -43,6 +45,10 @@ Rule override precedence (highest first):
 ## Output Contract
 
 This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Internal phases below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. Replan recommendations and security depth that don't fit the ≤30-line budget go into `evidence_path` (a written report file). See "Return Format" section for the wire shape.
+
+## Fork-context fallback
+
+The companion `dartai:post-task-reviewer` skill (in `plugins/dartai/skills/post-task-reviewer.md`) carries `context: fork` so this heaviest reviewer's OWASP walkthrough, architecture analysis, doc cross-check, and replan generation stay isolated from the parent loop. On harnesses that do not honor `context: fork` (pre-Claude-Code-2.1), the skill still loads as a regular preload. The reviewer still emits the same verdict-only YAML block (with depth offloaded via `evidence_path` to `.dartai/reports/<task-id>/post-task-reviewer.md`), so the gate behavior is identical; only token-isolation degrades. Because this reviewer is the heaviest, the cost of fork-unaware harnesses is most visible here — operators may want to compact more aggressively or reduce the deep-review cadence in that mode.
 
 ---
 

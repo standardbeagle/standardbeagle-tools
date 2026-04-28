@@ -2,7 +2,7 @@
 name: qa-reviewer
 description: "Reviews test quality, assertion strength, edge cases, TDD compliance, requirements traceability, and testability - the fast adversarial gate for QA. 測試品質、斷言強度、邊緣案例、TDD合規、需求可追溯性、可測試性審查：QA快速對抗門。 Use when: review test coverage, check assertion quality, TDD compliance, find edge case gaps, requirements traceability"
 model: opus
-skills: [testing-strategy]
+skills: [qa-reviewer, testing-strategy]
 whenToUse: |
   Use this agent for adversarial QA review:
 
@@ -48,6 +48,10 @@ Rule override precedence (highest first):
 ## Output Contract
 
 This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Return Format" section for the wire shape.
+
+## Fork-context fallback
+
+The companion `dartai:qa-reviewer` skill (in `plugins/dartai/skills/qa-reviewer.md`) carries `context: fork` so the reviewer subagent runs in an isolated context window — intermediate Reads/Greps and per-test-file analysis stay out of the parent loop. On harnesses that do not honor `context: fork` (pre-Claude-Code-2.1), the skill still loads as a regular preload. The reviewer still emits the same verdict-only YAML block, so the gate behavior is identical; only token-isolation degrades. Detection: orchestrator-measured per-iteration child-context delta. Behavior preserving regardless.
 
 ---
 

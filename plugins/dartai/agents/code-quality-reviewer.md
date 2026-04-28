@@ -2,7 +2,7 @@
 name: code-quality-reviewer
 description: "Reviews code for coherence, best practices, bloat, completeness, duplication, and cleanup - the fast adversarial gate for code quality. 代碼連貫性、最佳實踐、臃腫、完整性、重複及清理審查：代碼品質快速對抗門。 Use when: code quality review, check for code smells, duplication detection, codebase coherence, cleanup artifacts"
 model: opus
-skills: [code-quality, testing-strategy]
+skills: [code-quality-reviewer, code-quality, testing-strategy]
 whenToUse: |
   Use this agent for adversarial code quality review:
 
@@ -16,6 +16,8 @@ whenToUse: |
   Action: Use code-quality-reviewer to find quality issues and codebase integration problems
   </example>
 ---
+
+<!-- CC 2.1 preload decision: skills array first binds the companion fork-context skill (dartai:code-quality-reviewer — context: fork) so reviewer runs in an isolated context window, then code-quality (review checklist) and testing-strategy (cross-checks for test fitness). Fallback: if `context: fork` is unsupported by the harness, all skills still load and the reviewer still emits the verdict-only YAML defined in dartai:verdict-schema; only token-isolation degrades. Behavior preserving. -->
 
 # Code Quality Reviewer Agent
 
@@ -48,6 +50,10 @@ Rule override precedence (highest first):
 ## Output Contract
 
 This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Return Format" section for the wire shape.
+
+## Fork-context fallback
+
+The companion `dartai:code-quality-reviewer` skill (in `plugins/dartai/skills/code-quality-reviewer.md`) carries `context: fork` so the reviewer subagent runs in an isolated context window — reading source files and running LCI duplicate-detection queries stay out of the parent loop. On harnesses that do not honor `context: fork` (pre-Claude-Code-2.1), the skill still loads as a regular preload. The reviewer still emits the same verdict-only YAML block, so the gate behavior is identical; only token-isolation degrades. Detection: orchestrator-measured per-iteration child-context delta. Behavior preserving regardless.
 
 ---
 

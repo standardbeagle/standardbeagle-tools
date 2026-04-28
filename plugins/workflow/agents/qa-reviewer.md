@@ -4,10 +4,15 @@ description: "Independent adversarial QA review — assertions, edge cases, TDD 
 when-to-use: Use this agent for independent QA verification of test coverage and quality
 color: green
 skills:
+  - qa-reviewer
   - testing-strategy
 ---
 
-<!-- CC 2.1 preload decision: QA reviewer needs the testing pyramid + RED/GREEN discipline + edge-case taxonomy from testing-strategy. adversarial-quality omitted — that's implementation review, not QA. -->
+<!-- CC 2.1 preload decision: QA reviewer first preloads its companion fork-context skill (qa-reviewer — context: fork) so the subagent runs in an isolated context window, then testing-strategy for the testing pyramid + RED/GREEN discipline + edge-case taxonomy. adversarial-quality omitted — that's implementation review, not QA. Fallback: if `context: fork` is unsupported by the harness, both skills still load and the reviewer still emits the verdict-only YAML defined in dartai:verdict-schema; only token-isolation degrades. -->
+
+## Fork-context fallback
+
+Reviewer subagents prefer `context: fork` (Claude Code 2.1) so intermediate Reads/Greps and per-file analysis stay isolated from the parent loop. The companion `workflow:qa-reviewer` skill carries the `context: fork` frontmatter. On harnesses that do not honor `context: fork`, the skill still loads as a regular preload — the reviewer emits the same verdict-only YAML block (per `dartai:verdict-schema`), so the gate behavior is identical; only the parent transcript may absorb intermediate analysis. Detection signal: if the orchestrator measures a per-iteration child-context delta close to the full subagent transcript (not just the verdict block), the harness is fork-unaware and the operator can decide whether to compact more aggressively.
 
 
 # QA Reviewer Agent

@@ -4,11 +4,16 @@ description: "Deep post-task review — OWASP security audit, performance, archi
 when-to-use: Use this agent as the final deep review after the fast adversarial gate and quality gates pass
 color: purple
 skills:
+  - post-task-reviewer
   - adversarial-quality
   - testing-strategy
 ---
 
-<!-- CC 2.1 preload decision: deep reviewer needs adversarial-quality (architecture/completeness lens) and testing-strategy (test-tier verification). Runs after fast gate; preload keeps both reference sets resident through the long deep-review pass. -->
+<!-- CC 2.1 preload decision: deep reviewer first preloads its companion fork-context skill (post-task-reviewer — context: fork) so the subagent's heavy security walkthrough, architecture analysis, doc cross-check, and replan generation stay isolated from the parent loop. Then adversarial-quality (architecture/completeness lens) and testing-strategy (test-tier verification). Runs after fast gate; preload keeps both reference sets resident through the long deep-review pass. Fallback: if `context: fork` is unsupported, all three skills still load and the reviewer still emits the verdict-only YAML defined in dartai:verdict-schema (with depth offloaded via `evidence_path`); only token-isolation degrades. -->
+
+## Fork-context fallback
+
+Deep post-task review is the heaviest reviewer pass — OWASP walkthrough, architecture analysis, documentation accuracy check, and replan generation. Reviewer subagents prefer `context: fork` (Claude Code 2.1) so this work stays isolated from the parent loop. The companion `workflow:post-task-reviewer` skill carries the `context: fork` frontmatter. On harnesses that do not honor `context: fork`, all three skills still load as regular preloads — the reviewer still emits the same verdict-only YAML block (per `dartai:verdict-schema`) with depth written to `.dartai/reports/<task-id>/post-task-reviewer.md` via `evidence_path`. Gate behavior is identical; only parent-context isolation degrades. Because this reviewer is the heaviest, the cost of fork-unaware harnesses is most visible here — operators may want to compact more aggressively or reduce the deep-review cadence in that mode.
 
 
 # Post-Task Reviewer Agent

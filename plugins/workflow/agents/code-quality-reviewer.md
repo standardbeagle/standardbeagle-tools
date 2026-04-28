@@ -4,10 +4,15 @@ description: "Independent adversarial code quality review — coherence, bloat, 
 when-to-use: Use this agent for independent code quality verification of a completed implementation
 color: red
 skills:
+  - code-quality-reviewer
   - adversarial-quality
 ---
 
-<!-- CC 2.1 preload decision: reviewer needs the adversarial-quality playbook (gate definitions, attack vectors, completeness checklist) at boot. testing-strategy not preloaded here — that belongs to qa-reviewer; this agent reviews implementation, not tests. -->
+<!-- CC 2.1 preload decision: reviewer first preloads its companion fork-context skill (code-quality-reviewer — context: fork) so the subagent runs in an isolated context window, then adversarial-quality for the gate definitions, attack vectors, and completeness checklist. testing-strategy not preloaded here — that belongs to qa-reviewer; this agent reviews implementation, not tests. Fallback: if `context: fork` is unsupported, both skills still load and the reviewer still emits the verdict-only YAML defined in dartai:verdict-schema; only token-isolation degrades. -->
+
+## Fork-context fallback
+
+Reviewer subagents prefer `context: fork` (Claude Code 2.1) so reading source files and running LCI duplicate-detection queries stay isolated from the parent loop. The companion `workflow:code-quality-reviewer` skill carries the `context: fork` frontmatter. On harnesses that do not honor `context: fork`, the skill still loads as a regular preload — the reviewer emits the same verdict-only YAML block (per `dartai:verdict-schema`), so the gate behavior is identical; only the parent transcript may absorb intermediate analysis. Detection signal: orchestrator-measured per-iteration child-context delta. Close to verdict-block size = fork honored. Close to full transcript = fork-unaware harness; behavior preserving regardless.
 
 
 # Code Quality Reviewer Agent
