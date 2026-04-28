@@ -97,7 +97,7 @@ Task tool call:
 
 **Pipeline phases:**
 
-1. **Understand task**: Read task description, identify scope
+1. **Understand task**: Read task description, identify scope. Read `.dartai/plan.md` for the active phase spec. Do NOT read `.dartai/plan-archive.md` — that is reserved for explicit retrospectives.
 2. **Implement changes**: Make necessary code changes
 3. **Code review**: Self-review with LCI search
 4. **Run linting**: Execute project's linter
@@ -105,6 +105,48 @@ Task tool call:
 6. **LCI evaluation**: Check code quality patterns
 7. **Refactor check**: Ensure changes are clean
 8. **Deprecated cleanup**: Remove obsolete code
+
+### 3.5. Plan File Rotation (if phase closed) 計劃文件輪轉
+
+If this task closed out an active phase in `.dartai/plan.md`, rotate the phase to the archive **before** marking the task Done. The driver maintains three plan files:
+
+| File | Content | Read by | Write semantics |
+|------|---------|---------|-----------------|
+| `.dartai/plan.md` | Active phase + open checkpoints + current spec | Executor, reviewers | Truncate-and-rewrite on rotation |
+| `.dartai/plan-archive.md` | Completed phases (append-only history) | Explicit retrospectives only | Append-only |
+| `.dartai/plan-meta.kdl` | Pointers, checkpoint markers, `last_rotated` timestamp | Driver | Atomic full-rewrite |
+
+**Rotation trigger:** phase marked `done` AND no downstream phase still references this phase's open checkpoints.
+
+**Atomic write order (CRITICAL — do not reverse):**
+
+```yaml
+atomic_rotation:
+  step_1_archive_append:
+    action: "Append phase block to .dartai/plan-archive.md"
+    verify: "fsync + read-back of appended block matches"
+    rollback: "If verify fails, abort — do not touch plan.md"
+
+  step_2_meta_update:
+    action: "Rewrite .dartai/plan-meta.kdl with new active_phase + archived_phases entry (record archive_offset = line where step 1 wrote)"
+    verify: "Parse rewritten kdl, confirm archive_offset matches step 1's append location"
+    rollback: "If verify fails, truncate plan-archive.md back to pre-append size, abort"
+
+  step_3_plan_truncate:
+    action: "Rewrite .dartai/plan.md without the rotated phase section"
+    verify: "Re-read plan.md, confirm rotated phase absent and active_phase from meta is present"
+    rollback: |
+      1. Restore plan.md from the archive-appended block
+      2. Revert plan-meta.kdl to prior contents
+      3. Truncate plan-archive.md to pre-append size
+      4. Surface mid-write failure as a Dart comment on this task
+
+  invariant: "archive write FIRST, plan truncate LAST. Never reverse."
+```
+
+**Why this order:** A crash after step 1 leaves a duplicate phase (recoverable on next read via dedup). A crash after step 3 with steps 1–2 incomplete loses the phase entirely. Always write the durable copy before mutating the working copy.
+
+**If no phase closed**, skip this step — single-task execution does not always coincide with a phase boundary.
 
 ### 4. Update Task Status
 

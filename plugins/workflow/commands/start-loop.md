@@ -155,6 +155,105 @@ command for project-specific tuning.
 }
 ```
 
+### 3. Plan File Layout (Active vs Archive vs Meta) 計劃文件分層
+
+The loop driver reads **only the active plan slice**. Completed phases rotate out to an append-only archive so reviewer and executor prompts see the current spec, not full history. Three files:
+
+| File | Content | Read by | Write semantics |
+|------|---------|---------|-----------------|
+| `.workflow/plan.md` | Active phase + open checkpoints + current spec | Loop driver, executor, reviewers | Truncate-and-rewrite on rotation |
+| `.workflow/plan-archive.md` | Completed phases (append-only history) | Explicit retrospectives only | Append-only |
+| `.workflow/plan-meta.kdl` | Pointers, checkpoint markers, `last_rotated` timestamp | Loop driver | Atomic full-rewrite |
+
+**plan-meta.kdl shape:**
+```kdl
+plan {
+    active_phase "phase-3-implementation"
+    last_rotated "2026-04-27T23:00:00Z"
+    archived_phases {
+        phase id="phase-1-design" rotated_at="2026-04-26T10:00:00Z" archive_offset="1"
+        phase id="phase-2-scoping" rotated_at="2026-04-27T09:30:00Z" archive_offset="142"
+    }
+    checkpoints {
+        checkpoint id="ck-7" phase="phase-3-implementation" status="open"
+    }
+}
+```
+
+`archive_offset` is the line number in `plan-archive.md` where the archived phase begins — explicit retrieval without scanning the whole archive.
+
+#### Rotation Rule 輪轉規則
+
+When a phase is marked `done` AND downstream phases are unblocked:
+
+```yaml
+rotation_trigger:
+  conditions_all:
+    - "phase.status == 'done'"
+    - "no downstream phase blocked on this phase's checkpoints"
+  result: "Move phase from plan.md → plan-archive.md, update plan-meta.kdl"
+```
+
+**Atomic write order (CRITICAL):**
+
+```yaml
+atomic_rotation:
+  step_1_archive_append:
+    action: "Append phase block to .workflow/plan-archive.md"
+    verify: "fsync + read-back of appended block matches"
+    rollback: "If verify fails, abort — do not touch plan.md"
+
+  step_2_meta_update:
+    action: "Rewrite .workflow/plan-meta.kdl with new active_phase + archived_phases entry"
+    verify: "Parse rewritten kdl, confirm archive_offset points to step_1's appended block"
+    rollback: "If verify fails, truncate plan-archive.md back to pre-append size, abort"
+
+  step_3_plan_truncate:
+    action: "Rewrite .workflow/plan.md without the rotated phase section"
+    verify: "Re-read plan.md, confirm rotated phase absent and active_phase from meta present"
+    rollback: |
+      1. Restore plan.md from the archive-appended block
+      2. Revert plan-meta.kdl to prior contents
+      3. Truncate plan-archive.md to pre-append size
+      4. Surface mid-write failure to loop state as an `errors[]` entry
+
+  invariant: "archive write FIRST, plan truncate LAST. Never reverse."
+```
+
+**Why this order:** A crash after step 1 leaves a duplicate phase (recoverable via dedup). A crash after step 3 with steps 1–2 incomplete loses the phase. Always write the durable copy before mutating the working copy.
+
+#### Driver Read Discipline 驅動讀取規範
+
+```yaml
+plan_read_rules:
+  loop_driver_default:
+    reads: ".workflow/plan.md (active slice only)"
+    never: "Reads plan-archive.md during normal iteration"
+
+  archive_access:
+    when: "Explicit retrospective, debugging, or rollback investigation"
+    how: "Operator (or explicit subagent prompt) reads plan-archive.md by name"
+    never: "Auto-include archive in executor/reviewer prompts"
+
+  reviewer_prompts:
+    must_reference: "active phase only (.workflow/plan.md)"
+    must_not_reference: "completed phases or full plan history"
+    rationale: "Reviewer anchoring on prior attempts drifts judgment from current spec"
+
+  meta_consultation:
+    when: "Driver needs active phase id, checkpoint state, or rotation history"
+    read: ".workflow/plan-meta.kdl"
+    do_not: "Parse plan-archive.md for state queries — meta has the pointers"
+```
+
+#### Recovery 恢復
+
+If `plan.md` is corrupted or lost mid-rotation:
+1. Read `plan-meta.kdl` for `active_phase` id and `archived_phases[].archive_offset`
+2. Reconstruct active slice; archived phases recoverable from `plan-archive.md` at recorded offsets
+
+Archive is the durable record. Plan.md is a working slice — its loss is a rebuild trigger, not catastrophic data loss.
+
 ### 4. Execute Adversarial Loop 執行對抗循環
 
 **重要：每個任務必須在全新子代理中運行以保持上下文清潔。**
@@ -187,6 +286,7 @@ subagent_execution:
     Loop ID: [loop-id]
     Task ID: [task-id]
     Task Index: [X of Y]
+    Active plan: .workflow/plan.md   # active slice only — do NOT read plan-archive.md
 
     Task Details:
     Title: [title]
@@ -204,6 +304,7 @@ subagent_execution:
 
     IMPORTANT:
     - Use the quality adversarial skill
+    - Read .workflow/plan.md for the active phase spec. Do NOT read plan-archive.md unless this task is explicitly a retrospective or rollback investigation.
     - Report success/failure with full details
     - Update loop state file on completion
     - This is a FRESH context - no prior task memory
@@ -237,6 +338,7 @@ actions:
   - "Read subagent completion report from loop state file"
   - "Log completion summary"
   - "Mark task as completed with timestamp"
+  - "Rotate completed phase to archive if this task closed a plan phase (apply atomic order from §3: archive append → meta update → plan truncate). Skip rotation if downstream phases still reference open checkpoints."
   - "Continue to NEXT task with NEW subagent (fresh context)"
 ```
 

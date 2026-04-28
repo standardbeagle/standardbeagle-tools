@@ -245,6 +245,107 @@ params:
 
 Save the returned `loop_task_id` for linking subtasks.
 
+### Plan File Layout (Active vs Archive vs Meta) 計劃文件分層
+
+The loop driver reads **only the active plan slice**. Completed phases are rotated out to an append-only archive so reviewer and executor prompts see the current spec, not full history. Three files:
+
+| File | Content | Read by | Write semantics |
+|------|---------|---------|-----------------|
+| `.dartai/plan.md` | Active phase + open checkpoints + current spec | Loop driver, executor, reviewers | Truncate-and-rewrite on rotation |
+| `.dartai/plan-archive.md` | Completed phases (append-only history) | Explicit retrospectives only | Append-only |
+| `.dartai/plan-meta.kdl` | Pointers, checkpoint markers, `last_rotated` timestamp | Loop driver | Atomic full-rewrite |
+
+**plan-meta.kdl shape:**
+```kdl
+plan {
+    active_phase "phase-3-implementation"
+    last_rotated "2026-04-27T23:00:00Z"
+    archived_phases {
+        phase id="phase-1-design" rotated_at="2026-04-26T10:00:00Z" archive_offset="1"
+        phase id="phase-2-scoping" rotated_at="2026-04-27T09:30:00Z" archive_offset="142"
+    }
+    checkpoints {
+        checkpoint id="ck-7" phase="phase-3-implementation" status="open"
+    }
+}
+```
+
+`archive_offset` is the line number in `plan-archive.md` where the archived phase begins — enables explicit retrieval without scanning the whole archive.
+
+#### Rotation Rule 輪轉規則
+
+When a phase is marked `done` AND downstream phases are unblocked, the driver rotates the phase out:
+
+```yaml
+rotation_trigger:
+  conditions_all:
+    - "phase.status == 'done'"
+    - "no downstream phase blocked on this phase's checkpoints"
+  result: "Move phase from plan.md → plan-archive.md, update plan-meta.kdl"
+```
+
+**Atomic write order (CRITICAL):**
+
+```yaml
+atomic_rotation:
+  step_1_archive_append:
+    action: "Append phase block to .dartai/plan-archive.md"
+    verify: "fsync + read-back the appended block matches"
+    rollback: "If verify fails, abort — do not touch plan.md"
+
+  step_2_meta_update:
+    action: "Rewrite .dartai/plan-meta.kdl with new active_phase + archived_phases entry"
+    verify: "Parse rewritten kdl, confirm archive_offset points to step_1's appended block"
+    rollback: "If verify fails, truncate plan-archive.md back to pre-append size, abort"
+
+  step_3_plan_truncate:
+    action: "Rewrite .dartai/plan.md without the rotated phase section"
+    verify: "Re-read plan.md, confirm rotated phase no longer present, active_phase from meta is present"
+    rollback: |
+      If verify fails:
+      1. Restore plan.md from archive-append source (the rotated block is the diff)
+      2. Revert plan-meta.kdl to prior contents
+      3. Truncate plan-archive.md to pre-append size
+      4. Surface mid-write failure to loop task as a comment
+
+  invariant: "archive write FIRST, plan truncate LAST. Never reverse."
+```
+
+**Why this order:** A crash after step 1 leaves a duplicate phase (recoverable — dedup on next read). A crash after step 3 with steps 1–2 incomplete leaves a lost phase (data loss). Always write the durable copy before mutating the working copy.
+
+#### Driver Read Discipline 驅動讀取規範
+
+```yaml
+plan_read_rules:
+  loop_driver_default:
+    reads: ".dartai/plan.md (active slice only)"
+    never: "Reads plan-archive.md during normal iteration"
+
+  archive_access:
+    when: "Explicit retrospective, debugging, or rollback investigation"
+    how: "Operator (or explicit subagent prompt) reads plan-archive.md by name"
+    never: "Auto-include archive in executor/reviewer prompts"
+
+  reviewer_prompts:
+    must_reference: "active phase only (.dartai/plan.md)"
+    must_not_reference: "completed phases or full plan history"
+    rationale: "Reviewer anchoring on prior attempts drifts judgment from current spec"
+
+  meta_consultation:
+    when: "Driver needs to know active phase id, checkpoint state, or rotation history"
+    read: ".dartai/plan-meta.kdl"
+    do_not: "Parse plan-archive.md for state queries — meta has the pointers"
+```
+
+#### Recovery 恢復
+
+If `plan.md` is corrupted or lost mid-rotation:
+1. Read `plan-meta.kdl` for `active_phase` id and `archived_phases[].archive_offset`
+2. Reconstruct active slice: any phase in plan-meta.kdl marked active that's not in archived_phases must be rebuilt from operator memory or last commit
+3. Archived phases remain recoverable from `plan-archive.md` at recorded offsets
+
+Archive is the durable record. Plan.md is a working slice. Treat plan.md loss as a rebuild trigger, not catastrophic data loss.
+
 ### Loop-Specific Tags
 
 Use these tags to track loop state on tasks:
@@ -563,6 +664,7 @@ subagent_execution:
         ## Loop Context
         Loop Task ID: [loop_task_id]
         Iteration: [N]
+        Active plan: .dartai/plan.md   # active slice only — do NOT read plan-archive.md
 
         ## Task Details
         - Title: [title]
@@ -571,13 +673,14 @@ subagent_execution:
 
         ## Instructions
         1. Use the adversarial quality loop pattern with RED/GREEN TDD
-        2. Update task tags with phase progress: loop-phase:[phase]
-        3. On completion: mark task Done, add summary comment
-        4. On failure: leave In Progress, add failure comment with:
+        2. Read .dartai/plan.md for the active phase spec. Do NOT read plan-archive.md unless this task is explicitly a retrospective or rollback investigation.
+        3. Update task tags with phase progress: loop-phase:[phase]
+        4. On completion: mark task Done, add summary comment
+        5. On failure: leave In Progress, add failure comment with:
            - Which phase failed
            - Recommended fix (create subtask if needed)
            - What tasks are blocked
-        5. Add completion comment to loop task [loop_task_id]
+        6. Add completion comment to loop task [loop_task_id]
 
   result_handling:
     on_success: "Task marked Done in Dart, continue to next"
@@ -747,6 +850,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
 **On Success:**
 - The subagent already updated task to "Done" via Dart MCP
 - Log the completion summary from subagent result
+- **Rotate completed phase to archive** if this task closed out a plan phase. Apply the atomic rotation order from the "Plan File Layout" section: append phase block to `.dartai/plan-archive.md` first, update `.dartai/plan-meta.kdl`, then truncate the rotated section from `.dartai/plan.md`. Skip rotation if downstream phases still reference open checkpoints in this phase.
 - **CONTINUE to next task** with a NEW subagent (fresh context)
 
 **On Failure (REPLAN, DO NOT STOP):**
