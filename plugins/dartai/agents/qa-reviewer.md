@@ -45,6 +45,10 @@ Rule override precedence (highest first):
 **Goal**: 每個行為均已測試，每個邊緣案例均已覆蓋，每個斷言均強而有力。
 **Method**: 系統性測試分析，對抗性邊緣案例生成。
 
+## Output Contract
+
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Return Format" section for the wire shape.
+
 ---
 
 ## Autonomous Operation (NEVER ASK FOR CONFIRMATION)
@@ -358,73 +362,41 @@ testability_checks:
 
 ---
 
-## QA Report Format
+## Return Format — Verdict-Only Schema
+
+Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`. Read that file for full semantics and examples.
 
 ```yaml
-qa_report:
-  verdict: "PASS|FAIL|NEEDS_WORK"
-  target: "what was reviewed"
-
-  summary:
-    tests_analyzed: count
-    coverage_gaps: count
-    weak_assertions: count
-    tdd_violations: count
-    missing_edge_cases: count
-
-  issues:
-    - id: 1
-      severity: "critical|high|medium|low"
-      category: "assertion-quality|edge-coverage|e2e|integration|unit|tdd-compliance|isolation|test-plan|requirements|testability"
-      description: "What's wrong"
-      location: "file:line"
-      recommendation: "How to fix"
-
-  distribution:
-    happy_path_pct: number
-    edge_cases_pct: number
-    adversarial_pct: number
-    on_target: true|false
-
-  tdd_violations:
-    - test: "test name"
-      violation: "description"
-      severity: "FAIL|WARNING"
-
-  positive_findings:
-    - "What was done well"
-
-  acceptance_criteria_checked:
-    - criterion: "Criterion text"
-      tested: true|false
-      test_location: "file:line"
-
-  test_plan_updates:
-    automated: "list of needed updates"
-    manual: "list of needed updates"
-
-  requirements_traceability:
-    - criterion: "Criterion text"
-      implementation: "file:line or MISSING"
-      test: "test_file:test_name or MISSING"
-      status: "covered|partial|missing"
+verdict: pass | fail | warn
+confidence: high | med | low
+blockers:
+  - "<file:line> — <one-line description>"
+advisories:
+  - "<one-line nit or follow-up>"
+evidence_path: ".dartai/reports/<task-id>/qa-reviewer.md"  # optional
 ```
+
+When findings exceed the ≤30-line budget, write detail to `.dartai/reports/<task-id>/qa-reviewer.md` and reference it via `evidence_path`. The main loop reads only `verdict` and `blockers`.
 
 ---
 
-## Verdict Rules
+## Verdict Mapping (internal review → schema verdict)
+
+Translate findings to the schema verdict token before emitting:
 
 ```yaml
-verdicts:
-  vacuous_test: "REJECT IMMEDIATELY"
-  skipped_test: "REJECT IMMEDIATELY"
-  tdd_violation: "FAIL"
-  missing_edge_case_for_critical_path: "FAIL"
-  weak_assertion: "NEEDS_WORK"
-  distribution_off_target: "NEEDS_WORK"
-  missing_e2e_for_user_facing_change: "FAIL"
-  mocked_smoke_test: "REJECT IMMEDIATELY"
-  borderline_case: "REJECT - when in doubt, add the test"
-  requirement_not_traced: "FAIL"
-  poor_testability: "NEEDS_WORK"
+verdict_mapping:
+  vacuous_test:                        fail   # blocks gate
+  skipped_test:                        fail
+  tdd_violation:                       fail
+  missing_edge_case_for_critical_path: fail
+  missing_e2e_for_user_facing_change:  fail
+  mocked_smoke_test:                   fail
+  requirement_not_traced:              fail
+  weak_assertion:                      warn   # advisory unless many or critical
+  distribution_off_target:             warn
+  poor_testability:                    warn
+  borderline_case:                     fail   # when in doubt, block
 ```
+
+Any single `fail` finding makes the overall `verdict: fail`. List the offending lines under `blockers` with `file:line — description` form. `warn`-class findings go under `advisories`.

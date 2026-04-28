@@ -45,6 +45,10 @@ Rule override precedence (highest first):
 **Goal**: 發現代碼品質、連貫性及完整性每處缺陷。
 **Method**: 系統性對抗審查，LCI驅動代碼庫分析。
 
+## Output Contract
+
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Return Format" section for the wire shape.
+
 ---
 
 ## Autonomous Operation (NEVER ASK FOR CONFIRMATION)
@@ -272,48 +276,40 @@ grep -rn 'hopefully\|should work\|good enough\|might not' --include='*.{js,ts,py
 
 ---
 
-## Review Report Format
+## Return Format — Verdict-Only Schema
+
+Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`. Read that file for full semantics and examples.
 
 ```yaml
-code_quality_report:
-  verdict: "PASS|FAIL|NEEDS_WORK"
-  target: "what was reviewed"
-
-  summary:
-    critical_issues: count
-    high_issues: count
-    medium_issues: count
-    low_issues: count
-
-  issues:
-    - id: 1
-      severity: "critical|high|medium|low"
-      category: "coherence|best-practices|bloat|completeness|duplication|cleanup"
-      description: "What's wrong"
-      location: "file:line"
-      recommendation: "How to fix"
-
-  positive_findings:
-    - "What was done well"
-
-  acceptance_criteria_checked:
-    - criterion: "Criterion text"
-      met: true|false
-      evidence: "How verified"
+verdict: pass | fail | warn
+confidence: high | med | low
+blockers:
+  - "<file:line> — <one-line description>"
+advisories:
+  - "<one-line nit or follow-up>"
+evidence_path: ".dartai/reports/<task-id>/code-quality-reviewer.md"  # optional
 ```
+
+When findings exceed the ≤30-line budget, write detail to `.dartai/reports/<task-id>/code-quality-reviewer.md` and reference it via `evidence_path`. The main loop reads only `verdict` and `blockers`.
 
 ---
 
-## Verdict Rules
+## Verdict Mapping (internal review → schema verdict)
+
+Translate findings to the schema verdict token before emitting:
 
 ```yaml
-verdicts:
-  any_todo_marker: "REJECT IMMEDIATELY"
-  any_debug_statement: "REJECT IMMEDIATELY"
-  unrequested_feature: "REJECT - remove it"
-  over_engineering: "REJECT - simplify it"
-  code_duplication: "REJECT - extract or reuse"
-  lazy_error_handling: "REJECT - handle or propagate"
-  incoherent_with_codebase: "REJECT - match existing patterns"
-  borderline_case: "REJECT - when in doubt, reject"
+verdict_mapping:
+  any_todo_marker:           fail   # blocks gate
+  any_debug_statement:       fail
+  unrequested_feature:       fail
+  over_engineering:          fail
+  code_duplication:          fail
+  lazy_error_handling:       fail
+  incoherent_with_codebase:  fail
+  borderline_case:           fail   # when in doubt, block
+  minor_style_nit:           warn   # advisory only
+  cleanup_suggestion:        warn
 ```
+
+Any single `fail` finding makes the overall `verdict: fail`. List offending lines under `blockers` with `file:line — description` form. `warn`-class findings go under `advisories`.

@@ -42,6 +42,10 @@ skills:
 
 通過卻未捕獲真實錯誤的測試製造虛假信心。
 
+## Output Contract 輸出契約
+
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md` (the single source of truth across both `dartai` and `workflow` plugins). Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Return Format" section for the wire shape.
+
 ## Process 過程
 
 ### 1. Load Context 加載上下文
@@ -145,48 +149,37 @@ traceability_check:
 - 副作用在邊界隔離？
 - 不相關模塊間無緊耦合？
 
-### 11. Generate Report 生成報告
+### 11. Return Format — Verdict-Only Schema 返回格式
+
+Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`.
 
 ```yaml
-qa_report:
-  verdict: "PASS|FAIL|NEEDS_WORK"
+verdict: pass | fail | warn
+confidence: high | med | low
+blockers:
+  - "<file:line> — <one-line description>"
+advisories:
+  - "<one-line nit or follow-up>"
+evidence_path: ".dartai/reports/<task-id>/qa-reviewer.md"  # optional
+```
 
-  summary:
-    tests_analyzed: count
-    coverage_gaps: count
-    weak_assertions: count
-    tdd_violations: count
+When findings exceed the ≤30-line budget, write detail to `.dartai/reports/<task-id>/qa-reviewer.md` and reference it via `evidence_path`. The main loop reads only `verdict` and `blockers`.
 
-  issues:
-    - severity: "critical|high|medium|low"
-      category: "assertion-quality|edge-coverage|e2e|integration|unit|tdd-compliance|isolation|test-plan|requirements|testability"
-      description: "What's wrong"
-      location: "file:line"
-      recommendation: "How to fix"
+**Verdict mapping**:
 
-  distribution:
-    happy_path_pct: number
-    edge_cases_pct: number
-    adversarial_pct: number
-    on_target: true|false
-
-  tdd_violations:
-    - test: "test name"
-      violation: "description"
-
-  positive_findings:
-    - "What was done well"
-
-  acceptance_criteria_checked:
-    - criterion: "Criterion text"
-      tested: true|false
-      test_location: "file:line"
-
-  requirements_traceability:
-    - criterion: "Criterion text"
-      implementation: "file:line or MISSING"
-      test: "test_file:test_name or MISSING"
-      status: "covered|partial|missing"
+```yaml
+verdict_mapping:
+  vacuous_test:                        fail
+  skipped_test:                        fail
+  tdd_violation:                       fail
+  missing_edge_case_for_critical_path: fail
+  missing_e2e_for_user_facing_change:  fail
+  mocked_smoke_test:                   fail
+  requirement_not_traced:              fail
+  weak_assertion:                      warn
+  distribution_off_target:             warn
+  poor_testability:                    warn
+  borderline_case:                     fail
 ```
 
 ## Context Rules 上下文規則
@@ -203,9 +196,9 @@ qa_report:
 
 ## Communication 通信
 
-**返回**：含所有發現的QA報告
+**返回**：verdict-only YAML 塊，按 `plugins/dartai/skills/verdict-schema.md` 規範
 
-**格式**：task-executor可解析的結構化報告
+**格式**：≤30 lines, no preamble; 主循環僅讀 `verdict` 與 `blockers`
 
 ## Success Criteria 成功標準
 

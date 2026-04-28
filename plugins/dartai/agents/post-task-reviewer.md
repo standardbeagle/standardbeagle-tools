@@ -40,6 +40,10 @@ Rule override precedence (highest first):
 **Goal**: 發現並行審查者遺漏之處，然後更新計劃。
 **Method**: 順序深挖——安全、代碼深度、PM，然後重新規劃。
 
+## Output Contract
+
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md`. Internal phases below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. Replan recommendations and security depth that don't fit the ≤30-line budget go into `evidence_path` (a written report file). See "Return Format" section for the wire shape.
+
 ---
 
 ## Autonomous Operation (NEVER ASK FOR CONFIRMATION)
@@ -355,66 +359,45 @@ replan_recommendations:
 
 ---
 
-## Post-Task Report Format
+## Return Format — Verdict-Only Schema
+
+Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`. Read that file for full semantics and examples.
 
 ```yaml
-post_task_report:
-  verdict: "PASS|FAIL|NEEDS_WORK"
-
-  security_audit:
-    overall_risk: "critical|high|medium|low|none"
-    findings:
-      - severity: "critical|high|medium|low"
-        owasp: "A01-A10"
-        description: "What's wrong"
-        location: "file:line"
-        exploit_difficulty: "easy|medium|hard"
-        remediation: "How to fix"
-    positive: ["What was done well"]
-
-  deep_code_review:
-    findings:
-      - severity: "critical|high|medium|low"
-        category: "performance|architecture|concurrency|edge-case"
-        description: "What's wrong"
-        location: "file:line"
-        recommendation: "How to fix"
-
-  pm_review:
-    documentation_status:
-      api_docs: "current|needs_update|missing|n/a"
-      user_stories: "current|needs_update|missing|n/a"
-      user_flows: "current|needs_update|missing|n/a"
-      tech_docs: "current|needs_update|missing|n/a"
-      changelog: "current|needs_update|missing|n/a"
-      readme: "current|needs_update|missing|n/a"
-    stale_docs_found: count
-    doc_issues:
-      - description: "What needs updating"
-        location: "file"
-        recommendation: "What to change"
-
-  replan:
-    tasks_to_create: count
-    tasks_to_modify: count
-    tasks_to_remove: count
-    recommendations: [see replan output above]
-
-  overall_summary: "One paragraph: security posture, code depth findings, doc status, replan impact"
+verdict: pass | fail | warn
+confidence: high | med | low
+blockers:
+  - "<file:line> — <one-line description>"
+advisories:
+  - "<one-line nit or follow-up>"
+evidence_path: ".dartai/reports/<task-id>/post-task-reviewer.md"  # recommended for this agent
 ```
+
+This agent typically produces deeper findings (OWASP details, replan recommendations, doc audit). When that depth would blow the ≤30-line budget — which is normal for post-task — write the full report to `.dartai/reports/<task-id>/post-task-reviewer.md` and reference it via `evidence_path`. Keep the verdict block focused on:
+
+- `verdict` — the gate decision.
+- `blockers` — only the items that genuinely block the gate (critical/high security, concurrency bugs, missing-critical-docs that ship-block).
+- `advisories` — replan headlines, performance notes, doc gaps that are NEEDS_WORK-class.
+- `evidence_path` — link to the full multi-phase report.
+
+The main loop reads only `verdict` and `blockers`. Operators read `evidence_path` when reviewing.
 
 ---
 
-## Verdict Rules
+## Verdict Mapping (internal phases → schema verdict)
+
+Translate findings to the schema verdict token before emitting:
 
 ```yaml
-verdicts:
-  critical_security: "FAIL - STOP immediately"
-  high_security: "FAIL - must fix before completion"
-  performance_regression: "NEEDS_WORK"
-  concurrency_bug: "FAIL"
-  missing_critical_docs: "NEEDS_WORK"
-  stale_documentation: "NEEDS_WORK"
-  replan_needed: "PASS with replan recommendations"
-  all_clear: "PASS"
+verdict_mapping:
+  critical_security:           fail   # also: STOP immediately, set confidence: high
+  high_security:               fail
+  concurrency_bug:             fail
+  performance_regression:      warn   # advisory unless quantified ship-blocker
+  missing_critical_docs:       warn
+  stale_documentation:         warn
+  replan_recommendations_only: pass   # gate passes; recommendations flow via advisories + evidence_path
+  all_clear:                   pass
 ```
+
+`critical_security` triggers an early STOP per Phase 1's critical protocol — emit the verdict block immediately with `confidence: high`, the offending location in `blockers`, and a written `evidence_path`.

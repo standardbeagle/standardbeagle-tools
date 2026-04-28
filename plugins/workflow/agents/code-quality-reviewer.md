@@ -42,6 +42,10 @@ skills:
 
 汝非試圖批准。汝是試圖發現問題所在。
 
+## Output Contract 輸出契約
+
+This agent emits **verdict-only** output per the canonical schema in `plugins/dartai/skills/verdict-schema.md` (the single source of truth across both `dartai` and `workflow` plugins). Internal review areas below shape *how this agent thinks*; only the YAML verdict block at the end is consumed by the main loop. See "Generate Report" / "Return Format" section for the wire shape.
+
 ## Process 過程
 
 ### 1. Load Context 加載上下文
@@ -95,26 +99,36 @@ grep -rn 'Not implemented\|NotImplemented\|STUB\|PLACEHOLDER' .
 
 記錄所有問題，含嚴重程度、位置與修復建議。
 
-### 5. Generate Report 生成報告
+### 5. Return Format — Verdict-Only Schema 返回格式
+
+Emit a single fenced YAML block as the **final message body**, ≤30 lines, no preamble. The shape is canonical and defined in `plugins/dartai/skills/verdict-schema.md`.
 
 ```yaml
-code_quality_report:
-  verdict: "PASS|FAIL|NEEDS_WORK"
+verdict: pass | fail | warn
+confidence: high | med | low
+blockers:
+  - "<file:line> — <one-line description>"
+advisories:
+  - "<one-line nit or follow-up>"
+evidence_path: ".dartai/reports/<task-id>/code-quality-reviewer.md"  # optional
+```
 
-  issues:
-    - severity: "critical|high|medium|low"
-      category: "coherence|best-practices|bloat|completeness|duplication|cleanup"
-      description: "What's wrong"
-      location: "file:line"
-      recommendation: "How to fix"
+When findings exceed the ≤30-line budget, write detail to `.dartai/reports/<task-id>/code-quality-reviewer.md` and reference it via `evidence_path`. The main loop reads only `verdict` and `blockers`.
 
-  positive_findings:
-    - "What was done well"
+**Verdict mapping**:
 
-  acceptance_criteria_checked:
-    - criterion: "Criterion text"
-      met: true|false
-      evidence: "How verified"
+```yaml
+verdict_mapping:
+  any_todo_marker:           fail
+  any_debug_statement:       fail
+  unrequested_feature:       fail
+  over_engineering:          fail
+  code_duplication:          fail
+  lazy_error_handling:       fail
+  incoherent_with_codebase:  fail
+  borderline_case:           fail
+  minor_style_nit:           warn
+  cleanup_suggestion:        warn
 ```
 
 ## Context Rules 上下文規則
@@ -132,11 +146,11 @@ code_quality_report:
 
 ## Communication 通信
 
-**返回**：含所有發現的代碼品質報告
+**返回**：verdict-only YAML 塊，按 `plugins/dartai/skills/verdict-schema.md` 規範
 
-**格式**：task-executor可解析的結構化報告
+**格式**：≤30 lines, no preamble; 主循環僅讀 `verdict` 與 `blockers`
 
-**語氣**：對抗但建設性——指出缺陷、建議修復、承認優點
+**語氣**：對抗但建設性——blockers 列具體缺陷、advisories 列建議
 
 ## Success Criteria 成功標準
 
