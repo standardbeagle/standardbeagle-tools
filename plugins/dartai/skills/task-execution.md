@@ -6,22 +6,26 @@ context: fork
 
 # Task Execution Workflow
 
-此技能提供通過完整品質管道執行Dart任務之工作流。
+此技能提供通過完整品質管道執行Dart任務之工作流。Skill body holds index + decision flow only. Detailed step instructions live in `references/` and are loaded on demand at decision points (see "Reference Pointers" below).
 
-## Execution Pipeline
+## Trigger
 
-### Overview
+Use when executing a Dart task end-to-end through the quality pipeline. Caller is typically the `task-executor` agent under `dartai:start` or `dartai:task`.
+
+## Pipeline Overview
 
 ```
 Task Start
     ↓
-0. Read Domain Model
+-1. Read Project Rules (.claude/rules/*)
     ↓
-1. Understand Task
+0. Read Domain Model (docs/DOMAIN.md)
     ↓
-1.5. Refactor to Support Changes
+1. Read Grilled Task Spec
     ↓
-2. Implement Changes
+1.5. Refactor-First Assessment
+    ↓
+2. Implement Changes (Strict TDD: RED → GREEN → REFACTOR)
     ↓
 3. Code Review (Self)
     ↓
@@ -35,301 +39,57 @@ Task Start
     ↓
 8. Deprecated Cleanup
     ↓
+8.5. Domain Check
+    ↓
 9. Final Validation
     ↓
 Task Complete / Failed
 ```
 
-### Step -1: Read Project Rules
+## Decision Flow & Reference Pointers
 
-做任何事前，讀`.claude/rules/`中始終加載的規則：
+Each step is a decision point. **Load the corresponding reference only when entering that step** — do not pre-load.
 
-- `karpathy-principles.md` — 目標驅動執行，反推，驗證
-- `refactor-discipline.md` — A/B/C重構規則
-- `grill-intake.md` — 任務創建門（已在上游應用，此處確認）
-- `code-quality.md` — 項目特定代碼品質標準
-- `testing.md` — 項目特定測試標準
-- `.claude/rules/`中任何其他`.md`文件
+| Step | When to enter | Load reference before proceeding |
+|------|---------------|----------------------------------|
+| -1 Project Rules | Always at task start | `references/examples.md` § "Step -1" |
+| 0 Domain Model | Always before any code change | `references/examples.md` § "Step 0" |
+| 1 Grilled Spec | After rules+domain loaded | `references/examples.md` § "Step 1" |
+| 1.5 Refactor-First | Spec lists files that need restructuring before changes fit | `references/examples.md` § "Step 1.5" |
+| 2 Implement (TDD) | Spec is clear; refactor-first done | `references/examples.md` § "Step 2" |
+| 3 Self Review | Implementation compiles | `references/examples.md` § "Step 3" |
+| 4 Linting | Self-review clean | `references/examples.md` § "Step 4" |
+| 5 Testing | Lint clean | `references/examples.md` § "Step 5" |
+| 6 LCI Eval | Tests green | `references/examples.md` § "Step 6" |
+| 7 Refactor Check | LCI clean | `references/examples.md` § "Step 7" |
+| 8 Deprecated Cleanup | Refactor check clean | `references/examples.md` § "Step 8" |
+| 8.5 Domain Check | Cleanup done; domain model exists | `references/examples.md` § "Step 8.5" |
+| 9 Final Validation | All gates green | `references/examples.md` § "Step 9" + Quality Gates table |
 
-這些規則塑造執行者每個決策。技能為薄指針——決策需要細節時，通過`Skill`工具調用引用的技能，而非猜測。
+**Memory writes** (any step): if a step writes to `.dartai/loop-state.json`, project memory files, or Dart task memory comments, **load `references/memory-protocol.md` before writing** — it specifies the required `timestamp` + `source_event` fields and the canonical schema.
 
-若`.claude/rules/`不存在，警告用戶："Project has not run /dev-standards:setup-project. Task execution will proceed with defaults, but project-specific thresholds will not be respected." 不阻塞——以合理默認值繼續。
+**Subagent-skip-fetch mitigation**: each table row is a fetch instruction the executor MUST follow before acting on that step. If the executor proceeds without loading the referenced section, it is operating without spec — surface as a protocol violation.
 
-### Step 0: Read Domain Model
+## Universal Rules (always in body)
 
-做任何事前，加載域模型：
+These apply to every step regardless of which reference is loaded:
 
-```
-1. Check for docs/DOMAIN.md — read it if present
-2. Check for docs/domain/*.md — read all context files if present
-3. If neither exists: proceed without domain model (note absence)
-4. Extract:
-   - Canonical term list and synonyms to reject
-   - Aggregate names for this feature area
-   - Any relevant invariants or event names
-5. If this task introduces a new concept NOT in the domain model:
-   - Run domain-update skill BEFORE writing any code
-   - The domain name is the code name — no exceptions
-6. If this task is a bug fix and the bug reveals a conceptual
-   misunderstanding: flag for domain-update after the fix
-```
-
-### Step 1: Read Grilled Task Spec
-
-任務已在計劃時審查。讀取審查規格（在任務描述或提示中提供），確認：
-
-```
-1. Acceptance criteria are clear and verifiable
-2. Files to modify are identified (max 5)
-3. Scope is bounded and context-sized
-4. If no grilled spec is present, fetch task details from Dart and apply grill-task inline
-```
-
-勿從頭重新發現範圍、文件或驗收標準——該工作已在計劃時完成。
-
-### Step 1.5: Refactor-First Assessment
-
-編寫新代碼前，若計劃時尚未完成，以審查任務規格調用`dev-standards:refactor-first-assessment`。
-
-```
-1. Read the current contents of files listed in the grilled spec
-2. Invoke `dev-standards:refactor-first-assessment`
-3. If the skill returns refactor steps, execute them before the first RED test:
-   - Move code to the right module/file
-   - Rename things that don't reflect what they do
-   - Extract shared logic that the new code will also need
-   - Ensure existing tests cover the refactored code
-4. Verify ALL existing tests still pass after refactoring
-5. Commit: 'REFACTOR: Prepare [area] for [change]'
-```
-
-關鍵規則：若新代碼感覺在與現有結構搏鬥，先改結構。永不在壞結構上打補丁——先修結構，再加功能。
-
-### Step 2: Implement Changes (Strict TDD)
-
-每個行為遵循RED→GREEN→REFACTOR：
-
-```
-RED PHASE:
-1. Write ONE test for the smallest behavior increment
-2. Run test - it MUST FAIL (RED)
-3. If test passes, the test is wrong - fix or delete it
-4. Commit: 'RED: Test for [behavior]'
-
-GREEN PHASE:
-5. Write MINIMUM code to make the RED test pass
-6. No code without a failing test first
-7. No 'preparing' the implementation
-8. Commit: 'GREEN: [behavior] implemented'
-
-REFACTOR PHASE:
-9. Clean up code while tests stay GREEN
-10. If tests go RED, undo immediately
-11. Commit: 'REFACTOR: [what changed]'
-
-VERTICAL SLICES:
-12. Implement full feature vertically, not horizontal layers
-13. Good: User can create post (validation + DB + API + response)
-14. Bad: Build all DB models, then all APIs, then UI
-
-DOCUMENTATION:
-15. Update related documentation
-16. Save all changes (main loop handles git commit/push)
-```
-
-### Step 3: Code Review (Self)
-
-審查自身改動：
-
-```
-1. Use LCI to search for similar patterns
-2. Check for:
-   - Code duplication
-   - Naming consistency
-   - Error handling
-   - Edge cases
-3. Verify changes match task requirements
-4. Look for unintended side effects
-```
-
-### Step 4: Linting
-
-運行項目linter：
-
-```
-Detect project type and run appropriate linter:
-- JavaScript/TypeScript: eslint, prettier
-- Go: golangci-lint, go vet
-- Python: ruff, black, flake8
-- Rust: clippy, rustfmt
-
-Fix all errors before proceeding.
-Warnings should be reviewed but may proceed.
-```
-
-### Step 5: Testing
-
-運行測試套件：
-
-```
-1. Run unit tests for changed files
-2. Run integration tests if applicable
-3. Check test coverage hasn't decreased
-4. All tests must pass to continue
-```
-
-### Step 6: LCI Evaluation
-
-使用Lightning Code Index進行品質檢查：
-
-```
-1. Search for:
-   - Duplicate code patterns
-   - Similar function names
-   - Related symbols
-2. Verify:
-   - Consistent naming with codebase
-   - Proper use of existing utilities
-   - No reinventing existing functionality
-
-3. Findability check — new code must be discoverable:
-   - Function/type names reflect what they do (not how)
-   - Names are searchable — avoid abbreviations or acronyms
-     that aren't already established in the codebase
-   - Public API symbols are named to be found at the call site
-     (e.g. createUser, not make_u, not userFactory)
-   - Related code is co-located — don't scatter a feature across
-     unrelated files
-   - Verify with LCI: can you find this code by searching for
-     what it does?
-```
-
-### Step 7: Refactor Check
-
-確保改動整潔：
-
-```
-1. No commented-out code
-2. No debug statements (console.log, print, etc.)
-3. No TODO comments for completed work
-4. Consistent formatting
-5. Proper imports/exports
-```
-
-### Step 8: Deprecated Cleanup
-
-移除過時代碼：
-
-```
-1. Search for @deprecated annotations
-2. Find unused functions/variables
-3. Remove dead code paths
-4. Clean up obsolete tests
-5. Update imports after removal
-```
-
-### Step 8.5: Domain Check
-
-驗證域語言一致性：
-
-```
-1. Run domain-check skill on changed files (if domain model exists)
-2. Fix any high-severity issues (rejected synonyms in code)
-3. Run domain-update for any new concepts introduced
-4. If bug fix revealed conceptual misunderstanding:
-   - Add entry to Conceptual Mismatches Log in DOMAIN.md
-```
-
-### Step 9: Final Validation
-
-確認一切就緒：
-
-```
-1. All pipeline steps passed
-2. Changes match task requirements
-3. Documentation is updated
-4. No regression introduced
-5. Domain model reflects any new concepts (DOMAIN.md updated)
-6. Ready for commit/merge
-```
-
-## Memory Write Protocol (loop iterations)
-
-任務執行期間若寫入 memory（包括 `~/.claude/projects/<project>/memory/*.md`、Dart task memory comments、或 `.dartai/loop-state.json` 之 task entries），每條 entry 必須帶兩個欄位：
-
-```yaml
-memory_entry_required_fields:
-  timestamp:
-    format: "ISO 8601 with timezone (e.g. 2026-04-26T14:30:00-05:00)"
-    semantics: "When this memory was written"
-    rationale: "Enables temporal ordering and stale-detection"
-
-  source_event:
-    shape:
-      loop_id: "<parent loop dart task-id>"
-      task_id: "<task being executed when memory was written>"
-      conversation_id: "<session id if available, else null>"
-    semantics: "Why-from-where this memory was written"
-    rationale: |
-      Pairs each memory with the orchestration event that produced it,
-      so future readers can trace a memory back to its triggering task.
-```
-
-Cite: dev-standards `memories-require-timestamp-and-source` rule (commit 9ab9c47) — this is the canonical project rule. This subsection is a thin pointer; consult the rule for full enforcement details and exception handling.
-
-```yaml
-memory_write_examples:
-  loop_state_task_entry:
-    # In .dartai/loop-state.json under tasks[]
-    {
-      "task_id": "abc123",
-      "started_at": "2026-04-26T14:30:00-05:00",  # timestamp ✓
-      "source_event": {                             # source_event ✓
-        "loop_id": "loop-task-id",
-        "task_id": "abc123",
-        "conversation_id": "session-xyz"
-      },
-      "...other fields..."
-    }
-
-  dart_memory_comment:
-    # When add_task_comment writes a memory-class comment
-    text: |
-      ## Memory: Pattern observed
-      **Timestamp:** 2026-04-26T14:30:00-05:00
-      **Source:** loop=<loop-id> task=<task-id> session=<session-id>
-
-      <memory body>
-
-  project_memory_file:
-    # When writing ~/.claude/projects/<slug>/memory/<id>.md
-    frontmatter:
-      ---
-      timestamp: "2026-04-26T14:30:00-05:00"
-      source_event:
-        loop_id: "<loop task-id>"
-        task_id: "<task-id>"
-        conversation_id: "<session-id or null>"
-      ---
-      <memory body>
-```
-
-**Soft-deprecation 軟棄用**：legacy memory entries lacking these fields remain readable. Audit tools may flag them but must not crash. New writes during loop iterations MUST include both fields.
-
-**Why this matters**: without timestamp+source_event, memories accumulate as un-attributed claims that future agents cannot audit, leading to the rationalization-trap class (silent contradiction) flagged in commit 4526ba5. The provenance pair is the cheapest possible defense.
+- **One step at a time.** Do not interleave steps. If a step's verification fails, fix and re-run that step before advancing.
+- **Step ordering is mandatory.** Refactor-First (1.5) before Implement (2). Lint (4) before Test (5). Domain Check (8.5) before Final Validation (9).
+- **Memory entries require timestamp + source_event.** No exceptions on loop iterations. Load `references/memory-protocol.md` at first write.
+- **Project rules win.** When `.claude/rules/*.md` contradicts a default in this skill, project rule wins.
+- **Skill-of-skill discipline.** When a step references another skill (e.g. `dev-standards:refactor-first-assessment`, `dev-standards:grill-task`, `dev-standards:verification-before-completion`), invoke that skill via the `Skill` tool — do not paraphrase its rules.
 
 ## Failure Handling
 
 任何步驟失敗時：
 
-1. **Log the failure** with specific error message
-2. **Update task in Dart** with failure details
-3. **Stop the pipeline** - do not continue
-4. **Report to user** with:
-   - Which step failed
-   - Specific error
-   - Suggested fix
-   - Files affected
+1. **Log the failure** with specific error message and step number
+2. **Update task in Dart** with failure details (status: Blocked, comment with phase + error)
+3. **Stop the pipeline** — do not advance steps
+4. **Report to user** with: which step failed, specific error, suggested fix, files affected
+
+Do not retry the same fix more than twice. After two retries, surface as a blocker to the parent loop.
 
 ## Success Handling
 
@@ -337,15 +97,18 @@ memory_write_examples:
 
 1. **Update task status** to "Done"
 2. **Add completion comment** to Dart task
-3. **Update documentation** (CHANGELOG, etc.)
+3. **Update documentation** (CHANGELOG, etc.) — only when the task touched user-visible behavior
 4. **Report success** with summary
-5. **Continue to next task** (if in loop)
+5. **Continue to next task** (if in loop) — return to the parent loop driver, do not chain in-context
 
-**Note:** Git commit and push are handled by the main loop, not the subagent. The subagent should leave changes staged/unstaged for the main loop to commit.
+**Note:** Git commit and push are handled by the main loop driver, not the executor subagent. The executor leaves changes staged or unstaged for the driver to commit.
 
-## Quality Gates
+## Companion References
 
-每步驟有通過/失敗標準：
+- **`references/examples.md`** — full per-step instructions, checklists, and TDD/RED-GREEN-REFACTOR detail. Load on entry to each step.
+- **`references/memory-protocol.md`** — `timestamp` + `source_event` schema and write examples. Load on first memory write per task.
+
+## Quality Gates (summary)
 
 | Step | Pass Criteria |
 |------|---------------|
@@ -361,3 +124,5 @@ memory_write_examples:
 | Refactor | Clean code, no debug artifacts |
 | Cleanup | No deprecated code remains |
 | Validate | All criteria met, domain model updated, task complete |
+
+Full pass-criteria narrative for each row: `references/examples.md` § "Quality Gates Reference Table".

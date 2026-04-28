@@ -1,0 +1,304 @@
+# Testing Strategy: Worked Examples & Tier Detail
+
+Detailed examples and per-tier specifications for the three-tier testing strategy. Loaded by the `testing-strategy` skill when the executor enters a specific tier or decision branch.
+
+## RED/GREEN/REFACTOR Discipline (detail)
+
+每試循 RED → GREEN → REFACTOR：
+
+```yaml
+red_green_cycle:
+  RED:
+    definition: "Write a test that FAILS. Run it. Confirm it fails for the RIGHT reason."
+    why: "A test you've never seen fail is a test you can't trust."
+    rule: "If the test passes immediately, it's testing nothing — delete it or fix it."
+
+  GREEN:
+    definition: "Write the MINIMUM code to make the failing test pass. No more."
+    why: "Every line of code not demanded by a RED test is speculative."
+    rule: "Do not add error handling, edge cases, or abstractions until a RED test demands them."
+
+  REFACTOR:
+    definition: "Clean up code while ALL tests stay GREEN. If any test goes RED, undo."
+    why: "Refactoring under GREEN is safe. Refactoring under RED is gambling."
+    rule: "Run tests after every change. Any RED means the refactoring broke something."
+
+  vertical_slices:
+    rule: "Test and implement full feature vertically, not horizontal layers"
+    good:
+      - "Test: User can create post (includes validation + DB + API + response)"
+      - "Test: User can view post (includes query + API + response)"
+    bad:
+      - "Test: All database models work correctly (no feature)"
+      - "Test: All API endpoints return 200 (no validation)"
+      - "Test: All UI components render (no integration)"
+    why: "Vertical slices deliver working features and validate integration immediately"
+
+  violations:
+    - "Writing implementation before a RED test exists"
+    - "Writing multiple tests before going GREEN on the first"
+    - "Refactoring while a test is RED"
+    - "A test that was never seen RED"
+    - "Testing horizontal layers instead of vertical features"
+```
+
+## Smoke Tests: Highest Fidelity Always
+
+煙試驗系統根本運行。必用最高保真——真UI、真後端、真數據庫。煙試用模擬者，無用。
+
+```yaml
+smoke_tests:
+  purpose: "Verify the system starts and core operations work end-to-end"
+  fidelity: "HIGHEST AVAILABLE — always e2e, never mocked"
+  when_to_run:
+    - "After every deployment"
+    - "Before marking any release candidate"
+    - "After infrastructure changes"
+    - "As the first test in CI/CD pipeline"
+
+  what_to_cover:
+    - "Application starts without errors"
+    - "User can authenticate"
+    - "Core CRUD operation succeeds end-to-end"
+    - "Primary navigation works"
+    - "Data displays correctly from real database"
+
+  what_NOT_to_do:
+    - "NEVER mock any dependency in a smoke test"
+    - "NEVER use in-memory substitutes"
+    - "NEVER skip the UI layer"
+    - "NEVER test against seeded data only — use real data flow"
+
+  failure_response: "STOP DEPLOYMENT — smoke failure means the system is broken"
+```
+
+## Three Tiers (full spec)
+
+```yaml
+testing_tiers:
+  e2e_tests:
+    purpose: "Validate the product works as a user experiences it"
+    scope: "Full system — UI, API, database, external services"
+    count: "Few — cover critical user journeys only"
+    speed: "Slow (seconds to minutes per test)"
+    when_to_write:
+      - "New feature that changes user-visible behavior"
+      - "Critical business workflow (checkout, auth, data export)"
+      - "Bug fix for something a user reported"
+      - "Integration between major system components"
+    when_NOT_to_write:
+      - "Internal refactoring with no behavior change"
+      - "Utility functions"
+      - "Edge cases better caught at lower levels"
+    example_scope: "User logs in, creates a record, edits it, deletes it"
+
+  integration_tests:
+    purpose: "Verify components work together correctly"
+    scope: "Multiple modules, real database, real file system — but no UI"
+    count: "Moderate — cover all component interactions and data flows"
+    speed: "Medium (milliseconds to low seconds per test)"
+    when_to_write:
+      - "Database queries and mutations"
+      - "API endpoint request/response cycles"
+      - "Filter, sort, and pagination logic against real data"
+      - "Module interactions (e.g., auth + data access)"
+      - "Data transformation pipelines"
+      - "File I/O and serialization"
+    when_NOT_to_write:
+      - "Pure computational logic with no dependencies"
+      - "Simple data mapping that unit tests cover better"
+    example_scope: "Filter query with _gt operator returns correct rows from SQLite"
+
+  unit_tests:
+    purpose: "Exhaustively verify complex local logic"
+    scope: "Single function or class — no external dependencies"
+    count: "Many — cover all branches, edge cases, boundary values"
+    speed: "Fast (sub-millisecond per test)"
+    when_to_write:
+      - "Algorithms and data transformations"
+      - "Parsing and validation logic"
+      - "State machines and business rules"
+      - "Mathematical calculations"
+      - "String manipulation and formatting"
+      - "Any function with cyclomatic complexity > 3"
+    when_NOT_to_write:
+      - "Simple getters/setters"
+      - "Pass-through functions"
+      - "Code that only calls external APIs (use integration tests)"
+    example_scope: "Filter parser handles _eq, _gt, _between, null, nested AND/OR"
+```
+
+## E2E Principles (detail)
+
+E2E試證產品有效。費時維護，僅用於高價值旅程。
+
+```yaml
+e2e_principles:
+  scope: "Test what users do, not what code does"
+  count: "One test per critical user journey, not per feature"
+  resilience:
+    - "Use semantic selectors (aria-label, data-testid) not CSS classes"
+    - "Wait for conditions, not arbitrary timeouts"
+    - "Assert on user-visible outcomes, not internal state"
+  organization:
+    - "Group by user journey, not by page or component"
+    - "Each test is independent — no shared state between tests"
+    - "Setup and teardown create and destroy test data"
+
+  what_to_cover:
+    critical_paths:
+      - "Authentication flow (login, logout, session expiry)"
+      - "Primary CRUD operations on core entities"
+      - "Navigation between major sections"
+      - "Error states that users encounter"
+    NOT_covered:
+      - "Every permutation of form inputs"
+      - "CSS styling and layout"
+      - "Admin features used rarely"
+      - "Edge cases better tested at integration level"
+```
+
+## Integration Principles (detail)
+
+集成試驗組件協作。較e2e快，覆蓋更多案例。
+
+```yaml
+integration_principles:
+  scope: "Real dependencies, real data, no UI"
+  database:
+    - "Use real database (in-memory SQLite, test containers)"
+    - "NEVER mock the database"
+    - "Each test gets clean data via setup/teardown"
+  api:
+    - "Test full request → response cycle"
+    - "Verify status codes, response shapes, error formats"
+    - "Test with valid, invalid, and boundary inputs"
+  data_flow:
+    - "Test filter operators produce correct SQL and results"
+    - "Test sort, pagination, and combined operations"
+    - "Test mutations (insert, update, delete) and verify side effects"
+
+  coverage_targets:
+    - "Every API endpoint with happy path + error path"
+    - "Every filter operator with real data verification"
+    - "Every mutation type with data integrity checks"
+    - "Cross-component interactions (auth + queries, modules + filters)"
+
+  anti_patterns:
+    - "NEVER mock internal code — only mock external HTTP services"
+    - "NEVER test implementation details — test observable behavior"
+    - "NEVER share mutable state between tests"
+```
+
+## Unit Principles (detail)
+
+單元試驗宜窮舉。函數有分支，各枝皆試。
+
+```yaml
+unit_principles:
+  scope: "Single function, no external dependencies"
+  isolation:
+    - "No database, no file system, no network"
+    - "No mocks for internal code"
+    - "Pure functions preferred — input in, output out"
+  exhaustiveness:
+    - "Test every branch in the function"
+    - "Test boundary values (0, 1, max, min, empty, null)"
+    - "Test invalid inputs and error cases"
+    - "Test combinations that interact"
+
+  when_exhaustive:
+    high_value_targets:
+      - "Parsing logic (all valid formats + all invalid formats)"
+      - "Validation rules (every rule, every violation)"
+      - "State transitions (every valid + invalid transition)"
+      - "Mathematical calculations (precision, overflow, edge values)"
+      - "Business rules with multiple conditions"
+
+  naming:
+    pattern: "MethodName_Scenario_ExpectedResult"
+    examples:
+      - "ParseFilter_NullValue_ReturnsIsNull"
+      - "GetOperator_UnknownOp_ReturnsEquals"
+      - "CalculateTotal_EmptyCart_ReturnsZero"
+```
+
+## Test Quality Rules (detail)
+
+```yaml
+quality_rules:
+  every_test_must:
+    - "Have a single clear assertion (one behavior per test)"
+    - "Be independent (no ordering dependencies)"
+    - "Be deterministic (same result every run)"
+    - "Be fast (unit < 1ms, integration < 1s, e2e < 30s)"
+    - "Fail with a clear message explaining what broke"
+
+  complementary_coverage:
+    principle: "Positive and negative tests should cover all rows"
+    example: "_contains + _ncontains results should equal total row count"
+
+  operator_distinction:
+    principle: "Each operator must produce different results"
+    example: "_eq, _gt, _gte must return different counts for the same value"
+
+  never:
+    - "Write tests that are GREEN whether the code works or not"
+    - "Commit a test that was never seen RED"
+    - "Test implementation details that change during refactoring"
+    - "Use production data or credentials in tests"
+    - "Skip tests to make CI GREEN"
+    - "Write tests after the fact that just assert current behavior"
+    - "Use mocks or stubs in smoke tests — highest fidelity only"
+```
+
+## TDD Integration: RED/GREEN at Every Tier
+
+此策略與品質環中 RED → GREEN → REFACTOR 循環相合：
+
+```yaml
+tdd_with_tiers:
+  for_new_features:
+    1: "Write a smoke test for the core journey — run it — confirm RED"
+    2: "Write an e2e test for the user journey — run it — confirm RED"
+    3: "Write integration tests for the data layer — run them — confirm RED"
+    4: "Write unit tests for complex logic — run them — confirm RED"
+    5: "Implement until unit tests are GREEN"
+    6: "Implement until integration tests are GREEN"
+    7: "Implement until e2e test is GREEN"
+    8: "Verify smoke test is GREEN"
+    9: "REFACTOR — all tests must stay GREEN after every change"
+
+  for_bug_fixes:
+    1: "Write a test at the level where the bug manifests — confirm RED"
+    2: "Fix the bug — confirm GREEN"
+    3: "If the bug reveals a pattern, add edge case tests (each RED then GREEN)"
+
+  for_refactoring:
+    1: "Run all tests — establish GREEN baseline"
+    2: "Refactor one thing — run tests — must stay GREEN"
+    3: "If any test goes RED, undo the refactoring immediately"
+    4: "Repeat until refactoring is complete"
+    5: "Add tests if refactoring reveals untested paths (RED then GREEN)"
+
+  smoke_test_rule:
+    principle: "Smoke tests are ALWAYS highest fidelity e2e"
+    when: "Write smoke test first, verify GREEN last"
+    never: "Never mock, stub, or simulate in a smoke test"
+```
+
+## Verification Checklist
+
+任務標完成前：
+
+```yaml
+test_verification:
+  - "All existing tests still pass (GREEN)"
+  - "Every new test was seen RED before GREEN"
+  - "Smoke tests pass at full e2e fidelity"
+  - "New tests cover the acceptance criteria"
+  - "Tests are at the right level (not all unit, not all e2e)"
+  - "No skipped or disabled tests"
+  - "Test names describe the behavior being verified"
+  - "Tests go RED when the feature is removed (not vacuously passing)"
+```
