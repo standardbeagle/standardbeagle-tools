@@ -5,39 +5,39 @@ description: "Set up dart-query MCP server with SLOP management and configure Da
 
 # Dart Query Setup
 
-配置dart-query MCP服務器供Claude Code及dartai插件使用。
+設置 dart-query 供 Claude Code / dartai 用。
 
-## Your Task
+## Task
 
-按步驟設置dart-query：
+按步做。
 
-### Step 1: Check Prerequisites
+### 1. Check token
 
-**REQUIRED**: First, ensure the user has a Dart API token configured.
+先查 `DART_TOKEN`。
 
-Ask the user if they have set the `DART_TOKEN` environment variable. If not, instruct them:
+若無，告之：
 
-1. Log in to your Dart workspace at https://app.itsdart.com
-2. Go to Settings > API
-3. Generate an API token
-4. Add to shell profile (`~/.bashrc`, `~/.zshrc`):
+1. 入 https://app.itsdart.com
+2. Settings > API
+3. 產 token
+4. 加入 shell profile:
    ```bash
    export DART_TOKEN="your-token-here"
    ```
-5. Restart the terminal or run `source ~/.bashrc` (or `~/.zshrc`)
+5. 重開 terminal 或 `source ~/.bashrc` / `~/.zshrc`
 
-Verify the token is set by checking: `echo $DART_TOKEN`
+驗 token: `echo $DART_TOKEN`
 
-### Step 2: Install MCP Server
+### 2. Install MCP
 
-**Try SLOP-MCP first (preferred):**
+先試 SLOP-MCP。
 
-Check if slop-mcp is available by calling:
+查可用性：
 ```
 mcp__plugin_slop-mcp_slop-mcp__get_metadata
 ```
 
-If slop-mcp is available, register dart-query with SLOP:
+若有，註冊 dart-query：
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 action: register
@@ -49,18 +49,16 @@ env: {DART_TOKEN: "${DART_TOKEN}"}
 scope: user
 ```
 
-**If slop-mcp is NOT available, use direct install:**
-
-If the slop-mcp tool call fails (tool not found), fall back to direct Claude MCP install:
+若無 slop-mcp，直裝：
 ```bash
 claude mcp add dart-query --command "npx" --args "-y @standardbeagle/dart-query@latest" --env "DART_TOKEN=${DART_TOKEN}"
 ```
 
-### Step 3: Verify Setup
+### 3. Verify
 
-Test the connection by calling `get_config`:
+試 `get_config`。
 
-**If using slop-mcp:**
+用 slop-mcp:
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 mcp_name: dart-query
@@ -68,18 +66,16 @@ tool_name: get_config
 parameters: {}
 ```
 
-**If using direct install:**
+直裝:
 ```
 mcp__plugin_dartai_dart-query__get_config
 ```
 
-This should return the workspace configuration including available dartboards, statuses, and assignees.
+應回 workspace config: dartboards / statuses / assignees。
 
-If it fails, help the user troubleshoot token configuration.
+若 fail，查 token。
 
-## Available Tools
-
-After setup, the following dart-query tools are available:
+## Tools
 
 | Tool | Purpose |
 |------|---------|
@@ -113,42 +109,46 @@ After setup, the following dart-query tools are available:
 ## Troubleshooting
 
 ### Token Not Found
-Help the user verify their token:
+
+驗 token：
 ```bash
 echo $DART_TOKEN
 # Should show their token (dsa_...)
 ```
 
-If not set, guide them to add it to their shell profile and restart the terminal.
+若無，叫佢加到 shell profile 再重開 terminal。
 
 ### Server Not Responding
-Test the server directly:
+
+直測 server：
 ```bash
 npx @standardbeagle/dart-query info
 ```
 
-If using SLOP, check server status:
+若用 SLOP，查狀態：
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 action: status
 name: dart-query
 ```
 
-### Authentication Errors
-- Verify token is valid and not expired
-- Check token has appropriate workspace permissions
-- Guide user to regenerate token if needed at https://app.itsdart.com/settings/api
+### Auth Errors
 
-### Tool Not Found Errors
-If dart-query tools are not available:
-1. Verify installation completed successfully
-2. Check if server is registered: `claude mcp list` or use SLOP's `manage_mcps` with `action: list`
-3. Try reconnecting: use SLOP's `manage_mcps` with `action: reconnect, name: dart-query`
-4. Reinstall if necessary
+- token 有效且未過期
+- token 有 workspace 權限
+- 必要時重生 token: https://app.itsdart.com/settings/api
+
+### Tool Not Found
+
+若無 tool：
+1. 查是否安裝成功
+2. 查是否已註冊: `claude mcp list` 或 SLOP `manage_mcps action: list`
+3. 試 reconnect: SLOP `manage_mcps action: reconnect, name: dart-query`
+4. 必要時重裝
 
 ## Next Steps
 
 設置後：
-1. 使用`/dartai-config`配置項目特定默認值
-2. 使用`/start`開始Ralph Wiggum對抗循環
-3. 使用`/task`執行單個任務
+1. `/dartai-config`
+2. `/start`
+3. `/task`

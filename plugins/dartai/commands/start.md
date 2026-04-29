@@ -2,7 +2,6 @@
 name: start
 description: "Start the Ralph Wiggum adversarial cooperation loop on a dartboard with plan adjustment. 在看板上啟動Ralph Wiggum對抗合作循環，含計劃調整。 Use when: start execution loop, run dartboard tasks, begin adversarial loop, automate task execution, process task queue"
 argument-hint: "[dartboard-name]"
-context: fork
 agent: general-purpose
 ---
 
@@ -12,14 +11,12 @@ agent: general-purpose
 
 ## Agent Dispatch Prerequisites
 
-**This loop must run from the top-level agent.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. The "fresh subagent per task" pattern only works when `/dartai:start` runs in the top-level conversation. If invoked inside a subagent, stop and report to the parent — never inline-execute tasks in the driver context.
+**Top-level only.** Subagents cannot spawn subagents — "fresh subagent per task" only works from top-level conversation. If inside a subagent, stop+report to parent, never inline-execute.
 
-**Subagent dispatch: try first, handle failure.**
-
-No pre-flight check. Deferred-tool lists vary by harness/version/platform.
+**Dispatch: try first, handle failure.** No pre-flight check.
 
 1. **Try `Agent` dispatch.** Success → §5.3.
-2. **Fail** ("not available", "no such tool", schema error) → §5.3.1 inline-delegation.
+2. **Fail** ("not available", schema error) → §5.3.1 inline-delegation.
 3. **One attempt per task.** Never retry.
 
 ## Adversarial Cooperation Model
@@ -182,15 +179,11 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
   }
 ```
 
-**Detail level rationale 細節層級理由:**
-- `detail_level: "minimal"` — sweep/queue scan; returns id+title+status only
-- `detail_level: "standard"` — needed if surfacing dependency state (blockers/blocking) before executor dispatch; upgrade only when a task's blocker tags appear in the minimal response
-- `detail_level: "full"` — reserved for the executor dispatch (§5.3), never used in the queue sweep itself
+**Detail level:** `minimal` = queue scan (id+title+status only); `standard` = upgrade only if blocker tags visible; `full` = executor dispatch only (§5.3), never in queue sweep.
 
-**DartQL escape valve 升級至DartQL:** When you need filters beyond `list_tasks` named parameters (priority ranges, multi-status OR, tag exclusion, age windows), use a `batch_update_tasks` selector with `dry_run: true` to filter at source rather than fetching-then-filtering in driver context. Example:
+**DartQL escape valve:** When `list_tasks` params insufficient (priority ranges, multi-status OR, tag exclusion), use `batch_update_tasks` selector with `dry_run: true` to filter at source. Example:
 
 ```
-# Find high-priority To-do tasks older than 7 days
 batch_update_tasks(
   selector: "status = 'To-do' AND priority >= 4 AND created_at < '7 days ago'",
   updates: {},
@@ -198,14 +191,14 @@ batch_update_tasks(
 )
 ```
 
-The `dry_run: true` response returns matched task IDs without mutating anything — equivalent to a DartQL `SELECT` for the loop driver. See `dartai:batch-operations` for full DartQL syntax.
+`dry_run: true` returns matched IDs without mutation — DartQL SELECT equivalent. See `dartai:batch-operations` for full syntax.
 
-**Filter returned tasks by claim status:**
+**Filter by claim status:**
 
-Read `.dartai-locks.json` from the repo and check each task's `dart_id` against the `claims` map:
-- **Not in claims** → eligible (unclaimed)
-- **In claims with own `runner_instance_id`** → eligible (stale self-claim from crash, reclaim it)
-- **In claims with different `runner_instance_id`** → skip (claimed by another runner)
+Read `.dartai-locks.json` and check each `dart_id` against `claims`:
+- Not in claims → eligible
+- Own `runner_instance_id` → eligible (stale self-claim, reclaim)
+- Different `runner_instance_id` → skip
 
 ### 4. Initialize Loop State in Dart
 
@@ -309,7 +302,7 @@ atomic_rotation:
   invariant: "archive write FIRST, plan truncate LAST. Never reverse."
 ```
 
-**Why this order:** A crash after step 1 leaves a duplicate phase (recoverable — dedup on next read). A crash after step 3 with steps 1–2 incomplete leaves a lost phase (data loss). Always write the durable copy before mutating the working copy.
+**Why:** crash after step 1 = duplicate (recoverable via dedup); crash after step 3 without 1-2 = lost phase (data loss). Durable copy first.
 
 #### Driver Read Discipline 驅動讀取規範
 
@@ -471,11 +464,7 @@ pre_spawn_checks:
   - loop_state_persisted: ".dartai/loop-state.json exists and is valid"
 ```
 
-**If validation fails:**
-- Context too large: Request task split, skip to next task
-- Missing criteria: Add clarification comment to task, skip
-- Previous subagent running: Wait or error (should not happen)
-- State file corrupt: Reinitialize state file
+**If validation fails:** too large → request split, skip; missing criteria → add comment, skip; corrupt state → reinitialize.
 
 **Only proceed to spawn if all checks pass.**
 
@@ -1027,67 +1016,35 @@ At each plan adjustment point:
 ```yaml
 plan_adjustment:
   trigger: "End of each phase or major discovery"
-
-  actions:
-    - Review what was discovered
-    - Identify new tasks needed
-    - Re-prioritize existing tasks
-    - Update task descriptions
-    - Document adjustment reason
-
-  record:
-    - adjustment_type: "add|modify|remove|reorder"
-    - reason: "What triggered adjustment"
-    - tasks_affected: "List of task IDs"
+  actions: [review findings, identify new tasks, re-prioritize, update descriptions, document reason]
+  record: {adjustment_type: "add|modify|remove|reorder", reason: "trigger", tasks_affected: "[ids]"}
 ```
 
 ### 7. Loop Control
 
-**How Autonomous Continuation Works:**
+**Autonomous continuation via agent-based Stop hook** (`hooks.json`):
+1. Stop hook spawns subagent (Read/Grep/Glob)
+2. Subagent reads `.dartai/loop-state.json`
+3. Tasks remain → `{"ok": false}` → blocks stop, Claude continues
+4. All done → `{"ok": true}` → allows stop
 
-The loop continues autonomously via an **agent-based Stop hook** defined in `hooks.json`. When Claude attempts to stop:
+**Safety valve:** `stop_hook_active: true` in hook input = hook already blocked once, allow stop now.
 
-1. Stop hook spawns a subagent with Read/Grep/Glob access
-2. Subagent reads `.dartai/loop-state.json` to check loop status
-3. If tasks remain: Returns `{"ok": false, "reason": "N remaining tasks..."}` → **Blocks stopping**, Claude continues
-4. If all done: Returns `{"ok": true}` → Allows stopping
-
-**Safety valve:** If `stop_hook_active` is `true` in the hook input, the agent allows stopping immediately to prevent infinite loops. This means the hook blocked once already and Claude still wants to stop.
-
-**Crash recovery:** A separate `SessionEnd` command hook runs `mark-interrupted.js` to mark the loop state as interrupted. This fires even on user interrupts (Ctrl+C). The next session detects this in Section 1.5 and offers to resume.
+**Crash recovery:** `SessionEnd` hook runs `mark-interrupted.js` (fires on Ctrl+C too). Next session detects interrupted state at §1.5.
 
 **Subagent Execution Pattern:**
 ```yaml
 loop_execution:
-  for_each_task:
-    action: "Spawn new dartai:task-executor subagent"
-    context: "Fresh - no accumulated state from previous tasks"
-    isolation: "Each task runs independently"
-
-  between_tasks:
-    action: "Main loop orchestrates, spawns next subagent"
-    state: "Only loop metadata persists (completed count, etc.)"
-
-  never_do:
-    - "Execute multiple tasks in same subagent"
-    - "Pass accumulated context between task subagents"
-    - "Resume previous subagent for new task"
+  each_task: spawn fresh dartai:task-executor (no accumulated state from prior tasks)
+  between_tasks: loop orchestrates, only metadata persists
+  never: [multi-task same subagent, pass context between tasks, resume prior subagent]
 ```
 
-**The loop NEVER stops on task failure. It replans and continues.**
+**Loop NEVER stops on task failure — replans and continues.**
 
-The loop continues until:
-- All tasks completed successfully
-- Critical security issue found (immediate stop)
-- User says "stop", "cancel", or "pause"
-- No actionable tasks remain (all blocked on external dependencies)
-- Session ends
+Stop only when: all tasks done, critical security issue, user says stop, no actionable tasks remain, or session ends.
 
-**On task failure, the loop:**
-1. Logs the failure details
-2. Creates fix tasks if the failure is fixable
-3. Moves to the next actionable task
-4. Reports progress: "Task X failed, created fix task, continuing with Task Y"
+**On task failure:** log details, create fix tasks if fixable, move to next actionable, report progress.
 
 ### 8. Loop Completion
 

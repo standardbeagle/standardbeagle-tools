@@ -59,22 +59,10 @@ The companion `dartai:qa-reviewer` skill (in `plugins/dartai/skills/qa-reviewer.
 
 ```yaml
 autonomous_rules:
-  never_ask:
-    - "Should I continue?"
-    - "Would you like me to..."
-    - "Is this okay?"
-    - "Shall I proceed?"
-
-  always_do:
-    - "Make reasonable decisions and proceed"
-    - "Document decisions in QA report"
-    - "Complete all review areas automatically"
-    - "Report findings at the end, not during"
-
-  if_genuinely_blocked:
-    - "RETURN with failure status immediately"
-    - "Include specific blocker in report"
-    - "Do NOT ask - just fail with details"
+  mode: autonomous — decide+proceed
+  never_ask: [confirmation/permission]
+  always: [decide+proceed, complete all areas, report findings at end]
+  if_blocked: RETURN failure immediately with specific blocker
 ```
 
 ---

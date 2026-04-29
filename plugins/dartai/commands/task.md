@@ -14,8 +14,8 @@ agent: dartai:task-executor
 
 This command dispatches `dartai:task-executor` and `dartai:doc-updater` via `Agent` (alias `Task`). Two prerequisites:
 
-1. **Run from top-level agent.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent. If `/dartai:task` fires inside a subagent, stop and report to the parent rather than inline-executing the pipeline.
-2. **Verify `Agent` schema before first dispatch.** Check the `<system-reminder>` deferred-tools list: if `Agent` is **absent** from it → preloaded, call directly (no ToolSearch needed). If `Agent` is **present** in the deferred list → load schema first with `ToolSearch query="select:Agent" max_results=1` before calling.
+1. **Top-level only.** Subagents cannot spawn subagents — if `/dartai:task` fires inside a subagent, stop+report to parent.
+2. **Check `Agent` schema.** Deferred-tools list: `Agent` absent → call directly; present → load first via `ToolSearch query="select:Agent" max_results=1`.
 
 ## Process
 
@@ -142,13 +142,13 @@ The `description` field stays short (≤8 words). Headers like "Task Details:", 
 
 **Pipeline phases:**
 
-1. **Understand task**: Read task description, identify scope. Read `.dartai/plan.md` for the active phase spec. Do NOT read `.dartai/plan-archive.md` — that is reserved for explicit retrospectives.
+1. **Understand task**: Read grilled spec + `.dartai/plan.md` active phase. Do NOT read `.dartai/plan-archive.md`.
 2. **Implement changes**: Make necessary code changes
 3. **Code review**: Self-review with LCI search
-4. **Run linting**: Execute project's linter
+4. **Run linting**: Execute project linter
 5. **Run tests**: Execute test suite
 6. **LCI evaluation**: Check code quality patterns
-7. **Refactor check**: Ensure changes are clean
+7. **Refactor check**: Clean code
 8. **Deprecated cleanup**: Remove obsolete code
 
 ### 3.5. Plan File Rotation (if phase closed) 計劃文件輪轉
@@ -189,7 +189,7 @@ atomic_rotation:
   invariant: "archive write FIRST, plan truncate LAST. Never reverse."
 ```
 
-**Why this order:** A crash after step 1 leaves a duplicate phase (recoverable on next read via dedup). A crash after step 3 with steps 1–2 incomplete loses the phase entirely. Always write the durable copy before mutating the working copy.
+**Why:** crash after step 1 = duplicate (recoverable via dedup); crash after step 3 without 1-2 = lost phase (data loss). Durable copy first.
 
 **If no phase closed**, skip this step — single-task execution does not always coincide with a phase boundary.
 

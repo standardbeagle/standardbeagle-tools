@@ -8,18 +8,18 @@ agent: dartai:qa-reviewer
 
 # Adversarial Verification Command
 
-運行對抗性驗證循環以挑戰並驗證代碼品質。
+跑對抗驗證，查 code quality。
 
 ## Agent Dispatch Prerequisites
 
-This command dispatches reviewer subagents in parallel via `Agent` (alias `Task`).
+Parallel reviewer subagents via `Agent`（alias `Task`）。
 
-1. **Top-level driver only.** Subagents cannot spawn subagents — if `/dartai:verify` runs inside a subagent, stop and report to the parent. The 2+1 review pattern collapses if the dispatcher tries to inline reviewer logic in a single context.
-2. **Verify `Agent` schema before first dispatch.** Check the `<system-reminder>` deferred-tools list: if `Agent` is **absent** from it → preloaded, call directly (no ToolSearch needed). If `Agent` is **present** in the deferred list → `ToolSearch query="select:Agent" max_results=1` to load schema before calling.
+1. **Top-level only.** If inside subagent, stop+report to parent.
+2. **Check `Agent` schema.** `Agent` absent → call direct; present → `ToolSearch query="select:Agent" max_results=1`.
 
 ## Usage
 
-```
+```text
 /dartai:verify ./src/module
 /dartai:verify ./src/auth/
 /dartai:verify .
@@ -27,32 +27,32 @@ This command dispatches reviewer subagents in parallel via `Agent` (alias `Task`
 
 ## What It Does
 
-對目標以2+1模式運行審查代理：
+2+1 review:
 
-**Parallel phase** (concurrent):
-1. **Code Quality Reviewer** - Code quality, security, coherence, performance, testability, bloat, duplication, cleanup
-2. **QA Reviewer** - Assertion quality, edge cases, TDD compliance, test distribution, test plans
+**Parallel phase**:
+1. **Code Quality Reviewer** - quality, security, coherence, perf, testability, bloat, dup, cleanup
+2. **QA Reviewer** - assertions, edge cases, TDD, test split, test plan
 
-**Sequential phase** (after parallel agents complete):
-3. **Post-Task Reviewer** - Requirements coverage, documentation accuracy, user flows, lean docs
+**Sequential phase**:
+3. **Post-Task Reviewer** - req coverage, docs accuracy, user flow, lean docs
 
-各返回PASS/FAIL/NEEDS_WORK及詳細發現。
+Each returns PASS/FAIL/NEEDS_WORK + findings.
 
 ## Process
 
 ### 1. Identify Target
 
-If target provided as argument, use it. Otherwise identify from current task context or ask.
+If arg given, use it. Else use task context or ask.
 
 ### 3. Execute Concurrent Review
 
-Spawn two agents in parallel using the Task tool, then run a third sequentially.
+Spawn 2 in parallel, 1 after.
 
 #### Dispatch prompt compression 派發提示壓縮
 
-Reviewer dispatch prompts are compressed — same rules as `/dartai:task` §3 (keep paths/symbols/code/errors verbatim, strip articles/filler/recap). Reviewer agents accept compressed input. See `plugins/dartai/agents/task-executor.md` and the verdict-schema skill for the return format.
+Dispatch prompts compressed same as `/dartai:task` §3. Keep paths/symbols/code/errors; strip articles/filler/recap. See `plugins/dartai/agents/task-executor.md` + `verdict-schema`.
 
-**Compressed dispatch shape (apply to all three reviewers):**
+**Compressed shape (all 3):**
 ```yaml
 Task tool call:
   subagent_type: "dartai:<reviewer>"
@@ -71,77 +71,49 @@ Task tool call:
     advisories, evidence_path) per plugins/dartai/skills/verdict-schema.md.
 ```
 
-Drop role-preludes ("You are a...", "Your job is to..."). Reviewer agent specs already encode role and focus areas — driver supplies scope + verbatim artifacts only.
+Drop role-preludes. Spec already has role/focus; driver give scope + verbatim artifacts only.
 
 **Parallel:**
 1. `dartai:code-quality-reviewer` - Implementation quality
 2. `dartai:qa-reviewer` - Test coverage and quality
 
-Wait for both to complete.
+Wait both.
 
 **Sequential:**
 3. `dartai:post-task-reviewer` - Requirements coverage and documentation
 
-Compile results from all three agents.
+Compile all 3.
 
 ### 4. Plan Adjustment Protocol
 
-At each plan adjustment point:
-- Review discoveries from current phase
-- Update remaining tasks based on findings
-- Re-prioritize if blocking issues found
-- Document adjustments for tracking
+At each adjust point:
+- Review findings
+- Update remaining tasks
+- Re-rank blockers
+- Log changes
 
 ### 5. Report Results
 
-Generate verification report with:
+Report:
 - Verdict: PASS/FAIL/NEEDS_WORK
-- Issues found by severity
-- Verification evidence
-- Plan adjustments made
-- Recommended next steps
+- Issues by severity
+- Evidence
+- Plan changes
+- Next steps
 
 ## Context-Sized Task Rules
 
-每個驗證任務遵循以下規則：
+Each verify task: max 3-5 files, one verify type per call, clear pass/fail.
 
-**範圍：**
-- 每個驗證任務最多3-5個文件
-- 每次命令調用一種驗證類型
-- 每個階段有清晰通過/失敗標準
-
-**指令格式：**
-每個階段包含：
-- **DO (Positive Instructions)**: Specific actions to take
-- **DO NOT (Negative Instructions)**: Specific actions to avoid
-- **Verification Criteria**: Clear pass/fail conditions
+**Per phase:** DO / DO NOT / Criteria.
 
 ## Output
 
-```
+```text
 Adversarial Verification Report
-================================
+===============================
 Target: [file/directory]
 Verdict: [PASS|FAIL|NEEDS_WORK]
-
-Issues Found:
-- Critical: X
-- High: X
-- Medium: X
-- Low: X
-
-Agent Results:
-- Code Quality Reviewer: [PASS|FAIL|NEEDS_WORK] - [summary]
-- QA Reviewer:            [PASS|FAIL|NEEDS_WORK] - [summary]
-- Post-Task Reviewer:     [PASS|FAIL|NEEDS_WORK] - [summary]
-
-Plan Adjustments:
-- [adjustment 1]
-- [adjustment 2]
-
-Recommended Actions:
-1. [action]
-2. [action]
 ```
 
 ## Integration with Dart

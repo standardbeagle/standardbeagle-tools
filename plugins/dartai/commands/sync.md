@@ -8,26 +8,26 @@ agent: general-purpose
 
 # Sync with Dart
 
-同步本地工作進度至Dart，更新任務狀態並添加完成評論。
+同步本地進度到 Dart。
 
 ## Process
 
 ### 1. Gather Local Changes
 
-掃描當前會話完成的工作：
-- 會話開始以來的git提交
-- 已修改文件
+掃描：
+- 本會話 git 提交
+- 已改文件
 - 測試結果
-- 文檔更改
+- 文檔變更
 
 ### 2. Match to Tasks
 
-每個更改嘗試匹配Dart任務：
-- 在提交信息中尋找任務ID
-- 將文件更改與任務描述匹配
-- 檢查引用任務的TODO評論
+每個改動配任務：
+- 提交訊息找 task id
+- 文件改動對任務描述
+- 查 TODO 評論
 
-**Fetch candidate tasks at minimal detail.** Sync only needs `id`, `title`, `status` to match commit messages and propose updates. Full descriptions are not required for matching:
+**抓候選任務用 minimal detail.** Sync 只要 `id/title/status`.
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -40,7 +40,7 @@ params:
     limit: 100
 ```
 
-**DartQL filter at source — don't fetch-then-filter.** When sync needs the active working set (tasks plausibly affected by this session), filter at the API rather than scanning a full list in driver context:
+**DartQL 先過濾，不要先抓再濾.**
 
 ```yaml
 # Tasks currently In Progress on this dartboard (DartQL via batch_update dry_run)
@@ -61,11 +61,11 @@ list_tasks(
 )
 ```
 
-Upgrade to `detail_level: "standard"` only for the subset that will appear in the §3 proposal table.
+只給 §3 會出表的 subset 升 `standard`.
 
 ### 3. Preview Updates
 
-顯示擬議的Dart更新：
+預覽更新：
 ```
 Proposed Dart Updates
 =====================
@@ -85,7 +85,7 @@ Apply these updates? (yes/no)
 
 ### 4. Apply Updates
 
-If confirmed (or --force flag), and the proposal contains **multiple tasks getting the same status flip** (e.g. several tasks all moving To-do → Doing for a sprint kickoff), prefer `batch_update_tasks` with a DartQL selector over N sequential `update_task` calls:
+若確認或 `--force`，且多 task 同改狀態，優先 `batch_update_tasks`.
 
 ```yaml
 # Batch flip for N tasks with the same target status
@@ -99,7 +99,7 @@ params:
     dry_run: false
 ```
 
-For single-task updates or per-task comments (where each task gets a different completion note), keep the per-task call:
+單 task 或每 task comment 不同，仍用 `update_task`.
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -112,21 +112,16 @@ params:
     comment: "[completion note]"
 ```
 
-Rule of thumb: 3+ tasks with the same status change → `batch_update_tasks`. Mixed updates or per-task comments → `update_task` loop.
+規則：3+ 同改 → `batch_update_tasks`。混合或逐 task comment → `update_task`.
 
 ### 5. Report Results
 
 ```
-Sync Complete
-=============
+Sync done
+=========
 Updated: 3 tasks
 Added: 5 comments
 Errors: 0
-
-Details:
-- [task1]: Status updated to Done
-- [task2]: Added completion comment
-- [task3]: Status updated to In Progress
 ```
 
 ## Usage
@@ -139,5 +134,5 @@ Details:
 ## Notes
 
 - 同步不創建新任務，只更新現有任務
-- 在提交信息中使用任務ID以獲得更好的匹配：`[DART-xyz123] Fix bug`
-- 同步不更改標記為"Blocked"或"Cancelled"的任務
+- 提交信息用 task id 更好配：`[DART-xyz123] Fix bug`
+- 不改 `Blocked` / `Cancelled`

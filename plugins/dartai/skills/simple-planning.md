@@ -14,23 +14,18 @@ core_principle: "The best plan is the smallest plan that works"
 
 planning_rules:
   required:
-    - "What exactly was requested?"
-    - "What's the minimum change to deliver it?"
+    - "What exactly was requested? What's the minimum change?"
     - "How will we verify it works?"
-    - "What domain terms from DOMAIN.md apply to this change?"
-    - "Does this introduce new concepts that need to be named in DOMAIN.md first?"
-    - "Does the codebase need to be refactored first to accept this change naturally?"
+    - "Domain terms from DOMAIN.md? New concepts named there first?"
+    - "Does codebase need refactor-first before change fits naturally?"
     - "Will new code be findable by name and location?"
     - "Write RED test first, then GREEN implementation"
     - "Implement full vertical slice, not horizontal layers"
 
   forbidden:
-    - "While we're at it..."
-    - "We should also..."
-    - "It would be better to..."
-    - "For future flexibility..."
+    - "While we're at it... / We should also... / For future flexibility..."
     - "Write all tests first, then all implementation"
-    - "Build the database layer first, then API, then UI"
+    - "Build database layer first, then API, then UI"
 ```
 
 ### TDD Discipline: Red/Green/Refactor
@@ -262,22 +257,13 @@ complexity_tiers:
     validation_time: "~10 minutes"
 
 tier_detection:
-  rules:
-    - "Count files mentioned or implied"
-    - "Count acceptance criteria"
-    - "Measure user discussion length"
-    - "Detect cross-cutting keywords"
-
+  rules: [count files+criteria, measure discussion length, detect cross-cutting keywords]
   escalation_triggers:
     - user_clarification_count: ">= 3 → bump tier"
     - files_affected: ">= 5 → comprehensive minimum"
     - subsystems_affected: ">= 2 → architectural"
     - new_patterns_needed: "true → architectural"
-
-  user_response_impact:
-    - "Each clarification question adds context"
-    - "Stated preferences become constraints"
-    - "Explicit scope limits respected"
+  user_response_impact: stated preferences+constraints+scope limits are binding
 ```
 
 ---
@@ -498,29 +484,10 @@ size_check:
 
 ```yaml
 adjustment_triggers:
-  discovery:
-    trigger: "Found simpler approach"
-    action: "Update plan, note change, continue"
-
-  complication:
-    trigger: "Step harder than expected"
-    action: |
-      If still within scope: Add sub-steps, continue
-      If scope expands: STOP, split task
-
-  error:
-    trigger: "Step fails"
-    action: "Fix error as new step, continue"
-
-never_ask:
-  - "Should I continue with this plan?"
-  - "Is this approach okay?"
-  - "Do you want me to proceed?"
-
-always_do:
-  - "Make adjustment"
-  - "Note what changed"
-  - "Keep executing"
+  discovery: {trigger: "simpler approach", action: "update plan, note, continue"}
+  complication: {trigger: "step harder", action: "add sub-steps if in-scope; else STOP+split"}
+  error: {trigger: "step fails", action: "fix as new step, continue"}
+never_ask: [any confirmation or permission — adjust+note+continue]
 ```
 
 ---
@@ -819,10 +786,7 @@ plan_adjustment:
     scope_explosion: "Plan exceeds limits, must split"
     fundamental_unknown: "Cannot plan without more information"
 
-  never_ask:
-    - "Should I continue with this plan?"
-    - "Is this validation okay?"
-    - "Do you approve these adjustments?"
+  never_ask: [any confirmation or permission — decide+adjust+continue]
 ```
 
 ### Validation Report Format

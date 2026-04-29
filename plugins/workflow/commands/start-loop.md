@@ -2,11 +2,10 @@
 name: start-loop
 description: "Start a Ralph Wiggum adversarial loop — context-isolated subagents, multi-stage verification, sequential task execution. 啟動Ralph Wiggum對抗循環：隔離子代理、多階段驗證、順序任務執行. Use when: start workflow loop, begin adversarial loop, run task list, start automation loop, execute tasks sequentially"
 argument-hint: "[task-list-file]"
-context: fork
 agent: general-purpose
 ---
 
-<!-- CC 2.1 fork decision: long-running orchestrator that spawns task-executor per iteration. Forking keeps the parent loop bounded regardless of iteration count (mirrors the dartai start.md pattern). general-purpose is correct because the orchestrator dispatches rather than implements. -->
+<!-- CC 2.1 dispatch decision: long-running orchestrator that spawns task-executor per iteration. Keep it top-level so it can dispatch fresh subagents while staying bounded by per-iteration context. general-purpose is correct because the orchestrator dispatches rather than implements. -->
 
 # Start Ralph Wiggum Adversarial Loop
 

@@ -96,60 +96,21 @@ If a dispatch prompt feels under-specified, treat the `task_spec` block (which r
 ## Execution Flow (Automatic - Never Stop for Confirmation)
 ```yaml
 flow_rules:
-  automatic_continuation:
-    description: "Move through phases without asking for confirmation"
-    behavior: "Adjust plan silently and continue"
-
-  phase_transitions:
-    - "Complete phase validation checks"
-    - "Auto-adjust plan based on findings"
-    - "Proceed immediately to next phase"
-    - "NO stopping to ask 'should I continue?'"
-
-  when_to_stop:
-    - "Task scope cannot be determined (need split)"
-    - "Critical blocker with no workaround"
-    - "Security vulnerability requiring immediate fix"
-    - "All tests failing with no clear fix after attempts"
-
-  when_to_continue:
-    - "Minor issues found (fix inline, continue)"
-    - "Tests failing (fix them - you own ALL tests)"
-    - "Scope drift (trim back, continue)"
-    - "New edge cases (add to plan, continue)"
-    - "Pattern conflicts (note for backlog, continue)"
-
-  never_ask:
-    - "Should I continue?"
-    - "Would you like me to..."
-    - "Do you want me to..."
-    - "Ready for the next phase?"
-    - "Is this okay?"
-    - "Shall I proceed?"
-    - "Do you want me to proceed?"
-    - "Is this plan okay?"
-    - "Ready for next phase?"
-    - "Should I fix this test?"
-
-  always_do:
-    - "Make reasonable decisions and proceed"
-    - "Document decisions in task comments"
-    - "Fix issues as discovered"
-    - "Update plan automatically"
-    - "Keep moving forward"
-    - "Report at end, not during"
-    - "Complete all phases without stopping to ask"
-
-  if_genuinely_blocked:
-    action: "RETURN with failure status immediately"
-    details: "Include specific blocker in failure comment"
-    never: "Do NOT ask - just fail with actionable details"
-    examples:
-      - "Missing required file that cannot be found"
-      - "Task requires split (>5 files)"
-      - "Access denied to required resource"
-      - "Impossible requirement detected"
-    important: "Make a decision and proceed. If unclear, make reasonable assumption and document it in task comment. Only fail if truly impossible."
+  mode: auto-advance — adjust plan silently, never stop for confirmation
+  stop_if:
+    - scope unclear (split needed)
+    - critical blocker with no workaround
+    - security vuln requiring immediate fix
+    - all tests failing no clear fix
+  continue_if:
+    - minor issues (fix inline)
+    - tests failing (fix them — you own ALL tests)
+    - scope drift (trim back)
+    - new edge cases (add to plan)
+    - pattern conflicts (note for backlog)
+  never_ask: [any confirmation or permission]
+  always: [decide+proceed, document in comment, fix on discovery, report at end]
+  if_blocked: RETURN failure immediately with specific blocker; assume+document when unclear, fail only if truly impossible
 ```
 
 ## Context-Sized Task Requirements
@@ -252,26 +213,9 @@ cop_outs_to_reject:
 ### Codebase Integration Discipline
 ```yaml
 integration_requirements:
-  code_must_be:
-    - "Indistinguishable from existing code style"
-    - "Following exact same patterns as codebase"
-    - "Using existing utilities, not reinventing"
-    - "Consistent naming with existing conventions"
-    - "Same error handling patterns"
-    - "Same logging patterns"
-    - "Same test patterns"
-
-  detection:
-    question: "Could this code have been written by the original author?"
-    fail_if: "Code looks like an addition rather than natural extension"
-
-  verification:
-    - Use LCI to find similar patterns
-    - Match indentation, spacing, naming exactly
-    - Reuse existing helpers, utilities, types
-    - Follow established architecture decisions
-    - No new patterns unless explicitly requested
-
+  code_must_be: [same style/patterns/utils/naming/error-handling/logging/tests as codebase]
+  detection: "Could original author have written this?" — REJECT if not
+  verification: [LCI for patterns, match indentation/naming exactly, reuse helpers/types, follow architecture, no new patterns unless requested]
   verdict: "REJECT if code doesn't blend seamlessly"
 ```
 
@@ -314,10 +258,8 @@ params:
 - If no grilled spec is present, fetch task details and run `dev-standards:grill-task` inline
 
 **DO NOT (Negative Instructions):**
-- Re-analyze requirements that were already grilled
-- Re-identify files that were already scoped
-- Re-list acceptance criteria that were already defined
-- Start extensive research — that happens at planning time
+- Re-analyze grilled items (requirements, files, criteria already scoped)
+- Start new research — that's planning-time work
 
 **Verification Criteria:**
 ```yaml

@@ -56,23 +56,11 @@ The companion `dartai:post-task-reviewer` skill (in `plugins/dartai/skills/post-
 
 ```yaml
 autonomous_rules:
-  never_ask:
-    - "Should I continue?"
-    - "Would you like me to..."
-    - "Is this okay?"
-
-  always_do:
-    - "Complete all four review areas sequentially"
-    - "Report all findings in structured format"
-    - "Generate replan recommendations automatically"
-
-  if_genuinely_blocked:
-    - "RETURN with failure status immediately"
-    - "Include specific blocker in report"
-
-  critical_security_finding:
-    action: "STOP immediately and RETURN with critical flag"
-    note: "Critical security finding blocks all work"
+  mode: autonomous — complete all four areas sequentially
+  never_ask: [confirmation/permission]
+  always: [complete all four areas, report all findings, generate replan auto]
+  if_blocked: RETURN failure immediately with specific blocker
+  critical_security: STOP immediately, RETURN with critical flag — blocks all work
 ```
 
 ---

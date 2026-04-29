@@ -6,134 +6,134 @@ argument-hint: "[role-name]"
 
 # Setup DartAI Role Rules
 
-配置DartAI角色的項目特定規則。允許按項目定制對抗合作行為。
+設置項目專屬 role 規則。
 
 ## Usage
 
 ```bash
-# Setup all roles (interactive)
+# All roles
 /dartai:setup-roles
 
-# Setup specific role
+# One role
 /dartai:setup-roles task-executor
 /dartai:setup-roles code-quality-reviewer
 /dartai:setup-roles doc-updater
 ```
 
-## How It Works
+## Flow
 
-1. **檢查現有規則**位於`.dartai/rules/`
-2. **為每個角色提問定制問題**
-3. **創建覆蓋默認值的項目特定規則文件**
+1. 查 `.dartai/rules/`
+2. 問 role 專屬問題
+3. 寫 project override files
 
-## Rule Override Hierarchy
+## Override Order
 
-Rules are loaded in this order (later overrides earlier):
+後者覆前者：
 
-1. Plugin defaults: `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md`
-2. Plugin defaults: `${CLAUDE_PLUGIN_ROOT}/rules/{role}/*.md`
-3. Project overrides: `.dartai/rules/common/*.md`
-4. Project overrides: `.dartai/rules/{role}/*.md`
+1. `${CLAUDE_PLUGIN_ROOT}/rules/common/*.md`
+2. `${CLAUDE_PLUGIN_ROOT}/rules/{role}/*.md`
+3. `.dartai/rules/common/*.md`
+4. `.dartai/rules/{role}/*.md`
 
-## Available Roles
+## Roles
 
 ### task-executor
 
-Customize:
-- Execution flow behavior
-- Phase execution rules
-- Context management
-- Plan adjustment triggers
+Tune:
+- Execution flow
+- Phase rules
+- Context mgmt
+- Plan adjust triggers
 
-**Default rules:**
+Default:
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/execution-flow.md`
 - `${CLAUDE_PLUGIN_ROOT}/rules/task-executor/phase-execution.md`
 
 ### code-quality-reviewer
 
-Customize:
-- Verification modes (implementation, test, security, refactor)
-- Adversarial techniques
-- Verification report format
-- Issue severity thresholds
+Tune:
+- Verify modes (impl/test/security/refactor)
+- Adversarial tricks
+- Report format
+- Severity thresholds
 
-**Default rules:**
+Default:
 - `${CLAUDE_PLUGIN_ROOT}/rules/code-quality-reviewer/verification-modes.md`
 
 ### doc-updater
 
-Customize:
-- Documentation style
-- CHANGELOG format
-- README update behavior
+Tune:
+- Doc style
+- CHANGELOG shape
+- README update rule
 - Comment format
 
-**Default rules:**
+Default:
 - `${CLAUDE_PLUGIN_ROOT}/rules/doc-updater/documentation-rules.md`
 
-### common (shared)
+### common
 
-Customize:
-- Autonomous operation rules
-- Eagle-eyed discipline rules
-- Quality enforcement thresholds
+Tune:
+- Autonomy rules
+- Eagle-eyed rules
+- Quality thresholds
 
-**Default rules:**
+Default:
 - `${CLAUDE_PLUGIN_ROOT}/rules/common/autonomous-operation.md`
 - `${CLAUDE_PLUGIN_ROOT}/rules/common/eagle-eyed-discipline.md`
 
-## Interactive Setup Questions
+## Questions
 
-### Task Executor Questions
+### Task Executor
 
 ```yaml
 questions:
   execution_mode:
-    - "Should the agent stop to ask for confirmation?"
-    - "Default: No - fully autonomous"
+    - "Stop for confirmation?"
+    - "Default: No."
 
   phase_behavior:
-    - "How should plan adjustments be handled?"
-    - "Default: Automatic - continue after adjustments"
+    - "Plan adjust how?"
+    - "Default: auto-continue."
 
   scope_limits:
-    - "Maximum files per task? (default: 5)"
-    - "Maximum steps per task? (default: 7)"
-    - "Should scope exceed threshold cause task split? (default: yes)"
+    - "Max files? (default: 5)"
+    - "Max steps? (default: 7)"
+    - "Split on overflow? (default: yes)"
 
   quality_thresholds:
-    - "Linting tolerance? (default: zero errors)"
-    - "Test coverage tolerance? (default: no decrease)"
-    - "Complexity limits? (default: cyclomatic 10, nesting 3)"
+    - "Lint tolerance? (default: zero errors)"
+    - "Coverage tolerance? (default: no decrease)"
+    - "Complexity limit? (default: cyclomatic 10, nesting 3)"
 ```
 
-### Quality Verifier Questions
+### Quality Verifier
 
 ```yaml
 questions:
   verification_strictness:
-    - "Should scope violations cause immediate rejection? (default: yes)"
-    - "Should TODO markers cause rejection? (default: yes)"
-    - "Should 'test blame shifting' be rejected? (default: yes)"
+    - "Scope violation = reject? (default: yes)"
+    - "TODO marker = reject? (default: yes)"
+    - "'Not my test' = reject? (default: yes)"
 
   severity_thresholds:
-    - "What constitutes a critical issue? (default: security, data loss, crashes)"
-    - "What constitutes a high issue? (default: edge case bugs, missing error handling)"
+    - "Critical issue? (default: security, data loss, crashes)"
+    - "High issue? (default: edge case bugs, missing error handling)"
 
   verification_modes:
-    - "Enable implementation verification? (default: yes)"
-    - "Enable test verification? (default: yes)"
-    - "Enable security verification? (default: yes)"
-    - "Enable refactor verification? (default: yes)"
+    - "Impl verify? (default: yes)"
+    - "Test verify? (default: yes)"
+    - "Security verify? (default: yes)"
+    - "Refactor verify? (default: yes)"
 ```
 
-### Doc Updater Questions
+### Doc Updater
 
 ```yaml
 questions:
   changelog_behavior:
-    - "Auto-update CHANGELOG.md on task completion? (default: yes)"
-    - "Include task ID references? (default: yes)"
+    - "Auto-update CHANGELOG.md? (default: yes)"
+    - "Include task ID refs? (default: yes)"
     - "Preferred format? (default: Keep It Simple)"
 
   readme_behavior:
@@ -141,171 +141,65 @@ questions:
     - "What sections to update? (default: usage, installation)"
 ```
 
-### Common Questions
+### Common
 
 ```yaml
 questions:
   autonomy_level:
-    - "Should agents operate fully autonomously? (default: yes)"
-    - "When should agents stop? (default: only on critical blockers)"
+    - "Operate fully autonomously? (default: yes)"
+    - "When stop? (default: only on critical blockers)"
 
   discipline_level:
-    - "Reject TODO/FIXME markers? (default: yes, with zero tolerance)"
-    - "Reject 'not my test' blame? (default: yes, all tests must pass)"
-    - "Reject over-engineering? (default: yes, simplify until obvious)"
+    - "Reject TODO/FIXME? (default: yes)"
+    - "Reject 'not my test'? (default: yes)"
+    - "Reject over-engineering? (default: yes)"
 ```
 
-## Setup Process
+## Setup
 
-### Step 1: Check Existing Rules
+### 1. Check rules
 
 ```bash
-# List existing project rules
 ls -la .dartai/rules/
 ```
 
-### Step 2: Ask Role Selection
+### 2. Pick role
 
-
-
-```
+```text
 Which role do you want to customize?
-
 1. task-executor
 2. code-quality-reviewer
 3. doc-updater
-4. common (affects all roles)
-5. All roles (guided walkthrough)
-
-Enter number or role name:
+4. common
+5. All roles
 ```
 
-### Step 3: Ask Role-Specific Questions
+### 3. Ask role questions
 
-為所選角色呈現問題，顯示默認值，接受定制。
+問問題，帶默認值，收自定值。
 
-### Step 4: Create Rule Files
+### 4. Write override file
 
-Create `.dartai/rules/{role}/{rule-name}.md` with only the customized values:
+Create `.dartai/rules/{role}/{rule-name}.md` with only overrides.
 
-```markdown
-# Project-Specific {Rule Name} Rules
+### 5. Verify
 
-## Override Values
+Show file + delta:
 
-```yaml
-custom_overrides:
-  # Project-specific values that override defaults
-  max_files: 10  # Override default of 5
-  coverage_tolerance: "-1%"  # Allow small coverage decrease
-```
-
-## Notes
-
-This file overrides the default rules at:
-`${CLAUDE_PLUGIN_ROOT}/rules/{role}/{rule-name}.md`
-```
-
-### Step 5: Verify and Summarize
-
-顯示已創建內容及行為變化：
-
-```
+```text
 ✅ Created .dartai/rules/task-executor/execution-flow.md
-
 Changes from defaults:
-- Max files per task: 5 → 10
-- Plan adjustment: Automatic → Ask for critical issues only
-
-To revert: Delete the file and defaults will be used.
+- Max files: 5 → 10
+- Plan adjust: automatic → ask only on critical issues
 ```
 
-## Example Output
+## Example
 
+```text
+Setting up DartAI role rules...
+No project rules found. Using defaults.
+Pick role: task-executor
+Max files? 5
+Plan adjust? automatic
+...
 ```
-Setting up DartAI role rules for project: my-project
-
-Checking existing rules...
-No project-specific rules found. Using defaults.
-
-Which role would you like to customize?
-[1] task-executor
-[2] code-quality-reviewer
-[3] doc-updater
-[4] common
-[5] All roles (guided)
-[0] Cancel
-
-> 1
-
-Configuring task-executor role...
-
-[1/5] Execution Mode
-Should the agent stop to ask for confirmation during phases?
-Default: No - fully autonomous
-Your choice: [Enter=accept, N=no, Y=yes] > Enter
-
-[2/5] Scope Limits
-Maximum files per task?
-Default: 5
-Your choice: [Enter=accept] > 10
-
-Maximum steps per task?
-Default: 7
-Your choice: [Enter=accept] > Enter
-
-[3/5] Quality Thresholds
-Test coverage tolerance?
-Default: No decrease allowed
-Your choice: [Enter=accept, A=allow small decrease] > A
-Allowed decrease: > 2%
-
-[4/5] Plan Adjustment
-How should plan adjustments be handled?
-Default: Automatic - continue after adjustments
-Your choice: [Enter=accept, S=stop on any adjustment] > Enter
-
-[5/5] Linting Tolerance
-Should lint errors block completion?
-Default: Yes - zero tolerance
-Your choice: [Enter=accept, A=allow warnings] > Enter
-
-✅ Creating .dartai/rules/task-executor/execution-flow.md
-✅ Creating .dartai/rules/task-executor/phase-execution.md
-
-Summary of changes:
-- Max files per task: 5 → 10
-- Coverage tolerance: No decrease → Allow up to 2% decrease
-
-Role configuration saved! Agents will use these rules for this project.
-
-To modify: Edit .dartai/rules/task-executor/*.md
-To reset: Delete the rule files to restore defaults
-```
-
-## File Structure
-
-```
-.dartai/rules/
-├── common/
-│   ├── autonomous-operation.md      # Override autonomy rules
-│   └── eagle-eyed-discipline.md     # Override quality enforcement
-├── task-executor/
-│   ├── execution-flow.md            # Override execution behavior
-│   └── phase-execution.md           # Override phase rules
-├── code-quality-reviewer/
-│   └── verification-modes.md        # Override verification rules
-└── doc-updater/
-    └── documentation-rules.md       # Override doc rules
-```
-
-## Reset to Defaults
-
-```bash
-# Remove all project-specific rules
-rm -rf .dartai/rules/
-
-# Or remove specific role rules
-rm .dartai/rules/task-executor/*.md
-```
-
