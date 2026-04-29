@@ -16,15 +16,11 @@ agent: general-purpose
 
 **Driver runs at top level only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. The "fresh subagent per slice" pattern only works when this skill executes in the top-level conversation. If invoked inside a subagent, stop and report to the parent — never fall back to inline execution that would pollute the driver context.
 
-**Verify `Agent` schema is callable before first dispatch:**
+**先試 `Agent`（alias `Task`）派遣：**
 
-1. **Preloaded** — `Agent` (alias `Task`) already appears in the top-level `<functions>` block at session start. Call directly.
-2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema not loaded. Raw call fails with `InputValidationError`. Load first:
-   ```
-   ToolSearch query="select:Agent" max_results=1
-   ```
-   Returned `<functions>` entry makes `Agent` callable for the rest of the turn.
-3. **Neither** — surface to user; do not retry inline.
+1. **直呼** — 無預檢，毋查 deferred-tools。成則行。
+2. **失敗** — 若報 `not available`、`no such tool`、或 `InputValidationError`，乃走降級路。
+3. **真無工具** — 先報 user，再停；毋重試 inline.
 
 ## Orchestrator Responsibilities 協調者職責
 
