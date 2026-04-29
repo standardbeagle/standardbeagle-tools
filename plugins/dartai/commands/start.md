@@ -2,7 +2,6 @@
 name: start
 description: "Start the Ralph Wiggum adversarial cooperation loop on a dartboard with plan adjustment. 在看板上啟動Ralph Wiggum對抗合作循環，含計劃調整。 Use when: start execution loop, run dartboard tasks, begin adversarial loop, automate task execution, process task queue"
 argument-hint: "[dartboard-name]"
-agent: general-purpose
 ---
 
 # Start Ralph Wiggum Adversarial Loop

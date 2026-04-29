@@ -2,10 +2,9 @@
 name: start-loop
 description: "Start a Ralph Wiggum adversarial loop — context-isolated subagents, multi-stage verification, sequential task execution. 啟動Ralph Wiggum對抗循環：隔離子代理、多階段驗證、順序任務執行. Use when: start workflow loop, begin adversarial loop, run task list, start automation loop, execute tasks sequentially"
 argument-hint: "[task-list-file]"
-agent: general-purpose
 ---
 
-<!-- CC 2.1 dispatch decision: long-running orchestrator that spawns task-executor per iteration. Keep it top-level so it can dispatch fresh subagents while staying bounded by per-iteration context. general-purpose is correct because the orchestrator dispatches rather than implements. -->
+<!-- Loop driver runs at top level. Setting `agent:` puts orchestrator INTO a subagent, where Agent/Task tool is unavailable for recursion — driver crashes per-task. Top-level keeps Agent dispatchable for fresh task-executor subagents per iteration. -->
 
 # Start Ralph Wiggum Adversarial Loop
 
