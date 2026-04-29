@@ -8,15 +8,17 @@ argument-hint: "[dartboard-name]"
 
 啟動持續任務執行循環，以對抗合作模式處理Dart看板任務，各階段含計劃調整。
 
-## Agent Dispatch Prerequisites
+## STOP — Read Before Anything Else 防遞迴
 
-**Top-level only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. If `/dartai:start` fires inside a subagent, stop and report to parent. Do not fall back to inline execution.
+**You are inside `/dartai:start` right now.** Do NOT invoke `Skill(dartai:start)`, `Skill(dartai-cmd-start)`, or any sibling skill that re-enters this command — that recurses. `/start` aliases to `/dartai:start` (single command, single skill). There is no "outer" entry point to delegate to.
 
-**Detecting "subagent context" by `Agent` absence is wrong.** Top-level sessions may also start with `Agent` deferred (lazy-loaded via `ToolSearch`). Classify before declaring missing:
+**Slash commands always run top-level.** Subagents cannot fire `/commands`. If you reached this section by typing `/start` or `/dartai:start`, you are top-level. The `<SUBAGENT-STOP>` block does NOT apply. Do not "report to parent" — you ARE the parent. Halt only on literal `<SUBAGENT-STOP>` reminder text.
 
-1. **Preloaded** — `Agent` (alias `Task`) appears in the top-level `<functions>` block. Use directly. → §5.3
-2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema absent. Raw call fails with `InputValidationError`. Load first via `ToolSearch query="select:Agent" max_results=1`. The returned `<functions>` entry makes `Agent` callable for the rest of the turn. → §5.3
-3. **Neither preloaded nor deferred** — truly absent (e.g. some Windows harnesses, restricted environments). Slash-command invocation guarantees top-level context — subagents cannot fire `/commands` — so auto-fall through to §5.3.1 inline-delegation. Log a one-line classification note ("Agent unavailable, running inline") and proceed; do NOT halt to ask the user. Halt only if the runtime reports `<SUBAGENT-STOP>` indicating subagent context.
+**Agent tool resolution — do this before checking "is Agent available":**
+
+1. Look at the top-level `<functions>` block. If `Agent` (alias `Task`) is there → use directly. → §5.3
+2. Check `<system-reminder>` deferred-tools list. If `Agent` listed by name → call `ToolSearch query="select:Agent" max_results=1` FIRST, then `Agent` is callable. → §5.3
+3. Only after **both** steps fail (Agent not in `<functions>` AND not in deferred list AND `ToolSearch` returned no schema) → §5.3.1 inline-delegation. Log: "Agent unavailable, running inline". Do NOT ask the user. Do NOT invoke a Skill alias of this command.
 
 **Per-task dispatch:** try `Agent` once. On `InputValidationError` after step 2, treat as transient → §5.3.1. Never retry the same task.
 
