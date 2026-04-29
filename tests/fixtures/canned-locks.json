@@ -1,0 +1,30 @@
+{
+  "claims": {
+    "FAKE_TASK_OWNED_BY_OTHER": {
+      "runner_instance_id": "other-host-99999",
+      "runner_email": "other@example.com",
+      "claimed_at": "2026-04-29T00:00:00Z",
+      "agent_id": "other-agent-v2",
+      "parent_loop_id": "FAKE_LOOP_ID",
+      "purpose": "fixture: claim held by another runner",
+      "source_event": {
+        "loop_id": "FAKE_LOOP_ID",
+        "task_id": "FAKE_TASK_OWNED_BY_OTHER",
+        "conversation_id": null
+      }
+    },
+    "FAKE_TASK_OWNED_BY_SELF_STALE": {
+      "runner_instance_id": "probe-host-12345",
+      "runner_email": "probe@example.com",
+      "claimed_at": "2026-04-28T00:00:00Z",
+      "agent_id": "ralph-test-runner-v1",
+      "parent_loop_id": "FAKE_LOOP_ID_PRIOR",
+      "purpose": "fixture: stale self-claim from prior crashed session",
+      "source_event": {
+        "loop_id": "FAKE_LOOP_ID_PRIOR",
+        "task_id": "FAKE_TASK_OWNED_BY_SELF_STALE",
+        "conversation_id": null
+      }
+    }
+  }
+}

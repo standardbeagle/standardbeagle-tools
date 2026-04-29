@@ -4,11 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-This is a **Claude Code marketplace repository** that packages and distributes three MCP plugins:
+This is a **Claude Code marketplace repository** (catalog version `1.4.0`) that packages and distributes 20+ plugins. The two core MCP-backed plugins:
 
-1. **agnt** (v0.7.12) - Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode
-2. **lci** (v0.3.0) - Lightning code intelligence: sub-millisecond semantic code search
-3. **tools** (v1.0.0) - Combined toolkit with both agnt and lci capabilities
+1. **agnt** (v0.8.3) - Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode
+2. **lci** (v0.4.0) - Lightning code intelligence: sub-millisecond semantic code search
+
+The rest are workflow/skill bundles (dartai, workflow, brainstorming, knowledge-hygiene, risk-pipeline, ux-design, ux-developer, mcp-architect, mcp-tester, dev-standards, photino, figma-query, color, typography, design-token, a11y-audit, image-processing, ideation, compound-review, research, slop-mcp, slop-coder, dart-query, prompt-engineer). Source of truth: `.claude-plugin/marketplace.json`.
+
+> **Note:** A `tools` plugin (combined agnt+lci) existed historically but was removed in commit `3581d1c`. Stale local installs may emit "tools@standardbeagle-tools: Plugin tools not found in marketplace" — uninstall via `claude plugin uninstall tools@standardbeagle-tools`.
 
 ## Essential Resources
 
@@ -87,30 +90,27 @@ This marketplace uses `strict: true` (implicit default) - each plugin has its ow
   └── marketplace.json          # Marketplace registry - defines all available plugins
 
 plugins/
-  ├── agnt/                     # Browser superpowers plugin
-  │   ├── .claude-plugin/
-  │   │   └── plugin.json       # Plugin metadata
+  ├── agnt/                     # Browser superpowers plugin (MCP-backed)
+  │   ├── .claude-plugin/plugin.json
   │   ├── commands/             # Slash commands (e.g., /setup-project, /dev-proxy)
   │   ├── skills/               # Skills (e.g., schedule.md, workflow.md)
-  │   ├── agents/               # Specialized agents (browser-debugger, ui-designer, process-manager)
-  │   ├── hooks/
-  │   │   └── hooks.json        # Session lifecycle hooks
+  │   ├── agents/               # Specialized agents
+  │   ├── hooks/hooks.json      # Session lifecycle hooks
   │   ├── scripts/              # Hook implementation scripts
-  │   └── mcp.json              # MCP server configuration (npx @standardbeagle/agnt)
+  │   └── mcp.json[.disabled]   # MCP server config (disabled: managed via slop-mcp)
   │
-  ├── lci/                      # Code intelligence plugin
-  │   ├── .claude-plugin/
-  │   │   └── plugin.json
+  ├── lci/                      # Code intelligence plugin (MCP-backed)
+  │   ├── .claude-plugin/plugin.json
   │   ├── commands/             # Slash commands (/search, /explore, /context)
-  │   └── mcp.json              # MCP server configuration (npx @standardbeagle/lci)
+  │   └── mcp.json[.disabled]   # MCP server config (disabled: managed via slop-mcp)
   │
-  └── tools/                    # Combined plugin
-      ├── .claude-plugin/
-      │   └── plugin.json
-      ├── commands/             # Combined commands from both plugins
-      ├── agents/               # Combined agents
-      └── mcp.json              # Both MCP servers
+  └── <other-plugins>/          # Skill/workflow bundles — same structure, no mcp.json
+      ├── .claude-plugin/plugin.json
+      ├── commands/ skills/ agents/ hooks/
+      └── (no mcp.json — pure skill bundles)
 ```
+
+> **`mcp.json.disabled`** is intentional. Plugin-bundled MCP configs are incompatible with this project's `slop-mcp` registration model. Users register MCP servers through slop-mcp, not via plugin-bundled configs. Do not "fix" by re-enabling.
 
 ### Plugin Architecture
 
@@ -154,7 +154,16 @@ claude mcp add-dir /home/beagle/work/standardbeagle-tools
 # Or test individual plugin
 claude mcp add agnt --source ./plugins/agnt
 claude mcp add lci --source ./plugins/lci
-claude mcp add tools --source ./plugins/tools
+```
+
+### Headless Skill Tests (`claude -p`)
+
+The `tests/` directory contains a non-interactive harness for exercising plugin commands/skills via `claude -p` with stream-json output. See `tests/README.md`. Quick run:
+
+```bash
+tests/run-start-tests.sh           # all probes
+tests/run-start-tests.sh structure # JSON/markdown lint only
+tests/run-start-tests.sh fallback  # Agent-disabled inline-delegation path
 ```
 
 ## Version Management
@@ -180,13 +189,6 @@ Plugins are lightweight wrappers that configure and integrate MCP servers into C
 - **Commands** - User-invocable slash commands (e.g., `/dev-proxy`, `/search`)
 - **Skills** - Specialized prompts/workflows that can be invoked
 - **Agents** - Autonomous agents for complex multi-step tasks
-
-### The "tools" Plugin Strategy
-
-The `tools` plugin demonstrates how to **combine multiple MCP servers** in one plugin:
-- Includes both `agnt` and `lci` in `mcp.json`
-- Cherry-picks best commands from both plugins
-- Provides unified experience for common workflows
 
 ## Plugin Development Guide
 
