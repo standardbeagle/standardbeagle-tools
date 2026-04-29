@@ -16,7 +16,7 @@ argument-hint: "[dartboard-name]"
 
 1. **Preloaded** — `Agent` (alias `Task`) appears in the top-level `<functions>` block. Use directly. → §5.3
 2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema absent. Raw call fails with `InputValidationError`. Load first via `ToolSearch query="select:Agent" max_results=1`. The returned `<functions>` entry makes `Agent` callable for the rest of the turn. → §5.3
-3. **Neither preloaded nor deferred** — truly absent. Surface to user with the classification result; fall back to §5.3.1 inline-delegation only if user confirms top-level context.
+3. **Neither preloaded nor deferred** — truly absent (e.g. some Windows harnesses, restricted environments). Slash-command invocation guarantees top-level context — subagents cannot fire `/commands` — so auto-fall through to §5.3.1 inline-delegation. Log a one-line classification note ("Agent unavailable, running inline") and proceed; do NOT halt to ask the user. Halt only if the runtime reports `<SUBAGENT-STOP>` indicating subagent context.
 
 **Per-task dispatch:** try `Agent` once. On `InputValidationError` after step 2, treat as transient → §5.3.1. Never retry the same task.
 
