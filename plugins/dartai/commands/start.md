@@ -11,13 +11,15 @@ agent: general-purpose
 
 ## Agent Dispatch Prerequisites
 
-**Top-level only.** Subagents cannot spawn subagents — "fresh subagent per task" only works from top-level conversation. If inside a subagent, stop+report to parent, never inline-execute.
+**Top-level only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. If `/dartai:start` fires inside a subagent, stop and report to parent. Do not fall back to inline execution.
 
-**Dispatch: try first, handle failure.** No pre-flight check.
+**Detecting "subagent context" by `Agent` absence is wrong.** Top-level sessions may also start with `Agent` deferred (lazy-loaded via `ToolSearch`). Classify before declaring missing:
 
-1. **Try `Agent` dispatch.** Success → §5.3.
-2. **Fail** ("not available", schema error) → §5.3.1 inline-delegation.
-3. **One attempt per task.** Never retry.
+1. **Preloaded** — `Agent` (alias `Task`) appears in the top-level `<functions>` block. Use directly. → §5.3
+2. **Deferred** — listed by name in a `<system-reminder>` deferred-tools section but schema absent. Raw call fails with `InputValidationError`. Load first via `ToolSearch query="select:Agent" max_results=1`. The returned `<functions>` entry makes `Agent` callable for the rest of the turn. → §5.3
+3. **Neither preloaded nor deferred** — truly absent. Surface to user with the classification result; fall back to §5.3.1 inline-delegation only if user confirms top-level context.
+
+**Per-task dispatch:** try `Agent` once. On `InputValidationError` after step 2, treat as transient → §5.3.1. Never retry the same task.
 
 ## Adversarial Cooperation Model
 
@@ -635,7 +637,7 @@ params:
 
 Use the returned `description`, `acceptance_criteria` (parsed from description), and relationship state to build the executor prompt below.
 
-**Each task iteration attempts the `Agent` tool (or `Task` alias) with subagent_type="dartai:task-executor". If the tool call fails with "not available", fall back to inline delegation (§5.3.1).**
+**Each task iteration attempts the `Agent` tool (or `Task` alias) with subagent_type="dartai:task-executor". On `InputValidationError` (schema not loaded), retry once after `ToolSearch query="select:Agent"` per the prereq classification. On "not available" or persistent schema failure, fall back to inline delegation (§5.3.1).**
 
 ##### Dispatch prompt compression 派發提示壓縮
 

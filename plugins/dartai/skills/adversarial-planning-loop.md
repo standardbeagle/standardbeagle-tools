@@ -13,7 +13,10 @@ context: fork
 Steps in this loop dispatch research subagents (`research:session-historian`, `research:web-researcher`) via `Agent` (alias `Task`).
 
 1. **Top-level driver only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent. If this loop runs inside a subagent, stop and report to the parent. Do not inline-execute the research steps in the planner's context.
-2. **先試 `Agent`（alias `Task`）。** 無預檢，毋查 deferred-tools。成則直行；若報 `not available`、`no such tool`、或 schema error，乃入降級路。若真無此工具，再告 user.
+2. **驗 `Agent` schema 可呼。** 三態分類（前 `Agent` 缺非「我在 subagent」之證）：
+   - **Preloaded** — `Agent`（alias `Task`）見於頂層 `<functions>` 塊。直用。
+   - **Deferred** — 列名於 `<system-reminder>` deferred-tools 段而 schema 缺。直呼必 `InputValidationError`。先 `ToolSearch query="select:Agent" max_results=1` 載 schema，本回合續可用。
+   - **Neither** — 真無。告 user 分類結果，毋默 inline 執行研究——該降級坍規劃對抗。
 
 ## Core Principles
 

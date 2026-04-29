@@ -19,7 +19,10 @@ Use when the task-executor agent runs the full adversarial pipeline on a Dart ta
 This loop dispatches reviewer subagents in parallel via `Agent` (alias `Task`). Two prerequisites apply at the dispatch site:
 
 1. **Top-level driver only.** Subagents cannot spawn subagents — the harness scopes the deferred-tool list per-agent and does not surface `Agent`/`Task` to nested runners. If this skill executes inside a subagent, stop and report to the parent. Do not fall back to inline reviewer logic — that would collapse the adversarial separation the loop depends on.
-2. **先試 `Agent`（alias `Task`）。** 無預檢，毋查 deferred-tools。成則直行；若報 `not available`、`no such tool`、或 schema error，乃入降級路。若真無此工具，再告 user.
+2. **驗 `Agent` schema 可呼。** 三態分類（前 `Agent` 缺非「我在 subagent」之證）：
+   - **Preloaded** — `Agent`（alias `Task`）見於頂層 `<functions>` 塊。直用。
+   - **Deferred** — 列名於 `<system-reminder>` deferred-tools 段而 schema 缺。直呼必 `InputValidationError`。先 `ToolSearch query="select:Agent" max_results=1` 載 schema，本回合續可用。
+   - **Neither** — 真無。告 user 分類結果，毋默降級為 inline reviewer——該降級會塌陷 adversarial 分離。
 
 ## Core Principles
 
