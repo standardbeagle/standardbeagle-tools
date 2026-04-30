@@ -695,6 +695,35 @@
         "adversarial-cooperation"
       ],
       "category": "development"
+    },
+    {
+      "name": "caveman",
+      "source": "./plugins/caveman",
+      "description": "Context compression for URLs, files, images, PDFs, git diffs, PRs, and logs via caveman-mcp. Two-pass compression (mechanical filler removal + classical Chinese ultra-compression) preserves code, identifiers, and numbers while slashing tokens. Skills cover URL fetching with smart routing (YouTube/GitHub/arXiv/HN/Reddit/RSS), local file ingestion (PDF/PPT/XLSX/audio), image OCR/description, git diff/PR summarization, log triage with deduplication, raw text compression, and a multi-source research workflow.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/caveman-mcp",
+      "repository": "https://github.com/standardbeagle/caveman-mcp",
+      "license": "MIT",
+      "keywords": [
+        "caveman",
+        "caveman-mcp",
+        "mcp",
+        "context-compression",
+        "token-optimization",
+        "research",
+        "url-fetch",
+        "pdf",
+        "image",
+        "git-diff",
+        "pr-review",
+        "log-analysis",
+        "slop-mcp"
+      ],
+      "category": "development"
     }
   ]
 }

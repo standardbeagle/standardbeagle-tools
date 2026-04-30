@@ -1,0 +1,39 @@
+{
+  "name": "caveman",
+  "version": "0.1.0",
+  "description": "caveman-mcp client skills - context compression for URLs, files, images, PDFs, git diffs, PRs, logs, and raw text. Two-pass compression (mechanical filler removal + classical Chinese ultra-compression) preserves code, identifiers, and numbers while slashing tokens for research, code review, and log triage.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/caveman-mcp",
+  "repository": "https://github.com/standardbeagle/caveman-mcp",
+  "license": "MIT",
+  "keywords": [
+    "caveman",
+    "caveman-mcp",
+    "mcp",
+    "context-compression",
+    "token-optimization",
+    "research",
+    "url-fetch",
+    "pdf",
+    "image",
+    "git-diff",
+    "pr-review",
+    "log-analysis",
+    "slop-mcp"
+  ],
+  "commands": [
+    "./commands/setup-caveman.md"
+  ],
+  "skills": [
+    "./skills/condense-url.md",
+    "./skills/condense-file.md",
+    "./skills/condense-image.md",
+    "./skills/condense-git.md",
+    "./skills/condense-log.md",
+    "./skills/condense-text.md",
+    "./skills/research-workflow.md"
+  ]
+}

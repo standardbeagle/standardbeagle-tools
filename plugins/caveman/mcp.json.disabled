@@ -1,0 +1,7 @@
+{
+  "caveman": {
+    "command": "npx",
+    "args": ["-y", "@standardbeagle/caveman-mcp@latest"],
+    "env": {}
+  }
+}
