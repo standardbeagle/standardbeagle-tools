@@ -85,21 +85,33 @@ Apply these updates? (yes/no)
 
 ### 4. Apply Updates
 
-若確認或 `--force`，且多 task 同改狀態，優先 `batch_update_tasks`.
+若確認或 `--force`，且 N≥3 task 同改狀態，用 `execute_dartql` 多語句 UPDATE，附 `COMMENT` 子句留審計痕。Loop driver 先以提交訊息抽 task id 列表，將 `<commit_sha>` 直接代入字串再構 query。
+
+**Step A — 預覽 (dry_run: true)**：先空跑驗 selector 命中正確 task 集，再執行。
 
 ```yaml
-# Batch flip for N tasks with the same target status
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
 params:
   mcp_name: "dart-query"
-  tool_name: "batch_update_tasks"
+  tool_name: "execute_dartql"
   parameters:
-    selector: "id IN ('id1', 'id2', 'id3')"
-    updates: {status: "Done"}
+    query: "UPDATE WHERE dart_id IN ('id1','id2','id3') SET status='Done' COMMENT 'Synced from <commit_sha>'"
+    dry_run: true
+```
+
+**Step B — 執行 (dry_run: false)**：預覽通過後，同 query 改 `dry_run: false` 提交。
+
+```yaml
+tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+params:
+  mcp_name: "dart-query"
+  tool_name: "execute_dartql"
+  parameters:
+    query: "UPDATE WHERE dart_id IN ('id1','id2','id3') SET status='Done' COMMENT 'Synced from <commit_sha>'"
     dry_run: false
 ```
 
-單 task 或每 task comment 不同，仍用 `update_task`.
+單 task、N≤2、或每 task comment 不同，跳過 DartQL 開銷，逐個 `update_task`.
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -112,7 +124,7 @@ params:
     comment: "[completion note]"
 ```
 
-規則：3+ 同改 → `batch_update_tasks`。混合或逐 task comment → `update_task`.
+規則：N≥3 同改且 comment 統一 → `execute_dartql` UPDATE 兩步制。N≤2 或混合 comment → 逐 `update_task`.
 
 ### 5. Report Results
 
