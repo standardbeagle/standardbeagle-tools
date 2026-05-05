@@ -614,7 +614,7 @@ The `agent:<id>` tag value comes from the resolved `agent_id` in §2.5 step 5 (e
 
 #### 5.3 Spawn Task Executor Subagent
 
-**Just-in-time full fetch:** The queue sweep in §3 returned only matched task IDs from the dry-run selector. Before dispatching the executor, fetch the chosen task at full detail so the prompt carries the complete description and acceptance criteria. This is the **only** point in the loop where `detail_level: "full"` (or omitted, since `get_task` returns full by default) is appropriate:
+**Just-in-time full fetch:** The queue read in §3 returned only minimal task entries (id/title/status) from `snapshot.queue`. Before dispatching the executor, fetch the chosen task at full detail so the prompt carries the complete description and acceptance criteria. This is the **only** point in the loop where `detail_level: "full"` (or omitted, since `get_task` returns full by default) is appropriate:
 
 ```yaml
 tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
