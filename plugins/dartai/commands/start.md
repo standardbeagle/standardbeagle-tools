@@ -168,33 +168,21 @@ Identify this runner instance for multi-runner concurrency:
 
 ### 3. Fetch Active Tasks
 
-Query Dart for **To-do tasks only** (not "In Progress") at **minimal detail** — the loop driver only needs `id`, `title`, and `status` to pick the next claimable task. Full descriptions are fetched once, just-in-time, when the chosen task is dispatched to the executor (Section 5.3).
+Query Dart for **claimable To-do tasks** via a DartQL selector — push the loop-blocked tag exclusion to dart-query so the loop driver only sees candidates worth claiming. The dry-run response returns matched task IDs (the DartQL read pattern: DartQL has no `SELECT` keyword, so `batch_update_tasks` with empty updates + `dry_run: true` is the SELECT-equivalent). Full descriptions are fetched once, just-in-time, when the chosen task is dispatched to the executor (Section 5.3).
 
 ```
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
   mcp_name: "dart-query"
-  tool_name: "list_tasks"
+  tool_name: "batch_update_tasks"
   parameters: {
-    "dartboard": "[selected dartboard]",
-    "status": "To-do",
-    "detail_level": "minimal",
+    "selector": "status = 'To-do' AND dartboard = '[selected dartboard]' AND (tags IS NULL OR NOT tags CONTAINS 'loop-blocked')",
+    "updates": {},
+    "dry_run": true,
     "limit": 20
   }
 ```
 
-**Detail level:** `minimal` = queue scan (id+title+status only); `standard` = upgrade only if blocker tags visible; `full` = executor dispatch only (§5.3), never in queue sweep.
-
-**DartQL escape valve:** When `list_tasks` params insufficient (priority ranges, multi-status OR, tag exclusion), use `batch_update_tasks` selector with `dry_run: true` to filter at source. Example:
-
-```
-batch_update_tasks(
-  selector: "status = 'To-do' AND priority >= 4 AND created_at < '7 days ago'",
-  updates: {},
-  dry_run: true,
-)
-```
-
-`dry_run: true` returns matched IDs without mutation — DartQL SELECT equivalent. See `dartai:batch-operations` for full syntax.
+**Filter behavior:** `status` and `dartboard` are API-native predicates pushed to the Dart server. `tags CONTAINS` is evaluated client-side inside dart-query (Dart's API doesn't expose tag-array negation directly), but the loop driver still issues exactly one outbound call and never sees loop-blocked tasks in its candidate list. See `dartai:batch-operations` for full DartQL grammar.
 
 **Filter by claim status:**
 
