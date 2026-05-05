@@ -11,7 +11,7 @@ set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROBES_DIR="${REPO_ROOT}/probes"
 
-PROBES=(structure branches fallback-no-agent identity queue-dartql sync-dartql)
+PROBES=(structure branches fallback-no-agent identity queue-dartql sync-dartql phase-coalesce)
 
 # Pre-flight: required tools
 for cmd in jq claude; do

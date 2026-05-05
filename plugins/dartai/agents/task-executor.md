@@ -221,30 +221,27 @@ integration_requirements:
 
 ---
 
-## Phase Tag Updates
+## Phase Tag Updates (Coalesced)
 
-**僅在主要里程碑**更新任務標籤以減少API調用。勿為每個內部階段更新標籤——在循環狀態文件中本地追蹤階段進度。
+**勿在階段間寫Dart**。Phases 1–8 期間 **不發出任何 `update_task` 標籤更新**。階段進度本地追蹤於 `.dartai/loop-state.json`（loop driver 已維護該文件，見 §"Before Termination"）。
 
-Update tags at these milestones:
-- **Start**: `loop-phase:implementing` (after understanding, before code changes)
-- **Testing**: `loop-phase:testing` (entering test/validation phases)
-- **Complete/Blocked**: Final status set in On Success / On Failure sections
+僅在終止時發一次 Dart 寫入：
+- **On Success**: 一次 `execute_dartql` UPDATE 設置 status + 完整最終標籤集（`loop-complete`, `phase:done`）+ 單行 COMMENT 審計行。詳細 markdown 摘要分離至 `add_task_comment` 後續調用。
+- **On Failure**: 一次 `execute_dartql` UPDATE 設置 status='Blocked' + 標籤（`loop-blocked`, `phase:[failed-phase]`）+ 單行 COMMENT。詳細失敗報告以 `add_task_comment` 跟進。
 
-```yaml
-tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
-params:
-  mcp_name: "dart-query"
-  tool_name: "update_task"
-  parameters:
-    dart_id: "[task-id]"
-    tags: ["loop-task", "loop-iteration:[N]", "loop-phase:[milestone]"]
-```
+**Why coalesced**: prior pattern emitted 3–4 Dart UPDATE calls per task (per-phase tag flips + completion). Single-write pattern cuts API noise + Dart UI history clutter while preserving resumability via local state file.
+
+**Two-step pattern (apply at On Success / On Failure only)**:
+1. `execute_dartql` UPDATE — sets status, full final tag set, single-line audit COMMENT (DartQL COMMENT clause is single-line by parser design).
+2. `add_task_comment` — full markdown body (multi-line completion or failure report).
+
+See §On Success / §On Failure for concrete invocations.
 
 ---
 
 ## Phase 1: Read Grilled Task Spec
 
-**Update tag:** `loop-phase:understanding`
+Local phase tracking: log `phase:understanding` to `.dartai/loop-state.json` (no Dart write).
 
 ### Task: Confirm Planning Output
 
@@ -688,17 +685,27 @@ verification_skill_invoked: true  # required — see dev-standards:verification-
 
 1. **Update loop state file** (see above)
 
-2. **Update task status, tags, and add completion comment** (single call):
+2. **Single coalesced Dart write — status + final tags + audit COMMENT** via `execute_dartql`:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
      mcp_name: "dart-query"
-     tool_name: "update_task"
+     tool_name: "execute_dartql"
+     parameters:
+       query: "UPDATE WHERE dart_id='[task-id]' SET status='Done', tags=['loop-task', 'loop-iteration:[N]', 'loop-complete', 'phase:done'] COMMENT '[one-line completion summary — DartQL COMMENT is single-line]'"
+       dry_run: false
+   ```
+   This is the **only** outbound Dart write for the task body's tag/status state — it replaces all per-phase `update_task` calls.
+
+3. **Detailed completion comment** (multi-line markdown body — separate call because DartQL COMMENT clause is single-line):
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart-query"
+     tool_name: "add_task_comment"
      parameters:
        dart_id: "[task-id]"
-       status: "Done"
-       tags: ["loop-task", "loop-iteration:[N]", "loop-complete"]
-       comment: |
+       text: |
          ## ✅ Task Completed
 
          **Summary**: [what was done]
@@ -707,7 +714,7 @@ verification_skill_invoked: true  # required — see dev-standards:verification-
          **Tests**: All passing
    ```
 
-3. **Add progress comment to loop task**:
+4. **Add progress comment to loop task**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
@@ -723,23 +730,33 @@ verification_skill_invoked: true  # required — see dev-standards:verification-
          **Files Changed:** [count]
    ```
 
-4. **Report success** with summary of work and adjustments made
+5. **Report success** with summary of work and adjustments made
 
 ## On Failure
 
 1. **Update loop state file** (see "Before Termination" section above)
 
-2. **Update task to blocked with failure comment** (single call):
+2. **Single coalesced Dart write — status='Blocked' + final tags + audit COMMENT** via `execute_dartql`:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
      mcp_name: "dart-query"
-     tool_name: "update_task"
+     tool_name: "execute_dartql"
+     parameters:
+       query: "UPDATE WHERE dart_id='[task-id]' SET status='Blocked', tags=['loop-task', 'loop-iteration:[N]', 'loop-blocked', 'phase:[failed-phase-slug]'] COMMENT '[one-line failure reason — DartQL COMMENT is single-line]'"
+       dry_run: false
+   ```
+   `[failed-phase-slug]` is the slug for the phase that failed (e.g. `implementing`, `testing`, `linting`). Same coalesce contract as On Success — this is the only outbound Dart status/tag write.
+
+3. **Detailed failure comment** (multi-line markdown body — separate call):
+   ```yaml
+   tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
+   params:
+     mcp_name: "dart-query"
+     tool_name: "add_task_comment"
      parameters:
        dart_id: "[task-id]"
-       status: "Blocked"
-       tags: ["loop-task", "loop-iteration:[N]", "loop-blocked", "loop-phase:[failed-phase]"]
-       comment: |
+       text: |
          ## ❌ Task Blocked at Phase [N]
 
          **Phase Failed:** [phase-name]
@@ -754,7 +771,7 @@ verification_skill_invoked: true  # required — see dev-standards:verification-
          - **Severity:** [low/medium/high/critical]
    ```
 
-3. **Add failure comment to loop task**:
+4. **Add failure comment to loop task**:
    ```yaml
    tool: mcp__plugin_slop-mcp_slop-mcp__execute_tool
    params:
