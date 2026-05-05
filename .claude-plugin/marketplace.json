@@ -140,7 +140,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines.",
-      "version": "0.7.3",
+      "version": "0.8.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"

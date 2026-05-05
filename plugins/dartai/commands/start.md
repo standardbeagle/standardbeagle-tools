@@ -112,6 +112,23 @@ command for project-specific tuning.
 
 Do NOT block. The loop can run on default thresholds — the warning is informational.
 
+### 1.7 Loop Snapshot
+
+Once dartboard is selected, fetch the loop snapshot once. This single call replaces the §2.5 assignee config fetch and §3 queue scan, yielding queue + config + claimed + blocked in one round-trip.
+
+Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
+  mcp_name: "dart-query"
+  tool_name: "dartai_loop_snapshot"
+  parameters: {
+    "dartboard": "[selected dartboard]",
+    "runner_dart_id": "[cached runner_dart_id from .dartai/config.local.md, or omit on first call]",
+    "queue_limit": 20
+  }
+
+Store response as `snapshot` variable. Reused by §2.5 (assignee match) and §3 (queue scan).
+
+Note: on first call when runner_dart_id is not yet cached, omit it. snapshot.runner_claimed will be empty; resolve runner_dart_id from snapshot.config.assignees in §2.5 step 3 below; subsequent loop iterations within the same session pass the resolved id.
+
 ### 2.5. Resolve Runner Identity
 
 Identify this runner instance for multi-runner concurrency:
@@ -127,14 +144,12 @@ Identify this runner instance for multi-runner concurrency:
    RUNNER_EMAIL=$(git config user.email)
    ```
 
-3. **Match email to Dart assignee** (reuse cached config from §1 if already fetched; otherwise scope to assignees only):
+3. **Match email to Dart assignee** (read from `snapshot.config.assignees` populated in §1.7):
    ```
-   Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
-     mcp_name: "dart-query"
-     tool_name: "get_config"
-     parameters: {"include": ["assignees"]}
+   Read assignees from `snapshot.config.assignees` (populated in §1.7).
+   Match `runner_email` against assignee `email` field to find `runner_dart_id`.
    ```
-   Match `runner_email` against assignee emails to find `runner_dart_id`. If §1 already fetched `["dartboards", "assignees"]` together, skip this call and read from the cached result.
+   `snapshot.config.assignees` provides this list pre-fetched — no separate `get_config` call required. On subsequent loop iterations within the same session, pass the resolved `runner_dart_id` to `dartai_loop_snapshot` so `snapshot.runner_claimed` is populated; the assignees match here is then a no-op (already cached id).
 
 4. **Check `.dartai/config.local.md`** for cached `runner_dart_id`. If cached and still valid, use it. Otherwise update the config with the matched value.
 
@@ -168,21 +183,9 @@ Identify this runner instance for multi-runner concurrency:
 
 ### 3. Fetch Active Tasks
 
-Query Dart for **claimable To-do tasks** via a DartQL selector — push the loop-blocked tag exclusion to dart-query so the loop driver only sees candidates worth claiming. The dry-run response returns matched task IDs (the DartQL read pattern: DartQL has no `SELECT` keyword, so `batch_update_tasks` with empty updates + `dry_run: true` is the SELECT-equivalent). Full descriptions are fetched once, just-in-time, when the chosen task is dispatched to the executor (Section 5.3).
+Read `snapshot.queue` (already filtered server-side for status=Todo, NOT tagged loop-blocked, NOT tagged claimed:*).
 
-```
-Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
-  mcp_name: "dart-query"
-  tool_name: "batch_update_tasks"
-  parameters: {
-    "selector": "status = 'To-do' AND dartboard = '[selected dartboard]' AND (tags IS NULL OR NOT tags CONTAINS 'loop-blocked')",
-    "updates": {},
-    "dry_run": true,
-    "limit": 20
-  }
-```
-
-**Filter behavior:** `status` and `dartboard` are API-native predicates pushed to the Dart server. `tags CONTAINS` is evaluated client-side inside dart-query (Dart's API doesn't expose tag-array negation directly), but the loop driver still issues exactly one outbound call and never sees loop-blocked tasks in its candidate list. See `dartai:batch-operations` for full DartQL grammar.
+The §1.7 `dartai_loop_snapshot` call yields the queue pre-filtered server-side — the loop driver consumes `snapshot.queue` directly and never issues a separate queue scan. Full descriptions are fetched once, just-in-time, when the chosen task is dispatched to the executor (Section 5.3).
 
 **Filter by claim status:**
 
