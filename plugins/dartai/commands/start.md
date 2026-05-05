@@ -56,7 +56,7 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
   parameters: {"include": ["dartboards"]}
 ```
 
-**Cache get_config for the loop session.** Workspace config (dartboards, assignees, statuses) rarely changes within a loop run. Fetch once at startup and reuse the result for the duration of the session. Prefer the `include` parameter to limit response sections to what's needed at each call site (e.g. `["dartboards"]` here, `["assignees"]` in §2.5, `["dartboards", "assignees", "statuses"]` if a single bulk fetch makes sense at startup).
+**Cache get_config for the loop session.** Workspace config (dartboards) rarely changes within a loop run. Fetch once at startup (with `include: ["dartboards"]` here) and reuse for the session. Assignees + statuses are fetched as part of `dartai_loop_snapshot` in §1.7 — do not duplicate via separate `get_config` calls.
 
 **Cache invalidation 緩存失效:** Re-fetch with `cache_bust: true` only when:
 1. A dartboard is created/renamed via this loop (write-then-invalidate)
@@ -116,6 +116,7 @@ Do NOT block. The loop can run on default thresholds — the warning is informat
 
 Once dartboard is selected, fetch the loop snapshot once. This single call replaces the §2.5 assignee config fetch and §3 queue scan, yielding queue + config + claimed + blocked in one round-trip.
 
+```
 Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
   mcp_name: "dart-query"
   tool_name: "dartai_loop_snapshot"
@@ -124,10 +125,11 @@ Use mcp__plugin_slop-mcp_slop-mcp__execute_tool with:
     "runner_dart_id": "[cached runner_dart_id from .dartai/config.local.md, or omit on first call]",
     "queue_limit": 20
   }
+```
 
 Store response as `snapshot` variable. Reused by §2.5 (assignee match) and §3 (queue scan).
 
-Note: on first call when runner_dart_id is not yet cached, omit it. snapshot.runner_claimed will be empty; resolve runner_dart_id from snapshot.config.assignees in §2.5 step 3 below; subsequent loop iterations within the same session pass the resolved id.
+On first call when `runner_dart_id` is not yet cached, omit it. `snapshot.runner_claimed` will be empty; resolve `runner_dart_id` from `snapshot.config.assignees` in §2.5 step 3 below. Subsequent loop iterations within the same session pass the resolved id.
 
 ### 2.5. Resolve Runner Identity
 
