@@ -1,0 +1,42 @@
+<!-- Popover (Tier B Jan 2025) + Anchor positioning (Tier B Jan 2026) -->
+<button popovertarget="help"
+        id="trigger"
+        aria-describedby="help"
+        style="anchor-name: --t;">?</button>
+
+<div id="help"
+     popover
+     style="position-anchor: --t;
+            position-area: top;
+            position-try-fallbacks: flip-block, flip-inline;">
+  Help text. ESC or click outside to dismiss.
+</div>
+
+<style>
+  /* Defeat UA margin: auto vs anchor positioning */
+  [popover] { margin: 0; }
+
+  [popover] {
+    border: 1px solid currentColor;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: Canvas;
+    color: CanvasText;
+    max-inline-size: 20rem;
+  }
+
+  /* Tier B: enter/exit animation */
+  @media (prefers-reduced-motion: no-preference) {
+    [popover] {
+      transition:
+        opacity 0.15s,
+        display 0.15s allow-discrete,
+        overlay 0.15s allow-discrete;
+      opacity: 0;
+    }
+    [popover]:popover-open { opacity: 1; }
+    @starting-style {
+      [popover]:popover-open { opacity: 0; }
+    }
+  }
+</style>

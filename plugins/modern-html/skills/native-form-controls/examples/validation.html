@@ -1,0 +1,57 @@
+<!-- Native form validation — Tier A (constraint API) + Tier B (:user-valid) -->
+
+<form id="signup">
+  <label>
+    Email
+    <input type="email" name="email" required autocomplete="email">
+    <span class="err" aria-live="polite"></span>
+  </label>
+
+  <label>
+    Password
+    <input type="password" name="password"
+           required minlength="12"
+           pattern="(?=.*[A-Z])(?=.*\d).+"
+           autocomplete="new-password">
+    <span class="err" aria-live="polite"></span>
+  </label>
+
+  <label>
+    Age
+    <input type="number" name="age" min="13" max="120" required>
+  </label>
+
+  <button>Sign up</button>
+</form>
+
+<style>
+  /* Wait for user interaction before showing red */
+  input:user-invalid {
+    border-color: oklch(55% 0.22 25);
+  }
+  input:user-valid {
+    border-color: oklch(55% 0.18 145);
+  }
+
+  .err { display: block; color: oklch(45% 0.22 25); font-size: 0.875rem; }
+  input:user-valid + .err { display: none; }
+
+  :root { accent-color: oklch(55% 0.18 250); }
+</style>
+
+<script>
+  // Custom error messages — only when intercepting
+  const form = document.getElementById('signup');
+  form.addEventListener('invalid', (e) => {
+    const input = e.target;
+    if (input.validity.patternMismatch) {
+      input.setCustomValidity('Must include an uppercase letter and a digit.');
+    } else {
+      input.setCustomValidity('');
+    }
+  }, true);
+
+  form.addEventListener('input', (e) => {
+    e.target.setCustomValidity('');
+  });
+</script>

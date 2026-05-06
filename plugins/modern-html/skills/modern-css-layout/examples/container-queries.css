@@ -1,0 +1,37 @@
+/* Container queries — Tier A (Aug 2025 Widely) */
+
+.card {
+  container-type: inline-size;
+  container-name: card;
+}
+
+/* Reposition card content based on its own width */
+@container card (min-width: 24rem) {
+  .card__inner {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1rem;
+  }
+}
+
+@container card (min-width: 40rem) {
+  .card__inner {
+    grid-template-columns: 12rem 1fr auto;
+  }
+}
+
+/* Container query units replace viewport units inside the card */
+.card h2 {
+  font-size: clamp(1rem, 4cqi, 1.5rem);
+  line-height: 1.2;
+}
+
+/* Style queries — Tier B */
+.theme-host {
+  container-name: theme;
+  --mode: light;
+}
+
+@container theme style(--mode: dark) {
+  .card { background: oklch(20% 0 0); color: oklch(95% 0 0); }
+}

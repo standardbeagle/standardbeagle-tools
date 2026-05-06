@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-    "version": "1.4.0"
+    "version": "1.5.0"
   },
   "plugins": [
     {
@@ -724,6 +724,35 @@
         "slop-mcp"
       ],
       "category": "development"
+    },
+    {
+      "name": "modern-html",
+      "source": "./plugins/modern-html",
+      "description": "Baseline-first HTML/CSS guidance for AI coding agents. Routes UI generation toward native HTML elements and modern CSS that has reached Web Platform Baseline Widely-available status for at least 9 months, prompts before Newly-available features, and avoids Limited features without explicit fallback. Covers dialog, popover, anchor positioning, container queries, subgrid, :has(), @scope, @layer, view transitions, scroll-driven animations, light-dark(), oklch(), color-mix(), text-wrap, and accessibility primitives.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "baseline",
+        "web-platform",
+        "html",
+        "css",
+        "accessibility",
+        "frontend",
+        "progressive-enhancement",
+        "container-queries",
+        "popover",
+        "dialog",
+        "anchor-positioning",
+        "view-transitions",
+        "no-js"
+      ],
+      "category": "frontend"
     }
   ]
 }

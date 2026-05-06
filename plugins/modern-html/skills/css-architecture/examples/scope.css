@@ -1,0 +1,36 @@
+/* @scope — Tier B (Dec 2025 Firefox 146) */
+
+/* Standalone scope */
+@scope (.card) {
+  :scope { padding: 1rem; border-radius: 0.75rem; }
+  h3 { margin: 0 0 0.5rem; }
+  p { color: oklch(40% 0 0); }
+  a { color: var(--brand); }
+}
+
+/* Scope with a "to" boundary — does not descend past .card__nested */
+@scope (.card) to (.card__nested) {
+  h3 { font-size: 1.125rem; }
+  /* Rule above does NOT apply to h3 inside .card__nested */
+}
+
+/* Scoped donut */
+@scope (.article) to (.aside) {
+  p { line-height: 1.6; }
+  /* Excludes paragraphs inside any .aside descendant */
+}
+
+/* Combined with @layer */
+@layer components {
+  @scope (.alert) {
+    :scope {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      background: color-mix(in oklch, currentColor, transparent 90%);
+      border: 1px solid currentColor;
+    }
+    :scope.alert--error { color: oklch(50% 0.2 25); }
+    :scope.alert--ok { color: oklch(50% 0.18 145); }
+    button { color: inherit; }
+  }
+}

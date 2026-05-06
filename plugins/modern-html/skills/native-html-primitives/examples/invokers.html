@@ -1,0 +1,42 @@
+<!-- command / commandfor invokers — Tier B (Dec 2025) -->
+
+<!-- Open a modal dialog -->
+<button command="show-modal" commandfor="confirm-dlg">Delete</button>
+
+<!-- Close a dialog from outside -->
+<button command="close" commandfor="confirm-dlg">Cancel</button>
+
+<!-- Toggle a popover menu -->
+<button command="toggle-popover" commandfor="menu">≡ Menu</button>
+
+<!-- Show without toggle -->
+<button command="show-popover" commandfor="toast">Show notification</button>
+
+<!-- Hide without toggle -->
+<button command="hide-popover" commandfor="toast">Dismiss</button>
+
+<dialog id="confirm-dlg" aria-labelledby="dlg-title">
+  <h2 id="dlg-title">Confirm</h2>
+  <button command="close" commandfor="confirm-dlg">Cancel</button>
+  <button command="close" commandfor="confirm-dlg" value="confirm">Delete</button>
+</dialog>
+
+<div id="menu" popover>
+  <button>Item 1</button>
+  <button>Item 2</button>
+</div>
+
+<div id="toast" popover="manual">
+  Saved.
+  <button command="hide-popover" commandfor="toast">×</button>
+</div>
+
+<!-- Custom commands fire a CommandEvent -->
+<button command="--archive" commandfor="item-1">Archive</button>
+<script>
+  document.getElementById('item-1').addEventListener('command', (e) => {
+    if (e.command === '--archive') {
+      // handle archive
+    }
+  });
+</script>

@@ -1,0 +1,25 @@
+/* :has() — Tier B (Widely ~Jun 2026) */
+
+/* Card without an image gets extra padding */
+.card:not(:has(img)) {
+  padding: 2rem;
+}
+
+/* Form button disabled when any field is invalid */
+form:has(:invalid) button[type=submit] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Label highlights when its sibling input is focused */
+.field:has(input:focus) label {
+  color: oklch(55% 0.18 250);
+}
+
+/* Grid column count adapts based on number of children */
+.grid:has(> :nth-child(4)) { grid-template-columns: repeat(4, 1fr); }
+.grid:has(> :nth-child(3)):not(:has(> :nth-child(4))) { grid-template-columns: repeat(3, 1fr); }
+
+/* Avoid wide-scope :has() for performance */
+/* BAD:  body:has(.modal-open) { overflow: hidden; }              */
+/* GOOD: .layout:has(> .modal[open]) { overflow: hidden; }        */

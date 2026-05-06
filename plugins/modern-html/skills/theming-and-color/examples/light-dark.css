@@ -1,0 +1,54 @@
+/* Theme switching — Tier B (light-dark()) on Tier A foundation */
+
+:root {
+  /* Required for light-dark() to resolve */
+  color-scheme: light dark;
+
+  --bg:     light-dark(oklch(98% 0 0), oklch(15% 0 0));
+  --fg:     light-dark(oklch(15% 0 0), oklch(95% 0 0));
+  --muted:  light-dark(oklch(40% 0 0), oklch(70% 0 0));
+  --brand:  light-dark(oklch(55% 0.18 250), oklch(75% 0.16 250));
+
+  /* Derived tokens via color-mix (Tier B) */
+  --brand-soft: color-mix(in oklch, var(--brand), transparent 80%);
+  --border:     color-mix(in oklch, var(--fg),    transparent 90%);
+}
+
+/* Manual override (system → light → dark cycle) */
+[data-theme="light"] { color-scheme: light; }
+[data-theme="dark"]  { color-scheme: dark; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+}
+
+/* Tier A fallback for browsers without light-dark() */
+@supports not (color: light-dark(#fff, #000)) {
+  :root {
+    --bg: #fff; --fg: #111; --brand: #2244cc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111; --fg: #f5f5f5; --brand: #99b8ff; }
+  }
+}
+
+/* High-contrast users */
+@media (prefers-contrast: more) {
+  :root {
+    --bg: light-dark(#fff, #000);
+    --fg: light-dark(#000, #fff);
+    --border: currentColor;
+  }
+}
+
+/* Forced colors (Windows High Contrast) */
+@media (forced-colors: active) {
+  :root {
+    --bg: Canvas;
+    --fg: CanvasText;
+    --brand: LinkText;
+    --border: ButtonText;
+  }
+}

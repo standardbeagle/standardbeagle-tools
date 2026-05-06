@@ -1,0 +1,43 @@
+/* Scroll-snap — Tier A */
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  gap: 1rem;
+}
+
+.carousel > * {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* Vertical snap example */
+.story {
+  block-size: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+.story > section {
+  block-size: 100vh;
+  scroll-snap-align: start;
+}
+
+/* Tier C enhancement: native scroll buttons + dot markers */
+@supports selector(::scroll-button(*)) {
+  .carousel { scroll-marker-group: after; }
+  .carousel::scroll-button(left)  { content: "←" / "Previous"; }
+  .carousel::scroll-button(right) { content: "→" / "Next"; }
+  .carousel > *::scroll-marker {
+    content: "";
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: 50%;
+    background: oklch(80% 0 0);
+  }
+  .carousel > *::scroll-marker:target-current {
+    background: var(--brand);
+  }
+}

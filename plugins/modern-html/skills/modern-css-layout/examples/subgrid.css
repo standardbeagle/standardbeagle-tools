@@ -1,0 +1,34 @@
+/* Subgrid — Tier B (Mar 2026 Widely) */
+
+/* Card grid where each card has 3 internal rows
+   that must align across siblings: title, body, footer */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-rows: auto 1fr auto; /* title body footer */
+  gap: 1rem;
+}
+
+.card {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  /* Inherits the parent's three rows, so all titles align,
+     all bodies align, all footers align */
+  border: 1px solid oklch(85% 0 0);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+/* Subgrid both axes independently */
+.row-aligned-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+.row-aligned-table > .group {
+  display: grid;
+  grid-column: span 3;
+  grid-template-columns: subgrid;
+}

@@ -1,0 +1,40 @@
+/* Virtual-scrolling alternative — Tier B (Sep 2025) */
+
+article {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px 800px;
+  /* width × height placeholder while off-screen */
+}
+
+/* Auto-remember measured size after first render */
+.message {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
+}
+
+/* Containment for independent widgets */
+.feed-item {
+  contain: layout style paint;
+}
+
+.dashboard-widget {
+  contain: strict;          /* size + layout + paint + style */
+  block-size: 200px;        /* required by `size` containment */
+}
+
+/* Aspect ratio prevents CLS for media */
+img, video {
+  block-size: auto;
+  max-inline-size: 100%;
+}
+.thumb {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* will-change discipline — only on imminent change triggers */
+.draggable:hover,
+.draggable:focus-visible {
+  will-change: transform;
+}
+.draggable.dragging { transform: translate(var(--dx), var(--dy)); }

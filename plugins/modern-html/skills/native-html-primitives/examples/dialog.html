@@ -1,0 +1,51 @@
+<!-- Native modal dialog — Tier A -->
+<button id="open-dlg">Delete item</button>
+
+<dialog id="confirm-dlg" aria-labelledby="dlg-title">
+  <h2 id="dlg-title">Delete this item?</h2>
+  <p>This action cannot be undone.</p>
+  <form method="dialog">
+    <button value="cancel">Cancel</button>
+    <button value="confirm" autofocus>Delete</button>
+  </form>
+</dialog>
+
+<script>
+  document.getElementById('open-dlg').addEventListener('click', () => {
+    document.getElementById('confirm-dlg').showModal();
+  });
+
+  // Close on backdrop click
+  document.getElementById('confirm-dlg').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) e.target.close('cancel');
+  });
+</script>
+
+<style>
+  dialog {
+    border: none;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    max-inline-size: 30rem;
+  }
+  dialog::backdrop {
+    background: oklch(0% 0 0 / 0.5);
+  }
+
+  /* Tier B: enter/exit animation from display:none */
+  @media (prefers-reduced-motion: no-preference) {
+    dialog {
+      transition:
+        opacity 0.2s,
+        translate 0.2s,
+        display 0.2s allow-discrete,
+        overlay 0.2s allow-discrete;
+      opacity: 0;
+      translate: 0 -1rem;
+    }
+    dialog[open] { opacity: 1; translate: 0 0; }
+    @starting-style {
+      dialog[open] { opacity: 0; translate: 0 -1rem; }
+    }
+  }
+</style>

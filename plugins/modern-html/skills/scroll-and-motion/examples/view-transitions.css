@@ -1,0 +1,21 @@
+/* Same-document view transitions — Tier B (Oct 2025 Widely) */
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.2s;
+  }
+}
+
+/* Tag specific elements that should transition independently */
+.hero { view-transition-name: hero; }
+.list-item { view-transition-class: list-item; }
+
+::view-transition-group(.list-item) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Cross-document — Tier C (Firefox missing May 2026) */
+@view-transition { navigation: auto; }
+/* Firefox falls back to instant nav. Pair with Speculation Rules for prefetch. */

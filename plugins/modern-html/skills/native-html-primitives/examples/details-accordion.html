@@ -1,0 +1,45 @@
+<!-- Independent accordion — Tier A -->
+<details>
+  <summary>What is your refund policy?</summary>
+  <p>You may request a refund within 30 days of purchase.</p>
+</details>
+<details>
+  <summary>Do you offer a free trial?</summary>
+  <p>Yes — 14 days, no credit card required.</p>
+</details>
+
+<!-- Exclusive accordion — Tier B (Apr 2025) -->
+<details name="faq">
+  <summary>Question 1</summary>
+  <p>Answer 1</p>
+</details>
+<details name="faq">
+  <summary>Question 2</summary>
+  <p>Answer 2</p>
+</details>
+<details name="faq">
+  <summary>Question 3</summary>
+  <p>Answer 3</p>
+</details>
+
+<style>
+  details {
+    border: 1px solid oklch(85% 0 0);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-block-end: 0.5rem;
+  }
+  summary { cursor: pointer; font-weight: 600; }
+
+  /* Tier B: animate open/close height */
+  @media (prefers-reduced-motion: no-preference) {
+    details::details-content {
+      transition: block-size 0.2s, content-visibility 0.2s allow-discrete;
+      block-size: 0;
+      overflow: clip;
+    }
+    details[open]::details-content {
+      block-size: auto;
+    }
+  }
+</style>

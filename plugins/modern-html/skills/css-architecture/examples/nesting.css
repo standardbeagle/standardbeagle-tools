@@ -1,0 +1,42 @@
+/* Native CSS nesting — Tier B (Feb 2026 Widely) */
+
+.card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+
+  /* Compound selectors require & */
+  & > h2 { margin: 0 0 0.5rem; }
+  &:hover { box-shadow: 0 4px 16px oklch(0% 0 0 / 0.1); }
+  &.card--featured { border: 2px solid var(--brand); }
+
+  /* Element selectors can omit & */
+  a {
+    color: var(--brand);
+    &:hover { text-decoration: underline; }
+  }
+
+  /* @media inside requires & to wrap rules at root level */
+  @media (min-width: 40rem) {
+    & { padding: 2rem; }
+  }
+
+  /* But selectors inside @media don't need & */
+  @media (min-width: 60rem) {
+    & > h2 { font-size: 1.5rem; }
+  }
+}
+
+/* Combined with @layer + @scope */
+@layer components {
+  @scope (.button-group) {
+    :scope {
+      display: inline-flex;
+      gap: 0.25rem;
+      .button {
+        border-radius: 0;
+        &:first-child { border-start-start-radius: 0.5rem; border-end-start-radius: 0.5rem; }
+        &:last-child  { border-start-end-radius: 0.5rem; border-end-end-radius: 0.5rem; }
+      }
+    }
+  }
+}

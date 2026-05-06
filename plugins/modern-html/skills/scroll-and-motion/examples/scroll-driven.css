@@ -1,0 +1,32 @@
+/* Scroll-driven animations — Tier C (Firefox 150 Apr 2026 still disabled) */
+
+/* Always feature-detect and provide IntersectionObserver fallback */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .progress-bar {
+      animation: progress linear;
+      animation-timeline: scroll(root);
+    }
+    @keyframes progress {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    .reveal {
+      animation: fade-in linear;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; translate: 0 1rem; }
+      to   { opacity: 1; translate: 0 0; }
+    }
+  }
+}
+
+/* JS fallback (apply class on intersection):
+const io = new IntersectionObserver((es) => {
+  for (const e of es) e.target.classList.toggle('in', e.isIntersecting);
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+*/
