@@ -1,3 +1,8 @@
+---
+description: Reference material for /workflow:start-loop. Loaded on demand by the driver when entering task dispatch (§4.2) or plan-rotation atomic write (§3). Contains dispatch-prompt compression rules, executor prompt templates, plan-meta schema, and full iteration examples. Not a user-invocable command — this file is read by the start-loop driver, not invoked directly.
+disable-model-invocation: true
+---
+
 # Workflow Start-Loop: Dispatch Examples & Detail
 
 Loaded by `/workflow:start-loop` when the driver enters task dispatch (§4.2 Spawn Fresh Task Executor) or the plan-rotation atomic write (§3 Plan File Layout). Compression rules, executor prompt templates, plan-meta schema, and full iteration examples live here.
