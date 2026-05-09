@@ -1,5 +1,5 @@
 ---
-name: no-compression-on-skill-frontmatter
+name: dev-standards-no-compression-on-skill-frontmatter
 description: "Skill description fields in SKILL.md frontmatter are load-bearing for retrieval — never compress, never apply Wenyan or caveman style, never abbreviate. The 'description' field is the indexed signal Claude Code's skill matcher uses to decide whether to load a skill, so terse or compressed prose silently degrades skill discoverability across the entire project. Cites K2 §3.1 (provenance / metadata integrity). Use when: writing or editing the description frontmatter field on any SKILL.md in this repository, reviewing a PR that adds or modifies a SKILL.md, auditing existing skills for retrieval quality, dispatching a subagent that will write a skill (brief them in Wenyan but require uncompressed English in the description field). Skip when: editing the body of a SKILL.md (compression rules for body content live elsewhere — this rule scopes only to the frontmatter description field), editing non-skill markdown (rules/, commands/, agents/ have their own frontmatter conventions)."
 ---
 

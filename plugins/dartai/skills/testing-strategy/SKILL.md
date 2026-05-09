@@ -1,6 +1,6 @@
 ---
-name: testing-strategy
-description: Three-tier testing strategy - e2e for product validation, integration for coverage breadth, unit for exhaustive logic testing. 三層測試策略：e2e驗產品，集成廣覆蓋，單元窮邏輯。 Use when: write tests, choose test type, TDD setup, decide e2e vs unit, testing pyramid
+name: dartai-testing-strategy
+description: "Three-tier testing strategy - e2e for product validation, integration for coverage breadth, unit for exhaustive logic testing. 三層測試策略：e2e驗產品，集成廣覆蓋，單元窮邏輯。 Use when: write tests, choose test type, TDD setup, decide e2e vs unit, testing pyramid"
 ---
 
 # Testing Strategy: The Testing Pyramid

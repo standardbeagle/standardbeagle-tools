@@ -1,8 +1,9 @@
 ---
-name: typescript-strict-reviewer
+name: compound-review-typescript-strict-reviewer
 description: "Forked-context TypeScript-strict reviewer playbook — preloads verdict schema and type-safety/any/unchecked-cast/nullable-flow lens for adversarial TS review subagents. 對抗TypeScript嚴格審查者技能：類型安全漏洞、any、不安全轉型、nullable流程視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:typescript-strict-reviewer subagent for a TypeScript diff, gating on type safety, when reviewer should not pollute main thread"
+disable-model-invocation: true
 context: fork
-agent: compound-review:typescript-strict-reviewer
+agent: "compound-review:typescript-strict-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: TS-strict review reads source and type files, traces nullable flows, and checks for type-system loopholes across the diff. Forking keeps intermediate file reads out of the main loop. Executor: compound-review:typescript-strict-reviewer (preloads dartai:code-quality + this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict file — only token efficiency degrades. -->

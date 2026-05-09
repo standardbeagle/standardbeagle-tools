@@ -1,6 +1,6 @@
 ---
-name: mcp-tools
-description: Complete reference for all agnt MCP tools with exact parameter schemas and copy-paste examples. agnt全部MCP工具完整參考，含精確參數模式與可複製示例。 Use when: need agnt tool parameter reference, look up tool schema, find correct parameter names, check tool invocation format
+name: agnt-mcp-tools
+description: "Complete reference for all agnt MCP tools with exact parameter schemas and copy-paste examples. agnt全部MCP工具完整參考，含精確參數模式與可複製示例。 Use when: need agnt tool parameter reference, look up tool schema, find correct parameter names, check tool invocation format"
 ---
 
 # Agnt MCP工具參考

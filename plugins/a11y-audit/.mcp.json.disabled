@@ -1,6 +1,0 @@
-{
-  "a11y-audit": {
-    "command": "npx",
-    "args": ["-y", "@standardbeagle/a11y-audit@latest", "mcp"]
-  }
-}

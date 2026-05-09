@@ -1,6 +1,7 @@
 ---
-name: memory-system
-description: Two-tier memory for slop-mcp — session store (in-process KV) and persistent banks (disk-backed JSON with metadata, search, memory-cli interop). 會話內存與跨啟動持久內存之雙層系統，含元數據、發現、memory-cli 互操作。 Use when: persist value across sessions, session memory, list memory keys, search memory banks, load persisted state, mem_save, store_set, memory bank metadata.
+name: slop-mcp-memory-system
+description: "Two-tier memory for slop-mcp — session store (in-process KV) and persistent banks (disk-backed JSON with metadata, search, memory-cli interop). 會話內存與跨啟動持久內存之雙層系統，含元數據、發現、memory-cli 互操作。 Use when: persist value across sessions, session memory, list memory keys, search memory banks, load persisted state, mem_save, store_set, memory bank metadata."
+disable-model-invocation: true
 ---
 
 # Memory System

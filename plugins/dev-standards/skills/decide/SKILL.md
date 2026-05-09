@@ -1,4 +1,5 @@
 ---
+name: dev-standards-decide
 description: "Record or list architectural decisions and active migrations in `.claude/rules/architecture.md`. 管理架構決策與遷移記錄。 Use when: record a decision, add a decision, add a migration, complete a migration, list decisions, list migrations, update architecture decisions, mark migration done"
 ---
 

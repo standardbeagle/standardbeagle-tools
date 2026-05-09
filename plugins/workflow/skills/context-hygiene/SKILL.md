@@ -1,6 +1,7 @@
 ---
-name: context-hygiene
-description: Context isolation and subagent barrier patterns for clean workflow loops. 隔絕上下文，杜絕污染，保循環清潔. Use when: prevent context leak, isolate subagent, manage loop state, enforce context barrier, fresh subagent spawn
+name: workflow-context-hygiene
+description: "Context isolation and subagent barrier patterns for clean workflow loops. 隔絕上下文，杜絕污染，保循環清潔. Use when: prevent context leak, isolate subagent, manage loop state, enforce context barrier, fresh subagent spawn"
+disable-model-invocation: true
 ---
 
 # Context Hygiene and Subagent Isolation

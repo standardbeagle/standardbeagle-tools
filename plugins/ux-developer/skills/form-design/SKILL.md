@@ -1,6 +1,7 @@
 ---
-name: form-design
-description: Form design best practices for usability, accessibility, and conversion. 表單設計最佳實踐：標籤、驗證、錯誤、自動填充、多步驟。 Use when: designing new forms, reviewing form UX, adding autofill or validation.
+name: ux-developer-form-design
+description: "Form design best practices for usability, accessibility, and conversion. 表單設計最佳實踐：標籤、驗證、錯誤、自動填充、多步驟。 Use when: designing new forms, reviewing form UX, adding autofill or validation."
+disable-model-invocation: true
 ---
 
 # Form Design Best Practices

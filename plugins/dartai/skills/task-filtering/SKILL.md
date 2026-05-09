@@ -1,6 +1,6 @@
 ---
-name: task-filtering
-description: Master dart-query filtering - list_tasks filters, search_tasks queries, detail levels, pagination, query composition patterns. 精通dart-query過濾：list_tasks過濾器、search_tasks查詢、詳情層級、分頁、查詢組合模式。 Use when: filter tasks by status, search tasks, paginate results, query by assignee, list by due date
+name: dartai-task-filtering
+description: "Master dart-query filtering - list_tasks filters, search_tasks queries, detail levels, pagination, query composition patterns. 精通dart-query過濾：list_tasks過濾器、search_tasks查詢、詳情層級、分頁、查詢組合模式。 Use when: filter tasks by status, search tasks, paginate results, query by assignee, list by due date"
 ---
 
 # Task Filtering with dart-query

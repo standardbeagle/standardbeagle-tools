@@ -1,6 +1,6 @@
 {
   "name": "slop-mcp",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "SLOP MCP integration for dynamic MCP server management. Migrate existing configs, register servers at runtime, search and execute tools across servers, automate workflows with SLOP scripts, and orchestrate multi-server pipelines. Includes Dart MCP tool reference skills.",
   "author": {
     "name": "Standard Beagle",

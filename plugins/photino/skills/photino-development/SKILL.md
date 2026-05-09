@@ -1,5 +1,7 @@
 ---
+name: photino-photino-development
 description: "Photino.NET dual-service development workflow: DevServer class, Vite proxy config, MessageBridge auto-detection, debugging strategies, and .agnt.kdl configuration. Photino.NET雙服務開發工作流：DevServer類、Vite代理配置、MessageBridge自動檢測、調試策略及.agnt.kdl配置. Use when: starting dev environment, configuring Vite proxy, debugging backend/frontend communication, setting up agnt autostart"
+disable-model-invocation: true
 ---
 
 # Photino.NET Development Workflow

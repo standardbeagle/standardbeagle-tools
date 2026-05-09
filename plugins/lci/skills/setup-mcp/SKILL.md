@@ -1,6 +1,6 @@
 ---
-name: setup-mcp
-description: Install lci MCP server with intelligent detection - uses local binary if available, falls back to npx. 智能安裝LCI MCP伺服器，優先本地二進位，後備npx。 Use when: first-time lci setup, registering with slop-mcp, configuring mcp.json.
+name: lci-setup-mcp
+description: "Install lci MCP server with intelligent detection - uses local binary if available, falls back to npx. 智能安裝LCI MCP伺服器，優先本地二進位，後備npx。 Use when: first-time lci setup, registering with slop-mcp, configuring mcp.json."
 ---
 
 # LCI MCP Server Setup

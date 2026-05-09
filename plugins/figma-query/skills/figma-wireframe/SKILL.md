@@ -1,6 +1,7 @@
 ---
-name: figma-wireframe
-description: Generate visual wireframe representations of Figma nodes with annotations and ID legends. 生成帶標注與 ID 圖例的 Figma 節點可視化線框圖。 Use when: understanding component structure, generating ID legends for subsequent tools, creating documentation visuals, analyzing layout and spacing, exploring node hierarchy visually
+name: figma-query-figma-wireframe
+description: "Generate visual wireframe representations of Figma nodes with annotations and ID legends. 生成帶標注與 ID 圖例的 Figma 節點可視化線框圖。 Use when: understanding component structure, generating ID legends for subsequent tools, creating documentation visuals, analyzing layout and spacing, exploring node hierarchy visually"
+disable-model-invocation: true
 ---
 
 # Figma Wireframe Tool

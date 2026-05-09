@@ -1,6 +1,7 @@
 ---
-name: condense-file
-description: Compress local files via caveman-mcp with format-specific handlers for PDFs, presentations, spreadsheets, audio, and text. Use instead of Read when the file is too large for the context window or when only the gist matters. 以caveman壓縮本地文件，PDF/簡報/表格/音頻/文本專用處理. Use when: ingest large PDF, summarize slide deck, scan spreadsheet, transcribe audio file, condense long document for research, prep file content for downstream synthesis
+name: caveman-condense-file
+description: "Compress local files via caveman-mcp with format-specific handlers for PDFs, presentations, spreadsheets, audio, and text. Use instead of Read when the file is too large for the context window or when only the gist matters. 以caveman壓縮本地文件，PDF/簡報/表格/音頻/文本專用處理. Use when: ingest large PDF, summarize slide deck, scan spreadsheet, transcribe audio file, condense long document for research, prep file content for downstream synthesis"
+disable-model-invocation: true
 ---
 
 # condense_file — Local File Compression

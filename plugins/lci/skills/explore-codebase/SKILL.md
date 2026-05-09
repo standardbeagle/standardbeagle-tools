@@ -1,6 +1,6 @@
 ---
-name: explore-codebase
-description: Understand codebase architecture, structure, and patterns using LCI code intelligence. 以LCI探索代碼庫架構結構。 Use when: first look at unfamiliar codebase, understanding module layout, finding entry points, assessing complexity.
+name: lci-explore-codebase
+description: "Understand codebase architecture, structure, and patterns using LCI code intelligence. 以LCI探索代碼庫架構結構。 Use when: first look at unfamiliar codebase, understanding module layout, finding entry points, assessing complexity."
 ---
 
 # Codebase Exploration Workflows

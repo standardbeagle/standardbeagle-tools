@@ -1,7 +1,7 @@
 ---
-name: performance-and-containment
+name: modern-html-performance-and-containment
 description: "This skill should be used when optimizing long lists, articles, dashboards, or pages with many off-screen elements. Covers content-visibility: auto, contain-intrinsic-size, the contain property, will-change discipline, and using container queries to reduce layout thrash. Use when: rendering long article archives, chat logs with many messages, infinite-scroll feeds, dashboards with off-screen widgets, or before reaching for virtual-scrolling libraries. Skip when: page content is short, fully above-the-fold, or already heavily virtualized by an existing framework component."
-paths: ["**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}"]
+paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 
 # Performance and Containment

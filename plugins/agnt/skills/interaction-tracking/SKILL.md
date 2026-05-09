@@ -1,6 +1,6 @@
 ---
-name: interaction-tracking
-description: Track user interactions and DOM mutations for debugging click handlers, form inputs, and dynamic UI changes. 追蹤用戶互動與DOM變動，除錯點擊處理器、表單輸入、動態UI變化。 Use when: debug click handler, track interactions, DOM mutations, form validation debug, dynamic content debug, mutation rate
+name: agnt-interaction-tracking
+description: "Track user interactions and DOM mutations for debugging click handlers, form inputs, and dynamic UI changes. 追蹤用戶互動與DOM變動，除錯點擊處理器、表單輸入、動態UI變化。 Use when: debug click handler, track interactions, DOM mutations, form validation debug, dynamic content debug, mutation rate"
 ---
 
 # 互動與變動追蹤技能

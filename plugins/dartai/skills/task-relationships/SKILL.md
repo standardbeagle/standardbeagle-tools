@@ -1,6 +1,6 @@
 ---
-name: task-relationships
-description: Manage dart-query task relationships - subtasks, blockers, blocking, duplicates, related tasks with full replacement semantics. dart-query任務關係管理：子任務、阻塞、重複、相關，完全替換語義。 Use when: add subtask, set blocker, link related tasks, dependency chain, clear blockers
+name: dartai-task-relationships
+description: "Manage dart-query task relationships - subtasks, blockers, blocking, duplicates, related tasks with full replacement semantics. dart-query任務關係管理：子任務、阻塞、重複、相關，完全替換語義。 Use when: add subtask, set blocker, link related tasks, dependency chain, clear blockers"
 ---
 
 # Task Relationships with dart-query

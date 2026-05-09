@@ -1,6 +1,7 @@
 ---
-name: figma-export-tokens
-description: Export Figma design tokens to CSS, JSON, or Tailwind format for integration into development workflows. 導出 Figma 設計令牌為 CSS、JSON 或 Tailwind 格式。 Use when: exporting design tokens, generating CSS custom properties, creating Tailwind config from Figma, integrating tokens into CI/CD, version controlling design tokens
+name: figma-query-figma-export-tokens
+description: "Export Figma design tokens to CSS, JSON, or Tailwind format for integration into development workflows. 導出 Figma 設計令牌為 CSS、JSON 或 Tailwind 格式。 Use when: exporting design tokens, generating CSS custom properties, creating Tailwind config from Figma, integrating tokens into CI/CD, version controlling design tokens"
+disable-model-invocation: true
 ---
 
 # Figma Export Tokens Tool

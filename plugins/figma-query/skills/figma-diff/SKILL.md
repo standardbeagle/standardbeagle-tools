@@ -1,6 +1,7 @@
 ---
-name: figma-diff
-description: Compare Figma file versions or exports to track design changes. 比較 Figma 文件版本或導出，追蹤設計變更。 Use when: tracking design changes over time, comparing two file versions, auditing style or token changes, regression checking, diffing local exports
+name: figma-query-figma-diff
+description: "Compare Figma file versions or exports to track design changes. 比較 Figma 文件版本或導出，追蹤設計變更。 Use when: tracking design changes over time, comparing two file versions, auditing style or token changes, regression checking, diffing local exports"
+disable-model-invocation: true
 ---
 
 # Figma Diff Tool

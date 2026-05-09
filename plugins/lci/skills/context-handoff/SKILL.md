@@ -1,6 +1,6 @@
 ---
-name: context-handoff
-description: Save and load code context manifests for agent handoff and session continuity. 保存/加載代碼上下文清單供代理交接。 Use when: handing off to subagent, saving investigation state, building incremental context, multi-session continuity.
+name: lci-context-handoff
+description: "Save and load code context manifests for agent handoff and session continuity. 保存/加載代碼上下文清單供代理交接。 Use when: handing off to subagent, saving investigation state, building incremental context, multi-session continuity."
 ---
 
 # Context Manifests for Agent Handoff

@@ -1,6 +1,7 @@
 ---
-name: figma-search
-description: Full-text search across Figma files by name, text content, or properties. 在 Figma 文件中按名稱、文本或屬性全文搜索。 Use when: finding nodes by name pattern, searching text content, finding nodes by color value, locating all icons, searching for components matching a pattern
+name: figma-query-figma-search
+description: "Full-text search across Figma files by name, text content, or properties. 在 Figma 文件中按名稱、文本或屬性全文搜索。 Use when: finding nodes by name pattern, searching text content, finding nodes by color value, locating all icons, searching for components matching a pattern"
+disable-model-invocation: true
 ---
 
 # Figma Search Tool

@@ -1,7 +1,7 @@
 ---
-name: theming-and-color
+name: modern-html-theming-and-color
 description: "This skill should be used when implementing dark mode, color tokens, accessible color palettes, or dynamic color generation. Covers color-scheme, light-dark(), prefers-color-scheme, oklch() and oklab(), color-mix(), relative color syntax, @property for animatable color tokens, and how to gate Newly-available color features behind @supports. Use when: building a dark mode toggle, defining brand color tokens, generating tonal scales, animating colors smoothly, or interpolating between brand and neutral colors. Skip when: the project mandates only sRGB hex colors or no theming is in scope."
-paths: ["**/*.{css,scss,sass,less,html,jsx,tsx,vue,svelte,astro}"]
+paths: "[\"**/*.{css,scss,sass,less,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 
 # Theming and Color

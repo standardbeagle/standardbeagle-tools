@@ -1,6 +1,7 @@
 ---
-name: loading-states
-description: Loading state patterns for responsive, accessible, and visually polished user feedback. 加載狀態模式：旋轉器、進度條、骨架屏，含ARIA與減少動效支持。 Use when: designing async feedback, skeleton screens, optimistic UI updates.
+name: ux-developer-loading-states
+description: "Loading state patterns for responsive, accessible, and visually polished user feedback. 加載狀態模式：旋轉器、進度條、骨架屏，含ARIA與減少動效支持。 Use when: designing async feedback, skeleton screens, optimistic UI updates."
+disable-model-invocation: true
 ---
 
 # Loading States UX

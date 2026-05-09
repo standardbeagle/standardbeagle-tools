@@ -1,6 +1,7 @@
 ---
-name: hot-swap-development
-description: Iterative MCP server replacement without client restart or session loss. 熱換伺服器，不斷客端，不失狀態。 Use when: developing MCP servers iteratively, replacing server binary mid-session, avoiding reconnection overhead.
+name: mcp-tester-hot-swap-development
+description: "Iterative MCP server replacement without client restart or session loss. 熱換伺服器，不斷客端，不失狀態。 Use when: developing MCP servers iteratively, replacing server binary mid-session, avoiding reconnection overhead."
+disable-model-invocation: true
 ---
 
 # Hot-Swap MCP Development Workflow

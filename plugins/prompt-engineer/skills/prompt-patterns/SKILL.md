@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-prompt-patterns
 description: "Comprehensive reference for prompt engineering patterns and techniques. 提示工程模式與技術全覽。 Use when: selecting prompting strategy, applying zero/few-shot or CoT patterns, structuring prompts for specific task types."
+disable-model-invocation: true
 ---
 
 # Prompt Engineering Patterns Reference (2026)

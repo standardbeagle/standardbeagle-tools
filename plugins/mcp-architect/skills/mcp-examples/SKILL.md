@@ -1,5 +1,7 @@
 ---
+name: mcp-architect-mcp-examples
 description: "Real-world MCP patterns from production servers. 實例展示搜碼、瀏覽器代理、進程管理諸模式。Use when: user asks for MCP examples, real-world patterns, code search patterns, browser proxy patterns, process management patterns, show me examples, or wants to see actual implementations from lci, agnt, or other real MCPs."
+disable-model-invocation: true
 version: 0.1.0
 ---
 

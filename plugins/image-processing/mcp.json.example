@@ -1,6 +1,0 @@
-{
-  "image-processing": {
-    "command": "npx",
-    "args": ["-y", "@standardbeagle/image-processing@latest", "mcp"]
-  }
-}

@@ -1,6 +1,7 @@
 ---
-name: brainstorming
+name: brainstorming-brainstorming
 description: "創作前必用此技能：探求用戶意圖、需求、設計，先於實作。將點子化為設計與 spec，經自然協作對話。Explores user intent, requirements, and design before any implementation. You MUST use this before any creative work — creating features, building components, adding functionality, or modifying behavior. Use when: creating features, building components, adding functionality, modifying behavior, designing new things. Skip when: pure bug fixes with clear repro, mechanical refactoring, or documentation-only changes."
+disable-model-invocation: true
 ---
 
 <!--

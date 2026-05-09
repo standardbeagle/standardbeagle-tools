@@ -1,6 +1,7 @@
 ---
-name: preflight-check
-description: Pre-flight validation before starting a Figma extraction to prevent failures. 提取前飛行前驗證，預防中途失敗。 Use when: before running extract-library, validating Figma access, checking file has components, verifying output directory, estimating extraction size and time
+name: figma-query-preflight-check
+description: "Pre-flight validation before starting a Figma extraction to prevent failures. 提取前飛行前驗證，預防中途失敗。 Use when: before running extract-library, validating Figma access, checking file has components, verifying output directory, estimating extraction size and time"
+disable-model-invocation: true
 ---
 
 # Pre-Flight Extraction Check

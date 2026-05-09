@@ -1,6 +1,7 @@
 ---
-name: mobile-first
-description: Mobile-first design and development principles for responsive web experiences. 移動優先設計：觸控目標、斷點、性能、表單優化。 Use when: starting responsive layout, auditing mobile UX, adding new breakpoints.
+name: ux-developer-mobile-first
+description: "Mobile-first design and development principles for responsive web experiences. 移動優先設計：觸控目標、斷點、性能、表單優化。 Use when: starting responsive layout, auditing mobile UX, adding new breakpoints."
+disable-model-invocation: true
 ---
 
 # Mobile-First Design Principles

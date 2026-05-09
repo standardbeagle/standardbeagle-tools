@@ -1,7 +1,7 @@
 ---
-name: native-form-controls
+name: modern-html-native-form-controls
 description: "This skill should be used when building forms, inputs, validation messages, color or date or range pickers, or auto-sizing text fields. Covers native constraint validation (required, pattern, type-specific inputs), :user-valid and :user-invalid pseudo-classes, accent-color, color-scheme on form elements, customizable select status (Limited - avoid as primary), and field-sizing: content (Limited - progressive enhancement only). Use when: building login, signup, search, or data-entry forms; styling validation states; tinting checkboxes/radios/range/progress; needing auto-grow textareas; replacing JS form libraries. Skip when: working on read-only display surfaces with no input controls."
-paths: ["**/*.{html,jsx,tsx,vue,svelte,astro,erb,php}"]
+paths: "[\"**/*.{html,jsx,tsx,vue,svelte,astro,erb,php}\"]"
 ---
 
 # Native Form Controls

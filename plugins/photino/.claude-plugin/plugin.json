@@ -1,6 +1,6 @@
 {
   "name": "photino",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Photino.NET desktop app development: build workflows, cross-platform packaging, PowerShell SDK integration, dual-service development, and agent configuration for AI-assisted .NET desktop projects",
   "author": {
     "name": "Standard Beagle",

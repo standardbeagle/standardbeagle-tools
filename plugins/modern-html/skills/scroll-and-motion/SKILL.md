@@ -1,7 +1,7 @@
 ---
-name: scroll-and-motion
+name: modern-html-scroll-and-motion
 description: "This skill should be used when implementing scroll snapping, scroll-driven animations, view transitions (same-document or cross-document), sticky elements, smooth scrolling, page transitions, or carousels. Covers scroll-snap-type, scroll-behavior, animation-timeline scroll() and view(), document.startViewTransition, view-transition-name, view-transition-class, @view-transition for MPA, ::scroll-button() and ::scroll-marker, and prefers-reduced-motion gating. Use when: building a carousel, slideshow, or snap scroller; animating page transitions in SPA or MPA contexts; reacting to scroll position with effects; building sticky headers with reveal/hide behavior. Skip when: the page has no scrollable region or no animation requirements, or the user has explicitly disabled motion features."
-paths: ["**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}"]
+paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 
 # Scroll and Motion

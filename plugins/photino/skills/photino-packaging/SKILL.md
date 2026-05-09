@@ -1,5 +1,7 @@
 ---
+name: photino-photino-packaging
 description: "Cross-platform packaging for Photino.NET: RID table, self-contained/single-file publish, platform-specific requirements (WebView2, WebKitGTK, WKWebView), installers, and CI pipelines. 跨平台打包Photino.NET：RID表、自含/單文件發布、平台特定需求（WebView2、WebKitGTK、WKWebView）、安裝程序及CI管道. Use when: publishing Photino app for Windows/Linux/macOS, creating installers, setting up CI build matrix, configuring trimming"
+disable-model-invocation: true
 ---
 
 # Photino.NET Cross-Platform Packaging

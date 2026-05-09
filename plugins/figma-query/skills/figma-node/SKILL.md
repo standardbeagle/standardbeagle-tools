@@ -1,6 +1,7 @@
 ---
-name: figma-node
-description: Get full details for a specific Figma node by ID with selective field projection. 按 ID 取節點詳情，支持字段投影。 Use when: inspecting a specific node, getting CSS properties for a node, retrieving layout or typography details, exploring node hierarchy, looking up node by ID
+name: figma-query-figma-node
+description: "Get full details for a specific Figma node by ID with selective field projection. 按 ID 取節點詳情，支持字段投影。 Use when: inspecting a specific node, getting CSS properties for a node, retrieving layout or typography details, exploring node hierarchy, looking up node by ID"
+disable-model-invocation: true
 ---
 
 # Figma Get Node Tool

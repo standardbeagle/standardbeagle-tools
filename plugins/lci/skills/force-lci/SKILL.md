@@ -1,7 +1,7 @@
 ---
-name: force-lci
-description: Toggle force-LCI mode to block standard search tools and require LCI. 強制啟用LCI模式，封鎖Grep/Glob。 Use when: forcing all searches through LCI, benchmarking LCI, disabling force mode.
-trigger: When user asks to "force lci", "enable force lci mode", "disable force lci mode", "toggle force lci", or similar
+name: lci-force-lci
+description: "Toggle force-LCI mode to block standard search tools and require LCI. 強制啟用LCI模式，封鎖Grep/Glob。 Use when: forcing all searches through LCI, benchmarking LCI, disabling force mode."
+trigger: "When user asks to \"force lci\", \"enable force lci mode\", \"disable force lci mode\", \"toggle force lci\", or similar"
 ---
 
 # Force LCI Mode

@@ -1,6 +1,7 @@
 ---
-name: loop-orchestration
+name: workflow-loop-orchestration
 description: "Main loop orchestration — task queue, subagent lifecycle, state machine, error recovery. 主循環協調：任務隊列、子代理生命週期、狀態機、錯誤恢復. Use when: orchestrate workflow loop, manage task queue, spawn subagent, handle loop state, recover from error"
+disable-model-invocation: true
 context: fork
 agent: general-purpose
 ---

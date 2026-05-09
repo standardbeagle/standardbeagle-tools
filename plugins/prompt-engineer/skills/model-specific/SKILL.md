@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-model-specific
 description: "Model-specific prompt engineering guidelines for major LLMs. 主要 LLM 之模型專屬提示工程指引。 Use when: targeting a specific model family, avoiding model-specific anti-patterns, selecting between reasoning vs standard LLM for a task."
+disable-model-invocation: true
 ---
 
 # Model-Specific Prompting Reference (2026)

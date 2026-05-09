@@ -1,6 +1,7 @@
 ---
-name: setup-mcp
-description: Set up figma-query MCP server using slop-mcp for centralized MCP management. 通過 slop-mcp 配置 figma-query MCP 服務器。 Use when: first-time figma-query setup, registering figma-query with SLOP, configuring Figma access token, troubleshooting MCP connection, verifying server status
+name: figma-query-setup-mcp
+description: "Set up figma-query MCP server using slop-mcp for centralized MCP management. 通過 slop-mcp 配置 figma-query MCP 服務器。 Use when: first-time figma-query setup, registering figma-query with SLOP, configuring Figma access token, troubleshooting MCP connection, verifying server status"
+disable-model-invocation: true
 ---
 
 # Figma Query MCP Setup via SLOP

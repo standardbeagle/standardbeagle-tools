@@ -1,0 +1,23 @@
+{
+  "name": "design-utilities",
+  "version": "0.2.0",
+  "description": "Bundle of small design-utility MCP wrappers: a11y-audit (WCAG/ARIA), color (contrast, palette, blindness sim), design-token (CSS/Tailwind/Style Dictionary export), image-processing (lossy/lossless optimization), typography (modular type scales). MCP configs stay disabled by default - register via slop-mcp.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "design",
+    "accessibility",
+    "wcag",
+    "color",
+    "design-tokens",
+    "typography",
+    "image-processing",
+    "bundle"
+  ]
+}

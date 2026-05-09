@@ -1,6 +1,7 @@
 ---
-name: event-monitoring
-description: Stream events from git hooks, builds, CI, file watchers, and MCP polling into Claude Code's Monitor notifications via slop-mcp monitor + message. 經 slop-mcp monitor 與 message 子命令，將任何事件源化為 Claude Code 通知流。 Use when: watch events, stream build output, notify on commit, poll MCP for changes, file watcher notifications, CI event stream, monitor deploys, start monitor.
+name: slop-mcp-event-monitoring
+description: "Stream events from git hooks, builds, CI, file watchers, and MCP polling into Claude Code's Monitor notifications via slop-mcp monitor + message. 經 slop-mcp monitor 與 message 子命令，將任何事件源化為 Claude Code 通知流。 Use when: watch events, stream build output, notify on commit, poll MCP for changes, file watcher notifications, CI event stream, monitor deploys, start monitor."
+disable-model-invocation: true
 ---
 
 # Event Monitoring

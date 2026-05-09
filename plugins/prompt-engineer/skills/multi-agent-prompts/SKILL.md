@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-multi-agent-prompts
 description: "Multi-agent system prompt design and orchestration patterns. 多代理系統提示設計與編排模式。 Use when: building orchestrator-worker architectures, designing worker agent prompts, coordinating parallel or sequential agent pipelines."
+disable-model-invocation: true
 ---
 
 # Multi-Agent Prompt Design Reference (2026)

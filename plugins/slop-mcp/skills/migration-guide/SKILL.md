@@ -1,6 +1,7 @@
 ---
-name: migration-guide
-description: Migrate MCP server configs from Claude Desktop, VS Code, Cursor, or Claude Code into slop-mcp KDL management. 將現有 MCP 配置遷移至 slop-mcp 管理之指南。 Use when: importing existing MCP servers, switching to slop-mcp, consolidating multi-client configs.
+name: slop-mcp-migration-guide
+description: "Migrate MCP server configs from Claude Desktop, VS Code, Cursor, or Claude Code into slop-mcp KDL management. 將現有 MCP 配置遷移至 slop-mcp 管理之指南。 Use when: importing existing MCP servers, switching to slop-mcp, consolidating multi-client configs."
+disable-model-invocation: true
 ---
 
 # MCP to slop-mcp Migration Guide

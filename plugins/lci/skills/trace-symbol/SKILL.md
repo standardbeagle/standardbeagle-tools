@@ -1,6 +1,6 @@
 ---
-name: trace-symbol
-description: Trace function call hierarchies, dependencies, side effects, and symbol relationships using LCI. 以LCI追蹤函數調用層次、依賴、副作用、符號關係。 Use when: understanding a function before modifying, finding all callers before refactoring, checking side effects, tracing call chain for debugging.
+name: lci-trace-symbol
+description: "Trace function call hierarchies, dependencies, side effects, and symbol relationships using LCI. 以LCI追蹤函數調用層次、依賴、副作用、符號關係。 Use when: understanding a function before modifying, finding all callers before refactoring, checking side effects, tracing call chain for debugging."
 ---
 
 # Symbol Tracing & Dependency Analysis

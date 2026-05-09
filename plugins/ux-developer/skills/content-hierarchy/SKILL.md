@@ -1,6 +1,7 @@
 ---
-name: content-hierarchy
-description: Visual hierarchy and content structure principles for scannable, accessible layouts. 視覺層次與內容結構：導引用戶、可掃描、無障礙。 Use when: page layout review, heading audit, information architecture.
+name: ux-developer-content-hierarchy
+description: "Visual hierarchy and content structure principles for scannable, accessible layouts. 視覺層次與內容結構：導引用戶、可掃描、無障礙。 Use when: page layout review, heading audit, information architecture."
+disable-model-invocation: true
 ---
 
 # Content Hierarchy

@@ -1,6 +1,6 @@
 ---
-name: sketch-visual
-description: Wireframing with sketch mode and visual highlighting including screenshots, overlays, and UI annotation tools. 線框圖模式與視覺高亮：截圖、疊層、UI標注工具。 Use when: create wireframe, annotate UI, sketch mode, highlight elements, take screenshot, export wireframe, draw UI mockup
+name: agnt-sketch-visual
+description: "Wireframing with sketch mode and visual highlighting including screenshots, overlays, and UI annotation tools. 線框圖模式與視覺高亮：截圖、疊層、UI標注工具。 Use when: create wireframe, annotate UI, sketch mode, highlight elements, take screenshot, export wireframe, draw UI mockup"
 ---
 
 # 草圖模式與視覺工具技能

@@ -1,6 +1,7 @@
 ---
-name: batch-ops
-description: dart-query batch operations - execute_dartql (recommended), batch update/delete, DartQL SQL-92 syntax, CSV import, safety protocols. 批量操作：execute_dartql（推薦）、批量更刪、DartQL語法、CSV導入、安全協議. Use when: bulk update tasks, batch delete, run DartQL query, import tasks from CSV, execute dartql statement, batch status change
+name: dart-query-batch-ops
+description: "dart-query batch operations - execute_dartql (recommended), batch update/delete, DartQL SQL-92 syntax, CSV import, safety protocols. 批量操作：execute_dartql（推薦）、批量更刪、DartQL語法、CSV導入、安全協議. Use when: bulk update tasks, batch delete, run DartQL query, import tasks from CSV, execute dartql statement, batch status change"
+disable-model-invocation: true
 ---
 
 # dart-query Batch Operations

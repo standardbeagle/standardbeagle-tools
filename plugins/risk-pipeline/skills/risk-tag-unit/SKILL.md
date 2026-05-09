@@ -1,6 +1,7 @@
 ---
-name: risk-tag-unit
+name: risk-pipeline-risk-tag-unit
 description: "Tag one code unit with @risk vector. Reads unit body + imports + LCI 2-level call graph, asks haiku-4.5 for JSON risk vector, escalates to sonnet-4.6 when conf<0.7 or any axis=3, writes ASCII glyph @risk block into unit's codedoc."
+disable-model-invocation: true
 ---
 
 # risk-tag-unit

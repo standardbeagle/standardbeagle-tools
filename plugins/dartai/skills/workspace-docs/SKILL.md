@@ -1,6 +1,6 @@
 ---
-name: workspace-docs
-description: dart-query workspace management - documents, config, dartboards, folders, comments, time tracking, attachments, task movement. dart-query工作區管理：文檔、配置、看板、文件夾、評論、時間追蹤、附件、任務移動。 Use when: get workspace config, create document, add comment, log time, attach file, move task, list docs
+name: dartai-workspace-docs
+description: "dart-query workspace management - documents, config, dartboards, folders, comments, time tracking, attachments, task movement. dart-query工作區管理：文檔、配置、看板、文件夾、評論、時間追蹤、附件、任務移動。 Use when: get workspace config, create document, add comment, log time, attach file, move task, list docs"
 ---
 
 # Workspace & Documents with dart-query

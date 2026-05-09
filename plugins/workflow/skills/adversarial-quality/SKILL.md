@@ -1,8 +1,9 @@
 ---
-name: adversarial-quality
+name: workflow-adversarial-quality
 description: "Full adversarial quality loop — implement, self-attack, parallel verification, quality gates, final validation. 全品質循環：實現、自攻、並行驗證、質量關卡、最終確認. Use when: implement a task with quality, run adversarial review, verify code quality, run quality gates, complete a workflow task"
+disable-model-invocation: true
 context: fork
-agent: workflow:task-executor
+agent: "workflow:task-executor"
 ---
 
 <!-- CC 2.1 fork decision: workflow driver — runs the full implement / self-attack / parallel verification / gate / validation pipeline across many tool calls and reviewer dispatches. Forking keeps the orchestrator free of intermediate review chatter. Executor: workflow:task-executor (preloads adversarial-quality, context-hygiene, testing-strategy via skills array). -->

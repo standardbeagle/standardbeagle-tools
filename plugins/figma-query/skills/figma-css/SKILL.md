@@ -1,6 +1,7 @@
 ---
-name: figma-css
-description: Extract production-ready CSS from Figma nodes in multiple styling formats. 從 Figma 節點提取多種格式的生產就緒 CSS。 Use when: extracting CSS from components, generating Tailwind classes, getting SCSS with variables, extracting CSS for specific categories, writing CSS directly to output files
+name: figma-query-figma-css
+description: "Extract production-ready CSS from Figma nodes in multiple styling formats. 從 Figma 節點提取多種格式的生產就緒 CSS。 Use when: extracting CSS from components, generating Tailwind classes, getting SCSS with variables, extracting CSS for specific categories, writing CSS directly to output files"
+disable-model-invocation: true
 ---
 
 # Figma Get CSS Tool

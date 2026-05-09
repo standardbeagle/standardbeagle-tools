@@ -1,6 +1,6 @@
 {
   "name": "prompt-engineer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Prompt and context engineering toolkit. Includes DSPy-inspired optimization, Claude patterns, context engineering, chain-of-thought design, RAG prompting, and multi-agent orchestration techniques.",
   "author": {
     "name": "Standard Beagle",

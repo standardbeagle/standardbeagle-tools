@@ -1,6 +1,7 @@
 ---
-name: figma-tokens
-description: Get design token references and resolved values from Figma boundVariables. 從 Figma boundVariables 提取設計令牌引用與解析值。 Use when: auditing token usage, checking variable bindings on nodes, verifying token consistency across variants, exporting per-node token data, multi-mode light/dark analysis
+name: figma-query-figma-tokens
+description: "Get design token references and resolved values from Figma boundVariables. 從 Figma boundVariables 提取設計令牌引用與解析值。 Use when: auditing token usage, checking variable bindings on nodes, verifying token consistency across variants, exporting per-node token data, multi-mode light/dark analysis"
+disable-model-invocation: true
 ---
 
 # Figma Get Tokens Tool

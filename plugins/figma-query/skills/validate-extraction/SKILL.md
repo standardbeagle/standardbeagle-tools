@@ -1,6 +1,7 @@
 ---
-name: validate-extraction
-description: Validate a Figma design library extraction for completeness and correctness. 驗證 Figma 設計庫提取的完整性與正確性。 Use when: after completing an extraction, checking for broken references, validating tokens.css exists, verifying assets are present, confirming HTML examples work
+name: figma-query-validate-extraction
+description: "Validate a Figma design library extraction for completeness and correctness. 驗證 Figma 設計庫提取的完整性與正確性。 Use when: after completing an extraction, checking for broken references, validating tokens.css exists, verifying assets are present, confirming HTML examples work"
+disable-model-invocation: true
 ---
 
 # Validate Design Library Extraction

@@ -1,6 +1,7 @@
 ---
-name: complete-extraction
-description: Complete design library extraction workflow with validation and dependency checking. 完整設計庫提取工作流：含驗證與依賴檢查。 Use when: extracting a full design library, running all phases in order, extracting with validation, resuming a failed extraction, automated design-to-code pipeline
+name: figma-query-complete-extraction
+description: "Complete design library extraction workflow with validation and dependency checking. 完整設計庫提取工作流：含驗證與依賴檢查。 Use when: extracting a full design library, running all phases in order, extracting with validation, resuming a failed extraction, automated design-to-code pipeline"
+disable-model-invocation: true
 ---
 
 # Complete Design Library Extraction

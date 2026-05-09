@@ -1,6 +1,7 @@
 ---
-name: condense-text
-description: Compress arbitrary raw text via caveman-mcp two-pass compression (mechanical filler removal + classical Chinese ultra-compression). Code, identifiers, and numbers preserved. 以caveman兩階段壓縮任意原始文本，代碼/標識符/數字保留. Use when: compress chat transcript, condense long prose, prep meeting notes for storage, summarize research draft, reduce memory entry size, ad-hoc compression of inline text
+name: caveman-condense-text
+description: "Compress arbitrary raw text via caveman-mcp two-pass compression (mechanical filler removal + classical Chinese ultra-compression). Code, identifiers, and numbers preserved. 以caveman兩階段壓縮任意原始文本，代碼/標識符/數字保留. Use when: compress chat transcript, condense long prose, prep meeting notes for storage, summarize research draft, reduce memory entry size, ad-hoc compression of inline text"
+disable-model-invocation: true
 ---
 
 # condense_text — Raw Text Compression

@@ -1,5 +1,5 @@
 ---
-name: verdict-schema
+name: dartai-verdict-schema
 description: "Canonical verdict-only return schema for adversarial reviewer subagents. Reviewers emit a compact ≤30-line verdict block; main loop parses verdict + blockers only. Use when: authoring or updating a reviewer agent, building a verdict consumer, debugging reviewer report parsing."
 ---
 

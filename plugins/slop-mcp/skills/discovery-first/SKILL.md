@@ -1,6 +1,7 @@
 ---
-name: discovery-first
-description: Force MCP discovery via get_metadata or search_tools before any execute_tool call. 調用前必先經 slop-mcp 元工具發現，禁直呼 MCP 二進製。 Use when: user names an MCP server, user asks to call an MCP tool, user asks to run an MCP command, agent about to invoke execute_tool, agent about to shell out to an MCP binary.
+name: slop-mcp-discovery-first
+description: "Force MCP discovery via get_metadata or search_tools before any execute_tool call. 調用前必先經 slop-mcp 元工具發現，禁直呼 MCP 二進製。 Use when: user names an MCP server, user asks to call an MCP tool, user asks to run an MCP command, agent about to invoke execute_tool, agent about to shell out to an MCP binary."
+disable-model-invocation: true
 ---
 
 # Discovery-First Protocol

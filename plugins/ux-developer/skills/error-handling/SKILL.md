@@ -1,6 +1,7 @@
 ---
-name: error-handling
-description: Error handling UX patterns for helpful, accessible, and recoverable error states. 可達可復之錯誤UX模式：消息清晰、焦點管理、無障礙。 Use when: designing error states, form validation, network failure UX.
+name: ux-developer-error-handling
+description: "Error handling UX patterns for helpful, accessible, and recoverable error states. 可達可復之錯誤UX模式：消息清晰、焦點管理、無障礙。 Use when: designing error states, form validation, network failure UX."
+disable-model-invocation: true
 ---
 
 # Error Handling UX

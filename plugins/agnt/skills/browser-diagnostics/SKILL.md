@@ -1,6 +1,6 @@
 ---
-name: browser-diagnostics
-description: Browser element inspection, layout diagnostics, tree walking, and visual checks via proxy exec — use __devtool.* helpers INSTEAD OF raw `document.querySelector` / `getComputedStyle` / `getBoundingClientRect` chains. 瀏覽器元素檢測、佈局診斷、樹遍歷、視覺檢查（代理exec執行），代原生`document.querySelector`、`getComputedStyle`、`getBoundingClientRect`諸鏈。 Use when: inspect element, debug layout, check z-index, find overflow, element position, box model, flex debug, grid debug, before writing raw DOM JS in proxy exec
+name: agnt-browser-diagnostics
+description: "Browser element inspection, layout diagnostics, tree walking, and visual checks via proxy exec — use __devtool.* helpers INSTEAD OF raw `document.querySelector` / `getComputedStyle` / `getBoundingClientRect` chains. 瀏覽器元素檢測、佈局診斷、樹遍歷、視覺檢查（代理exec執行），代原生`document.querySelector`、`getComputedStyle`、`getBoundingClientRect`諸鏈。 Use when: inspect element, debug layout, check z-index, find overflow, element position, box model, flex debug, grid debug, before writing raw DOM JS in proxy exec"
 ---
 
 # 瀏覽器診斷技能

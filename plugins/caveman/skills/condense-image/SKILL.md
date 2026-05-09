@@ -1,6 +1,7 @@
 ---
-name: condense-image
-description: Extract textual description, OCR text, and structural summary from image files via caveman-mcp condense_file. Use for screenshots, diagrams, charts, photos when token budget rules out attaching the raw image. 以caveman從圖像提取描述/OCR/結構摘要. Use when: ingest screenshot, summarize diagram, extract chart data, read photo OCR, archive image content as text, prep image for downstream text-only synthesis
+name: caveman-condense-image
+description: "Extract textual description, OCR text, and structural summary from image files via caveman-mcp condense_file. Use for screenshots, diagrams, charts, photos when token budget rules out attaching the raw image. 以caveman從圖像提取描述/OCR/結構摘要. Use when: ingest screenshot, summarize diagram, extract chart data, read photo OCR, archive image content as text, prep image for downstream text-only synthesis"
+disable-model-invocation: true
 ---
 
 # condense_file (Image Mode) — Image Compression

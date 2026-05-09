@@ -1,6 +1,7 @@
 ---
-name: workspace
-description: dart-query workspace tools - documents, comments, time tracking, attachments, and task positioning. 文檔管理、注釋、時間追蹤、附件、任務定位諸工具. Use when: create document, list docs, add comment, log time, attach URL, move task, reposition task
+name: dart-query-workspace
+description: "dart-query workspace tools - documents, comments, time tracking, attachments, and task positioning. 文檔管理、注釋、時間追蹤、附件、任務定位諸工具. Use when: create document, list docs, add comment, log time, attach URL, move task, reposition task"
+disable-model-invocation: true
 ---
 
 # dart-query Workspace

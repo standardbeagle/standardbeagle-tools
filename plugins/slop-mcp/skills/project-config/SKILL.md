@@ -1,6 +1,7 @@
 ---
-name: project-config
-description: View, set, reset slop-mcp project-config memory bank used by orchestrator skills. 讀寫項目配置記憶庫，供 commit-all 等調度技藝使用。 Use when: viewing current config, updating a key, resetting for re-detection, manually setting Dart board or custom commands.
+name: slop-mcp-project-config
+description: "View, set, reset slop-mcp project-config memory bank used by orchestrator skills. 讀寫項目配置記憶庫，供 commit-all 等調度技藝使用。 Use when: viewing current config, updating a key, resetting for re-detection, manually setting Dart board or custom commands."
+disable-model-invocation: true
 ---
 
 # Project Configuration Memory

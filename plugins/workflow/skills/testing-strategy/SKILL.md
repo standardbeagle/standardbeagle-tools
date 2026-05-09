@@ -1,6 +1,7 @@
 ---
-name: testing-strategy
-description: Three-tier test strategy — e2e, integration, unit pyramid for disciplined coverage. 三層測試法：e2e驗產品，整合測廣度，單元窮邏輯. Use when: choose test type, write e2e test, write integration test, write unit test, debug flaky test, enforce TDD
+name: workflow-testing-strategy
+description: "Three-tier test strategy — e2e, integration, unit pyramid for disciplined coverage. 三層測試法：e2e驗產品，整合測廣度，單元窮邏輯. Use when: choose test type, write e2e test, write integration test, write unit test, debug flaky test, enforce TDD"
+disable-model-invocation: true
 ---
 
 # Testing Strategy: The Testing Pyramid

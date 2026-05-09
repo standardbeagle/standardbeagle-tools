@@ -1,6 +1,7 @@
 ---
-name: dart-task-workflow
-description: Step-by-step Dart task workflows via SLOP: fetch, update, complete, create, block. Dart 任務常用工作流，以 SLOP 操作。 Use when: getting active tasks, completing a task, creating subtasks, daily standup review, blocking/unblocking tasks.
+name: slop-mcp-dart-task-workflow
+description: "Step-by-step Dart task workflows via SLOP: fetch, update, complete, create, block. Dart 任務常用工作流，以 SLOP 操作。 Use when: getting active tasks, completing a task, creating subtasks, daily standup review, blocking/unblocking tasks."
+disable-model-invocation: true
 ---
 
 # Dart Task Workflows

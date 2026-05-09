@@ -1,6 +1,6 @@
 ---
-name: doc-templates
-description: Documentation templates and formats for updating project docs and Dart comments. 任務完成後更新項目文檔與Dart評論之模板格式。 Use when: update changelog, write dart comment, document task completion, readme update, commit message format
+name: dartai-doc-templates
+description: "Documentation templates and formats for updating project docs and Dart comments. 任務完成後更新項目文檔與Dart評論之模板格式。 Use when: update changelog, write dart comment, document task completion, readme update, commit message format"
 ---
 
 # Documentation Templates

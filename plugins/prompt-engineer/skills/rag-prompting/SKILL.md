@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-rag-prompting
 description: "RAG-specific prompt engineering techniques and best practices. RAG 專屬提示工程技術與最佳實踐。 Use when: building retrieval-augmented generation pipelines, grounding LLM answers in documents, handling missing or conflicting retrieval results."
+disable-model-invocation: true
 ---
 
 # RAG Prompting Reference (2026)

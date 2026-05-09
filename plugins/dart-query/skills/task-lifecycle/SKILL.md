@@ -1,6 +1,7 @@
 ---
-name: task-lifecycle
-description: Guide the full task lifecycle from creation through completion - assignment, progress tracking, relationships, comments, and time logging with dart-query. 從創建至完成之完整任務生命周期：分配、進度追蹤、關係、注釋、時間記錄. Use when: create and assign task, track task progress, manage blockers, complete a task, log time, post-completion follow-up
+name: dart-query-task-lifecycle
+description: "Guide the full task lifecycle from creation through completion - assignment, progress tracking, relationships, comments, and time logging with dart-query. 從創建至完成之完整任務生命周期：分配、進度追蹤、關係、注釋、時間記錄. Use when: create and assign task, track task progress, manage blockers, complete a task, log time, post-completion follow-up"
+disable-model-invocation: true
 ---
 
 # dart-query Task Lifecycle

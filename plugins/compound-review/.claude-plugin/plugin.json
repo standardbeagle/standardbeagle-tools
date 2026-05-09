@@ -1,6 +1,6 @@
 {
   "name": "compound-review",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers emit verdict files (dartai:verdict-schema file-streaming channel). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness, rationalization-trap.",
   "author": {
     "name": "Standard Beagle",

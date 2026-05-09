@@ -1,8 +1,9 @@
 ---
-name: qa-reviewer
+name: workflow-qa-reviewer
 description: "Forked-context QA reviewer playbook (workflow mirror) — preloads verdict schema + testing-pyramid lens + assertion/edge-case/TDD checklist for adversarial QA review subagents. 對抗QA審查者技能（workflow鏡像）：測試金字塔、斷言、邊緣案例、TDD合規（fork上下文）。 Use when: dispatching workflow:qa-reviewer subagent, running adversarial QA in workflow loop, gating on test quality, when reviewer should not pollute main thread"
+disable-model-invocation: true
 context: fork
-agent: workflow:qa-reviewer
+agent: "workflow:qa-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: workflow mirror of dartai:qa-reviewer. Reviewer subagent reads test files, runs LCI queries, and surfaces dozens of intermediate findings. Forking keeps that work isolated; main loop sees only the verdict YAML block. Executor: workflow:qa-reviewer (preloads testing-strategy + this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict-only output — only token efficiency degrades. -->

@@ -1,5 +1,7 @@
 ---
-description: Complete reference for SLOP built-in functions - type conversion, math, strings, collections, pipelines, utilities. SLOP內置函數完整參考，含類型轉換、數學、字符串、集合、管道、工具函數。Use when: looking up function signatures, checking available builtins, pipeline/collection operations.
+name: slop-coder-builtins
+description: "Complete reference for SLOP built-in functions - type conversion, math, strings, collections, pipelines, utilities. SLOP內置函數完整參考，含類型轉換、數學、字符串、集合、管道、工具函數。Use when: looking up function signatures, checking available builtins, pipeline/collection operations."
+disable-model-invocation: true
 ---
 
 # SLOP Built-in Functions Reference

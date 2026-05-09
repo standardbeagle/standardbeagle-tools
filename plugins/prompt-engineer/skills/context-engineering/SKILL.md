@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-context-engineering
 description: "Context engineering principles and techniques for optimal LLM performance. 語境工程原理與技術，優化 LLM 推理效能。 Use when: designing context architecture, managing token budgets, building RAG context pipelines, or structuring multi-agent handoffs."
+disable-model-invocation: true
 ---
 
 # Context Engineering Reference (2026)

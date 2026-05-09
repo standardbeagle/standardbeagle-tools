@@ -1,6 +1,7 @@
 ---
-name: discovery
-description: dart-query progressive discovery and workspace configuration - info, get_config, get_dartboard, get_folder. 漸進探索dart-query能力，載入工作區配置. Use when: explore dart-query tools, load workspace config, check dartboard details, discover available statuses, initialize session
+name: dart-query-discovery
+description: "dart-query progressive discovery and workspace configuration - info, get_config, get_dartboard, get_folder. 漸進探索dart-query能力，載入工作區配置. Use when: explore dart-query tools, load workspace config, check dartboard details, discover available statuses, initialize session"
+disable-model-invocation: true
 ---
 
 # dart-query Discovery and Workspace Configuration

@@ -1,6 +1,7 @@
 ---
-name: responsive-patterns
-description: Responsive design strategies, breakpoint systems, and adaptive layout patterns. Create designs that work beautifully across all devices and contexts. 響應式設計策略、斷點系統與自適應佈局模式：跨設備情境的美觀設計。 Use when: designing layouts for multiple screen sizes, defining breakpoint systems, adapting navigation for mobile, handling responsive tables or images.
+name: ux-design-responsive-patterns
+description: "Responsive design strategies, breakpoint systems, and adaptive layout patterns. Create designs that work beautifully across all devices and contexts. 響應式設計策略、斷點系統與自適應佈局模式：跨設備情境的美觀設計。 Use when: designing layouts for multiple screen sizes, defining breakpoint systems, adapting navigation for mobile, handling responsive tables or images."
+disable-model-invocation: true
 ---
 
 # Responsive Design Patterns

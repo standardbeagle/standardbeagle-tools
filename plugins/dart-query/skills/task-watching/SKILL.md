@@ -1,6 +1,7 @@
 ---
-name: task-watching
-description: Watch for new, changed, or blocked tasks using Claude Code loops and scheduled triggers - automated polling, status change detection, and auto-pickup patterns with dart-query. 以輪詢、排程、自動承接諸法，持續監察Dart任務狀態變化. Use when: watch for new tasks, detect blocked tasks, monitor status changes, auto-pickup tasks, schedule daily standups, automate task triage
+name: dart-query-task-watching
+description: "Watch for new, changed, or blocked tasks using Claude Code loops and scheduled triggers - automated polling, status change detection, and auto-pickup patterns with dart-query. 以輪詢、排程、自動承接諸法，持續監察Dart任務狀態變化. Use when: watch for new tasks, detect blocked tasks, monitor status changes, auto-pickup tasks, schedule daily standups, automate task triage"
+disable-model-invocation: true
 ---
 
 # dart-query Task Watching

@@ -1,6 +1,7 @@
 ---
-name: comprehensive-assets
-description: Extract ALL assets from Figma including vectors, fills, backgrounds, and icons that don't have export settings. 全量提取 Figma 資產：向量、填充、背景、無導出設置圖標。 Use when: exporting all icons and images, finding assets without export settings, extracting vector icons, building complete asset manifest, comprehensive asset audit
+name: figma-query-comprehensive-assets
+description: "Extract ALL assets from Figma including vectors, fills, backgrounds, and icons that don't have export settings. 全量提取 Figma 資產：向量、填充、背景、無導出設置圖標。 Use when: exporting all icons and images, finding assets without export settings, extracting vector icons, building complete asset manifest, comprehensive asset audit"
+disable-model-invocation: true
 ---
 
 # Comprehensive Asset Extraction

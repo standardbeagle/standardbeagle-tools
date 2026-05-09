@@ -1,6 +1,7 @@
 ---
-name: recurring-tasks
-description: Repeating task patterns - template tasks, CSV-based recurring creation, DartQL cloning, scheduled generation, and date rotation with dart-query. 模板、CSV、DartQL克隆、排程生成、日期輪轉諸法實現重複任務. Use when: create recurring tasks, set up sprint ceremonies, clone tasks for next sprint, schedule weekly standups, automate periodic task creation
+name: dart-query-recurring-tasks
+description: "Repeating task patterns - template tasks, CSV-based recurring creation, DartQL cloning, scheduled generation, and date rotation with dart-query. 模板、CSV、DartQL克隆、排程生成、日期輪轉諸法實現重複任務. Use when: create recurring tasks, set up sprint ceremonies, clone tasks for next sprint, schedule weekly standups, automate periodic task creation"
+disable-model-invocation: true
 ---
 
 # Recurring Tasks with dart-query

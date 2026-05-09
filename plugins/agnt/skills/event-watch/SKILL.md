@@ -1,6 +1,6 @@
 ---
-name: event-watch
-description: Stream user interactions from browser overlay in real time via agnt watch + Monitor - panel messages, clicks, sketches, design chats. 透過agnt watch + Monitor即時串流瀏覽器覆蓋層用戶互動：面板訊息、點擊、草圖、設計對話。 Use when: watch user interactions, real-time browser events, panel message stream, sketch events, design mode stream
+name: agnt-event-watch
+description: "Stream user interactions from browser overlay in real time via agnt watch + Monitor - panel messages, clicks, sketches, design chats. 透過agnt watch + Monitor即時串流瀏覽器覆蓋層用戶互動：面板訊息、點擊、草圖、設計對話。 Use when: watch user interactions, real-time browser events, panel message stream, sketch events, design mode stream"
 ---
 
 # 事件監視技能

@@ -1,6 +1,7 @@
 ---
-name: page-extraction
-description: Extract a complete page/screen with all components, assets, and documentation. 提取完整 Figma 頁面/屏幕：組件、資產、文檔。 Use when: extracting a full screen layout, documenting a page design, generating page HTML mockup, extracting section CSS, building page-level design documentation
+name: figma-query-page-extraction
+description: "Extract a complete page/screen with all components, assets, and documentation. 提取完整 Figma 頁面/屏幕：組件、資產、文檔。 Use when: extracting a full screen layout, documenting a page design, generating page HTML mockup, extracting section CSS, building page-level design documentation"
+disable-model-invocation: true
 ---
 
 # Page/Screen Extraction

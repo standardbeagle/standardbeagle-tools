@@ -1,6 +1,6 @@
 ---
-name: pre-commit-review
-description: Analyze staged or uncommitted code changes for quality issues before committing. 提交前以LCI分析暫存更改之質量問題。 Use when: pre-commit quality check, PR review, finding duplicates, checking naming conventions, analyzing complexity.
+name: lci-pre-commit-review
+description: "Analyze staged or uncommitted code changes for quality issues before committing. 提交前以LCI分析暫存更改之質量問題。 Use when: pre-commit quality check, PR review, finding duplicates, checking naming conventions, analyzing complexity."
 ---
 
 # Pre-commit Code Quality Analysis

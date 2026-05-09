@@ -1,5 +1,7 @@
 ---
+name: photino-message-router-pattern
 description: "Central message routing pattern for Photino.NET: {type,payload} message format, HandleMessage dispatch, Send helper, event wiring, Svelte 5 component patterns, and IAsyncDisposable in sync contexts. Photino.NET中央消息路由模式：{type,payload}消息格式、HandleMessage分發、Send輔助、事件關聯、Svelte 5組件模式及同步上下文中IAsyncDisposable. Use when: implementing message routing, adding new message types, wiring service events, handling async disposal in Photino context"
+disable-model-invocation: true
 ---
 
 # Message Router Pattern

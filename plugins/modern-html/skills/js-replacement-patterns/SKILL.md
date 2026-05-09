@@ -1,7 +1,7 @@
 ---
-name: js-replacement-patterns
+name: modern-html-js-replacement-patterns
 description: "This skill should be used when the agent considers writing or recommending JavaScript for a UI pattern. It looks up native HTML/CSS replacements and recommends the simplest native solution. Covers modal, tooltip, popover, dropdown, accordion, tabs, carousel, sticky header, smooth scroll, custom scrollbar, show/hide toggles, form validation, lazy loading, image comparison, theme switching, scroll animations, page transitions, line clamp, sticky table headers, and virtual scrolling alternatives. Use when: replacing or evaluating Floating UI, Popper, Headless UI, Radix, Reach, Tippy, Swiper, GSAP, Framer Motion, or IntersectionObserver-based libraries; building modal, tooltip, dropdown, menu, accordion, tabs, carousel, sticky, scroll-effect, or form-validation UI; removing JS dependencies from a frontend. Skip when: writing backend code or working on a domain with no UI surface."
-when_to_use: "replacing JS UI library, building modal/tooltip/dropdown/menu/accordion/tabs/carousel/sticky/scroll-effect/form-validation, removing dependencies"
+when_to_use: "\"replacing JS UI library, building modal/tooltip/dropdown/menu/accordion/tabs/carousel/sticky/scroll-effect/form-validation, removing dependencies\""
 ---
 
 # JS Replacement Patterns

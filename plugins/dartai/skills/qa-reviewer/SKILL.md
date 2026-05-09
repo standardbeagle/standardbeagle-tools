@@ -1,8 +1,8 @@
 ---
-name: qa-reviewer
+name: dartai-qa-reviewer
 description: "Forked-context QA reviewer playbook — preloads verdict schema, testing-pyramid lens, and assertion/edge-case/TDD checklist for adversarial QA review subagents. 對抗QA審查者技能：測試金字塔視角、斷言與邊緣案例清單、TDD合規、判定模式（fork上下文）。 Use when: dispatching qa-reviewer subagent, running adversarial QA review, gating on test quality, when reviewer should not pollute main thread"
 context: fork
-agent: dartai:qa-reviewer
+agent: "dartai:qa-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: reviewer subagent reads test files, runs LCI queries, and surfaces dozens of intermediate findings. Forking keeps that work isolated; main loop sees only the verdict YAML block defined in verdict-schema.md. Executor: dartai:qa-reviewer (preloads testing-strategy + this companion skill). Fallback: if `context: fork` is unsupported by the harness, the agent still emits the same verdict-only output, and the orchestrator absorbs the (smaller) prose context — behavior preserved, only token efficiency degraded. -->

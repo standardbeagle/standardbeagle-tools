@@ -1,8 +1,9 @@
 ---
-name: correctness-reviewer
+name: compound-review-correctness-reviewer
 description: "Forked-context correctness reviewer playbook — preloads verdict schema and logic/edge-case/state-management lens for adversarial correctness review subagents. 對抗正確性審查者技能：邏輯錯誤、邊界情況、狀態管理、錯誤傳播視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:correctness-reviewer subagent, gating on logic correctness, when reviewer should not pollute main thread"
+disable-model-invocation: true
 context: fork
-agent: compound-review:correctness-reviewer
+agent: "compound-review:correctness-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: correctness review traces input through branches, tracks state across calls, and produces intermediate analysis for every significant path. Forking keeps that work isolated from the main loop. Executor: compound-review:correctness-reviewer (preloads dartai:code-quality + this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict file — only token efficiency degrades. -->

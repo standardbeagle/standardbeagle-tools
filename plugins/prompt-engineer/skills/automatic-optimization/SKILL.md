@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-automatic-optimization
 description: "Automatic prompt optimization via DSPy, OPRO, and evaluation-driven methods. 自動提示優化：DSPy、OPRO 及評估驅動法。 Use when: iterating prompts programmatically, defining optimization metrics, running A/B or regression tests on prompt variants."
+disable-model-invocation: true
 ---
 
 # Automatic Prompt Optimization Reference (2026)

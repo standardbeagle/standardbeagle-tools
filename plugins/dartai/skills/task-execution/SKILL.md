@@ -1,6 +1,6 @@
 ---
-name: task-execution
-description: Task execution workflow and quality pipeline for Dart task automation. Dart任務執行工作流與品質管道。 Use when: execute dart task, run quality pipeline, implement task, code review workflow, task automation
+name: dartai-task-execution
+description: "Task execution workflow and quality pipeline for Dart task automation. Dart任務執行工作流與品質管道。 Use when: execute dart task, run quality pipeline, implement task, code review workflow, task automation"
 context: fork
 ---
 

@@ -1,6 +1,6 @@
 ---
-name: simple-planning
-description: Create minimal, focused task plans using adversarial discipline - no over-engineering allowed. 對抗紀律下創建最小聚焦任務計劃，禁止過度工程。 Use when: plan a task, create task plan, break down feature, scope a change, planning before coding
+name: dartai-simple-planning
+description: "Create minimal, focused task plans using adversarial discipline - no over-engineering allowed. 對抗紀律下創建最小聚焦任務計劃，禁止過度工程。 Use when: plan a task, create task plan, break down feature, scope a change, planning before coding"
 ---
 
 # Simple Planning Skill (Adversarial Cooperation)

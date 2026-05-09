@@ -1,6 +1,6 @@
 {
   "name": "brainstorming",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Brainstorming visual companion ported from superpowers. Mini-IDE web app for divergent-thinking sessions: question/demo/decision screens plus the SBT-S3 cards extension for card-sort and clustering. Bun + Preact + Vite stack runs against a session directory and emits events.jsonl.",
   "author": {
     "name": "Standard Beagle",

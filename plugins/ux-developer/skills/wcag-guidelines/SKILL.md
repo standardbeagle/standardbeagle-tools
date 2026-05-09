@@ -1,6 +1,7 @@
 ---
-name: wcag-guidelines
-description: WCAG 2.2 accessibility guidelines reference for web development. WCAG 2.2無障礙指南速查：POUR四原則、A/AA/AAA準則、代碼示例。 Use when: accessibility audit, new feature design, pre-launch compliance check.
+name: ux-developer-wcag-guidelines
+description: "WCAG 2.2 accessibility guidelines reference for web development. WCAG 2.2無障礙指南速查：POUR四原則、A/AA/AAA準則、代碼示例。 Use when: accessibility audit, new feature design, pre-launch compliance check."
+disable-model-invocation: true
 ---
 
 # WCAG 2.2 Guidelines Reference

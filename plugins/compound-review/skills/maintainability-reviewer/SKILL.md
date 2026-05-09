@@ -1,8 +1,9 @@
 ---
-name: maintainability-reviewer
+name: compound-review-maintainability-reviewer
 description: "Forked-context maintainability reviewer playbook — preloads verdict schema and premature-abstraction/dead-code/duplication/YAGNI lens for adversarial maintainability review subagents. 對抗可維護性審查者技能：過早抽象、死碼、重複偵測、YAGNI視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:maintainability-reviewer subagent, gating on structural debt, when reviewer should not pollute main thread"
+disable-model-invocation: true
 context: fork
-agent: compound-review:maintainability-reviewer
+agent: "compound-review:maintainability-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: maintainability review runs jscpd duplicate detection, reads many files for coupling analysis, and produces intermediate findings across the diff. Forking keeps that work isolated from the main loop. Executor: compound-review:maintainability-reviewer (preloads dartai:code-quality + this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict file — only token efficiency degrades. -->

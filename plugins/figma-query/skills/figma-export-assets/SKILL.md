@@ -1,6 +1,7 @@
 ---
-name: figma-export-assets
-description: Export images and icons from specific Figma nodes in multiple formats and scales. 從指定 Figma 節點導出圖像與圖標，支持多格式與多倍率。 Use when: exporting icons as SVG, exporting UI elements at multiple scales, batch exporting assets, rendering nodes as images, exporting for web and print
+name: figma-query-figma-export-assets
+description: "Export images and icons from specific Figma nodes in multiple formats and scales. 從指定 Figma 節點導出圖像與圖標，支持多格式與多倍率。 Use when: exporting icons as SVG, exporting UI elements at multiple scales, batch exporting assets, rendering nodes as images, exporting for web and print"
+disable-model-invocation: true
 ---
 
 # Figma Export Assets Tool

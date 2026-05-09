@@ -1,7 +1,7 @@
 ---
-name: native-html-primitives
+name: modern-html-native-html-primitives
 description: "This skill should be used when generating modal dialogs, popovers, tooltips, accordions, disclosure widgets, search landmarks, lazy images, or button-driven UI commands. Teaches the dialog element (showModal, ::backdrop, requestClose), the Popover API (popover attribute, popovertarget, popovertargetaction, popover=auto/manual/hint), details/summary with the name attribute for exclusive accordions, the search element, the inert attribute, lazy loading attributes, and the new command/commandfor invoker buttons. Use when: writing dialog/modal/confirm UI, building tooltips or dropdowns, building FAQ or accordion UI, adding a search landmark, deferring offscreen images, or wiring buttons to control popovers or dialogs. Skip when: working entirely in CSS-only files or in non-HTML contexts."
-paths: ["**/*.{html,htm,jsx,tsx,vue,svelte,astro,mdx,erb,php}"]
+paths: "[\"**/*.{html,htm,jsx,tsx,vue,svelte,astro,mdx,erb,php}\"]"
 ---
 
 # Native HTML Primitives

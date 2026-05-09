@@ -1,6 +1,7 @@
 ---
-name: risk-budget
+name: risk-pipeline-risk-budget
 description: "Aggregate per-unit @risk tags into task-level risk vector. Propagates blast via LCI callers tree (depth 3, log2 amplification, cap 3). Max across units for d/s/r. Computes scalar via weighted sum (default s=4 d=3 r=3 b=2 u=2, budget 10). Applies 5-step split SOP with findability hard constraint. Crit axis (=!) triggers specialist review regardless of scalar."
+disable-model-invocation: true
 ---
 
 # risk-budget

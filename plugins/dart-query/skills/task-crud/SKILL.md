@@ -1,6 +1,7 @@
 ---
-name: task-crud
-description: dart-query task operations - create_task, get_task, update_task, delete_task, add_task_comment with relationship management and incremental updates. 任務創讀更刪：create/get/update/delete_task、注釋、關係管理、增量更新. Use when: create task, get task details, update task fields, delete task, add comment, manage task relationships, add blocker
+name: dart-query-task-crud
+description: "dart-query task operations - create_task, get_task, update_task, delete_task, add_task_comment with relationship management and incremental updates. 任務創讀更刪：create/get/update/delete_task、注釋、關係管理、增量更新. Use when: create task, get task details, update task fields, delete task, add comment, manage task relationships, add blocker"
+disable-model-invocation: true
 ---
 
 # dart-query Task CRUD

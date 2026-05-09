@@ -1,8 +1,9 @@
 ---
-name: code-quality-reviewer
+name: workflow-code-quality-reviewer
 description: "Forked-context code-quality reviewer playbook (workflow mirror) — preloads verdict schema + codebase-coherence + bloat + completeness + duplication + cleanup lens for adversarial review subagents. 對抗代碼品質審查者技能（workflow鏡像）：連貫性、臃腫、完整性、重複、清理（fork上下文）。 Use when: dispatching workflow:code-quality-reviewer subagent, running adversarial code review in workflow loop, gating on code quality, when reviewer should not pollute main thread"
+disable-model-invocation: true
 context: fork
-agent: workflow:code-quality-reviewer
+agent: "workflow:code-quality-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: workflow mirror of dartai:code-quality-reviewer. Reviewer subagent reads many source files and runs LCI duplicate-detection queries. Forking keeps file payloads and intermediate analysis out of the main loop. Executor: workflow:code-quality-reviewer (preloads adversarial-quality + this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict YAML — only token efficiency degrades. -->

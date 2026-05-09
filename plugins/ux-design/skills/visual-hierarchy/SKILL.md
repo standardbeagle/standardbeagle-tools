@@ -1,6 +1,7 @@
 ---
-name: visual-hierarchy
-description: Layout composition, visual weight distribution, and attention flow. Create designs that guide users effortlessly through content with intentional hierarchy. 佈局構圖、視覺重量分配與注意力流：以意圖層次引導用戶無障礙瀏覽。 Use when: establishing visual priority, composing page layouts, directing user attention, evaluating whether hierarchy is clear.
+name: ux-design-visual-hierarchy
+description: "Layout composition, visual weight distribution, and attention flow. Create designs that guide users effortlessly through content with intentional hierarchy. 佈局構圖、視覺重量分配與注意力流：以意圖層次引導用戶無障礙瀏覽。 Use when: establishing visual priority, composing page layouts, directing user attention, evaluating whether hierarchy is clear."
+disable-model-invocation: true
 ---
 
 # Visual Hierarchy & Layout Composition

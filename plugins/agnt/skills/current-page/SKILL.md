@@ -1,6 +1,6 @@
 ---
-name: current-page
-description: Extract comprehensive browser page info - URL, content, navigation, links, structured data, performance, visual state. 取瀏覽器當前頁面全覽：URL、內容、導航、連結、結構資料、效能、視覺狀態。 Use when: get current page, what page is user on, extract page content, page URL, page title, screenshot page
+name: agnt-current-page
+description: "Extract comprehensive browser page info - URL, content, navigation, links, structured data, performance, visual state. 取瀏覽器當前頁面全覽：URL、內容、導航、連結、結構資料、效能、視覺狀態。 Use when: get current page, what page is user on, extract page content, page URL, page title, screenshot page"
 ---
 
 # 當前頁面資訊技能

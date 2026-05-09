@@ -1,6 +1,6 @@
 ---
-name: browser-debug
-description: Complete browser debugging workflow - element inspection, layout diagnostics, interaction tracking, visual tools via agnt proxy. 完整瀏覽器除錯工作流：元素檢測、佈局診斷、互動追蹤、視覺工具。 Use when: debug browser issue, inspect element, fix layout, debug click, debug form, debug modal, browser debugging workflow
+name: agnt-browser-debug
+description: "Complete browser debugging workflow - element inspection, layout diagnostics, interaction tracking, visual tools via agnt proxy. 完整瀏覽器除錯工作流：元素檢測、佈局診斷、互動追蹤、視覺工具。 Use when: debug browser issue, inspect element, fix layout, debug click, debug form, debug modal, browser debugging workflow"
 ---
 
 # 瀏覽器除錯技能

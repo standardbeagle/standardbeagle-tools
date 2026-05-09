@@ -1,6 +1,7 @@
 ---
-name: setup-mcp
-description: Install agnt MCP server for UX development workflows - uses ~/.local/bin if available, falls back to npx. 為UX工作流安裝agnt MCP服務器：自動選擇本地二進制或npx。 Use when: first-time ux-developer plugin setup, configuring agnt for a11y audits or screenshots.
+name: ux-developer-setup-mcp
+description: "Install agnt MCP server for UX development workflows - uses ~/.local/bin if available, falls back to npx. 為UX工作流安裝agnt MCP服務器：自動選擇本地二進制或npx。 Use when: first-time ux-developer plugin setup, configuring agnt for a11y audits or screenshots."
+disable-model-invocation: true
 ---
 
 # UX Developer MCP Setup

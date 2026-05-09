@@ -1,8 +1,9 @@
 ---
-name: testing-reviewer
+name: compound-review-testing-reviewer
 description: "Forked-context testing reviewer playbook — preloads verdict schema and test-coverage-gap/weak-assertion/brittle-test lens for adversarial testing review subagents. 對抗測試審查者技能：測試覆蓋缺口、弱斷言、脆弱測試視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:testing-reviewer subagent, gating on test quality, when reviewer should not pollute main thread"
+disable-model-invocation: true
 context: fork
-agent: compound-review:testing-reviewer
+agent: "compound-review:testing-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: testing review reads test files, traces branch coverage, and produces intermediate findings per untested path. Forking keeps that analysis out of the main loop. Executor: compound-review:testing-reviewer (preloads dartai:testing-strategy + this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict file — only token efficiency degrades. -->

@@ -1,5 +1,7 @@
 ---
+name: photino-dotnet-build-system
 description: ".NET build system for Photino apps: csproj configuration, MSBuild targets, frontend build integration, package references, version pinning, and common build errors. 配置Photino.NET工程之.csproj、MSBuild目標、前端構建整合、包引用、版本釘定及常見構建錯誤. Use when: configuring csproj, setting up MSBuild targets, integrating frontend build, managing package versions, diagnosing build errors"
+disable-model-invocation: true
 ---
 
 # .NET Build System for Photino

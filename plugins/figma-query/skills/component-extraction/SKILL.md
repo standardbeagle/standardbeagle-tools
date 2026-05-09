@@ -1,6 +1,7 @@
 ---
-name: component-extraction
-description: Extract single Figma component with CSS, assets, documentation, and HTML mockup. 單組件全量提取：CSS、資產、文檔、HTML。 Use when: extracting one component fully, generating component docs, exporting component CSS and assets, building HTML mockup from Figma component, component-level design library work
+name: figma-query-component-extraction
+description: "Extract single Figma component with CSS, assets, documentation, and HTML mockup. 單組件全量提取：CSS、資產、文檔、HTML。 Use when: extracting one component fully, generating component docs, exporting component CSS and assets, building HTML mockup from Figma component, component-level design library work"
+disable-model-invocation: true
 ---
 
 # Single Component Extraction

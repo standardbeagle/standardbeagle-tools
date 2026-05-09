@@ -1,6 +1,7 @@
 ---
-name: screen-reader
-description: Screen reader accessibility patterns for semantic, announced, navigable content. 屏幕閱讀器無障礙：語義HTML、ARIA、動態公告、焦點管理。 Use when: implementing interactive widgets, ARIA live regions, assistive tech testing.
+name: ux-developer-screen-reader
+description: "Screen reader accessibility patterns for semantic, announced, navigable content. 屏幕閱讀器無障礙：語義HTML、ARIA、動態公告、焦點管理。 Use when: implementing interactive widgets, ARIA live regions, assistive tech testing."
+disable-model-invocation: true
 ---
 
 # Screen Reader Accessibility

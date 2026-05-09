@@ -1,6 +1,7 @@
 ---
-name: figma-query
-description: Execute powerful JSON DSL queries against Figma files with filtering, projection, and pagination. 對 Figma 文件執行 JSON DSL 查詢：過濾、投影、分頁。 Use when: finding nodes by type or property, filtering components by name pattern, querying with complex conditions, paginating large result sets, running from local cache
+name: figma-query-figma-query
+description: "Execute powerful JSON DSL queries against Figma files with filtering, projection, and pagination. 對 Figma 文件執行 JSON DSL 查詢：過濾、投影、分頁。 Use when: finding nodes by type or property, filtering components by name pattern, querying with complex conditions, paginating large result sets, running from local cache"
+disable-model-invocation: true
 ---
 
 # Figma Query Tool

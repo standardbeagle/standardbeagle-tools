@@ -1,6 +1,7 @@
 ---
-name: project-recipes
-description: Project management recipes - sprint transitions, triage, team rebalancing, stale task cleanup, reporting, and priority recalibration with dart-query. 迭代交接、分類、團隊重平衡、陳舊清理、報告、優先級重校諸配方. Use when: end of sprint transition, triage backlog, rebalance team workload, cleanup stale tasks, generate sprint report, recalibrate priorities
+name: dart-query-project-recipes
+description: "Project management recipes - sprint transitions, triage, team rebalancing, stale task cleanup, reporting, and priority recalibration with dart-query. 迭代交接、分類、團隊重平衡、陳舊清理、報告、優先級重校諸配方. Use when: end of sprint transition, triage backlog, rebalance team workload, cleanup stale tasks, generate sprint report, recalibrate priorities"
+disable-model-invocation: true
 ---
 
 # dart-query Project Recipes

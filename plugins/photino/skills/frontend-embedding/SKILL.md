@@ -1,5 +1,7 @@
 ---
+name: photino-frontend-embedding
 description: "Frontend embedding pipeline for Photino.NET: Vite build to wwwroot, base path configuration, dev vs production loading, fallback HTML, and .gitignore setup. 前端嵌入管道：Vite構建至wwwroot、基路徑配置、開發/生產加載、後備HTML及.gitignore設置. Use when: configuring Vite for Photino, setting up wwwroot output, troubleshooting asset paths, configuring dev vs prod loading"
+disable-model-invocation: true
 ---
 
 # Frontend Embedding in Photino.NET

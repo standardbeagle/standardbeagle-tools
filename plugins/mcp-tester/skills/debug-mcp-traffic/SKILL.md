@@ -1,6 +1,7 @@
 ---
-name: debug-mcp-traffic
-description: Analyze MCP JSON-RPC traffic to diagnose protocol and tool call issues. 分析 MCP 協定流量，診斷請求/回應異常。 Use when: tool calls fail, debugging connection issues, inspecting request/response patterns.
+name: mcp-tester-debug-mcp-traffic
+description: "Analyze MCP JSON-RPC traffic to diagnose protocol and tool call issues. 分析 MCP 協定流量，診斷請求/回應異常。 Use when: tool calls fail, debugging connection issues, inspecting request/response patterns."
+disable-model-invocation: true
 ---
 
 # Debugging MCP Protocol Traffic

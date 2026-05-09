@@ -1,6 +1,7 @@
 ---
-name: touch-targets
-description: Touch target sizing and spacing guidelines for mobile and touch interfaces. 觸控目標尺寸與間距：WCAG 2.2、Apple HIG、Material Design基準。 Use when: mobile UI review, button sizing, form element spacing on touch devices.
+name: ux-developer-touch-targets
+description: "Touch target sizing and spacing guidelines for mobile and touch interfaces. 觸控目標尺寸與間距：WCAG 2.2、Apple HIG、Material Design基準。 Use when: mobile UI review, button sizing, form element spacing on touch devices."
+disable-model-invocation: true
 ---
 
 # Touch Target Guidelines

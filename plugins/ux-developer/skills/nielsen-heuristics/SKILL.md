@@ -1,6 +1,7 @@
 ---
-name: nielsen-heuristics
-description: Evaluate UI against Nielsen's 10 heuristics; score each 1–5 and surface issues. 尼爾森十則啟發評介界面，逐則評分、列缺失。 Use when: auditing existing UI, design review, pre-launch heuristic scoring.
+name: ux-developer-nielsen-heuristics
+description: "Evaluate UI against Nielsen's 10 heuristics; score each 1–5 and surface issues. 尼爾森十則啟發評介界面，逐則評分、列缺失。 Use when: auditing existing UI, design review, pre-launch heuristic scoring."
+disable-model-invocation: true
 ---
 
 # Nielsen's 10 Usability Heuristics

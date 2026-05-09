@@ -1,6 +1,7 @@
 ---
-name: figma-components
-description: List all components in a Figma file with variants, usage statistics, and categorization. 列出 Figma 文件所有組件：含變體、使用統計、自動分類。 Use when: taking component inventory, finding component IDs, checking variant details, analyzing component usage, categorizing design system components
+name: figma-query-figma-components
+description: "List all components in a Figma file with variants, usage statistics, and categorization. 列出 Figma 文件所有組件：含變體、使用統計、自動分類。 Use when: taking component inventory, finding component IDs, checking variant details, analyzing component usage, categorizing design system components"
+disable-model-invocation: true
 ---
 
 # Figma List Components Tool

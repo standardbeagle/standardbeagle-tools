@@ -1,8 +1,9 @@
 ---
-name: post-task-reviewer
+name: workflow-post-task-reviewer
 description: "Forked-context deep post-task reviewer playbook (workflow mirror) — preloads verdict schema + OWASP + deep code + PM/docs + replan lens for sequential post-gate review (fork context). 對抗深度後任務審查者技能（workflow鏡像）：OWASP安全、深度代碼、PM/文檔、重新規劃（fork上下文）。 Use when: dispatching workflow:post-task-reviewer subagent, running deep review after fast gates, OWASP audit, PM/docs accuracy check, replan recommendation"
+disable-model-invocation: true
 context: fork
-agent: workflow:post-task-reviewer
+agent: "workflow:post-task-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: workflow mirror of dartai:post-task-reviewer. Deep reviewer is the longest-running adversarial pass — OWASP walkthrough, architecture analysis, doc cross-check, replan generation. Fork is essential to keep the workflow main loop bounded. Executor: workflow:post-task-reviewer (preloads adversarial-quality, testing-strategy, and this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict YAML — only token efficiency degrades. -->

@@ -1,5 +1,7 @@
 ---
+name: mcp-architect-context-compression
 description: "Maximize information value per token in MCP responses via abbreviation, schema optimization, selective fields, and efficient formatting. 壓縮MCP響應、縮略字段、引用系統、token預算分配。Use when: user asks about token efficiency, compress responses, reduce token usage, minimize context, compact format, token optimization, or discusses reducing token consumption in MCP responses while maintaining value."
+disable-model-invocation: true
 version: 0.1.0
 ---
 

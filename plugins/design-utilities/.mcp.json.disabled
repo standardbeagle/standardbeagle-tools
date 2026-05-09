@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "a11y-audit": { "command": "npx", "args": ["-y", "@standardbeagle/a11y-audit@latest", "mcp"] },
+    "color": { "command": "npx", "args": ["-y", "@standardbeagle/color@latest", "mcp"] },
+    "design-token": { "command": "npx", "args": ["-y", "@standardbeagle/design-token@latest", "mcp"] },
+    "image-processing": { "command": "npx", "args": ["-y", "@standardbeagle/image-processing@latest", "mcp"] },
+    "typography": { "command": "npx", "args": ["-y", "@standardbeagle/typography@latest", "mcp"] }
+  }
+}

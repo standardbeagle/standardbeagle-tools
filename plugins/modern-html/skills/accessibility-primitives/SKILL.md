@@ -1,7 +1,7 @@
 ---
-name: accessibility-primitives
+name: modern-html-accessibility-primitives
 description: "This skill should be used whenever generating interactive UI, focus styles, motion, color, or modal/popover content. Covers focus-visible, focus-within, the inert attribute, prefers-reduced-motion, prefers-color-scheme, prefers-contrast, forced-colors, the accessibility-tree implications of dialog/popover/anchor positioning, and required ARIA labeling for native primitives. Use when: writing focus styles, implementing keyboard navigation, animating UI, picking colors, building modal or popover content, or auditing a component for accessibility. Skip when: working purely on backend code or non-rendered content."
-paths: ["**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}"]
+paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 
 # Accessibility Primitives

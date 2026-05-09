@@ -1,6 +1,7 @@
 ---
-name: setup-mcp
-description: Install and register mcp-debug MCP server; prefers ~/.local/bin, falls back to npx. 安裝 mcp-debug 伺服器，優先本地執行檔，退則 npx。 Use when: first-time mcp-tester setup, registering mcp-debug with slop-mcp, configuring MCP testing environment.
+name: mcp-tester-setup-mcp
+description: "Install and register mcp-debug MCP server; prefers ~/.local/bin, falls back to npx. 安裝 mcp-debug 伺服器，優先本地執行檔，退則 npx。 Use when: first-time mcp-tester setup, registering mcp-debug with slop-mcp, configuring MCP testing environment."
+disable-model-invocation: true
 ---
 
 # MCP Tester Setup

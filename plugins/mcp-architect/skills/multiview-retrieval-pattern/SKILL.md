@@ -1,5 +1,7 @@
 ---
+name: mcp-architect-multiview-retrieval-pattern
 description: "Progressive-disclosure tool design for retrieval MCP servers — return a single retrieval mode by default, expose dense + lexical + symbolic + multiview as opt-in flags. Index-once, query-many: build cost amortizes once across all modes, query cost stays per-mode cheap. Pattern justification: GraphRAG / RAGSearch finding that complementary index types win on multi-hop queries while single-mode handles 1-hop just fine. Concrete reference implementation: lci search modes (plugins/lci/docs/lci-modes-spec.md commit 2a649e0). Use when: designing a retrieval MCP tool over a corpus that supports multiple index types (semantic embedding + lexical + symbolic metadata + graph), an existing retrieval tool whose users hit recall cliffs on multi-hop queries, or a tool where consumers want to opt into expensive merges without paying that cost on every call. Do not use for: single-corpus single-mode tools (no choice to make), tools where all queries are 1-hop (multiview earns no lift), or generative tools (no retrieval surface)."
+disable-model-invocation: true
 version: 0.1.0
 ---
 

@@ -1,6 +1,7 @@
 ---
-name: slop-config
-description: KDL config reference for slop-mcp scopes, manage_mcps params, auth, metadata. 配置格式、範圍、認證、元數據之參考。 Use when: registering servers, inspecting auth, understanding KDL format, checking scope behavior.
+name: slop-mcp-slop-config
+description: "KDL config reference for slop-mcp scopes, manage_mcps params, auth, metadata. 配置格式、範圍、認證、元數據之參考。 Use when: registering servers, inspecting auth, understanding KDL format, checking scope behavior."
+disable-model-invocation: true
 ---
 
 # slop-mcp Configuration Reference

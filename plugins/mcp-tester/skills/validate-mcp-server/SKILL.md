@@ -1,6 +1,7 @@
 ---
-name: validate-mcp-server
-description: Validate MCP server connection, tool discovery, schema correctness, and functional behavior. 驗 MCP 伺服器連線、工具發現、模式正確性及功能行為。 Use when: verifying new MCP server implementation, checking schema compliance, testing tool error handling.
+name: mcp-tester-validate-mcp-server
+description: "Validate MCP server connection, tool discovery, schema correctness, and functional behavior. 驗 MCP 伺服器連線、工具發現、模式正確性及功能行為。 Use when: verifying new MCP server implementation, checking schema compliance, testing tool error handling."
+disable-model-invocation: true
 ---
 
 # Validating MCP Server Implementations

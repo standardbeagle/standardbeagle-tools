@@ -1,6 +1,7 @@
 ---
-name: risk-telemetry-audit
+name: risk-pipeline-risk-telemetry-audit
 description: "Replay .risk-pipeline/telemetry.jsonl to surface calibration drift: false-skip rate (low-scored tasks with post-deploy bugs), over-review rate (high-scored tasks reviewers pass empty), token/time distribution per pipeline tier. Emits markdown audit report with weight/budget tuning recommendations. Default window: --last 50 or --since 30d."
+disable-model-invocation: true
 context: fork
 agent: general-purpose
 ---

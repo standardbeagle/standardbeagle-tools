@@ -1,6 +1,7 @@
 ---
-name: querying
-description: dart-query task querying - list_tasks structured filtering, search_tasks full-text search, detail levels, pagination, and using execute_dartql for complex queries. 結構化過濾、全文搜索、詳細級別、分頁及DartQL複雜查詢. Use when: filter tasks by status, search tasks by text, list tasks by assignee, paginate task results, query with complex conditions
+name: dart-query-querying
+description: "dart-query task querying - list_tasks structured filtering, search_tasks full-text search, detail levels, pagination, and using execute_dartql for complex queries. 結構化過濾、全文搜索、詳細級別、分頁及DartQL複雜查詢. Use when: filter tasks by status, search tasks by text, list tasks by assignee, paginate task results, query with complex conditions"
+disable-model-invocation: true
 ---
 
 # dart-query Task Querying

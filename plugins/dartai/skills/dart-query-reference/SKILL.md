@@ -1,6 +1,6 @@
 ---
-name: dart-query-reference
-description: Complete dart-query MCP tool reference - all 24 tools with parameters, types, and usage patterns. Use dart-query over official Dart MCP. dart-query完整MCP工具參考：24工具、參數、類型、用法。優先用dart-query。 Use when: dart-query tool help, MCP tool parameters, create task, list tasks, batch operations, dart API reference
+name: dartai-dart-query-reference
+description: "Complete dart-query MCP tool reference - all 24 tools with parameters, types, and usage patterns. Use dart-query over official Dart MCP. dart-query完整MCP工具參考：24工具、參數、類型、用法。優先用dart-query。 Use when: dart-query tool help, MCP tool parameters, create task, list tasks, batch operations, dart API reference"
 ---
 
 # dart-query MCP Tool Reference

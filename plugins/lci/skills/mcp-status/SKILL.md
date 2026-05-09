@@ -1,6 +1,6 @@
 ---
-name: mcp-status
-description: Check LCI MCP server registration status across slop-mcp and standard configurations. 查LCI伺服器登錄狀態。 Use when: checking if lci is registered, diagnosing connection errors, verifying index status.
+name: lci-mcp-status
+description: "Check LCI MCP server registration status across slop-mcp and standard configurations. 查LCI伺服器登錄狀態。 Use when: checking if lci is registered, diagnosing connection errors, verifying index status."
 ---
 
 # LCI MCP Status

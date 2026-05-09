@@ -1,6 +1,7 @@
 ---
-name: navigation-patterns
-description: Navigation design patterns for intuitive, accessible wayfinding. 導航設計模式：水平欄、側邊欄、漢堡菜單、麵包屑，均含ARIA。 Use when: designing nav structure, responsive navigation, adding breadcrumbs or tabs.
+name: ux-developer-navigation-patterns
+description: "Navigation design patterns for intuitive, accessible wayfinding. 導航設計模式：水平欄、側邊欄、漢堡菜單、麵包屑，均含ARIA。 Use when: designing nav structure, responsive navigation, adding breadcrumbs or tabs."
+disable-model-invocation: true
 ---
 
 # Navigation Patterns

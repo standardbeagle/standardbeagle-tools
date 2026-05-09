@@ -1,6 +1,7 @@
 ---
-name: keyboard-navigation
-description: Keyboard accessibility patterns for operable, navigable interfaces. 鍵盤無障礙：焦點可見、邏輯順序、無陷阱、組件鍵盤模式。 Use when: implementing modals, menus, tabs, custom interactive widgets.
+name: ux-developer-keyboard-navigation
+description: "Keyboard accessibility patterns for operable, navigable interfaces. 鍵盤無障礙：焦點可見、邏輯順序、無陷阱、組件鍵盤模式。 Use when: implementing modals, menus, tabs, custom interactive widgets."
+disable-model-invocation: true
 ---
 
 # Keyboard Navigation

@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-chain-of-thought
 description: "Chain-of-thought and reasoning technique patterns for standard and reasoning LLMs. 思維鏈及推理技術模式，適用標準模型與推理模型。 Use when: multi-step math or logic tasks, deciding CoT vs reasoning-model strategy, implementing Tree-of-Thoughts or ReAct patterns."
+disable-model-invocation: true
 ---
 
 # Chain-of-Thought & Reasoning Reference (2026)

@@ -1,6 +1,6 @@
 ---
-name: commit-all
-description: Orchestrate full WIP preparation and auto-commit by loading project config from memory and dispatching dedicated agents. 統籌WIP準備，自動提交：從記憶加載配置，分派專屬代理。 Use when: wrapping up uncommitted work, single-command test-doc-commit, end of work session.
+name: lci-commit-all
+description: "Orchestrate full WIP preparation and auto-commit by loading project config from memory and dispatching dedicated agents. 統籌WIP準備，自動提交：從記憶加載配置，分派專屬代理。 Use when: wrapping up uncommitted work, single-command test-doc-commit, end of work session."
 ---
 
 # Commit All

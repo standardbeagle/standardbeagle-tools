@@ -1,6 +1,7 @@
 ---
-name: typography
-description: Typography system design covering type selection, scale creation, pairing strategies, and readability optimization. Create cohesive type systems that enhance brand identity and user experience. 字體系統設計：選型、比例建立、配對策略、可讀性優化。 Use when: selecting fonts for a project, creating a type scale, designing responsive typography, optimizing text readability, establishing font loading strategy.
+name: ux-design-typography
+description: "Typography system design covering type selection, scale creation, pairing strategies, and readability optimization. Create cohesive type systems that enhance brand identity and user experience. 字體系統設計：選型、比例建立、配對策略、可讀性優化。 Use when: selecting fonts for a project, creating a type scale, designing responsive typography, optimizing text readability, establishing font loading strategy."
+disable-model-invocation: true
 ---
 
 # Typography Design

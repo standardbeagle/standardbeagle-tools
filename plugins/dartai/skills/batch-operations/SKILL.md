@@ -1,6 +1,6 @@
 ---
-name: batch-operations
-description: Master dart-query batch operations - DartQL selectors, batch_update_tasks, batch_delete_tasks, CSV import, safety protocols. 批量操作dart-query：DartQL選擇器、批量更新刪除、CSV匯入、安全規程。 Use when: bulk update tasks, batch delete, import CSV, sprint transition, mass status change
+name: dartai-batch-operations
+description: "Master dart-query batch operations - DartQL selectors, batch_update_tasks, batch_delete_tasks, CSV import, safety protocols. 批量操作dart-query：DartQL選擇器、批量更新刪除、CSV匯入、安全規程。 Use when: bulk update tasks, batch delete, import CSV, sprint transition, mass status change"
 ---
 
 # Batch Operations with dart-query

@@ -1,6 +1,6 @@
 ---
-name: search-code
-description: Find code symbols, patterns, implementations, and files using LCI semantic search. 以LCI語義搜索查找符號、模式、實現、文件。 Use when: finding function/class/type definitions, searching symbol usages, finding files by path, filtering by language or directory.
+name: lci-search-code
+description: "Find code symbols, patterns, implementations, and files using LCI semantic search. 以LCI語義搜索查找符號、模式、實現、文件。 Use when: finding function/class/type definitions, searching symbol usages, finding files by path, filtering by language or directory."
 ---
 
 # Code Search Workflows

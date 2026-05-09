@@ -1,8 +1,9 @@
 ---
-name: cli-readiness-reviewer
+name: compound-review-cli-readiness-reviewer
 description: "Forked-context CLI agent-readiness reviewer playbook — preloads verdict schema and non-interactive/structured-output/actionable-errors/idempotent-retry lens for adversarial CLI review subagents. 對抗CLI代理就緒審查者技能：非交互式、結構化輸出、可操作錯誤、冪等重試視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:cli-readiness-reviewer subagent for a CLI diff, gating on agent ergonomics, when reviewer should not pollute main thread"
+disable-model-invocation: true
 context: fork
-agent: compound-review:cli-readiness-reviewer
+agent: "compound-review:cli-readiness-reviewer"
 ---
 
 <!-- CC 2.1 fork decision: CLI-readiness review reads command definitions, traces argument handling, and evaluates output ergonomics across CLI source and spec files. Forking keeps those reads isolated from the main loop. Executor: compound-review:cli-readiness-reviewer (preloads dartai:code-quality + this companion skill). Fallback: if `context: fork` is unsupported, the agent still emits the same verdict file — only token efficiency degrades. -->

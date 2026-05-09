@@ -1,6 +1,7 @@
 ---
-name: memory-management
-description: Preserve workflow learnings as structured memories before context compaction fires. 壓縮前保存工作流知識，結構化存儲，供日後檢索. Use when: save workflow memory, preserve lesson learned, review before compaction, store technical decision, manage memory lifecycle
+name: workflow-memory-management
+description: "Preserve workflow learnings as structured memories before context compaction fires. 壓縮前保存工作流知識，結構化存儲，供日後檢索. Use when: save workflow memory, preserve lesson learned, review before compaction, store technical decision, manage memory lifecycle"
+disable-model-invocation: true
 ---
 
 # Memory Management for Workflow Loops

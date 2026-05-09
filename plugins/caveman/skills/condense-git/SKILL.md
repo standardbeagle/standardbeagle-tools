@@ -1,6 +1,7 @@
 ---
-name: condense-git
-description: Compress git diffs, logs, blame output, and GitHub PR URLs via caveman-mcp. Use for PR review, change summarization, blame archaeology when raw diff exceeds context budget. 以caveman壓縮git diff/log/blame及GitHub PR URL. Use when: review large PR, summarize branch diff, archaeology git blame, ingest PR for memory, prep diff for downstream review agent
+name: caveman-condense-git
+description: "Compress git diffs, logs, blame output, and GitHub PR URLs via caveman-mcp. Use for PR review, change summarization, blame archaeology when raw diff exceeds context budget. 以caveman壓縮git diff/log/blame及GitHub PR URL. Use when: review large PR, summarize branch diff, archaeology git blame, ingest PR for memory, prep diff for downstream review agent"
+disable-model-invocation: true
 ---
 
 # condense_git — Git Artifact Compression

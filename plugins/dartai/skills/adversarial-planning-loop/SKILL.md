@@ -1,6 +1,6 @@
 ---
-name: adversarial-planning-loop
-description: Adversarial cooperation loop for plan validation - complete hierarchy with research tasks, preventing over-design. 對抗規劃環：驗證計劃完整性，含研究任務，防過度設計。 Use when: validate plan, build task hierarchy, planning loop, refactor-first assessment, prevent scope creep
+name: dartai-adversarial-planning-loop
+description: "Adversarial cooperation loop for plan validation - complete hierarchy with research tasks, preventing over-design. 對抗規劃環：驗證計劃完整性，含研究任務，防過度設計。 Use when: validate plan, build task hierarchy, planning loop, refactor-first assessment, prevent scope creep"
 context: fork
 ---
 

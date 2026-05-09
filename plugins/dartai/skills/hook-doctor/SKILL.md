@@ -1,6 +1,6 @@
 ---
-name: hook-doctor
-description: Diagnose and validate plugin hooks - check scripts exist, have permissions, and execute correctly. 診斷驗證插件掛鉤：檢查腳本存在、權限及執行正確性。 Use when: hook errors, plugin hooks broken, validate hooks, debug hook scripts, hook not firing
+name: dartai-hook-doctor
+description: "Diagnose and validate plugin hooks - check scripts exist, have permissions, and execute correctly. 診斷驗證插件掛鉤：檢查腳本存在、權限及執行正確性。 Use when: hook errors, plugin hooks broken, validate hooks, debug hook scripts, hook not firing"
 ---
 
 # Hook Doctor

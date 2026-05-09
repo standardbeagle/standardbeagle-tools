@@ -1,4 +1,5 @@
 ---
+name: dev-standards-update-project
 description: "Re-detect tech stack, compare against current config, and update rules, CLAUDE.md, and hooks. 重新檢測技術棧，更新規則、CLAUDE.md 及鉤子。 Use when: update project, refresh project settings, re-detect languages, update CLAUDE.md, refresh hooks, reconfigure dev standards"
 ---
 

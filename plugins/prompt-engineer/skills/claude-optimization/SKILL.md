@@ -1,5 +1,7 @@
 ---
+name: prompt-engineer-claude-optimization
 description: "Claude-specific prompt optimization patterns for Opus, Sonnet, and Haiku. Claude 專屬提示優化模式，適用 Opus、Sonnet、Haiku。 Use when: writing system prompts for Claude, tuning agentic Claude workflows, applying XML structure or explicit-action framing."
+disable-model-invocation: true
 ---
 
 # Claude Optimization Reference

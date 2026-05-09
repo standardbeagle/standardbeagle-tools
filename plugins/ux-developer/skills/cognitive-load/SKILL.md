@@ -1,6 +1,7 @@
 ---
-name: cognitive-load
-description: Cognitive load reduction strategies for clearer, simpler user experiences. 認知負荷削減策略：選擇精簡、漸進披露、一致模式、智能默認。 Use when: reviewing information architecture, simplifying complex flows, reducing decision points.
+name: ux-developer-cognitive-load
+description: "Cognitive load reduction strategies for clearer, simpler user experiences. 認知負荷削減策略：選擇精簡、漸進披露、一致模式、智能默認。 Use when: reviewing information architecture, simplifying complex flows, reducing decision points."
+disable-model-invocation: true
 ---
 
 # Reducing Cognitive Load

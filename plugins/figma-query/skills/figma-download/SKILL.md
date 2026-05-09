@@ -1,6 +1,7 @@
 ---
-name: figma-download
-description: Download images by imageRef ID or render Figma nodes as images. 按 imageRef ID 下載圖像，或將 Figma 節點渲染為圖像。 Use when: downloading image fills, rendering frames as PNG, creating documentation screenshots, exporting artboards, getting image fills for backgrounds
+name: figma-query-figma-download
+description: "Download images by imageRef ID or render Figma nodes as images. 按 imageRef ID 下載圖像，或將 Figma 節點渲染為圖像。 Use when: downloading image fills, rendering frames as PNG, creating documentation screenshots, exporting artboards, getting image fills for backgrounds"
+disable-model-invocation: true
 ---
 
 # Figma Download Image Tool

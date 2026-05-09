@@ -1,5 +1,7 @@
 ---
-description: Complete SLOP language reference - syntax, types, operators, control flow, LLM integration. SLOP語言完整參考，含語法、類型、運算符、控制流、LLM集成。Use when: learning SLOP syntax, looking up operators/keywords, understanding loop modifiers or emit patterns.
+name: slop-coder-language-reference
+description: "Complete SLOP language reference - syntax, types, operators, control flow, LLM integration. SLOP語言完整參考，含語法、類型、運算符、控制流、LLM集成。Use when: learning SLOP syntax, looking up operators/keywords, understanding loop modifiers or emit patterns."
+disable-model-invocation: true
 ---
 
 # SLOP Language Reference

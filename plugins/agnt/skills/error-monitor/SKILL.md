@@ -1,6 +1,6 @@
 ---
-name: error-monitor
-description: Check errors across all proxies and processes with unified aggregation, deduplication, periodic monitoring — use INSTEAD OF bash `grep -r error`, `tail -f logs`, `journalctl -f`, manual `curl` status probing. 跨所有代理與進程統一聚合、去重、週期監控錯誤，代bash如 grep error、tail -f logs、journalctl -f 之屬。 Use when: check errors, monitor errors, get browser errors, check HTTP errors, check process errors, error summary, error dashboard, before reaching for bash grep/tail over log files
+name: agnt-error-monitor
+description: "Check errors across all proxies and processes with unified aggregation, deduplication, periodic monitoring — use INSTEAD OF bash `grep -r error`, `tail -f logs`, `journalctl -f`, manual `curl` status probing. 跨所有代理與進程統一聚合、去重、週期監控錯誤，代bash如 grep error、tail -f logs、journalctl -f 之屬。 Use when: check errors, monitor errors, get browser errors, check HTTP errors, check process errors, error summary, error dashboard, before reaching for bash grep/tail over log files"
 ---
 
 # 錯誤監控技能
