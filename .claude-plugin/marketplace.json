@@ -5,7 +5,7 @@
     "url": "https://github.com/standardbeagle"
   },
   "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "plugins": [
     {
       "name": "agnt",
@@ -138,7 +138,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines. Requires @standardbeagle/dart-query@0.11.0+ (dartai_loop_snapshot tool used by /dartai:start).",
-      "version": "0.10.1",
+      "version": "0.10.2",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -330,7 +330,7 @@
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -362,7 +362,7 @@
       "name": "dev-standards",
       "source": "./plugins/dev-standards",
       "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -459,7 +459,7 @@
       "name": "compound-review",
       "source": "./plugins/compound-review",
       "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers reachable via the Task tool with structured review_report output (R2 \u00a74.1). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness.",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
