@@ -5,7 +5,7 @@
     "url": "https://github.com/standardbeagle"
   },
   "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "plugins": [
     {
       "name": "agnt",
@@ -62,7 +62,7 @@
       "name": "mcp-architect",
       "source": "./plugins/mcp-architect",
       "description": "Design high-quality MCP servers with progressive discovery, context compression, and token-efficient responses. Includes patterns for multi-tool MCPs, the info tool pattern, cross-tool IDs, and automation-friendly JSON formats.",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -362,7 +362,7 @@
       "name": "dev-standards",
       "source": "./plugins/dev-standards",
       "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
