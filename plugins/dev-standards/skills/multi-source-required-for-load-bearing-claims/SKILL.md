@@ -1,6 +1,6 @@
 ---
 name: dev-standards-multi-source-required-for-load-bearing-claims
-description: "Architecture/security/performance claims need >=2 independent sources or escalate to user. Load-bearing = wrong cascades downstream (session-store, bcrypt vs argon2, O(log n) vs O(n)). Silent single-source = rationalization-trap. Use when: architectural decision in spec/design/ADR, security primitive assertion, performance characteristic assertion, PR with load-bearing assertion, subagent producing design doc. Skip: non-load-bearing (typo, comment), single authoritative source documented (lci_get_context), exploratory hypothesis."
+description: "Architecture/security/performance claims need >=2 independent sources or escalate. Load-bearing = wrong cascades downstream. Use when: spec/ADR architectural decisions, security primitive choice, performance characteristic assertion, PR with load-bearing claim, subagent design doc. Skip: typos/comments, single authoritative source documented, exploratory hypothesis."
 ---
 
 # Multi-Source Required For Load-Bearing Claims

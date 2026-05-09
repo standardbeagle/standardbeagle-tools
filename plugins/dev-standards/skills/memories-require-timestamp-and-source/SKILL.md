@@ -1,6 +1,6 @@
 ---
 name: dev-standards-memories-require-timestamp-and-source
-description: "New memory entries (MEMORY.md or .claude/projects/<project>/memory/) need ISO 8601 timestamp + source-event tag (loop-id/task-id/conversation-id/commit-sha). Enables temporal normalization on conflict. Soft guidance — backfill on next touch. Use when: writing new memory, creating per-memory file, reviewing PR adding memory, auditing memory staleness, subagent appending memory. Skip: editing existing files lacking fields, CLAUDE.md preferences (preferences != memories)."
+description: "New memory entries need ISO 8601 timestamp + source-event tag (loop-id/task-id/commit-sha) for temporal conflict resolution. Soft guidance — backfill on next touch. Use when: writing new memory, creating per-memory file, reviewing PR adding memory, subagent appending memory. Skip: existing files lacking fields, CLAUDE.md preferences."
 ---
 
 # Memories Require Timestamp and Source
