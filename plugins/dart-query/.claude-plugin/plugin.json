@@ -1,6 +1,6 @@
 {
   "name": "dart-query",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "dart-query MCP client skills - tool references, task lifecycle workflows, project management recipes, and Claude Code loop integration for Dart AI task management",
   "author": {
     "name": "Standard Beagle",
@@ -18,19 +18,5 @@
     "batch-operations",
     "project-management",
     "slop-mcp"
-  ],
-  "commands": [
-    "./commands/setup-dart-query.md"
-  ],
-  "skills": [
-    "./skills/discovery.md",
-    "./skills/task-crud.md",
-    "./skills/querying.md",
-    "./skills/batch-ops.md",
-    "./skills/workspace.md",
-    "./skills/task-lifecycle.md",
-    "./skills/project-recipes.md",
-    "./skills/recurring-tasks.md",
-    "./skills/task-watching.md"
   ]
 }

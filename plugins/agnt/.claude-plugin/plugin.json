@@ -1,6 +1,6 @@
 {
   "name": "agnt",
-  "version": "0.8.3",
+  "version": "0.9.0",
   "description": "MCP server for AI coding agents: process management, reverse proxy with traffic logging, frontend instrumentation with 50+ diagnostic functions, sketch mode for wireframing, and session scheduling",
   "author": {
     "name": "Standard Beagle",
@@ -22,50 +22,5 @@
     "wireframe",
     "scheduler",
     "session"
-  ],
-  "commands": [
-    "./commands/setup-project.md",
-    "./commands/dev-proxy.md",
-    "./commands/check-errors.md",
-    "./commands/screenshot.md",
-    "./commands/sketch-mode.md",
-    "./commands/browser-debug.md",
-    "./commands/stop-all.md",
-    "./commands/audit-a11y.md",
-    "./commands/audit-performance.md",
-    "./commands/audit-seo.md",
-    "./commands/audit-security.md",
-    "./commands/analyze-ux.md",
-    "./commands/analyze-frontend.md",
-    "./commands/qa-test.md",
-    "./commands/review-api.md",
-    "./commands/schedule.md",
-    "./commands/chain.md",
-    "./commands/workflow.md",
-    "./commands/current-page.md"
-  ],
-  "skills": [
-    "./skills/schedule.md",
-    "./skills/setup-mcp.md",
-    "./skills/mcp-tools.md",
-    "./skills/browser-diagnostics.md",
-    "./skills/accessibility-audit.md",
-    "./skills/quality-audits.md",
-    "./skills/interaction-tracking.md",
-    "./skills/sketch-visual.md",
-    "./skills/process-proxy.md",
-    "./skills/browser-debug.md",
-    "./skills/current-page.md",
-    "./skills/error-monitor.md",
-    "./skills/error-watch.md",
-    "./skills/event-watch.md",
-    "./skills/responsive-check.md",
-    "./skills/visual-diagnostics.md",
-    "./skills/lci-companion.md"
-  ],
-  "agents": [
-    "./agents/browser-debugger.md",
-    "./agents/process-manager.md",
-    "./agents/ui-designer.md"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "prompt-engineer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Prompt and context engineering toolkit. Includes DSPy-inspired optimization, Claude patterns, context engineering, chain-of-thought design, RAG prompting, and multi-agent orchestration techniques.",
   "author": {
     "name": "Standard Beagle",
@@ -20,31 +20,5 @@
     "prompt-optimization",
     "claude-patterns",
     "llm-optimization"
-  ],
-  "commands": [
-    "./commands/analyze-prompt.md",
-    "./commands/optimize-prompt.md",
-    "./commands/create-system-prompt.md",
-    "./commands/context-audit.md",
-    "./commands/few-shot-design.md",
-    "./commands/eval-prompt.md",
-    "./commands/scaffold-prompt.md",
-    "./commands/compress-context.md"
-  ],
-  "skills": [
-    "./skills/prompt-patterns.md",
-    "./skills/context-engineering.md",
-    "./skills/claude-optimization.md",
-    "./skills/rag-prompting.md",
-    "./skills/multi-agent-prompts.md",
-    "./skills/chain-of-thought.md",
-    "./skills/prompt-scaffolding.md",
-    "./skills/automatic-optimization.md",
-    "./skills/model-specific.md"
-  ],
-  "agents": [
-    "./agents/prompt-optimizer.md",
-    "./agents/context-architect.md",
-    "./agents/eval-specialist.md"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "research",
-  "version": "0.1.0",
-  "description": "External and repo research agents ported from Compound Engineering. Web research, repo analysis, git history, learnings, session history, and issue intelligence — all reachable via the Task tool with structured research_report output (R2 §4.2).",
+  "version": "0.2.0",
+  "description": "External and repo research agents ported from Compound Engineering. Web research, repo analysis, git history, learnings, session history, and issue intelligence \u2014 all reachable via the Task tool with structured research_report output (R2 \u00a74.2).",
   "author": {
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
@@ -18,10 +18,5 @@
     "ce-port",
     "task-tool",
     "research-report"
-  ],
-  "agents": [
-    "./agents/web-researcher.md",
-    "./agents/learnings-researcher.md",
-    "./agents/session-historian.md"
   ]
 }

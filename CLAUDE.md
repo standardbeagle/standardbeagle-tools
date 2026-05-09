@@ -4,10 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-This is a **Claude Code marketplace repository** (catalog version `1.4.0`) that packages and distributes 20+ plugins. The two core MCP-backed plugins:
+This is a **Claude Code marketplace repository** (catalog version `1.6.0`) that packages and distributes 20+ plugins. The two core MCP-backed plugins:
 
-1. **agnt** (v0.8.3) - Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode
-2. **lci** (v0.4.0) - Lightning code intelligence: sub-millisecond semantic code search
+1. **agnt** (v0.9.0) - Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode
+2. **lci** (v0.5.0) - Lightning code intelligence: sub-millisecond semantic code search
 
 The rest are workflow/skill bundles (dartai, workflow, brainstorming, knowledge-hygiene, risk-pipeline, ux-design, ux-developer, mcp-architect, mcp-tester, dev-standards, photino, figma-query, color, typography, design-token, a11y-audit, image-processing, ideation, compound-review, research, slop-mcp, slop-coder, dart-query, prompt-engineer). Source of truth: `.claude-plugin/marketplace.json`.
 
@@ -60,19 +60,26 @@ A **plugin marketplace** is a catalog that distributes Claude Code extensions. I
 }
 ```
 
-**`plugins/<name>/.claude-plugin/plugin.json`** - Plugin manifest
+**`plugins/<name>/.claude-plugin/plugin.json`** - Plugin manifest (auto-discovery: components in default folders are loaded automatically)
 ```json
 {
   "name": "agnt",
-  "version": "0.7.12",
+  "version": "0.9.0",
   "description": "...",
-  "commands": ["./commands/dev-proxy.md"],
-  "skills": ["./skills/schedule.md"],
-  "agents": ["./agents/browser-debugger.md"],
-  "hooks": "./hooks/hooks.json",
-  "mcpServers": "./mcp.json"
+  "author": { "name": "Standard Beagle" }
 }
 ```
+
+Default auto-discovery paths (no need to list explicitly):
+- `skills/<name>/SKILL.md` — skills as folders
+- `commands/<name>.md` — flat command files (legacy; prefer `skills/`)
+- `agents/<name>.md` — agent definitions
+- `hooks/hooks.json` — event handlers
+- `..mcp.json` — MCP server config (dotfile)
+- `.lsp.json` — LSP server config
+- `monitors/monitors.json` — background monitors
+- `bin/` — executables
+- `settings.json` — default settings
 
 ### The `strict` Field
 
@@ -93,33 +100,34 @@ plugins/
   ├── agnt/                     # Browser superpowers plugin (MCP-backed)
   │   ├── .claude-plugin/plugin.json
   │   ├── commands/             # Slash commands (e.g., /setup-project, /dev-proxy)
-  │   ├── skills/               # Skills (e.g., schedule.md, workflow.md)
+  │   ├── skills/<name>/SKILL.md # Skills as folders containing SKILL.md
   │   ├── agents/               # Specialized agents
   │   ├── hooks/hooks.json      # Session lifecycle hooks
   │   ├── scripts/              # Hook implementation scripts
-  │   └── mcp.json[.disabled]   # MCP server config (disabled: managed via slop-mcp)
+  │   └── ..mcp.json[.disabled]  # MCP server config (disabled: managed via slop-mcp)
   │
   ├── lci/                      # Code intelligence plugin (MCP-backed)
   │   ├── .claude-plugin/plugin.json
   │   ├── commands/             # Slash commands (/search, /explore, /context)
-  │   └── mcp.json[.disabled]   # MCP server config (disabled: managed via slop-mcp)
+  │   ├── skills/<name>/SKILL.md
+  │   └── ..mcp.json[.disabled]
   │
-  └── <other-plugins>/          # Skill/workflow bundles — same structure, no mcp.json
+  └── <other-plugins>/          # Skill/workflow bundles — same structure, no ..mcp.json
       ├── .claude-plugin/plugin.json
-      ├── commands/ skills/ agents/ hooks/
-      └── (no mcp.json — pure skill bundles)
+      ├── commands/ skills/<name>/SKILL.md agents/ hooks/
+      └── (no ..mcp.json — pure skill bundles)
 ```
 
-> **`mcp.json.disabled`** is intentional. Plugin-bundled MCP configs are incompatible with this project's `slop-mcp` registration model. Users register MCP servers through slop-mcp, not via plugin-bundled configs. Do not "fix" by re-enabling.
+> **`..mcp.json.disabled`** is intentional. Plugin-bundled MCP configs are incompatible with this project's `slop-mcp` registration model. Users register MCP servers through slop-mcp, not via plugin-bundled configs. Do not "fix" by re-enabling. Exception: `slop-mcp` and `risk-pipeline` plugins keep `..mcp.json` active (entry-point servers).
 
 ### Plugin Architecture
 
 Each plugin follows this structure:
 
 - **`.claude-plugin/plugin.json`** - Plugin metadata (name, version, author, keywords)
-- **`mcp.json`** - MCP server configuration using `npx @standardbeagle/<plugin>@latest mcp`
+- **`.mcp.json`** - MCP server configuration using `npx @standardbeagle/<plugin>@latest mcp`
 - **`commands/*.md`** - Slash commands available to users
-- **`skills/*.md`** - Skills that provide specialized capabilities
+- **`skills/<name>/SKILL.md`** - Skills as folders with SKILL.md entrypoint
 - **`agents/*.md`** - Specialized agents for complex workflows
 
 ### MCP Server Integration
@@ -173,7 +181,7 @@ When updating plugin versions:
 1. Update version in `.claude-plugin/plugin.json`
 2. Update version in `marketplace.json` (plugins array)
 3. Ensure MCP servers are published to npm with matching versions
-4. Verify `mcp.json` uses `@latest` or specific version tag
+4. Verify `.mcp.json` uses `@latest` or specific version tag
 
 ## Key Concepts
 
@@ -268,8 +276,8 @@ description: What it does
 Command implementation details and instructions to Claude...
 ```
 
-#### Skills (`skills/*.md`)
-Specialized prompts/workflows that can be invoked programmatically
+#### Skills (`skills/<name>/SKILL.md`)
+Specialized prompts/workflows that can be invoked programmatically. Each skill is a folder containing `SKILL.md` plus optional supporting files (templates, scripts, references).
 
 **Use cases:**
 - Complex multi-step workflows

@@ -4,16 +4,14 @@
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
   },
-  "metadata": {
-    "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-    "version": "1.5.0"
-  },
+  "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
+  "version": "1.6.0",
   "plugins": [
     {
       "name": "agnt",
       "source": "./plugins/agnt",
       "description": "Browser superpowers for AI coding agents: process management, reverse proxy with traffic logging, frontend instrumentation with 50+ diagnostic functions, sketch mode for wireframing, and design mode for UI iteration",
-      "version": "0.8.3",
+      "version": "0.9.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/agnt"
@@ -40,7 +38,7 @@
       "name": "lci",
       "source": "./plugins/lci",
       "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents. Provides instant codebase navigation, symbol lookup, and call hierarchy analysis",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/lci"
@@ -64,7 +62,7 @@
       "name": "mcp-architect",
       "source": "./plugins/mcp-architect",
       "description": "Design high-quality MCP servers with progressive discovery, context compression, and token-efficient responses. Includes patterns for multi-tool MCPs, the info tool pattern, cross-tool IDs, and automation-friendly JSON formats.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -87,7 +85,7 @@
       "name": "ux-design",
       "source": "./plugins/ux-design",
       "description": "UX design principles, color theory, typography systems, component library design, and usability heuristics. Comprehensive design guidance for creating exceptional user experiences with Adobe Color-inspired palette creation, type system design, and accessibility-first thinking.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -113,7 +111,7 @@
       "name": "ux-developer",
       "source": "./plugins/ux-developer",
       "description": "UX-driven development toolkit for building accessible, user-centered websites and applications. Integrates UX principles, accessibility verification (WCAG 2.2), Nielsen's heuristics, and usability best practices directly into the development workflow. Includes agents for comprehensive audits and component design.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -140,7 +138,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines. Requires @standardbeagle/dart-query@0.11.0+ (dartai_loop_snapshot tool used by /dartai:start).",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -172,7 +170,7 @@
       "name": "dart-query",
       "source": "./plugins/dart-query",
       "description": "dart-query MCP client skills - tool references for all 25 dart-query tools, task lifecycle workflows, project management recipes, recurring task patterns, and Claude Code loop integration for Dart AI task management",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/dart-query"
@@ -198,7 +196,7 @@
       "name": "mcp-tester",
       "source": "./plugins/mcp-tester",
       "description": "MCP server testing and debugging toolkit powered by mcp-debug. Dynamic server management, traffic analysis with circular buffer, schema validation, hot-swap development workflows, and protocol debugging.",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -224,7 +222,7 @@
       "name": "slop-mcp",
       "source": "./plugins/slop-mcp",
       "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers. Includes Dart MCP tool reference skills for reduced get_metadata calls.",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -250,7 +248,7 @@
       "name": "slop-coder",
       "source": "./plugins/slop-coder",
       "description": "SLOP language coding assistant - teaches LLMs how to write SLOP code with comprehensive language reference, patterns, built-in functions, and module system documentation for building AI agents and orchestration workflows.",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -274,7 +272,7 @@
       "name": "prompt-engineer",
       "source": "./plugins/prompt-engineer",
       "description": "State-of-the-art prompt and context engineering toolkit for 2026. Includes DSPy-inspired optimization, Claude 4.x patterns, context engineering, chain-of-thought design, RAG prompting, multi-agent orchestration, and model-specific guidelines for GPT, DeepSeek, Qwen, Grok, Kimi K2, and more.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -304,7 +302,7 @@
       "name": "figma-query",
       "source": "./plugins/figma-query",
       "description": "Token-efficient Figma integration with query-based data shaping, image export, design tokens, and adversarial design library extraction. Build production-ready component libraries with exact CSS, assets, HTML mockups, and comprehensive documentation using the Ralph Wiggum quality loop.",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -332,7 +330,7 @@
       "name": "color",
       "source": "./plugins/color",
       "description": "Precise color operations MCP server: WCAG contrast checking, color blindness simulation (deuteranopia/protanopia/tritanopia), k-means palette extraction from images, color space conversion (HEX/RGB/HSL/LAB/OKLCH/HSV), and harmony generation (complementary/triadic/analogous/split-complementary).",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -361,7 +359,7 @@
       "name": "a11y-audit",
       "source": "./plugins/a11y-audit",
       "description": "Static accessibility audit MCP server: HTML audit against WCAG 2.1/2.2 rules, ARIA role/property validation, heading outline analysis, link text quality checks, and tagged PDF accessibility inspection - all without a browser.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -389,7 +387,7 @@
       "name": "design-token",
       "source": "./plugins/design-token",
       "description": "Design token MCP server: generate tokens, export to CSS/Tailwind/Style Dictionary/SCSS/JSON, validate schemas, diff token sets across versions, merge theme layers, and generate Tailwind configs - a Style Dictionary-compatible pipeline for design system token management.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -416,7 +414,7 @@
       "name": "typography",
       "source": "./plugins/typography",
       "description": "Typography MCP server: modular type scales (ratio-based px/rem), font metrics analysis (x-height, cap-height, ascender, descender, line-height recommendations), variable font axis parsing (wght/wdth/slnt with CSS), font subsetting to WOFF2 by Unicode range, and system-fallback font stacks with size-adjust - a complete type-system toolkit for design and web delivery.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -443,7 +441,7 @@
       "name": "image-processing",
       "source": "./plugins/image-processing",
       "description": "Image processing MCP server: lossy/lossless optimization and format conversion (PNG/JPG/WebP/AVIF), responsive image variants with srcset generation, BlurHash and LQIP placeholders for lazy loading, SVG optimization (SVGO), and dominant-color palette extraction with percentage breakdown - a complete image pipeline for performant web delivery.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -471,7 +469,7 @@
       "name": "workflow",
       "source": "./plugins/workflow",
       "description": "General-purpose adversarial workflow automation with Ralph Wiggum loops. Context-aware task execution with clean subagent isolation, multi-stage verification, hook-based iteration tracking, and intelligent memory preservation before context compaction. Automatically suggests memories for patterns, decisions, lessons, and process improvements. Inspired by Goose Ralph loops and g3 principles.",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -503,7 +501,7 @@
       "name": "dev-standards",
       "source": "./plugins/dev-standards",
       "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -528,7 +526,7 @@
       "name": "risk-pipeline",
       "source": "./plugins/risk-pipeline",
       "description": "Risk-driven task classification, splitting, and review dispatch pipeline",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -552,7 +550,7 @@
       "name": "brainstorming",
       "source": "./plugins/brainstorming",
       "description": "Brainstorming skill + visual companion ported from superpowers. Mini-IDE web app for divergent-thinking sessions: question/demo/decision screens plus the SBT-S3 cards extension for card-sort and clustering. Bun + Preact + Vite stack runs against a session directory and emits events.jsonl for Claude to observe.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -577,7 +575,7 @@
       "name": "ideation",
       "source": "./plugins/ideation",
       "description": "Idea-generation skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, and post-ideation handoff to brainstorming or planning. Dispatches research:* agents for grounding.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -600,7 +598,7 @@
       "name": "compound-review",
       "source": "./plugins/compound-review",
       "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers reachable via the Task tool with structured review_report output (R2 \u00a74.1). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -628,7 +626,7 @@
       "name": "research",
       "source": "./plugins/research",
       "description": "External and repo research agents ported from Compound Engineering. Web research, prior-art scanning, learnings search, best-practices and framework-docs research. Reachable via Task tool with structured research_report output.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -650,7 +648,7 @@
       "name": "photino",
       "source": "./plugins/photino",
       "description": "Photino.NET desktop app development: build workflows, cross-platform packaging, PowerShell SDK integration, dual-service development, and agent configuration for AI-assisted .NET desktop projects.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -675,7 +673,7 @@
       "name": "knowledge-hygiene",
       "source": "./plugins/knowledge-hygiene",
       "description": "Reasoning hygiene for AI agents: cross-source conflict detection, multi-source research with provenance, and rationalization-trap heuristics. Wave-1 Tier-2 consolidation so other plugins import skills/agents instead of duplicating. Implements provenance per claim (OmniMEM 2604.01007), cross-source conflict surfacing (ConflictQA 2604.11209), and the rationalization-trap value-rule per K2 design doc (docs/research/K2-knowledge-hygiene-from-papers.md).",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -700,7 +698,7 @@
       "name": "caveman",
       "source": "./plugins/caveman",
       "description": "Context compression for URLs, files, images, PDFs, git diffs, PRs, and logs via caveman-mcp. Two-pass compression (mechanical filler removal + classical Chinese ultra-compression) preserves code, identifiers, and numbers while slashing tokens. Skills cover URL fetching with smart routing (YouTube/GitHub/arXiv/HN/Reddit/RSS), local file ingestion (PDF/PPT/XLSX/audio), image OCR/description, git diff/PR summarization, log triage with deduplication, raw text compression, and a multi-source research workflow.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -729,7 +727,7 @@
       "name": "modern-html",
       "source": "./plugins/modern-html",
       "description": "Baseline-first HTML/CSS guidance for AI coding agents. Routes UI generation toward native HTML elements and modern CSS that has reached Web Platform Baseline Widely-available status for at least 9 months, prompts before Newly-available features, and avoids Limited features without explicit fallback. Covers dialog, popover, anchor positioning, container queries, subgrid, :has(), @scope, @layer, view transitions, scroll-driven animations, light-dark(), oklch(), color-mix(), text-wrap, and accessibility primitives.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"

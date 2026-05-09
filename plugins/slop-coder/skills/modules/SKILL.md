@@ -1,5 +1,4 @@
 ---
-name: slop-modules
 description: SLOP module system - creating, using, and composing reusable code modules. SLOP模組系統，創建、使用、組合可復用模組。Use when: structuring multi-file projects, declaring module dependencies, remapping module implementations, testing with mocks.
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "ux-design",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "UX design principles, color theory, typography, component libraries, and design heuristics for creating exceptional user experiences",
   "author": {
     "name": "Standard Beagle",
@@ -18,25 +18,5 @@
     "heuristics",
     "accessibility",
     "visual-hierarchy"
-  ],
-  "commands": [
-    "./commands/color-palette.md",
-    "./commands/typography-system.md",
-    "./commands/component-library.md",
-    "./commands/ux-audit.md",
-    "./commands/design-tokens.md"
-  ],
-  "skills": [
-    "./skills/color-theory.md",
-    "./skills/typography.md",
-    "./skills/component-design.md",
-    "./skills/ux-heuristics.md",
-    "./skills/visual-hierarchy.md",
-    "./skills/accessibility.md",
-    "./skills/responsive-patterns.md",
-    "./skills/iconography.md"
-  ],
-  "agents": [
-    "./agents/design-consultant.md"
   ]
 }

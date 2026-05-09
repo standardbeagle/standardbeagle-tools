@@ -1,6 +1,6 @@
 {
   "name": "slop-mcp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "SLOP MCP integration for dynamic MCP server management. Migrate existing configs, register servers at runtime, search and execute tools across servers, automate workflows with SLOP scripts, and orchestrate multi-server pipelines. Includes Dart MCP tool reference skills.",
   "author": {
     "name": "Standard Beagle",
@@ -18,27 +18,5 @@
     "slop-scripting",
     "dart-tools",
     "task-management"
-  ],
-  "commands": [
-    "./commands/slop-init.md",
-    "./commands/slop-migrate.md",
-    "./commands/slop-add.md",
-    "./commands/slop-list.md",
-    "./commands/slop-search.md",
-    "./commands/slop-exec.md",
-    "./commands/slop-skills.md"
-  ],
-  "skills": [
-    "./skills/migration-guide.md",
-    "./skills/slop-config.md",
-    "./skills/scripting.md",
-    "./skills/dart-tools.md",
-    "./skills/dart-task-workflow.md",
-    "./skills/project-config.md"
-  ],
-  "agents": [
-    "./agents/migration-assistant.md",
-    "./agents/mcp-orchestrator.md"
-  ],
-  "mcpServers": "./mcp.json"
+  ]
 }

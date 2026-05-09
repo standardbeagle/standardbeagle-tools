@@ -1,5 +1,4 @@
 ---
-name: slop-patterns
 description: SLOP patterns and idioms for AI agents, data processing, orchestration. 常用SLOP範式與慣用法。Use when: writing agent/pipeline boilerplate, rate-limited batches, parallel fetches, classification, retry logic.
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "mcp-tester",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "MCP server testing and debugging toolkit. Dynamic server management, traffic analysis, schema validation, and hot-swap development workflows.",
   "author": {
     "name": "Standard Beagle",
@@ -19,23 +19,5 @@
     "json-rpc",
     "development-proxy",
     "protocol-debugging"
-  ],
-  "commands": [
-    "./commands/add-server.md",
-    "./commands/debug-logs.md",
-    "./commands/validate-schema.md",
-    "./commands/server-status.md",
-    "./commands/hot-swap.md",
-    "./commands/send-raw.md"
-  ],
-  "skills": [
-    "./skills/hot-swap-development.md",
-    "./skills/debug-mcp-traffic.md",
-    "./skills/validate-mcp-server.md",
-    "./skills/setup-mcp.md"
-  ],
-  "agents": [
-    "./agents/mcp-debugger.md",
-    "./agents/test-automation.md"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "lci",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents",
   "author": {
     "name": "Standard Beagle",
@@ -19,30 +19,5 @@
     "call-hierarchy",
     "codebase-navigation",
     "indexing"
-  ],
-  "commands": [
-    "./commands/search.md",
-    "./commands/explore.md",
-    "./commands/code-context.md"
-  ],
-  "skills": [
-    "./skills/setup-mcp.md",
-    "./skills/mcp-status.md",
-    "./skills/force-lci.md",
-    "./skills/search-code.md",
-    "./skills/explore-codebase.md",
-    "./skills/trace-symbol.md",
-    "./skills/pre-commit-review.md",
-    "./skills/context-handoff.md",
-    "./skills/commit-all.md",
-    "./skills/agnt-companion.md"
-  ],
-  "agents": [
-    "./agents/tdd-refactor.md",
-    "./agents/context-gatherer.md",
-    "./agents/test-fixer.md",
-    "./agents/code-quality.md",
-    "./agents/doc-updater.md",
-    "./agents/marketing-seo.md"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "compound-review",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers emit verdict files (dartai:verdict-schema file-streaming channel). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness, rationalization-trap.",
   "author": {
     "name": "Standard Beagle",
@@ -24,20 +24,5 @@
     "rationalization-trap",
     "knowledge-hygiene",
     "adversarial-review"
-  ],
-  "agents": [
-    "./agents/correctness-reviewer.md",
-    "./agents/maintainability-reviewer.md",
-    "./agents/testing-reviewer.md",
-    "./agents/typescript-strict-reviewer.md",
-    "./agents/cli-readiness-reviewer.md",
-    "./agents/rationalization-trap-reviewer.md"
-  ],
-  "skills": [
-    "./skills/correctness-reviewer.md",
-    "./skills/maintainability-reviewer.md",
-    "./skills/testing-reviewer.md",
-    "./skills/typescript-strict-reviewer.md",
-    "./skills/cli-readiness-reviewer.md"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "color",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Precise color operations MCP server: WCAG contrast checking, color blindness simulation (deuteranopia/protanopia/tritanopia), k-means palette extraction from images, color space conversion (HEX/RGB/HSL/LAB/OKLCH/HSV), and harmony generation (complementary/triadic/analogous/split-complementary).",
   "author": {
     "name": "Standard Beagle",
@@ -23,11 +23,5 @@
     "lab",
     "color-harmony",
     "design-tools"
-  ],
-  "commands": [
-    "./commands/overview.md"
-  ],
-  "skills": [
-    "./skills/color-quick-start.md"
   ]
 }

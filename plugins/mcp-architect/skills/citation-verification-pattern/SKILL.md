@@ -1,5 +1,4 @@
 ---
-name: Citation Verification Pattern
 description: "4-layer response shape for MCP tools that emit claims linked to sources — source-exists, claim-derivable, no-over-extension, no-hallucinated-cite. Design pattern for research / synthesis / doc-generation / claim-emitting MCP servers. Use when: designing an MCP tool that returns sourced facts, summaries, citations, retrieved snippets, or any output where the user will trust 'because the source says so'; when readers will follow a link or open a file based on the tool's claim; when reviewing an existing tool whose responses include URLs, file paths, or memory IDs as evidence. Do not use for: pure retrieval tools that return raw matches without claims, structural tools (list, count, enumerate), or tools whose output never asserts truth about the source content."
 version: 0.1.0
 ---

@@ -1,6 +1,6 @@
 {
   "name": "dev-standards",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
   "author": {
     "name": "Standard Beagle",
@@ -19,21 +19,5 @@
     "language-guidelines",
     "testing-standards",
     "code-quality"
-  ],
-  "commands": ["./commands/setup-project.md"],
-  "skills": [
-    "./skills/update-rules/SKILL.md",
-    "./skills/update-project/SKILL.md",
-    "./skills/add-skill/SKILL.md",
-    "./skills/decide/SKILL.md",
-    "./skills/grill-task/SKILL.md",
-    "./skills/refactor-first-assessment/SKILL.md",
-    "./skills/review-for-plan-updates/SKILL.md",
-    "./skills/ce-compound/SKILL.md",
-    "./skills/verification-before-completion/SKILL.md",
-    "./skills/no-compression-on-skill-frontmatter/SKILL.md",
-    "./skills/memories-require-timestamp-and-source/SKILL.md",
-    "./skills/multi-source-required-for-load-bearing-claims/SKILL.md"
-  ],
-  "agents": []
+  ]
 }

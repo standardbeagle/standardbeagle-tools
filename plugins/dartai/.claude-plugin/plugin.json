@@ -1,6 +1,6 @@
 {
   "name": "dartai",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines. Requires @standardbeagle/dart-query@0.11.0+ (dartai_loop_snapshot tool used by /dartai:start).",
   "author": {
     "name": "Standard Beagle",
@@ -26,38 +26,5 @@
     "dartql",
     "batch-operations",
     "filtering"
-  ],
-  "commands": [
-    "./commands/setup-dart.md",
-    "./commands/setup-roles.md",
-    "./commands/start.md",
-    "./commands/task.md",
-    "./commands/loop-status.md",
-    "./commands/sync.md",
-    "./commands/dartai-config.md",
-    "./commands/verify.md"
-  ],
-  "skills": [
-    "./skills/dart-query-reference.md",
-    "./skills/task-filtering.md",
-    "./skills/batch-operations.md",
-    "./skills/task-relationships.md",
-    "./skills/workspace-docs.md",
-    "./skills/task-execution.md",
-    "./skills/code-quality.md",
-    "./skills/doc-templates.md",
-    "./skills/simple-planning.md",
-    "./skills/adversarial-planning-loop.md",
-    "./skills/adversarial-quality-loop.md",
-    "./skills/hook-doctor.md",
-    "./skills/report.md",
-    "./skills/review.md"
-  ],
-  "agents": [
-    "./agents/task-executor.md",
-    "./agents/doc-updater.md",
-    "./agents/code-quality-reviewer.md",
-    "./agents/qa-reviewer.md",
-    "./agents/post-task-reviewer.md"
   ]
 }

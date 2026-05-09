@@ -1,5 +1,4 @@
 ---
-name: Update Rules
 description: "View, add, modify, or remove project rules in `.claude/rules/`. 管理項目開發規則。 Use when: update rules, add a rule, edit a rule, remove a rule, manage rules, add rules for a new module"
 ---
 

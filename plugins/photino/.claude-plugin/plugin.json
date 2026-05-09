@@ -1,6 +1,6 @@
 {
   "name": "photino",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Photino.NET desktop app development: build workflows, cross-platform packaging, PowerShell SDK integration, dual-service development, and agent configuration for AI-assisted .NET desktop projects",
   "author": {
     "name": "Standard Beagle",
@@ -19,25 +19,5 @@
     "svelte",
     "vite",
     "message-passing"
-  ],
-  "commands": [
-    "./commands/setup-photino-project.md",
-    "./commands/photino-dev.md",
-    "./commands/photino-build.md",
-    "./commands/photino-test.md",
-    "./commands/photino-publish.md"
-  ],
-  "skills": [
-    "./skills/photino-architecture.md",
-    "./skills/photino-development.md",
-    "./skills/dotnet-build-system.md",
-    "./skills/frontend-embedding.md",
-    "./skills/powershell-integration.md",
-    "./skills/photino-testing.md",
-    "./skills/photino-packaging.md",
-    "./skills/message-router-pattern.md"
-  ],
-  "agents": [
-    "./agents/photino-scaffolder.md"
   ]
 }

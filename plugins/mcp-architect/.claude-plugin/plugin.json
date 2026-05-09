@@ -1,6 +1,6 @@
 {
   "name": "mcp-architect",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Design high-quality MCP servers with progressive discovery, context compression, and token-efficient responses. Includes patterns for multi-tool MCPs, the info tool pattern, cross-tool IDs, and automation-friendly JSON formats.",
   "author": {
     "name": "Standard Beagle",
@@ -21,17 +21,5 @@
     "citation-verification",
     "conflict-aware-response",
     "multiview-retrieval"
-  ],
-  "skills": [
-    "./skills/client-guidance/SKILL.md",
-    "./skills/context-compression/SKILL.md",
-    "./skills/mcp-architecture/SKILL.md",
-    "./skills/mcp-examples/SKILL.md",
-    "./skills/progressive-discovery/SKILL.md",
-    "./skills/response-optimization/SKILL.md",
-    "./skills/tool-design/SKILL.md",
-    "./skills/citation-verification-pattern/SKILL.md",
-    "./skills/conflict-aware-response/SKILL.md",
-    "./skills/multiview-retrieval-pattern/SKILL.md"
   ]
 }

@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "slop-mcp": {
-      "command": "npx",
-      "args": ["-y", "@standardbeagle/slop-mcp@latest", "serve"],
-      "env": {}
-    }
-  }
-}

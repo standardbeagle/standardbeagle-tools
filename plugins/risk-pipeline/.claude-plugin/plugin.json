@@ -1,6 +1,6 @@
 {
   "name": "risk-pipeline",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Risk-driven task classification, splitting, and review dispatch pipeline",
   "author": {
     "name": "Standard Beagle",
@@ -19,24 +19,7 @@
     "risk-tagging",
     "depends:lci"
   ],
-  "dependencies": ["lci"],
-  "commands": [
-    "./commands/tag-sweep.md",
-    "./commands/audit.md"
-  ],
-  "skills": [
-    "./skills/risk-tag-unit.md",
-    "./skills/risk-tag-sweep.md",
-    "./skills/risk-classify.md",
-    "./skills/risk-budget.md",
-    "./skills/risk-pipeline-dispatch.md",
-    "./skills/risk-telemetry-audit.md"
-  ],
-  "agents": [
-    "./agents/security-reviewer.md",
-    "./agents/data-reviewer.md",
-    "./agents/reversibility-reviewer.md",
-    "./agents/novelty-reviewer.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+  "dependencies": [
+    "lci"
+  ]
 }

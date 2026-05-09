@@ -1,6 +1,6 @@
 {
   "name": "image-processing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Image processing MCP server: lossy/lossless optimization and format conversion (PNG/JPG/WebP/AVIF), responsive image variants with srcset generation, BlurHash and LQIP placeholders for lazy loading, SVG optimization (SVGO), and dominant-color palette extraction with percentage breakdown - a complete image pipeline for performant web delivery.",
   "author": {
     "name": "Standard Beagle",
@@ -22,11 +22,5 @@
     "lqip",
     "palette-extraction",
     "svgo"
-  ],
-  "commands": [
-    "./commands/overview.md"
-  ],
-  "skills": [
-    "./skills/image-processing-quick-start.md"
   ]
 }
