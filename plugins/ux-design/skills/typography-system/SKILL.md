@@ -1,6 +1,6 @@
 ---
 name: ux-design-typography-system
-description: "\"Design a complete typography system with font selection, scale creation, and responsive behavior. 設計完整字體系統：字體選擇、比例建立與響應式行為。 Use when: creating a typography system from scratch, selecting font pairings, generating a type scale, defining responsive type behavior.\""
+description: "\"Design complete typography system with font selection, scale creation, and responsive behavior. 設計完整字體系統：字體選擇、比例建立與響應式行為。 Use when: creating typography system from scratch, selecting font pairings, generating type scale, defining responsive type behavior.\""
 disable-model-invocation: true
 ---
 

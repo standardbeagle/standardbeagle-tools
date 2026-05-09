@@ -1,6 +1,6 @@
 ---
 name: caveman-condense-log
-description: "Compress error logs and stack traces via caveman-mcp with language detection and deduplication. Use for log triage, post-incident review, CI failure analysis when raw logs are too long. 以caveman壓縮錯誤日誌與堆棧追蹤，含語言檢測與去重. Use when: triage CI failure log, summarize app error output, dedupe repeated stack traces, post-incident analysis, prep log for downstream debug agent"
+description: "Compress error logs + stack traces via caveman-mcp with language detection + dedup. For log triage, post-incident review, CI failure analysis when raw logs too long. 以caveman壓縮日誌與堆棧。 Use when: triage CI failure log, summarize app error output, dedupe stack traces, post-incident analysis, prep log for debug agent"
 disable-model-invocation: true
 ---
 

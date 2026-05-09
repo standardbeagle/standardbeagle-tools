@@ -1,6 +1,6 @@
 ---
 name: caveman-condense-url
-description: "Fetch and compress any URL via caveman-mcp with smart routing for YouTube, GitHub, arXiv, Hacker News, Reddit, RSS. Replaces WebFetch when token budget matters or when content will be cited later. 以caveman取URL並壓縮，智能路由YouTube/GitHub/arXiv/HN/Reddit/RSS. Use when: research URLs, summarize articles, capture YouTube transcripts, ingest arXiv papers, scan HN/Reddit threads, follow RSS feeds, prep citations for downstream tasks"
+description: "Fetch + compress any URL via caveman-mcp with smart routing for YouTube/GitHub/arXiv/HN/Reddit/RSS. Replaces WebFetch when token budget tight or content cited later. 以caveman取URL並壓縮。 Use when: research URLs, summarize articles, YouTube transcripts, ingest arXiv papers, scan HN/Reddit, follow RSS, prep citations"
 disable-model-invocation: true
 ---
 

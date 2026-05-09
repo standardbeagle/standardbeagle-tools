@@ -1,6 +1,6 @@
 ---
 name: ux-developer-component-ux
-description: "\"Design or review a UI component with UX best practices, accessibility, and interaction patterns. 設計或審查UI組件：狀態、鍵盤、ARIA、響應式、agnt實時分析。 Use when: building new components, reviewing accessibility of existing widgets, spec-ing interaction states.\""
+description: "\"Design or review UI component with UX best practices, accessibility, and interaction patterns. 設計或審查UI組件：狀態、鍵盤、ARIA、響應式、agnt實時分析。 Use when: building new components, reviewing accessibility of existing widgets, spec-ing interaction states.\""
 disable-model-invocation: true
 ---
 

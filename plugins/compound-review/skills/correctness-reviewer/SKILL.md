@@ -1,6 +1,6 @@
 ---
 name: compound-review-correctness-reviewer
-description: "Forked-context correctness reviewer playbook — preloads verdict schema and logic/edge-case/state-management lens for adversarial correctness review subagents. 對抗正確性審查者技能：邏輯錯誤、邊界情況、狀態管理、錯誤傳播視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:correctness-reviewer subagent, gating on logic correctness, when reviewer should not pollute main thread"
+description: "Forked-context correctness reviewer — preloads verdict schema + logic/edge-case/state-mgmt lens. 對抗正確性審查（fork上下文）。 Use when: dispatch compound-review:correctness-reviewer subagent, gate on logic correctness, when reviewer must not pollute main thread"
 disable-model-invocation: true
 context: fork
 agent: "compound-review:correctness-reviewer"

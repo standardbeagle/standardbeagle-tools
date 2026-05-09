@@ -1,6 +1,6 @@
 ---
 name: mcp-tester-add-server
-description: "\"Dynamically add an MCP server to the debug proxy for testing. 動態添MCP伺服器入除錯代理。 Use when: add mcp server, connect new server, register mcp for testing, attach server to proxy, test new mcp\""
+description: "\"Dynamically add MCP server to debug proxy for testing. 動態添MCP伺服器入除錯代理。 Use when: add mcp server, connect new server, register mcp for testing, attach server to proxy, test new mcp\""
 disable-model-invocation: true
 arguments: " - name: server-name description: Name to identify this server (used as tool prefix) required: true - name: command description: Command to launch the MCP server required: true"
 ---

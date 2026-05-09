@@ -1,6 +1,6 @@
 ---
 name: prompt-engineer-few-shot-design
-description: "\"Design effective few-shot examples for prompts following the DICE framework. 按 DICE 框架為提示設計有效少樣本示例。 Use when: need examples for a prompt, ensuring format consistency, covering diverse task scenarios.\""
+description: "\"Design effective few-shot examples for prompts following DICE framework. 按 DICE 框架為提示設計有效少樣本示例。 Use when: need examples for prompt, ensuring format consistency, covering diverse task scenarios.\""
 disable-model-invocation: true
 allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---

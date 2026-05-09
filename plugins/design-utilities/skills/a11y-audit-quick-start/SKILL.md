@@ -1,6 +1,6 @@
 ---
 name: design-utilities-a11y-audit-quick-start
-description: Quick reference for the a11y-audit MCP server - audit_html, wcag_score, heading_structure, aria_validate, link_text_check, document_accessibility. Use when auditing HTML or PDF content for WCAG conformance without a browser, verifying ARIA usage, checking heading outlines, or vetting link text quality in CI or source-level reviews.
+description: "Quick reference for a11y-audit MCP server - audit_html, wcag_score, heading_structure, aria_validate, link_text_check, document_accessibility. Use when auditing HTML or PDF content for WCAG conformance without browser, verifying ARIA usage, checking heading outlines, or vetting link text quality in CI or source-level reviews."
 disable-model-invocation: true
 ---
 

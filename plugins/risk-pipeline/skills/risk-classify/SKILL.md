@@ -1,6 +1,6 @@
 ---
 name: risk-pipeline-risk-classify
-description: "Classify a task: (task spec + touched files) → risk vector + verdict + pipeline tier. Applies 8-check trivial-bypass pre-filter; on bypass returns smoke tier. Otherwise aggregates @risk tags (invoking risk-tag-unit inline for untagged units), computes task-level unknowns, delegates to risk-budget + risk-pipeline-dispatch, emits unified YAML. Returns enabled:false when risk-pipeline config absent."
+description: "Classify task: (task spec + touched files) -> risk vector + verdict + pipeline tier. Applies 8-check trivial-bypass pre-filter; on bypass returns smoke tier. Else aggregates @risk tags (invokes risk-tag-unit inline for untagged), computes task-level unknowns, delegates to risk-budget + risk-pipeline-dispatch, emits unified YAML. Returns enabled:false when risk-pipeline config absent."
 disable-model-invocation: true
 context: fork
 agent: general-purpose

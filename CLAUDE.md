@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-This is a **Claude Code marketplace repository** (catalog version `1.6.0`) that packages and distributes 20+ plugins. The two core MCP-backed plugins:
+This is a **Claude Code marketplace repository** (catalog version `1.8.1`) that packages and distributes 24 plugins. The two core MCP-backed plugins:
 
 1. **agnt** (v0.9.0) - Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode
 2. **lci** (v0.5.0) - Lightning code intelligence: sub-millisecond semantic code search
@@ -377,6 +377,20 @@ claude plugin validate ./plugins/agnt
 - Duplicate plugin names
 - Path traversal (`..` in source paths)
 - Missing referenced files (commands, skills, agents)
+
+### SKILL.md Description Compression Policy
+
+Description fields are loaded into context every turn while the skill is auto-invocable (`disable-model-invocation: false`). Char budget is 1% of context window or 8K fallback — long descriptions get mechanically truncated.
+
+The skill matcher is **LLM-driven semantic**, not keyword indexing. Aggressive compression is fine as long as concept tokens and Use-when triggers remain intact.
+
+**Two-pass compression** (per `dev-standards:skill-description-style`):
+1. **Conceptual conciseness** — drop citations, motivation prose, examples, cross-skill linkage clauses, hedging. Keep core function, concept tokens, Use-when triggers, Skip clauses.
+2. **Caveman/wenyan** — drop articles/filler/hedging. Wenyan glue where it shortens without obscuring concept. Bullet-list keyword clusters over prose sentences.
+
+**Targets**: 150–400 chars typical. **Hard ceiling**: 1024 chars (some clients reject longer).
+
+**Visibility tier** (this repo): 5 plugins kept auto-invocable (agnt, dartai, lci, dev-standards, modern-html); other 19 plugins set `disable-model-invocation: true` per skill — descriptions in those skills do not cost per-turn context, so compression there is lower priority.
 
 ### Best Practices for This Marketplace
 

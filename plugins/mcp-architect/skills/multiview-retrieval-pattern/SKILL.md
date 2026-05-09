@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-multiview-retrieval-pattern
-description: "Retrieval MCP漸進披露設計：默認單retrieval mode，dense/lexical/symbolic/multiview opt-in flags。Index-once query-many — build cost攤還跨諸模，query cost per-mode廉。Justification: GraphRAG/RAGSearch — 互補index types勝多-hop queries，單模足1-hop。Ref impl: lci search modes (lci-modes-spec.md commit 2a649e0). Use when: designing retrieval MCP over corpus with multiple index types (semantic embedding + lexical + symbolic metadata + graph), existing retrieval tool hitting recall cliff on multi-hop queries, tool whose consumers want opt-in expensive merges without per-call cost. Skip: single-corpus single-mode tools (no choice), all-1-hop query tools (multiview no lift), generative tools (no retrieval surface)."
+description: "Retrieval MCP progressive disclosure: default single mode, dense/lexical/symbolic/multiview opt-in flags. Index-once query-many — build cost amortized, query cost per-mode cheap. Ref impl: lci search modes. Use when: retrieval MCP over corpus with multiple index types (semantic + lexical + symbolic + graph), tool hitting recall cliff on multi-hop, consumers want opt-in expensive merges. Skip: single-corpus single-mode tools, all-1-hop queries, generative tools."
 disable-model-invocation: true
 version: 0.1.0
 ---

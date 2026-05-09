@@ -1,6 +1,6 @@
 ---
 name: slop-mcp-slop-list
-description: "\"List all registered slop-mcp MCP servers with connection status and available tools. 列所有已注冊 slop-mcp 服務器，含連接狀態與可用工具。 Use when: checking what servers are registered, verifying connection health, getting an overview before tool search.\""
+description: "\"List all registered slop-mcp MCP servers with connection status and available tools. 列所有已注冊 slop-mcp 服務器，含連接狀態與可用工具。 Use when: checking what servers are registered, verifying connection health, getting overview before tool search.\""
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: dartai-review
-description: "Adversarial audit of past Dart tasks and Claude/opencode/kimi session logs - surfaces inefficiencies (rework, loops, abandoned approaches, slow turns) and gaps (missing skills, weak docs, planning blind spots) with concrete amendment recommendations. 對抗性審查歷史Dart任務及Claude/opencode/kimi會話日誌：揭示低效（返工、循環、廢棄方法、慢迭代）與缺口（技能缺失、文檔薄弱、規劃盲點），給出具體修訂建議。 Use when: process improvement audit, find inefficiencies, identify skill gaps, retrospective, why are tasks slow, where do agents get stuck, what should we document"
+description: "Adversarial audit of past Dart tasks + Claude/opencode/kimi session logs — surfaces inefficiencies (rework, loops, abandoned approaches, slow turns) + gaps (missing skills, weak docs, planning blind spots) with concrete amendments. 對抗審查歷史任務與會話日誌。 Use when: process improvement audit, find inefficiencies, identify skill gaps, retrospective, why tasks slow, where agents stuck, what to document"
 ---
 
 # Work Review

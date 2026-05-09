@@ -1,6 +1,6 @@
 ---
 name: photino-photino-build
-description: "\"Build a Photino.NET app: detect csproj, build frontend, compile .NET for debug/release/platform-specific targets. 構建Photino.NET應用：檢測csproj、構建前端、為debug/release/特定平台目標編譯.NET. Use when: building Photino app, compiling for specific platform, skipping frontend build for backend-only changes\""
+description: "\"Build Photino.NET app: detect csproj, build frontend, compile .NET for debug/release/platform-specific targets. 構建Photino.NET應用：檢測csproj、構建前端、為debug/release/特定平台目標編譯.NET. Use when: building Photino app, compiling for specific platform, skipping frontend build for backend-only changes\""
 disable-model-invocation: true
 allowed-tools: "[\"Bash\", \"Read\", \"Glob\", \"Grep\"]"
 ---

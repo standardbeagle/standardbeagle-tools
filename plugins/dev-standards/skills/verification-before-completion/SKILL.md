@@ -1,6 +1,6 @@
 ---
 name: dev-standards-verification-before-completion
-description: "聲稱完成、修復或通過前必先執行驗證命令並確認輸出。Run verification commands and confirm output before claiming work is complete, fixed, or passing — evidence before assertions, always. Use when: about to claim a task is done/fixed/passing, before committing or creating PRs, before delegating downstream work, dartai:task-executor Phase 9 final validation. 用於：將稱任務完成/修復/通過時、提交或建 PR 前、委派下游工作前、dartai:task-executor Phase 9 最終驗證階段。Skip when: explicitly reporting an in-progress state with no completion claim; verification commands genuinely don't exist for the change type (rare — usually means the change shouldn't ship)."
+description: "聲稱完成/修復/通過前必執行驗證並確認輸出。Run verification commands + confirm output before claiming complete/fixed/passing — evidence before assertions. Use when: about to claim done/fixed/passing, before commit or PR, before delegating downstream, dartai:task-executor Phase 9 final validation. Skip: explicitly reporting in-progress with no completion claim; verification commands genuinely don't exist for change type."
 ---
 
 <!--

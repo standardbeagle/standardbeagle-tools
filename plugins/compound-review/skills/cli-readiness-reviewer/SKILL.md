@@ -1,6 +1,6 @@
 ---
 name: compound-review-cli-readiness-reviewer
-description: "Forked-context CLI agent-readiness reviewer playbook — preloads verdict schema and non-interactive/structured-output/actionable-errors/idempotent-retry lens for adversarial CLI review subagents. 對抗CLI代理就緒審查者技能：非交互式、結構化輸出、可操作錯誤、冪等重試視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:cli-readiness-reviewer subagent for a CLI diff, gating on agent ergonomics, when reviewer should not pollute main thread"
+description: "Forked-context CLI agent-readiness reviewer — preloads verdict schema + non-interactive/structured-output/actionable-error/idempotent-retry lens. 對抗CLI就緒審查（fork上下文）。 Use when: dispatch compound-review:cli-readiness-reviewer subagent for CLI diff, gate on agent ergonomics, when reviewer must not pollute main thread"
 disable-model-invocation: true
 context: fork
 agent: "compound-review:cli-readiness-reviewer"

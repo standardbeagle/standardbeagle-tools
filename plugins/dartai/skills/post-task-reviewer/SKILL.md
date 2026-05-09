@@ -1,6 +1,6 @@
 ---
 name: dartai-post-task-reviewer
-description: "Forked-context deep post-task reviewer playbook — preloads verdict schema + OWASP security + deep code analysis + PM/docs accuracy + replan lens for sequential post-gate review (fork context). 對抗深度後任務審查者技能：OWASP安全、深度代碼分析、PM/文檔準確性、重新規劃視角（fork上下文）。 Use when: dispatching post-task-reviewer subagent, running deep review after fast gates pass, OWASP audit, PM/docs accuracy check, replan recommendation"
+description: "Forked-context deep post-task reviewer — preloads verdict schema + OWASP security + deep code analysis + PM/docs accuracy + replan lens. 對抗深度後任務審查（fork上下文）。 Use when: dispatch post-task-reviewer subagent, deep review after fast gates, OWASP audit, PM/docs accuracy check, replan recommendation"
 context: fork
 agent: "dartai:post-task-reviewer"
 ---

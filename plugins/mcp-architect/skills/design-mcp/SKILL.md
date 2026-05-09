@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-design-mcp
-description: Design a new MCP server with interactive guidance and generate comprehensive JSON skeleton specification. 交互式引導設計新MCP服務器，生成完整JSON骨架規範。
+description: "Design new MCP server with interactive guidance and generate comprehensive JSON skeleton specification. 交互式引導設計新MCP服務器，生成完整JSON骨架規範。"
 disable-model-invocation: true
 argument-hint: "\"[server-name]\""
 allowed-tools: "[Read, Write, AskUserQuestion, Glob, Grep]"

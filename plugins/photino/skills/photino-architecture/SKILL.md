@@ -1,6 +1,6 @@
 ---
 name: photino-photino-architecture
-description: "Photino.NET desktop app architecture: PhotinoWindow APIs, threading model, native message bridge, IMessageTransport abstraction, dual-mode Program.cs, and cross-platform WebView engine table. Photino.NET桌面應用架構：PhotinoWindow API、線程模型、原生消息橋、IMessageTransport抽象、雙模Program.cs及跨平台WebView引擎表. Use when: understanding Photino architecture, setting up AppHost, implementing transport abstraction, configuring dual-mode entry point"
+description: "Photino.NET desktop architecture: PhotinoWindow APIs, threading model, native message bridge, IMessageTransport abstraction, dual-mode Program.cs, cross-platform WebView engine table. Photino.NET桌面架構。 Use when: understanding Photino architecture, setting up AppHost, implementing transport abstraction, configuring dual-mode entry point"
 disable-model-invocation: true
 ---
 

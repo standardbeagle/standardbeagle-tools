@@ -1,6 +1,6 @@
 ---
 name: figma-query-common-patterns
-description: "Common Figma workflow patterns for design system extraction, component documentation, and asset management. Figma 常用工作流模式：設計系統提取、組件文檔、資產管理。 Use when: starting a new Figma project, implementing a component, exporting tokens, extracting icons, auditing a design system"
+description: "Common Figma workflow patterns for design system extraction, component documentation, and asset management. Figma 常用工作流模式：設計系統提取、組件文檔、資產管理。 Use when: starting new Figma project, implementing component, exporting tokens, extracting icons, auditing design system"
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: photino-photino-test
-description: "\"Run tests for a Photino.NET project with filter patterns, coverage collection, and frontend type checking. 運行Photino.NET工程測試：過濾模式、覆蓋率收集及前端類型檢查. Use when: running unit tests, filtering by category or class, collecting test coverage, running Svelte/TypeScript type checks\""
+description: "\"Run tests for Photino.NET project with filter patterns, coverage collection, and frontend type checking. 運行Photino.NET工程測試：過濾模式、覆蓋率收集及前端類型檢查. Use when: running unit tests, filtering by category or class, collecting test coverage, running Svelte/TypeScript type checks\""
 disable-model-invocation: true
 allowed-tools: "[\"Bash\", \"Read\", \"Glob\", \"Grep\"]"
 ---

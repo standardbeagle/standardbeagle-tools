@@ -1,6 +1,6 @@
 ---
 name: photino-powershell-integration
-description: "PowerShell SDK integration in Photino.NET: runspace architecture, SessionManager, streaming execution, TabExpansion2, function injection, PSObject conversion, and disposal patterns. PowerShell SDK嵌入Photino.NET：runspace架構、SessionManager、流式執行、TabExpansion2、函數注入、PSObject轉換及釋放模式. Use when: embedding PowerShell in .NET app, managing runspace lifecycle, implementing tab completion, injecting functions, serializing PSObjects"
+description: "PowerShell SDK integration in Photino.NET: runspace architecture, SessionManager, streaming execution, TabExpansion2, function injection, PSObject conversion, disposal patterns. PowerShell SDK嵌入Photino.NET。 Use when: embedding PowerShell in .NET app, managing runspace lifecycle, implementing tab completion, injecting functions, serializing PSObjects"
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: figma-query-adversarial-design-library
-description: "Adversarial cooperation loop for creating a complete design library from Figma with CSS, assets, HTML mockups, and documentation. 對抗式協作循環，從 Figma 生成完整設計庫：CSS、資產、HTML、文檔。 Use when: extracting a complete design library, running adversarial quality verification loop, creating production-ready component library from Figma, full design-to-code extraction"
+description: "Adversarial cooperation loop for creating complete design library from Figma with CSS, assets, HTML mockups, and documentation. 對抗式協作循環，從 Figma 生成完整設計庫：CSS、資產、HTML、文檔。 Use when: extracting complete design library, running adversarial quality verification loop, creating production-ready component library from Figma, full design-to-code extraction"
 disable-model-invocation: true
 ---
 

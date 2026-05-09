@@ -1,6 +1,6 @@
 ---
 name: design-utilities-a11y-audit-overview
-description: Overview of the a11y-audit MCP server tools for static accessibility analysis - HTML audits, WCAG scoring, heading outlines, ARIA validation, link text checks, and PDF accessibility inspection without a browser.
+description: "Overview of a11y-audit MCP server tools for static accessibility analysis - HTML audits, WCAG scoring, heading outlines, ARIA validation, link text checks, and PDF accessibility inspection without browser."
 disable-model-invocation: true
 ---
 

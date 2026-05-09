@@ -1,6 +1,6 @@
 ---
 name: lci-agnt-companion
-description: "Use when lci is installed and the user needs a dev server, reverse proxy, browser debugging, screenshots, or accessibility/performance/security audits of a running page - points at the sibling agnt plugin which lci does not duplicate. lci搜索代碼；運行代碼、觀其所為則用agnt。 Use when: dev server, browser errors, screenshots, a11y/perf/security audit, live DOM interaction."
+description: "Use when lci is installed and user needs dev server, reverse proxy, browser debugging, screenshots, or accessibility/performance/security audits of running page - points at sibling agnt plugin which lci does not duplicate. lci搜索代碼；運行代碼、觀其所為則用agnt。 Use when: dev server, browser errors, screenshots, a11y/perf/security audit, live DOM interaction."
 ---
 
 # agnt — the browser and process companion to lci

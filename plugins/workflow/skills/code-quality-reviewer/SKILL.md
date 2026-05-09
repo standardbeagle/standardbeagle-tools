@@ -1,6 +1,6 @@
 ---
 name: workflow-code-quality-reviewer
-description: "Forked-context code-quality reviewer playbook (workflow mirror) — preloads verdict schema + codebase-coherence + bloat + completeness + duplication + cleanup lens for adversarial review subagents. 對抗代碼品質審查者技能（workflow鏡像）：連貫性、臃腫、完整性、重複、清理（fork上下文）。 Use when: dispatching workflow:code-quality-reviewer subagent, running adversarial code review in workflow loop, gating on code quality, when reviewer should not pollute main thread"
+description: "Forked-context code-quality reviewer (workflow mirror) — preloads verdict schema + coherence/bloat/completeness/duplication/cleanup lens. 對抗代碼品質審查（workflow鏡像，fork上下文）。 Use when: dispatch workflow:code-quality-reviewer subagent, adversarial code review in workflow loop, gate on quality, when reviewer must not pollute main thread"
 disable-model-invocation: true
 context: fork
 agent: "workflow:code-quality-reviewer"

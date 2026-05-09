@@ -1,6 +1,6 @@
 ---
 name: agnt-process-proxy
-description: "Dev server lifecycle and reverse proxy management — use INSTEAD OF bash `npm run dev`, `yarn start`, `pnpm dev`, `vite`, `next dev`, `dotnet watch`, `go run`, `cargo run`, `lsof`, `fuser`, `kill`, `pkill`, `tail -f`. 開發服務器生命週期與反向代理管理，代bash諸命如 npm run dev、lsof、kill、tail -f。 Use when: start dev server, manage processes, start proxy, debug API issues, stop processes, cleanup port, restart server, multi-service orchestration, before reaching for bash to kill/spawn/tail dev procs"
+description: "Dev server lifecycle + reverse proxy mgmt — not bash npm/yarn/pnpm/vite/next dev, dotnet watch, go run, cargo run, lsof, fuser, kill, pkill, tail -f. 開發服務器與反向代理。 Use when: start dev server, manage processes, start proxy, debug API, stop process, cleanup port, restart, multi-service orchestration, before bash for dev procs"
 ---
 
 # 進程與代理管理技能

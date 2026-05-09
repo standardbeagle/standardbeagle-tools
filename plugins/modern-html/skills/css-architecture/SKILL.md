@@ -1,6 +1,6 @@
 ---
 name: modern-html-css-architecture
-description: "This skill should be used when structuring stylesheets, resolving specificity conflicts, scoping component styles, or replacing BEM and CSS-Modules. Covers cascade layers (@layer), the @scope at-rule, native CSS nesting, and how to combine the three. Use when: starting a new design system or stylesheet, migrating off Sass mixins, organizing token layers, fighting specificity battles, or scoping component CSS without a build step. Skip when: working on a single-file demo or prototype where architecture overhead is not worth it."
+description: "Cascade layers (@layer), @scope at-rule, native CSS nesting for stylesheet structure, specificity, component scoping, replacing BEM/CSS-Modules. Use when: new design system, migrating off Sass mixins, organizing token layers, specificity battles, scoping component CSS sans build step. Skip: single-file demo or prototype, architecture overhead not worth it."
 paths: "[\"**/*.{css,scss,sass,less}\"]"
 ---
 

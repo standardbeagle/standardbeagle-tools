@@ -1,6 +1,6 @@
 ---
 name: dev-standards-ce-compound
-description: "記錄近期已解決之問題以複利累增團隊機構知識。Document a recently solved problem in docs/solutions/ with structured YAML frontmatter to compound team knowledge. Use when: a non-trivial problem was just solved and verified, want to prevent re-discovery cost next time the same issue surfaces, capture institutional learning before context fades, document best practices or workflow patterns. 用於：剛解決並驗證之非平凡問題、避免重蹈覆轍之代價、情境消散前捕獲機構學習、記錄最佳實踐或工作流模式。Skip when: problem is trivial (typo, obvious error); solution not yet verified; problem is still in progress; project has no docs/solutions/ convention and user does not want one created."
+description: "記錄已解決問題以複利機構知識。Document solved problems in docs/solutions/ with structured YAML frontmatter. Use when: non-trivial problem solved + verified, prevent re-discovery cost, capture institutional learning before context fades, document best practices or workflow patterns. Skip: trivial (typo); solution unverified; problem in progress; project lacks docs/solutions/ convention and user does not want one."
 ---
 
 <!--

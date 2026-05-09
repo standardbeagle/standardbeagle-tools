@@ -1,6 +1,6 @@
 ---
 name: slop-mcp-scripting
-description: "SLOP scripting language for automating multi-MCP tool workflows via run_slop, authoring custom tool bodies, and calling memory primitives from inside scripts. SLOP 腳本語言指南，自動化跨 MCP 服務器工作流、撰寫自定義工具 body、於腳本內訪問記憶層。 Use when: writing inline scripts, running .slop files, chaining MCP tool calls, exploring built-in functions, authoring custom_tool body, mem_save from SLOP, mem_load from SLOP, emit return value, pipe transforms."
+description: "SLOP scripting language for automating multi-MCP workflows via run_slop, authoring custom tool bodies, calling memory primitives from scripts. SLOP 腳本語言。 Use when: writing inline scripts, running .slop files, chaining MCP tool calls, exploring built-in functions, authoring custom_tool body, mem_save/mem_load from SLOP, emit return value, pipe transforms."
 disable-model-invocation: true
 ---
 

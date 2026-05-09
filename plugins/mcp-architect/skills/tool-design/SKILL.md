@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-tool-design
-description: "Design individual MCP tools with clear input/output schemas, error handling, and token-efficient responses. 單工具模式設計、輸入輸出模式、漸進詳情、錯誤處理。Use when: user asks to design MCP tool, create tool schema, tool best practices, input validation, output schema, error handling for tools, or discusses designing individual MCP tools with proper schemas and responses."
+description: "Design individual MCP tools with clear input/output schemas, error handling, token-efficient responses. 單工具設計、I/O模式、漸進詳情、錯誤處理。 Use when: design MCP tool, create tool schema, tool best practices, input validation, output schema, error handling for tools, designing individual MCP tools with proper schemas + responses."
 disable-model-invocation: true
 version: 0.1.0
 ---

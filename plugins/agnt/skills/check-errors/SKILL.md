@@ -1,6 +1,6 @@
 ---
 name: agnt-check-errors
-description: "\"Check for JavaScript errors in the browser. 查瀏覽器JavaScript錯誤. Use when: find JS errors, check console errors, debug browser exceptions, review error log, diagnose script failures\""
+description: "\"Check for JavaScript errors in browser. 查瀏覽器JavaScript錯誤. Use when: find JS errors, check console errors, debug browser exceptions, review error log, diagnose script failures\""
 allowed-tools: "[\"mcp__agnt__proxylog\", \"mcp__agnt__proxy\"]"
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: slop-mcp-slop-customize
-description: "\"Interactive wrapper over the slop-mcp customize_tools meta-tool — set or remove tool description overrides, define or remove SLOP-backed custom tools, and list either bank by scope. 交互式包裝 customize_tools 元工具：設定或移除工具描述覆蓋、定義或移除 SLOP 複合工具、按範圍列出兩類條目。 Use when: shrinking a verbose third-party tool description, defining a project shortcut tool, listing what overrides or custom tools are active, removing a stale entry.\""
+description: "Interactive wrapper over slop-mcp customize_tools meta-tool — set/remove tool description overrides, define/remove SLOP-backed custom tools, list either bank by scope. 交互式包裝 customize_tools。 Use when: shrink verbose third-party tool description, define project shortcut tool, list active overrides or custom tools, remove stale entry."
 disable-model-invocation: true
 ---
 

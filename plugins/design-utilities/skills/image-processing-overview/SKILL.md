@@ -1,6 +1,6 @@
 ---
 name: design-utilities-image-processing-overview
-description: Overview of the image-processing MCP server tools for image pipelines - lossy/lossless optimization and format conversion, responsive srcset generation, BlurHash/LQIP placeholder creation, SVG optimization via SVGO, and dominant-color palette extraction.
+description: "Overview of image-processing MCP server tools for image pipelines - lossy/lossless optimization and format conversion, responsive srcset generation, BlurHash/LQIP placeholder creation, SVG optimization via SVGO, and dominant-color palette extraction."
 disable-model-invocation: true
 ---
 

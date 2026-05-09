@@ -1,6 +1,6 @@
 ---
 name: figma-query-figma-styles
-description: "List all styles in a Figma file including colors, typography, effects, and grids. 列出 Figma 文件所有樣式：顏色、排版、效果、柵格。 Use when: auditing design styles, exporting color palette, reviewing typography system, checking effect styles, analyzing style usage counts"
+description: "List all styles in Figma file including colors, typography, effects, and grids. 列出 Figma 文件所有樣式：顏色、排版、效果、柵格。 Use when: auditing design styles, exporting color palette, reviewing typography system, checking effect styles, analyzing style usage counts"
 disable-model-invocation: true
 ---
 

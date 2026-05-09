@@ -1,6 +1,6 @@
 ---
 name: workflow-post-task-reviewer
-description: "Forked-context deep post-task reviewer playbook (workflow mirror) — preloads verdict schema + OWASP + deep code + PM/docs + replan lens for sequential post-gate review (fork context). 對抗深度後任務審查者技能（workflow鏡像）：OWASP安全、深度代碼、PM/文檔、重新規劃（fork上下文）。 Use when: dispatching workflow:post-task-reviewer subagent, running deep review after fast gates, OWASP audit, PM/docs accuracy check, replan recommendation"
+description: "Forked-context deep post-task reviewer (workflow mirror) — preloads verdict schema + OWASP + deep code + PM/docs + replan lens. 對抗深度後任務審查（workflow鏡像，fork上下文）。 Use when: dispatch workflow:post-task-reviewer subagent, deep review after fast gates, OWASP audit, PM/docs accuracy check, replan recommendation"
 disable-model-invocation: true
 context: fork
 agent: "workflow:post-task-reviewer"

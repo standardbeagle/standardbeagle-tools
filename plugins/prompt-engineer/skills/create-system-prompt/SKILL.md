@@ -1,6 +1,6 @@
 ---
 name: prompt-engineer-create-system-prompt
-description: "\"Guide through creating an effective system prompt from scratch using 2026 best practices. 引導以 2026 最佳實踐從零創建高效系統提示。 Use when: starting a new AI application, building chatbot or agent system prompts, structuring prompts for specific application types.\""
+description: "\"Guide through creating effective system prompt from scratch using 2026 best practices. 引導以 2026 最佳實踐從零創建高效系統提示。 Use when: starting new AI application, building chatbot or agent system prompts, structuring prompts for specific application types.\""
 disable-model-invocation: true
 allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---

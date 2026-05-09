@@ -1,6 +1,6 @@
 ---
 name: ux-design-ux-heuristics
-description: "UX evaluation using Nielsen's heuristics, cognitive principles, and modern usability patterns. Comprehensive framework for identifying and resolving usability issues in interface design. Nielsen啟發式評估框架：認知原理、現代可用性模式、問題識別與解決。 Use when: conducting a UX audit, evaluating interface usability, identifying usability violations, applying cognitive design principles."
+description: "UX evaluation via Nielsen heuristics, cognitive principles, modern usability patterns. Framework for identifying + resolving usability issues. Nielsen啟發式評估框架。 Use when: conducting UX audit, evaluating interface usability, identifying usability violations, applying cognitive design principles."
 disable-model-invocation: true
 ---
 

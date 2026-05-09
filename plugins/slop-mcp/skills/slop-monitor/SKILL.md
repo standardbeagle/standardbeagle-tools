@@ -1,6 +1,6 @@
 ---
 name: slop-mcp-slop-monitor
-description: "\"Scaffold a slop-mcp monitor session — verify PATH binary, choose between generic event stream / SLOP polling script / timed session, and emit a copy-ready Claude Code Monitor({...}) JSON block. 搭建 slop-mcp 監視會話：先驗 PATH 二進製，三模式擇一（通用事件流 / SLOP 輪詢腳本 / 限時會話），輸出可直接粘貼之 Claude Code Monitor({...}) JSON。 Use when: starting a Claude Code Monitor over slop-mcp, watching git/build/CI events, polling an MCP for delta changes, running a bounded watch session.\""
+description: "Scaffold slop-mcp monitor session — verify PATH binary, choose generic event stream / SLOP polling script / timed session, emit copy-ready Claude Code Monitor({...}) JSON. 搭建 slop-mcp 監視會話。 Use when: starting Claude Code Monitor over slop-mcp, watching git/build/CI events, polling MCP for delta changes, running bounded watch session."
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: ux-design-component-design
-description: "Design principles for creating cohesive component libraries and design systems. Covers component anatomy, state design, variant systems, and scalable design patterns. 設計系統元件庫之法：解剖、狀態、變體、規模化。 Use when: designing a component library, defining component states or variants, planning a design system, establishing spacing or elevation tokens."
+description: "Design principles for creating cohesive component libraries and design systems. Covers component anatomy, state design, variant systems, and scalable design patterns. 設計系統元件庫之法：解剖、狀態、變體、規模化。 Use when: designing component library, defining component states or variants, planning design system, establishing spacing or elevation tokens."
 disable-model-invocation: true
 ---
 

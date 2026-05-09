@@ -1,6 +1,6 @@
 ---
 name: dev-standards-review-for-plan-updates
-description: "After a task reaches GREEN and before the quality gate commits, surface C-class refactor discoveries as structured plan-update proposals. 任務綠燈後，呈 C 類重構發現供規劃者取捨。 Use when: task just passed tests, before quality gate commit, surface refactor proposals, review completed task for technical debt, post-GREEN review"
+description: "After task reaches GREEN and before quality gate commits, surface C-class refactor discoveries as structured plan-update proposals. 任務綠燈後，呈 C 類重構發現供規劃者取捨。 Use when: task passed tests, before quality gate commit, surface refactor proposals, review completed task for technical debt, post-GREEN review"
 ---
 
 # Review for Plan Updates

@@ -1,6 +1,6 @@
 ---
 name: knowledge-hygiene-multi-source-research
-description: "Pipeline for grounded research: gather (≥2 sources) → conflict-detect → synthesize-with-provenance. Cites K2 §3.1 (provenance per claim) + K2 §3.2 (multiview retrieval). Reuses the brainstorming <PROVENANCE-CONTRACT> (commit ebd136a) as the canonical provenance shape; reuses conflict-detector agent (this plugin) as the contradiction step. 多源研究管道：採集（≥2源）→衝突檢測→帶溯源綜合。 Use when: synthesizing claims from multiple docs/repos/papers, before writing a load-bearing assertion in a spec or design doc, fact-checking a load-bearing PR description, gathering evidence for an architectural decision, validating a claim that contradicts a Phase 0 high-confidence bullet. Skip when: a single authoritative source is sufficient (e.g., 'what is this function's signature' answered by lci:get_context alone), or the claim is non-load-bearing (typo fix, comment update)."
+description: "Grounded research pipeline: gather (>=2 sources) -> conflict-detect -> synthesize-with-provenance + K2 §3.2 multiview retrieval. 多源研究管道。 Use when: synthesizing claims from multiple docs/repos/papers, before load-bearing assertion in spec/design, fact-checking PR, gathering evidence for architectural decision, validating claim contradicting Phase 0 bullet. Skip: single authoritative source sufficient (lci:get_context for signature), non-load-bearing claim."
 disable-model-invocation: true
 ---
 

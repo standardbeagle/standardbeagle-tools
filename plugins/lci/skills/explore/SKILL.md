@@ -1,6 +1,6 @@
 ---
 name: lci-explore
-description: "\"Explore the codebase structure using Lightning Code Index. 以LCI探索代碼庫結構。 Use when: understanding codebase architecture, finding files by pattern, drilling into specific areas.\""
+description: "\"Explore codebase structure using Lightning Code Index. 以LCI探索代碼庫結構。 Use when: understanding codebase architecture, finding files by pattern, drilling into specific areas.\""
 allowed-tools: " - mcp__lci__code_insight - mcp__lci__find_files - mcp__lci__search"
 ---
 

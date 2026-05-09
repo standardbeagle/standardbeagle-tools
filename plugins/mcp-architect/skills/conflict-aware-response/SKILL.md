@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-conflict-aware-response
-description: "Response schema for MCP tools that consume 2+ sources — surface disagreement structurally rather than silently picking a winner. The conflicts[] field is present only when sources actually disagree (no false-positive bloat). Mirrors knowledge-hygiene:conflict-detector output shape so emit-side and consume-side speak the same wire format. Use when: designing an MCP tool that synthesizes across multiple sources (research synthesis, multi-doc Q&A, cross-reference lookup, multi-source memory recall), a tool that answers using 2+ retrieved snippets, or a tool whose output a downstream conflict-detector will inspect. Do not use for: single-source tools, tools where source independence is not a property of the design (e.g., a single file's content), or pure aggregation tools where 'disagree' is undefined."
+description: "Response schema for MCP tools consuming 2+ sources — surface disagreement structurally, not silent winner-pick. conflicts[] only when sources disagree (no false-positive bloat). Use when: MCP tool synthesizing across sources (research synthesis, multi-doc Q&A, cross-reference, multi-source memory recall), tool answering with 2+ snippets, output a downstream conflict-detector reads. Skip: single-source tools, source-independence not design property, pure aggregation."
 disable-model-invocation: true
 version: 0.1.0
 ---

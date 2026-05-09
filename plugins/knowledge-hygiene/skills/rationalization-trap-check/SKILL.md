@@ -1,6 +1,6 @@
 ---
 name: knowledge-hygiene-rationalization-trap-check
-description: "Light heuristic for detecting the rationalization trap — long chain-of-thought preceding a small load-bearing change, especially when the CoT defends a prior decision against fresh evidence. Cites K2 §3.3 (rationalization-trap value-rule, ConflictQA arxiv 2604.11209). The 'no silent rationalization' rule is the sole value-layer 'must' in this plugin. 理性化陷阱檢測：長鏈思考前置於小幅承重變更之啟發式檢核。 Use when: reviewing a long CoT/reasoning trace before a small commit, gating PR descriptions whose 'Why' section dwarfs the diff, auditing brainstorming Phase 1/2 strategy picks that override Phase 0 high-confidence bullets, post-hoc audit of a decision that 'feels off'. Skip when: the CoT is exploratory/throwaway and no commit follows, or the change is large enough that long reasoning is proportionate."
+description: "Heuristic detecting rationalization trap — long chain-of-thought before small load-bearing change, esp. when CoT defends prior decision against fresh evidence. Sole value-layer must in this plugin. 理性化陷阱檢測。 Use when: long CoT before small commit, PR whose 'Why' dwarfs diff, brainstorm Phase 1/2 picks overriding Phase 0 bullets, post-hoc audit of decision that 'feels off'. Skip: exploratory CoT with no commit, change large enough that long reasoning is proportionate."
 disable-model-invocation: true
 ---
 

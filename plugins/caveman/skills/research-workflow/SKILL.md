@@ -1,6 +1,6 @@
 ---
 name: caveman-research-workflow
-description: "Multi-source research recipe using caveman-mcp - gather URLs/PDFs/PRs in parallel, compress each, synthesize with provenance preserved. Pairs with knowledge-hygiene plugin for conflict detection. 多源研究配方：並行採集URL/PDF/PR，壓縮，含出處合成. Use when: research a topic across many sources, prep literature review, ingest reading list, build evidence pack for decision, multi-source synthesis with citations"
+description: "Multi-source research recipe via caveman-mcp — gather URLs/PDFs/PRs in parallel, compress each, synthesize with provenance. Pairs with knowledge-hygiene for conflict detection. 多源研究：並行採集、壓縮、含出處合成。 Use when: research topic across sources, prep literature review, ingest reading list, build evidence pack, multi-source synthesis with citations"
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: agnt-qa-test
-description: "\"Comprehensive QA testing suite for the current page. 全面品保測試現頁. Use when: run QA tests, validate page functionality, test user flows, check for broken features, comprehensive page verification\""
+description: "\"Comprehensive QA testing suite for current page. 全面品保測試現頁. Use when: run QA tests, validate page functionality, test user flows, check for broken features, comprehensive page verification\""
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\", \"mcp__agnt__currentpage\"]"
 context: fork
 agent: "agnt:browser-debugger"

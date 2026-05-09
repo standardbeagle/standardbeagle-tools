@@ -1,6 +1,6 @@
 ---
 name: risk-pipeline-risk-tag-sweep
-description: "Backfill @risk tags across a codebase. Enumerates untagged (or stale, or all with --force) symbols via LCI, drains hook queue, processes in 10-wide parallel batches invoking risk-tag-unit per symbol. Progress + resumable checkpoints to .risk-pipeline/sweep-state.json. Supports --scope glob narrowing and --force re-tag. Safe for monorepos via per-package scoping."
+description: "Backfill @risk tags across codebase. Enumerates untagged (or stale, or all with --force) symbols via LCI, drains hook queue, processes in 10-wide parallel batches invoking risk-tag-unit per symbol. Progress + resumable checkpoints to .risk-pipeline/sweep-state.json. --scope glob narrowing, --force re-tag. Safe for monorepos via per-package scoping."
 disable-model-invocation: true
 context: fork
 agent: general-purpose

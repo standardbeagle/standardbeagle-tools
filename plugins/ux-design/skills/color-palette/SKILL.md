@@ -1,6 +1,6 @@
 ---
 name: ux-design-color-palette
-description: "\"Interactive color palette creation wizard with inspiration from Adobe Color, Coolors, and color theory principles. 互動調色板創建引導：Adobe Color、Coolors及色彩理論原則驅動，含無障礙驗證。 Use when: creating a brand color palette, generating tonal scales, validating color contrast, extending a palette for dark mode.\""
+description: "\"Interactive color palette creation wizard with inspiration from Adobe Color, Coolors, and color theory principles. 互動調色板創建引導：Adobe Color、Coolors及色彩理論原則驅動，含無障礙驗證。 Use when: creating brand color palette, generating tonal scales, validating color contrast, extending palette for dark mode.\""
 disable-model-invocation: true
 ---
 

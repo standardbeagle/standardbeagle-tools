@@ -1,6 +1,6 @@
 ---
 name: modern-html-modern-css-layout
-description: "This skill should be used when designing responsive layouts, component-driven sizing, conditional styles based on parent state, or grid/subgrid alignment. Covers container queries (size and style), container query units (cqw, cqh, cqi, cqb), subgrid, and the :has() relational selector. Use when: building cards, sidebars, dashboards, or responsive components; aligning grandchild rows across siblings; styling parents conditionally based on descendants; replacing viewport media queries with component-aware queries. Skip when: working on a static or single-viewport layout with no component reuse, or when the project mandates only Baseline-Widely-3yr features."
+description: "Container queries, container query units (cqw/cqh/cqi/cqb), subgrid, :has() relational selector for responsive component-driven sizing. Use when: cards/sidebars/dashboards/responsive components, grandchild row alignment across siblings, styling parents by descendants, replacing viewport media queries with component-aware. Skip: static single-viewport layout, project mandates Baseline-Widely-3yr only."
 paths: "[\"**/*.{css,scss,sass,less,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: agnt-lci-companion
-description: "Use when agnt is installed and the user needs semantic code search, symbol lookup, or call-hierarchy analysis in an unfamiliar codebase - points at the sibling lci plugin which agnt does not duplicate. agnt配套：語義代碼搜尋、符號查找、調用層次分析，導向lci插件。 Use when: find symbol definition, search code semantically, explore codebase architecture, trace call hierarchy, repeated grep passes on large repo"
+description: "Use when agnt installed and user needs semantic code search, symbol lookup, or call-hierarchy analysis — points at sibling lci plugin. agnt配套：導向lci。 Use when: find symbol definition, semantic code search, explore codebase, trace call hierarchy, repeated grep on large repo"
 ---
 
 # LCI — agnt之代碼智能配套

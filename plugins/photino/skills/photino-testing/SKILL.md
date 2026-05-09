@@ -1,6 +1,6 @@
 ---
 name: photino-photino-testing
-description: "Testing strategies for Photino.NET apps: testability tiers (pure logic, AST without runspace, live integration), environment traits, fixture patterns, and test filtering. Photino.NET應用測試策略：可測試性層級（純邏輯、無runspace AST、實時集成）、環境特性、夾具模式及測試過濾. Use when: setting up test project, writing unit or integration tests, filtering test runs, collecting coverage, handling environment-dependent tests"
+description: "Testing Photino.NET apps: testability tiers (pure logic, AST without runspace, live integration), environment traits, fixture patterns, test filtering. Photino.NET測試策略。 Use when: setting up test project, writing unit or integration tests, filtering test runs, collecting coverage, handling environment-dependent tests"
 disable-model-invocation: true
 ---
 

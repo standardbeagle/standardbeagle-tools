@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-analyze-mcp
-description: Analyze an existing MCP server implementation for optimization opportunities and best practice compliance. 分析現有MCP服務器實現，識別優化機會與最佳實踐合規性。
+description: "Analyze existing MCP server implementation for optimization opportunities and best practice compliance. 分析現有MCP服務器實現，識別優化機會與最佳實踐合規性。"
 disable-model-invocation: true
 argument-hint: "\"[path-to-mcp]\""
 allowed-tools: "[Read, Glob, Grep, Write]"

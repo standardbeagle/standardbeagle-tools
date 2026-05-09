@@ -1,6 +1,6 @@
 ---
 name: design-utilities-color-overview
-description: Overview of the color MCP server tools for precise color operations - WCAG contrast, color blindness simulation, palette extraction, color space conversion, and harmony generation.
+description: "Overview of color MCP server tools for precise color operations - WCAG contrast, color blindness simulation, palette extraction, color space conversion, and harmony generation."
 disable-model-invocation: true
 ---
 

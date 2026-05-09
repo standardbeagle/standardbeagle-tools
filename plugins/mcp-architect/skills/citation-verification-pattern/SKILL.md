@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-citation-verification-pattern
-description: "4-layer response shape for MCP tools that emit claims linked to sources — source-exists, claim-derivable, no-over-extension, no-hallucinated-cite. Design pattern for research / synthesis / doc-generation / claim-emitting MCP servers. Use when: designing an MCP tool that returns sourced facts, summaries, citations, retrieved snippets, or any output where the user will trust 'because the source says so'; when readers will follow a link or open a file based on the tool's claim; when reviewing an existing tool whose responses include URLs, file paths, or memory IDs as evidence. Do not use for: pure retrieval tools that return raw matches without claims, structural tools (list, count, enumerate), or tools whose output never asserts truth about the source content."
+description: "4-layer response shape for MCP tools emitting source-linked claims — source-exists, claim-derivable, no-over-extension, no-hallucinated-cite. For research/synthesis/doc-generation/claim-emitting servers. Use when: MCP tool returning sourced facts, summaries, citations, retrieved snippets; readers follow links from tool output; reviewing tool with URLs/file paths/memory IDs as evidence. Skip: pure retrieval without claims, structural tools (list/count), output never asserts truth."
 disable-model-invocation: true
 version: 0.1.0
 ---

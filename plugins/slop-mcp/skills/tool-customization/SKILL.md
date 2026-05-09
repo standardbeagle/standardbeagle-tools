@@ -1,6 +1,6 @@
 ---
 name: slop-mcp-tool-customization
-description: "Override verbose third-party MCP tool descriptions, define composite SLOP-backed custom tools, and share customization packs via git. 壓縮上游冗長工具描述，定義 SLOP 腳本複合工具，以包經 git 共享團隊。 Use when: override tool description, shrink tool docs, define custom tool, compose MCP tools, share customizations, stale override, export customization pack, import customization pack."
+description: "Override verbose third-party MCP tool descriptions, define composite SLOP-backed custom tools, share customization packs via git. 壓縮工具描述、定義複合工具、經 git 共享。 Use when: override tool description, shrink tool docs, define custom tool, compose MCP tools, share customizations, stale override, export/import customization pack."
 disable-model-invocation: true
 ---
 

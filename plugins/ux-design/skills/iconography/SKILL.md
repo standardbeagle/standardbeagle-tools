@@ -1,6 +1,6 @@
 ---
 name: ux-design-iconography
-description: "Icon design principles, selection criteria, and system creation. Build cohesive icon sets that enhance usability and reinforce brand identity. 圖示設計原則、選擇準則與系統建立：構建增強可用性、強化品牌識別的一致圖示集。 Use when: selecting or designing icons, building an icon system, defining icon sizing or accessibility requirements, choosing between icon libraries."
+description: "Icon design principles, selection criteria, and system creation. Build cohesive icon sets that enhance usability and reinforce brand identity. 圖示設計原則、選擇準則與系統建立：構建增強可用性、強化品牌識別的一致圖示集。 Use when: selecting or designing icons, building icon system, defining icon sizing or accessibility requirements, choosing between icon libraries."
 disable-model-invocation: true
 ---
 

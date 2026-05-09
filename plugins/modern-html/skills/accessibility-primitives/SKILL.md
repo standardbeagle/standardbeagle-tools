@@ -1,6 +1,6 @@
 ---
 name: modern-html-accessibility-primitives
-description: "This skill should be used whenever generating interactive UI, focus styles, motion, color, or modal/popover content. Covers focus-visible, focus-within, the inert attribute, prefers-reduced-motion, prefers-color-scheme, prefers-contrast, forced-colors, the accessibility-tree implications of dialog/popover/anchor positioning, and required ARIA labeling for native primitives. Use when: writing focus styles, implementing keyboard navigation, animating UI, picking colors, building modal or popover content, or auditing a component for accessibility. Skip when: working purely on backend code or non-rendered content."
+description: "Native a11y primitives — focus-visible, focus-within, inert, prefers-reduced-motion, prefers-color-scheme, prefers-contrast, forced-colors, accessibility-tree for dialog/popover/anchor-positioning, ARIA labeling for native primitives. Use when: writing focus styles, keyboard nav, animating UI, picking colors, modal/popover content, auditing component a11y. Skip: backend code, non-rendered content."
 paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 

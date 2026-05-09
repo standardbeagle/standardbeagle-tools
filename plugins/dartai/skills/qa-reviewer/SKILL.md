@@ -1,6 +1,6 @@
 ---
 name: dartai-qa-reviewer
-description: "Forked-context QA reviewer playbook — preloads verdict schema, testing-pyramid lens, and assertion/edge-case/TDD checklist for adversarial QA review subagents. 對抗QA審查者技能：測試金字塔視角、斷言與邊緣案例清單、TDD合規、判定模式（fork上下文）。 Use when: dispatching qa-reviewer subagent, running adversarial QA review, gating on test quality, when reviewer should not pollute main thread"
+description: "Forked-context QA reviewer — preloads verdict schema + testing-pyramid lens + assertion/edge-case/TDD checklist. 對抗QA審查（fork上下文）。 Use when: dispatch qa-reviewer subagent, adversarial QA review, gate on test quality, when reviewer must not pollute main thread"
 context: fork
 agent: "dartai:qa-reviewer"
 ---

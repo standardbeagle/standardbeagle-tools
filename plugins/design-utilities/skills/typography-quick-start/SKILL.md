@@ -1,6 +1,6 @@
 ---
 name: design-utilities-typography-quick-start
-description: Quick reference for the typography MCP server - modular_scale, font_metrics, variable_font_axes, font_subset, font_stack. Use when building a type scale, analyzing font vertical metrics for line-height decisions, inspecting variable font axes for CSS, subsetting fonts to WOFF2 for web delivery, or tuning system-font fallback stacks with size-adjust to avoid CLS.
+description: "Quick reference for typography MCP — modular_scale, font_metrics, variable_font_axes, font_subset, font_stack. Use when: build type scale, analyze vertical metrics for line-height, inspect variable font axes, subset fonts to WOFF2, tune system-font fallback with size-adjust to avoid CLS."
 disable-model-invocation: true
 ---
 

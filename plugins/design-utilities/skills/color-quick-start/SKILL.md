@@ -1,6 +1,6 @@
 ---
 name: design-utilities-color-quick-start
-description: Quick reference for the color MCP server - contrast_check, color_blindness_simulate, palette_extract, color_convert, harmony_generate. Use when working on accessibility verification, palette design, color space conversion, or generating harmonious color schemes.
+description: "Quick reference for color MCP server - contrast_check, color_blindness_simulate, palette_extract, color_convert, harmony_generate. Use when working on accessibility verification, palette design, color space conversion, or generating harmonious color schemes."
 disable-model-invocation: true
 ---
 

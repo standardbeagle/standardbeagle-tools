@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-response-optimization
-description: "Patterns for human/LLM readable MCP responses with automation flags, token/ID cross-tool references, and confidence-based progressive detail. 人機雙讀響應設計、自動化標誌、token效率優化。Use when: user asks about JSON flags, token IDs, cross-tool references, progressive detail, response optimization, human and LLM readable, automation flags, confidence-based detail, or discusses optimizing MCP responses for both human and machine consumption."
+description: "Patterns for human/LLM-readable MCP responses with automation flags, token/ID cross-tool references, confidence-based progressive detail. 人機雙讀響應、自動化標誌、token優化。 Use when: JSON flags, token IDs, cross-tool references, progressive detail, response optimization, human and LLM readable, automation flags, confidence-based detail, optimizing MCP responses for both human and machine."
 disable-model-invocation: true
 version: 0.1.0
 ---

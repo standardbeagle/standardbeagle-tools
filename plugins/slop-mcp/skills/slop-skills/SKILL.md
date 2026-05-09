@@ -1,6 +1,6 @@
 ---
 name: slop-mcp-slop-skills
-description: "\"Generate markdown tool reference skill files for slop-mcp managed MCP servers. 為 slop-mcp 管理之 MCP 服務器生成工具參考技藝文件。 Use when: documenting a new MCP server, generating usage examples, creating skill files for all registered servers.\""
+description: "\"Generate markdown tool reference skill files for slop-mcp managed MCP servers. 為 slop-mcp 管理之 MCP 服務器生成工具參考技藝文件。 Use when: documenting new MCP server, generating usage examples, creating skill files for all registered servers.\""
 disable-model-invocation: true
 ---
 

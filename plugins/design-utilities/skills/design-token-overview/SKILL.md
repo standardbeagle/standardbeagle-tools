@@ -1,6 +1,6 @@
 ---
 name: design-utilities-design-token-overview
-description: Overview of the design-token MCP server tools for design system token management - generate, export (CSS/Tailwind/Style Dictionary/SCSS/JSON), validate, diff, merge theme layers, and Tailwind config generation.
+description: "Overview of design-token MCP server tools for design system token management - generate, export (CSS/Tailwind/Style Dictionary/SCSS/JSON), validate, diff, merge theme layers, and Tailwind config generation."
 disable-model-invocation: true
 ---
 

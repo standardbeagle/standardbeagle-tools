@@ -1,6 +1,6 @@
 ---
 name: design-utilities-image-processing-quick-start
-description: Quick reference for the image-processing MCP server - image_optimize, responsive_generate, blur_hash, svg_optimize, palette_from_image. Use when compressing or converting images to WebP/AVIF, generating responsive srcset variants, producing BlurHash or LQIP placeholders for lazy loading, minifying SVG assets, or extracting dominant-color palettes with percentage breakdowns from source imagery.
+description: "Quick reference for image-processing MCP — image_optimize, responsive_generate, blur_hash, svg_optimize, palette_from_image. Use when: compress/convert images to WebP/AVIF, generate responsive srcset, produce BlurHash/LQIP placeholders, minify SVG, extract dominant-color palettes."
 disable-model-invocation: true
 ---
 

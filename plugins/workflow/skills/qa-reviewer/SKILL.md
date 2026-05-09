@@ -1,6 +1,6 @@
 ---
 name: workflow-qa-reviewer
-description: "Forked-context QA reviewer playbook (workflow mirror) — preloads verdict schema + testing-pyramid lens + assertion/edge-case/TDD checklist for adversarial QA review subagents. 對抗QA審查者技能（workflow鏡像）：測試金字塔、斷言、邊緣案例、TDD合規（fork上下文）。 Use when: dispatching workflow:qa-reviewer subagent, running adversarial QA in workflow loop, gating on test quality, when reviewer should not pollute main thread"
+description: "Forked-context QA reviewer (workflow mirror) — preloads verdict schema + testing-pyramid lens + assertion/edge-case/TDD checklist. 對抗QA審查（workflow鏡像，fork上下文）。 Use when: dispatch workflow:qa-reviewer subagent, adversarial QA in workflow loop, gate on test quality, when reviewer must not pollute main thread"
 disable-model-invocation: true
 context: fork
 agent: "workflow:qa-reviewer"

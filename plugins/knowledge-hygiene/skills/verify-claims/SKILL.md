@@ -1,6 +1,6 @@
 ---
 name: knowledge-hygiene-verify-claims
-description: "\"Run multi-source-research + rationalization-trap-check on each load-bearing claim in a target doc, spec, or PR. Surfaces conflicts and rationalization-traps before commit/merge. 對目標文檔/PR之每承重 claim 跑多源研究 + 理性化陷阱檢核，於提交/合併前彈出衝突與陷阱。 Use when: pre-merge fact-check on a doc/PR, post-spec audit before locking in an architectural decision, validating a claim that contradicts a Phase 0 high-confidence bullet, periodic audit of /docs/research/ outputs.\""
+description: "Run multi-source-research + rationalization-trap-check on each load-bearing claim in target doc, spec, or PR. Surfaces conflicts + rationalization-traps before commit/merge. 對目標跑多源+陷阱檢核。 Use when: pre-merge fact-check on doc/PR, post-spec audit before locking architectural decision, validating claim contradicting Phase 0 high-confidence bullet, periodic audit of /docs/research/ outputs."
 disable-model-invocation: true
 argument-hint: "\"[target — file path, directory, or PR ref like #123 or owner/repo#123]\""
 ---

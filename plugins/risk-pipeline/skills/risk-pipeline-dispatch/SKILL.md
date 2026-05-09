@@ -1,6 +1,6 @@
 ---
 name: risk-pipeline-risk-pipeline-dispatch
-description: "Dispatch risk vector → reviewer roster + impl/reviewer model + tdd_required flag. Maps dim-matched triggers: s>=- fires security-reviewer, d>=- fires data-reviewer, r>=+ fires reversibility-reviewer, b>=+ fires full code-quality, u>=+ adds novelty-reviewer + research task. Crit axes hard-block. Model routes impl by scalar tier (haiku-4.5 / sonnet-4.6 / opus-4.7) with crit + u-crit escalation; reviewer default one tier down with security/post-task same-tier overrides. TDD required when d|s >=- or b|u >=+."
+description: "Dispatch risk vector -> reviewer roster + impl/reviewer model + tdd_required. Triggers: s>=- security-reviewer, d>=- data-reviewer, r>=+ reversibility-reviewer, b>=+ full code-quality, u>=+ adds novelty-reviewer + research. Crit axes hard-block. Model routes impl by tier (haiku-4.5/sonnet-4.6/opus-4.7) with crit + u-crit escalation; reviewer one tier down with security/post-task same-tier overrides. TDD when d|s>=- or b|u>=+."
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: modern-html-performance-and-containment
-description: "This skill should be used when optimizing long lists, articles, dashboards, or pages with many off-screen elements. Covers content-visibility: auto, contain-intrinsic-size, the contain property, will-change discipline, and using container queries to reduce layout thrash. Use when: rendering long article archives, chat logs with many messages, infinite-scroll feeds, dashboards with off-screen widgets, or before reaching for virtual-scrolling libraries. Skip when: page content is short, fully above-the-fold, or already heavily virtualized by an existing framework component."
+description: "content-visibility:auto, contain-intrinsic-size, contain property, will-change discipline, container queries to reduce layout thrash for long lists/articles/dashboards/off-screen content. Use when: long article archives, chat logs, infinite-scroll feeds, dashboards with off-screen widgets, before virtual-scrolling lib. Skip: short page, above-fold only, already virtualized."
 paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: risk-pipeline-tag-sweep
-description: "\"Backfill @risk tags across the codebase. Invokes risk-tag-sweep skill with supplied flags. Use --scope to narrow, --force to re-tag, --dry-run to preview. Resumable via --resume.\""
+description: "\"Backfill @risk tags across codebase. Invokes risk-tag-sweep skill with supplied flags. Use --scope to narrow, --force to re-tag, --dry-run to preview. Resumable via --resume.\""
 disable-model-invocation: true
 ---
 

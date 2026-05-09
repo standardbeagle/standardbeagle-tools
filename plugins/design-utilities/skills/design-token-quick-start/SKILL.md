@@ -1,6 +1,6 @@
 ---
 name: design-utilities-design-token-quick-start
-description: Quick reference for the design-token MCP server - tokens_generate, tokens_export, tokens_validate, tokens_diff, tokens_merge, tailwind_generate. Use when building or maintaining a design token pipeline, exporting tokens to CSS/Tailwind/SCSS/Style Dictionary, validating token files, diffing token versions across releases, or layering base/brand/mode themes.
+description: "Quick reference for design-token MCP — tokens_generate, tokens_export, tokens_validate, tokens_diff, tokens_merge, tailwind_generate. Use when: build/maintain design token pipeline, export tokens to CSS/Tailwind/SCSS/Style Dictionary, validate token files, diff token versions, layer base/brand/mode themes."
 disable-model-invocation: true
 ---
 

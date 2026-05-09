@@ -1,6 +1,6 @@
 ---
 name: prompt-engineer-optimize-prompt
-description: "\"Apply current optimization techniques to improve a prompt. 應用最新優化技術改善提示。 Use when: improving accuracy, consistency, creativity, speed, or safety of an existing prompt.\""
+description: "\"Apply current optimization techniques to improve prompt. 應用最新優化技術改善提示。 Use when: improving accuracy, consistency, creativity, speed, or safety of existing prompt.\""
 disable-model-invocation: true
 allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---

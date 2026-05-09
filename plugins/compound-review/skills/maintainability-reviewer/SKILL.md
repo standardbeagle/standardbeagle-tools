@@ -1,6 +1,6 @@
 ---
 name: compound-review-maintainability-reviewer
-description: "Forked-context maintainability reviewer playbook — preloads verdict schema and premature-abstraction/dead-code/duplication/YAGNI lens for adversarial maintainability review subagents. 對抗可維護性審查者技能：過早抽象、死碼、重複偵測、YAGNI視角，verdict-only輸出（fork上下文）。 Use when: dispatching compound-review:maintainability-reviewer subagent, gating on structural debt, when reviewer should not pollute main thread"
+description: "Forked-context maintainability reviewer — preloads verdict schema + premature-abstraction/dead-code/duplication/YAGNI lens. 對抗可維護性審查（fork上下文）。 Use when: dispatch compound-review:maintainability-reviewer subagent, gate on structural debt, when reviewer must not pollute main thread"
 disable-model-invocation: true
 context: fork
 agent: "compound-review:maintainability-reviewer"

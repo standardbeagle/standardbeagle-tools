@@ -1,6 +1,6 @@
 ---
 name: ux-design-accessibility
-description: "Inclusive design principles and WCAG guidelines for creating accessible experiences. Covers visual, motor, cognitive, and auditory accessibility from a design perspective. 無障礙設計原則與WCAG指南：視覺、運動、認知、聽覺無障礙全覽。 Use when: reviewing designs for accessibility, implementing WCAG compliance, designing focus states, handling color independence, ensuring touch target sizing."
+description: "Inclusive design + WCAG guidelines for accessible experiences. Covers visual, motor, cognitive, auditory accessibility from design perspective. 無障礙設計與WCAG指南。 Use when: reviewing designs for accessibility, implementing WCAG compliance, designing focus states, handling color independence, ensuring touch target sizing."
 disable-model-invocation: true
 ---
 

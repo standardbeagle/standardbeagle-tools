@@ -1,6 +1,6 @@
 ---
 name: dartai-code-quality-reviewer
-description: "Forked-context code-quality reviewer playbook — preloads verdict schema, codebase-coherence + bloat + completeness + duplication + cleanup lens for adversarial quality review subagents. 對抗代碼品質審查者技能：連貫性、臃腫、完整性、重複、清理視角，verdict-only輸出（fork上下文）。 Use when: dispatching code-quality-reviewer subagent, running adversarial code review, gating on code quality, when reviewer should not pollute main thread"
+description: "Forked-context code-quality reviewer — preloads verdict schema + coherence/bloat/completeness/duplication/cleanup lens. 對抗代碼品質審查（fork上下文）。 Use when: dispatch code-quality-reviewer subagent, adversarial code review, gate on quality, when reviewer must not pollute main thread"
 context: fork
 agent: "dartai:code-quality-reviewer"
 ---

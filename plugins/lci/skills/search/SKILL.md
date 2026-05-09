@@ -1,6 +1,6 @@
 ---
 name: lci-search
-description: "\"Search the codebase using Lightning Code Index semantic search. 以LCI語義搜索查找代碼庫符號。 Use when: searching for symbols, finding definitions, content search, regex search.\""
+description: "\"Search codebase using Lightning Code Index semantic search. 以LCI語義搜索查找代碼庫符號。 Use when: searching for symbols, finding definitions, content search, regex search.\""
 allowed-tools: " - mcp__lci__search - mcp__lci__get_context - mcp__lci__info"
 ---
 

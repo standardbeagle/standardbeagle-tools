@@ -1,6 +1,6 @@
 ---
 name: slop-mcp-dart-tools
-description: "Complete reference for all 21 Dart MCP tools: tasks, documents, comments, workspace config. Dart MCP 服務器全21工具參考，含任務、文檔、評論、工作區配置。 Use when: looking up tool parameters, understanding response fields, finding the right Dart tool for an operation."
+description: "Complete reference for all 21 Dart MCP tools: tasks, documents, comments, workspace config. Dart MCP 服務器全21工具參考，含任務、文檔、評論、工作區配置。 Use when: looking up tool parameters, understanding response fields, finding right Dart tool for operation."
 disable-model-invocation: true
 ---
 

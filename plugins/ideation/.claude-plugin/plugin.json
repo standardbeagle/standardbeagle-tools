@@ -1,6 +1,6 @@
 {
   "name": "ideation",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Idea-generation skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, and post-ideation handoff. Dispatches research:* agents for grounding.",
   "author": {
     "name": "Standard Beagle",

@@ -1,6 +1,6 @@
 ---
 name: mcp-tester-hot-swap
-description: "\"Hot-swap an MCP server binary without disconnecting clients. 熱換MCP伺服器二進位，不斷客端連接。 Use when: hot swap mcp server, update mcp without restart, replace mcp binary, reload mcp server, live update mcp\""
+description: "\"Hot-swap MCP server binary without disconnecting clients. 熱換MCP伺服器二進位，不斷客端連接。 Use when: hot swap mcp server, update mcp without restart, replace mcp binary, reload mcp server, live update mcp\""
 disable-model-invocation: true
 arguments: " - name: server-name description: Name of the server to hot-swap required: true - name: new-command description: New command to launch the updated server required: true"
 ---

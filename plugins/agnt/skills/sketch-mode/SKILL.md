@@ -1,6 +1,6 @@
 ---
 name: agnt-sketch-mode
-description: "\"Open sketch mode for wireframing on the browser page. 開繪圖模式於瀏覽頁. Use when: wireframe UI, sketch layout, draw mockup, prototype design, annotate page visually\""
+description: "\"Open sketch mode for wireframing on browser page. 開繪圖模式於瀏覽頁. Use when: wireframe UI, sketch layout, draw mockup, prototype design, annotate page visually\""
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 ---
 

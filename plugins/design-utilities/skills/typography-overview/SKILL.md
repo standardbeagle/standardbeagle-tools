@@ -1,6 +1,6 @@
 ---
 name: design-utilities-typography-overview
-description: Overview of the typography MCP server tools for type system work - modular scale generation, font metrics extraction, variable font axis parsing, font subsetting to WOFF2, and system-fallback font stacks with size-adjust tuning.
+description: "Overview of typography MCP server tools for type system work - modular scale generation, font metrics extraction, variable font axis parsing, font subsetting to WOFF2, and system-fallback font stacks with size-adjust tuning."
 disable-model-invocation: true
 ---
 

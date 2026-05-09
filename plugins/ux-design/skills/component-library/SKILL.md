@@ -1,6 +1,6 @@
 ---
 name: ux-design-component-library
-description: "\"Design a cohesive component library structure with variant systems, state definitions, and documentation guidelines. 設計帶有變體系統、狀態定義和文檔指南的凝聚元件庫結構。 Use when: planning a component library, defining component variants and states, establishing a design token system, creating component documentation.\""
+description: "\"Design cohesive component library structure with variant systems, state definitions, and documentation guidelines. 設計帶有變體系統、狀態定義和文檔指南的凝聚元件庫結構。 Use when: planning component library, defining component variants and states, establishing design token system, creating component documentation.\""
 disable-model-invocation: true
 ---
 

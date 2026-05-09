@@ -1,6 +1,6 @@
 {
   "name": "design-utilities",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Bundle of small design-utility MCP wrappers: a11y-audit (WCAG/ARIA), color (contrast, palette, blindness sim), design-token (CSS/Tailwind/Style Dictionary export), image-processing (lossy/lossless optimization), typography (modular type scales). MCP configs stay disabled by default - register via slop-mcp.",
   "author": {
     "name": "Standard Beagle",

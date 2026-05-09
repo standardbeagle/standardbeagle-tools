@@ -1,6 +1,6 @@
 ---
 name: figma-query-figma-sync
-description: "Export a complete Figma file to a local grep-friendly folder structure for offline analysis and caching. 將完整 Figma 文件導出為本地目錄，支持離線分析與緩存。 Use when: caching a Figma file locally, enabling offline queries, starting bulk operations, preparing for documentation, setting up CI/CD design pipeline"
+description: "Export complete Figma file to local grep-friendly folder structure for offline analysis and caching. 將完整 Figma 文件導出為本地目錄，支持離線分析與緩存。 Use when: caching Figma file locally, enabling offline queries, starting bulk operations, preparing for documentation, setting up CI/CD design pipeline"
 disable-model-invocation: true
 ---
 

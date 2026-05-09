@@ -1,6 +1,6 @@
 ---
 name: ux-design-color-theory
-description: "Comprehensive color theory guidance for creating harmonious, purposeful color palettes. Covers color wheel relationships, psychological impact, accessibility, and systematic palette generation. 色彩學全覽：調和、意圖、無障礙、系統化調色板生成。 Use when: creating a color palette, selecting brand colors, ensuring color accessibility, generating tonal scales or dark mode variants."
+description: "Color theory for harmonious, purposeful palettes. Covers color-wheel relationships, psychological impact, accessibility, systematic palette generation. 色彩學全覽。 Use when: creating color palette, selecting brand colors, ensuring color accessibility, generating tonal scales or dark mode variants."
 disable-model-invocation: true
 ---
 

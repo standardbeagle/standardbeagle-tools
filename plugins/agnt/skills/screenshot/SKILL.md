@@ -1,6 +1,6 @@
 ---
 name: agnt-screenshot
-description: "\"Take a screenshot of the current browser page. 截取現瀏覽頁圖. Use when: screenshot page, capture current view, take page snapshot, document visual state, capture browser output\""
+description: "\"Take screenshot of current browser page. 截取現瀏覽頁圖. Use when: screenshot page, capture current view, take page snapshot, document visual state, capture browser output\""
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 ---
 

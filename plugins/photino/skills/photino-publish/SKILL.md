@@ -1,6 +1,6 @@
 ---
 name: photino-photino-publish
-description: "\"Publish a Photino.NET app as cross-platform self-contained executables with platform-specific packaging. 將Photino.NET應用發布為跨平台自含可執行文件，含平台特定打包. Use when: publishing for distribution, creating self-contained executables, building for Windows/Linux/macOS targets\""
+description: "\"Publish Photino.NET app as cross-platform self-contained executables with platform-specific packaging. 將Photino.NET應用發布為跨平台自含可執行文件，含平台特定打包. Use when: publishing for distribution, creating self-contained executables, building for Windows/Linux/macOS targets\""
 disable-model-invocation: true
 allowed-tools: "[\"Bash\", \"Read\", \"Glob\", \"Grep\"]"
 ---

@@ -1,6 +1,6 @@
 ---
 name: mcp-tester-send-raw
-description: "\"Send raw JSON-RPC message to an MCP server for low-level debugging. 發原始JSON-RPC訊息至MCP伺服器以底層除錯。 Use when: send raw mcp message, test json-rpc, low level mcp debug, craft custom mcp request, inject mcp message\""
+description: "\"Send raw JSON-RPC message to MCP server for low-level debugging. 發原始JSON-RPC訊息至MCP伺服器以底層除錯。 Use when: send raw mcp message, test json-rpc, low level mcp debug, craft custom mcp request, inject mcp message\""
 disable-model-invocation: true
 arguments: " - name: server description: Server name to send the message to required: true - name: message description: Raw JSON-RPC message to send required: true"
 ---

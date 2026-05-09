@@ -1,6 +1,6 @@
 ---
 name: figma-query-figma-info
-description: "Get help documentation, tool information, and status from the figma-query MCP server. 從 figma-query MCP 服務器獲取幫助文檔、工具信息與狀態。 Use when: first-time discovery of figma-query tools, checking server status, looking up query DSL operators, browsing workflow examples, debugging connection issues"
+description: "Get help documentation, tool information, and status from figma-query MCP server. 從 figma-query MCP 服務器獲取幫助文檔、工具信息與狀態。 Use when: first-time discovery of figma-query tools, checking server status, looking up query DSL operators, browsing workflow examples, debugging connection issues"
 disable-model-invocation: true
 ---
 

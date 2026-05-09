@@ -1,6 +1,6 @@
 ---
 name: photino-setup-photino-project
-description: "\"Configure a Photino.NET project for AI-assisted development with dual-service autostart, CLAUDE.md, and memory files. 配置Photino.NET工程以支持AI輔助開發：雙服務自動啟動、CLAUDE.md及記憶文件. Use when: setting up agnt.kdl for a Photino project, generating CLAUDE.md, initializing project memory, configuring dual-service autostart\""
+description: "\"Configure Photino.NET project for AI-assisted development with dual-service autostart, CLAUDE.md, and memory files. 配置Photino.NET工程以支持AI輔助開發：雙服務自動啟動、CLAUDE.md及記憶文件. Use when: setting up agnt.kdl for Photino project, generating CLAUDE.md, initializing project memory, configuring dual-service autostart\""
 disable-model-invocation: true
 allowed-tools: "[\"Bash\", \"Read\", \"Write\", \"Edit\", \"Glob\", \"Grep\", \"AskUserQuestion\"]"
 ---

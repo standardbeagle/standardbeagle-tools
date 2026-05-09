@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-progressive-discovery
-description: "Info/discovery tool pattern for layered MCP capability exploration. 漸進披露能力、info工具模式。Use when: user asks to implement info tool, create discovery tool, progressive disclosure, help system, enumerate MCP capabilities, info tool pattern, or discusses how users discover what an MCP server can do."
+description: "Info/discovery tool pattern for layered MCP capability exploration. 漸進披露能力、info工具模式。Use when: user asks to implement info tool, create discovery tool, progressive disclosure, help system, enumerate MCP capabilities, info tool pattern, or discusses how users discover what MCP server can do."
 disable-model-invocation: true
 version: 0.1.0
 ---
