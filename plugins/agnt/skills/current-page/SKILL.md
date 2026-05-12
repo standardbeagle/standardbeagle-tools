@@ -7,6 +7,13 @@ description: "Extract comprehensive browser page info - URL, content, navigation
 
 藉agnt瀏覽器整合提取完整頁面資訊。用此技能了解用戶瀏覽器當前所覽之頁。
 
+## 參數命名規則
+
+- `currentpage`、`proxylog`、`responsive_audit`、`channel_reply`、`get_errors`、`get_incidents` 工具：用 `proxy_id`（首選）。`id` 為別名亦受支援。
+- `proxy`、`browser`、`tunnel`、`automation` 工具：用 `id`（其原生欄位指代該對象本身的 ID）。`proxy_id` 於 `browser`/`automation`/`tunnel` 中為輔助欄位（指定關聯代理）。
+- `proc`：用 `process_id`（首選）。`id` 為別名。`run` action 中 `id` 為新進程 ID（用途不同）。
+- 同時提供時，canonical 名稱（`proxy_id`/`process_id`）勝出。
+
 ## 前提條件
 
 代理必須運行且瀏覽器已連接：

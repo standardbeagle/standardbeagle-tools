@@ -26,19 +26,23 @@ Parameters: {
 
 以下為頻繁混淆之參數。用錯名稱導致驗證錯誤。
 
-| Tool | ❌ WRONG | ✅ RIGHT | Notes |
-|------|----------|----------|-------|
-| `currentpage` | (no proxy_id) | `proxy_id: "dev"` | **Required** - always specify proxy_id |
+| Tool | ❌ AVOID | ✅ PREFERRED | Notes |
+|------|----------|--------------|-------|
+| `currentpage` | (no id at all) | `proxy_id: "dev"` | **Required**. `id` accepted as alias. |
 | `currentpage` | `action: "info"` | `action: "list"` | Valid actions: list, get, summary, clear |
 | `currentpage` | `include: [...]` | `detail: [...]` | Use `detail` for summary sections |
 | `currentpage` | `js: "..."` | Use `proxy exec` with `code` | currentpage has no JS execution |
 | `proxy` exec | `js: "..."` | `code: "..."` | Parameter is `code`, not `js` |
-| `proxy` exec | `proxy_id: "dev"` | `id: "dev"` | proxy uses `id`, not `proxy_id` |
+| `proxy` exec | `proxy_id: "dev"` | `id: "dev"` | proxy's native param is `id` (the proxy itself) |
 | `proxylog` | `last: 20` | `limit: 20` | Parameter is `limit`, not `last` |
-| `snapshot` | `proxy_id: "dev"` | (not a parameter) | snapshot doesn't take proxy_id |
-| `snapshot` | `pages: "page-10"` | `pages: [{url: "/", ...}]` | Must be array of objects |
+| `snapshot` screenshot | `pages: "..."` | `proxy_id: "dev"` | `screenshot` action takes `proxy_id` (or `id` alias) |
+| `snapshot` baseline | `pages: "page-10"` | `pages: [{url: "/", ...}]` | Must be array of objects |
 
-**關鍵區別**：`proxy` 工具用 `id`，而 `proxylog`、`currentpage`、`get_errors` 用 `proxy_id`。
+### 參數命名規則（v0.13.9+）
+
+- **首選 (canonical)**：`proxy_id` / `process_id` for cross-referencing tools (`currentpage`, `proxylog`, `responsive_audit`, `channel_reply`, `get_errors`, `get_incidents`, `proc`, `snapshot screenshot`).
+- **別名 (alias)**：`id` accepted everywhere. Both canonical 與 alias 同時提供時，canonical 勝出。
+- **原生 `id` 工具**：`proxy`、`browser`、`tunnel`、`automation` use `id` for their own object ID. These tools may also take a separate `proxy_id` to reference a related proxy (e.g. `browser {action:"start", id:"b1", proxy_id:"dev"}`).
 
 ---
 
@@ -1302,21 +1306,35 @@ Parameters: {
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `action` | string | Yes | Action: `baseline`, `compare`, `list`, `delete`, `get` |
-| `name` | string | No* | Baseline name (required for baseline/compare/delete/get) |
+| `action` | string | Yes | Action: `screenshot`, `baseline`, `compare`, `list`, `delete`, `get` |
+| `name` | string | No* | Baseline or screenshot name (required for baseline/compare/delete/get) |
 | `baseline` | string | No | Baseline name to compare against (for compare action) |
 | `pages` | object[] | No | Pages to capture: array of `{url, viewport, screenshot_data}` |
 | `diff_threshold` | float | No | Diff sensitivity threshold 0.0-1.0 (default: 0.01) |
+| `proxy_id` | string | No* | Proxy ID for `screenshot` action (`id` alias accepted) |
+| `selector` | string | No | For `screenshot`: CSS selector to capture |
+| `full_page` | bool | No | For `screenshot`: full scrollable page capture |
 
 ### 操作
 
 | Action | Description | Required Parameters |
 |--------|-------------|---------------------|
+| `screenshot` | Capture current page of a running proxy | `proxy_id` (or `id`) |
 | `baseline` | Capture baseline screenshots | `name`, `pages` |
 | `compare` | Compare current state against a baseline | `name`, `pages`, optionally `baseline` |
 | `list` | List all saved baselines | - |
 | `delete` | Delete a saved baseline | `name` |
 | `get` | Get details of a saved baseline | `name` |
+
+### 截圖示例（首選）
+
+```
+snapshot {action: "screenshot", proxy_id: "dev"}
+snapshot {action: "screenshot", proxy_id: "dev", name: "homepage", full_page: true}
+snapshot {action: "screenshot", proxy_id: "dev", selector: ".header"}
+```
+
+返回觸發確認。檔案路徑於下一步 `proxylog {proxy_id: "dev", types: ["screenshot"], limit: 1}` 取得。
 
 ### Pages陣列格式
 
