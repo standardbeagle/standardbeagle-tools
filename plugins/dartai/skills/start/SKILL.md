@@ -556,7 +556,7 @@ Field semantics 欄位語義：
 - `agent_id` — stable per-agent persona id; audit can aggregate by this
 - `parent_loop_id` — Dart task id of the owning loop; enables tracing iteration → loop
 - `purpose` — short free-text why string; filterable in audits
-- `source_event` — **mandatory on new claims**; `{loop_id, task_id, conversation_id}` triple. Pairs each claim with the orchestration event that triggered it, enabling provenance audits across loop runs. Required pair: `claimed_at` (when) + `source_event` (why-from-where). Cite: dev-standards `memories-require-timestamp-and-source` rule (commit 9ab9c47), brainstorming PROVENANCE-CONTRACT (commit ebd136a).
+- `source_event` — **mandatory on new claims**; `{loop_id, task_id, conversation_id}` triple. Pairs each claim with the orchestration event that triggered it, enabling provenance audits across loop runs. Required pair: `claimed_at` (when) + `source_event` (why-from-where). Cite: dev-standards `memory-needs-source` rule (commit 9ab9c47), brainstorming PROVENANCE-CONTRACT (commit ebd136a).
 
 **Backward compat 向後兼容:** Old claim entries written before this revision are **grandfathered** — readers MUST still parse them without crash. Soft-deprecation rules:
 - Missing `agent_id` → treat as equal to `runner_instance_id` (existing rule)

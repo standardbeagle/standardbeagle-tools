@@ -22,7 +22,7 @@ memory_entry_required_fields:
       so future readers can trace a memory back to its triggering task.
 ```
 
-Cite: dev-standards `memories-require-timestamp-and-source` rule (commit 9ab9c47) — this is the canonical project rule. This subsection is a thin pointer; consult the rule for full enforcement details and exception handling.
+Cite: dev-standards `memory-needs-source` rule (commit 9ab9c47) — this is the canonical project rule. This subsection is a thin pointer; consult the rule for full enforcement details and exception handling.
 
 ## Examples
 

@@ -165,7 +165,7 @@ findability_notes: "<str>"        # 切片決策說明或 findability 檢查結�
 - **嚴度**：`medium`（覆所有命中；source 不足之 claim 不直接威生產，唯威決策可信）
 - **觸發**：PR body 或評論含**架構**、**安全**、**性能**斷言（標誌詞：「we chose X because」、「this is faster than」、「safer than」、「architecturally cleaner」、「best practice」等），且該斷言之**獨立源計** `< 2`
 - **偵測**：解析 PR body / commits / 評論之源標誌（`file:path:line` | `git:sha` | `web:url` | `memory:id` | `doc:path`，鏡 brainstorming `<PROVENANCE-CONTRACT>` ebd136a 之 5 形 + 字面 `guess`）；按斷言聚源計獨立源數
-- **化解**：留評論「**load-bearing claim with single source — surface explicitly or escalate per `dev-standards:multi-source-required-for-load-bearing-claims`**」（dev-standards skill commit 9ab9c47）；不阻 merge，使作者明示「single-source-by-design」或補源
+- **化解**：留評論「**load-bearing claim with single source — surface explicitly or escalate per `dev-standards:load-bearing-sources`**」（dev-standards skill commit 9ab9c47）；不阻 merge，使作者明示「single-source-by-design」或補源
 
 ### 跨類聚合 (Aggregation across classes)
 
@@ -185,6 +185,6 @@ findability_notes: "<str>"        # 切片決策說明或 findability 檢查結�
 - `risk-pipeline-dispatch`（Phase 08，pending，task `xC5x62LYetPW`）— reviewers/model/tdd 派發
 - `knowledge-hygiene:conflict-detector` agent（plugin commit b28aa0f）— `knowledge-conflict` 類偵測
 - `knowledge-hygiene:rationalization-trap-check` skill（plugin commit b28aa0f）— `rationalization-trap` 類偵測
-- `dev-standards:multi-source-required-for-load-bearing-claims` skill（commit 9ab9c47）— `single-source-claim` 類化解語
+- `dev-standards:load-bearing-sources` skill（commit 9ab9c47）— `single-source-claim` 類化解語
 
 Phase 07/08 未建之前，本技藝依 §錯誤與回退所述 fallback 行止：預算計算失 → `escalate`；派發失 → `[qa, code-quality] + sonnet-4.6 + tdd_required:true`。Phase 07/08 落地後，此條自動接入，無需改本檔。knowledge-hygiene 三組件失 → 該類降級為 no-op（advisory only，不悲觀升級）。

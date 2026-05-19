@@ -1,5 +1,5 @@
 ---
-name: dev-standards-memories-require-timestamp-and-source
+name: dev-standards-memory-needs-source
 description: "New memory entries need ISO 8601 timestamp + source-event tag (loop-id/task-id/commit-sha) for temporal conflict resolution. Soft guidance — backfill on next touch. Use when: writing new memory, creating per-memory file, reviewing PR adding memory, subagent appending memory. Skip: existing files lacking fields, CLAUDE.md preferences."
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: dev-standards-multi-source-required-for-load-bearing-claims
+name: dev-standards-load-bearing-sources
 description: "Architecture/security/performance claims need >=2 independent sources or escalate. Load-bearing = wrong cascades downstream. Use when: spec/ADR architectural decisions, security primitive choice, performance characteristic assertion, PR with load-bearing claim, subagent design doc. Skip: typos/comments, single authoritative source documented, exploratory hypothesis."
 ---
 
@@ -134,5 +134,5 @@ The rule applies its own discipline: every load-bearing claim above is double-ci
 - **`knowledge-hygiene:conflict-detector` agent** — invoked inside the pipeline when two sources disagree.
 - **`brainstorming:brainstorming` `<PROVENANCE-CONTRACT>`** — provides the 5-form provenance vocabulary every cited source uses. This rule reuses, does not redefine.
 - **`no-compression-on-skill-frontmatter`** (sibling skill) — protects skill-metadata integrity; this rule protects load-bearing-claim integrity. Both are value-layer `must` rules in this plugin.
-- **`memories-require-timestamp-and-source`** (sibling skill) — adds temporal grounding to the memory layer so the conflict-detector can prefer recent over stale when two memories disagree. Complementary discipline.
+- **`memory-needs-source`** (sibling skill) — adds temporal grounding to the memory layer so the conflict-detector can prefer recent over stale when two memories disagree. Complementary discipline.
 - **`verification-before-completion`** — the other long-standing `must` in this plugin. That rule covers evidence-before-completion-claims; this rule covers source-multiplicity-before-load-bearing-claims. Distinct scopes, same family.

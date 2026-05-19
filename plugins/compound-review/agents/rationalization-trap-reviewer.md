@@ -36,7 +36,7 @@ Provenance for every load-bearing claim in this file:
   cited explicitly: see plugins/risk-pipeline/skills/risk-classify.md:152-160
   (commit 4526ba5).
 
-Provenance discipline per dev-standards:multi-source-required-for-load-bearing-claims
+Provenance discipline per dev-standards:load-bearing-sources
 (commit 9ab9c47): each load-bearing claim above carries ≥2 independent sources
 (named file paths + commit SHAs).
 -->
@@ -130,7 +130,7 @@ predicate 形依 R2 §6.1（file `docs/research/R2-dartai-subdispatch-interface.
 
 **具體例：** PR description「We're introducing a novel async-loop pattern for retry logic in payments/...」，無 file:path 引到 codebase 既存之 retry 模式（其實 src/utils/retry.ts 已有），亦無外部源（業界慣例 pattern reference）。novelty claim 無證據支撐。
 
-**偵測：** grep PR text for the 7 novelty markers；若命中且 PR text 內無 ≥1 source citation form（5-form provenance per brainstorming PROVENANCE-CONTRACT commit ebd136a：file:path:line | git:sha | web:url | memory:id | doc:path）支持 novelty claim，本簽名命中。配 `dev-standards:multi-source-required-for-load-bearing-claims` skill（commit 9ab9c47）之 single-source 規則使用——彼查 architectural / security / performance 斷言之源計，汝查 novelty 斷言之先例引用。
+**偵測：** grep PR text for the 7 novelty markers；若命中且 PR text 內無 ≥1 source citation form（5-form provenance per brainstorming PROVENANCE-CONTRACT commit ebd136a：file:path:line | git:sha | web:url | memory:id | doc:path）支持 novelty claim，本簽名命中。配 `dev-standards:load-bearing-sources` skill（commit 9ab9c47）之 single-source 規則使用——彼查 architectural / security / performance 斷言之源計，汝查 novelty 斷言之先例引用。
 
 **何不標記：** novelty marker 用於非承重 claim（e.g., commit message「new helper function」for trivial utility）；PR description 明標 `(author opinion)` 或 `(no prior art known — open to pointers)`，已主動 surface；hackathon / spike branch 命名前綴（e.g., `spike/`, `experiment/`）。
 
