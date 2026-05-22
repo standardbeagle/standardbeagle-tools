@@ -834,6 +834,8 @@ split_pattern:
 split_action: "Create separate Dart tasks for each deliverable"
 ```
 
+將批准之計劃拆為 Dart 任務（tracer-bullet 垂直切片）時，用 [[to-issues]]。
+
 ---
 
 ## Deep Plan Validation

@@ -84,6 +84,8 @@ These apply to every step regardless of which reference is loaded:
 
 任何步驟失敗時：
 
+執行中遇難解之 bug 或性能回歸，用 [[diagnose]]（feedback-loop-first discipline）。
+
 1. **Log the failure** with specific error message and step number
 2. **Update task in Dart** with failure details (status: Blocked, comment with phase + error)
 3. **Stop the pipeline** — do not advance steps
