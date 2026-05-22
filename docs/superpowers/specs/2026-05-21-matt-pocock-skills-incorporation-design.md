@@ -80,13 +80,52 @@ knowledge substrate.
 - Review/replan: `review-for-plan-updates` already wired → deepening framing flows through. **Zero dartai edit.**
 - `handoff` invocable at session boundaries (standalone, no dartai edit).
 
+## Shared UI/presentation layer (new `present` plugin)
+
+Added after a cross-skill audit found self-contained HTML-report generation
+(Tailwind + Mermaid CDN → temp dir → open browser) duplicated across ~15 skills
+(figma-query ×10, dartai:report + workspace-docs, design-utilities,
+dev-standards:load-bearing-sources, agnt:quality-audits) plus ad-hoc
+markdown/doc opening. These reusable UI elements are pulled out of their
+specific flows into a standalone `present` plugin that any plugin can invoke by
+name (skills reference each other at runtime, which works across the plugin
+cache boundary).
+
+| Skill | Type | Behavior |
+|---|---|---|
+| `present:html-report` | pure skill + bundled scaffold reference | Take structured data (title, sections, diagrams) → write a self-contained Tailwind+Mermaid HTML file to the OS temp dir → open in browser, print absolute path. The canonical home for the HTML-report scaffold that ~15 skills currently re-describe inline. |
+| `present:doc` | pure skill + tiny render script | Render a given `.md` → HTML (or pass-through `.html`) → serve via the agnt proxy or `xdg-open`/`open`/`start` → fall back to printing the absolute path if no browser path is available. |
+
+**Consumption decisions:**
+
+- **Phase C retrofit is opportunistic.** Build `present:html-report` and point
+  only the new `refactor-first-assessment` architecture report at it. The other
+  ~15 consumers are retrofitted lazily when next touched — no big sweep.
+- **Presentation wiring:** `handoff` and `prototype` (NOTES) call `present:doc`;
+  `refactor-first-assessment` calls `present:html-report`. Each with a
+  print-the-path fallback when `present`/agnt is unavailable (soft dependency).
+- **Companion deferred.** The brainstorming bun mini-IDE (interactive
+  questionnaire + markdown-screen engine) is the third reusable primitive, but
+  extracting it cleanly requires publishing it as `@standardbeagle/ui-companion`
+  (npm, npx-@latest like agnt/lci) in its own repo — it cannot live as shared
+  files inside the marketplace repo because plugins are copied to an isolated
+  cache. This is captured as a separate Dart follow-up task, not built in this
+  plan. `present:companion` is a placeholder for that future work.
+
+**`present` plugin metadata:** new plugin at `plugins/present/`, version `0.1.0`,
+own `plugin.json` + marketplace entry, MIT, author Standard Beagle. The
+`html-report` scaffold reference is adapted from Matt Pocock's
+`improve-codebase-architecture/HTML-REPORT.md` (MIT) and lives here rather than
+in `refactor-first-assessment`.
+
 ## Supporting files to fetch + adapt
 
 From mattpocock/skills, fetch and adapt (GitHub→Dart vocab, add LCI seams,
 two-pass compress descriptions):
 
 - `LOGIC.md`, `UI.md` (prototype)
-- `LANGUAGE.md`, `HTML-REPORT.md`, `INTERFACE-DESIGN.md` (refactor-first-assessment)
+- `LANGUAGE.md`, `INTERFACE-DESIGN.md` (refactor-first-assessment)
+- `HTML-REPORT.md` (→ `present:html-report`, not refactor-first-assessment)
 - `CONTEXT-FORMAT.md` (glossary), `ADR-FORMAT.md` (decide)
 - `scripts/block-dangerous-git.sh` (git-guardrails)
 - `to-issues` issue template → adapt to a Dart task brief
@@ -106,10 +145,17 @@ two-pass compress descriptions):
 
 ## Versioning / release
 
-- Bump `dev-standards` minor in `plugins/dev-standards/.claude-plugin/plugin.json`
-  and sync `.claude-plugin/marketplace.json`.
-- Light `dartai` patch bump if phase docs touched.
-- Bump catalog version in marketplace.json.
+- New `present` plugin at `0.1.0` — add `plugins/present/.claude-plugin/plugin.json`
+  + a marketplace.json entry.
+- Bump `dev-standards` minor (`0.4.4` → `0.5.0`) in
+  `plugins/dev-standards/.claude-plugin/plugin.json` and sync marketplace.json.
+- Light `dartai` patch bump (`0.10.2` → `0.10.3`) for phase-doc edits.
+- Bump catalog version in marketplace.json (`1.8.4` → `1.9.0`).
+
+## Deferred (tracked)
+
+- Companion extraction → Dart task `db3R4BBmlndp` (`Personal/standardbeagle-tools`).
+  `present:companion` is a placeholder until that ships.
 
 ## Out of scope (YAGNI)
 
