@@ -37,6 +37,8 @@ description: "After task reaches GREEN and before quality gate commits, surface 
 
 **不審查：**樣式偏好、未用導入、格式、任何 linter 已處理之項。
 
+發現若屬架構性（淺模塊、缺 seam、調用者糾纏、無測試 seam —— 如 [[diagnose]] Phase 6 所浮），則以 deep-module 語彙措辭，並將更全分析經 [[refactor-first-assessment]]（deepening lens）路由。提出計劃更新前，先以刪除測試（deletion test）判此發現是否 load-bearing。
+
 ## Detection thresholds (read from `.claude/rules/code-quality.md`)
 
 閾值由項目自定。規則文件無覆蓋時默認：
