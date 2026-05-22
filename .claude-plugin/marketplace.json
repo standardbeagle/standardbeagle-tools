@@ -384,6 +384,29 @@
       "category": "development"
     },
     {
+      "name": "present",
+      "source": "./plugins/present",
+      "description": "Reusable browser presentation primitives: self-contained HTML reports and markdown/doc viewing. Shared UI layer consumed by other plugins.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "html-report",
+        "presentation",
+        "browser",
+        "markdown",
+        "reusable-ui",
+        "tailwind",
+        "mermaid"
+      ],
+      "category": "development"
+    },
+    {
       "name": "risk-pipeline",
       "source": "./plugins/risk-pipeline",
       "description": "Risk-driven task classification, splitting, and review dispatch pipeline",
