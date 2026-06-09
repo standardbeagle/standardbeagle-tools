@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "agnt hook pre-tool-use --session-id $CLAUDE_SESSION_ID --project-path $PWD",
+            "command": "agnt hook pre-tool-use --session-id \"${CLAUDE_SESSION_ID}\" --project-path \"$PWD\"",
             "timeout": 1
           }
         ]
@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "agnt hook post-tool-use --session-id $CLAUDE_SESSION_ID --project-path $PWD",
+            "command": "agnt hook post-tool-use --session-id \"${CLAUDE_SESSION_ID}\" --project-path \"$PWD\"",
             "timeout": 1
           }
         ]
@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "agnt hook post-tool-use --event-override post-tool-use-failure --session-id $CLAUDE_SESSION_ID --project-path $PWD",
+            "command": "agnt hook post-tool-use --event-override post-tool-use-failure --session-id \"${CLAUDE_SESSION_ID}\" --project-path \"$PWD\"",
             "timeout": 1
           }
         ]
@@ -38,7 +38,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "agnt hook notification --session-id $CLAUDE_SESSION_ID",
+            "command": "agnt hook notification --session-id \"${CLAUDE_SESSION_ID}\"",
             "timeout": 1
           }
         ]
@@ -49,7 +49,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "agnt hook stop --session-id $CLAUDE_SESSION_ID",
+            "command": "agnt hook stop --session-id \"${CLAUDE_SESSION_ID}\"",
             "timeout": 1
           }
         ]

@@ -22,5 +22,6 @@
     "wireframe",
     "scheduler",
     "session"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }
