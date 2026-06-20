@@ -47,6 +47,8 @@ Returns:
 | Comprehensive | 5+ files, multiple criteria, significant discussion | Run full layered interrogation, all layers |
 | Architectural | cross-cutting, multiple subsystems, new patterns | Run full layered interrogation, plus escalation if too large |
 
+> File counts above are rough indicators of interrogation depth, not gates — judge by context cost (file size + diff), not raw count.
+
 Minimal 級立即返回：
 
 ```yaml

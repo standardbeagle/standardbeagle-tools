@@ -4,12 +4,12 @@ AI coding agent toolkit and UX MCP package monorepo — Claude Code plugins, MCP
 
 ## Plugins (Claude Code marketplace)
 
-This marketplace contains 13 plugins for Claude Code:
+This marketplace ships a growing collection of plugins for Claude Code. The core development trio:
 
 | Plugin | Description | Version | Category |
 |--------|-------------|---------|----------|
-| **agnt** | Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode | 0.7.12 | development |
-| **lci** | Lightning Code Index: sub-millisecond semantic code search | 0.4.0 | development |
+| **agnt** | Browser superpowers for AI coding agents: dev-server + reverse proxy, live error/incident inbox, quality audits, visual regression, and sketch/design modes | 0.10.1 | development |
+| **lci** | Lightning Code Index: sub-millisecond semantic code search and call-hierarchy intelligence | 0.6.1 | development |
 | **tools** | Complete toolkit combining agnt and lci | 1.0.0 | development |
 | **mcp-architect** | Design high-quality MCP servers with progressive discovery and token efficiency | 0.1.0 | development |
 | **mcp-tester** | MCP server testing and debugging with mcp-debug | 0.2.0 | development |
@@ -109,14 +109,17 @@ claude plugin add lci@standardbeagle-tools
 
 ### agnt - Browser Superpowers
 
-Give your AI coding agent browser superpowers:
+Give your AI coding agent browser superpowers — it sees what your app does, not just the code:
 
-- **Process Management**: Run and manage dev servers with output capture
+- **Process Management**: Run and manage dev servers with output capture and clean shutdown
 - **Reverse Proxy**: HTTP traffic logging with automatic frontend instrumentation
 - **Browser Debugging**: 50+ diagnostic functions (`__devtool` API)
-- **Sketch Mode**: Excalidraw-like wireframing directly on the UI
-- **Design Mode**: AI-assisted UI iteration with live preview
-- **Error Capture**: JavaScript errors automatically available to agent
+- **Incident Inbox**: Deduped, priority-ordered error stream (`get_incidents`) so the agent acts on signal, not noise
+- **Quality Audits**: Accessibility, performance, security, SEO, responsive, API efficiency, and loading-UX
+- **Visual Regression**: Baseline/compare screenshots (`snapshot`)
+- **Replay Testing**: Record → worker-mock → replay front-end tests (`replaytest`, Pro)
+- **Tunnels**: Expose a local proxy via Cloudflare or ngrok for mobile testing
+- **Sketch & Design Mode**: Wireframe on the live UI and iterate on designs with the agent
 
 **Requirements**: `agnt` binary via npm/pip or [GitHub releases](https://github.com/standardbeagle/agnt)
 

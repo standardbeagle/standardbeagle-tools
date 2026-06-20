@@ -182,8 +182,8 @@ checkpoint:
 **DO:**
 - Read the grilled task spec (in task description or prompt)
 - Confirm acceptance criteria are clear and verifiable
-- Confirm files to modify are listed (max 5)
-- Confirm scope is bounded and context-sized
+- Confirm files to modify are listed (~5 typical; judge by context cost, not raw count)
+- Confirm scope is bounded and context-sized (subagent should finish with ~50% context headroom)
 - If no grilled spec is present, run `dev-standards:grill-task` inline
 
 **DO NOT:**
@@ -196,11 +196,11 @@ checkpoint:
 pass_if:
   - grilled_spec_read: true
   - acceptance_criteria_clear: true
-  - files_confirmed: "<= 5 files"
+  - files_confirmed: "context-sized (~5 typical; judge by context cost, not count)"
   - scope_is_context_sized: true
 fail_if:
   - no_grilled_spec_and_cannot_generate: true
-  - scope_exceeds_limit: true
+  - scope_would_bloat_context: true
 ```
 
 ### Plan Adjustment Point 1
@@ -209,10 +209,11 @@ fail_if:
 checkpoint:
   validate:
     - grilled_spec_available: true
-    - scope_bounded: "max 5 files"
+    - scope_context_sized: "subagent finishes with ~50% headroom; ~5 files typical, judge by context cost not count"
     - acceptance_criteria_clear: true
   auto_adjust:
-    scope_exceeds_5_files: "Split into subtasks, add to plan, CONTINUE"
+    scope_would_bloat_context: "Split into subtasks, add to plan, CONTINUE"
+    context_climbs_mid_task: "Persist progress, split remainder into follow-up, replan, CONTINUE"
     no_grilled_spec: "Run grill-task inline, CONTINUE"
   stop_only_if:
     critical_blocker: "Cannot determine scope at all"

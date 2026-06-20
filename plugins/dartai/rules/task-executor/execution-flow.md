@@ -54,7 +54,7 @@ flow_rules:
     never: "Do NOT ask - just fail with actionable details"
     examples:
       - "Missing required file that cannot be found"
-      - "Task requires split (>5 files)"
+      - "Task would bloat subagent context (large files, big diff, or a sprawling file set — not a raw count)"
       - "Access denied to required resource"
       - "Impossible requirement detected"
     important: "Make a decision and proceed. If unclear, make reasonable assumption and document it in task comment. Only fail if truly impossible."
@@ -64,13 +64,14 @@ flow_rules:
 
 ```yaml
 task_sizing_check:
-  max_files: 5
+  context_sized: "Subagent should finish with healthy headroom (~50% context). ~5 files typical — judge by context cost (file size + diff), not raw count."
   clear_acceptance_criteria: required
   bounded_scope: required
 
-  if_too_large:
-    action: "Request task split before proceeding"
-    report: "Task scope exceeds context limits"
+  if_context_would_bloat:
+    action: "Request task split before proceeding (a cohesive, context-light task may exceed the rough count)"
+    report: "Task scope would bloat subagent context"
+  mid_task_guard: "If context climbs past the headroom ceiling during execution, persist progress, split the remainder, replan — don't push a bloated subagent into inaccurate work."
 ```
 
 ## Loop Context Integration

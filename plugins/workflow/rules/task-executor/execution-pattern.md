@@ -158,14 +158,15 @@ failure_handling:
 
 ```yaml
 validation:
-  max_files: 5
+  context_sized: "subagent finishes with ~50% headroom; ~5 files typical, judge by context cost not raw count"
   max_scope: "Single feature or fix"
   clear_acceptance: true
   bounded_changes: true
 
-if_too_large:
-  action: "Request task split from main loop"
-  return: "Task too large for context limits"
+if_context_would_bloat:
+  action: "Request task split from main loop (a cohesive, context-light task may exceed the rough count)"
+  return: "Task would bloat subagent context"
+mid_task_guard: "If context climbs past the headroom ceiling, persist progress, split the remainder, replan."
 ```
 
 ## Success Criteria 成功標準

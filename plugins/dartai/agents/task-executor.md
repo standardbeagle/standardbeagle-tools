@@ -119,13 +119,14 @@ flow_rules:
 
 ```yaml
 task_sizing_check:
-  max_files: 5
+  context_sized: "subagent finishes with ~50% headroom; ~5 files typical, judge by context cost (file size + diff) not raw count"
   clear_acceptance_criteria: required
   bounded_scope: required
 
-  if_too_large:
-    action: "Request task split before proceeding"
-    report: "Task scope exceeds context limits"
+  if_context_would_bloat:
+    action: "Request task split before proceeding (a cohesive, context-light task may exceed the rough count)"
+    report: "Task scope would bloat subagent context"
+  mid_task_guard: "If context climbs past the headroom ceiling during execution, persist progress, split the remainder, replan."
 ```
 
 ---
@@ -250,8 +251,8 @@ Local phase tracking: log `phase:understanding` to `.dartai/loop-state.json` (no
 **DO (Positive Instructions):**
 - Read the grilled task spec
 - Confirm acceptance criteria are clear and verifiable
-- Confirm files to modify are listed (max 5)
-- Confirm scope is bounded and context-sized
+- Confirm files to modify are listed (~5 typical; judge by context cost, not raw count)
+- Confirm scope is bounded and context-sized (subagent should finish with ~50% context headroom)
 - If no grilled spec is present, fetch task details and run `dev-standards:grill-task` inline
 
 **DO NOT (Negative Instructions):**
@@ -263,16 +264,16 @@ Local phase tracking: log `phase:understanding` to `.dartai/loop-state.json` (no
 pass_if:
   - grilled_spec_read: true
   - acceptance_criteria_clear: true
-  - files_confirmed: "<= 5 files"
+  - files_confirmed: "context-sized (~5 typical; judge by context cost, not count)"
   - scope_is_context_sized: true
 fail_if:
   - no_grilled_spec_and_cannot_generate: true
-  - scope_exceeds_limit: true
+  - scope_would_bloat_context: true
 ```
 
 ### Plan Adjustment Point 1
 確認後：
-- 範圍超5文件：請求拆分，停止
+- 範圍會撐爆上下文（大文件/大 diff/文件散亂；~5 文件為粗略提示，非硬限）：請求拆分，停止
 - 審查規格缺失且無法生成：以失敗停止
 - 發現依賴：記錄排序
 - 就緒：進入Phase 2

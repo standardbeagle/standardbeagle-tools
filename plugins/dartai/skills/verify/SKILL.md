@@ -103,7 +103,7 @@ Report:
 
 ## Context-Sized Task Rules
 
-Each verify task: max 3-5 files, one verify type per call, clear pass/fail.
+Each verify task: context-sized (~3-5 files typical — judge by context cost, not raw count), one verify type per call, clear pass/fail.
 
 **Per phase:** DO / DO NOT / Criteria.
 
