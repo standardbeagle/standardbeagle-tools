@@ -16,7 +16,7 @@
 | 軌 | problem_types | 述 |
 |-------|--------------|-------------|
 | **缺陷** | `build_error`, `test_failure`, `runtime_error`, `performance_issue`, `database_issue`, `security_issue`, `ui_bug`, `integration_issue`, `logic_error` | 已診斷修復之缺陷 |
-| **知識** | `best_practice`, `documentation_gap`, `workflow_issue`, `developer_experience` | 實踐、模式、流程改善、文檔 |
+| **知識** | `best_practice`, `documentation_gap`, `workflow_issue`, `developer_experience`, `deferral_outcome` | 實踐、模式、流程改善、文檔、ponytail 延遲成效 |
 
 ## 必填欄（雙軌共通）
 
@@ -73,6 +73,7 @@
 - `workflow_issue` -> `docs/solutions/workflow-issues/`
 - `best_practice` -> `docs/solutions/best-practices/`
 - `documentation_gap` -> `docs/solutions/documentation-gaps/`
+- `deferral_outcome` -> `docs/solutions/deferral-outcomes/`  # ponytail 捷徑天花板被跨越之成效記錄
 
 ## 驗證規則
 

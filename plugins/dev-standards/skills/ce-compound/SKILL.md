@@ -423,6 +423,7 @@ Knowledge 追踪：
 - workflow-issues/
 - developer-experience/
 - documentation-gaps/
+- deferral-outcomes/  # ponytail 捷徑之天花板被跨越：所延遲者、觸發升級之條件、升級為何。複利累積何種延遲值得、何種腐爛。見 [[ponytail-debt]]
 
 ## 常见误区
 

@@ -29,6 +29,7 @@ tracks:
       - documentation_gap
       - workflow_issue
       - developer_experience
+      - deferral_outcome
 
 # --- Fields required by BOTH tracks -----------------------------------------
 required_fields:
@@ -57,6 +58,7 @@ required_fields:
       - workflow_issue
       - best_practice
       - documentation_gap
+      - deferral_outcome
     description: "Primary category — determines track (bug vs knowledge)"
 
   component:

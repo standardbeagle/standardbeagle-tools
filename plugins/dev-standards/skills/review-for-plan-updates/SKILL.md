@@ -34,8 +34,12 @@ description: "After task reaches GREEN and before quality gate commits, surface 
 | Test setup duplication | "Same fixture built inline in 5 tests — extract builder" |
 | Visible complexity debt | "Nested conditional now 4-deep in `applyDiscount` — guard-clause or state machine" |
 | Dead branches | "Feature-flag branches exist for a flag that has been on everywhere for 30+ days" |
+| Ponytail ceiling crossed | "`ponytail:` shortcut in `rateLimit` named global-lock ceiling; task now adds the throughput it was deferred against — upgrade to per-account locks" |
+| Over-build introduced | "Task hand-rolled a CSV parser stdlib `csv` already ships — replace per [[ponytail]] ladder rung 2" |
 
 **不審查：**樣式偏好、未用導入、格式、任何 linter 已處理之項。
+
+掃 diff 中觸及或新增之 `ponytail:` 註解（[[ponytail-debt]] 收割全庫；此處只看任務觸及者）。若捷徑所命之天花板因本任務而被跨越，提案升級之。
 
 發現若屬架構性（淺模塊、缺 seam、調用者糾纏、無測試 seam —— 如 [[diagnose]] Phase 6 所浮），則以 deep-module 語彙措辭，並將更全分析經 [[refactor-first-assessment]]（deepening lens）路由。提出計劃更新前，先以刪除測試（deletion test）判此發現是否 load-bearing。
 
@@ -103,3 +107,5 @@ proposals:
 > Invoke the `Skill` tool with `skill: dev-standards:grill-task` — 被接受的提案作為新任務進行審問。
 
 > Invoke the `Skill` tool with `skill: dev-standards:decide` — 若提案觸及架構決策，接受時調用 decide。
+
+> Invoke the `Skill` tool with `skill: dev-standards:ponytail-debt` — 全庫收割 `ponytail:` 捷徑台帳，與此 diff 範圍審查互補。
