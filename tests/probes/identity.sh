@@ -8,7 +8,7 @@ set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source "${REPO_ROOT}/tests/lib/claude-probe.sh"
 
-SKILL_PATH="${REPO_ROOT}/plugins/dartai/commands/start.md"
+SKILL_PATH="${REPO_ROOT}/plugins/dartai/skills/start/SKILL.md"
 
 # Canned identity values — script asserts these specific outputs
 export CLAUDE_AGENT_ID="ralph-test-runner-v1"

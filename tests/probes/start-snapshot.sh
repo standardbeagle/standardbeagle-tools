@@ -2,7 +2,7 @@
 # start-snapshot.sh — verify start.md integrates dartai_loop_snapshot for §2.5 assignee + §3 queue.
 set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-file="${REPO_ROOT}/plugins/dartai/commands/start.md"
+file="${REPO_ROOT}/plugins/dartai/skills/start/SKILL.md"
 
 # Snapshot tool referenced.
 grep -q 'dartai_loop_snapshot' "$file" || { echo "FAIL: dartai_loop_snapshot not referenced anywhere"; exit 1; }
