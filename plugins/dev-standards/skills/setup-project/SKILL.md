@@ -237,6 +237,12 @@ mkdir -p .claude/rules .claude/skills
 
 將結果寫入 `.claude/rules/architecture.md`。
 
+### Step 3b: Generate Glossary Stub
+
+同時生成 `.claude/rules/glossary.md` 存根：標題 `# Domain Glossary` + 一行說明「純領域詞彙，無實現細節；由 [[grill-task]] / [[glossary]] 增量維護」+ 空 `## Terms` 節。
+
+在生成之 architecture.md 中，於 ADR 約定處註明：一行 `DECISION:` 為索引；通過三重測試（難以逆轉 + 無上下文則意外 + 真實權衡）者，由 [[decide]] 提升為完整 `docs/adr/NNNN-*.md`。
+
 ### Step 4: Copy Language-Specific Rules
 
 對每種檢測到的語言，讀取對應模板並複製到 `.claude/rules/`：

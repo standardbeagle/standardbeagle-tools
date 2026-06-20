@@ -7,7 +7,7 @@ set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source "${REPO_ROOT}/tests/lib/claude-probe.sh"
 
-SKILL_PATH="${REPO_ROOT}/plugins/dartai/commands/start.md"
+SKILL_PATH="${REPO_ROOT}/plugins/dartai/skills/start/SKILL.md"
 
 PROMPT=$(cat <<EOF
 Read the file at $SKILL_PATH (the /dartai:start skill body) and enumerate every

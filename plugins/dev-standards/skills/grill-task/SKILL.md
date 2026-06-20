@@ -25,6 +25,8 @@ Returns:
 
 詢問前先讀。上下文愈豐，問題愈少。
 
+> Prefer LCI (`lci:search` for symbols/terms, `lci:explore` for module maps) over Grep when exploring; fall back to Grep/Read if the lci plugin is unavailable. If a question can be answered by exploring the codebase, explore instead of asking.
+
 - `.claude/rules/*` — project posture (security, testing, TDD level, architecture style)
 - `CLAUDE.md` or `.claude/CLAUDE.md` — project identity
 - `docs/DOMAIN.md` or `docs/domain/*.md` — canonical domain terms
@@ -44,6 +46,8 @@ Returns:
 | Standard | 2-5 files, single feature/fix, minor clarification needed | Run full layered interrogation |
 | Comprehensive | 5+ files, multiple criteria, significant discussion | Run full layered interrogation, all layers |
 | Architectural | cross-cutting, multiple subsystems, new patterns | Run full layered interrogation, plus escalation if too large |
+
+> File counts above are rough indicators of interrogation depth, not gates — judge by context cost (file size + diff), not raw count.
 
 Minimal 級立即返回：
 
@@ -98,6 +102,17 @@ backflow_writes: []
 - **Reads from:** `.claude/rules/testing.md`, `.claude/rules/tdd.md`
 - **If missing, asks:** How is done measured? Is there a RED test planned? Any manual verification step?
 - **Writes back:** task spec only (no permanent writeback)
+
+## Domain discipline (build the glossary as you grill)
+
+審問之際，同步維護 `.claude/rules/glossary.md`：
+
+- **以詞彙表為矩相詰。** 用戶術語與現有定義相牴 → 立即指出，問何義為準。
+- **磨礪模糊語。** 含混或 overloaded 詞 → 提出精確 canonical 名（「'account' — Customer 抑 User？」）。
+- **具體情景。** 以特定 edge-case 情景壓測領域關係。
+- **代碼交叉核對。** `lci:search <term>` —— 代碼若與用戶所言相悖，浮之。
+- **逐詞即寫 glossary.md**（勿批處理），術語一解即更新。格式與機制見 [[glossary]] 及 `skills/glossary/CONTEXT-FORMAT.md`。
+- **慎提 ADR。** 唯難逆轉 + 無上下文則意外 + 真實權衡三者俱備時方提；經 [[decide]] 路由（其理一行索引與 `docs/adr/` 提升）。
 
 ## Step 3 — Graceful degradation for absent writers
 

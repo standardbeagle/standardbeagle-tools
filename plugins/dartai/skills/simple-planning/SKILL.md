@@ -91,7 +91,7 @@ deliverable: |
   [Concrete output - what will exist when done, using domain terms]
 
 scope:
-  files_to_modify: # Max 5
+  files_to_modify: # Context-sized: ~5 is typical, but judge by context cost (file size + diff), not raw count
     - path/to/file1.ext
     - path/to/file2.ext
 
@@ -141,9 +141,10 @@ scope_creep:
 
   response: "STOP. Remove from plan. Only what was requested."
 
-extra_files:
-  trigger: "Plan touches > 5 files"
-  response: "STOP. Split into smaller tasks."
+context_bloat:
+  trigger: "Plan looks like it'll bloat subagent context (large files, big diff, or a sprawling file set)"
+  smell: "~5 files is the usual sweet spot — many tiny files can be fine, a few huge files may not be. Judge by context cost, not count."
+  response: "Prefer splitting into smaller tasks. A cohesive task that stays context-light may exceed the rough file count."
 
 premature_abstraction:
   trigger: "Creating interface/factory/abstraction for single use"
@@ -407,8 +408,8 @@ file_identification:
     - Check if refactoring is needed to create the right home
 
   constraints:
-    - Max 5 files modified
-    - If more needed: STOP, split task
+    - Context-sized: subagent should finish with healthy headroom (~50% context). ~5 files is typical — judge by context cost (file size + diff), not raw count.
+    - If the task looks like it'll bloat context, prefer splitting. A cohesive, context-light task may exceed the rough count.
     - Prefer editing over creating
 ```
 
@@ -464,12 +465,13 @@ exclusions:
 
 ```yaml
 size_check:
-  files: "<= 5"
-  steps: "<= 7"
-  estimated_changes: "< 200 lines added/modified"
+  context_sized: "Subagent can finish with healthy headroom (~50% context utilization) — the real target"
+  file_smell: "~5 files typical; judge by context cost (file size + diff), not raw count"
+  steps_smell: "~7 steps typical"
+  estimated_changes: "~200 lines typical"
 
-  if_exceeds:
-    action: "Split into multiple tasks"
+  if_context_would_bloat:
+    action: "Prefer splitting into multiple tasks (a cohesive, context-light task may exceed the rough numbers)"
     pattern: |
       Task 1: [First deliverable]
       Task 2: [Second deliverable] - depends on Task 1
@@ -584,8 +586,7 @@ checklist:
   scope:
     - [ ] Plan delivers exactly what was requested
     - [ ] No features added beyond request
-    - [ ] Files touched <= 5
-    - [ ] Steps <= 7
+    - [ ] Context-sized: subagent should finish with healthy headroom (~5 files / ~7 steps typical — judge by context cost, not count)
 
   simplicity:
     - [ ] Simplest solution that works
@@ -819,7 +820,7 @@ plan_validation:
 
 ```yaml
 split_indicators:
-  - "This requires changes to > 5 files"
+  - "This would bloat subagent context (large files, big diff, or a sprawling file set — ~5 files is a rough smell, not a hard line)"
   - "There are multiple independent deliverables"
   - "Steps exceed 7"
   - "Estimated changes > 200 lines"
@@ -834,6 +835,8 @@ split_pattern:
 split_action: "Create separate Dart tasks for each deliverable"
 ```
 
+將批准之計劃拆為 Dart 任務（tracer-bullet 垂直切片）時，用 [[to-issues]]。
+
 ---
 
 ## Deep Plan Validation
@@ -843,7 +846,7 @@ split_action: "Create separate Dart tasks for each deliverable"
 > Invoke the `Skill` tool with `skill: dartai:adversarial-planning-loop` — 對抗規劃環，薄協調層：
 > 1. 調用`dev-standards:grill-task`生成審查任務規格
 > 2. 調用`dev-standards:refactor-first-assessment`插入準備重構步驟
-> 3. 驗證計劃上下文大小（最多5文件，最多7步驟）
+> 3. 驗證計劃為上下文大小（subagent 留 ~50% 餘量；~5 文件 / ~7 步驟為粗略提示，依上下文成本判斷，非硬限）
 > 4. 可選調用`dev-standards:review-for-plan-updates`進行計劃層審查
 
 完整對抗品質環（`dartai:adversarial-quality-loop`）僅用於實施時驗證。

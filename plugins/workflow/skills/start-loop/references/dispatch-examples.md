@@ -240,7 +240,7 @@ See `dartai:dart-query-reference` and `dartai:task-filtering` skills for paramet
 
 ## Task 1: [Title]
 **Priority:** High|Medium|Low
-**Scope:** [max 5 files]
+**Scope:** [context-sized — ~5 files typical, judged by context cost not count]
 **Description:** Clear, actionable description
 
 **Acceptance Criteria:**

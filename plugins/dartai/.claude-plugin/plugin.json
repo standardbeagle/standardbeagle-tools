@@ -1,6 +1,6 @@
 {
   "name": "dartai",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines. Requires @standardbeagle/dart-query@0.11.0+ (dartai_loop_snapshot tool used by /dartai:start).",
   "author": {
     "name": "Standard Beagle",

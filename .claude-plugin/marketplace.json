@@ -5,12 +5,12 @@
     "url": "https://github.com/standardbeagle"
   },
   "description": "AI coding agent toolkit - browser superpowers, code intelligence, and development tools",
-  "version": "1.8.4",
+  "version": "1.9.0",
   "plugins": [
     {
       "name": "agnt",
       "source": "./plugins/agnt",
-      "description": "Browser superpowers for AI coding agents: process management, reverse proxy with traffic logging, frontend instrumentation with 50+ diagnostic functions, sketch mode for wireframing, and design mode for UI iteration",
+      "description": "Browser superpowers for AI coding agents: dev-server and reverse proxy with traffic logging, a deduped priority error inbox, 50+ frontend diagnostic functions, accessibility/performance/security/SEO/responsive/API/loading audits, visual-regression snapshots, replay testing, tunnels, and sketch/design modes",
       "version": "0.10.1",
       "author": {
         "name": "Standard Beagle",
@@ -37,7 +37,7 @@
     {
       "name": "lci",
       "source": "./plugins/lci",
-      "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents. Provides instant codebase navigation, symbol lookup, and call hierarchy analysis",
+      "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents, with instant codebase navigation, symbol lookup, call-hierarchy analysis, and ~80% context reduction",
       "version": "0.6.1",
       "author": {
         "name": "Standard Beagle",
@@ -138,7 +138,7 @@
       "name": "dartai",
       "source": "./plugins/dartai",
       "description": "Dart task management with adversarial cooperation loops and full dart-query MCP schema parity - DartQL batch operations, advanced filtering, task relationships, documents, time tracking, and automated task execution through quality verification pipelines. Requires @standardbeagle/dart-query@0.11.0+ (dartai_loop_snapshot tool used by /dartai:start).",
-      "version": "0.10.2",
+      "version": "0.10.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -362,7 +362,7 @@
       "name": "dev-standards",
       "source": "./plugins/dev-standards",
       "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
-      "version": "0.4.4",
+      "version": "0.5.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -380,6 +380,29 @@
         "language-guidelines",
         "testing-standards",
         "code-quality"
+      ],
+      "category": "development"
+    },
+    {
+      "name": "present",
+      "source": "./plugins/present",
+      "description": "Reusable browser presentation primitives: self-contained HTML reports and markdown/doc viewing. Shared UI layer consumed by other plugins.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "html-report",
+        "presentation",
+        "browser",
+        "markdown",
+        "reusable-ui",
+        "tailwind",
+        "mermaid"
       ],
       "category": "development"
     },

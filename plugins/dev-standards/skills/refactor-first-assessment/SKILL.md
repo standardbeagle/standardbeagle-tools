@@ -64,6 +64,20 @@ description: "During planning after grill-task, decide whether preparatory refac
 
 若多項檢查失敗，按順序插入多個重構步驟：提取/移動 → 重命名 → 降低摩擦。絕不在同一步驟中混合重構與實現。
 
+## Deepening lens (deep vs shallow modules)
+
+評估重構是否值當時，一以此語彙論之（完整定義見 [LANGUAGE.md](LANGUAGE.md)）：
+
+- **Module** —— 凡有 interface + implementation 者。**Interface** —— 調用者必知之一切。**Depth** —— 小 interface 之後的 leverage（深 = 高 leverage；淺 = interface 幾與實現等繁）。**Seam** —— 不就地改而可易行為之處。**Locality** / **Leverage** —— 維護者 / 調用者自 depth 所得。
+- **刪除測試（deletion test）：** 設想刪此模塊。複雜度消散 → 乃 pass-through（淺）。複雜度散現於 N 個調用者 → 物有所值（深）。
+- **interface 即測試面。** 一 adapter 為假想 seam；二 adapter 方為真 seam。
+
+以 `lci:explore`（模塊圖）+ `lci:trace-symbol`（刪除測試找全調用者）探之；lci 不可用則退回 `Explore` agent 或 Grep。
+
+**HTML 報告 → 委派 `present:html-report`。** 多候選架構審查，勿於此內嵌 HTML scaffold。集結結構化數據（標題；每候選 before/after 節；推薦強度徽章：Strong / Worth exploring / Speculative；可選 Mermaid before/after 圖），調 `present:html-report`，其將自包含 Tailwind+Mermaid HTML 寫入 OS temp dir 並開啟。`present` 插件不可用則退回：寫純文本摘要至 temp dir 並印出路徑。Interface-design 探索：[INTERFACE-DESIGN.md](INTERFACE-DESIGN.md)。
+
+領域用 `.claude/rules/glossary.md` 語彙，架構用 LANGUAGE.md 語彙。遵 `.claude/rules/architecture.md` + `docs/adr/` 中之 ADR；候選若與現有 ADR 相牴，標出之（勿靜默重議）。
+
 ## Discipline
 
 - 重構步驟必須在寫入新 RED 測試前通過現有測試。若重構破壞了現有測試，那是 bug——在重構步驟中修復，而非實現步驟。

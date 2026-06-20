@@ -83,6 +83,21 @@ Active Migrations:
   <!-- Reason: <why> -->
 ```
 
+### 4d -- Offer ADR promotion (三重測試)
+
+記錄 `DECISION:` 一行後，評估是否提升為完整 ADR。三條件**全部**成立才提升：
+
+1. **難以逆轉** — 日後改變成本顯著
+2. **無上下文則意外** — 未來讀者會問「為何如此？」
+3. **真實權衡之果** — 確有替代方案，因具體理由擇一
+
+任一不足則跳過，只留一行索引。三者皆備則：
+
+- 寫 `docs/adr/NNNN-<kebab-title>.md`（序號取現有最大值 +1），格式見 [ADR-FORMAT.md](ADR-FORMAT.md)。
+- architecture.md 之 `DECISION:` 行末附 `(ADR-NNNN)` 引用。
+
+`docs/adr/` 不存在則於首個 ADR 提升時惰性創建。
+
 ## Step 5 -- Add a Migration
 
 若用戶選「add a migration」：

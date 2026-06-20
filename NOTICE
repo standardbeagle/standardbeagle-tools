@@ -1,0 +1,10 @@
+This marketplace incorporates skills adapted from mattpocock/skills
+(https://github.com/mattpocock/skills), © 2026 Matt Pocock, MIT License.
+
+Adapted into the dev-standards plugin:
+  handoff, prototype, diagnose, git-guardrails, to-issues, glossary,
+  and enhancements to grill-task, decide, refactor-first-assessment,
+  review-for-plan-updates, setup-project.
+
+Adapted into the present plugin:
+  html-report (HTML-REPORT.md scaffold from improve-codebase-architecture).

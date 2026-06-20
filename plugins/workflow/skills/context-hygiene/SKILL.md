@@ -197,8 +197,8 @@ pre_spawn_checklist:
     why: "Prevents context pollution"
 
   - name: "Task is context-sized"
-    check: "Task scope <= 5 files"
-    why: "Ensures subagent can complete within limits"
+    check: "Subagent can complete with healthy headroom (~50% context); ~5 files typical, judge by context cost not count"
+    why: "Keeps subagent in the smart, accurate context zone — bloated context causes dumb work that needs correcting"
 
 all_must_pass: true
 ```
@@ -274,9 +274,9 @@ good_practice_3:
 ### ✓ Context-Sized Tasks
 ```yaml
 good_practice_4:
-  technique: "Keep tasks small (1-5 files)"
+  technique: "Keep tasks context-sized (~1-5 files typical; judge by context cost, not raw count)"
   example: "Split large features into independent tasks"
-  benefit: "Fits in subagent context, completes faster"
+  benefit: "Fits in subagent context with headroom, completes faster, stays accurate"
 ```
 
 ## Monitoring Context Hygiene 監控衛生指標

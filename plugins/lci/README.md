@@ -93,6 +93,23 @@ Rationale: K2 §3.4 *Multiview retrieval* — task-dependent lift; only complex 
 
 - `/lci:setup-mcp` - Install and configure LCI MCP server
 - `/lci:mcp-status` - Check MCP server registration status
+- `/lci:search-code` - Find symbols, patterns, implementations, and files via LCI semantic search
+- `/lci:explore-codebase` - Understand codebase architecture, structure, and patterns
+- `/lci:trace-symbol` - Trace call hierarchies, dependencies, side effects, and symbol relationships
+- `/lci:context-handoff` - Save/load code context manifests for agent handoff and session continuity
+- `/lci:pre-commit-review` - Analyze staged/uncommitted changes for quality issues before committing
+- `/lci:commit-all` - Orchestrate WIP prep and auto-commit by dispatching dedicated agents
+- `/lci:force-lci` - Toggle force-LCI mode to block standard search tools and require LCI
+- `/lci:agnt-companion` - Points at the sibling agnt plugin for running code, browser debugging, and audits
+
+## Agents
+
+- `code-quality` - Runs LCI quality analysis, linters, and formatters; removes debug artifacts and fixes findings
+- `context-gatherer` - Gathers WIP context from git, tasks, plans, and LCI into a structured change summary
+- `doc-updater` - Updates internal docs (CHANGELOG, inline docs, plan files) that already exist in the project
+- `marketing-seo` - Updates public-facing docs (README, package metadata) with benefit-oriented, SEO-aware content
+- `tdd-refactor` - Antagonistic TDD refactoring agent using LCI to find testability issues and eliminate mocking
+- `test-fixer` - Runs the full test suite, fixes all failures, and adds missing coverage using LCI
 
 ## Requirements
 

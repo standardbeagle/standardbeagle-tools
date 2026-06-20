@@ -2,7 +2,7 @@
 # sync-dartql.sh — verify §4 of sync.md uses execute_dartql UPDATE for bulk updates.
 set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-file="${REPO_ROOT}/plugins/dartai/commands/sync.md"
+file="${REPO_ROOT}/plugins/dartai/skills/sync/SKILL.md"
 
 section_4=$(awk '/^### 4\. Apply Updates/,/^### 5\. /' "$file")
 

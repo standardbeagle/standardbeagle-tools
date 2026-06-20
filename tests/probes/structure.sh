@@ -7,7 +7,7 @@
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-SKILL="${REPO_ROOT}/plugins/dartai/commands/start.md"
+SKILL="${REPO_ROOT}/plugins/dartai/skills/start/SKILL.md"
 FAILS=0
 
 echo "structure: linting $SKILL"
@@ -103,8 +103,14 @@ if grep -q "Pre-flight" "$SKILL" || grep -q "pre-flight check" "$SKILL"; then
 fi
 
 # 7. Verify attempt-then-fallback is present
-if ! grep -q "Try \`Agent\` dispatch" "$SKILL"; then
+# Behavior guard (wording-tolerant): skill must attempt `Agent` dispatch and
+# fall back to §5.3.1 inline delegation on failure.
+if ! grep -qiE "(try|attempts?) \`?Agent\`?( tool)?" "$SKILL"; then
     echo "  FAIL: attempt-then-fallback dispatch missing" >&2
+    FAILS=$((FAILS+1))
+fi
+if ! grep -qiE "fall ?back to inline delegation|→ §5.3.1|treat as transient → §5.3.1" "$SKILL"; then
+    echo "  FAIL: inline-delegation fallback path missing" >&2
     FAILS=$((FAILS+1))
 fi
 if ! grep -q "Inline Delegation" "$SKILL"; then

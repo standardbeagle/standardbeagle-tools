@@ -41,14 +41,14 @@ agent: general-purpose
 Check that task is context-sized:
 ```yaml
 validation:
-  max_files: 5
+  context_sized: "subagent finishes with ~50% headroom; ~5 files typical, judge by context cost not raw count"
   clear_scope: true
   bounded_changes: true
   independent: true  # No dependencies on other pending tasks
 
-if_too_large:
-  action: "Suggest splitting into multiple tasks"
-  prompt: "This task seems large. Would you like to split it?"
+if_context_would_bloat:
+  action: "Suggest splitting into multiple tasks (a cohesive, context-light task may exceed the rough count)"
+  prompt: "This task looks like it'll bloat context. Would you like to split it?"
 ```
 
 **風險權威分級 (authoritative risk classify when enabled; legacy fallback)**：若風險管道裝且啟，調 `risk-pipeline:classify` 以同入參，風險裁決為權威驅動 add-task 通/拒與 reviewer 規劃；`enabled: false` 時退回既有 file-count 邏輯：
@@ -97,7 +97,7 @@ Append to `.workflow/tasks.md`:
 
 ## Task X: [Title]
 **Priority:** [High|Medium|Low]
-**Scope:** [max 5 files]
+**Scope:** [context-sized — ~5 files typical, judged by context cost not count]
 **Added:** [ISO timestamp]
 **Status:** Pending
 

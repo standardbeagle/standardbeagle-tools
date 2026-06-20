@@ -127,7 +127,7 @@ Three files:
 Per-task sequence:
 
 #### 4.1 Pre-spawn checks
-- Task is context-sized (max 5 files)
+- Task is context-sized: subagent should finish with healthy headroom (~50% context). ~5 files typical — judge by context cost (file size + diff), not raw count.
 - Clear acceptance criteria exist
 - Previous subagent has terminated (no context leakage)
 - Loop state is persisted to disk
@@ -162,7 +162,7 @@ Per-iteration progress display. Template: `references/dispatch-examples.md` § "
 
 ## Context-Sized Task Requirements
 
-Every task must be: max 5 files, single feature or fix scope, clear acceptance, bounded changes, no cross-task dependencies. If too large, split — keeps each iteration within context limits.
+Every task should be: context-sized, single feature or fix scope, clear acceptance, bounded changes, no cross-task dependencies. **Context-sized** = a subagent can complete it and still leave healthy headroom (~50% context utilization). ~5 files is the usual sweet spot, but judge by context cost (file size + diff), not raw count — many tiny files can be fine, a few huge files may not be. If a task looks like it'll bloat context, prefer splitting (a cohesive, context-light task may exceed the rough count). **Mid-task guard**: if context climbs past the headroom ceiling during execution, persist progress, split the remainder, and replan — don't push a bloated subagent into dumb, inaccurate work that needs correcting.
 
 ## Usage Examples
 

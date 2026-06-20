@@ -454,7 +454,7 @@ Before spawning subagent, verify prerequisites:
 
 ```yaml
 pre_spawn_checks:
-  - task_is_context_sized: "Max 5 files"
+  - task_is_context_sized: "Subagent should finish with healthy headroom (~50% context). ~5 files typical — judge by context cost (file size + diff), not raw count."
   - clear_acceptance_criteria: "Task has acceptance criteria"
   - previous_subagent_terminated: "No overlapping subagents"
   - loop_state_persisted: ".dartai/loop-state.json exists and is valid"
@@ -738,11 +738,12 @@ inline_delegation_report:
 
 #### 5.4 Task Sizing Check (done by subagent)
 The task-executor subagent will verify task is context-sized:
-- Maximum 3-5 files per task
+- Context-sized: subagent should finish with healthy headroom (~50% context utilization). ~3-5 files is typical — judge by context cost (file size + diff), not raw count. Many tiny files can be fine; a few huge files may not be.
 - Clear acceptance criteria
 - Bounded scope
 
-**If task too large**: Subagent will request split and return
+**If the task looks like it'll bloat context**: subagent requests split and returns (a cohesive, context-light task may exceed the rough count).
+**Mid-task context guard**: if context climbs past the headroom ceiling during execution, stop, persist progress to the state file, split the remainder into a follow-up task, and replan — don't push a bloated subagent into dumb, inaccurate work that needs correcting.
 
 #### 5.5 Execute Quality Loop (done by subagent)
 
@@ -755,7 +756,7 @@ phases:
 
   1_implementation_review:
     - Understand task scope and acceptance criteria
-    - Identify files (max 5)
+    - Identify files (~5 typical; judge by context cost, not count)
 
   2_tdd_implementation:
     - Write failing test (RED)
@@ -1182,7 +1183,7 @@ Every task must be:
 ```yaml
 context_sized_task:
   scope:
-    max_files: 5
+    context_sized: "subagent finishes with ~50% headroom; ~5 files typical, judge by context cost (file size + diff) not raw count"
     clear_acceptance: true
     bounded_changes: true
 

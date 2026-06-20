@@ -699,7 +699,7 @@ context_barriers:
 context_accumulation:
   allowed: "Yes - this is a single task execution"
   why: "Need continuity within task phases"
-  limit: "One task only (1-5 files, 1-2 hours max)"
+  limit: "One task only (~1-5 files typical, judge by context cost not count; 1-2 hours max). If context climbs past ~50% headroom, persist progress, split the remainder, replan."
 ```
 
 **子代理之間**：
@@ -718,7 +718,7 @@ context_isolation:
 adjustments:
   types:
     - added_test: "Added test case not in original plan"
-    - modified_scope: "Changed file scope (within 5 file limit)"
+    - modified_scope: "Changed file scope (still context-sized — ~5 files typical, judged by context cost)"
     - clarified_criteria: "Asked user for clarification"
     - added_dependency: "Needed helper function"
 

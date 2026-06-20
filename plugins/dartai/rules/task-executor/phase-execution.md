@@ -10,7 +10,7 @@
 - Fetch full task details using dart-query `get_task` through slop-mcp (`mcp__plugin_slop-mcp_slop-mcp__execute_tool`)
 - Read the task description completely
 - List explicit acceptance criteria
-- Identify ALL files that will be modified (max 5)
+- Identify ALL files that will be modified (~5 typical; judge by context cost, not raw count)
 - Note implicit requirements from context
 
 **DO NOT:**
@@ -24,17 +24,17 @@
 ```yaml
 pass_if:
   acceptance_criteria_listed: true
-  files_identified: "<= 5 files"
+  files_identified: "context-sized (~5 typical; judge by context cost, not count)"
   scope_understood: true
 fail_if:
   scope_unclear: true
   acceptance_criteria_missing: true
-  scope_exceeds_limit: true
+  scope_would_bloat_context: true
 ```
 
 ### Plan Adjustment Point 1
 理解後：
-- 範圍超5文件：請求拆分，停止
+- 範圍會撐爆上下文（大文件/大 diff/文件散亂；~5 文件為粗略提示，非硬限）：請求拆分，停止
 - 需求不明：在任務評論添加澄清
 - 發現依賴：記錄排序
 - 就緒：進入Phase 2

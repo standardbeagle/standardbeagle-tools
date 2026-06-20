@@ -13,7 +13,7 @@ MCP Architect helps you design complex, multi-tool MCP servers following battle-
 
 ## Features
 
-### Skills (6)
+### Skills (10)
 Knowledge base for MCP server design patterns:
 - **mcp-architecture** - Organizing multi-tool MCP servers
 - **progressive-discovery** - The info tool pattern for capability enumeration
@@ -21,6 +21,10 @@ Knowledge base for MCP server design patterns:
 - **context-compression** - Token efficiency techniques
 - **tool-design** - Individual MCP tool best practices
 - **mcp-examples** - Real-world patterns from code search, browser proxy, process management
+- **citation-verification-pattern** - 4-layer response shape for tools emitting source-linked claims (source-exists, claim-derivable, no-over-extension, no-hallucinated-cite)
+- **conflict-aware-response** - Response schema for tools consuming 2+ sources; surface disagreement structurally instead of silently picking a winner
+- **multiview-retrieval-pattern** - Progressive-disclosure retrieval with default single mode plus dense/lexical/symbolic/multiview opt-in flags (index-once, query-many)
+- **client-guidance** - Error responses that guide clients toward success via did-you-mean suggestions, parameter corrections, and schema hints
 
 ### Commands (2)
 - **`/design-mcp`** - Interactive MCP design with comprehensive JSON skeleton generation

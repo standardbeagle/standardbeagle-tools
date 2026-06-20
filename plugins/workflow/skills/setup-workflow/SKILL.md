@@ -153,7 +153,7 @@ Enter number or role name:
 ```yaml
 custom_overrides:
   # Project-specific values that override defaults
-  max_files: 10  # Override default of 5
+  file_smell: 10  # Project leans to bigger but still context-light tasks (default ~5; always judged by context cost, not raw count)
   context_isolation: false  # Allow some context sharing
 ```
 
@@ -171,7 +171,7 @@ This file overrides the default rules at:
 ✅ Created .workflow/rules/task-executor/context-hygiene.md
 
 Changes from defaults:
-- Max files per task: 5 → 10
+- File-count smell per task: ~5 → ~10 (still judged by context cost, not raw count)
 - Context isolation: Full → Partial (shared patterns allowed)
 
 To revert: Delete the file and defaults will be used.
