@@ -164,6 +164,39 @@ Add a new task to the task list interactively.
 **Arguments:**
 - `[task-title]` - Optional task title
 
+### `/workflow:setup-workflow`
+
+Configure project-specific workflow role rules to customize adversarial loop behavior (task-executor rules, reviewer thresholds, defaults).
+
+**Arguments:**
+- `[role-name]` - Optional role to configure
+
+### `/workflow:commit-description`
+
+Write a value-first commit message (subject + body) for staged/unstaged changes or branch work. Returns title + body; never runs `git commit` itself.
+
+**Arguments:**
+- `[--pr | pr:NN | #NN | URL]` - Optional PR target for PR-description mode
+- `[free-text steering]` - Optional guidance
+
+### `/workflow:resolve-review-feedback`
+
+Resolve review feedback by evaluating validity and fixing issues in parallel. Pre-commit-first (local reviewer output), with PR comments as a secondary path.
+
+**Arguments:**
+- `[reviewer output path, PR number, comment URL, or blank for latest local reviewer output]`
+
+## Framework Skills
+
+These skills are invoked internally by the loop and agents (not user-facing commands):
+
+- **`context-hygiene`** - Context isolation and subagent barrier patterns for clean workflow loops.
+- **`loop-orchestration`** - Main loop orchestration: task queue, subagent lifecycle, state machine, error recovery.
+- **`memory-management`** - Preserve workflow learnings as structured memories before context compaction fires.
+- **`testing-strategy`** - Three-tier test strategy (e2e, integration, unit pyramid) for disciplined coverage.
+- **`adversarial-quality`** - RED/GREEN TDD execution with concurrent review agents.
+- **`code-quality-reviewer`** / **`qa-reviewer`** / **`post-task-reviewer`** - Reviewer skills paired with the corresponding agents.
+
 ## Context Management
 
 ### Main Loop (Orchestrator)
@@ -513,7 +546,7 @@ Every task MUST be context-sized:
 
 ```yaml
 context_sized_task:
-  max_files: 5
+  context_sized: "subagent finishes with ~50% headroom; ~5 files typical, judge by context cost not raw count"
   max_scope: "Single feature or fix"
   clear_acceptance: true
   bounded_changes: true
@@ -525,7 +558,7 @@ context_sized_task:
 ## Best Practices
 
 ### Task Creation
-- Keep scope small (1-5 files)
+- Keep scope context-sized (~1-5 files typical; judge by context cost, not raw count)
 - Make tasks independent
 - Write clear acceptance criteria
 - Include all necessary context
