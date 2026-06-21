@@ -1,6 +1,7 @@
 ---
 name: agnt-stop-all
 description: "\"Stop all running processes and proxies. 止諸進程代理. Use when: kill all servers, stop dev environment, shut down proxies, clean up background processes, halt everything\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proc\", \"mcp__agnt__proxy\"]"
 ---
 

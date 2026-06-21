@@ -1,6 +1,7 @@
 ---
 name: agnt-visual-diagnostics
 description: "Visual overlays for layout debugging - outline elements, show grid/flex containers, typography audit, z-index analysis, interactive element visualization. 視覺疊層排版除錯：輪廓、網格、彈性、字排、z序、互動元素。 Use when: debug layout, outline elements, show grid containers, show flexbox, audit typography, check z-index, visualize interactive elements, debug spacing"
+disable-model-invocation: true
 ---
 
 # Visual Diagnostics Skill

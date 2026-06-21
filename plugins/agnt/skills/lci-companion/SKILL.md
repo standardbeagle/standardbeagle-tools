@@ -1,6 +1,7 @@
 ---
 name: agnt-lci-companion
 description: "Use when agnt installed and user needs semantic code search, symbol lookup, or call-hierarchy analysis — points at sibling lci plugin. agnt配套：導向lci。 Use when: find symbol definition, semantic code search, explore codebase, trace call hierarchy, repeated grep on large repo"
+disable-model-invocation: true
 ---
 
 # LCI — agnt之代碼智能配套

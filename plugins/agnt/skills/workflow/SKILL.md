@@ -1,6 +1,7 @@
 ---
 name: agnt-workflow
 description: "Manage task completion workflows with enforced review cycles. 管理任務完成工作流，強制審查循環。 Use when: set up development workflow, enforce code review, prevent premature completion, track multi-phase work, require testing before done"
+disable-model-invocation: true
 ---
 
 工作流管理助手：建立並管理自強制任務完成工作流。

@@ -1,6 +1,7 @@
 ---
 name: agnt-accessibility-audit
 description: "Accessibility auditing with axe-core, ARIA inspection, contrast checks, tab order, and screen reader simulation. 無障礙稽查：axe-core、ARIA檢查、對比度、Tab順序、屏讀模擬。 Use when: audit accessibility, check WCAG compliance, check color contrast, get tab order, check ARIA, simulate screen reader, check focus indicators, pre-release a11y review"
+disable-model-invocation: true
 ---
 
 # 無障礙稽查技能

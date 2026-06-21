@@ -1,6 +1,7 @@
 ---
 name: agnt-analyze-frontend
 description: "\"Comprehensive frontend analysis including DOM, CSS, layout, and structure. 全面析前端含DOM樣式布局結構. Use when: analyze frontend code, inspect DOM structure, review CSS layout, audit page structure, diagnose rendering issues\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 context: fork
 agent: "agnt:browser-debugger"

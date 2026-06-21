@@ -1,6 +1,7 @@
 ---
 name: agnt-schedule
 description: "Schedule messages to AI agent sessions with time delays. 排程代理訊息，延時投遞。 Use when: schedule reminder, delay message to agent, queue follow-up, manage scheduled tasks, set timed verification"
+disable-model-invocation: true
 ---
 
 排程助手：將訊息按指定延時投遞至代理會話。

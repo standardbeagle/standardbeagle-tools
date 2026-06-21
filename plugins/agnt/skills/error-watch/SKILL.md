@@ -1,6 +1,7 @@
 ---
 name: agnt-error-watch
 description: "Stream errors from proxies and processes in real time via agnt watch + Monitor - Claude reacts instantly when problems appear. 透過agnt watch + Monitor即時串流代理與進程錯誤，問題出現當下即響應。 Use when: real-time error stream, watch for errors, monitor errors live, error notification, instant error detection"
+disable-model-invocation: true
 ---
 
 # 錯誤監視技能

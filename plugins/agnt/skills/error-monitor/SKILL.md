@@ -1,6 +1,7 @@
 ---
 name: agnt-error-monitor
 description: "Cross-proxy/process error check with aggregation, dedup, periodic monitoring — not bash grep -r error / tail -f / journalctl -f / curl probes. 跨代理進程聚合去重監控錯誤。 Use when: check errors, monitor errors, browser errors, HTTP errors, process errors, error summary/dashboard, before bash grep/tail on logs"
+disable-model-invocation: true
 ---
 
 # 錯誤監控技能

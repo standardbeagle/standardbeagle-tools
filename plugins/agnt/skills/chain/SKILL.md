@@ -1,6 +1,7 @@
 ---
 name: agnt-chain
 description: "\"Chain commands to run automatically when events occur. 事發自動鏈接命令. Use when: automate command chains, trigger on events, set up command pipeline, react to file changes, event-driven automation\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__session\", \"Read\", \"Write\"]"
 ---
 

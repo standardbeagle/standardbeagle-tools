@@ -1,6 +1,7 @@
 ---
 name: agnt-setup-project
 description: "\"Configure scripts and proxies to auto-start when opening this project. 配置腳本代理自啟於開項目. Use when: setup project automation, configure auto-start, initialize dev environment, register startup scripts, project onboarding\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__detect\", \"Read\", \"Write\", \"AskUserQuestion\"]"
 ---
 

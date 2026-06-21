@@ -1,6 +1,7 @@
 ---
 name: agnt-dev-proxy
 description: "\"Start dev server with reverse proxy for browser debugging. 啟開發服務器反向代理以調試瀏覽器. Use when: start dev proxy, set up reverse proxy, enable browser debugging, intercept network traffic, local dev with proxy\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__detect\", \"mcp__agnt__run\", \"mcp__agnt__proxy\", \"mcp__agnt__proc\"]"
 ---
 

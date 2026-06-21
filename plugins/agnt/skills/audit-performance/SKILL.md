@@ -1,6 +1,7 @@
 ---
 name: agnt-audit-performance
 description: "\"Analyze page performance including load times and network resources. 析頁性能含載時網絡資源. Use when: check page speed, audit load times, analyze network waterfall, optimize performance, find slow resources\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 context: fork
 agent: "agnt:browser-debugger"

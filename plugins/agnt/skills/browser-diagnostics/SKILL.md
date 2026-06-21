@@ -1,6 +1,6 @@
 ---
 name: agnt-browser-diagnostics
-description: "Browser element inspect, layout diag, tree walk, visual check via proxy exec — use __devtool.* helpers, not raw document.querySelector/getComputedStyle/getBoundingClientRect chains. 瀏覽器元素檢測、佈局、樹遍歷、視覺檢查。 Use when: inspect element, debug layout, z-index, overflow, element position, box model, flex/grid debug, before raw DOM JS in proxy exec"
+description: "Browser element inspect, layout diag, tree walk, visual check, plus NAVIGATION (back/forward/reload/goto) via proxy exec — target site is iframe-wrapped, scope exec with target:inner/outer. Use __devtool.* helpers, not raw document.querySelector/getComputedStyle/getBoundingClientRect chains. 瀏覽器元素檢測、佈局、樹遍歷、視覺、導航；目標恆iframe包裹。 Use when: inspect element, debug layout, z-index, overflow, element position, box model, flex/grid debug, navigate page, goto URL, reload, iframe target scoping, before raw DOM JS in proxy exec"
 ---
 
 # 瀏覽器診斷技能
@@ -52,6 +52,47 @@ Parameters: {
 ```
 
 **前提條件**：代理必須運行且瀏覽器已透過代理URL連接。
+
+---
+
+## iframe 包裹之目標 — Target is always iframe-wrapped
+
+代理今**恆**將目標站點包於 outer chrome shell 內之單一 content iframe。Proxy UI（指示器、面板、疊層）居 outer shell，與頁面 DOM/CSS/JS 永久隔離。
+
+故 exec 之 `target` 參數定執行框：
+- 略 / `"inner"` / `"active"` / `"content"` → 活躍 content frame（即頁面本身，**預設**）。一般診斷皆此。
+- `"outer"` / `"chrome"` / `"shell"` → chrome shell（proxy UI 運行時）；僅檢視疊層狀態或 shell 診斷用。
+- `frame_id`：多 content frame 時指定其一（罕用；`target` 同時設則覆蓋之）。
+
+```
+"parameters": {
+  "action": "exec",
+  "id": "<proxy_id>",
+  "target": "inner",
+  "code": "__devtool.getComputed('h1', ['color'])"
+}
+```
+
+選擇器與 `__devtool.*` 助手自動限於目標框內 — 跨框引用無需手動處理。導航同步（content frame 之 `popstate`/`hashchange`/`load`）由 shell 自動同步 URL bar；telemetry 以 frameId 標記去重。
+
+## 導航 — Navigation
+
+`proxy {action: "navigate"}` 自活躍 content frame 驅動頁面導航：
+
+```
+"parameters": {
+  "action": "navigate",
+  "id": "<proxy_id>",
+  "direction": "goto",
+  "target_url": "https://localhost:3000/dashboard"
+}
+```
+
+- `direction`（必需）：`"back"` / `"forward"` / `"reload"` / `"goto"`。
+- `target_url`：`"goto"` 時必需。
+- `target`：`"inner"`（預設，content frame）或 `"outer"`（chrome shell）。
+
+回 `{navigating: true, from: <previous_url>}`。導航延至 microtask，使 exec 回覆先於 WS 斷線完成。
 
 ---
 

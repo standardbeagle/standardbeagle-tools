@@ -1,6 +1,7 @@
 ---
 name: agnt-audit-security
 description: "\"Audit page for security vulnerabilities and best practices. 審頁面安全漏洞最佳法. Use when: check security issues, find XSS vulnerabilities, audit CSP headers, review auth flows, scan for security risks\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 context: fork
 agent: "agnt:browser-debugger"

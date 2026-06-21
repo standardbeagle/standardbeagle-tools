@@ -1,6 +1,7 @@
 ---
 name: agnt-audit-seo
 description: "\"Audit page for SEO best practices and issues. 審頁面搜尋優化得失. Use when: check SEO score, fix meta tags, audit page titles, review structured data, improve search ranking\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 context: fork
 agent: "agnt:browser-debugger"

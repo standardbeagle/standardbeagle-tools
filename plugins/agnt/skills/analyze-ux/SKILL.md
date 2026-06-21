@@ -1,6 +1,7 @@
 ---
 name: agnt-analyze-ux
 description: "\"Analyze user experience including layout, interactions, and usability. 析用戶體驗含布局交互可用性. Use when: review UX, analyze interactions, check usability, audit user flows, evaluate interface design\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 context: fork
 agent: "agnt:ui-designer"

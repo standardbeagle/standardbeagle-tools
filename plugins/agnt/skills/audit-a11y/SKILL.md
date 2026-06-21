@@ -1,6 +1,7 @@
 ---
 name: agnt-audit-a11y
 description: "\"Run comprehensive accessibility audit on current page. 全面審現頁無障礙性. Use when: audit accessibility, check WCAG compliance, find a11y issues, test screen reader support, review ARIA labels\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
 context: fork
 agent: "agnt:browser-debugger"

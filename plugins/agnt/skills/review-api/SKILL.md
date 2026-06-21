@@ -1,6 +1,7 @@
 ---
 name: agnt-review-api
 description: "\"Review API calls, responses, and network traffic. 審API調用響應網絡流量. Use when: inspect API calls, review network requests, check API responses, analyze request payload, debug API issues\""
+disable-model-invocation: true
 allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\", \"mcp__agnt__currentpage\"]"
 ---
 

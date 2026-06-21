@@ -1,6 +1,7 @@
 ---
 name: agnt-responsive-check
 description: "Detect responsive layout risks before they cause problems - fixed widths, touch targets, horizontal scroll, positioning issues. 響應式佈局風險預檢：固定寬度、觸控目標、橫向滾動、定位問題。 Use when: check responsive layout, detect mobile issues, validate touch targets, pre-launch mobile check, check horizontal scroll, audit fixed widths"
+disable-model-invocation: true
 ---
 
 # 響應式佈局檢查技能

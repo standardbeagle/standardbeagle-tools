@@ -1,6 +1,7 @@
 ---
 name: agnt-setup-mcp
 description: "Install agnt MCP server with intelligent detection - uses ~/.local/bin if available, falls back to npx, supports slop-mcp. 智能安裝agnt MCP服務器：優先本地二進制，退而npx，支持slop-mcp。 Use when: install agnt MCP, setup agnt server, register agnt with slop-mcp, configure agnt MCP server"
+disable-model-invocation: true
 ---
 
 # Agnt MCP服務器設置
