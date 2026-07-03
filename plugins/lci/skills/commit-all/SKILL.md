@@ -144,7 +144,11 @@ git diff --stat
 
 用具體文件名，不用`git add -A`。
 
+**Atomic partition**：據Phase 2更改摘要，將文件分為連貫邏輯組（一feature/一fix/一refactor/一docs各成組）。每組一commit——勿將無關更改混入單一commit。單一連貫更改則一commit足矣。
+
 ### 6.3 Generate Commit Message
+
+每邏輯組各生成一條規範提交訊息：
 
 基於Phase 2之更改摘要，創建規範提交：
 - **Type**：基於主要更改選`feat`/`fix`/`refactor`/`docs`/`test`/`chore`
@@ -154,6 +158,8 @@ git diff --stat
 - **Footer**：若有，含任務/問題引用
 
 ### 6.4 Commit
+
+每邏輯組重複：stage該組文件、commit。每commit應自含且其範圍內測試綠（bisectable history）。
 
 ```bash
 git commit -m "$(cat <<'EOF'
