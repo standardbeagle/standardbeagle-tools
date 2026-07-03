@@ -966,10 +966,14 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
 **On success (task marked Done):**
 
 1. **Release the claim** — remove the task entry from `.dartai-locks.json`
-2. **Stage and commit all changes** (including the updated lock file):
+2. **Commit in atomic logical units.** The task executor should already have committed each logical, individually-testable unit (refactor / failing-test / implementation / docs) as its own conventional commit during execution. If uncommitted changes remain, group them into coherent commits — do NOT lump unrelated changes into one commit. Then commit the lock release and push:
    ```bash
-   git add -A
-   git commit -m "[DART-{task_id}] {task_title}" || true
+   # for each remaining logical unit:
+   git add <files-for-unit>
+   git commit -m "[DART-{task_id}] <type>(<scope>): <what this unit does>"
+   # finally, lock file + push
+   git add .dartai-locks.json
+   git commit -m "[DART-{task_id}] chore: release claim" || true
    git push
    ```
 3. If push fails (another runner pushed first):
