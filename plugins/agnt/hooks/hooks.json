@@ -22,17 +22,6 @@
         ]
       }
     ],
-    "PostToolUseFailure": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "agnt hook post-tool-use --event-override post-tool-use-failure --session-id \"${CLAUDE_SESSION_ID}\" --project-path \"$PWD\"",
-            "timeout": 1
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
         "hooks": [
