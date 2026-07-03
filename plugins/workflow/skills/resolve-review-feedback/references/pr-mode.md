@@ -155,7 +155,7 @@ Record outcome for step 10.
 
 ## 7. Commit and Push
 
-Stage only files reported by sub-agents:
+Stage only files reported by sub-agents. Keep commits atomic — if resolutions span unrelated concerns, split into one commit per logical unit rather than a single lumped commit:
 
 ```bash
 git add [files from agent summaries]

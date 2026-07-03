@@ -154,7 +154,7 @@ Local mode does NOT auto-commit by default — pre-commit-first means the user i
 
 After successful validation, **prompt the user**: "Ready to commit these resolutions? (or stage for combined commit / hold)". Honor the project memory note about prompting after coherent units.
 
-If the user opts to commit, stage only resolver-changed files and commit with a message like:
+If the user opts to commit, stage only resolver-changed files. Keep commits atomic: if resolutions span unrelated concerns (e.g. a bug fix and a docs correction), split them into separate commits — one logical unit per commit. For a coherent batch, commit with a message like:
 
 ```
 Resolve reviewer findings from <reviewer-source>
