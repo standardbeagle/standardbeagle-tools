@@ -387,7 +387,7 @@ skill matcher 為 **LLM-driven semantic**，非 keyword indexing。可劇壓，�
 
 **Targets**：150–400 chars typical。**Hard ceiling**：1024 chars（some clients reject longer）。
 
-**Visibility tier**（此 repo）：5 plugins auto-invocable（agnt, dartai, lci, dev-standards, modern-html）；餘 19 plugins per skill 設 `disable-model-invocation: true` — descriptions 不耗 per-turn context，故壓縮優先低。
+**Visibility tier**（此 repo）：5 plugins auto-invocable（agnt, dartai, lci, dev-standards, modern-html）；餘 plugins per skill 設 `disable-model-invocation: true` — descriptions 不耗 per-turn context，故壓縮優先低。**例外**：slop-mcp 之 `slop-recommender` 為唯一自動網關（無 `disable-model-invocation`），據意圖導向其 20+ 手動 slop 技藝之一，其描述須維持 concept tokens + Use-when triggers。
 
 ### Best Practices for This Marketplace
 
