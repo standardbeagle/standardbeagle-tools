@@ -23,6 +23,15 @@ Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `perf`, `ci`, `build`
 - Use imperative mood ("add feature" not "added feature")
 - The body explains **why**, not what (the diff shows what)
 
+## Atomic Commits
+
+Commit per **logical, individually-testable unit** — not per task, not per session:
+
+- One coherent change per commit: a feature, a fix, a refactor, a docs update. Never mix unrelated changes.
+- Prefer separate commits for preparatory refactor, failing test (RED), implementation (GREEN), and docs.
+- Every commit compiles and leaves its scope green — history stays **bisectable**.
+- Don't squash a whole task into one commit; you lose the bisect points.
+
 ## Pre-Commit Discipline
 
 Before every commit, verify:
