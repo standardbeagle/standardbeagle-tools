@@ -74,7 +74,7 @@ Parameters: {
 
 ### advance 語意 — Advance semantics
 
-- `type: "auto"` — 顯示 `ms` 毫秒後自動進。
+- `type: "auto"` — 顯示 `ms` 毫秒後自動進；略 `ms` 則預設 5000。
 - `type: "click-target"` — 用戶點高亮之 `target` 元素時進。
 - `type: "wait"` — app 狀態滿足時進。`when`：`"url-contains"` / `"element-present"` / `"element-visible"`；`value`：匹配字串/選擇器。
 
@@ -85,6 +85,7 @@ Parameters: {
 1. 確認代理運行且站點已連接（`agnt:current-page`）。
 2. 寫腳本：每步一 `title` + `body`，互動步配 `target` + 合宜 `advance`。
 3. `load` 預覽（留啟動器）或 `start` 直播。錄製/展示用 `manual`，無人值守演示用 `auto`。
-4. `status` / `list` 查態，`stop` 收尾。
+4. 直播中（`auto`/`wait` 推進）以 `proxylog {proxy_id, types:["walkthrough"]}` 追每步 `step`/`finish`/`warning` 事件即時知用戶所在，非只靠一次性 `status`。
+5. `status` / `list` 查態，`stop` 收尾。
 
 選 `advance` 訣：用戶須動作 → `click-target`；待非同步結果（路由變、元素現）→ `wait`；純敘述節奏 → `auto`。
