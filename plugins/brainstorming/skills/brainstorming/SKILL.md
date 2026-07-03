@@ -1,7 +1,6 @@
 ---
-name: brainstorming-brainstorming
-description: "創作前必用：探用戶意圖、需求、設計，先於實作。Explore user intent + requirements + design before implementation. Turn ideas into design + spec via dialogue. MUST use before any creative work. Use when: creating features, building components, adding functionality, modifying behavior, designing new things. Skip: pure bug fix with clear repro, mechanical refactor, doc-only changes."
-disable-model-invocation: true
+name: brainstorming
+description: "創作前必用：探用戶意圖、需求、設計，先於實作。Explore user intent + requirements + design before implementation. Turn ideas into design + spec via dialogue. MUST use before any creative work. Terminal handoff → /worktrack:plan. Use when: creating features, building components, adding functionality, modifying behavior, designing new things. Skip: pure bug fix with clear repro, mechanical refactor, doc-only changes."
 ---
 
 <!--
@@ -92,7 +91,7 @@ User 擇 Phase 1/2 strategy 與 Phase 0 high-confidence bullet（或既存 memor
 11. **Write design doc** — 存於 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 並 commit；每 architectural decision 載 provenance trail 自 Phase 0/1/2 carry 至 spec markdown（為 Tier 3 citation-verifier 之 audit input）
 12. **Spec self-review** — inline 速察 placeholder、矛盾、模糊、scope（見下）
 13. **User reviews written spec** — 請 user 審 spec 檔後再進
-14. **Transition to implementation** — 呼 writing-plans skill 以造實作計劃
+14. **Transition to planning** — 呼 `/worktrack:plan`（`worktrack-scope-tasks` skill）以拆設計為 worktrack 任務隊
 
 ## Process Flow
 
@@ -113,7 +112,7 @@ digraph brainstorming {
     "Write design doc" [shape=box];
     "Spec self-review\n(fix inline)" [shape=box];
     "User reviews spec?" [shape=diamond];
-    "Invoke writing-plans skill" [shape=doublecircle];
+    "Invoke /worktrack:plan" [shape=doublecircle];
 
     "Explore project context" -> "Project context empty?";
     "Project context empty?" -> "Visual questions ahead?" [label="yes, skip Phase 0"];
@@ -145,11 +144,11 @@ digraph brainstorming {
     "Write design doc" -> "Spec self-review\n(fix inline)";
     "Spec self-review\n(fix inline)" -> "User reviews spec?";
     "User reviews spec?" -> "Write design doc" [label="changes requested"];
-    "User reviews spec?" -> "Invoke writing-plans skill" [label="approved"];
+    "User reviews spec?" -> "Invoke /worktrack:plan" [label="approved"];
 }
 ```
 
-**終態即呼 writing-plans。** 勿呼 frontend-design、mcp-builder、或其他實作 skill。Brainstorming 後**唯一**呼之 skill 即 writing-plans。
+**終態即呼 `/worktrack:plan`。** 勿呼 frontend-design、mcp-builder、或其他實作 skill，亦勿自行寫 code。Brainstorming 後**唯一**下一步即 `/worktrack:plan` —— 由其拆設計為上下文預算切分、測試先行、fresh-context 對抗審之 worktrack 任務隊。
 
 ## Phase 0: Architect Summary (Commit Inferences First)
 
@@ -848,8 +847,8 @@ Spec review 環過後，請 user 審書成之 spec 再進：
 
 **Implementation：**
 
-- 呼 writing-plans skill 以造詳 impl 計劃
-- 勿呼他 skill。writing-plans 即下一步。
+- 呼 `/worktrack:plan`（`worktrack-scope-tasks` skill）以拆設計為 worktrack 任務隊
+- 勿呼他 skill。`/worktrack:plan` 即下一步。
 
 ## Key Principles
 

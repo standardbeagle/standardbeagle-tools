@@ -433,6 +433,32 @@
       "category": "development"
     },
     {
+      "name": "superpowers",
+      "source": "./plugins/superpowers",
+      "description": "Wenyan port of core superpowers process skills — skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Brainstorming lives in the sibling brainstorming plugin.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle"
+      },
+      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+      "license": "MIT",
+      "keywords": [
+        "superpowers",
+        "superpowers-port",
+        "sp-port",
+        "skills",
+        "skill-discovery",
+        "systematic-debugging",
+        "test-driven-development",
+        "tdd",
+        "session-start",
+        "process-skills"
+      ],
+      "category": "development"
+    },
+    {
       "name": "brainstorming",
       "source": "./plugins/brainstorming",
       "description": "Brainstorming skill + visual companion ported from superpowers. Mini-IDE web app for divergent-thinking sessions: question/demo/decision screens plus the SBT-S3 cards extension for card-sort and clustering. Bun + Preact + Vite stack runs against a session directory and emits events.jsonl for Claude to observe.",

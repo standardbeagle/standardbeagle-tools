@@ -1,0 +1,24 @@
+{
+  "name": "superpowers",
+  "version": "0.1.0",
+  "description": "Wenyan port of the core superpowers process skills — skill-discovery bootstrap (SessionStart hook), systematic-debugging, and test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Brainstorming lives in the sibling brainstorming plugin.",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle"
+  },
+  "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
+  "repository": "https://github.com/standardbeagle/standardbeagle-tools",
+  "license": "MIT",
+  "keywords": [
+    "superpowers",
+    "superpowers-port",
+    "sp-port",
+    "skills",
+    "skill-discovery",
+    "systematic-debugging",
+    "test-driven-development",
+    "tdd",
+    "session-start",
+    "process-skills"
+  ]
+}
