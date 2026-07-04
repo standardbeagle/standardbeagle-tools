@@ -198,7 +198,7 @@ verified_against:                    # commit SHA(s) or file path(s) the solutio
 ## Frontmatter Schema 參考
 
 需要完整約定時使用此按需 schema 參考：
-`../../skills/ce-compound/references/yaml-schema.md`
+the `dev-standards:ce-compound` skill (its `references/yaml-schema.md`; plugins are cached separately, so load it via the Skill tool, not a relative path)
 
 關鍵列舉值：
 
