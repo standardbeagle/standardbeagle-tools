@@ -36,6 +36,10 @@ risk called out in the task.
 `<tr id="src/auth.ts-L42">`) so an element annotation's `selector` maps straight
 back to a file and line.
 
+If the reviewer is on SSH, make the companion reachable before pointing them at
+it — see [`../remote-access.md`](../remote-access.md); use the recorded method so
+this step is a single `cat` + run, not a rediscovery.
+
 ## 2. User marks up the diff
 
 In annotate mode the user clicks a changed line (element anchor), selects a token

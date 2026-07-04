@@ -8,6 +8,10 @@ to `events.jsonl` that Claude reads back via `Monitor`. Today only the
 (see [`screen-format.md`](./screen-format.md)) onto **standard development tasks**
 so other skills can adopt the same loop.
 
+> **Over SSH?** The companion binds loopback, so an SSH-driven user can't open
+> its URL. Establish and record a reachable path first — see
+> [`remote-access.md`](./remote-access.md) (Tailscale / SSH forward / tunnels).
+
 The two loop shapes:
 
 - **Ask loop** — Claude pre-structures the decision into a screen
