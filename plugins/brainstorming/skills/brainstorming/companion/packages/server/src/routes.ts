@@ -145,8 +145,8 @@ export async function handle(req: Request, ctx: RouteCtx): Promise<Response> {
 
     const publicInputs: Record<string, unknown> = {};
     for (const def of screen.frontmatter.inputs) {
-      if ("private" in def && def.private) continue;
       if (def.type === "file-edit") continue;
+      if ("private" in def && def.private) continue;
       const name = def.name;
       if (name && name in body.inputs) publicInputs[name] = body.inputs[name];
     }

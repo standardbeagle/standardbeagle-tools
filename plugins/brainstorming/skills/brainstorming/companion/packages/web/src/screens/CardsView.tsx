@@ -59,7 +59,7 @@ export function CardsView({ params }: { params: { id: string } }) {
     e.preventDefault();
     if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
   }
-  async function onDrop(targetCluster: string | null) {
+  function onDrop(targetCluster: string | null) {
     return async (e: DragEvent) => {
       e.preventDefault();
       const cardId = draggingId ?? e.dataTransfer?.getData("text/plain");

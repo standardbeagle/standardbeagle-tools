@@ -14,8 +14,8 @@ test("list parses decision files", () => {
   const repo = createDecisionsRepo(dir);
   const list = repo.list();
   expect(list).toHaveLength(1);
-  expect(list[0].id).toBe("d1");
-  expect(list[0].status).toBe("proposed");
+  expect(list[0]!.id).toBe("d1");
+  expect(list[0]!.status).toBe("proposed");
 });
 
 test("list carries depends_on", () => {

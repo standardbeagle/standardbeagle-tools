@@ -3,7 +3,7 @@ import type { Server, ServerWebSocket } from "bun";
 export interface WsHub {
   /** Call from Bun.serve fetch handler. Returns undefined if the upgrade succeeded
    *  (Bun will take over the socket), or a Response if it failed. */
-  tryUpgrade(req: Request, server: Server): Response | undefined;
+  tryUpgrade(req: Request, server: Server<undefined>): Response | undefined;
   open(ws: ServerWebSocket<unknown>): void;
   close(ws: ServerWebSocket<unknown>): void;
   push(event: string, data: unknown): void;

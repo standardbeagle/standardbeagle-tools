@@ -15,8 +15,8 @@ test("list returns parsed screens", async () => {
   try {
     const list = repo.list();
     expect(list).toHaveLength(1);
-    expect(list[0].frontmatter.id).toBe("deploy");
-    expect(list[0].body.trim()).toBe("Body");
+    expect(list[0]!.frontmatter.id).toBe("deploy");
+    expect(list[0]!.body.trim()).toBe("Body");
   } finally { await repo.close(); }
 });
 

@@ -24,7 +24,7 @@ export interface CliOptions {
 export interface RunningServer {
   url: string;
   port: number;
-  server: Server;
+  server: Server<undefined>;
   sessionDir: string;
   shutdown: () => Promise<void>;
 }
@@ -63,8 +63,11 @@ export async function runStart(opts: CliOptions): Promise<RunningServer> {
   });
 
   const urlHost = opts.urlHost ?? opts.host;
-  const url = `http://${urlHost}:${server.port}`;
-  const info = { url, port: server.port, pid: process.pid, session_dir: opts.sessionDir };
+  // server.port is number | undefined in Bun's types (undefined only for unix
+  // sockets); this server always binds a TCP port, so it is defined here.
+  const port = server.port!;
+  const url = `http://${urlHost}:${port}`;
+  const info = { url, port, pid: process.pid, session_dir: opts.sessionDir };
   writeServerInfo(opts.sessionDir, info);
   process.stdout.write(JSON.stringify({ type: "server_ready", ...info }) + "\n");
 
@@ -88,7 +91,7 @@ export async function runStart(opts: CliOptions): Promise<RunningServer> {
   process.on("SIGTERM", () => { void shutdown("stopped").then(() => process.exit(0)); });
   process.on("SIGINT",  () => { void shutdown("interrupted").then(() => process.exit(0)); });
 
-  return { url, port: server.port, server, sessionDir: opts.sessionDir, shutdown };
+  return { url, port, server, sessionDir: opts.sessionDir, shutdown };
 }
 
 export async function stopRunning(ctl: RunningServer): Promise<void> {
