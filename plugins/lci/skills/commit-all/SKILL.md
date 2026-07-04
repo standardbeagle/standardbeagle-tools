@@ -154,7 +154,7 @@ git diff --stat
 - **Type**：基於主要更改選`feat`/`fix`/`refactor`/`docs`/`test`/`chore`
 - **Scope**：來自分支名或任務上下文
 - **Subject**：72字符以內，說明什麼及為何
-- **Body**：關鍵更改要點
+- **Body**：重點解釋**為何**改（動機、問題、取捨）——diff已示what，勿複述
 - **Footer**：若有，含任務/問題引用
 
 ### 6.4 Commit

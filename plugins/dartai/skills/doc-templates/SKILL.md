@@ -218,10 +218,10 @@ description: "Documentation templates and formats for updating project docs and 
 ```
 [DART-taskId] type: brief description
 
-Longer description if needed, explaining:
-- What was changed
-- Why it was changed
+Longer description if needed, focused on WHY:
+- Why the change was made (motivation, problem, trade-offs)
 - Any breaking changes
+- What changed only when the diff doesn't make it obvious
 
 Related: #issue-number (if applicable)
 ```

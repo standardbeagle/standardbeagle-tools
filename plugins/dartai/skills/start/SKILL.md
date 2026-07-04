@@ -970,7 +970,7 @@ After the task-executor subagent returns, the `SubagentStop` hook fires and upda
    ```bash
    # for each remaining logical unit:
    git add <files-for-unit>
-   git commit -m "[DART-{task_id}] <type>(<scope>): <what this unit does>"
+   git commit -m "[DART-{task_id}] <type>(<scope>): <subject>" # body explains WHY the change was made, not what — the diff shows what
    # finally, lock file + push
    git add .dartai-locks.json
    git commit -m "[DART-{task_id}] chore: release claim" || true
