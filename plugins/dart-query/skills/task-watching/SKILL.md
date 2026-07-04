@@ -172,7 +172,7 @@ parameters:
 
 **dartai整合：** 自動承接偵測到任務後，藉對抗品質流水線處理之：
 
-> Invoke the `Skill` tool with `skill: dartai:dartai-task-execution` — 負責規劃、實現、評審、驗證，方置Done。
+> Invoke the `Skill` tool with `skill: dartai:task-execution` — 負責規劃、實現、評審、驗證，方置Done。
 
 ---
 
