@@ -57,14 +57,15 @@ better."
 ## Wiring a skill to the companion
 
 A skill adopts the loop by (a) writing screen files and (b) reading events. No
-new companion code is required for the `ask` loop — the existing screen kinds
-cover it. The `mark-up` loop needs the `annotate-artifact` / `layout-gate`
-runtime (see the screen-format spec; runtime implementation tracked separately).
+new companion code is required — both the `ask` loop (`question` / `cards` /
+`strategy-card` / `summary-confirm` / `decision`) and the `mark-up` loop
+(`annotate-artifact` / `layout-gate`) are implemented in the runtime.
 
 Candidate first adopters, in order of leverage:
 
 1. **`code-review` / PR review** — highest frequency; `annotate-artifact` on the
    rendered diff is the single biggest capability gain over today's text review.
+   Worked adoption recipe: [`examples/code-review.md`](./examples/code-review.md).
 2. **`dartai:report`** — already emits HTML; add `annotate-artifact` so the user
    marks up the status report instead of replying in prose.
 3. **`dev-standards` planning skills** (`grill-task`, `refactor-first`) — already
@@ -80,11 +81,19 @@ links. Downstream consumers — the knowledge-hygiene conflict-detector and the
 Tier-3 citation-verifier — read the same tags, so a feedback loop that preserves
 provenance feeds the same audit surface brainstorming already does.
 
+## Status
+
+- `annotate-artifact` and `layout-gate` runtime is **implemented** — server
+  routes (`/api/artifact/:id/{annotate,approve,request-changes}`,
+  `/api/layout/:id/{fix-first,override}`, `/api/artifact-asset`), the
+  `AnnotateArtifactView` renderer with an injected annotation SDK, and the
+  layout-audit gate. Annotations persist to `<id>.annotations.jsonl`.
+- `code-review` adoption recipe documented in `examples/code-review.md`; the
+  review skill itself drives the loop by writing screens and reading events.
+
 ## Not yet built
 
-- `annotate-artifact` and `layout-gate` are specified here and in
-  `screen-format.md`; the companion **runtime** (server routes + React
-  renderers + injected SDK) for these two kinds is a follow-on implementation
-  phase. The `ask`-loop kinds are already implemented.
 - Export / share of a reviewed artifact to a portable HTML file (Lavish's
-  `export` / `share`) is out of scope for this phase.
+  `export` / `share`) is out of scope.
+- A richer in-iframe annotation card (inline note capture) — the current SDK
+  captures the note in the parent panel against the selected target.
