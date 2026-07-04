@@ -313,6 +313,70 @@ Decisions live in `$SESSION_DIR/decisions/` and accumulate across screens. The s
 
 Decisions are the authoritative state of the session; the event log is a history stream.
 
+### `kind: annotate-artifact`
+
+Lavish-derived. Renders an agent-authored HTML artifact and lets the user point at individual elements, text ranges, or mermaid nodes and attach contextual feedback — instead of choosing from Claude-authored options. Use when the thing under review is *unstructured* output Claude did not pre-decompose into fields: a rendered report, a diff, a doc, a data table, a diagram. This is the human-in-the-loop review surface for "here is what I made — mark up what is wrong."
+
+```markdown
+---
+kind: annotate-artifact
+id: pr-1423-review
+title: Review the rendered diff — mark anything off
+artifact:
+  type: srcdoc            # srcdoc (inlined html/css/js) — same sandbox as kind: demo
+  html: ./diff.html
+  css:  ./diff.css
+  js:   ./diff.js         # optional; may be the injected annotation SDK's host page
+mode: annotate            # annotate | explore (Cmd/Ctrl+I toggles at runtime)
+layout_audit: true        # run the layout gate at render time (see kind: layout-gate)
+actions:
+  - {type: approve,          label: Looks good}
+  - {type: request-changes,  label: Needs changes, requires_note: true}
+---
+
+## What to look at
+
+Prose framing. The artifact loads into a sandboxed `<iframe sandbox="allow-scripts">`
+(no network, no parent access) with the annotation SDK injected. Hovering highlights
+elements in annotate mode; clicking an element, selecting text, or clicking a mermaid
+node opens an annotation card whose note the user types inline.
+```
+
+The injected SDK exposes annotation primitives on the artifact: element select (hover-highlight → click), text-range selection (anchored with start/end boundaries), and mermaid node select (diagram id + node id + rendered label). Each annotation carries a stable `target_uid` (SDK-assigned) plus a CSS `selector` so Claude can locate the target in the source. Elements marked `data-lavish-question` bound the annotation scope; native controls (radios, inputs, buttons) stay interactive.
+
+| User action | API endpoint | Event appended |
+|---|---|---|
+| annotate an element | `POST /api/artifact/:screen_id/annotate` body `{anchor:"element", target_uid, selector, tag, text_excerpt, note}` | `{type:"artifact_annotation", screen_id, anchor:"element", target_uid, selector, note}` |
+| annotate a text range | `POST /api/artifact/:screen_id/annotate` body `{anchor:"text", target_uid, selector, range:{start,end}, text_excerpt, note}` | `{type:"artifact_annotation", screen_id, anchor:"text", target_uid, range, text_excerpt, note}` |
+| annotate a mermaid node | `POST /api/artifact/:screen_id/annotate` body `{anchor:"mermaid", diagram_id, node_id, label, note}` | `{type:"artifact_annotation", screen_id, anchor:"mermaid", diagram_id, node_id, note}` |
+| approve as-is | `POST /api/artifact/:screen_id/approve` body `{}` | `{type:"artifact_approved", screen_id}` |
+| request changes | `POST /api/artifact/:screen_id/request-changes` body `{note}` | `{type:"artifact_changes_requested", screen_id, note, annotation_count}` |
+
+Annotations accumulate in `$SESSION_DIR/screens/<id>.annotations.jsonl` (append-only) so the full mark-up set survives reload; the frontmatter `status` flips `pending → approved | changes-requested` via atomic rename. Because each annotation carries `selector` + `text_excerpt`, Claude reads the annotation stream and revises the artifact in place, then re-emits the screen — the **write → annotate → revise** loop. Scroll position and queued-but-unsent annotations persist across a live reload.
+
+`mode: explore` disables annotation and enables mermaid drag-pan / scroll-zoom for reading large diagrams; `mode: annotate` freezes mermaid so node selection is precise. `demo_event`-style payloads from the artifact iframe are fully echoed — do not put secrets in an annotated artifact.
+
+### `kind: layout-gate`
+
+Lavish-derived. Not usually authored standalone — it is the `layout_audit: true` behavior on `kind: demo` and `kind: annotate-artifact`. At render time the companion runs `auditLayout()` inside the artifact iframe and classifies findings before the user sees the artifact, so broken layout never reads as "approved."
+
+Audit classes (from the injected SDK):
+
+| finding `kind` | detector | meaning |
+|---|---|---|
+| `clipped-text` | `classifyHorizontalOverflow` / `classifyVerticalOverflow` | text cut off by a fixed-size box |
+| `element-scroll-overflow` | `auditElementOverflow` (`scrollWidth > clientWidth`) | content overflows a non-scroll container |
+| `overlapping-text` | `auditOverlappingText` (fragment-aware `getClientRects()` collision) | two text runs visually collide |
+
+Each finding carries `{selector, kind, overflowPx, viewportWidth, severity, persistent}`. Intentional scrollers (`overflow-x/y: auto|scroll`) are excluded. If any finding is `severity: warn` or higher, the companion masks the artifact with a gate overlay listing the findings; the user chooses:
+
+| User action | API endpoint | Event appended |
+|---|---|---|
+| fix-first (bounce back to Claude) | `POST /api/layout/:screen_id/fix-first` body `{}` | `{type:"layout_findings", screen_id, findings:[...], resolution:"fix-first"}` |
+| override (show anyway) | `POST /api/layout/:screen_id/override` body `{}` | `{type:"layout_findings", screen_id, findings:[...], resolution:"override"}` |
+
+On `fix-first`, Claude reads the `findings` array — each with a `selector` and `overflowPx` — repairs the artifact, and re-emits the screen; the gate re-runs. `override` records the user's acceptance and reveals the artifact for annotation. The gate is advisory, never a hard block — the user can always override.
+
 ### Mermaid
 
 Fenced mermaid blocks in any markdown body render as SVG client-side via lazy-loaded mermaid ESM. Caching: first mermaid block triggers a one-time ~300KB fetch; subsequent blocks reuse the loaded module.
