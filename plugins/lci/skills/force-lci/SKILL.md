@@ -102,6 +102,6 @@ Force-LCI mode is now disabled. Standard Grep and Glob tools are available again
 強制LCI模式通過以下實現：
 - **State file**: `~/.config/claude-code/lci-force-mode`（存在=啟用）
 - **PreToolUse hook**: 執行前攔截Grep和Glob
-- **Hook script**: `${CLAUDE_PLUGIN_ROOT}/scripts/block-search-tools.sh`
+- **Hook script**: `${CLAUDE_PLUGIN_ROOT}/scripts/block-search-tools.js`
 
 鉤子檢查狀態文件；若模式啟用，以退出碼1封鎖工具。
