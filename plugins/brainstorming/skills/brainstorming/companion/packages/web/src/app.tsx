@@ -4,6 +4,7 @@ import { ScreenView } from "./screens/ScreenView";
 import { DemoView } from "./screens/DemoView";
 import { DecisionView } from "./screens/DecisionView";
 import { CardsView } from "./screens/CardsView";
+import { AnnotateArtifactView } from "./screens/AnnotateArtifactView";
 import { DocsView } from "./screens/DocsView";
 import { HelpView } from "./screens/HelpView";
 import { EndedView } from "./screens/EndedView";
@@ -21,6 +22,7 @@ export function App() {
           <Route path="/demo/:id" component={DemoView} />
           <Route path="/decisions/:id" component={DecisionView} />
           <Route path="/cards/:id" component={CardsView} />
+          <Route path="/artifact/:id" component={AnnotateArtifactView} />
           <Route path="/docs/:path*" component={DocsView} />
           <Route path="/help" component={HelpView} />
           <Route default component={NotFound} />

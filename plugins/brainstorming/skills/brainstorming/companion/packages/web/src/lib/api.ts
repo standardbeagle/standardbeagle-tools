@@ -1,4 +1,35 @@
-export interface ScreenSummary { id: string; kind: "question"|"demo"|"decision"|"cards"; title: string; pinned: boolean; }
+export interface ScreenSummary { id: string; kind: "question"|"demo"|"decision"|"cards"|"summary-confirm"|"strategy-card"|"annotate-artifact"; title: string; pinned: boolean; }
+
+export interface ArtifactTarget {
+  anchor: "element"|"text"|"mermaid";
+  selector?: string; tag?: string; text_excerpt?: string;
+  range?: { start: number; end: number };
+  diagram_id?: string; node_id?: string;
+  note: string;
+}
+export async function annotateArtifact(screenId: string, target: ArtifactTarget) {
+  return (await fetch(`/api/artifact/${encodeURIComponent(screenId)}/annotate`, {
+    method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify(target),
+  })).json();
+}
+export async function approveArtifact(screenId: string) {
+  return (await fetch(`/api/artifact/${encodeURIComponent(screenId)}/approve`, {
+    method: "POST", headers: { "content-type": "application/json" }, body: "{}",
+  })).json();
+}
+export async function requestArtifactChanges(screenId: string, note?: string) {
+  return (await fetch(`/api/artifact/${encodeURIComponent(screenId)}/request-changes`, {
+    method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ note }),
+  })).json();
+}
+export async function resolveLayout(screenId: string, resolution: "fix-first"|"override", findings: unknown[]) {
+  return (await fetch(`/api/layout/${encodeURIComponent(screenId)}/${resolution}`, {
+    method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ findings }),
+  })).json();
+}
 
 export async function moveCard(screenId: string, cardId: string, toCluster: string | null | undefined, order: number) {
   return (await fetch(`/api/cards/${encodeURIComponent(screenId)}/move`, {

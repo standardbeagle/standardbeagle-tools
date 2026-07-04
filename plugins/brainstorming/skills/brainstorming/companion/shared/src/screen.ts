@@ -197,6 +197,37 @@ export const StrategyCardScreen = z.object({
   user_comments: z.string().nullable().default(null),
 });
 
+// Lavish-derived: render an agent-authored HTML artifact and let the user mark
+// up individual elements / text ranges / mermaid nodes rather than pick from
+// pre-authored options. See docs/screen-format.md `kind: annotate-artifact`.
+export const AnnotateArtifactStatus = z.enum(["pending", "approved", "changes-requested"]);
+export type AnnotateArtifactStatus = z.infer<typeof AnnotateArtifactStatus>;
+
+export const AnnotateArtifactScreen = z.object({
+  kind: z.literal("annotate-artifact"),
+  id: z.string().min(1),
+  title: z.string().min(1),
+  pinned: z.boolean().default(false),
+  status: AnnotateArtifactStatus.default("pending"),
+  artifact: z.object({
+    type: z.literal("srcdoc"),
+    html: z.string().optional(),
+    css: z.string().optional(),
+    js: z.string().optional(),
+    inlineHtml: z.string().optional(),
+    inlineCss: z.string().optional(),
+    inlineJs: z.string().optional(),
+    viewport: z.object({ width: z.number().int().positive(), height: z.number().int().positive() }).default({ width: 900, height: 640 }),
+  }).refine(d => d.html || d.inlineHtml, { message: "artifact requires html path or inlineHtml" }),
+  mode: z.enum(["annotate", "explore"]).default("annotate"),
+  layout_audit: z.boolean().default(false),
+  actions: z.array(z.object({
+    type: z.enum(["approve", "request-changes"]),
+    label: z.string().min(1),
+    requires_note: z.boolean().default(false),
+  })).min(1),
+});
+
 export const ScreenFrontmatter = z.discriminatedUnion("kind", [
   QuestionScreen,
   DemoScreen,
@@ -204,6 +235,7 @@ export const ScreenFrontmatter = z.discriminatedUnion("kind", [
   CardsScreen,
   SummaryConfirmScreen,
   StrategyCardScreen,
+  AnnotateArtifactScreen,
 ]);
 export type ScreenFrontmatter = z.infer<typeof ScreenFrontmatter>;
 

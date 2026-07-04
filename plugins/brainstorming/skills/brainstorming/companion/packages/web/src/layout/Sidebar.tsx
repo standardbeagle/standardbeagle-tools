@@ -27,6 +27,7 @@ export function Sidebar() {
               s.kind === "demo" ? `/demo/${s.id}` :
               s.kind === "decision" ? `/decisions/${s.id}` :
               s.kind === "cards" ? `/cards/${s.id}` :
+              s.kind === "annotate-artifact" ? `/artifact/${s.id}` :
               `/screen/${s.id}`
             }
             class="sidebar-item"

@@ -5,6 +5,7 @@ import { createEventsWriter } from "./events-writer";
 import { createIdempotencyStore } from "./idempotency";
 import { createDecisionsRepo } from "./decisions-repo";
 import { createCardsRepo } from "./cards-repo";
+import { createArtifactRepo } from "./artifact-repo";
 import { handle, flushAllDemo, type RouteCtx } from "./routes";
 import type { Server } from "bun";
 
@@ -38,7 +39,8 @@ export async function runStart(opts: CliOptions): Promise<RunningServer> {
   const idempotency = createIdempotencyStore();
   const decisions = createDecisionsRepo(opts.sessionDir);
   const cards = createCardsRepo(screens);
-  const ctx: RouteCtx = { screens, broadcast, events, idempotency, decisions, cards, docRoots: opts.docRoots };
+  const artifact = createArtifactRepo(screens, opts.sessionDir);
+  const ctx: RouteCtx = { screens, broadcast, events, idempotency, decisions, cards, artifact, docRoots: opts.docRoots };
   screens.onChange((kind, id) => {
     broadcast.push("refresh", { kind: "screen", id, action: kind });
   });

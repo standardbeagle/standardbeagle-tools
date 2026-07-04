@@ -63,5 +63,38 @@ export const Event = z.discriminatedUnion("type", [
     option_id: z.string(),
     user_comments: z.string().optional(),
   }),
+  // Lavish-derived annotate-artifact flow. An annotation anchors to an element,
+  // a text range, or a mermaid node; the anchor-specific fields are optional and
+  // present only for that anchor kind.
+  Base.extend({
+    type: z.literal("artifact_annotation"),
+    anchor: z.enum(["element", "text", "mermaid"]),
+    target_uid: z.string().optional(),
+    selector: z.string().optional(),
+    tag: z.string().optional(),
+    text_excerpt: z.string().optional(),
+    range: z.object({ start: z.number().int(), end: z.number().int() }).optional(),
+    diagram_id: z.string().optional(),
+    node_id: z.string().optional(),
+    note: z.string(),
+  }),
+  Base.extend({ type: z.literal("artifact_approved") }),
+  Base.extend({
+    type: z.literal("artifact_changes_requested"),
+    note: z.string().optional(),
+    annotation_count: z.number().int().nonnegative(),
+  }),
+  // Render-time layout gate (auditLayout). resolution records the user's choice.
+  Base.extend({
+    type: z.literal("layout_findings"),
+    findings: z.array(z.object({
+      selector: z.string(),
+      kind: z.enum(["clipped-text", "element-scroll-overflow", "overlapping-text"]),
+      overflowPx: z.number().optional(),
+      viewportWidth: z.number().optional(),
+      severity: z.string().optional(),
+    })),
+    resolution: z.enum(["fix-first", "override"]),
+  }),
 ]);
 export type Event = z.infer<typeof Event>;

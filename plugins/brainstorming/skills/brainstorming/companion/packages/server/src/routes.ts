@@ -3,6 +3,7 @@ import type { EventsWriter } from "./events-writer";
 import type { IdempotencyStore } from "./idempotency";
 import type { DecisionsRepo } from "./decisions-repo";
 import type { CardsRepo } from "./cards-repo";
+import type { ArtifactRepo } from "./artifact-repo";
 import { assertDeclaredPath, savePrivate } from "./privacy";
 import { existsSync, readdirSync, statSync, readFileSync } from "fs";
 import { join, relative, resolve, dirname } from "path";
@@ -83,6 +84,7 @@ export interface RouteCtx {
   idempotency: IdempotencyStore;
   decisions: DecisionsRepo;
   cards: CardsRepo;
+  artifact: ArtifactRepo;
   docRoots: string[];
   shutdown?: (reason: string) => Promise<void>;
 }
@@ -373,6 +375,116 @@ export async function handle(req: Request, ctx: RouteCtx): Promise<Response> {
     });
     ctx.broadcast.push("refresh", { kind: "screen", id: screenId, action: "change" });
     return Response.json({ ok: true });
+  }
+
+  // Artifact asset fetch (annotate-artifact screens), sibling of /api/demo-asset
+  if (req.method === "GET" && url.pathname === "/api/artifact-asset") {
+    const sid = url.searchParams.get("screen_id");
+    const file = url.searchParams.get("file");
+    if (!sid || !file) return new Response("bad request", { status: 400 });
+    const s = ctx.screens.get(sid);
+    if (!s || s.frontmatter.kind !== "annotate-artifact") return new Response("not found", { status: 404 });
+    const base = dirname(s.path);
+    const target = resolve(base, file);
+    if (relative(base, target).startsWith("..")) return new Response("forbidden", { status: 403 });
+    if (!existsSync(target)) return new Response("not found", { status: 404 });
+    return new Response(readFileSync(target, "utf8"));
+  }
+
+  // Artifact: record one annotation (element / text range / mermaid node)
+  // POST /api/artifact/:id/annotate
+  if (req.method === "POST" && /^\/api\/artifact\/[^/]+\/annotate$/.test(url.pathname)) {
+    const screenId = url.pathname.split("/")[3]!;
+    const body = await req.json().catch(() => null) as (Record<string, unknown> & { anchor?: string; note?: string }) | null;
+    if (!body?.anchor || typeof body.note !== "string" || !body.note) {
+      return new Response("bad request", { status: 400 });
+    }
+    if (!["element", "text", "mermaid"].includes(body.anchor)) {
+      return new Response("bad anchor", { status: 400 });
+    }
+    let count: number;
+    try {
+      count = ctx.artifact.appendAnnotation(screenId, {
+        anchor: body.anchor as "element" | "text" | "mermaid",
+        target_uid: body.target_uid as string | undefined,
+        selector: body.selector as string | undefined,
+        tag: body.tag as string | undefined,
+        text_excerpt: body.text_excerpt as string | undefined,
+        range: body.range as { start: number; end: number } | undefined,
+        diagram_id: body.diagram_id as string | undefined,
+        node_id: body.node_id as string | undefined,
+        note: body.note,
+      });
+    } catch (err) {
+      return new Response((err as Error).message, { status: 400 });
+    }
+    await ctx.events.append({
+      type: "artifact_annotation",
+      screen_id: screenId,
+      anchor: body.anchor,
+      target_uid: body.target_uid,
+      selector: body.selector,
+      tag: body.tag,
+      text_excerpt: body.text_excerpt,
+      range: body.range,
+      diagram_id: body.diagram_id,
+      node_id: body.node_id,
+      note: body.note,
+    });
+    ctx.broadcast.push("refresh", { kind: "screen", id: screenId, action: "change" });
+    return Response.json({ ok: true, annotation_count: count });
+  }
+
+  // Artifact: approve as-is
+  // POST /api/artifact/:id/approve
+  if (req.method === "POST" && /^\/api\/artifact\/[^/]+\/approve$/.test(url.pathname)) {
+    const screenId = url.pathname.split("/")[3]!;
+    try {
+      ctx.artifact.setStatus(screenId, "approved");
+    } catch (err) {
+      return new Response((err as Error).message, { status: 400 });
+    }
+    await ctx.events.append({ type: "artifact_approved", screen_id: screenId });
+    ctx.broadcast.push("refresh", { kind: "screen", id: screenId, action: "change" });
+    return Response.json({ ok: true });
+  }
+
+  // Artifact: request changes (carries the annotation count so Claude knows the markup volume)
+  // POST /api/artifact/:id/request-changes  body: {note?}
+  if (req.method === "POST" && /^\/api\/artifact\/[^/]+\/request-changes$/.test(url.pathname)) {
+    const screenId = url.pathname.split("/")[3]!;
+    const body = await req.json().catch(() => null) as { note?: string } | null;
+    let count: number;
+    try {
+      ctx.artifact.setStatus(screenId, "changes-requested");
+      count = ctx.artifact.countAnnotations(screenId);
+    } catch (err) {
+      return new Response((err as Error).message, { status: 400 });
+    }
+    await ctx.events.append({
+      type: "artifact_changes_requested",
+      screen_id: screenId,
+      note: body?.note,
+      annotation_count: count,
+    });
+    ctx.broadcast.push("refresh", { kind: "screen", id: screenId, action: "change" });
+    return Response.json({ ok: true, annotation_count: count });
+  }
+
+  // Layout gate: user resolution of render-time audit findings
+  // POST /api/layout/:id/fix-first | /api/layout/:id/override   body: {findings?}
+  if (req.method === "POST" && /^\/api\/layout\/[^/]+\/(fix-first|override)$/.test(url.pathname)) {
+    const parts = url.pathname.split("/");
+    const screenId = parts[3]!;
+    const resolution = parts[4] === "fix-first" ? "fix-first" : "override";
+    const s = ctx.screens.get(screenId);
+    if (!s || s.frontmatter.kind !== "annotate-artifact") {
+      return new Response("unknown screen", { status: 404 });
+    }
+    const body = await req.json().catch(() => null) as { findings?: unknown[] } | null;
+    const findings = Array.isArray(body?.findings) ? body!.findings : [];
+    await ctx.events.append({ type: "layout_findings", screen_id: screenId, findings, resolution });
+    return Response.json({ ok: true, resolution });
   }
 
   const asset = serveStatic(url);
