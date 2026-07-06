@@ -43,6 +43,15 @@ Before every commit, verify:
 5. **No build artifacts** — Never commit `dist/`, `build/`, `node_modules/`, `__pycache__/`, `.class` files, or compiled output
 6. **No temporary files** — No `.log`, `.tmp`, `.bak`, `.swp`, or editor-specific files
 
+## Always Be Merging Remote Updates
+
+Stay synced with the remote so drift never compounds into painful conflicts:
+
+- At every natural **stopping point** — before starting new work, after a green commit — pull/merge remote updates on your branch and the base branch.
+- The dev-standards plugin ships hooks that fetch and report drift on session start, periodically, and at stop points. When they flag commits you're missing, integrate them before continuing.
+- Rebase or merge the base branch into a long-lived feature branch early and often, not once at the end.
+- Opt out per-session with `DEV_STANDARDS_REMOTE_CHECK=0`; tune the periodic fetch with `DEV_STANDARDS_REMOTE_CHECK_INTERVAL` (seconds, default `300`).
+
 ## Duplicate Elimination
 
 **ELIMINATE all duplicate implementations before committing.** When adding new code:
