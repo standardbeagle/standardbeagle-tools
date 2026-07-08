@@ -1,6 +1,7 @@
 ---
 name: dartai-task-execution
 description: "Task execution workflow and quality pipeline for Dart task automation. Dart任務執行工作流與品質管道。 Use when: execute dart task, run quality pipeline, implement task, code review workflow, task automation"
+disable-model-invocation: true
 context: fork
 ---
 
@@ -128,3 +129,7 @@ Do not retry the same fix more than twice. After two retries, surface as a block
 | Validate | All criteria met, domain model updated, task complete |
 
 Full pass-criteria narrative for each row: `references/examples.md` § "Quality Gates Reference Table".
+
+## Related
+
+- 品質管道派發之審查子代理：`dartai:code-quality-reviewer`、`dartai:qa-reviewer`、`dartai:post-task-reviewer`。

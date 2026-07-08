@@ -1714,3 +1714,11 @@ Parameters: {
 | `grep` | Include matching | `grep: "ERROR|WARN"` |
 | `grep_v` | Exclude matching | `grep_v: true` |
 | `stream` | Select stream | `stream: "stderr"` |
+
+---
+
+## 相關技能
+
+> Invoke the `Skill` tool with `skill: agnt:dev-proxy` — 極簡速啟流程（detect → run → proxy start）；此技能為其超集。
+
+> Invoke the `Skill` tool with `skill: agnt:stop-all` — 一次停止所有進程與代理之收尾流程。

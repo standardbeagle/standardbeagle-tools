@@ -50,7 +50,7 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 
 ## Search Modes
 
-The `/lci:search` command accepts a `--mode` argument selecting the retrieval strategy. Default is `dense`. Other modes are **specification only** at this time — the current lci server (`0.4.0`, see `marketplace.json`) implements `dense`; `bm25`, `symbolic`, and `multiview` are reserved for downstream server releases tracked in [github.com/standardbeagle/lci](https://github.com/standardbeagle/lci). The formal contract lives in `plugins/lci/docs/lci-modes-spec.md`.
+The `/lci:search-code` skill accepts a `--mode` argument selecting the retrieval strategy. Default is `dense`. Other modes are **specification only** at this time — the current lci server (`0.4.0`, see `marketplace.json`) implements `dense`; `bm25`, `symbolic`, and `multiview` are reserved for downstream server releases tracked in [github.com/standardbeagle/lci](https://github.com/standardbeagle/lci). The formal contract lives in `plugins/lci/docs/lci-modes-spec.md`.
 
 | Mode | What it returns | When to prefer |
 |---|---|---|
@@ -68,7 +68,7 @@ The `/lci:search` command accepts a `--mode` argument selecting the retrieval st
 | `symbolic` | Symbol metadata index (cheap, already built for `code_insight`) | Sub-millisecond filter | Structural / metadata-only |
 | `multiview` | All three indices + call-hierarchy graph + dep graph (largest one-time cost) | Higher than single-mode but acceptable; merges N result streams with stable provenance | Multi-hop / cross-cutting |
 
-Rationale: K2 §3.4 *Multiview retrieval* — task-dependent lift; only complex multi-hop queries reliably benefit, so mode selection is soft guidance (default toward `dense`). The `--conflicts` flag (see `/lci:search`) surfaces multiple defs across branches or build flags per K2 §3.2 *Conflict surfacing*.
+Rationale: K2 §3.4 *Multiview retrieval* — task-dependent lift; only complex multi-hop queries reliably benefit, so mode selection is soft guidance (default toward `dense`). The `--conflicts` flag (see `/lci:search-code`) surfaces multiple defs across branches or build flags per K2 §3.2 *Conflict surfacing*.
 
 ## Available Tools
 
@@ -82,12 +82,6 @@ Rationale: K2 §3.4 *Multiview retrieval* — task-dependent lift; only complex 
 | `semantic_annotations` | Query symbols by semantic labels |
 | `side_effects` | Analyze function purity and side effects |
 | `info` | Get help and examples for any tool |
-
-## Commands
-
-- `/lci:search` - Search the codebase
-- `/lci:explore` - Explore codebase structure
-- `/lci:code-context` - Get detailed symbol context
 
 ## Skills
 

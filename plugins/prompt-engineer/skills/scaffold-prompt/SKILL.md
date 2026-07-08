@@ -2,7 +2,6 @@
 name: prompt-engineer-scaffold-prompt
 description: "\"Create defensive prompt scaffolding with guardrails and safety measures. 創建帶護欄與安全措施之防禦提示架構。 Use when: building user-facing prompts, adding injection protection, implementing harm prevention layers.\""
 disable-model-invocation: true
-allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---
 
 創建防禦提示架構，防範濫用、提示注入，確保安全運行。

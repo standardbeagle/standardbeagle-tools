@@ -231,3 +231,9 @@ lci git-analyze --focus duplicates
 | `target_ref` | End of range | `"HEAD"` |
 | `similarity_threshold` | Duplicate sensitivity (0-1) | `0.7` (lower = more matches) |
 | `max_findings` | Limit per category | `20` |
+
+---
+
+## Related
+
+- **`lci:commit-all`** — 全套WIP收尾編排器（測試、文檔、質量、自動提交）。本技藝為其質量分析環節；欲測試至提交全流程用commit-all，欲僅質量檢查用本技藝。

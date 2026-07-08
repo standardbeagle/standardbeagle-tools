@@ -1,6 +1,6 @@
 ---
 name: figma-query-preflight-check
-description: "Pre-flight validation before starting Figma extraction to prevent failures. 提取前飛行前驗證，預防中途失敗。 Use when: before running extract-library, validating Figma access, checking file has components, verifying output directory, estimating extraction size and time"
+description: "Pre-flight validation before starting Figma extraction to prevent failures. 提取前飛行前驗證，預防中途失敗。 Use when: before running adversarial-design-library, validating Figma access, checking file has components, verifying output directory, estimating extraction size and time"
 disable-model-invocation: true
 ---
 
@@ -31,7 +31,7 @@ disable-model-invocation: true
 
 ## Usage
 
-運行 `/extract-library` 前：
+運行 `/adversarial-design-library` 前：
 
 ```
 # Check if ready to extract
@@ -269,7 +269,7 @@ Continue? [y/n]
 ## Integration Example
 
 ```markdown
-# In extract-library command
+# In adversarial-design-library command
 
 1. Run pre-flight check
 2. If fails: Stop and show fixes
@@ -277,7 +277,7 @@ Continue? [y/n]
 4. If passes: Start extraction
 
 # Example flow
-User runs: /extract-library lnwVxZrQ6pqvArfEr1EiXt ./docs
+User runs: /adversarial-design-library lnwVxZrQ6pqvArfEr1EiXt ./docs
 
 Step 1: Pre-flight check
   ✓ All checks passed
@@ -298,7 +298,7 @@ CI/CD 跳過確認：
 FIGMA_EXTRACT_AUTO=1
 
 # Or pass flag
-/extract-library file_key="..." output_dir="..." --auto --no-confirm
+/adversarial-design-library file_key="..." output_dir="..." --auto --no-confirm
 ```
 
 自動化模式下：
@@ -346,3 +346,8 @@ FIGMA_EXTRACT_AUTO=1
 ## Ready to Extract?
 Yes - all pre-flight checks passed.
 ```
+
+## Related
+
+提取管線之兩端：
+- `figma-query:validate-extraction` — 尾端對應：提取後校驗產物完整正確。

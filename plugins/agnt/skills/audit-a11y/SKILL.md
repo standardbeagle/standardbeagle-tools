@@ -74,3 +74,9 @@ proxy {action: "exec", id: "dev", code: "__devtool.getScreenReaderText('#element
 - **4.5:1** — 一般文字所需對比度（AA）
 - **3:1** — 大文字所需對比度（AA）
 - **7:1** — 增強對比度所需（AAA）
+
+---
+
+## 相關技能
+
+> Invoke the `Skill` tool with `skill: agnt:accessibility-audit` — 近同之姊妹技能，詳版 `__devtool` 無障礙函數參考（多稽核模式、對比、屏讀、WCAG對照表）。二者功能高度重疊，擇一即可。

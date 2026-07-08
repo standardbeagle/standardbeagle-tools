@@ -37,3 +37,9 @@ allowed-tools: "[\"mcp__agnt__detect\", \"mcp__agnt__run\", \"mcp__agnt__proxy\"
    - 線框用之草圖模式
 
 用戶現可在瀏覽器開啟代理URL取得瀏覽器超能力。
+
+---
+
+## 相關技能
+
+> Invoke the `Skill` tool with `skill: agnt:process-proxy` — 進程與代理管理之全面技能，取代此速啟流程。需多服務編排、重啟、清端口、日誌分析等深度控制時優先此。

@@ -1,6 +1,7 @@
 ---
 name: dartai-batch-operations
 description: "Master dart-query batch operations - DartQL selectors, batch_update_tasks, batch_delete_tasks, CSV import, safety protocols. 批量操作dart-query：DartQL選擇器、批量更新刪除、CSV匯入、安全規程。 Use when: bulk update tasks, batch delete, import CSV, sprint transition, mass status change"
+disable-model-invocation: true
 ---
 
 # Batch Operations with dart-query
@@ -596,3 +597,12 @@ common_errors:
     cause: "Too many tasks with low concurrency"
     fix: "Increase concurrency or narrow selector"
 ```
+
+## Related
+
+同一 dart-query API 之不同切面之姊妹參考技藝：
+
+- `dartai:dart-query-reference` — 全工具總覽（24 工具）
+- `dartai:task-filtering` — 查詢/過濾/分頁
+- `dartai:task-relationships` — 子任務/阻塞/相關
+- `dartai:workspace-docs` — 工作區文檔/評論/時間/附件

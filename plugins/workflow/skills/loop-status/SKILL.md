@@ -107,3 +107,7 @@ show workflow progress
 - **循環狀態文件**：`.workflow/loop-state.json`
 - **鉤子追蹤數據**：由 SubagentStop 鉤子寫入
 - **會話指標**：由 session-init.sh 腳本追蹤
+
+## Related
+
+- Dart 後端孿生：`dartai:loop-status`（Dart-backed 同一狀態視圖）。

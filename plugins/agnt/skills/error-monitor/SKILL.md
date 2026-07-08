@@ -399,7 +399,11 @@ Parameters: {
 
 ## 相關技能
 
-> Invoke the `Skill` tool with `skill: agnt:error-watch` — 透過Monitor即時串流錯誤（優先於輪詢）。
+錯誤技能三態軸：**快照 snapshot** / **聚合 aggregate** / **串流 stream**。此技能為**聚合**——`get_errors` 跨代理/進程去重堆疊。
+
+> Invoke the `Skill` tool with `skill: agnt:check-errors` — **快照**：單一代理 `proxylog` 點查。
+
+> Invoke the `Skill` tool with `skill: agnt:error-watch` — **串流**：`watch` + Monitor 即時推送（優先於輪詢）。
 
 > Invoke the `Skill` tool with `skill: agnt:event-watch` — 從瀏覽器覆蓋層串流用戶互動。
 

@@ -138,3 +138,7 @@ done
     <TrimmerRootAssembly Include="System.Management.Automation" />
   </ItemGroup>
   ```
+
+## Related
+
+- config/reference: `photino:photino-packaging`

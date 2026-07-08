@@ -312,3 +312,7 @@ jobs:
 | `WebView2Loader.dll not found` | Windows-only native dep | Include in Content ItemGroup |
 | `libwebkit2gtk not found` | Missing Linux dependency | Install `libwebkit2gtk-4.1-dev` |
 | Single-file extraction slow | First run extracts to temp | Use `IncludeNativeLibrariesForSelfExtract` |
+
+## Related
+
+- to run: `photino:photino-publish`

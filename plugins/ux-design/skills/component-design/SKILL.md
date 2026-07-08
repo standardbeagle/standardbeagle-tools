@@ -442,3 +442,8 @@ ARIA模式、鍵盤交互模型
 - **Style Dictionary** - Token transformation
 - **Figma Variables** - Native design tool tokens
 - **Tokens Studio** - Figma plugin for tokens
+
+## Related
+
+- `ux-developer:component-ux` — 設計規格交予實作：狀態/鍵盤/ARIA/響應之落地實現（跨 plugin 接力）。
+- `ux-design:component-library` — 本規格納入元件庫結構與文檔。

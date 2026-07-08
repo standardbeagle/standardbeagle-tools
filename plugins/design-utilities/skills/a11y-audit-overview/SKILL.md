@@ -68,6 +68,7 @@ Verify by calling `list_tools` on the registered server.
 
 ## Related
 
+- `design-utilities:a11y-audit-quick-start` — 工具調用速查
 - `ux-developer:a11y-check` — WCAG 2.2 audit workflow with manual checklist
 - `agnt:audit-a11y` — runtime browser-based accessibility audit (complementary)
 - `color` plugin — WCAG contrast verification for palette-level issues

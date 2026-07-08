@@ -110,3 +110,8 @@ textarea, input {
 ## Refs
 
 - `examples/validation.html`
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。
+- `modern-html:accessibility-primitives` — 表單 label / 錯訊 / focus a11y 深守，配對取用。

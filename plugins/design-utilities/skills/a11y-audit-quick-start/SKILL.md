@@ -40,3 +40,7 @@ Use the `a11y-audit` MCP server for deterministic static accessibility analysis 
 - The MCP server is a separate package (`@standardbeagle/a11y-audit`); this plugin is only the Claude Code integration wrapper.
 - Register the server through `slop-mcp` per this project's conventions; the bundled `mcp.json.disabled` is intentional.
 - Pair with `agnt:audit-a11y` when you need runtime checks (focus order, dynamic ARIA state, live regions) that static analysis cannot cover.
+
+## Related
+
+- `design-utilities:a11y-audit-overview` — 工具全覽與 setup

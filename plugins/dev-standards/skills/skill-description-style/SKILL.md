@@ -1,6 +1,7 @@
 ---
 name: dev-standards-skill-description-style
 description: "SKILL.md description style — conceptual conciseness then caveman/wenyan compression. LLM semantic retrieval, not keyword index. Use when: writing/editing SKILL.md description, reviewing PR with SKILL.md, briefing skill-writing subagent, auditing retrieval quality. Skip: SKILL.md body (different rules), non-skill markdown."
+disable-model-invocation: true
 ---
 
 # Skill Description Style

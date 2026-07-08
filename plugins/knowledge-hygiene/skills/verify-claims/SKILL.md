@@ -98,6 +98,8 @@ Emit a structured report — one section per claim — for the user:
 
 Sort the report so `escalate-to-user` and `flag-strong` claims appear first.
 
+**Related (optional rendering):** 報告默為 inline markdown。若 user 欲瀏覽器可視化（多 claim、需篩排 severity）→ 將 §Step 5 之各 claim section 作 `sections` 傳 `present:html-report`，per-claim severity/rationalization 作 badge。純 CI gate 場景無需渲染。
+
 ### Step 6 — Exit Behavior
 
 The command does NOT modify the target file or block the PR. It surfaces. The user (or a downstream automation invoking this command) decides what to do with the report.

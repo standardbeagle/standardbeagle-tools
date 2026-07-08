@@ -300,3 +300,8 @@ Documentation
 - **Polaris** (Shopify): polaris.shopify.com
 - **Radix** (Primitives): radix-ui.com
 - **Chakra UI**: chakra-ui.com
+
+## Related
+
+- `ux-developer:component-ux` — 元件庫規格交予開發實作與無障礙代碼（跨 plugin 接力）。
+- `ux-design:component-design` — 先明單一元件設計原理，後建庫。

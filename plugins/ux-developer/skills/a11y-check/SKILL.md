@@ -155,3 +155,7 @@ Recommended: Test with NVDA (Windows) or VoiceOver (Mac)
 - 預提交無障礙lint
 - CI/CD無障礙測試
 - 定期手動審計計劃
+
+## Related
+
+- `ux-design:accessibility` — 設計期無障礙決策與理據（WCAG/焦點/觸控之設計視角）；本審計實現並驗證之（跨 plugin）。

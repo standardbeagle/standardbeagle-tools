@@ -2,7 +2,6 @@
 name: prompt-engineer-context-audit
 description: "\"Audit context window usage and identify optimization opportunities. 審計語境視窗使用情況並識別優化機會。 Use when: analyzing system prompt bloat, diagnosing context rot, planning token budget restructuring.\""
 disable-model-invocation: true
-allowed-tools: "[\"Read\", \"Glob\", \"Grep\", \"AskUserQuestion\"]"
 ---
 
 以 2026 語境工程最佳實踐審計語境視窗使用情況，識別優化機會。

@@ -59,3 +59,4 @@ If the runtime does not honor `context: fork`:
 - `dartai:verdict-schema` — wire format and consumer contract (canonical, shared)
 - `workflow:testing-strategy` — testing pyramid + RED/GREEN
 - `workflow:agents/qa-reviewer` — the reviewer agent that binds this skill
+- Dart 後端孿生：`dartai:qa-reviewer`（Dart-backed 同一審查）。

@@ -177,3 +177,9 @@ disable-model-invocation: true
 2. 創建無障礙單元測試
 3. 為每個狀態編寫Storybook stories
 4. 創建文檔
+
+## Related
+
+- `ux-design:component-design` — 上游設計規格：元件解剖/狀態/變體/規模化原理（跨 plugin 接力之來源）。
+- `ux-design:component-library` — 上游元件庫結構與 token/文檔規格。
+- `ux-design:design-tokens` — 本組件視覺規格引用之設計 token 來源。

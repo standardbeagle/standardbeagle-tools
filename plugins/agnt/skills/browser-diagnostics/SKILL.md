@@ -1089,3 +1089,13 @@ Parameters: {
 | `isVisible(sel)` | 可見性檢查 | visible布林值, reasons |
 | `isInViewport(sel, thresh)` | 視窗檢查 | inViewport, percentVisible |
 | `checkOverlap(sel1, sel2)` | 碰撞檢查 | overlaps, intersection |
+
+---
+
+## 相關技能
+
+此三技能重疊於佈局/DOM視覺化，分工：本技能取逐元素程式化**檢測數據**（`__devtool.*` 元素/盒模型/溢出查詢）。
+
+> Invoke the `Skill` tool with `skill: agnt:visual-diagnostics` — 頁面上之**視覺疊層**（輪廓、網格、字排、z序高亮）。
+
+> Invoke the `Skill` tool with `skill: agnt:analyze-frontend` — 一次性**綜合稽核**報告（DOM複雜度+CSS+溢出+堆疊）。

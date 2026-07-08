@@ -135,3 +135,9 @@ Schema Validation:
 Functional Tests:
 - <tool>: <pass/fail with notes>
 ```
+
+## Related
+
+- `mcp-tester:validate-schema` — 僅驗某工具 JSON 綱要 / 測輸入合規。
+- `mcp-architect:tool-design` — 驗實現時對照之工具設計模式。
+- `mcp-architect:citation-verification-pattern` — 驗帶引用響應時對照之設計模式。

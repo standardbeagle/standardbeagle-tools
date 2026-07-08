@@ -247,3 +247,7 @@ STRENGTHS IDENTIFIED
 3. **Priority Matrix** - 按嚴重性/工作量排列的問題
 4. **Recommendations** - 可操作的改進
 5. **Checklist** - 修復的驗證項目
+
+## Related
+
+- `ux-developer:ux-review` — 姊妹 Nielsen 啟發評估：本審計針對設計稿/運行前 mockup，彼由 agnt runtime 實測真實頁。二者互補，勿合併（跨 plugin）。

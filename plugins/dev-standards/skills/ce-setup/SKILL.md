@@ -1,5 +1,5 @@
 ---
-name: setup
+name: dev-standards-ce-setup
 description: "Diagnose + configure compound-engineering env — CLI deps, plugin version, repo-local config. Guided install for missing tools, gitignore + config bootstrap. Use when: troubleshoot missing tools, verify CE setup, onboard repo, refresh config template, /ce-setup re-check. Skip: unrelated to compound-engineering tooling."
 disable-model-invocation: true
 ---

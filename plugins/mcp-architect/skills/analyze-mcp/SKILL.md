@@ -316,3 +316,10 @@ function info(category?: string) {
 - **Be constructive** - 以機會而非批評表述
 
 目標：提供可操作的建議，無需完全重寫即可改善MCP。
+
+## Related
+
+- `mcp-architect:tool-design` — 審計所依之單工具模式基準。
+- `mcp-architect:response-optimization` — 審計所依之響應/token 效率基準。
+- `mcp-architect:progressive-discovery` — 審計所依之能力分層探索基準。
+- `mcp-tester:validate-mcp-server` — 審完設計後，驗運行中之實現。

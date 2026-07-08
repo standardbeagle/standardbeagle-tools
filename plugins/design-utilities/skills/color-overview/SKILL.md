@@ -63,6 +63,7 @@ Verify by calling `list_tools` on the registered server.
 
 ## Related
 
+- `design-utilities:color-quick-start` — 工具調用速查
 - `ux-design` plugin — color theory, palette design guidance
 - `ux-developer` plugin — accessibility workflows, WCAG verification
 - `agnt:audit-a11y` — browser-based accessibility audit (complementary)

@@ -199,4 +199,4 @@ Parameters: { "pattern": "main", "max": 5 }
 3. **Scope**（若slop-mcp）：user/project/memory
 4. **Verification status**：工具可用且正常
 5. **Available tools**：現可訪問之lci工具列表
-6. **Next steps**：建議運行`/lci:search`或`/lci:explore`命令
+6. **Next steps**：建議運行`/lci:search-code`或`/lci:explore-codebase`技藝

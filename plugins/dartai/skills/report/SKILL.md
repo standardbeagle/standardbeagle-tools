@@ -1,6 +1,7 @@
 ---
 name: dartai-report
 description: "Generate multi-page HTML project status report from Dart tasks + Claude/opencode/kimi session logs — completed, outstanding, replans, timeline, per-agent activity. 由Dart任務與會話日誌生成HTML狀態報告。 Use when: status report, project health, work summary, dart task report, replan history, html dashboard, weekly report"
+disable-model-invocation: true
 ---
 
 # Project Work Report

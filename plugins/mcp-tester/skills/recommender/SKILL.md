@@ -41,3 +41,4 @@ description: "Routes any MCP-testing / mcp-tester intent to the one right manual
 
 - `mcp-tester:setup-mcp` — 任何測試前之環境安裝，宜先行。
 - `mcp-tester:server-status` — 除錯前確認伺服器已連接。
+- `mcp-architect` 插件 — 測試之前，設計伺服器架構、工具模式、響應優化。

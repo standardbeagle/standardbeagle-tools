@@ -476,3 +476,7 @@ Mobile (cards):        Desktop (table):
 ### Layout Tools
 - **CSS Grid Generator** (cssgrid-generator.netlify.app)
 - **Flexbox Froggy** (flexboxfroggy.com) - Learning tool
+
+## Related
+
+- `ux-developer:mobile-first` — 重疊之斷點/響應視角：本技藝主響應式策略與自適應佈局設計，彼主移動優先實作與觸控/性能（跨 plugin 對照）。

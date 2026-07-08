@@ -19,7 +19,7 @@ figma-query 逾 30 技藝之唯一**自動**網關。餘皆手動 — 本技藝�
 
 | 意圖 / Intent | 技藝 / Skill |
 |---|---|
-| 初設 figma-query MCP + token | `figma-query:setup-figma`（slop 管理 `figma-query:setup-mcp`） |
+| 初設 figma-query MCP + token | `figma-query:setup-figma` |
 | 提取前飛行檢查 / 驗證環境 | `figma-query:preflight-check` |
 | MCP 幫助 / 工具信息 / 狀態 | `figma-query:figma-info` |
 | JSON DSL 查詢文件（過濾/投影/分頁） | `figma-query:figma-query` |
@@ -37,8 +37,11 @@ figma-query 逾 30 技藝之唯一**自動**網關。餘皆手動 — 本技藝�
 | 按 imageRef 下載 / 渲染節點為圖 | `figma-query:figma-download` |
 | 抽全部資源（含背景/填充/矢量） | `figma-query:extract-assets`（見 Disambiguation） |
 | 提取單組件（CSS+資源+文檔+HTML） | `figma-query:component-extraction`（見 Disambiguation） |
+| 交互式多選組件導出（Go 模板生 CSS/SCSS） | `figma-query:extract-components` |
 | 提取整頁/整屏 | `figma-query:page-extraction`（見 Disambiguation） |
-| 提取完整設計庫 | `figma-query:extract-library`（見 Disambiguation） |
+| 交互式多頁導出（頁 mockup CSS/SCSS） | `figma-query:extract-pages` |
+| 提取完整設計庫（驗證+依賴檢查） | `figma-query:complete-extraction`（見 Disambiguation） |
+| 提取完整設計庫（對抗協作驗證循環） | `figma-query:adversarial-design-library`（見 Disambiguation） |
 | 比較文件版本 / 追蹤設計變更 | `figma-query:figma-diff` |
 | 校驗提取結果之完整正確 | `figma-query:validate-extraction` |
 | 建組件/頁文檔站點 | `figma-query:build-docs` |
@@ -50,15 +53,14 @@ figma-query 逾 30 技藝之唯一**自動**網關。餘皆手動 — 本技藝�
 
 - **資源提取**：
   - 指定節點、要多格式/縮放 → `figma-query:figma-export-assets`
-  - 掃全文件之一切資源（含隱藏背景/填充/矢量）→ `figma-query:extract-assets` 或 `figma-query:comprehensive-assets`
+  - 掃全文件之一切資源（含隱藏背景/填充/矢量）→ `figma-query:extract-assets`
   - 僅按 imageRef/渲染單圖 → `figma-query:figma-download`
-- **組件提取**：一次性單組件 → `figma-query:component-extraction`；交互式多組件 SCSS/CSS → `figma-query:extract-components`。
-- **頁提取**：完整頁+組件+文檔 → `figma-query:page-extraction`；交互式頁 mockup SCSS/CSS → `figma-query:extract-pages`。
+- **組件提取**：一次性單組件 → `figma-query:component-extraction`；交互式多選組件（Go 模板 SCSS/CSS）→ `figma-query:extract-components`。
+- **頁提取**：完整頁+組件+文檔 → `figma-query:page-extraction`；交互式多頁 mockup SCSS/CSS → `figma-query:extract-pages`。
 - **整庫提取**（依嚴謹度遞增）：
-  - 直接 → `figma-query:extract-library`
   - 含驗證+依賴檢查 → `figma-query:complete-extraction`
   - 對抗協作循環（最嚴，CSS+資源+文檔全驗）→ `figma-query:adversarial-design-library`
-- **離線同步**：`figma-query:figma-sync` 與 `figma-query:design-sync` 同宗 — 皆導出本地結構供離線分析；擇其一，勿並用。
+- **離線同步**：`figma-query:figma-sync` 導出本地結構供離線 grep 與快速緩存查詢。
 - **token**：引用/解析值查詢 → `figma-query:figma-tokens`；導出至 CSS/JSON/Tailwind → `figma-query:figma-export-tokens`。
 
 ## Related

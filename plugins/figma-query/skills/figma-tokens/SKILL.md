@@ -200,3 +200,7 @@ export_tokens: format: "css"
 2. **審計組件**：確保各變體令牌用法一致
 3. **導出解析值**：用於 CSS 自定義屬性
 4. **按集合組織**：按集合類型分類令牌
+
+## Related
+
+- `figma-query:figma-export-tokens` — 核查完令牌用法後，導出完整令牌系統至 CSS/JSON/Tailwind。

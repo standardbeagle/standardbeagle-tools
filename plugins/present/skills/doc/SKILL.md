@@ -19,3 +19,7 @@ Open a given document in the browser. Markdown is rendered client-side (no local
 ## Fallback
 
 If no browser-open command is available (headless CI, no display), print the absolute source path and a one-line note — do not fail the calling skill.
+
+## Related
+
+- `present:html-report` — 欲從結構化資料**生成**新報告（非開啟既存檔）→ 用 `present:html-report`；其產出之 `.html` 可回頭以本技藝重開。

@@ -50,3 +50,9 @@ allowed-tools: "[\"mcp__agnt__proxy\", \"mcp__agnt__proxylog\"]"
    ```
 
 注：草圖模式建立Excalidraw式覆蓋層。草圖渲染使用可設定粗糙度，呈現手繪外觀。
+
+---
+
+## 相關技能
+
+> Invoke the `Skill` tool with `skill: agnt:sketch-visual` — 超集技能，含草圖模式全函數（toggle/setTool/toJSON/fromJSON/clear）加視覺高亮與截圖。深用草圖或需疊層/截圖時優先此。

@@ -46,3 +46,7 @@ arguments: " - name: server-name description: Name of the server to hot-swap req
 - 工具名與前綴保持一致
 - 迭代週期更快
 - 即刻測試更動，無重連延遲
+
+## Related
+
+- `mcp-tester:hot-swap-development` — 迭代開發之完整熱換工作流（避免重連開銷、保會話狀態）。

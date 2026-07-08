@@ -40,3 +40,7 @@ arguments: " - name: server description: Filter logs to specific server (optiona
 - 用此除錯工具呼叫失敗，理解請求/回應流程
 - 除錯緩衝循環存至多 500 條訊息
 - 配合 `debug_status` 查緩衝用量統計
+
+## Related
+
+- `mcp-tester:debug-mcp-traffic` — 進而分析流量模式、診斷失敗調用之根因。

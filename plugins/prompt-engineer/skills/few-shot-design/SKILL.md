@@ -2,7 +2,6 @@
 name: prompt-engineer-few-shot-design
 description: "\"Design effective few-shot examples for prompts following DICE framework. 按 DICE 框架為提示設計有效少樣本示例。 Use when: need examples for prompt, ensuring format consistency, covering diverse task scenarios.\""
 disable-model-invocation: true
-allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---
 
 按任務與目標模型設計匹配之少樣本示例。
@@ -293,3 +292,7 @@ Step 3: [Conclusion]
 <turn role="assistant">[Response 2]</turn>
 </example>
 ```
+
+## Related
+
+- `prompt-engineer:prompt-patterns` — 模式總索引；本技藝為其 Few-shot 一格之深入展開。

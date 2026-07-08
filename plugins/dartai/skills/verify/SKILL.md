@@ -1,6 +1,7 @@
 ---
 name: dartai-verify
 description: "\"Run adversarial verification on target directory or file. 對目標目錄或文件運行對抗性驗證。 Use when: verify code quality, run review agents, adversarial verification, check implementation, post-implementation review\""
+disable-model-invocation: true
 argument-hint: "\"[target]\""
 context: fork
 agent: "dartai:qa-reviewer"

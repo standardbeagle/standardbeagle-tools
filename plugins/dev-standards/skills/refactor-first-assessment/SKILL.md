@@ -74,6 +74,8 @@ description: "During planning after grill-task, decide whether preparatory refac
 
 以 `lci:explore`（模塊圖）+ `lci:trace-symbol`（刪除測試找全調用者）探之；lci 不可用則退回 `Explore` agent 或 Grep。
 
+**碼異味基線（Fowler ch.3）：** 掃描待改代碼之異味——Mysterious Name、Duplicated Code、Feature Envy、Data Clumps、Primitive Obsession、Repeated Switches、Shotgun Surgery、Divergent Change、Speculative Generality、Message Chains、Middle Man、Refused Bequest。各為判斷式啟發（「疑似 Feature Envy」），非硬違規；**已文檔化之項目規範覆蓋基線**，工具（linter/type-checker）已強制者略過。全清單與修法見 [CODE-SMELLS.md](CODE-SMELLS.md)。異味指向淺模塊或錯置 seam 時，即為插入預備重構步驟之信號。
+
 **HTML 報告 → 委派 `present:html-report`。** 多候選架構審查，勿於此內嵌 HTML scaffold。集結結構化數據（標題；每候選 before/after 節；推薦強度徽章：Strong / Worth exploring / Speculative；可選 Mermaid before/after 圖），調 `present:html-report`，其將自包含 Tailwind+Mermaid HTML 寫入 OS temp dir 並開啟。`present` 插件不可用則退回：寫純文本摘要至 temp dir 並印出路徑。Interface-design 探索：[INTERFACE-DESIGN.md](INTERFACE-DESIGN.md)。
 
 領域用 `.claude/rules/glossary.md` 語彙，架構用 LANGUAGE.md 語彙。遵 `.claude/rules/architecture.md` + `docs/adr/` 中之 ADR；候選若與現有 ADR 相牴，標出之（勿靜默重議）。

@@ -94,3 +94,7 @@ form:has(:invalid) button[type=submit] { opacity: 0.5; }
 - `examples/container-queries.css`
 - `examples/subgrid.css`
 - `examples/has.css`
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。

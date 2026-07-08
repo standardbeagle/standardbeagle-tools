@@ -102,3 +102,7 @@ agnt run claude
 ```
 
 agnt狀態欄在終端底部顯示運行中服務。
+
+## Related
+
+- config/reference: `photino:photino-development`

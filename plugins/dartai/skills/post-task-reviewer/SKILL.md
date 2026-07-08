@@ -1,6 +1,7 @@
 ---
 name: dartai-post-task-reviewer
 description: "Forked-context deep post-task reviewer — preloads verdict schema + OWASP security + deep code analysis + PM/docs accuracy + replan lens. 對抗深度後任務審查（fork上下文）。 Use when: dispatch post-task-reviewer subagent, deep review after fast gates, OWASP audit, PM/docs accuracy check, replan recommendation"
+disable-model-invocation: true
 context: fork
 agent: "dartai:post-task-reviewer"
 ---
@@ -61,3 +62,4 @@ If the runtime does not honor `context: fork`:
 - `dartai:adversarial-quality-loop` — the loop this reviewer closes
 - `dartai:code-quality` — refactor proposal pipeline used for replan
 - `dartai:agents/post-task-reviewer` — the reviewer agent that binds this skill
+- 檔案後端孿生：`workflow:post-task-reviewer`（file-backed 同一審查）。

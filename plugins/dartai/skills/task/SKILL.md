@@ -1,6 +1,7 @@
 ---
 name: dartai-task
 description: "\"Execute single task through quality pipeline. 通過品質管道執行單個任務。 Use when: run single task, execute dart task by id, task pipeline, implement one task, quality pipeline single task\""
+disable-model-invocation: true
 argument-hint: "\"<task-id or title>\""
 context: fork
 agent: "dartai:task-executor"

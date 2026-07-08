@@ -1,6 +1,7 @@
 ---
 name: test-driven-development
 description: "Test-first discipline — write failing test, watch it fail, minimal code to pass. 先寫測試，觀其敗，最小碼令過. RED-GREEN-REFACTOR iron law: NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST. Use when: implement feature, fix bug, refactor, behavior change, before writing implementation code. Skip: throwaway prototype, generated code, config files (ask human partner first)."
+disable-model-invocation: true
 ---
 
 # Test-Driven Development (TDD)

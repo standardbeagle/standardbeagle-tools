@@ -256,3 +256,7 @@ bridge.send = (msg: string) => {
 - 在agnt流量日志中查看請求/響應
 - 用agnt的`__devtool`函數進行DOM審查
 - AI代理響應時顯示Toast通知
+
+## Related
+
+- to run: `photino:photino-dev`

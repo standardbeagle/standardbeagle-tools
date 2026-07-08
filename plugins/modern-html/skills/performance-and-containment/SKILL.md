@@ -92,3 +92,8 @@ above-fold + `<link rel="preload" as="image" imagesrcset="...">` 加速。
 ## Refs
 
 - `examples/content-visibility.css`
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。
+- `modern-html:scroll-and-motion` — 滾動 / 動畫特性之來源，配對取用。

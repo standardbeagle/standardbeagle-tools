@@ -36,3 +36,7 @@ Use the `color` MCP server for precise, deterministic color operations rather th
 
 - The MCP server is a separate package (`@standardbeagle/color`); this plugin is only the Claude Code integration wrapper.
 - Register the server through `slop-mcp` per this project's conventions; the bundled `mcp.json.disabled` is intentional.
+
+## Related
+
+- `design-utilities:color-overview` — 工具全覽與 setup

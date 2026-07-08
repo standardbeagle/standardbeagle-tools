@@ -1,6 +1,7 @@
 ---
 name: dartai-loop-status
 description: "\"Show current Ralph Wiggum loop status and task progress. 顯示當前Ralph Wiggum循環狀態及任務進度。 Use when: check loop status, view task queue, loop progress, is loop running, current task\""
+disable-model-invocation: true
 ---
 
 # Loop Status
@@ -110,3 +111,7 @@ The §1/§2 status overview never makes this call — it operates on minimal-det
 - `/dartai:start` - Start the loop
 - `/dartai:task` - Execute single task
 - `/dartai:sync` - Sync changes to Dart
+
+## Related
+
+- 檔案後端孿生：`workflow:loop-status`（file-backed 同一狀態視圖）。

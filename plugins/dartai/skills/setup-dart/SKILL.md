@@ -1,6 +1,7 @@
 ---
 name: dartai-setup-dart
 description: "\"Set up dart-query MCP server with SLOP management and configure Dart access token. 以SLOP管理設置dart-query MCP服務器並配置Dart訪問令牌。 Use when: setup dart, configure dart token, install dart-query, first time setup, dart mcp server\""
+disable-model-invocation: true
 ---
 
 # Dart Query Setup

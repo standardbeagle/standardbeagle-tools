@@ -190,3 +190,9 @@ EOF
 - doc-updater: <docs updated>
 - marketing-seo: <public docs updated / no changes needed>
 ```
+
+---
+
+## Related
+
+- **`lci:pre-commit-review`** — 單一更改集之質量分析（重複、命名、複雜度，經`git_analysis`）。commit-all為編排器：其Phase 4之`lci:code-quality`代理即行此質量分析工作流；欲僅做提交前質量檢查而不自動提交，直接用`pre-commit-review`。勿於本技藝內聯重實現質量分析——分派代理即可。

@@ -42,3 +42,7 @@ Use the `design-token` MCP server for Style Dictionary-compatible token pipeline
 - Register the server through `slop-mcp` per this project's conventions; the bundled `mcp.json.disabled` is intentional.
 - The output schema follows the W3C Design Tokens Community Group spec with Style Dictionary compatibility for toolchain interop.
 - Pair with the `color` plugin for palette extraction and WCAG contrast verification before feeding values into `tokens_generate`.
+
+## Related
+
+- `design-utilities:design-token-overview` — 工具全覽與 setup

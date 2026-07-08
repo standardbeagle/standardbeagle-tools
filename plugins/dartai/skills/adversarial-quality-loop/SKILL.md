@@ -1,6 +1,7 @@
 ---
 name: dartai-adversarial-quality-loop
 description: "Adversarial cooperation loop for code quality verification with plan adjustment at each phase. 對抗協作循環：實施者與驗證者互相制衡，逐階調整計劃，確保代碼品質。 Use when: execute dart task, run quality pipeline, adversarial review, implement with verification"
+disable-model-invocation: true
 context: fork
 ---
 
@@ -129,3 +130,7 @@ Full protocol (clear/recreate, parallel dispatch prompts for all five always-on 
 - **`references/dispatch.md`** — Phase 3 reviewer dispatch playbook: prepare reports dir, parallel reviewer prompts (5 always-on + 2 conditional), verdict-file consumption rules, Monitor fallback, retry/skip handling.
 - **`references/eagle-eye.md`** — seven violation classes with full detection rules, pattern lists, examples, and verdict semantics. Load whenever the verifier role is active.
 - **`references/cite-verify.md`** — Phase 5.5 lightweight citation verification: form-specific check rules (file:line, symbol, git_sha, memory_id), retry budget, Tier separation.
+
+## Related
+
+- 檔案後端孿生：`workflow:adversarial-quality`（file-backed 同一循環）。

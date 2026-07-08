@@ -139,7 +139,7 @@ Parameters: {
 
 ## 相關技能
 
-> Invoke the `Skill` tool with `skill: agnt:error-watch` — 相同模式，用於錯誤與診斷。
+> **名稱僅差一字**——`event-watch`（本技能）串流用戶**互動**（面板訊息、點擊、草圖）；`error-watch` 串流**錯誤**與診斷。二者為同一 `watch` + Monitor 模式之互動半與錯誤半，勿混淆。Invoke `Skill` with `skill: agnt:error-watch` 取錯誤半。
 
 > Invoke the `Skill` tool with `skill: agnt:interaction-tracking` — 互動歷史與DOM變動之按需查詢。
 

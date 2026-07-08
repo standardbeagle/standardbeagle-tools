@@ -1,6 +1,7 @@
 ---
 name: dartai-task-relationships
 description: "Manage dart-query task relationships - subtasks, blockers, blocking, duplicates, related tasks with full replacement semantics. dart-query任務關係管理：子任務、阻塞、重複、相關，完全替換語義。 Use when: add subtask, set blocker, link related tasks, dependency chain, clear blockers"
+disable-model-invocation: true
 ---
 
 # Task Relationships with dart-query
@@ -401,3 +402,12 @@ mistake_5:
   result: "API error - update_task uses flat parameters"
   fix: "Pass fields directly: update_task(dart_id: X, blocker_ids: [Y]) not update_task(dart_id: X, updates: {blocker_ids: [Y]})"
 ```
+
+## Related
+
+同一 dart-query API 之不同切面之姊妹參考技藝：
+
+- `dartai:dart-query-reference` — 全工具總覽（24 工具）
+- `dartai:task-filtering` — 查詢/過濾/分頁
+- `dartai:batch-operations` — 批量寫/DartQL/CSV
+- `dartai:workspace-docs` — 工作區文檔/評論/時間/附件

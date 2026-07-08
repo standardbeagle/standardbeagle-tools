@@ -127,3 +127,8 @@ Windows High Contrast + Forced Colors 模式皆用。
 - `aria-hidden="true"` 於可 focus 元素 — 焦至不可名。
 - 自製 dropdown 無鍵盤 — 試 `popover` 先。
 - 動畫無 `prefers-reduced-motion` 守。
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。
+- `modern-html:native-form-controls` — 表單控件 a11y 之源，配對取用。

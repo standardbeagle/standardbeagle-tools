@@ -606,6 +606,12 @@ Parameters: {
 
 ## 相關技能
 
+此三技能重疊於佈局/DOM視覺化，分工：本技能繪頁面上之**視覺疊層**（輪廓、網格、字排、z序高亮）。
+
+> Invoke the `Skill` tool with `skill: agnt:browser-diagnostics` — 逐元素程式化**檢測數據**（getBox/inspect/findOverflows，無視覺疊層）。
+
+> Invoke the `Skill` tool with `skill: agnt:analyze-frontend` — 一次性**綜合稽核**報告（DOM複雜度+CSS+溢出+堆疊）。
+
 > Invoke the `Skill` tool with `skill: agnt:responsive-check` — 響應式佈局風險檢測。
 
 > Invoke the `Skill` tool with `skill: agnt:browser-debug` — 元素檢查與互動追蹤。

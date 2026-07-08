@@ -309,3 +309,7 @@ input, select, textarea {
 - [ ] No horizontal scrolling
 - [ ] Text readable without zoom
 - [ ] Images scale appropriately
+
+## Related
+
+- `ux-design:responsive-patterns` — 重疊之斷點/響應視角：本技藝主移動優先實作與觸控/性能，彼主響應式策略與自適應佈局設計（跨 plugin 對照）。

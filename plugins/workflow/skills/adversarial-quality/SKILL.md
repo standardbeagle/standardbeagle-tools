@@ -751,3 +751,7 @@ failure_handling:
 此技能由 `workflow:task-executor` 代理調用，以運行任務的完整品質循環。
 
 見 `loop-orchestration.md` 瞭解此技能如何融入整體循環。
+
+## Related
+
+- Dart 後端孿生：`dartai:adversarial-quality-loop`（Dart-backed 同一循環）。

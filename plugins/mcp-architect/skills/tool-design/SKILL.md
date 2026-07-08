@@ -291,3 +291,8 @@ function validateInput(params) {
 - Lookup: 150-250 tokens
 - Analysis: 400-600 tokens
 - Management: 50-150 tokens
+
+## Related
+
+- `mcp-architect:response-optimization` — 人機雙讀 + 自動化標誌 + 漸進詳情之響應定形。
+- `mcp-architect:context-compression` — token 高效響應之深入：壓縮、預算、縮寫。

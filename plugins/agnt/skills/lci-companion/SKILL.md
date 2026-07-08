@@ -10,9 +10,9 @@ agnt司瀏覽器與進程控制。**讀解代碼**——符號定義、引用、
 
 ## 何時用lci而非agnt
 
-- "Where is `foo` defined?" → lci `search` / `code-context`
-- "What calls this function?" → lci `code-context` (call hierarchy)
-- "How does this codebase fit together?" → lci `explore`
+- "Where is `foo` defined?" → lci `search-code` / `trace-symbol`
+- "What calls this function?" → lci `trace-symbol` (call hierarchy)
+- "How does this codebase fit together?" → lci `explore-codebase`
 - 凡需反覆 `Grep` 之中大型倉庫皆用lci
 
 LCI溫索引下通常**亞毫秒**，相比Grep探索削減上下文用量約80%，長代理回合尤為重要。

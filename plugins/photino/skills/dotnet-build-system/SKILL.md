@@ -244,3 +244,7 @@ dotnet sln add tests/MyApp.Tests/MyApp.Tests.csproj
   </ItemGroup>
 </Project>
 ```
+
+## Related
+
+- to run: `photino:photino-build`

@@ -56,3 +56,4 @@ description: "Routes any UX / accessibility / frontend-UX intent to the one righ
 - `a11y-specialist` 代理 — 深度無障礙（認證/VPAT/複雜組件）。
 - `component-designer` 代理 — 組件由規格至實現之全流程。
 - `flow-analyst` 代理 — 用戶旅程映射與 agnt 實時測試。
+- `ux-design:*`（姊妹 plugin）— 實作之上游設計對應：元件設計、視覺層次、無障礙決策、design token、響應策略。

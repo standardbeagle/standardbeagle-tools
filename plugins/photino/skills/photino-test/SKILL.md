@@ -124,3 +124,7 @@ pnpm run check
 - **時序敏感測試**：進程退出測試可能存在競爭條件。用帶超時之`TaskCompletionSource`。
 - **Runspace冷啟動**：創建PowerShell會話之首個測試耗時1-2秒。用`IClassFixture<>`在類內共享會話。
 - **前端類型檢查**：與`dotnet test`分開運行——使用Node.js工具鏈。
+
+## Related
+
+- config/reference: `photino:photino-testing`

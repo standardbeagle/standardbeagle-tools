@@ -189,3 +189,8 @@ const primaryColor = tokens.colors.primary['500'].value;
 2. **CI/CD 集成**：設計變更時自動重新導出
 3. **優先 JSON**：靈活，可向下游任意格式轉換
 4. **記錄映射**：標注 Figma 樣式與令牌的對應關係
+
+## Related
+
+- `figma-query:figma-tokens` — 上游：導出前逐節點核查 boundVariables 引用與解析值。
+- `figma-query:figma-css` — 令牌與從節點抽取之 CSS 配合，成完整樣式系統。

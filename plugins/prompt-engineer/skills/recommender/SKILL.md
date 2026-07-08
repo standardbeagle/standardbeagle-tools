@@ -35,7 +35,8 @@ description: "Routes any prompt-engineering intent to the one right manual promp
 | 語境工程原理與架構設計 | `prompt-engineer:context-engineering` |
 | 審計語境視窗使用/診斷 context rot | `prompt-engineer:context-audit` |
 | 壓縮語境以適應 token 限制 | `prompt-engineer:compress-context` |
-| 防禦提示架構/注入防護/安全護欄 | `prompt-engineer:prompt-scaffolding`（見 Disambiguation） |
+| 防禦提示架構/注入防護/安全護欄（原理參考） | `prompt-engineer:prompt-scaffolding`（見 Disambiguation） |
+| 動手創建防禦架構/注入加固之提示 | `prompt-engineer:scaffold-prompt`（見 Disambiguation） |
 
 ## Disambiguation
 
@@ -45,6 +46,7 @@ description: "Routes any prompt-engineering intent to the one right manual promp
 - **優化**：手動應用技術改善單一提示 → `prompt-engineer:optimize-prompt`；程序化迭代、定指標、跑 A/B 或回歸 → `prompt-engineer:automatic-optimization`。
 - **優化 vs 評估**：改提示 → `optimize-prompt` / `automatic-optimization`；量度提示質量、前後對比、建回歸套件 → `prompt-engineer:eval-prompt`。
 - **模式**：泛覽策略選型 → `prompt-engineer:prompt-patterns`；專攻推理鏈 → `prompt-engineer:chain-of-thought`。
+- **模式 vs 少樣本**：泛覽全部模式索引 → `prompt-engineer:prompt-patterns`；深攻示例設計（DICE） → `prompt-engineer:few-shot-design`。
 - **語境三技**：設計架構/token 預算 → `context-engineering`；審計既有用量/診斷 bloat → `context-audit`；實際壓縮以適 window → `compress-context`。
 - **模型專屬**：目標 Claude → `claude-optimization`；其他 LLM 家族 → `model-specific`。
 

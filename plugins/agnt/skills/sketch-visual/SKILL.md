@@ -683,3 +683,9 @@ Parameters: {
 - 複雜會話中頻繁保存JSON導出
 - 用 `clearAllOverlays()` 重置視覺狀態
 - 同時導出PNG和JSON供完整記錄
+
+---
+
+## 相關技能
+
+> Invoke the `Skill` tool with `skill: agnt:sketch-mode` — 精簡子集，僅草圖開啟/工具/儲存之快速流程；此技能為其超集。

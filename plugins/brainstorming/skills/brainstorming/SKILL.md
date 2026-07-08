@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "創作前必用：探用戶意圖、需求、設計，先於實作。Explore user intent + requirements + design before implementation. Turn ideas into design + spec via dialogue. MUST use before any creative work. Terminal handoff → /worktrack:plan. Use when: creating features, building components, adding functionality, modifying behavior, designing new things. Skip: pure bug fix with clear repro, mechanical refactor, doc-only changes."
+description: "創作前必用：探用戶意圖、需求、設計，先於實作。Explore user intent + requirements + design before implementation. Turn ideas into design + spec via dialogue. MUST use before any creative work. Terminal handoff → /worktrack:plan. Use when: creating features, building components, adding functionality, modifying behavior, designing new things. Skip: pure bug fix with clear repro, mechanical refactor, doc-only changes; user has no concrete idea yet / wants options generated → ideation:ideate."
 ---
 
 <!--
@@ -19,6 +19,10 @@ the `cards` kind is documented under I4 follow-up.
 # Brainstorming Ideas Into Designs
 
 助化念為成設計與 spec，經自然協對話。
+
+## Related
+
+- `ideation:ideate` — 上游發散步。User 尚無具體念、欲先生選項時，先呼 `ideation:ideate` 生候選，收斂出一念後再入 brainstorming 化其為設計。（ideation 為單技藝手動 plugin，僅 `/ideation:ideate` 顯調可達。）
 
 先明 project 當 context，後批問以精煉念。明所建後，呈設計，取 user 許。
 

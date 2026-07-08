@@ -292,3 +292,9 @@ Generate skeleton with:
 - 確保**可交接**給初級開發者
 
 目標：提供完整設計文檔，使開發者無需做出主要架構決策即可實現。
+
+## Related
+
+- `mcp-architect:tool-design` — 單一工具之模式與響應細化。
+- `mcp-architect:mcp-architecture` — 多工具整體架構、分組、命名。
+- `mcp-architect:progressive-discovery` — 能力分層探索（info 工具）設計。

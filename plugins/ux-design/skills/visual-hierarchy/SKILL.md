@@ -410,3 +410,7 @@ Helper text (smallest, muted)
 - **The Art of Layout** - Various books
 - **Grid Systems in Graphic Design** - Josef Müller-Brockmann
 - **Making and Breaking the Grid** - Timothy Samara
+
+## Related
+
+- `ux-developer:content-hierarchy` — 姊妹視角：本技藝主視覺重量/構圖/注意力流，彼主語義標題層級與 IA（h1–h6/地標/可掃描）。設計定重點，開發定語義結構，二者宜對齊（跨 plugin）。

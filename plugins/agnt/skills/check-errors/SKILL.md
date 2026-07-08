@@ -28,3 +28,13 @@ allowed-tools: "[\"mcp__agnt__proxylog\", \"mcp__agnt__proxy\"]"
    ```
 
 注：代理ID "dev" 為預設值。若用戶有不同代理在運行，應指定其ID。
+
+---
+
+## 相關技能
+
+錯誤技能三態軸：**快照 snapshot** / **聚合 aggregate** / **串流 stream**。此技能為**快照**——單次 `proxylog` 點查一個代理之錯誤條目。
+
+> Invoke the `Skill` tool with `skill: agnt:error-monitor` — **聚合**：`get_errors` 跨代理/進程去重堆疊、濾噪音、標記來源。
+
+> Invoke the `Skill` tool with `skill: agnt:error-watch` — **串流**：`watch` + Monitor 即時推送，錯誤發生瞬間送達。

@@ -267,3 +267,7 @@ mcp__plugin_slop-mcp_slop-mcp__slop_reference
 - Invoke the `Skill` tool with `skill: slop-mcp:memory-system` — 雙層記憶深度指南：會話 `store_*` 與持久 `mem_*`、元數據 / 發現原語、memory-cli 互操作、`_slop.*` 寫屏障。
 - Invoke the `Skill` tool with `skill: slop-mcp:discovery-first` — `execute_tool` 前須先 `get_metadata` / `search_tools`。SLOP 腳本中 `tools.call` / `execute_tool` 亦遵此律。
 - Invoke the `Skill` tool with `skill: slop-mcp:event-monitoring` — `slop-mcp monitor` 子命令運行之 monitor 腳本亦為 SLOP，以 `mem_save` / `mem_load` 存 last-seen 游標跨進程重啟不丟狀態。
+
+## Related
+
+- `slop-coder` plugin — SLOP **語言**權威：builtins 簽名、語法 / 運算符 / 控制流、模組系統、agent/pipeline 慣用範式。本技藝專司**執行**（`run_slop`、custom_tool body、MCP 集成、記憶原語），語言深度文檔應轉 slop-coder，勿於此重述。入口 `slop-coder:recommender` 網關，或直取 `slop-coder:builtins` / `slop-coder:language-reference` / `slop-coder:patterns` / `slop-coder:modules`。

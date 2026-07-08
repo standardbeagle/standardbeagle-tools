@@ -157,3 +157,8 @@ system colors：`Canvas CanvasText LinkText VisitedText ButtonFace ButtonText Fi
 ## Refs
 
 - `examples/light-dark.css`
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。
+- `modern-html:css-architecture` — 主題 token 於 layer / scope 中落位，配對取用。

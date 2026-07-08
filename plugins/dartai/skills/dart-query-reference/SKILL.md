@@ -1,6 +1,7 @@
 ---
 name: dartai-dart-query-reference
 description: "Complete dart-query MCP tool reference - all 24 tools with parameters, types, and usage patterns. Use dart-query over official Dart MCP. dart-query完整MCP工具參考：24工具、參數、類型、用法。優先用dart-query。 Use when: dart-query tool help, MCP tool parameters, create task, list tasks, batch operations, dart API reference"
+disable-model-invocation: true
 ---
 
 # dart-query MCP Tool Reference
@@ -419,3 +420,12 @@ required:
 - 僅需全部關係類型時用`detail_level: full`
 - get_task響應較小時用`include_relationships: false`
 - get_config用`include`參數限制響應部分
+
+## Related
+
+同一 dart-query API 之不同切面之姊妹參考技藝：
+
+- `dartai:task-filtering` — 查詢/過濾/分頁
+- `dartai:task-relationships` — 子任務/阻塞/相關
+- `dartai:batch-operations` — 批量寫/DartQL/CSV
+- `dartai:workspace-docs` — 工作區文檔/評論/時間/附件

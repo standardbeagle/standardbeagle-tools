@@ -1,6 +1,7 @@
 ---
 name: dartai-start
 description: "\"Start Ralph Wiggum adversarial cooperation loop on dartboard with plan adjustment. 在看板上啟動Ralph Wiggum對抗合作循環，含計劃調整。 Use when: start execution loop, run dartboard tasks, begin adversarial loop, automate task execution, process task queue\""
+disable-model-invocation: true
 argument-hint: "\"[dartboard-name]\""
 ---
 
@@ -1210,3 +1211,8 @@ context_sized_task:
 
 或安全問題立即停止：
 - "security critical"（發現關鍵漏洞時）
+
+## Related
+
+- 循環派發之審查子代理：`dartai:code-quality-reviewer`、`dartai:qa-reviewer`、`dartai:post-task-reviewer`。
+- 檔案後端孿生：`workflow:start-loop`（file-backed 同一循環）。

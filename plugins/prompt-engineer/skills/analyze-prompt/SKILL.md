@@ -2,7 +2,6 @@
 name: prompt-engineer-analyze-prompt
 description: "\"Analyze prompts for clarity, effectiveness, and optimization opportunities. 分析提示之清晰度、有效性及優化機會。 Use when: reviewing existing prompts, identifying issues before deployment, generating improvement recommendations.\""
 disable-model-invocation: true
-allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---
 
 以 2026 最新提示工程原則分析提示或系統提示，識別改進機會。
@@ -147,3 +146,11 @@ Return the improved code with inline comments explaining each change.
 ```
 
 Score: 8/10 - Clear task, specific focus areas, defined output format
+
+## Related
+
+診斷→施治→量度之工作流鏈：
+
+- `prompt-engineer:optimize-prompt` — 診出問題後，於此施加優化技術。
+- `prompt-engineer:eval-prompt` — 優化後以指標量度前後之效。
+- `prompt-engineer:claude-optimization` — 本技藝內 Claude 專屬步驟僅點到即止；Claude 特調（Opus/Sonnet/Haiku）詳見此，勿在此重述。

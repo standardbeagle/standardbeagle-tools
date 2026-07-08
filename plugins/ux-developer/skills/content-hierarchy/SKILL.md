@@ -358,3 +358,7 @@ p {
 - [ ] Scannable with headings, lists, short paragraphs
 - [ ] Color contrast supports hierarchy
 - [ ] Headings are descriptive (not "Click here", "Section 1")
+
+## Related
+
+- `ux-design:visual-hierarchy` — 姊妹視角：本技藝主語義標題層級與資訊架構，彼主視覺重量/構圖/注意力流。語義結構須映射視覺重點（跨 plugin）。

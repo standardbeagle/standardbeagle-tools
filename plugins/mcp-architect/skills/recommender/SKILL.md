@@ -49,3 +49,4 @@ description: "Routes any MCP-server design/architecture intent to the one right 
 
 - `mcp-architect:design-mcp` — 新服務器之端到端設計入口。
 - `mcp-architect:mcp-examples` — 諸模式之真實產品級參照。
+- `mcp-tester` 插件 — 設計既定後，測試運行中之伺服器（連線、綱要、流量、熱換）。

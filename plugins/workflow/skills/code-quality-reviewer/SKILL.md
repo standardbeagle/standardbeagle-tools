@@ -57,3 +57,4 @@ If the runtime does not honor `context: fork`:
 - `dartai:verdict-schema` — wire format (canonical, shared)
 - `workflow:adversarial-quality` — full quality loop playbook
 - `workflow:agents/code-quality-reviewer` — the reviewer agent that binds this skill
+- Dart 後端孿生：`dartai:code-quality-reviewer`（Dart-backed 同一審查）。

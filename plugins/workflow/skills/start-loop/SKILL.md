@@ -181,3 +181,7 @@ Say any of: "stop the loop" | "cancel workflow" | "pause execution" | `/workflow
 ## Companion Reference
 
 - **`references/dispatch-examples.md`** — full task-list format spec, loop-state JSON schema, plan-meta KDL shape, atomic rotation step-by-step (with verify+rollback), driver read discipline, dispatch prompt compression rules + executor template, worked iteration example, Dart fetch discipline, status reporting template.
+
+## Related
+
+- Dart 後端孿生：`dartai:start`（Dart-backed 同一循環）。

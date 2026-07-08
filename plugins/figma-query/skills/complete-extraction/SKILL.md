@@ -498,7 +498,7 @@ Total size: 87.3 MB
 
 ## Usage
 
-此技能由 `/extract-library` 命令調用，參數：
+此技能由 `/adversarial-design-library` 命令調用，參數：
 ```yaml
 file_key: "FILE_KEY"
 output_dir: "./docs"

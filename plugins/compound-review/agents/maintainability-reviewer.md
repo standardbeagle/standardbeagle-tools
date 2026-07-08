@@ -39,6 +39,25 @@ Frontmatter normalized per R1 §2.2 (tools→allowed-tools, bilingual triggers).
 
 辨碼異味及反模式指標：`TODO`/`FIXME`/`HACK`/`XXX`註釋、職責過多之God物件、循環依賴、類別間不當親密、Feature envy。報具體檔案及行號附嚴重度評估。
 
+## Fowler 碼異味基線（_Refactoring_ ch.3）
+
+診斷 diff 時掃此固定異味集，補上結構性視角。**二律束之：**（1）**已文檔化之項目規範覆蓋基線**——規範認可者，壓制之；（2）**恆為判斷式**——各異味乃標記啟發（「疑似 Feature Envy」），非硬違規，且工具（linter/formatter/type-checker）已強制者略過。異味 = `warn` + advisory，除非結構問題客觀可證方 `fail`。
+
+各異味讀作 *是何* → *如何修*：
+
+- **Mysterious Name**——名不表其所為之函數/變數/類型。→ 改名；無誠實之名則設計本渾。
+- **Duplicated Code**——同一邏輯形出現於多 hunk/檔。→ 提取共形，兩處共調。
+- **Feature Envy**——方法探他物之資料多於己。→ 移方法至其所羨之資料上。
+- **Data Clumps**——同數欄/參恆相伴而行（一類型欲生）。→ 束為一類型傳之。
+- **Primitive Obsession**——以基元/字串充應有己類型之領域概念。→ 予概念一小類型。
+- **Repeated Switches**——同型之 `switch`/`if` 級聯散現多處。→ 以多態代之，或兩處共一 map。
+- **Shotgun Surgery**——一邏輯變更迫散改多檔。→ 聚同變者入一模組。
+- **Divergent Change**——一檔為數個無關緣由被改。→ 拆之使各模組僅因一緣由變。
+- **Speculative Generality**——為 spec 無之需而加之抽象/參/hook。→ 刪之，內聯回退至真需現。
+- **Message Chains**——調用者不當依賴之長串 `a.b().c().d()` 導航。→ 以首物一方法藏此步。
+- **Middle Man**——多只轉委之類/函數。→ 除之，直調真標的。
+- **Refused Bequest**——忽略或覆蓋所繼多者之子類。→ 棄繼承，用組合。
+
 ## Simplicity / YAGNI（自`ce-code-simplicity-reviewer`折入）
 
 逐行質疑必要性。非當前需求所需者，標記移除：

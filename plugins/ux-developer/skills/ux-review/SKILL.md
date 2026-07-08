@@ -112,3 +112,7 @@ proxy {action: "exec", id: "ux-review", code: "__devtool.auditAccessibility()"}
 1. 為每項問題在項目追蹤器中創建任務
 2. 生成含代碼示例的修復建議
 3. 通過agnt代理設置持續監控
+
+## Related
+
+- `ux-design:ux-audit` — 姊妹 Nielsen 啟發評估：本審查由 agnt runtime 實測真實頁，彼針對設計稿/運行前 mockup。二者互補，勿合併（跨 plugin）。

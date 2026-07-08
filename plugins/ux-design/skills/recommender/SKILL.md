@@ -47,3 +47,4 @@ description: "Routes any UX / visual-design intent to the one right manual ux-de
 
 - `ux-design:accessibility` — 貫穿色彩、元件、字體諸技藝之橫切校驗，宜隨行。
 - `design-consultant` 代理 — 融合多設計學科之整體設計諮詢協調者。
+- `ux-developer:*`（姊妹 plugin）— 設計交予實作對應：組件/無障礙/響應/Nielsen 審查之開發實現側。

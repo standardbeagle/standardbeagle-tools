@@ -187,3 +187,9 @@ get_node: node_id: "child_id", select: [...]
 - `list_components` - 全部組件 ID
 - `wireframe` - 帶 ID 圖例的可視化
 - Figma URL: `figma.com/file/KEY?node-id=1:234`
+
+## Related
+
+樹→節點→CSS 之下鑽鏈：
+- `figma-query:figma-tree` — 上游：取文件結構樹與 node ID。
+- `figma-query:figma-css` — 下游：從此節點抽生產級 CSS。

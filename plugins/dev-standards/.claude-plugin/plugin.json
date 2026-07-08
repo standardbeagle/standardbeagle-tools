@@ -1,6 +1,6 @@
 {
   "name": "dev-standards",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
   "author": {
     "name": "Standard Beagle",

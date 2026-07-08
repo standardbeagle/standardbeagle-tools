@@ -716,3 +716,19 @@ Parameters: {
 5. **清理**
    - [ ] 完成後清除覆蓋層
    - [ ] 必要時清除互動/變動歷史
+
+---
+
+## 相關技能
+
+此為傘技能，合併下列原子技能於單一除錯工作流；深入單一面向時取對應原子技能：
+
+> Invoke the `Skill` tool with `skill: agnt:browser-diagnostics` — 元素檢測與佈局診斷數據（inspect/getBox/findOverflows）。
+
+> Invoke the `Skill` tool with `skill: agnt:visual-diagnostics` — 佈局視覺疊層（輪廓、網格、z序）。
+
+> Invoke the `Skill` tool with `skill: agnt:interaction-tracking` — 互動歷史與DOM變動之按需查詢。
+
+> Invoke the `Skill` tool with `skill: agnt:sketch-visual` — 草圖標注與視覺高亮工具。
+
+> Invoke the `Skill` tool with `skill: agnt:error-monitor` — 聚合錯誤檢查（除錯前先查）。

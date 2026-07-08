@@ -68,6 +68,7 @@ Verify by calling `list_tools` on the registered server.
 
 ## Related
 
+- `design-utilities:design-token-quick-start` — 工具調用速查
 - `ux-design:design-tokens` — design-time token system planning skill
 - `color` plugin — palette extraction and contrast checks that feed token generation
 - `figma-query` plugin — extract design tokens from Figma files as input to `tokens_generate`

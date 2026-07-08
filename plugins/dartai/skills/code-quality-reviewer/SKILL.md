@@ -1,6 +1,7 @@
 ---
 name: dartai-code-quality-reviewer
 description: "Forked-context code-quality reviewer — preloads verdict schema + coherence/bloat/completeness/duplication/cleanup lens. 對抗代碼品質審查（fork上下文）。 Use when: dispatch code-quality-reviewer subagent, adversarial code review, gate on quality, when reviewer must not pollute main thread"
+disable-model-invocation: true
 context: fork
 agent: "dartai:code-quality-reviewer"
 ---
@@ -57,3 +58,4 @@ If the runtime does not honor `context: fork`:
 - `dartai:verdict-schema` — wire format
 - `dartai:code-quality` — quality checklist + refactor proposal pipeline
 - `dartai:agents/code-quality-reviewer` — the reviewer agent that binds this skill
+- 檔案後端孿生：`workflow:code-quality-reviewer`（file-backed 同一審查）。

@@ -1,6 +1,7 @@
 ---
 name: dev-standards-add-skill
 description: "Create new project-specific skill in `.claude/skills/` to codify recurring pattern. 在項目中新建可複用技能。 Use when: add skill, create skill, new skill, codify pattern, make reusable workflow"
+disable-model-invocation: true
 ---
 
 # Add Skill
@@ -120,3 +121,7 @@ Skill created:
   References:  [list or "none"]
   Scripts:     [list or "none"]
 ```
+
+## Related
+
+- `dev-standards:skill-description-style` — Step 4 生成 SKILL.md 之 `description` 欄，必依此風格規則（概念精簡 → caveman/wenyan 壓縮）。

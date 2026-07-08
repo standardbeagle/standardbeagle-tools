@@ -24,6 +24,23 @@ Figma 以多種方式存儲資產：
 
 **無 ExportSettings 的矢量圖標默認不導出！**
 
+## Asset Types in Figma
+
+Figma 以多種方式存儲可導出資產。完整審計須覆蓋以下八類：
+
+| # | 類型 / Type | 位置 / Location | 檢測 / Detection |
+|---|---|---|---|
+| 1 | Image Fills | `node.fills[].imageRef` | 查 FRAME/RECTANGLE/ELLIPSE，投影 `@images` |
+| 2 | Background Images | `node.background[].imageRef` | 同上；背景含於 `@images` |
+| 3 | Image Strokes | `node.strokes[].imageRef` | `@images` 投影含描邊圖 |
+| 4 | GIF Images | `node.fills[].gifRef` | `@images` 已含 |
+| 5 | Vector Icons | 節點自身即圖像數據（無 imageRef） | 查 `VECTOR/STAR/LINE/ELLIPSE/REGULAR_POLYGON/BOOLEAN_OPERATION`，須渲染導出 |
+| 6 | Component Icons | 含矢量子節點之 FRAME/COMPONENT/INSTANCE | 按名 `*icon*` 或按尺寸 `≤64px` 搜索 |
+| 7 | Export-Settings Nodes | `node.exportSettings[]` | `sync_file` 自動處理；亦可查 `exportSettings: {$exists: true}` |
+| 8 | Text with Image Fills | `node.style.fills[].imageRef`（TEXT 節點） | 查 `TEXT`，投影 `@images` |
+
+**要點：** 第 5 類（裸矢量）與第 8 類（文本圖像填充）最易漏——`sync_file` 僅取 imageRef 資源與顯式 exportSettings，須顯式查詢並渲染導出。
+
 ## Workflow
 
 ### Step 1: Initial sync to get image fills

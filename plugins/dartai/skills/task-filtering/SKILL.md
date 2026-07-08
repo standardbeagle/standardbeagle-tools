@@ -1,6 +1,7 @@
 ---
 name: dartai-task-filtering
 description: "Master dart-query filtering - list_tasks filters, search_tasks queries, detail levels, pagination, query composition patterns. 精通dart-query過濾：list_tasks過濾器、search_tasks查詢、詳情層級、分頁、查詢組合模式。 Use when: filter tasks by status, search tasks, paginate results, query by assignee, list by due date"
+disable-model-invocation: true
 ---
 
 # Task Filtering with dart-query
@@ -432,3 +433,12 @@ avoid_n_plus_1:
   - "Use expand_relationships on get_task to get titles in one call"
   - "Batch operations instead of individual updates in loops"
 ```
+
+## Related
+
+同一 dart-query API 之不同切面之姊妹參考技藝：
+
+- `dartai:dart-query-reference` — 全工具總覽（24 工具）
+- `dartai:task-relationships` — 子任務/阻塞/相關
+- `dartai:batch-operations` — 批量寫/DartQL/CSV
+- `dartai:workspace-docs` — 工作區文檔/評論/時間/附件

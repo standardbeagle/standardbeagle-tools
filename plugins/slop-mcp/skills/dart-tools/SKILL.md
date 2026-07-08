@@ -432,3 +432,7 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 所有 Dart ID 為12字符字母數字字符串，匹配模式 `^[a-zA-Z0-9]{12}$`。
 
 Example: `abc123def456`
+
+## Related
+
+- `dart-query` plugin — Dart 任務**語義**權威：更全之 CRUD、增量更新、關係、querying / 全文搜 / 分頁、DartQL、批量、生命周期、workspace 文檔/時間、監察、重複任務、PM 配方。本技藝為 **SLOP-執行** 參考（經 `execute_tool` 調 21 工具之參數/響應），任務語義與更豐工作流歸 dart-query。入口 `dart-query:recommender` 網關。

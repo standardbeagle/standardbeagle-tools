@@ -183,3 +183,8 @@ get_node: node_id: "...", select: ["@css", "@tokens"]
 | 500 | Default exploration |
 | 1000 | Comprehensive view |
 | 2000+ | Full file analysis (may be slow) |
+
+## Related
+
+樹→節點→CSS 之下鑽鏈：
+- `figma-query:figma-node` — 由樹得 node ID 後，取單節點完整詳情。

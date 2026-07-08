@@ -63,6 +63,7 @@ Verify by calling `list_tools` on the registered server.
 
 ## Related
 
+- `design-utilities:image-processing-quick-start` — 工具調用速查
 - `color` plugin — deeper color operations on the palette extracted here (contrast, blindness simulation, conversion)
 - `design-token` plugin — emit brand palette colors (from `palette_from_image`) as design tokens
 - `typography` plugin — pair with image optimization for complete web-delivery payload shrinkage

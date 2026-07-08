@@ -63,6 +63,7 @@ Verify by calling `list_tools` on the registered server.
 
 ## Related
 
+- `design-utilities:typography-quick-start` — 工具調用速查
 - `ux-design:typography-system` — design-time typography system planning skill
 - `design-token` plugin — export typography tokens (font-family, font-size, line-height) to CSS/Tailwind/SCSS
 - `color` plugin — WCAG contrast verification for text color vs background

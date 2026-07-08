@@ -316,3 +316,7 @@ test_verification:
   - "Test names describe the behavior being verified"
   - "Tests go RED when the feature is removed (not vacuously passing)"
 ```
+
+## Related
+
+- Dart 後端孿生：`dartai:testing-strategy`（Dart-backed 同一測試策略）。

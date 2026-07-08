@@ -1,6 +1,7 @@
 ---
 name: dev-standards-update-project
 description: "Re-detect tech stack, compare against current config, and update rules, CLAUDE.md, and hooks. 重新檢測技術棧，更新規則、CLAUDE.md 及鉤子。 Use when: update project, refresh project settings, re-detect languages, update CLAUDE.md, refresh hooks, reconfigure dev standards"
+disable-model-invocation: true
 ---
 
 # Update Project
@@ -142,3 +143,7 @@ Project update complete:
   MCP servers:    [changes or "no changes"]
   Hooks:          [refreshed or "no changes"]
 ```
+
+## Related
+
+- `dev-standards:update-rules` — 逐條規則之增/改/刪 CRUD 委由此技藝，勿於 update-project 內重造。update-project 主司技術棧重測與整體協調，遇具體規則變更則轉調 update-rules。

@@ -43,3 +43,4 @@ description: "Routes any Dart / dart-query task-management intent to the one rig
 
 - `dart-query:discovery` — 任何操作前之能力與工作區配置載入，宜先行。
 - `dart-query:setup-dart-query` — 首次連接 Dart 之安裝與令牌配置。
+- `slop-mcp` plugin — 經 SLOP `execute_tool` 暴露同一批 Dart 工具（`slop-mcp:dart-tools` 參數參考、`slop-mcp:dart-task-workflow` 逐步流）。若已走 slop-mcp 執行路徑，任務語義仍以本 dart-query 諸技藝為準。

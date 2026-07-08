@@ -42,3 +42,7 @@ Use the `image-processing` MCP server for raster and vector image pipelines - op
 - AVIF encoding is CPU-expensive - use `effort: 4` for fast previews and `effort: 9` for final output.
 - Pair palette extraction with `color` plugin tools to validate WCAG contrast and simulate color blindness before committing brand colors.
 - Pair responsive/optimization output with `a11y-audit` to verify `alt` attributes and contrast on text overlays.
+
+## Related
+
+- `design-utilities:image-processing-overview` — 工具全覽與 setup

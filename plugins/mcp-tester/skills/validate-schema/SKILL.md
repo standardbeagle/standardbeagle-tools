@@ -39,3 +39,7 @@ arguments: " - name: server description: Server name to validate required: true 
 - 無效模式可致工具呼叫意外失敗
 - 輸入驗證確保資料符合伺服器預期
 - 部署前及早捕捉模式問題
+
+## Related
+
+- `mcp-tester:validate-mcp-server` — 驗整體實現（連線 + 工具發現 + 功能行為）。

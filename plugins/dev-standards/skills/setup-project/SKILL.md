@@ -1,6 +1,7 @@
 ---
 name: dev-standards-setup-project
 description: "\"Set up project with dev standards — rules, skills, and hooks. 配置項目以開發規範，立規則、技能、鉤子. Use when: setup dev standards, configure project rules, install dev hooks, bootstrap project standards, apply standard rules\""
+disable-model-invocation: true
 ---
 
 以下模板文件位於 `${CLAUDE_PLUGIN_ROOT}/assets/templates/`。
@@ -104,7 +105,7 @@ Detected:
   Existing config: [list or "none"]
 ```
 
-逐一提問，待答後方問下一問。
+批量前置提問：將相關問題束為一組，一次呈多問（`AskUserQuestion` 至多 4），勿逐一串問；唯「答之會重構其餘」之樞紐問方單先問。
 
 ### Question 1: Confirm Detection
 
@@ -164,7 +165,7 @@ DDD、SaaS、web app 默認 **full**。library 與 CLI 默認 **standard**。腳
 
 ## Phase 3 -- External Dependencies
 
-詢問用戶外部依賴，逐一提問。
+詢問用戶外部依賴——Q5-Q7 相關，束為一組批量呈問，勿逐一串問。
 
 ### Question 5: Databases and Storage
 
@@ -180,7 +181,7 @@ DDD、SaaS、web app 默認 **full**。library 與 CLI 默認 **standard**。腳
 
 ## Phase 4 -- Project Context
 
-詢問用戶項目上下文，逐一提問。
+詢問用戶項目上下文——相關問題束為一組批量呈問，勿逐一串問。
 
 ### Question 8: Project Description
 

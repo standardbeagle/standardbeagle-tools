@@ -336,3 +336,10 @@ Output as structured report with executive summary.
 | Code generation | PAL + structured output |
 | Classification | Few-shot with examples |
 | Summarization | Template + constraints |
+
+## Related
+
+本技藝為模式總索引；深攻其一者移交：
+
+- `prompt-engineer:few-shot-design` — Few-shot 一格之深入：DICE 框架設計示例。
+- `prompt-engineer:chain-of-thought` — 推理鏈一格之深入：CoT/ToT/ReAct/PoT。

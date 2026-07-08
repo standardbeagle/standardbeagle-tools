@@ -114,3 +114,7 @@ a11y：`<summary>` 自報 button + `disclosure` role。勿覆 ARIA。
 - `examples/details-accordion.html`
 - `examples/invokers.html`
 - `references/a11y-notes.md`
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。

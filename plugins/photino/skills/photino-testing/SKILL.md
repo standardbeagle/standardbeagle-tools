@@ -342,3 +342,7 @@ cd src/MyApp.Frontend && pnpm run check
 | Timing-sensitive exit tests | Process exit events race with assertions | Use `TaskCompletionSource` with timeout |
 | Runspace cold start | First test in suite takes 1-2s for runspace init | Use `IClassFixture` to share sessions |
 | CI lacks WebKitGTK | Linux CI may not have GUI libs | Skip Photino window tests in CI |
+
+## Related
+
+- to run: `photino:photino-test`

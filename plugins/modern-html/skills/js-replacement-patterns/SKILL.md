@@ -67,3 +67,7 @@ when_to_use: "\"replacing JS UI library, building modal/tooltip/dropdown/menu/ac
 ## Refs
 
 - `references/decision-matrix.md` — 全表細注。
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。

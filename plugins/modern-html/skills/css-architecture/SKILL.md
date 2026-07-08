@@ -120,3 +120,8 @@ paths: "[\"**/*.{css,scss,sass,less}\"]"
 - `examples/layers.css`
 - `examples/scope.css`
 - `examples/nesting.css`
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。
+- `modern-html:theming-and-color` — 色彩 / 主題層依此架構落位，配對取用。

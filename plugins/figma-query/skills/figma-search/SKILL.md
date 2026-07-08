@@ -181,3 +181,7 @@ get_tokens: node_ids: [...]
 2. **過濾類型**：用 `node_types` 縮小搜索範圍
 3. **限制結果**：大文件分頁
 4. **從緩存搜索**：先 `sync_file`，重複搜索更快
+
+## Related
+
+- `figma-query:figma-query` — 須複雜過濾/投影/分頁時，改用 JSON DSL 結構化查詢。

@@ -1,6 +1,7 @@
 ---
 name: dartai-workspace-docs
 description: "dart-query workspace management - documents, config, dartboards, folders, comments, time tracking, attachments, task movement. dart-query工作區管理：文檔、配置、看板、文件夾、評論、時間追蹤、附件、任務移動。 Use when: get workspace config, create document, add comment, log time, attach file, move task, list docs"
+disable-model-invocation: true
 ---
 
 # Workspace & Documents with dart-query
@@ -530,3 +531,12 @@ create_doc:
     ${in_progress + todo formatted}
   folder: "Sprint Reports"
 ```
+
+## Related
+
+同一 dart-query API 之不同切面之姊妹參考技藝：
+
+- `dartai:dart-query-reference` — 全工具總覽（24 工具）
+- `dartai:task-filtering` — 查詢/過濾/分頁
+- `dartai:task-relationships` — 子任務/阻塞/相關
+- `dartai:batch-operations` — 批量寫/DartQL/CSV

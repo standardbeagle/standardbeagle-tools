@@ -295,3 +295,8 @@ mcp__plugin_slop-mcp_slop-mcp__execute_tool
 - `High` - 重要
 - `Medium` - 正常優先級
 - `Low` - 有空時處理
+
+## Related
+
+- `dart-query:task-lifecycle` — 全程任務生命周期權威（分配→追蹤→完成→記時）。本技藝以 SLOP `execute_tool` 示逐步操作，端到端生命周期語義歸 dart-query。
+- `slop-mcp:dart-tools` — 本工作流所調 21 工具之參數/響應參考。

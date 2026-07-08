@@ -106,3 +106,7 @@ dotnet run --project <csproj-path> -- --help 2>/dev/null || echo "No --help flag
 # Skip the BuildFrontend MSBuild target
 dotnet build <csproj-path> -p:BuildFrontend=false
 ```
+
+## Related
+
+- config/reference: `photino:dotnet-build-system`

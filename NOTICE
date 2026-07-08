@@ -8,3 +8,13 @@ Adapted into the dev-standards plugin:
 
 Adapted into the present plugin:
   html-report (HTML-REPORT.md scaffold from improve-codebase-architecture).
+
+v1.1 additions:
+  refactor-first-assessment/CODE-SMELLS.md — Fowler code-smell baseline
+    (from skills/engineering/code-review); smells are Martin Fowler,
+    Refactoring 2nd ed. ch.3.
+  compound-review maintainability-reviewer — same Fowler smell baseline.
+  grill-task / setup-project — grilling confirmation-gate and
+    facts-vs-decisions discipline (from skills/productivity/grilling).
+    The upstream "one question at a time" rule is intentionally NOT
+    carried; this repo front-loads and batches decisions instead.

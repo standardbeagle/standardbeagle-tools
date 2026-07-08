@@ -122,8 +122,12 @@ Monitor({ command: "<paste command from step 3>", cwd: "." })
 
 ## 相關技能
 
-> Invoke the `Skill` tool with `skill: agnt:error-monitor` — 即時點查 `get_errors` 與輪詢備用。
+錯誤技能三態軸：**快照 snapshot** / **聚合 aggregate** / **串流 stream**。此技能為**串流**——`watch` + Monitor 即時推送。
 
-> Invoke the `Skill` tool with `skill: agnt:event-watch` — 相同模式，用於用戶互動（面板訊息、草圖、設計對話）。
+> Invoke the `Skill` tool with `skill: agnt:check-errors` — **快照**：單一代理 `proxylog` 點查。
+
+> Invoke the `Skill` tool with `skill: agnt:error-monitor` — **聚合**：`get_errors` 跨源去重（含輪詢備用）。
+
+> **名稱僅差一字**——`error-watch`（本技能）串流**錯誤**與診斷；`event-watch` 串流用戶**互動**（面板訊息、點擊、草圖）。二者為同一 `watch` + Monitor 模式之錯誤半與互動半，勿混淆。Invoke `Skill` with `skill: agnt:event-watch` 取互動半。
 
 > Invoke the `Skill` tool with `skill: agnt:process-proxy` — 設定受監視target所用之 `run` 與 `proxy` 工具。

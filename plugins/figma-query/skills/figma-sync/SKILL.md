@@ -135,9 +135,47 @@ parameters:
 ### Version Control
 導出結構對 git 友好，可追蹤設計變更歷史。
 
+## Post-Sync Review
+
+同步畢，即刻覽結構、盤點組件與樣式，確認緩存完整：
+
+### 1. Review Structure（覽樹）
+```yaml
+mcp_name: figma-query
+tool_name: get_tree
+parameters:
+  file_key: "ABC123xyz"
+  depth: 3
+```
+
+### 2. List Components（盤點組件，含用量）
+```yaml
+mcp_name: figma-query
+tool_name: list_components
+parameters:
+  file_key: "ABC123xyz"
+  include_usage: true
+```
+
+### 3. List Styles（列樣式）
+```yaml
+mcp_name: figma-query
+tool_name: list_styles
+parameters:
+  file_key: "ABC123xyz"
+```
+
 ## When to Use
 
 - **新項目起始**：同步完整設計文件以便探索
 - **批量操作前**：本地緩存避免速率限制
 - **生成文檔**：從本地文件生成報告
 - **CI/CD**：構建管線中包含設計資產
+
+## Next Steps
+
+同步後可繼續：
+- `get_tree` 探索結構
+- `search` 查找特定元素
+- `list_components` 盤點組件
+- `figma-query:adversarial-design-library` 提取完整設計庫

@@ -24,3 +24,7 @@ The caller supplies: a **title**, an ordered list of **sections** (heading + HTM
 Self-contained: **Tailwind via CDN** for layout, **Mermaid via CDN** for graph-shaped diagrams; hand-built divs/SVG for editorial visuals. No build step, no repo artifacts. Full scaffold + diagram patterns + styling: [HTML-REPORT.md](HTML-REPORT.md).
 
 > Scaffold adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT), `skills/engineering/improve-codebase-architecture/HTML-REPORT.md`.
+
+## Related
+
+- `present:doc` — 欲重開或重渲此技藝已產之 `.html`（無需重生資料）→ 以其絕對路徑呼 `present:doc`。本技藝生成報告，`present:doc` 專司開啟既存 `.md`/`.html`。

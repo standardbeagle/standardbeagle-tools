@@ -979,3 +979,9 @@ Parameters: {
 5. **驗證屏讀文字** - 你看到的不一定是公告的
 6. **用真實輔助技術測試** - 自動化工具僅捕捉約30%問題
 7. **考慮不同用戶需求** - 弱視、運動障礙、認知障礙
+
+---
+
+## 相關技能
+
+> Invoke the `Skill` tool with `skill: agnt:audit-a11y` — 近同之姊妹技能，簡版稽核工作流（auditAccessibility + getTabOrder + 截圖）。二者功能高度重疊，擇一即可。

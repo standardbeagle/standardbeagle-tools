@@ -351,3 +351,7 @@ Solve this problem. Your response should end with:
 ❌ "Explain each step as you go"
 ✅ "Solve this and provide your final answer with reasoning"
 ```
+
+## Related
+
+- `prompt-engineer:prompt-patterns` — 模式總索引；本技藝為其推理鏈一格之深入展開。

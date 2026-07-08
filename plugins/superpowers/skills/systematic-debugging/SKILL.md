@@ -1,6 +1,7 @@
 ---
 name: systematic-debugging
 description: "Find root cause before any fix — 先究根因，後施補. Iron law: NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST. Four phases: root-cause → pattern → hypothesis → implementation, each a gate. Use when: any bug, test failure, unexpected behavior, perf/build/integration issue, before proposing fixes; especially under time pressure or after prior fixes failed. Skip: none — simple bugs have root causes too."
+disable-model-invocation: true
 ---
 
 # Systematic Debugging

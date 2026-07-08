@@ -2,7 +2,6 @@
 name: prompt-engineer-eval-prompt
 description: "\"Evaluate prompt effectiveness using metrics and test cases inspired by DSPy and OPRO. 以 DSPy/OPRO 啟發之指標與測試案例評估提示效果。 Use when: measuring prompt quality before/after changes, running A/B comparisons, building regression test suites.\""
 disable-model-invocation: true
-allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\", \"Bash\"]"
 ---
 
 以系統指標與測試案例評估提示效果，方法取自 DSPy 與 OPRO 方法論。
@@ -258,3 +257,10 @@ Provide scores and brief justification for each.
 - Test [ID]: Score improved from X to Y
 - Test [ID]: New edge case handled
 ```
+
+## Related
+
+診斷→施治→量度之工作流鏈；本技藝司「量度」：
+
+- `prompt-engineer:analyze-prompt` — 量度前之定性診斷。
+- `prompt-engineer:optimize-prompt` — 據評測結果回頭施治，再量度成環。

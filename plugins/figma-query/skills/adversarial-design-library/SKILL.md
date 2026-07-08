@@ -538,3 +538,63 @@ Phase 7 完成後：
    - 已採集 CSS 屬性數
    - 已引用令牌數
    - 發現並修復問題數
+
+---
+
+## Troubleshooting
+
+### 提取中止 / Extraction Stops
+- 校驗 Figma 訪問令牌有效
+- 核查文件權限（可否在 Figma 中查看？）
+- 檢查速率限制（稍候重試）
+
+### 缺少組件 / Missing Components
+- 確認組件已在 Figma 中發佈
+- 核查組件權限
+
+### CSS 差異 / CSS Differences
+- 重跑對抗式驗證（Phase 6）
+- 檢查 Figma 不支持特性（如表達式中的變量）
+
+### ⚠️ CRITICAL: Missing tokens.css
+**Problem:** HTML 引用 `var(--color-primary)` 但 `tokens/tokens.css` 不存在
+**Cause:** Phase 2（令牌導出）被跳過或失敗
+**Fix:**
+```bash
+figma-query export_tokens \
+  file_key="YOUR_FILE_KEY" \
+  output_path="./tokens/tokens.css" \
+  format="css"
+```
+**Prevention:** 勿跳階段，逐階段驗證。
+
+### ⚠️ CRITICAL: Empty assets/ Directory
+**Problem:** HTML 引用 `<img src="../assets/logo.svg">` 但 assets/ 為空
+**Cause:** Phase 3/4（資產導出）被跳過或失敗
+**Fix:**
+```bash
+# 1. 先搜資產
+figma-query search file_key="YOUR_FILE_KEY" pattern="*logo*"
+# 2. 再導出
+figma-query export_assets \
+  file_key="YOUR_FILE_KEY" \
+  node_ids=["NODE_ID_1", "NODE_ID_2"] \
+  output_dir="./assets" \
+  formats=["svg", "png"]
+```
+
+### Verify Extraction Complete
+提取後核查關鍵文件存在：
+```bash
+ls -lh design-library/tokens/tokens.css     # 令牌
+ls -lh design-library/components/            # 至少 1 組件
+ls -lh design-library/assets/                # 至少 1 資產
+ls -lh design-library/README.md              # 文檔
+```
+
+### Incomplete Extraction — Resume
+若提取中途停止，從檢查點恢復：
+```bash
+cat design-library/.extraction-state.json    # 查提取狀態
+# 從上次檢查點續跑循環
+```

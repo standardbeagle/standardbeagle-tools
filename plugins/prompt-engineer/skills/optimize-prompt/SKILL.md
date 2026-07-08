@@ -2,7 +2,6 @@
 name: prompt-engineer-optimize-prompt
 description: "\"Apply current optimization techniques to improve prompt. 應用最新優化技術改善提示。 Use when: improving accuracy, consistency, creativity, speed, or safety of existing prompt.\""
 disable-model-invocation: true
-allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---
 
 以最新提示工程技術優化提示。
@@ -201,3 +200,11 @@ allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 - [ ] 語境提供指令之動機
 - [ ] 令牌數與任務複雜度相稱
 - [ ] 無冗餘或重複信息
+
+## Related
+
+診斷→施治→量度之工作流鏈：
+
+- `prompt-engineer:analyze-prompt` — 施治前先於此診出問題與優化機會。
+- `prompt-engineer:eval-prompt` — 優化後以指標量度前後之效。
+- `prompt-engineer:claude-optimization` — 上文 Claude Optimizations 節僅撮要；Claude 特調（Opus/Sonnet/Haiku）詳規盡在此，宜移交勿重述。

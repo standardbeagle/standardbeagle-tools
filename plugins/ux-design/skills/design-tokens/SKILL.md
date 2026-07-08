@@ -362,3 +362,7 @@ Easing: linear, ease-out, ease-in-out, spring
 ### Documentation
 - **Storybook**: Component documentation with tokens
 - **ZeroHeight**: Design system documentation
+
+## Related
+
+- `ux-developer:component-ux` — 開發側消費本 token 系統：組件視覺規格引用設計 token（design-to-development 交接之落點，跨 plugin）。

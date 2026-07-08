@@ -2,7 +2,6 @@
 name: prompt-engineer-compress-context
 description: "\"Compress context to fit within token limits while preserving signal. 壓縮語境以適應令牌限制同時保留關鍵信號。 Use when: context approaching window limit, compressing conversation history or RAG documents, improving token efficiency.\""
 disable-model-invocation: true
-allowed-tools: "[\"Read\", \"Write\", \"AskUserQuestion\"]"
 ---
 
 以 2026 語境工程最佳實踐壓縮語境，最大化信息密度，同時維持令牌限制。

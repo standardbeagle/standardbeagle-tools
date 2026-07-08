@@ -143,8 +143,18 @@ name: figma-query
 - 用 `sync_file` 在本地緩存文件
 - 用 `from_cache: true` 參數從緩存查詢，避免 API 調用
 
+## Unregistering
+
+從 SLOP 移除 figma-query：
+
+```yaml
+mcp__plugin_slop-mcp_slop-mcp__manage_mcps
+action: unregister
+name: figma-query
+```
+
 ## Next Steps
 
 設置後：
-1. 用 `/design-sync` 同步 Figma 文件
-2. 用 `/extract-library` 提取完整設計庫
+1. 用 `/figma-sync` 同步 Figma 文件
+2. 用 `/adversarial-design-library` 提取完整設計庫

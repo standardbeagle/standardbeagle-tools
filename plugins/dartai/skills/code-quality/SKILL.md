@@ -1,6 +1,7 @@
 ---
 name: dartai-code-quality
 description: "Thin dartai wrapper routing review-for-plan-updates proposals into Dart tasks. Quality checklist lives in .claude/rules/code-quality.md + dev-standards:review-for-plan-updates. dartai薄包裝：提案路由至Dart任務。 Use when: code quality review, persist refactor proposals, after quality gate, Phase 4.5"
+disable-model-invocation: true
 context: fork
 ---
 

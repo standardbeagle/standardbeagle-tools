@@ -41,3 +41,7 @@ Use the `typography` MCP server for type calculations and font file analysis. Co
 - Font analysis supports OpenType/TrueType containers; variable font axis handling follows the OpenType 1.8 fvar/STAT spec.
 - Subsetting and WOFF2 encoding assume a licence that permits modification and redistribution of the font file - verify before shipping.
 - Pair with `design-token` to emit the type scale as design tokens for CSS/Tailwind/SCSS consumers.
+
+## Related
+
+- `design-utilities:typography-overview` — 工具全覽與 setup

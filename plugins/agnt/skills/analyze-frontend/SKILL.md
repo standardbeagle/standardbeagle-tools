@@ -130,3 +130,13 @@ proxy {action: "exec", id: "dev", code: "__devtool.walkChildren('#container', 3)
 - 過多內聯樣式（> 50）
 - 大量!important（> 10）
 - 極深嵌套（> 32）
+
+---
+
+## 相關技能
+
+此三技能重疊於佈局/DOM視覺化，分工：本技能出一次性**綜合稽核**報告（DOM複雜度+CSS+溢出+堆疊）。
+
+> Invoke the `Skill` tool with `skill: agnt:browser-diagnostics` — 逐元素程式化**檢測數據**（盒模型、溢出、堆疊查詢）。
+
+> Invoke the `Skill` tool with `skill: agnt:visual-diagnostics` — 頁面上之**視覺疊層**（輪廓、網格、字排、z序高亮）。

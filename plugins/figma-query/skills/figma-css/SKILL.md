@@ -339,3 +339,8 @@ get_css: node_ids: [...], style: "tailwind"
 | Effects (shadow) | box-shadow |
 | Effects (blur) | backdrop-filter |
 | Text style | font-family, font-size, etc. |
+
+## Related
+
+- `figma-query:figma-node` — 上游：按 ID 取節點詳情，再抽其 CSS。
+- `figma-query:figma-export-tokens` — 將 CSS 中之值提升為可複用設計令牌（CSS/JSON/Tailwind）。

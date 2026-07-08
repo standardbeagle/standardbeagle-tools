@@ -183,3 +183,7 @@ server_reconnect with command="./server --debug --verbose"
 **意外行為：**
 - 以 `debug_logs` 比對換前換後請求
 - 驗模式未作不相容更改
+
+## Related
+
+- `mcp-tester:hot-swap` — 單次熱換某伺服器二進位之命令。

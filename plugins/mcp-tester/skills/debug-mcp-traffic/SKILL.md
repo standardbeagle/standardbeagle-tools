@@ -110,3 +110,7 @@ debug_send with:
 - 緩衝容量用量
 - 訊息總計數
 - 可偵測訊息不平衡（訊息遺失）
+
+## Related
+
+- `mcp-tester:debug-logs` — 覽/篩原始 JSON-RPC 訊息（分析之前置）。

@@ -164,7 +164,7 @@ figma-query export_assets file_key="FILE_KEY" node_ids=["..."] output_dir="./ass
 
 ## Integration with Extract-Library
 
-驗證應在 `/extract-library` 末尾自動運行：
+驗證應在 `/adversarial-design-library` 末尾自動運行：
 
 1. **提取期間**：每階段後的检查點驗證
 2. **提取完成後**：聲明完成前的全量驗證
@@ -218,3 +218,8 @@ figma-query diff local_path="./docs" file_key="FILE_KEY"
 - 樣式數與 Figma 匹配
 - 資產數與 Figma 匹配
 - CSS 準確性對照 Figma 值
+
+## Related
+
+提取管線之兩端：
+- `figma-query:preflight-check` — 首端對應：提取前校驗 Figma 訪問、文件內容與輸出目錄。

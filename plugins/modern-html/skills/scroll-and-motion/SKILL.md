@@ -141,3 +141,8 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 - `examples/scroll-snap.css`
 - `examples/view-transitions.css`
 - `examples/scroll-driven.css`
+
+## Related
+
+- `modern-html:baseline-decision-protocol` — 前置 Tier A/B/C 閘；先判可用層，再取此技各特性。
+- `modern-html:performance-and-containment` — 滾動 / 動畫之效能與 containment，配對取用。

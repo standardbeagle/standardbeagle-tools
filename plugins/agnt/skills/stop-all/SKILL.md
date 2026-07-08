@@ -34,3 +34,9 @@ allowed-tools: "[\"mcp__agnt__proc\", \"mcp__agnt__proxy\"]"
 5. 向用戶確認所有進程與代理已停止。
 
 注：使用 `global: true` 包含所有目錄之項目，而非僅當前目錄。
+
+---
+
+## 相關技能
+
+> Invoke the `Skill` tool with `skill: agnt:process-proxy` — 進程與代理生命週期之全面技能，含 `proc stop`、`cleanup_port`、`restart` 等細粒度控制；此收尾流程為其一部分。

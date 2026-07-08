@@ -1,6 +1,7 @@
 ---
 name: dartai-qa-reviewer
 description: "Forked-context QA reviewer — preloads verdict schema + testing-pyramid lens + assertion/edge-case/TDD checklist. 對抗QA審查（fork上下文）。 Use when: dispatch qa-reviewer subagent, adversarial QA review, gate on test quality, when reviewer must not pollute main thread"
+disable-model-invocation: true
 context: fork
 agent: "dartai:qa-reviewer"
 ---
@@ -62,3 +63,4 @@ Detection (orchestrator-side, optional): a fork-aware harness reports a child-co
 - `dartai:verdict-schema` — wire format and consumer contract
 - `dartai:testing-strategy` — testing pyramid + RED/GREEN
 - `dartai:agents/qa-reviewer` — the actual reviewer agent that binds this skill
+- 檔案後端孿生：`workflow:qa-reviewer`（file-backed 同一審查）。
