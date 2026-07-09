@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/check-remote-updates.sh\" SessionStart",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/check-remote-updates.mjs\" SessionStart",
             "timeout": 20
           }
         ]
@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/check-remote-updates.sh\" PostToolUse",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/check-remote-updates.mjs\" PostToolUse",
             "timeout": 20
           }
         ]
@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/check-remote-updates.sh\" Stop",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/check-remote-updates.mjs\" Stop",
             "timeout": 20
           }
         ]
