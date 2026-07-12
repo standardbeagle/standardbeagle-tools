@@ -1,6 +1,6 @@
 ---
 name: knowledge-hygiene-rationalization-trap-check
-description: "Heuristic detecting rationalization trap — long chain-of-thought before small load-bearing change, esp. when CoT defends prior decision against fresh evidence. Sole value-layer must in this plugin. 理性化陷阱檢測。 Use when: long CoT before small commit, PR whose 'Why' dwarfs diff, brainstorm Phase 1/2 picks overriding Phase 0 bullets, post-hoc audit of decision that 'feels off'. Skip: exploratory CoT with no commit, change large enough that long reasoning is proportionate."
+description: "Detect rationalization trap long chain-of-thought before small load-bearing change, esp. CoT defending prior decision against fresh evidence. 理性化陷阱檢測。 Use when: long CoT before small commit, PR whose Why dwarfs diff, brainstorm picks overriding Phase 0 bullets, post-hoc audit of decision feels off. Skip: exploratory CoT with no commit, change big enough that long reasoning is proportionate."
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: design-utilities-recommender
-description: "Routes any design-utilities intent to the one right manual skill among its color, typography, design-token, image, and a11y helpers — the single auto-invoked gateway; all other design-utilities skills are manual. design-utilities 唯一自動網關，導向正確之手動技藝。 Use when: mention color/contrast/palette, typography/font/type scale, design tokens, image optimize/responsive/blurhash, static a11y/WCAG audit, or unsure which design-utilities skill."
+description: "Routes design-utilities intent to right manual skill among color, typography, design-token, image, a11y helpers — sole auto gateway; others manual. design-utilities 唯一自動網關。 Use when: color/contrast/palette, typography/font/type scale, design tokens, image optimize/responsive/blurhash, static a11y/WCAG audit, unsure which design-utilities skill."
 ---
 
 # design-utilities Skill Recommender

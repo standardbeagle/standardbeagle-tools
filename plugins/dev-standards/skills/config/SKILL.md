@@ -1,6 +1,6 @@
 ---
 name: dev-standards-config
-description: "Routes project-setup / config-CRUD intent to the one right manual dev-standards skill — the auto gateway for the config cluster (behavioral guardrails stay separately auto). dev-standards 設定網關，導向正確之手動配置技藝。 Use when: set up or bootstrap project dev standards, re-detect tech stack, refresh CLAUDE.md/hooks, add/edit/remove project rules, create a project-specific skill, SKILL.md description style, diagnose/configure compound-engineering env, /ce-setup, unsure which config skill."
+description: "dev-standards 設定網關，導向正確之手動配置技藝。Routes project-setup / config-CRUD intent to the right manual dev-standards skill. Use when: bootstrap project dev standards, re-detect tech stack, refresh CLAUDE.md/hooks, add/edit/remove project rules, create project-specific skill, SKILL.md description style, diagnose/configure compound-engineering env, /ce-setup, unsure which config skill."
 ---
 
 # dev-standards Config Recommender

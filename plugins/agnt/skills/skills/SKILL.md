@@ -1,6 +1,6 @@
 ---
 name: agnt-skills
-description: "Index and router for agnt's browser skills. agnt drives a real running browser via reverse proxy: dev server, live page navigation and inspection, DOM/CSS/layout diagnostics, console and network errors, screenshots, sketch mode, and accessibility/performance/security/SEO audits. Use when: picking an agnt skill, debugging a browser issue, inspecting an element, auditing a page, starting a dev server or proxy."
+description: "Index + router for agnt browser skills — agnt drives real browser via reverse proxy: dev server, live page navigation and inspection, DOM/CSS/layout diagnostics, console and network errors, screenshots, sketch mode, a11y/performance/security/SEO audits. Use when: picking agnt skill, debugging browser issue, inspecting element, auditing page, starting dev server or proxy."
 ---
 
 # agnt 技能索引 — Skill router

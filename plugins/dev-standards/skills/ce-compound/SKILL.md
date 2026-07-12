@@ -1,6 +1,6 @@
 ---
 name: dev-standards-ce-compound
-description: "記錄已解決問題以複利機構知識。Document solved problems in docs/solutions/ with structured YAML frontmatter. Use when: non-trivial problem solved + verified, prevent re-discovery cost, capture institutional learning before context fades, document best practices or workflow patterns. Skip: trivial (typo); solution unverified; problem in progress; project lacks docs/solutions/ convention and user does not want one."
+description: "記錄已解決問題以複利機構知識。Document solved problems in docs/solutions/ with structured YAML frontmatter. Use when: non-trivial problem solved + verified, prevent re-discovery, capture institutional learning before context fades, document best practice or workflow pattern. Skip: trivial (typo), solution unverified, problem in progress, project lacks docs/solutions/ convention."
 ---
 
 <!--

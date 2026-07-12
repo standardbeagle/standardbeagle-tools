@@ -1,6 +1,6 @@
 ---
 name: mcp-tester-recommender
-description: "Routes any MCP-testing / mcp-tester intent to the one right manual skill — the single auto-invoked gateway; all other mcp-tester skills are manual. mcp-tester 唯一自動網關，導向正確之手動技藝。 Use when: test or debug an MCP server, add server to debug proxy, view MCP JSON-RPC logs, inspect protocol traffic, hot-swap a server binary, send raw JSON-RPC, check server status, validate MCP implementation or tool schema, set up mcp-tester, unsure which mcp-tester skill."
+description: "Routes MCP-testing / mcp-tester intent to right manual skill — sole auto gateway; other mcp-tester skills manual. mcp-tester 唯一自動網關。 Use when: test or debug MCP server, add server to debug proxy, view MCP JSON-RPC logs, inspect protocol traffic, hot-swap server binary, send raw JSON-RPC, check server status, validate MCP tool schema, set up mcp-tester, unsure which mcp-tester skill."
 ---
 
 # mcp-tester Skill Recommender

@@ -1,6 +1,6 @@
 ---
 name: workflow-recommender
-description: "Routes any workflow / adversarial-loop intent to the one right manual workflow skill — the single auto-invoked gateway; all other workflow skills are manual. workflow 唯一自動網關，導向正確之手動技藝。 Use when: mention workflow loop, Ralph Wiggum loop, adversarial cooperation, start/stop/status a loop, add or queue a task, run quality gates, dispatch a reviewer, save or review loop memories, commit message, resolve review feedback, unsure which workflow skill."
+description: "Routes workflow / adversarial-loop intent to right manual workflow skill — sole auto gateway, others manual. workflow 唯一自動網關。 Use when: workflow loop, Ralph Wiggum loop, adversarial cooperation, start/stop/status a loop, add or queue task, run quality gates, dispatch reviewer, save or review loop memories, commit message, resolve review feedback, unsure which workflow skill."
 ---
 
 # workflow Skill Recommender

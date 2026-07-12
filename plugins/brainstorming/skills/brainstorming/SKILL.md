@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "創作前必用：探用戶意圖、需求、設計，先於實作。Explore user intent + requirements + design before implementation. Turn ideas into design + spec via dialogue. MUST use before any creative work. Terminal handoff → /worktrack:plan. Use when: creating features, building components, adding functionality, modifying behavior, designing new things. Skip: pure bug fix with clear repro, mechanical refactor, doc-only changes; user has no concrete idea yet / wants options generated → ideation:ideate."
+description: "創作前必用：探意圖、需求、設計，先於實作。Explore user intent + requirements + design before implementation; turn ideas into design + spec via dialogue. Handoff → /worktrack:plan. Use when: creating features, building components, adding functionality, modifying behavior, designing new things. Skip: bug fix with clear repro, mechanical refactor, doc-only change; no concrete idea yet / want options → ideation:ideate."
 ---
 
 <!--

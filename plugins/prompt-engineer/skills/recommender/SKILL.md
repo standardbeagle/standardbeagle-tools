@@ -1,6 +1,6 @@
 ---
 name: prompt-engineer-recommender
-description: "Routes any prompt-engineering intent to the one right manual prompt-engineer skill — the single auto-invoked gateway; all other prompt-engineer skills are manual. prompt-engineer 唯一自動網關，導向正確之手動技藝。 Use when: write/analyze/optimize/evaluate a prompt, build a system prompt, chain-of-thought or reasoning design, few-shot examples, RAG or multi-agent prompts, Claude/model-specific tuning, context engineering/audit/compression, prompt injection defense, unsure which prompt-engineer skill."
+description: "Routes prompt-engineering intent to right manual prompt-engineer skill — sole auto gateway; others manual. 唯一自動網關。 Use when: write/analyze/optimize/evaluate prompt, system prompt, chain-of-thought or reasoning design, few-shot examples, RAG or multi-agent prompts, Claude/model-specific tuning, context engineering/audit/compression, prompt injection defense, unsure which prompt-engineer skill."
 ---
 
 # prompt-engineer Skill Recommender

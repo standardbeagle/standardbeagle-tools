@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-recommender
-description: "Routes any MCP-server design/architecture intent to the one right manual mcp-architect skill — the single auto-invoked gateway; all other mcp-architect skills are manual. mcp-architect 唯一自動網關，導向正確之手動技藝。 Use when: design or analyze an MCP server, organize multi-tool MCP, tool schema/error/response design, token-efficient responses, progressive discovery, retrieval modes, citation or conflict response shapes, MCP examples, unsure which mcp-architect skill."
+description: "mcp-architect 唯一自動網關 — route MCP-server design/architecture intent to right manual skill. Use when: design or analyze MCP server, organize multi-tool MCP, tool schema/error/response design, token-efficient responses, progressive discovery, retrieval modes, citation or conflict response shapes, MCP examples, unsure which mcp-architect skill."
 ---
 
 # mcp-architect Skill Recommender

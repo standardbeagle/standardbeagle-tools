@@ -1,6 +1,6 @@
 ---
 name: dart-query-recommender
-description: "Routes any Dart / dart-query task-management intent to the one right manual skill — the single auto-invoked gateway; all other dart-query skills are manual. dart-query 唯一自動網關，導向正確之手動技藝。 Use when: mention Dart tasks or dart-query, create/query/update/delete tasks, batch or DartQL ops, task lifecycle or relationships, watch tasks, recurring tasks, PM recipes, workspace docs/time, set up dart-query, unsure which dart skill."
+description: "Routes Dart / dart-query task-management intent to right manual skill — sole auto gateway; other dart-query skills manual. dart-query 唯一自動網關。 Use when: Dart tasks or dart-query, create/query/update/delete tasks, batch or DartQL ops, task lifecycle or relationships, watch tasks, recurring tasks, PM recipes, workspace docs/time, set up dart-query, unsure which dart skill."
 ---
 
 # dart-query Skill Recommender

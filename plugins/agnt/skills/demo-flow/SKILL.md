@@ -1,7 +1,7 @@
 ---
 name: agnt-demo-flow
 disable-model-invocation: true
-description: "Record and replay an interactive guided DEMO of work just shipped — a floating, self-advancing walkthrough that narrates each step, spotlights the live app element, and advances on timer, click, or app-state condition. Turn 'here's what I built' into a clickable tour. 在瀏覽器疊層錄製可重播之互動導覽。 Use when: demo a feature, create a walkthrough, run the walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay"
+description: "Record + replay interactive guided DEMO of shipped work — floating self-advancing walkthrough narrating each step, spotlighting live app element, advancing on timer, click, or app-state condition. 在瀏覽器疊層錄製可重播之互動導覽。 Use when: demo a feature, create walkthrough, run walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay."
 ---
 
 # 互動導覽技能 — Demo Flow / Walkthrough

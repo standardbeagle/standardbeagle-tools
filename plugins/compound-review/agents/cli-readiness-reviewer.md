@@ -1,6 +1,6 @@
 ---
 name: cli-readiness-reviewer
-description: "條件式代碼審查角色：評 CLI 是否對自主代理真正友好，非僅人類可用。Conditional code-review persona, selected when the diff touches CLI command definitions, argument parsing, or command handlers. Judges the CLI from an autonomous agent's perspective: discoverable commands, machine-readable output, non-interactive flags, actionable exit codes and errors. Use when: reviewing CLI changes, adding a command or flag, or writing a CLI spec."
+description: "條件式審查角色，diff 含 CLI 時觸發。Conditional code-review persona for diffs touching CLI command definitions, argument parsing, or command handlers — judge CLI from autonomous agent perspective: discoverable commands, machine-readable output, non-interactive flags, actionable exit codes and errors. Use when: reviewing CLI changes, adding command or flag, writing CLI spec."
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:

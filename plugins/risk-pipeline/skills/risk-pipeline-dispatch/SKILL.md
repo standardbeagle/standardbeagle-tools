@@ -1,6 +1,6 @@
 ---
 name: risk-pipeline-risk-pipeline-dispatch
-description: "Dispatch risk vector -> reviewer roster + impl/reviewer model + tdd_required. Triggers: s>=- security-reviewer, d>=- data-reviewer, r>=+ reversibility-reviewer, b>=+ full code-quality, u>=+ adds novelty-reviewer + research. Crit axes hard-block. Model routes impl by tier (haiku-4.5/sonnet-4.6/opus-4.7) with crit + u-crit escalation; reviewer one tier down with security/post-task same-tier overrides. TDD when d|s>=- or b|u>=+."
+description: "Dispatch risk vector -> reviewer roster + impl/reviewer model + tdd_required. Triggers: s>=- security-reviewer, d>=- data-reviewer, r>=+ reversibility-reviewer, b>=+ code-quality, u>=+ novelty-reviewer + research. Crit axes hard-block. Impl by tier (haiku-4.5/sonnet-4.6/opus-4.7), crit + u-crit escalate; reviewer one tier down, security/post-task same-tier override. TDD when d|s>=- or b|u>=+."
 disable-model-invocation: true
 ---
 

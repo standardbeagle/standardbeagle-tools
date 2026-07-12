@@ -1,6 +1,6 @@
 ---
 name: migration-assistant
-description: "Discover, analyze, and migrate MCP server configs from Claude Desktop/VS Code/Cursor into slop-mcp KDL, and import customization packs (overrides + SLOP custom tools) from teammates or other machines. 從現有客戶端配置遷移 MCP 服務器至 slop-mcp KDL，並導入定制包（覆蓋與 SLOP 自定義工具）。 Use when: importing MCP configs, consolidating multi-client setups, auditing existing registrations, importing a `.slop-mcp-packs/*.json` pack, pulling teammate's customizations."
+description: "從客戶端配置遷移 MCP 服務器至 slop-mcp KDL，並導入定制包。Migrate MCP server configs from Claude Desktop/VS Code/Cursor into slop-mcp KDL; import customization packs (overrides + SLOP custom tools). Use when: importing MCP configs, consolidating multi-client setups, auditing existing registrations, importing a .slop-mcp-packs/*.json pack, pulling teammate customizations."
 model: sonnet
 ---
 

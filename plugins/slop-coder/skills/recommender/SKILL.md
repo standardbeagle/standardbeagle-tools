@@ -1,6 +1,6 @@
 ---
 name: slop-coder-recommender
-description: "Routes any SLOP-language / slop-coder intent to the one right manual skill — the single auto-invoked gateway; all other slop-coder skills are manual. slop-coder 唯一自動網關，導向正確之手動技藝。 Use when: write or scaffold SLOP code, explain unfamiliar SLOP code, look up a builtin function signature, look up SLOP syntax/operators/control-flow, use the SLOP module system, apply SLOP agent/pipeline patterns, unsure which slop-coder skill."
+description: "Routes SLOP-language / slop-coder intent to right manual skill — sole auto gateway, others manual. slop-coder 唯一自動網關。 Use when: write or scaffold SLOP code, explain unfamiliar SLOP code, look up builtin function signature, look up SLOP syntax/operators/control-flow, SLOP module system, SLOP agent/pipeline patterns, unsure which slop-coder skill."
 ---
 
 # slop-coder Skill Recommender

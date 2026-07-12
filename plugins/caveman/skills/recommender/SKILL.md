@@ -1,6 +1,6 @@
 ---
 name: caveman-recommender
-description: "Routes any caveman / context-compression intent to the one right manual skill — the single auto-invoked gateway; all other caveman skills are manual. caveman 唯一自動網關，導向正確之手動壓縮技藝。 Use when: compress or condense a file/PDF/slides/spreadsheet/audio, condense git diff/log/blame or a PR URL, OCR or summarize an image/screenshot/diagram, compress error logs or stack traces, compress raw text/transcript/notes, fetch+compress a URL (YouTube/GitHub/arXiv/HN/Reddit/RSS), run multi-source research, set up caveman-mcp, unsure which caveman skill."
+description: "Routes caveman / context-compression intent to right manual skill — sole auto gateway; others manual. caveman 唯一自動網關。 Use when: compress file/PDF/slides/spreadsheet/audio, condense git diff/log or PR URL, OCR/summarize image/screenshot/diagram, compress error logs/stack traces/notes, fetch+compress URL (YouTube/GitHub/arXiv), multi-source research, caveman-mcp setup, unsure which caveman skill."
 ---
 
 # caveman Skill Recommender

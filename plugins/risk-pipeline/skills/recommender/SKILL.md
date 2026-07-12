@@ -1,6 +1,6 @@
 ---
 name: risk-pipeline-recommender
-description: "Routes any risk-pipeline / @risk-tagging / risk-review intent to the one right manual skill — the single auto-invoked gateway; all other risk-pipeline skills are manual. risk-pipeline 唯一自動網關，導向正確之手動技藝。 Use when: classify a task's risk vector + verdict + pipeline tier, backfill or re-tag @risk across a codebase, tag one code unit, aggregate unit risk into a task vector, dispatch reviewer roster from a risk vector, audit risk telemetry / calibration drift, unsure which risk-pipeline skill. Skip: internal pipeline callees fire from their caller, not user intent."
+description: "risk-pipeline 唯一自動網關 route @risk-tagging / risk-review intent to right manual skill. Use when: classify task risk vector + verdict + tier, backfill or re-tag @risk in codebase, tag code unit, aggregate unit risk into task vector, dispatch reviewer roster, audit risk telemetry / calibration drift, unsure risk-pipeline skill. Skip: internal pipeline callees fire from caller, not user intent."
 ---
 
 # risk-pipeline Skill Recommender

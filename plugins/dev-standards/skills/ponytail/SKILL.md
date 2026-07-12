@@ -1,6 +1,6 @@
 ---
 name: dev-standards-ponytail
-description: "Lazy-senior-dev build gate: write the least code that works. 最懶資深開發者之建造閘：以最少可行代碼解之。 Ladder — does it need to exist (YAGNI) → stdlib → native platform → installed dep → one line → minimum code. Use when: over-engineering, bloat, boilerplate, unrequested abstraction, new dependency for a few lines, 'be lazy', 'simplest solution', 'yagni', 'do less', before scaffolding a feature. Skip: trust-boundary validation, data-loss handling, security, accessibility, explicitly-requested full version."
+description: "Lazy-senior-dev build gate: write least code works. 最懶開發者之建造閘。 Ladder: YAGNI → stdlib → native platform → installed dep → one line. Use when: over-engineering, bloat, boilerplate, unrequested abstraction, new dep for few lines, 'be lazy', 'simplest solution', 'yagni', 'do less', before scaffolding. Skip: trust-boundary validation, data-loss handling, security, a11y, user asked full version."
 ---
 
 # Ponytail

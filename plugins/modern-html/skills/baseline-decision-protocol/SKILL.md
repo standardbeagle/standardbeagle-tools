@@ -1,6 +1,6 @@
 ---
 name: modern-html-baseline-decision-protocol
-description: "Baseline-tier decision tree for HTML/CSS/DOM features — Tier A Widely-9mo auto-adopt, Tier B Newly prompt user, Tier C Limited avoid sans fallback. Use when: writing CSS/HTML, picking UI pattern, replacing JS lib, choosing layout/animation primitive, before popover/dialog/container-queries/anchor-positioning/view-transitions/scroll-driven-animations/color-mix/oklch/:has(). Skip: non-UI code, language without HTML/CSS, user opted Tier-C bleeding-edge."
+description: "Baseline-tier decision tree for HTML/CSS/DOM Tier A Widely-9mo auto-adopt, Tier B Newly prompt, Tier C Limited avoid sans fallback. Use when: writing CSS/HTML, picking UI pattern, replacing JS lib, choosing layout/animation primitive, before popover/dialog/container-queries/anchor-positioning/view-transitions/scroll-driven-animations/color-mix/oklch/:has(). Skip: non-UI code."
 when_to_use: "\"writing CSS, writing HTML, picking a UI pattern, replacing a JS library, choosing a layout or animation primitive\""
 paths: "[\"**/*.{css,scss,sass,less,html,htm,jsx,tsx,vue,svelte,astro,mdx}\"]"
 ---

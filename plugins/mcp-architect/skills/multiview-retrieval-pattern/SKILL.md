@@ -1,6 +1,6 @@
 ---
 name: mcp-architect-multiview-retrieval-pattern
-description: "Retrieval MCP progressive disclosure: default single mode, dense/lexical/symbolic/multiview opt-in flags. Index-once query-many — build cost amortized, query cost per-mode cheap. Ref impl: lci search modes. Use when: retrieval MCP over corpus with multiple index types (semantic + lexical + symbolic + graph), tool hitting recall cliff on multi-hop, consumers want opt-in expensive merges. Skip: single-corpus single-mode tools, all-1-hop queries, generative tools."
+description: "Retrieval MCP progressive disclosure: default single mode; dense/lexical/symbolic/multiview opt-in flags. Index-once query-many. Use when: retrieval MCP over corpus with multiple index types (semantic + lexical + symbolic + graph), tool hitting recall cliff on multi-hop, consumers want opt-in expensive merges. Skip: single-corpus single-mode tools, all-1-hop queries, generative tools."
 disable-model-invocation: true
 version: 0.1.0
 ---

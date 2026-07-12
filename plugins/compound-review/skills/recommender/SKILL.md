@@ -1,6 +1,6 @@
 ---
 name: compound-review-recommender
-description: "Routes any compound-review / code-review / debug / product intent to the one right manual skill — the single auto-invoked gateway; all other compound-review skills are manual. compound-review 唯一自動網關，導向正確之手動技藝。 Use when: simplify recently changed code, debug an error or test failure, dispatch an adversarial reviewer (correctness/testing/maintainability/typescript-strict/cli-readiness) over a diff, run a product pulse report, write or update STRATEGY.md, unsure which compound-review skill."
+description: "Routes compound-review / code-review / debug / product intent to right manual skill — sole auto gateway; others manual. compound-review 唯一自動網關。 Use when: simplify changed code, debug error or test failure, dispatch adversarial reviewer (correctness/testing/maintainability/typescript-strict/cli-readiness) over diff, product pulse report, write STRATEGY.md, unsure which compound-review skill."
 ---
 
 # compound-review Skill Recommender

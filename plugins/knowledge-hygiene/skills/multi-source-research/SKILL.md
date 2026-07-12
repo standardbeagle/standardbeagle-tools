@@ -1,6 +1,6 @@
 ---
 name: knowledge-hygiene-multi-source-research
-description: "Grounded research pipeline: gather (>=2 sources) -> conflict-detect -> synthesize-with-provenance + K2 §3.2 multiview retrieval. 多源研究管道。 Use when: synthesizing claims from multiple docs/repos/papers, before load-bearing assertion in spec/design, fact-checking PR, gathering evidence for architectural decision, validating claim contradicting Phase 0 bullet. Skip: single authoritative source sufficient (lci:get_context for signature), non-load-bearing claim."
+description: "Grounded research pipeline: gather >=2 sources -> conflict-detect -> synthesize-with-provenance, multiview retrieval. 多源研究管道。 Use when: synthesizing claims from multiple docs/repos/papers, before load-bearing assertion in spec/design, fact-checking PR, gathering evidence for architectural decision, validating contradicting claim. Skip: single authoritative source suffices."
 disable-model-invocation: true
 ---
 

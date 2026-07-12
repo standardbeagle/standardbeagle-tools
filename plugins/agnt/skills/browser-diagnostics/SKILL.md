@@ -1,6 +1,6 @@
 ---
 name: agnt-browser-diagnostics
-description: "Browser element inspect, layout diag, tree walk, visual check, plus NAVIGATION (back/forward/reload/goto) via proxy exec — target site is iframe-wrapped, scope exec with target:inner/outer. Use __devtool.* helpers, not raw document.querySelector/getComputedStyle/getBoundingClientRect chains. 瀏覽器元素檢測、佈局、樹遍歷、視覺、導航；目標恆iframe包裹。 Use when: inspect element, debug layout, z-index, overflow, element position, box model, flex/grid debug, navigate page, goto URL, reload, iframe target scoping, before raw DOM JS in proxy exec"
+description: "Browser element inspect, layout diag, navigation (back/forward/reload/goto) via proxy exec — target iframe-wrapped, scope target:inner/outer; use __devtool.* helpers, not raw querySelector/getComputedStyle. 瀏覽器元素檢測、佈局、導航；目標恆iframe包裹。 Use when: inspect element, debug layout, z-index, overflow, box model, flex/grid, navigate page, goto URL, reload, iframe scoping, before raw DOM JS in proxy exec"
 ---
 
 # 瀏覽器診斷技能

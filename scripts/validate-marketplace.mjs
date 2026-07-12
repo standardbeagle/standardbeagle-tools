@@ -20,7 +20,11 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from "
 import { join, basename, sep } from "node:path";
 import { execFileSync } from "node:child_process";
 
-const DESC_MAX = 600;
+// Per dev-standards:skill-description-style — the canonical policy in this repo:
+//   target 150-400 chars, HARD ceiling 1024 (some clients reject longer, and the
+//   deterministic budget truncates mechanically, possibly mid-sentence).
+const DESC_TARGET = 400;
+const DESC_HARD = 1024;
 const SECRET =
   /(sk-[A-Za-z0-9]{20,}|figd_[A-Za-z0-9_-]{20,}|r8_[A-Za-z0-9]{20,}|dsa_[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|eyJhbGciOi[A-Za-z0-9_.-]{40,})/;
 
@@ -115,11 +119,17 @@ function checkMd(file, rel, kind) {
   }
   if (kind === "skill" && !fm.name) err(rel, `${kind} frontmatter missing \`name\``);
   if (!fm.description) err(rel, `${kind} frontmatter missing \`description\``);
-  else if (fm.description.length > DESC_MAX)
+  else if (fm.description.length > DESC_HARD)
+    err(
+      rel,
+      `${kind} description is ${fm.description.length}ch (>${DESC_HARD} hard ceiling) — ` +
+        `it will be truncated mechanically, possibly mid-sentence`,
+    );
+  else if (fm.description.length > DESC_TARGET)
     warn(
       rel,
-      `${kind} description is ${fm.description.length}ch (>${DESC_MAX}) — descriptions are ` +
-        `injected into every agent's context and compete for a fixed skills budget`,
+      `${kind} description is ${fm.description.length}ch (target <=${DESC_TARGET}) — ` +
+        `compress per dev-standards:skill-description-style (conceptual, then caveman/wenyan)`,
     );
   if (SECRET.test(text)) err(rel, `${kind} appears to contain a committed secret`);
   return fm;

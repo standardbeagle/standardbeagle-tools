@@ -1,6 +1,6 @@
 ---
 name: modern-html-native-html-primitives
-description: "Native dialog/popover/tooltip/accordion/disclosure/search/lazy-img/command-buttons — dialog (showModal, ::backdrop, requestClose), Popover API (popover, popovertarget, auto/manual/hint), details/summary name attr exclusive accordion, search, inert, loading=lazy, command/commandfor. Use when: dialog/modal, tooltip/dropdown, FAQ/accordion, search landmark, defer offscreen images, button-driven popover. Skip: CSS-only, non-HTML."
+description: "Native dialog/popover/tooltip/accordion/disclosure/search/lazy-img/command-buttons — dialog (showModal, ::backdrop, requestClose), Popover API (popover, popovertarget, auto/manual/hint), details/summary name attr exclusive accordion, inert, loading=lazy, command/commandfor. Use when: dialog/modal, tooltip/dropdown, FAQ/accordion, search landmark, defer offscreen images. Skip: CSS-only, non-HTML."
 paths: "[\"**/*.{html,htm,jsx,tsx,vue,svelte,astro,mdx,erb,php}\"]"
 ---
 

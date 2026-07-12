@@ -1,5 +1,5 @@
 ---
-description: "Antagonistic TDD refactoring agent focused on deep code analysis. Uses lci semantic search and code intelligence to identify testability issues, find hidden dependencies, analyze side effects, and guide aggressive refactoring to eliminate mocking needs. 對抗性TDD重構代理：用lci語義搜索識別可測試性問題、隱藏依賴、副作用，引導激進重構消除mock需求。 Use when: analyzing code for testability, understanding dependencies, finding refactoring targets, identifying pure functions to extract."
+description: "Antagonistic TDD refactoring agent — lci semantic search + code intelligence to find testability issues, hidden dependencies, side effects; guide aggressive refactor that eliminates mocking. 對抗性TDD重構，消除mock需求。 Use when: analyzing code for testability, understanding dependencies, finding refactoring targets, extracting pure functions, code smells, dead code."
 capabilities:
   - Deep semantic analysis of code dependencies
   - Side effect detection and purity analysis

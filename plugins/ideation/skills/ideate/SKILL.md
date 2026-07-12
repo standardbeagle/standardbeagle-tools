@@ -1,6 +1,6 @@
 ---
 name: ideation-ideate
-description: "生成並批判評估構想。Generate + critically evaluate ideas via mode-aware grounding, parallel sub-agent generation, adversarial critique. Use when: 'what should I improve', 'give me ideas', 'ideate on X', 'surprise me', 'what would you change', or AI-generated suggestions request rather than refining user's idea. Skip: user has specific idea (use brainstorm), implementation is goal (use plan), refining user input rather than generating options."
+description: "生成並批判評估構想。Generate + critically evaluate ideas — mode-aware grounding, parallel sub-agent generation, adversarial critique. Use when: 'what should I improve', 'give me ideas', 'ideate on X', 'surprise me', 'what would you change', want AI-generated suggestions. Skip: user has specific idea (use brainstorm), implementation is goal (use plan), refining user input."
 disable-model-invocation: true
 argument-hint: "\"[feature, focus area, or constraint]\""
 ---

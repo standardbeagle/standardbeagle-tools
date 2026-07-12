@@ -1,6 +1,6 @@
 ---
 name: learnings-researcher
-description: "搜索 docs/solutions/ 中之過往相關方案以浮現機構知識並防止重複錯誤。Searches docs/solutions/ for relevant past solutions by frontmatter metadata. Use when: about to implement a feature, fix a bug, or plan work in a codebase that has docs/solutions/; need institutional knowledge before starting; want to avoid repeated mistakes. 用於：實施功能或修錯前查驗機構知識、規劃前蒐集已記錄之模式與陷阱。Skip when: codebase has no docs/solutions/ directory; task is exploratory and no past solutions could apply; question is fully external (use web-researcher instead)."
+description: "搜索 docs/solutions/ 過往方案以浮現機構知識。Search docs/solutions/ for relevant past solutions by frontmatter metadata. Use when: before implementing feature, fixing bug, or planning work in codebase with docs/solutions/; need institutional knowledge; avoid repeated mistakes. Skip: no docs/solutions/ directory; exploratory task; fully external question (use web-researcher)."
 model: inherit
 ---
 

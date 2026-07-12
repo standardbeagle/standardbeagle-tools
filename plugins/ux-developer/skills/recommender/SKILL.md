@@ -1,6 +1,6 @@
 ---
 name: ux-developer-recommender
-description: "Routes any UX / accessibility / frontend-UX intent to the one right manual ux-developer skill — the single auto-invoked gateway; all other ux-developer skills are manual. ux-developer 唯一自動網關，導向正確之手動技藝。 Use when: UX review or audit, accessibility / WCAG / a11y check, screen reader or keyboard nav, form or component UX, user flow, navigation, content hierarchy, cognitive load, loading or error states, mobile-first, touch targets, Nielsen heuristics, pre-deploy UX verify, agnt setup, unsure which ux skill."
+description: "Routes UX/accessibility/frontend-UX intent to right manual ux-developer skill. ux-developer 唯一自動網關。 Use when: UX review/audit, accessibility/WCAG/a11y check, screen reader, keyboard nav, form/component UX, user flow, navigation, content hierarchy, cognitive load, loading/error states, mobile-first, touch targets, Nielsen heuristics, pre-deploy UX verify, agnt setup, unsure which ux skill."
 ---
 
 # ux-developer Skill Recommender

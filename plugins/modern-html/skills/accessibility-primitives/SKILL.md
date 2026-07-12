@@ -1,6 +1,6 @@
 ---
 name: modern-html-accessibility-primitives
-description: "Native a11y primitives — focus-visible, focus-within, inert, prefers-reduced-motion, prefers-color-scheme, prefers-contrast, forced-colors, accessibility-tree for dialog/popover/anchor-positioning, ARIA labeling for native primitives. Use when: writing focus styles, keyboard nav, animating UI, picking colors, modal/popover content, auditing component a11y. Skip: backend code, non-rendered content."
+description: "Native a11y primitives — focus-visible, focus-within, inert, prefers-reduced-motion, prefers-color-scheme, prefers-contrast, forced-colors, accessibility-tree for dialog/popover/anchor-positioning, ARIA labeling. Use when: focus styles, keyboard nav, animating UI, picking colors, modal/popover content, auditing component a11y. Skip: backend code, non-rendered content."
 paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 

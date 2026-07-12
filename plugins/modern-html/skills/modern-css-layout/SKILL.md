@@ -1,6 +1,6 @@
 ---
 name: modern-html-modern-css-layout
-description: "Container queries, container query units (cqw/cqh/cqi/cqb), subgrid, :has() relational selector for responsive component-driven sizing. Use when: cards/sidebars/dashboards/responsive components, grandchild row alignment across siblings, styling parents by descendants, replacing viewport media queries with component-aware. Skip: static single-viewport layout, project mandates Baseline-Widely-3yr only."
+description: "Container queries, container query units (cqw/cqh/cqi/cqb), subgrid, :has() relational selector for responsive component-driven sizing. Use when: cards/sidebars/dashboards/responsive components, grandchild row alignment across siblings, styling parents by descendants, replacing viewport media queries with component-aware. Skip: static single-viewport layout, Baseline-Widely-3yr-only project."
 paths: "[\"**/*.{css,scss,sass,less,html,jsx,tsx,vue,svelte,astro}\"]"
 ---
 
