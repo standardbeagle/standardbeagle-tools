@@ -1,6 +1,6 @@
 {
   "name": "slop-coder",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "SLOP language coding assistant - teaches LLMs how to write SLOP code with comprehensive language reference, patterns, and best practices for building AI agents and orchestration workflows.",
   "author": {
     "name": "Standard Beagle",

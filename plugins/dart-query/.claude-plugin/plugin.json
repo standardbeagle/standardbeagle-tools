@@ -1,6 +1,6 @@
 {
   "name": "dart-query",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "dart-query MCP client skills - tool references, task lifecycle workflows, project management recipes, and Claude Code loop integration for Dart AI task management",
   "author": {
     "name": "Standard Beagle",

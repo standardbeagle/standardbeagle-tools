@@ -1,6 +1,6 @@
 {
   "name": "modern-html",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Baseline-first HTML/CSS guidance for AI coding agents. Routes UI generation toward native HTML elements and modern CSS that has reached Web Platform Baseline Widely-available status for at least 9 months, prompts before Newly-available features, and avoids Limited features without explicit fallback. Covers dialog, popover, anchor positioning, container queries, subgrid, :has(), @scope, @layer, view transitions, scroll-driven animations, light-dark(), oklch(), color-mix(), text-wrap, and accessibility primitives.",
   "author": {
     "name": "Standard Beagle",
