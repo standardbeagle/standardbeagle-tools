@@ -33,3 +33,9 @@ coverage.out
 coverage.html
 .superpowers/
 coverage/
+
+# Repo-local agent skills are part of the project and SHOULD be shared.
+# (.claude/ itself stays ignored — it also holds local, machine-specific state.)
+!.claude/
+.claude/*
+!.claude/skills/
