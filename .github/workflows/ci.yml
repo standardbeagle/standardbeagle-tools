@@ -26,6 +26,10 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Marketplace integrity. Claude fails a broken plugin SILENTLY (it still
+      # reports as installed while its hooks/skills are dead), so CI must gate it.
+      - run: pnpm validate:marketplace
+
       - run: pnpm lint
 
       - run: pnpm build

@@ -1,0 +1,22 @@
+#!/bin/sh
+# Cross-platform pre-commit gate for the plugin marketplace.
+#
+# Portable by construction:
+#   - /bin/sh only (Git ships an sh on Windows, so this runs under Git Bash,
+#     PowerShell, and cmd alike -- git invokes hooks through its own shell)
+#   - no bash-isms, no GNU-only flags, no chmod/symlink assumptions
+#   - all real logic lives in Node (scripts/validate-marketplace.mjs), which is
+#     the same on every OS
+#
+# Enable (once per clone, any OS):   git config core.hooksPath .githooks
+# `npm install` does this for you via the "prepare" script.
+set -e
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "pre-commit: node not found on PATH — cannot validate marketplace" >&2
+  exit 1
+fi
+
+# --staged: only validate plugins touched by this commit, so the hook stays fast
+# on a 26-plugin repo. Exits non-zero on any error and blocks the commit.
+node "$(git rev-parse --show-toplevel)/scripts/validate-marketplace.mjs" --staged

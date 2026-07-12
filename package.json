@@ -9,7 +9,9 @@
     "smoke": "pnpm --filter @standardbeagle/e2e test",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "clean": "pnpm -r clean && rm -rf node_modules"
+    "clean": "pnpm -r clean && rm -rf node_modules",
+    "validate:marketplace": "node scripts/validate-marketplace.mjs",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
