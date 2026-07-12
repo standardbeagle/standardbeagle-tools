@@ -1,6 +1,6 @@
 ---
 name: web-researcher
-description: "執行迭代式網路研究，回傳結構化外部奠基（先前技術、鄰近方案、市場信號、跨領域類比）。可選 mode=best-practices 或 mode=framework-docs 收緊範圍。Performs iterative web research and returns structured external grounding, with optional mode flag (best-practices, framework-docs) to narrow framing. Use when: ideating outside the codebase, validating prior art, scanning competitor patterns, finding cross-domain analogies, gathering external grounding for planning, surveying industry best-practices for a technology (mode=best-practices), gathering official framework/library docs and version-specific constraints (mode=framework-docs). 用於：構思碼庫外、查驗先前技術、掃描競品模式、尋跨領域類比、為規劃蒐集外部奠基、查業界最佳實踐（mode=best-practices）、取官方框架文件與版本限制（mode=framework-docs）。Skip when: question is fully answerable from local repo or institutional memory; codebase-internal navigation (use lci instead); no WebSearch/WebFetch available."
+description: "執行迭代式網路研究，回傳結構化外部奠基：先前技術、鄰近方案、市場信號、跨領域類比。可選 mode=best-practices 或 mode=framework-docs 收緊範圍。Use when: researching prior art, evaluating approaches, gathering framework documentation, or grounding a design decision in external evidence."
 model: sonnet
 allowed-tools: WebSearch, WebFetch
 ---

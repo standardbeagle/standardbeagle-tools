@@ -1,6 +1,6 @@
 ---
 name: session-historian
-description: "搜索 Claude Code、Codex、Cursor 之 session 歷史以浮現先前對同一問題之調查情境。Searches Claude Code, Codex, and Cursor session history for related prior sessions about the same problem or topic. Use when: surface investigation context from prior sessions, find what was tried before, recall failed approaches and decisions across sessions, conversational queries about past work (\"what did I do last week\", \"how did this feature evolve\"). 用於：浮現先前 session 之調查情境、查曾試何事、跨 session 回憶失敗方法與決策、對過去工作之對話式查詢。Skip when: question is fully answerable from current session's conversation history; no session history available (first session in repo, fresh machine); session files inaccessible due to permissions."
+description: "搜索 Claude Code、Codex、Cursor 之 session 歷史，浮現先前對同一問題之調查情境。Searches Claude Code, Codex and Cursor session history for prior sessions on the same problem. Use when: surfacing investigation context from earlier sessions, finding what was already tried, or avoiding repeating a past debugging effort."
 model: sonnet
 allowed-tools: Bash, Glob, Grep, Read
 ---

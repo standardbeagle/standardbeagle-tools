@@ -1,6 +1,6 @@
 ---
 name: agnt-skills
-description: "Index + router for agnt's browser-superpowers skills. agnt gives Claude eyes and hands in a real running browser via reverse proxy: drive a dev server, navigate and inspect a live (iframe-wrapped) page, catch JS/network errors, audit a11y/perf/SEO/security, sketch UI, record clickable demo walkthroughs, and stream user interactions in real time. 列舉並導向 agnt 全部瀏覽器技能。 Use when: what can agnt do, list agnt skills, audit a page (a11y/perf/seo/security), test UX or QA a page, sketch or wireframe UI, record a demo/walkthrough, watch errors or user events live, review API/network traffic, responsive/mobile check, analyze frontend, set up agnt or a project, stop processes — and you are unsure which agnt skill fits"
+description: "Index and router for agnt's browser skills. agnt drives a real running browser via reverse proxy: dev server, live page navigation and inspection, DOM/CSS/layout diagnostics, console and network errors, screenshots, sketch mode, and accessibility/performance/security/SEO audits. Use when: picking an agnt skill, debugging a browser issue, inspecting an element, auditing a page, starting a dev server or proxy."
 ---
 
 # agnt 技能索引 — Skill router

@@ -1,6 +1,6 @@
 ---
 name: dartai-recommender
-description: "Routes any dartai / Dart-backed Ralph-Wiggum-loop intent to the one right manual skill — the single auto-invoked gateway; all other dartai skills are manual. dartai 唯一自動網關，導向正確之手動技藝。 Use when: start or run a Dart-backed adversarial loop, run a task through quality gates, dispatch a reviewer (code-quality/qa/post-task), choose testing strategy, verify or judge a verdict, report/review/sync/loop-status, setup Dart or roles or config, diagnose hooks, dart-query API (task/filter/relationships/batch/workspace-docs), plan (simple/adversarial), doc templates, prior session history, unsure which dartai skill."
+description: "Routes any dartai / Dart-backed Ralph-Wiggum-loop intent to the one right manual skill. The single auto-invoked gateway — every other dartai skill is manual. Use when: any dartai task, Dart task management, planning or executing a loop, and you need to know which dartai skill applies."
 ---
 
 # dartai Skill Recommender

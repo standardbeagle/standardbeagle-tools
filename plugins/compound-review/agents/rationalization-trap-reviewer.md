@@ -1,6 +1,6 @@
 ---
 name: rationalization-trap-reviewer
-description: "Conditional code-review persona: detects rationalization-trap signatures in PR descriptions, commit messages, code comments — long CoT preceding small critical-path change, explanation chains bridging unrelated facts, counter-intuitive choices defended without test coverage, novel-approach claims ignoring precedent, rationale contradicting codebase convention. Fires when diff >50 LOC OR touches load-bearing paths (auth/payments/data-mutations/migrations/security primitives) AND description/commit carries multi-paragraph rationale (>3 paragraphs OR >400 words). Wraps knowledge-hygiene:rationalization-trap-check with PR-context lens — reviews diff content at review time, vs risk-pipeline's metadata-only pre-merge gate. Use when: reviewing PR diff + description for rationalization signatures, gating long rationale on load-bearing changes, CoT-vs-change shape mismatch. Skip when: small diff AND terse description; metadata-only audit (use risk-pipeline class); formatting-only or docs-only PRs."
+description: "Code-review persona that detects rationalization-trap signatures: long chain-of-thought preceding a small critical-path change, explanations that argue rather than verify, confident claims with no evidence, and load-bearing assertions backed by a single source. Use when: reviewing a PR touching critical paths, or auditing a change whose justification outweighs its diff."
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:

@@ -1,6 +1,6 @@
 ---
 name: cli-readiness-reviewer
-description: "條件式代碼審查角色（diff含CLI命令、參數解析、命令處理器，或CLI規格/計劃時觸發）：以自主代理視角評CLI——非僅人類可用，乃對代理是否真正友好。Conditional code-review persona, selected when the diff touches CLI command definitions, argument parsing, command handler implementations, or CLI plans/specs. Reviews for AI-agent readiness — non-interactive, structured output, actionable errors, idempotent retries. Use when: reviewing CLI source/plans/specs for agent ergonomics, hunting interactive prompts without TTY guards, missing --json/--format, unbounded list output. 用於：審CLI碼/計劃/規格、TTY守衛缺、結構輸出缺、列表無界。Skip when: agent-native UI parity (use agent-native-reviewer); test files; doc-only changes; non-CLI code paths."
+description: "條件式代碼審查角色：評 CLI 是否對自主代理真正友好，非僅人類可用。Conditional code-review persona, selected when the diff touches CLI command definitions, argument parsing, or command handlers. Judges the CLI from an autonomous agent's perspective: discoverable commands, machine-readable output, non-interactive flags, actionable exit codes and errors. Use when: reviewing CLI changes, adding a command or flag, or writing a CLI spec."
 model: inherit
 allowed-tools: Read, Grep, Glob, Bash
 skills:

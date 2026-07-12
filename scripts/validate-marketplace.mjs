@@ -34,6 +34,8 @@ const warnings = [];
 const fixes = [];
 /** Errors that --fix actually repaired. They must not block the commit. */
 const repaired = new Set();
+/** skill name -> where first seen; a duplicate name shadows another skill. */
+const skillNames = new Map();
 const err = (w, m) => errors.push([w, m]);
 const warn = (w, m) => warnings.push([w, m]);
 
@@ -123,11 +125,32 @@ function checkMd(file, rel, kind) {
   return fm;
 }
 
-function checkPlugin(name) {
-  const pdir = join(repo, "plugins", name);
-  const rel = `plugins/${name}`;
+/**
+ * @param name   plugin name
+ * @param source path from marketplace.json (e.g. "./plugins/agnt" or "./math-physics-ml").
+ *               Plugins do NOT have to live under plugins/ — the marketplace entry's
+ *               `source` is authoritative.
+ */
+function checkPlugin(name, source) {
+  const relDir = (source ?? `./plugins/${name}`).replace(/^\.\//, "");
+  const pdir = join(repo, ...relDir.split("/"));
+  const rel = relDir;
+  if (!isDir(pdir)) return err(rel, `plugin directory does not exist (source: ${source})`);
+
   const mp = join(pdir, ".claude-plugin", "plugin.json");
-  if (!existsSync(mp)) return err(rel, "missing .claude-plugin/plugin.json");
+  if (!existsSync(mp)) {
+    // A frequent mistake: the manifest is present but misnamed. Claude only reads
+    // plugin.json, so the plugin silently fails to load.
+    const wrong = ["manifest.json", "plugin.jsonc", "claude-plugin.json"].find((f) =>
+      existsSync(join(pdir, ".claude-plugin", f)),
+    );
+    return err(
+      rel,
+      wrong
+        ? `manifest is named .claude-plugin/${wrong} — Claude only reads plugin.json, so this plugin never loads`
+        : "missing .claude-plugin/plugin.json",
+    );
+  }
 
   let manifest;
   try {
@@ -156,17 +179,19 @@ function checkPlugin(name) {
       }
       const fm = checkMd(sp, `${rel}/skills/${skill}/SKILL.md`, "skill");
       // Claude namespaces plugin skills by DIRECTORY (`plugin:skill`), so the
-      // frontmatter `name` may legitimately differ. Two forms are accepted:
-      //   name == <skill>            (bare)
-      //   name == <plugin>-<skill>   (prefixed, used when the skill is also
-      //                               distributed standalone via `npx skills`)
-      // Anything else still dispatches (the name is unique), it is just off-convention
-      // and makes the standalone name unpredictable — warn, do not block the commit.
-      if (fm?.name && fm.name !== skill && fm.name !== `${name}-${skill}`)
-        warn(
-          `${rel}/skills/${skill}`,
-          `SKILL.md name '${fm.name}' is off-convention (expected '${skill}' or '${name}-${skill}')`,
-        );
+      // frontmatter `name` may legitimately differ from the directory, and often
+      // must: worktrack-loop's commands reference `Skill(worktrack-mcp-discovery)`
+      // by name, so those names are load-bearing. Do NOT enforce a naming
+      // convention here — it produced 24 warnings on names that were all correct.
+      //
+      // What DOES break is a duplicate name: two skills with the same `name`
+      // collide in the flat namespace that non-Claude agents dispatch from, and
+      // one silently shadows the other.
+      if (fm?.name) {
+        const prev = skillNames.get(fm.name);
+        if (prev) err(`${rel}/skills/${skill}`, `SKILL.md name '${fm.name}' is already used by ${prev}`);
+        else skillNames.set(fm.name, `${rel}/skills/${skill}`);
+      }
     }
   }
 
@@ -198,16 +223,16 @@ function checkMarketplace() {
     err(".claude-plugin/marketplace.json", `does not parse: ${e.message}`);
     return onDisk;
   }
-  const listed = new Set(
-    (data.plugins ?? []).map((p) => (typeof p === "string" ? p : p.name)).filter(Boolean),
-  );
-  for (const n of [...listed].sort())
-    if (!onDisk.includes(n))
-      err(".claude-plugin/marketplace.json", `lists plugin '${n}' but plugins/${n} does not exist`);
+  // name -> source path (authoritative; a plugin need not live under plugins/)
+  const listed = new Map();
+  for (const p of data.plugins ?? []) {
+    const n = typeof p === "string" ? p : p.name;
+    if (n) listed.set(n, typeof p === "string" ? undefined : p.source);
+  }
   for (const n of onDisk.sort())
     if (!listed.has(n))
       warn(".claude-plugin/marketplace.json", `plugins/${n} exists but is not listed — it is not installable`);
-  return onDisk;
+  return listed;
 }
 
 function stagedPlugins() {
@@ -223,17 +248,17 @@ function stagedPlugins() {
   return names;
 }
 
-const onDisk = checkMarketplace();
-let targets = onDisk;
+const listed = checkMarketplace();
+let targets = [...listed.keys()];
 if (STAGED) {
   const staged = stagedPlugins();
-  targets = onDisk.filter((n) => staged.has(n));
+  targets = targets.filter((n) => staged.has(n));
   if (!targets.length) {
     console.log("validate-marketplace: no plugin changes staged — skipping");
     process.exit(0);
   }
 }
-for (const n of targets.sort()) checkPlugin(n);
+for (const n of targets.sort()) checkPlugin(n, listed.get(n));
 
 const blocking = errors.filter(([w]) => !repaired.has(w));
 
