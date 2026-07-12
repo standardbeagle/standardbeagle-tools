@@ -65,8 +65,69 @@ function frontmatter(file) {
  * detected" — which disables ALL of the plugin's hooks while the plugin still
  * reports as installed. Silent, total hook failure.
  */
+const HOOK_EVENTS = new Set([
+  "PreToolUse", "PostToolUse", "Notification", "UserPromptSubmit",
+  "Stop", "SubagentStop", "PreCompact", "SessionStart", "SessionEnd",
+]);
+
+/**
+ * Validate a hook event map — the {SessionStart: [{hooks:[{command}]}]} shape.
+ * Used for BOTH hooks/hooks.json and the inline `hooks` object in plugin.json.
+ *
+ * Two failure modes, both silent:
+ *   - an unknown event name simply never fires
+ *   - a command referencing a script that does not exist fails on every trigger
+ *     (a cached `caveman` build points at src/hooks/*.js while the scripts live
+ *     in hooks/ — the hook is dead and nothing says so)
+ */
+function checkHookMap(map, pdir, rel, where) {
+  for (const [ev, groups] of Object.entries(map ?? {})) {
+    if (!HOOK_EVENTS.has(ev))
+      err(rel, `${where}: unknown hook event '${ev}' — it will never fire`);
+    for (const g of Array.isArray(groups) ? groups : [groups]) {
+      for (const h of g?.hooks ?? []) {
+        const cmd = String(h?.command ?? "");
+        // resolve the plugin-root placeholder, then check every script path
+        const resolved = cmd
+          .replace(/\$\{CLAUDE_PLUGIN_ROOT\}/g, pdir)
+          .replace(/\$CLAUDE_PLUGIN_ROOT/g, pdir);
+        for (const m of resolved.matchAll(/([\w./-]*\/[\w./-]+\.(?:js|mjs|cjs|sh|py))/g)) {
+          const p = m[1];
+          if (p.includes("$")) continue;
+          if (!existsSync(p))
+            err(rel, `${where}: [${ev}] references a script that does not exist: ${p.replace(pdir, "<plugin>")}`);
+        }
+      }
+    }
+  }
+}
+
 function checkHooks(pdir, manifest, rel) {
+  // hooks/hooks.json is auto-loaded — validate it even when the manifest is silent
+  const hj = join(pdir, "hooks", "hooks.json");
+  if (existsSync(hj)) {
+    let d;
+    try {
+      d = readJson(hj);
+    } catch (e) {
+      err(rel, `hooks/hooks.json does not parse: ${e.message}`);
+      d = null;
+    }
+    if (d) {
+      const map = d.hooks ?? d;
+      if (!Object.keys(map).length)
+        warn(rel, "hooks/hooks.json declares no hooks — dead file, delete it");
+      checkHookMap(map, pdir, rel, "hooks/hooks.json");
+    }
+  }
+
   if (manifest.hooks === undefined) return;
+  // hooks may be declared INLINE as an event map (caveman does this), not just as
+  // file paths. The path-based branch below would silently skip it.
+  if (manifest.hooks && !Array.isArray(manifest.hooks) && typeof manifest.hooks === "object") {
+    checkHookMap(manifest.hooks, pdir, rel, "manifest `hooks`");
+    return;
+  }
   const list = Array.isArray(manifest.hooks) ? manifest.hooks : [manifest.hooks];
   const keep = [];
   let dropped = false;
