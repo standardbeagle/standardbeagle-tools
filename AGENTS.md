@@ -9,7 +9,7 @@
 1. **agnt** (v0.9.0) - Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode
 2. **lci** (v0.5.0) - Lightning code intelligence: sub-millisecond semantic code search
 
-餘皆 workflow/skill bundles：dartai, workflow, brainstorming, knowledge-hygiene, risk-pipeline, ux-design, ux-developer, mcp-architect, mcp-tester, dev-standards, photino, figma-query, color, typography, design-token, a11y-audit, image-processing, ideation, compound-review, research, slop-mcp, slop-coder, dart-query, prompt-engineer。真源：`.claude-plugin/marketplace.json`。
+餘皆 workflow/skill bundles：dartai, workflow, brainstorming, knowledge-hygiene, ux-design, ux-developer, mcp-architect, mcp-tester, dev-standards, photino, figma-query, color, typography, design-token, a11y-audit, image-processing, ideation, compound-review, research, slop-mcp, slop-coder, dart-query, prompt-engineer。真源：`.claude-plugin/marketplace.json`。
 
 > **Note:** `tools` plugin（合 agnt+lci）昔有，commit `3581d1c` 已除。舊本地裝或報 "tools@standardbeagle-tools: Plugin tools not found in marketplace" — 以 `claude plugin uninstall tools@standardbeagle-tools` 卸之。
 
@@ -118,7 +118,7 @@ plugins/
       └── (no ..mcp.json — pure skill bundles)
 ```
 
-> **`..mcp.json.disabled`** 故意也。Plugin-bundled MCP configs 與此 project `slop-mcp` registration model 不合。Users 當由 slop-mcp register MCP servers，非 plugin-bundled configs。勿復啟以「fix」。例外：`slop-mcp` 與 `risk-pipeline` plugins 保持 `..mcp.json` active（entry-point servers）。
+> **`..mcp.json.disabled`** 故意也。Plugin-bundled MCP configs 與此 project `slop-mcp` registration model 不合。Users 當由 slop-mcp register MCP servers，非 plugin-bundled configs。勿復啟以「fix」。例外：`slop-mcp` plugin 保持 `..mcp.json` active（entry-point server）。
 
 ### Plugin Architecture
 
@@ -387,7 +387,7 @@ skill matcher 為 **LLM-driven semantic**，非 keyword indexing。可劇壓，�
 
 **Targets**：150–400 chars typical。**Hard ceiling**：1024 chars（some clients reject longer）。
 
-**Visibility tier**（此 repo）：5 plugins auto-invocable（agnt, dartai, lci, dev-standards, modern-html）；餘 plugins per skill 設 `disable-model-invocation: true` — descriptions 不耗 per-turn context，故壓縮優先低。**Recommender-gateway 慣例**：大型全手動 bundle 各設**唯一**自動 `recommender` 技藝（無 `disable-model-invocation`），據意圖導向其手動技藝之一，含 Disambiguation 節化解近義技藝。已推行於 15 plugins：slop-mcp（另有 `slop-find-tools`）、figma-query、ux-developer、prompt-engineer、workflow、photino、ux-design、mcp-architect、mcp-tester、design-utilities、dart-query、caveman、compound-review、slop-coder、risk-pipeline。gateway 描述須維持 concept tokens + Use-when triggers。新增大型手動 bundle 時比照設 gateway。
+**Visibility tier**（此 repo）：5 plugins auto-invocable（agnt, dartai, lci, dev-standards, modern-html）；餘 plugins per skill 設 `disable-model-invocation: true` — descriptions 不耗 per-turn context，故壓縮優先低。**Recommender-gateway 慣例**：大型全手動 bundle 各設**唯一**自動 `recommender` 技藝（無 `disable-model-invocation`），據意圖導向其手動技藝之一，含 Disambiguation 節化解近義技藝。已推行於 14 plugins：slop-mcp（另有 `slop-find-tools`）、figma-query、ux-developer、prompt-engineer、workflow、photino、ux-design、mcp-architect、mcp-tester、design-utilities、dart-query、caveman、compound-review、slop-coder。gateway 描述須維持 concept tokens + Use-when triggers。新增大型手動 bundle 時比照設 gateway。
 
 ### Best Practices for This Marketplace
 

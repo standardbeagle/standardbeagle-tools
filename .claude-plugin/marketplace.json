@@ -409,30 +409,6 @@
       "category": "development"
     },
     {
-      "name": "risk-pipeline",
-      "source": "./plugins/risk-pipeline",
-      "description": "Risk-driven task classification, splitting, and review dispatch pipeline",
-      "version": "0.4.1",
-      "author": {
-        "name": "Standard Beagle",
-        "url": "https://github.com/standardbeagle"
-      },
-      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
-      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
-      "license": "MIT",
-      "keywords": [
-        "risk-pipeline",
-        "task-classification",
-        "task-splitting",
-        "review-dispatch",
-        "adversarial-cooperation",
-        "codedoc-annotations",
-        "risk-tagging",
-        "depends:lci"
-      ],
-      "category": "development"
-    },
-    {
       "name": "superpowers",
       "source": "./plugins/superpowers",
       "description": "Wenyan port of core superpowers process skills — skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Brainstorming lives in the sibling brainstorming plugin.",
