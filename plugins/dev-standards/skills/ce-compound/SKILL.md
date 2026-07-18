@@ -315,6 +315,16 @@ and codebase findings take priority over these notes.
       ```
    c. 完整模式中，向用户解释其重要性——此仓库中工作之代理（包括新会话、其他工具或无插件之协作者）将不知检查 `docs/solutions/`，除非指示文件呈现之。展示拟议变更及位置，后以平台之阻塞提问工具（Claude Code 之 `AskUserQuestion`、Codex 之 `request_user_input`、Gemini 之 `ask_user`）征得同意方编辑。若无提问工具，展示提案候用户回复。轻量模式中，输出一行注记即续行
 
+### 学习形态评估
+
+文档写入后，判此学习之形态，以定是否另有更适之载体。此文档本身为 **fact / gotcha** 之载体（`docs/solutions/`）。据此评估是否**另**产出一物：
+
+- **Constraint（约束）** — 若学习实为一条恒常规则（"X 必如此"、"勿用 Y"），代理于相关领域工作时应受其约束——薦 `dev-standards:decide` 记为架构决策，或加一条 `.claude/rules/*.md`。docs/solutions 记其来由，rule 施其约束。
+- **Procedure / how-to（多步流程）** — 若方案实为一多步、可复用之流程，且**将再遇之语境明确**（如"每加一 API 端点"、"每跑此发布检查"），则**另**固化为项目技能：引 `dev-standards:config` 所导之 create-project-skill 径（`dev-standards:add-skill`）。彼流之终步向 repo 根 `AGENTS.md` 加一行 pointer——非-Claude agents 唯此可见该技能。
+- **Fact / gotcha（事实 / 陷阱）** — 无更适载体，本 `docs/solutions/` 文档即足，不另产。
+
+此为语义判断，非必然产出。多数学习止于本文档；仅当形态明为 constraint 或可复用 procedure 时方另产。轻量模式中，若判为其一，输出一行提示即续行，勿于此扩展。
+
 ### Phase 3：可选增强
 
 **候 Phase 2 完成方续行。**
