@@ -56,7 +56,7 @@ disable-model-invocation: true
 
 - **Filename**: `.claude/skills/<skill-name>/SKILL.md`
 - **Frontmatter `name`**: Title Case, concise
-- **Frontmatter `description`**: Third-person form ("This skill should be used when the user asks to..."), lists trigger phrases in quotes
+- **Frontmatter `description`**: Trigger-rich — one clause stating what the skill does, then `Use when:` followed by a comma-separated cluster of trigger phrases (the verbs + objects that match user intent), plus an optional `Skip:` excluder. Under 400 chars. Follow `dev-standards:skill-description-style`. This field is retrieval metadata; non-Claude agents never read it — cross-agent discovery is Step 6.
 - **Body**: Imperative form ("Read the file", "Ask the user", "Create the directory")
 - **Length**: Under 2000 words total
 - **Steps**: Numbered with `##` headings, use `--` separator (e.g., `## Step 1 -- Description`)
@@ -72,7 +72,7 @@ disable-model-invocation: true
 ```markdown
 ---
 name: <Skill Name>
-description: This skill should be used when the user asks to "<trigger 1>", "<trigger 2>", "<trigger 3>". Provides guidance for <what the skill does>.
+description: "<one clause: what the skill does>. Use when: <trigger 1>, <trigger 2>, <trigger 3>. Skip: <wrong-match excluder>."
 ---
 
 # <Skill Name>
@@ -100,7 +100,20 @@ description: This skill should be used when the user asks to "<trigger 1>", "<tr
 2. 創建 `.claude/skills/<skill-name>/scripts/` 並填入腳本文件
 3. 標記腳本為可執行
 
-## Step 6 -- Verify and Report
+## Step 6 -- Register in AGENTS.md
+
+Claude 自動發現 `.claude/skills/` 之項目技能；**非-Claude agents（Codex、Gemini 等）不然**——彼唯由 repo 根之 `AGENTS.md` 指引方見之。故此為 create-skill 流之**終步，非可選**。
+
+1. 尋 repo 根之 `AGENTS.md`。若無，建之，含 `## Project Skills` 節。
+2. 於既有技能清單下（或新建之）追加一行 pointer：
+
+   ```
+   - <skill-name>: <one-line summary> — .claude/skills/<skill-name>/SKILL.md
+   ```
+
+3. 行文從簡，配合檔案既有風格。一技能一行；勿重複既有條目。
+
+## Step 7 -- Verify and Report
 
 寫入後：
 
@@ -108,6 +121,7 @@ description: This skill should be used when the user asks to "<trigger 1>", "<tr
 2. 統計字數——若接近 2000 字上限則警告
 3. 驗證 frontmatter 解析正確（name、含觸發語的 description）
 4. 驗證所有 `##` 步驟標題使用 `Step N -- Description` 格式
+5. 確認 `AGENTS.md` 已含此技能之 pointer 行（Step 6）
 
 報告結果：
 
@@ -120,6 +134,7 @@ Skill created:
   Word count:  NNN / 2000
   References:  [list or "none"]
   Scripts:     [list or "none"]
+  AGENTS.md:   pointer added
 ```
 
 ## Related
