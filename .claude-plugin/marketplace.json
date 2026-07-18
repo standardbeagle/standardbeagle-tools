@@ -362,7 +362,7 @@
       "name": "dev-standards",
       "source": "./plugins/dev-standards",
       "description": "Contextually-loaded development standards and project-aware skills. Replaces bulk CLAUDE.md instructions with on-demand rules, language-scoped guidelines, and project-type skill templates.",
-      "version": "0.7.2",
+      "version": "0.8.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
