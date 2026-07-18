@@ -223,6 +223,7 @@ mkdir -p .claude/rules .claude/skills
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/code-quality.md` -> `.claude/rules/code-quality.md`
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/karpathy-principles.md` -> `.claude/rules/karpathy-principles.md`
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/refactor-discipline.md` -> `.claude/rules/refactor-discipline.md`
+- `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/performance.md` -> `.claude/rules/performance.md`
 - `${CLAUDE_PLUGIN_ROOT}/assets/templates/rules/grill-intake.md` -> `.claude/rules/grill-intake.md`
 
 原樣複製。無需填充佔位符。
@@ -414,6 +415,7 @@ Setup complete. Generated files:
 Rules (loaded automatically by Claude):
   .claude/rules/version-control.md
   .claude/rules/code-quality.md
+  .claude/rules/performance.md
   .claude/rules/architecture.md
   .claude/rules/<language>.md (for each language)
   .claude/rules/testing.md (if tests detected)
