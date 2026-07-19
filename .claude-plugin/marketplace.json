@@ -485,8 +485,8 @@
     {
       "name": "compound-review",
       "source": "./plugins/compound-review",
-      "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers reachable via the Task tool with structured review_report output (R2 \u00a74.1). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness.",
-      "version": "0.3.3",
+      "description": "Context-owned code review: one reviewer reads one change packet once, applies conditional rubrics, and returns one provider-neutral structured result without persona fan-out.",
+      "version": "0.3.5",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -496,11 +496,8 @@
       "license": "MIT",
       "keywords": [
         "code-review",
-        "reviewer-agents",
-        "compound-engineering-port",
-        "ce-port",
-        "task-tool",
-        "review-report",
+        "context-owned-review",
+        "structured-findings",
         "correctness",
         "maintainability",
         "testing",
