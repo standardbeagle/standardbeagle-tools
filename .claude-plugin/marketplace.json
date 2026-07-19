@@ -11,7 +11,7 @@
       "name": "agnt",
       "source": "./plugins/agnt",
       "description": "Browser superpowers for AI coding agents: dev-server and reverse proxy with traffic logging, a deduped priority error inbox, 50+ frontend diagnostic functions, accessibility/performance/security/SEO/responsive/API/loading audits, visual-regression snapshots, replay testing, tunnels, and sketch/design modes",
-      "version": "0.10.1",
+      "version": "0.11.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/agnt"

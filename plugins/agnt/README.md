@@ -55,6 +55,8 @@ Or build from source / grab a [GitHub release](https://github.com/standardbeagle
 
 The plugin ships skills that load on demand and are also invokable as slash commands (`/agnt:<name>`).
 
+Most detailed skills set `disable-model-invocation: true` and are reached through the `agnt:skills` router, which keeps per-turn context small (one index entry instead of 36 descriptions). Three high-signal browser-observation skills — `interaction-tracking`, `event-watch`, and `demo-flow` — are a deliberate **exception**: they are model-invocable directly, so an agent can route to them on intent ("track why this click does nothing", "stream what the user is doing", "demo what I built") without first passing through the router. This bypass exists because the router's own listing is not guaranteed to surface in every session, and these three are the skills whose absence most hurts real browser-debug and demo workflows.
+
 ### Dev Server, Proxy & Workflow
 
 | Skill | Description |
