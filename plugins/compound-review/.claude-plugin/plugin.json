@@ -1,7 +1,7 @@
 {
   "name": "compound-review",
-  "version": "0.3.4",
-  "description": "Code-review agent fleet ported from Compound Engineering. Conditional-dispatch reviewers emit verdict files (dartai:verdict-schema file-streaming channel). Wave 1: correctness, maintainability, testing, typescript-strict, cli-readiness, rationalization-trap.",
+  "version": "0.3.5",
+  "description": "Context-owned code review: one reviewer reads one change packet once, applies specification, correctness, maintainability, and conditionally testing, TypeScript, CLI, and rationalization rubrics, then returns one provider-neutral structured result.",
   "author": {
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
@@ -11,18 +11,14 @@
   "license": "MIT",
   "keywords": [
     "code-review",
-    "reviewer-agents",
-    "compound-engineering-port",
-    "ce-port",
-    "task-tool",
-    "review-report",
+    "context-owned-review",
+    "single-pass",
+    "structured-findings",
     "correctness",
     "maintainability",
     "testing",
     "typescript-strict",
     "cli-readiness",
-    "rationalization-trap",
-    "knowledge-hygiene",
-    "adversarial-review"
+    "rationalization-trap"
   ]
 }
