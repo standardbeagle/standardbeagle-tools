@@ -1,6 +1,6 @@
 ---
 name: knowledge-hygiene-rationalization-trap-check
-description: "Detect rationalization trap long chain-of-thought before small load-bearing change, esp. CoT defending prior decision against fresh evidence. 理性化陷阱檢測。 Use when: long CoT before small commit, PR whose Why dwarfs diff, brainstorm picks overriding Phase 0 bullets, post-hoc audit of decision feels off. Skip: exploratory CoT with no commit, change big enough that long reasoning is proportionate."
+description: "Detect rationalization trap long chain-of-thought before small load-bearing change, esp. CoT defending prior decision against fresh evidence. 理性化陷阱檢測。 Use when: long CoT before small commit, PR whose Why dwarfs diff, ideation picks overriding high-confidence bullets, post-hoc audit of decision feels off. Skip: exploratory CoT with no commit, change big enough that long reasoning is proportionate."
 disable-model-invocation: true
 ---
 
@@ -12,7 +12,7 @@ Light heuristic. Detects when a long chain-of-thought (CoT) precedes a small loa
 
 - **K2 design doc:** `docs/research/K2-knowledge-hygiene-from-papers.md` §3.3 (Rationalization-trap as value-rule)
 - **Source paper:** ConflictQA + XoT — arxiv `2604.11209` §4 (rationalization failure mode in cross-source conflict scenarios)
-- **Brainstorming anti-pattern:** commit `ebd136a` `Anti-Pattern: Silent Rationalization Through Conflict` section. The brainstorming skill emits the value rule; this skill checks for violations after the fact.
+- **No-silent-rationalization pattern:** ideation and `present:mini-ide` strategy review flows emit the value rule; this skill checks for violations after the fact.
 
 ## The Value-Layer Rule
 
@@ -38,7 +38,7 @@ The ratio threshold is heuristic, not diagnostic. A 50:1 ratio on a one-line con
 
 ### Signal 2 — Override of prior high-confidence claim
 
-Did the reasoning trace override a Phase 0 high-confidence bullet, an active memory entry, or a prior commit decision **without** invoking `conflict-detector` (this plugin) or recording the override per the brainstorming `Conflict-Detect Integration` audit-trail subsection?
+Did the reasoning trace override a Phase 0 high-confidence bullet, an active memory entry, or a prior commit decision **without** invoking `conflict-detector` (this plugin) or recording the override per the ideation / present mini-IDE audit-trail rule?
 
 - **Yes** → **positive** signal. The override happened silently — the rule violation.
 - **Yes, with conflict-detector invocation and `overridden` field present** → no signal. The system worked: visible surface, then proceed.
@@ -65,7 +65,7 @@ The vocabulary list is non-exhaustive and language-flexible; the check is for th
 | 0 | `pass` | No action; reasoning is proportionate or contradiction was surfaced. |
 | 1 | `soft-note` | Emit a note in the output but do not block. Caller decides. |
 | 2 | `flag` | Surface for human review. Recommend invoking `conflict-detector` on the contradicting source pair (CoT-asserted claim vs prior high-confidence claim). |
-| 3 | `flag-strong` | Surface with strong recommendation: pause, invoke `conflict-detector`, document the override per the brainstorming audit-trail subsection. |
+| 3 | `flag-strong` | Surface with strong recommendation: pause, invoke `conflict-detector`, document the override per the ideation / present mini-IDE audit-trail rule. |
 
 The skill does NOT auto-block. It surfaces. The value-layer rule is `no silent rationalization` — visibility, not refusal.
 
@@ -130,11 +130,11 @@ Caller supplies:
     "silent_override": {"value": "phase0-risk-provider-lock-in", "positive": true},
     "rationalization_vocabulary": {"matches": ["the original concern was overstated"], "positive": false}
   },
-  "recommendation": "Invoke conflict-detector on the Phase 0 risk bullet (confidence:low, provenance:guess) vs the CoT's 'lock-in is fine' assertion. The override is permissible given the bullet's low confidence — but it must be visible per the brainstorming Conflict-Detect Integration audit-trail rule. Add an 'overridden' note to the spec citing the bullet and the driving signal."
+  "recommendation": "Invoke conflict-detector on the Phase 0 risk bullet (confidence:low, provenance:guess) vs the CoT's 'lock-in is fine' assertion. The override is permissible given the bullet's low confidence — but it must be visible per the ideation / present mini-IDE audit-trail rule. Add an 'overridden' note to the spec citing the bullet and the driving signal."
 }
 ```
 
-The output is consumed by the caller (typically the `verify-claims` command or a brainstorming Phase 2 pre-converge gate). The skill does not modify the spec or block the commit.
+The output is consumed by the caller (typically the `verify-claims` command or an ideation / mini-IDE pre-converge gate). The skill does not modify the spec or block the commit.
 
 ## Anti-Patterns
 
@@ -146,4 +146,4 @@ The output is consumed by the caller (typically the `verify-claims` command or a
 ## Forward References
 
 - **`verify-claims` command** (this plugin, `commands/verify-claims.md`) — invokes this skill once per load-bearing claim in a target doc/PR.
-- **Brainstorming Phase 2 pre-converge gate** (commit `ebd136a` `Conflict-Detect Integration` section) — may invoke this skill before accepting a strategy pick that overrides a high-confidence bullet, as an auditable check before the surface-then-proceed step.
+- **Ideation / mini-IDE pre-converge gate** — may invoke this skill before accepting a strategy pick that overrides a high-confidence bullet, as an auditable check before the surface-then-proceed step.

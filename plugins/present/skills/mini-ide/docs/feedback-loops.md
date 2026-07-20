@@ -3,10 +3,9 @@
 The companion is a generic human-in-the-loop surface: Claude writes a
 markdown+YAML *screen* into `$SESSION_DIR/screens/`, the local web UI renders it
 as interactive widgets, the user acts, and the action appends a structured event
-to `events.jsonl` that Claude reads back via `Monitor`. Today only the
-`brainstorming` skill drives it. This document maps the screen kinds
+to `events.jsonl` that Claude reads back via `Monitor`. This document maps the screen kinds
 (see [`screen-format.md`](./screen-format.md)) onto **standard development tasks**
-so other skills can adopt the same loop.
+so any skill or agent can adopt the same loop.
 
 > **Over SSH?** The companion binds loopback, so an SSH-driven user can't open
 > its URL. Establish and record a reachable path first — see
@@ -78,12 +77,12 @@ Candidate first adopters, in order of leverage:
 ## Provenance carries across screens
 
 `summary-confirm` bullets, `strategy-card` `seen_in` entries, and
-`annotate-artifact` targets all carry the brainstorming `<PROVENANCE-CONTRACT>`
-tags (`file:<path>:<line>`, `memory:<id>`, `git:<sha>`, `web:<url>`, or the
-literal `guess`). The file-open bridge turns `file:`/`git:` tags into clickable
-links. Downstream consumers — the knowledge-hygiene conflict-detector and the
-Tier-3 citation-verifier — read the same tags, so a feedback loop that preserves
-provenance feeds the same audit surface brainstorming already does.
+`annotate-artifact` targets all carry provenance tags (`file:<path>:<line>`,
+`memory:<id>`, `git:<sha>`, `web:<url>`, or the literal `guess`). The
+file-open bridge turns `file:`/`git:` tags into clickable links. Downstream
+consumers — knowledge-hygiene conflict detectors, citation verifiers, or
+skill-specific reviewers — can read the same tags, so a feedback loop that
+preserves provenance feeds the same audit surface across skills.
 
 ## Status
 

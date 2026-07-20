@@ -9,7 +9,7 @@
 1. **agnt** (v0.9.0) - Browser superpowers: process management, reverse proxy, frontend debugging, sketch mode
 2. **lci** (v0.5.0) - Lightning code intelligence: sub-millisecond semantic code search
 
-餘皆 workflow/skill bundles：dartai, workflow, brainstorming, knowledge-hygiene, ux-design, ux-developer, mcp-architect, mcp-tester, dev-standards, photino, figma-query, color, typography, design-token, a11y-audit, image-processing, ideation, compound-review, research, slop-mcp, slop-coder, dart-query, prompt-engineer。真源：`.claude-plugin/marketplace.json`。
+餘皆 workflow/skill bundles：dartai, workflow, present, knowledge-hygiene, ux-design, ux-developer, mcp-architect, mcp-tester, dev-standards, photino, figma-query, color, typography, design-token, a11y-audit, image-processing, ideation, compound-review, research, slop-mcp, slop-coder, dart-query, prompt-engineer。真源：`.claude-plugin/marketplace.json`。
 
 > **Note:** `tools` plugin（合 agnt+lci）昔有，commit `3581d1c` 已除。舊本地裝或報 "tools@standardbeagle-tools: Plugin tools not found in marketplace" — 以 `claude plugin uninstall tools@standardbeagle-tools` 卸之。
 

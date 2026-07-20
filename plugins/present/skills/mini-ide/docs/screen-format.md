@@ -157,7 +157,7 @@ read-only (Claude-authored).
 
 The companion renders each section as a card with a confidence pill (`high`/`med`/`low`). Each bullet is editable inline; the user can also type a free-text reply that becomes a top-level revision note. The mermaid block in `system_shape.mermaid` renders inline in that section's card via the same lazy-loaded mermaid module other screens use.
 
-Each bullet also carries a **`provenance`** field — a string tag identifying the source the inference came from. Valid forms (per brainstorming `SKILL.md` `<PROVENANCE-CONTRACT>`):
+Each bullet also carries a **`provenance`** field — a string tag identifying the source the inference came from. Valid forms:
 
 | value form | meaning |
 |---|---|
@@ -182,7 +182,7 @@ Bullets are inline-editable for both `text` and `provenance` independently. The 
 
 The `summary_revised` event carries the full bullet-level diff in one payload so Claude does not have to reassemble the per-edit stream. Each diff entry may include `old_text`/`new_text`, `old_provenance`/`new_provenance`, or both — fields are optional and present only when that dimension actually changed. `status` in frontmatter flips to `confirmed` (no edits) or `revised` (any edits) via atomic rename, mirroring the `decision` flow. Bullet IDs are stable across edits — when a bullet is revised, the same `id` keeps its place in the section list with new `text` and/or `provenance`.
 
-When to use: Phase 0 architect summary (see brainstorming `SKILL.md` Phase 0 section). Not for general decisions — use `kind: decision` for those.
+When to use: confirming or correcting an agent's inferred goal, constraints, system shape, risks, and alternative framings. Not for general decisions — use `kind: decision` for those.
 
 ### `kind: strategy-card`
 
@@ -277,7 +277,7 @@ Drag-to-rank during `diverge` updates `rank` on each option in place via atomic 
 
 The `strategy_selected` event is the converge signal Claude reads. `user_comments` is the optional free-text override channel from `SKILL.md` Phase 2 mechanics ("but use TTL=1hr instead of 5min") — when present, Claude treats it as a single-knob override on top of the selected strategy, not a rejection of the bundle.
 
-When to use: Phase 1 strategy-bundle big questions and Phase 2 detail-layer strategy selection (see brainstorming `SKILL.md`). Not for atomic single-knob questions — use `kind: question` with `radio` input for those.
+When to use: strategy-bundle decisions where each option carries downstream consequences. Not for atomic single-knob questions — use `kind: question` with `radio` input for those.
 
 ### `kind: decision`
 

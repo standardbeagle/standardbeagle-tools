@@ -1,0 +1,8 @@
+node_modules
+.DS_Store
+*.log
+.bun
+tmp-sessions/
+
+# SBT root .gitignore excludes dist/ globally; this plugin follows that convention.
+# Users run `bun install && bun run build` once to produce dist locally.

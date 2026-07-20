@@ -13,7 +13,7 @@ Project-level value-layer rule. Load-bearing claims drive downstream decisions t
 - **Source paper:** ConflictQA `(2604.11209)` §4 — quantifies how often LLMs silently rationalize when only one source is presented vs how rarely they rationalize when two contradicting sources are presented in parallel.
 - **Reused pipeline:** `plugins/knowledge-hygiene/skills/multi-source-research/SKILL.md` (commit `b28aa0f`) — gather → conflict-detect → synthesize-with-provenance pipeline. This rule is the dev-standards-side pre-commit guidance that triggers that pipeline; the pipeline itself lives in `knowledge-hygiene`.
 - **Reused agent:** `plugins/knowledge-hygiene/agents/conflict-detector.md` (same commit) — when two sources disagree, this agent classifies the conflict and recommends a resolution.
-- **Reused contract:** brainstorming `<PROVENANCE-CONTRACT>` (commit `ebd136a`) — every cited source carries a provenance value from the 5-form vocabulary (`file:path:line` | `memory:id` | `git:sha` | `web:url` | literal `"guess"`).
+- **Reused contract:** ideation and `present:mini-ide` review flows carry the 5-form provenance vocabulary (`file:path:line` | `memory:id` | `git:sha` | `web:url` | literal `"guess"`).
 
 ## The Value-Layer Rule
 
@@ -72,7 +72,7 @@ The rule has an explicit escape valve, consistent with the project's soft-guidan
 1. **The source is the artifact itself.** A function's signature read from its own source file is authoritative for "what is this function's signature" because the source file *is* the function's signature. There is no second source possible. Same for: file contents read directly, environment variable values read at runtime, config values read from the canonical config file.
 2. **The claim is scoped to the artifact.** The claim "function `foo` returns `Result<T, E>`" is single-source-ok if read from the function's own definition. The claim "function `foo` is performant under load" is *not* single-source-ok even if the function source is read, because performance is not contained in the signature.
 
-When the escape valve applies, the single source still carries provenance: the citation in the spec / decision / review uses the brainstorming `<PROVENANCE-CONTRACT>` `file:path:line` form to make the artifact-source explicit.
+When the escape valve applies, the single source still carries provenance: the citation in the spec / decision / review uses the standard `file:path:line` form to make the artifact-source explicit.
 
 ## How To Surface The Gap When You Don't Have Two Sources
 
@@ -103,7 +103,7 @@ This rule is the producer-side contract; the knowledge-hygiene plugin is the con
 ## What This Rule Does NOT Cover
 
 - **Non-load-bearing claims.** Typo fixes, comment rewording, docstring updates, log-message edits, formatting changes — these do not need multi-source corroboration. The rule scopes only to claims with downstream cascade.
-- **Exploratory hypotheses.** A brainstorm bullet labeled `provenance: guess` per the `<PROVENANCE-CONTRACT>` is already self-flagged as unverified; no multi-source requirement applies until the bullet is promoted to a decision.
+- **Exploratory hypotheses.** An ideation bullet labeled `provenance: guess` is already self-flagged as unverified; no multi-source requirement applies until the bullet is promoted to a decision.
 - **Implementation details below the architecture line.** "I named this variable `foo` because the surrounding code uses `foo`-prefix" is a local convention, not a load-bearing claim.
 - **Hard merge gates.** The rule is enforced by reviewer attention and skill-using subagent discipline, not by a pre-commit hook or merge-blocker. Visible gap surfacing is the gate; the resolution is human-overridable.
 
@@ -132,7 +132,7 @@ The rule applies its own discipline: every load-bearing claim above is double-ci
 - **`knowledge-hygiene:multi-source-research/SKILL.md`** — the consumer pipeline that this rule triggers. Producer-side rule (here) → consumer-side mechanism (there).
 - **`knowledge-hygiene:rationalization-trap-check/SKILL.md`** — post-hoc audit for the failure mode this rule prevents. Together they form prevention (this skill) + detection (rationalization-trap-check).
 - **`knowledge-hygiene:conflict-detector` agent** — invoked inside the pipeline when two sources disagree.
-- **`brainstorming:brainstorming` `<PROVENANCE-CONTRACT>`** — provides the 5-form provenance vocabulary every cited source uses. This rule reuses, does not redefine.
+- **`ideation` / `present:mini-ide` provenance flows** — provide the 5-form provenance vocabulary every cited source uses. This rule reuses, does not redefine.
 - **`no-compression-on-skill-frontmatter`** (sibling skill) — protects skill-metadata integrity; this rule protects load-bearing-claim integrity. Both are value-layer `must` rules in this plugin.
 - **`memory-needs-source`** (sibling skill) — adds temporal grounding to the memory layer so the conflict-detector can prefer recent over stale when two memories disagree. Complementary discipline.
 - **`verification-before-completion`** — the other long-standing `must` in this plugin. That rule covers evidence-before-completion-claims; this rule covers source-multiplicity-before-load-bearing-claims. Distinct scopes, same family.

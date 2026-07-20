@@ -140,7 +140,7 @@ single_source_claims:
     note: "Single-source under --require-2-sources; not corroborated by independent benchmark"
 ```
 
-**為何 default-OFF：** 多數 ideation / brainstorming 調用受益自單源信號（一個強 postmortem 已具參考價值）。Flag 應由 caller 於高賭注決策（生產架構、安全選擇）顯式 opt-in；非作為通用 noise filter。
+**為何 default-OFF：** 多數 ideation 調用受益自單源信號（一個強 postmortem 已具參考價值）。Flag 應由 caller 於高賭注決策（生產架構、安全選擇）顯式 opt-in；非作為通用 noise filter。
 
 ### 與既有「如何閱讀來源」之整合
 
@@ -267,9 +267,9 @@ single_source_claims:
 
 此代理供以下調用：
 
-- `ce-ideate` — 階段一奠基，repo 及 elsewhere 模式皆恆啟用（有跳過詞 opt-out）。預設模式。
+- `ideation` — 階段一奠基，repo 及 elsewhere 模式皆恆啟用（有跳過詞 opt-out）。預設模式.
 - `ce-compound` Phase 3 — 以 `mode=best-practices` 或 `mode=framework-docs` 為已記錄方案充實業界實踐或官方文件引用。
-- 規劃代理（`dev-standards:grill-task`、`ce-plan` 等）需要外部奠基時 — 視主題選擇預設模式或 `mode=best-practices`。
+- 規劃代理（`dev-standards:grill-task`、`/worktrack:plan` 等）需要外部奠基時 — 視主題選擇預設模式或 `mode=best-practices`。
 - 框架/library 升級或選型工作 — `mode=framework-docs`。
 
-其他需要結構化外部奠基之技能（如 `ce-brainstorm` 或 `ce-plan` 外部研究階段）可在後續工作中採用此代理；上方輸出約定已穩定。
+其他需要結構化外部奠基之技能可採用此代理；上方輸出約定已穩定。

@@ -12,7 +12,7 @@ Grounded-research pipeline. Default to **prefer ≥2 sources** for any load-bear
 
 - **K2 design doc:** `docs/research/K2-knowledge-hygiene-from-papers.md` §3.1 (provenance per claim) + §3.2 (multiview retrieval rationale)
 - **Source papers:** OmniMEM (`2604.01007`) for provenance-per-claim; RAGSearch (`2604.09666`) for multiview retrieval complementary-roles finding
-- **Reused contract:** brainstorming `<PROVENANCE-CONTRACT>` block (commit `ebd136a`) defines the 5 provenance value forms — this skill emits the same shape, no parallel schema.
+- **Reused contract:** ideation and `present:mini-ide` review flows use the same 5 provenance value forms — this skill emits that shape, no parallel schema.
 - **Reused agent:** `conflict-detector` (this plugin, `agents/conflict-detector.md`) is the contradiction step.
 
 ## Pipeline
@@ -100,12 +100,12 @@ When the escape valve fires, emit a `single-source-by-design` note in the output
 **Process:**
 
 1. Write the synthesized claim(s) as **bullets**, mirroring the Phase 0 architect-summary shape from `ebd136a`.
-2. Each bullet carries a `provenance` field per the `<PROVENANCE-CONTRACT>` (one of: `file:<path>:<line>` | `memory:<id>` | `git:<sha>` | `web:<url>` | literal `guess`). Multi-source bullets may carry multiple provenance tags as a list.
-3. **Empty-handling rule (mirrors `<PROVENANCE-CONTRACT>`):** never omit `provenance`. If a bullet is unsupported by any gathered source — i.e., it is your synthesis-level inference — label it literal `guess`. Do not silently elevate inference to grounded claim.
+2. Each bullet carries a `provenance` field per the provenance contract (one of: `file:<path>:<line>` | `memory:<id>` | `git:<sha>` | `web:<url>` | literal `guess`). Multi-source bullets may carry multiple provenance tags as a list.
+3. **Empty-handling rule:** never omit `provenance`. If a bullet is unsupported by any gathered source — i.e., it is your synthesis-level inference — label it literal `guess`. Do not silently elevate inference to grounded claim.
 4. If Step 2 returned a contradiction with `recommended_resolution: prefer-recent` or `prefer-authoritative`, the synthesized bullet:
    - Carries the winning source's provenance.
    - Adds an `overridden` field naming the losing source's id and the driving signal (one sentence).
-   - Mirrors the brainstorming `Conflict-Detect Integration` audit-trail subsection from `ebd136a`: spec-level conflicts get an explicit "conflicting signal acknowledged and overridden" note, never a silent drop.
+   - Mirrors the ideation / present mini-IDE audit-trail rule: spec-level conflicts get an explicit "conflicting signal acknowledged and overridden" note, never a silent drop.
 
 **Output shape (canonical):**
 
@@ -142,7 +142,7 @@ When the escape valve fires, emit a `single-source-by-design` note in the output
 }
 ```
 
-The `synthesis[].provenance` shape may be either a single string (single source) or an array (multi-source). The `<PROVENANCE-CONTRACT>` tag-vocabulary is identical; only cardinality differs.
+The `synthesis[].provenance` shape may be either a single string (single source) or an array (multi-source). The provenance tag vocabulary is identical; only cardinality differs.
 
 ## When This Skill Invokes the Conflict-Detector
 
@@ -151,13 +151,13 @@ The `synthesis[].provenance` shape may be either a single string (single source)
 | Step 2 with ≥2 sources | the Step 1 source-records array |
 | Caller's escape-valve overrides single-source default | conflict-detector NOT invoked; `conflict_check: skipped` recorded |
 | Caller is `verify-claims` command | one invocation per load-bearing claim in the target doc/PR |
-| Caller is brainstorming Phase 1/2 surface-then-proceed | one invocation with the user's strategy pick + the conflicting Phase 0 bullet packaged as 2 sources |
+| Caller is ideation / mini-IDE surface-then-proceed | one invocation with the user's strategy pick + the conflicting high-confidence bullet packaged as 2 sources |
 
 ## Anti-Patterns
 
 - **Single-source synthesis without escape-valve declaration** — if the claim is load-bearing and you skipped the gather-≥2 step, you have shipped an ungrounded assertion. Either gather more sources or explicitly invoke the escape valve with a recorded note.
 - **Provenance omission** — every synthesis bullet must carry `provenance`. Literal `guess` is the soft-fail; omission is the hard-fail.
-- **Silent override** — if conflict-detector returned `prefer-recent` / `prefer-authoritative`, the losing source must appear in the bullet's `overridden` field. Dropping it without acknowledgement is the brainstorming `Silent Rationalization Through Conflict` anti-pattern reified at the research layer.
+- **Silent override** — if conflict-detector returned `prefer-recent` / `prefer-authoritative`, the losing source must appear in the bullet's `overridden` field. Dropping it without acknowledgement is the silent-rationalization anti-pattern reified at the research layer.
 - **Skipping Step 2 because "the sources obviously agree"** — they may. Run Step 2 anyway when length ≥ 2; the cost is one agent call and the audit trail is worth it.
 
 ## Soft Guidance — Per-Claim Source Counts

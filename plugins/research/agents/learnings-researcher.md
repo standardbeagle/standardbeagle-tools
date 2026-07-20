@@ -143,7 +143,7 @@ Read: [file_path] with limit:30
 
 ## Verification Stamping & Staleness Awareness
 
-過往 solution 文件可能於記錄當日為真，然 codebase 演化後其前提可能已失效。為防陳腐 solution 以權威之姿呈現，此代理**必**讀取 frontmatter 之 verification 元數據並對 stale 條目附旗標。此奠基於 brainstorming SKILL.md 之 `<PROVENANCE-CONTRACT>` block（commit `ebd136a`）— 同一 discipline 之 verification-sibling：provenance 答「此自何而來？」，verification 答「此於何時對何 codebase 經查仍真？」
+過往 solution 文件可能於記錄當日為真，然 codebase 演化後其前提可能已失效。為防陳腐 solution 以權威之姿呈現，此代理**必**讀取 frontmatter 之 verification 元數據並對 stale 條目附旗標。此奠基於 standard provenance contract — 同一 discipline 之 verification-sibling：provenance 答「此自何而來？」，verification 答「此於何時對何 codebase 經查仍真？」
 
 ### Frontmatter schema additions
 

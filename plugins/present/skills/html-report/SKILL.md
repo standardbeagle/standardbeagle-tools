@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Present: HTML Report
 
-Render structured findings as a single self-contained HTML file and open it in the browser. The canonical home for the report scaffold many skills used to re-describe inline — call this instead of hand-writing report HTML.
+Render structured findings as a single self-contained HTML file and open it in the browser. This is the public core presentation surface for reports, audits, reviews, ranked ideas, decision trees, principles, and implementation-plan summaries — call this instead of hand-writing report HTML.
 
 ## Input
 

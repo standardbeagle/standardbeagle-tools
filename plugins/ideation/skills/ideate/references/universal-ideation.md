@@ -1,6 +1,6 @@
 # 通用構思引導
 
-當 ce-ideate 偵測到其他模式主題完全無軟體介面時載入此文——命名（獨立於產品）、敘事寫作、個人決策、非數位商業策略、實體產品設計。涉及軟體產物（頁面、應用、功能、流程、產品）之主題路由至 elsewhere-software，不載入此文，即使構想關乎該產物之文案、UX 或視覺設計。
+當 ideation 偵測到其他模式主題完全無軟體介面時載入此文——命名（獨立於產品）、敘事寫作、個人決策、非數位商業策略、實體產品設計。涉及軟體產物（頁面、應用、功能、流程、產品）之主題路由至 elsewhere-software，不載入此文，即使構想關乎該產物之文案、UX 或視覺設計。
 
 第一階段其他模式立基於此文接手前運行——用戶上下文綜合及網路研究為下方引導提供素材。learnings-researcher 對 elsewhere-non-software 預設跳過，因 CWD 之 `docs/solutions/` 幾乎恆含不適用於非數位主題之工程模式。此文取代者為第二階段之軟體風格框架分派及構思後收尾；倉庫特定之程式碼庫掃描從不於其他模式中運行。吸收以下原則，以第一階段立基摘要為輸入，於主題之原生領域中引導構思。
 
@@ -51,13 +51,16 @@
 
 在任何持久化前呈現存活者。各則含：標題、描述、理據、缺點、信心、複雜度。隨後附簡短拒絕摘要，使用戶可知曉何者被考慮且被剔除。
 
-持久化為選擇性。終端審閱循環為完整構思週期。精煉於對話中進行，無檔案或網路成本。持久化僅於用戶明確選擇儲存、分享或交接時觸發。
+持久化與展示為選擇性。終端審閱循環為完整構思週期。精煉於對話中進行，無檔案或網路成本。持久化、HTML report、mini-IDE review 或交接僅於用戶明確選擇時觸發。
 
-使用平台之阻斷式提問工具（Claude Code 之 `AskUserQuestion`，Codex 之 `request_user_input`，Gemini 之 `ask_user`）——或聊天中編號選項作為後備——提供四個選項：
+使用平台之阻斷式提問工具（Claude Code 之 `AskUserQuestion`，Codex 之 `request_user_input`，Gemini 之 `ask_user`）——或聊天中編號選項作為後備——提供下列選項；勿拆成多輪滴問：
 
 - **在對話中精煉構思（或就此停止——不儲存）** —— 新增構想、重新評估或深化分析而不寫入任何內容。隨時結束對話即為有效之不儲存退出。
-- **在 Proof 中開啟並迭代** —— 依 `references/post-ideation-workflow.md` 中 §6.2 約定調用 Proof HITL 審閱路徑：上傳存活者至 Proof（渲染至臨時檔案，因非軟體其他模式不寫本地檔案），透過留言迭代，成功返回時以 Proof URL 為唯一記錄乾淨退出。Proof 迭代在此模式中通常為終端行為，故流程不於其後強加另一選單選項。僅 `aborted` 狀態返回此選單。持續 Proof 失敗時，套用 `references/post-ideation-workflow.md` 中 §6.5 Proof 失敗階梯，使迭代嘗試不致無恢復地擱置。
-- **腦力激盪所選構想** —— 透過對話深化一則構想。與倉庫模式不同，此非實施鏈之第一步——其後無 `ce-plan` → `ce-work`；通用模式之 `ce-brainstorm` 進一步發展構想（如將名稱擴展為品牌簡報、情節擴展為大綱、決策擴展為加權框架）後結束。先依 `references/post-ideation-workflow.md` 中 §6.3 約定持久化：將存活者儲存至 Proof（其他模式預設）或用戶明確要求時至 `docs/ideation/`，標記所選構想為 `Explored`，再以該構想為種子載入 `ce-brainstorm`。Proof 成功返回時（`proceeded` 或 `done_for_now`），依 §5.2 呼叫者感知返回規則繼續腦力激盪交接；`aborted` 時返回此選單而不交接。持續 Proof 失敗時，套用 §6.5 Proof 失敗階梯後結束，使腦力激盪種子透過本地儲存後備保留。
-- **儲存並結束** —— 將存活者分享至 Proof（其他模式預設）並結束。僅當用戶明確要求本地檔案時改用 `docs/ideation/`。Proof 失敗時（含單次編排器端重試後），套用 `references/post-ideation-workflow.md` 中 §6.5 Proof 失敗階梯——結束前呈現本地儲存後備選單（自訂路徑或跳過），使用戶不致無恢復路徑地擱置。
+- **開啟 HTML report** —— 使用 `present:html-report` 將存活者、拒絕摘要、principles、decision tree 或 plan draft 呈現為瀏覽器報告。
+- **在 mini-IDE 中審閱** —— 使用 `present:mini-ide`；可用 `cards` 排序構想、`strategy-card` 選方向、`summary-confirm` 修訂假設、或 `annotate-artifact` 標註報告。
+- **產出 principles** —— 將存活構想收斂為可決定細節之 governing principles，含適用範圍、取捨與重審條件。
+- **產出 decision tree** —— 建立 root decision、branches、locks_out/unlocks、推薦預設與重審 trigger；適合時附 Mermaid。
+- **產出 implementation plan draft** —— 產出 coherent plan 草案；不寫程式碼，可交 user 或 `/worktrack:plan`。
+- **儲存並結束** —— 依 `references/post-ideation-workflow.md` 第五階段規則存至本地檔案、OS temp 或 user 指定位置，然後結束。
 
 不儲存退出無需專用選單選項。選擇精煉並停止對話，或使用提問工具之自由文字逃逸直接說明——持久化為選擇性，終端審閱循環已為完整構思週期。

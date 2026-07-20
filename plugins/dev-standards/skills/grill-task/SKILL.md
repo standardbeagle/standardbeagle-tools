@@ -65,7 +65,7 @@ backflow_writes: []
 
 **先讀後問，事實自查、決策方問。** 凡探碼可答之*事實*（現有詞、模式、調用者），自查勿問；唯*決策*屬用戶——呈之待答。若「讀自」已答，摘要已知，問「此仍確乎？」勿重頭。
 
-**批量前置提問，勿逐一原子問。** 提問前，先列各層之待問清單，將連動或同 sub-domain 之問題束為一組，一次呈多問（`AskUserQuestion` 每次至多 4 問；同輪跨層併問無妨）。此遵 `[[brainstorming]]` 之 strategy-bundle 慣例與項目 batch/front-load 偏好——串行單問耗 wall-clock。僅當一問之答會重構其餘諸問時，方單獨先問該問。
+**批量前置提問，勿逐一原子問。** 提問前，先列各層之待問清單，將連動或同 sub-domain 之問題束為一組，一次呈多問（`AskUserQuestion` 每次至多 4 問；同輪跨層併問無妨）。此遵 `[[ideation]]` 之 strategy-bundle 慣例與項目 batch/front-load 偏好——串行單問耗 wall-clock。僅當一問之答會重構其餘諸問時，方單獨先問該問。
 
 ### Layer 1 — Intent
 

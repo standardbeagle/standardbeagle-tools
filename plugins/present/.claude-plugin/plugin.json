@@ -1,10 +1,23 @@
 {
   "name": "present",
-  "version": "0.1.0",
-  "description": "Reusable browser presentation primitives: self-contained HTML reports and markdown/doc viewing. Shared UI layer consumed by other plugins.",
+  "version": "0.2.0",
+  "description": "Reusable browser presentation and editor primitives: self-contained HTML reports, markdown/doc viewing, and a mini-IDE for interactive review, annotation, card sorting, decisions, demos, and HITL feedback loops. Shared core UI layer consumed by other plugins and agents.",
   "author": { "name": "Standard Beagle", "url": "https://github.com/standardbeagle" },
   "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
   "repository": "https://github.com/standardbeagle/standardbeagle-tools",
   "license": "MIT",
-  "keywords": ["html-report", "presentation", "browser", "markdown", "reusable-ui", "tailwind", "mermaid"]
+  "keywords": [
+    "html-report",
+    "presentation",
+    "browser",
+    "markdown",
+    "mini-ide",
+    "interactive-editor",
+    "artifact-annotation",
+    "card-sort",
+    "decision-review",
+    "reusable-ui",
+    "tailwind",
+    "mermaid"
+  ]
 }

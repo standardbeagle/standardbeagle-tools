@@ -109,4 +109,4 @@ Agent:
 - **Memory storage**: 證據包寫入memory（用`condense_text`再壓一輪）以供後續會話復用
 - **Failures non-fatal**: 單源失敗不阻其他。報用戶並繼續
 - **Don't over-compress**: 若需逐字引用，跳過caveman直接Read/WebFetch
-- **Pair with**: knowledge-hygiene（衝突檢測）、systematic-debugging（根因）、brainstorming（決策）
+- **Pair with**: knowledge-hygiene（衝突檢測）、systematic-debugging（根因）、ideation（決策）

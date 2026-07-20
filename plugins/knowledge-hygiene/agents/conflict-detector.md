@@ -19,7 +19,7 @@ whenToUse: |
   </example>
 
   <example>
-  Caller: brainstorming SKILL.md Conflict-Detect Integration section (commit ebd136a)
+  Caller: ideation / present mini-IDE strategy or summary review flows
   Action: When a user's Phase 1/2 strategy pick has bundles_resolves / locks_out
   that touch a Phase 0 high-confidence bullet, invoke conflict-detector to
   produce the surface-then-proceed advisory.
@@ -28,13 +28,13 @@ whenToUse: |
 
 # Conflict-Detector Agent
 
-跨源矛盾檢測代理。對 2+ 源之相同實體 / claim 做交叉檢核，輸出結構化 JSON 而非自由文字。本 agent 為 `multi-source-research` skill 之必經消費者，亦供 brainstorming `Conflict-Detect Integration` 節（commit `ebd136a`）之 surface-then-proceed 處置調用。
+跨源矛盾檢測代理。對 2+ 源之相同實體 / claim 做交叉檢核，輸出結構化 JSON 而非自由文字。本 agent 為 `multi-source-research` skill 之必經消費者，亦供 ideation / present mini-IDE strategy review 之 surface-then-proceed 處置調用。
 
 ## Provenance
 
 - **K2 design doc:** `docs/research/K2-knowledge-hygiene-from-papers.md` §3.3 (Rationalization-trap & cross-source conflict pattern)
 - **Source paper:** ConflictQA + XoT — arxiv `2604.11209` §3 (cross-source knowledge conflict detection mechanism)
-- **Brainstorming contract:** commit `ebd136a` `<PROVENANCE-CONTRACT>` block + `Conflict-Detect Integration` section define the **emission** end of the contract; this agent implements the **consumer** end.
+- **Strategy-review contract:** ideation and `present:mini-ide` `summary-confirm` / `strategy-card` flows emit provenance tags; this agent implements the **consumer** end.
 
 ## Input Contract
 
@@ -51,7 +51,7 @@ Caller MUST supply **at least 2 sources**. Each source is a record:
 
 **Required fields:** `id`, `source_text`. **Optional but preferred:** `provenance`, `confidence`.
 
-**Empty-handling rule (mirrors `<PROVENANCE-CONTRACT>`):** if a source has no verifiable origin, the caller SHOULD pass `provenance: "guess"` literally. Omit / null / empty `provenance` is treated as `guess` with a warning logged in the reasoning field, not a hard error — this is a soft contract enforced by the emitter (brainstorming), not by this consumer.
+**Empty-handling rule (mirrors the provenance contract):** if a source has no verifiable origin, the caller SHOULD pass `provenance: "guess"` literally. Omit / null / empty `provenance` is treated as `guess` with a warning logged in the reasoning field, not a hard error — this is a soft contract enforced by the emitter, not by this consumer.
 
 **Single-source rejection:** if fewer than 2 sources are provided, the agent returns `{conflict_type: "insufficient-sources", ...}` rather than guessing. No silent pass-through.
 
@@ -93,11 +93,11 @@ When a contradiction is found, the agent recommends one of three resolutions. Th
   - Provenance with `confidence: high` beats provenance with `confidence: low | guess`.
 - **`escalate-to-user`** — when neither recency nor authority cleanly dominates, OR when the contradiction touches a value-layer rule (e.g., security, data integrity, user-facing breaking change). The agent does NOT silently pick a winner in these cases.
 
-The agent MUST NOT silently pick a winner outside these three named resolutions. This rule mirrors the brainstorming `Silent Rationalization Through Conflict` anti-pattern (`ebd136a`): if the resolution is genuinely ambiguous, escalate.
+The agent MUST NOT silently pick a winner outside these three named resolutions. This rule mirrors the no-silent-rationalization anti-pattern: if the resolution is genuinely ambiguous, escalate.
 
 ## Output Contract
 
-The agent returns **exactly one JSON object** matching this schema. The output is structured for downstream consumers (`multi-source-research`, `brainstorming` Phase 1/2 surface-message renderer, `verify-claims` command) — no freeform prose outside the `reasoning` field.
+The agent returns **exactly one JSON object** matching this schema. The output is structured for downstream consumers (`multi-source-research`, ideation / mini-IDE surface-message renderers, `verify-claims` command) — no freeform prose outside the `reasoning` field.
 
 ```json
 {
@@ -119,7 +119,7 @@ The agent returns **exactly one JSON object** matching this schema. The output i
 
 **`recommended_resolution: not-applicable`** is used for `no-conflict`, `no-entity-match`, and `insufficient-sources` — there is nothing to resolve.
 
-**`reasoning` field is the audit trail.** Downstream consumers (e.g., the brainstorming surface-message renderer) use this verbatim to explain the conflict to the user. Keep it terse, cite metadata, never editorialize.
+**`reasoning` field is the audit trail.** Downstream consumers use this verbatim to explain the conflict to the user. Keep it terse, cite metadata, never editorialize.
 
 ## Worked Example
 
@@ -182,7 +182,7 @@ The agent returns **exactly one JSON object** matching this schema. The output i
 |---|---|
 | `multi-source-research` skill (this plugin) | After gather step, routes ≥2 sources here; uses `conflict_type != no-conflict` to gate the synthesize step. |
 | `verify-claims` command (this plugin) | For each load-bearing claim in target doc/PR, gathers sources and routes here; surfaces non-`no-conflict` results to the user. |
-| brainstorming `Conflict-Detect Integration` (`ebd136a`) | When user picks a Phase 1/2 strategy that locks_out a Phase 0 high-confidence bullet, packages the strategy + bullet as 2 sources and routes here; uses `reasoning` verbatim in the surface-then-proceed message. |
+| Ideation / mini-IDE strategy review | When user picks a strategy that locks out a high-confidence summary bullet, packages the strategy + bullet as 2 sources and routes here; uses `reasoning` verbatim in the surface-then-proceed message. |
 | Tier 3 `citation-verifier` (deferred to `qvd3VBUROdw2`) | Will reuse this agent's output schema as the unit of contradiction-report — do not change the schema without bumping plugin version. |
 
 ## Forward References

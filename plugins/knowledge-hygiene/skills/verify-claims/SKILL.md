@@ -134,7 +134,7 @@ A single markdown report (Step 5 shape). No file writes by default. If the user 
 
 ## Anti-Patterns
 
-- **Auto-blocking merges from this command** — the command surfaces; gating is the caller's policy. Hard-blocking would prevent legitimate overrides documented per the brainstorming `Conflict-Detect Integration` audit-trail rule.
+- **Auto-blocking merges from this command** — the command surfaces; gating is the caller's policy. Hard-blocking would prevent legitimate overrides documented per the ideation / present mini-IDE audit-trail rule.
 - **Running on every doc indiscriminately** — `verify-claims` is for load-bearing artifacts (specs, research docs, PR descriptions). Running it on README updates is overkill and trains reviewers to ignore the report.
 - **Modifying the target file** — this command is read-only on the target. If the report recommends a change, the user (or a subsequent edit) makes it.
 

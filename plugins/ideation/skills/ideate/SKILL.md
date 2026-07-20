@@ -1,6 +1,6 @@
 ---
 name: ideation-ideate
-description: "生成並批判評估構想。Generate + critically evaluate ideas — mode-aware grounding, parallel sub-agent generation, adversarial critique. Use when: 'what should I improve', 'give me ideas', 'ideate on X', 'surprise me', 'what would you change', want AI-generated suggestions. Skip: user has specific idea (use brainstorm), implementation is goal (use plan), refining user input."
+description: "生成、批判、呈現並收斂構想。Generate, critically evaluate, present, and converge ideas into ranked options, principles, decision trees, or implementation-plan artifacts. Use when: 'what should I improve', 'give me ideas', 'ideate on X', 'surprise me', 'what would you change', want options or a visual HTML idea report. Skip: clear bug with repro, mechanical refactor, direct implementation with complete spec."
 disable-model-invocation: true
 argument-hint: "\"[feature, focus area, or constraint]\""
 ---
@@ -11,28 +11,27 @@ Upstream: https://github.com/every-org/compound-engineering — MIT License.
 Body content preserved verbatim; only frontmatter normalized per
 standardbeagle-tools R1 §2.2 (bilingual Use when/Skip when triggers added).
 Dispatch targets `research:ce-*-researcher` rewritten to `research:*-researcher`
-per R4 §5 (drop `ce-` prefix). Prose references to sibling CE skills
-(ce-brainstorm, ce-plan, ce-proof, ce-work) preserved as narrative pointers
-per S1 verbatim-body recipe.
+per R4 §5 (drop `ce-` prefix). Prose now treats ideation as the full
+idea-to-artifact convergence entry point; legacy CE handoff references removed.
 -->
 
 # 生成改進構想
 
 **注意：今年為 2026 年。** 構想文檔標註日期及檢查近期構想產物時使用。
 
-`ce-ideate` 先於 `ce-brainstorm`。
+`ideation` 為構想至決策產物之單一入口。
 
-- `ce-ideate` 回答：「哪些構想最值得探索？」
-- `ce-brainstorm` 回答：「選定的構想究竟應意味什麼？」
-- `ce-plan` 回答：「應如何建構？」
+- 回答：「哪些構想最值得探索？」
+- 回答：「選定構想應如何被理解、取捨、決定？」
+- 產出：排序構想、HTML 展示、互動審閱、原則、決策樹或實作計劃草案。
 
-此工作流於 `docs/ideation/` 中產出排序之構想產物。其**不**產出需求、計劃或程式碼。
+此工作流於 `docs/ideation/` 中可選產出排序之構想產物。其**不**寫程式碼、不 scaffold、不執行實作；但可產出供 user 審閱或交 `/worktrack:plan` 之計劃、原則與決策產物。
 
 ## 互動方式
 
 可用時使用平台之阻塞式提問工具（Claude Code 之 `AskUserQuestion`、Codex 之 `request_user_input`、Gemini 之 `ask_user`）。否則於聊天中呈現編號選項並等候用戶回覆。
 
-一次問一個問題。自然選項存在時偏好簡潔之單選。
+勿反射性滴問。先給完整可選產物：coherent plan、principles、decision tree、HTML report、或 mini-IDE review。僅當答案會改變下一步且無法自 prompt/code/memory 合理推斷時才問；多個互相獨立之 blocking 問題應一次批出。
 
 ## 焦點提示
 
@@ -51,7 +50,7 @@ per S1 verbatim-body recipe.
 
 1. **生成前先紮根** ——先掃描實際碼庫。勿生成脫離倉庫之抽象產品建議。
 2. **生成多數 → 批判全部 → 僅解釋存活者** ——品質機制為附理由之明確拒絕，非樂觀排名。勿讓額外流程掩蓋此模式。
-3. **將行動路由至腦力激盪** ——構想生成識別有前途之方向；`ce-brainstorm` 精確定義所選者俾便規劃。勿自構想輸出跳至規劃。
+3. **將行動路由至決策產物** ——構想生成識別有前途之方向；後續應收斂為原則、決策樹、HTML/mini-IDE 審閱產物或實作計劃草案。勿寫程式碼；可在 user 要求時交 `/worktrack:plan`。
 
 ## 執行流程
 
@@ -120,7 +119,7 @@ per S1 verbatim-body recipe.
 
 若用戶確認或選擇「elsewhere」，仍跑決策二以選擇他處-軟體 vs. 他處-非軟體。
 
-**路由規則。** 當決策二 = 非軟體時，仍跑階段一他處模式紮根（用戶上下文綜合 + 預設網路研究；跳過短語受尊重）。Learnings-researcher 在此模式預設跳過——CWD 之 `docs/solutions/` 罕能轉移至命名、敘事、個人或非數位商業主題；見階段一之完整理由。然後載入 `references/universal-ideation.md` 並遵循之以取代階段二之軟體框架分派及階段六選單敘事。此載入為非選擇性——該檔包含領域無關之生成框架、批判評分標準及收尾選單，取代此模式下之階段二與構想後選單，這些細節不存在於此主體中。憑記憶即興創作會為非軟體主題產生錯誤引導。勿在任何時刻跑倉庫特定之碼庫掃描。`references/post-ideation-workflow.md` 中之 §6.5 Proof Failure Ladder 仍適用——每當 Proof 儲存（他處模式下「Save and end」之預設）失敗時載入並遵循之，俾本地儲存後備路徑在非軟體他處執行中保持可達。
+**路由規則。** 當決策二 = 非軟體時，仍跑階段一他處模式紮根（用戶上下文綜合 + 預設網路研究；跳過短語受尊重）。Learnings-researcher 在此模式預設跳過——CWD 之 `docs/solutions/` 罕能轉移至命名、敘事、個人或非數位商業主題；見階段一之完整理由。然後載入 `references/universal-ideation.md` 並遵循之以取代階段二之軟體框架分派及階段六選單敘事。此載入為非選擇性——該檔包含領域無關之生成框架、批判評分標準及收尾選單，取代此模式下之階段二與構想後選單，這些細節不存在於此主體中。憑記憶即興創作會為非軟體主題產生錯誤引導。勿在任何時刻跑倉庫特定之碼庫掃描。`references/post-ideation-workflow.md` 中之儲存與展示規則仍適用，含本地檔案、`present:html-report` 與 `present:mini-ide` 後備路徑。
 
 若任何提示擴展或攝取步驟（下方 0.4）實質改變主題，在分派階段一前重新評估模式陳述——依將行動之範圍分類，非首次閱讀之範圍。
 
@@ -277,4 +276,4 @@ echo "$SCRATCH_DIR"
 
 **檢查點 A（V17）。** 跨領域綜合步驟完成且原始候選列表合併後，立即寫入 `<scratch-dir>/raw-candidates.md`（使用階段一擷取之絕對路徑），含完整候選列表及子代理歸屬。這在最昂貴產出（6 個並行子代理分派 + 去重）進入階段三批判可能壓縮上下文前保護之。盡力而為：若寫入失敗（磁碟滿、權限），記錄警告並繼續；檢查點非承重者。運行結束不清理（運行目錄保留俾 V15 快取在同一對話中跨 run-id 可重用——見階段六）。
 
-合併與綜合後——呈現存活者前——載入 `references/post-ideation-workflow.md`。此載入為非選擇性。該檔含對抗過濾評分標準、產物模板、品質門檻及正式階段六交接選單（Refine、Open and iterate in Proof、Brainstorm、Save and end）——這些選項不出現在此主體中任何地方。跳過載入會靜默退化每個後續步驟；代理憑記憶即興創作選單而非呈現文檔化選項。「快速」意味更少階段二子代理，非跳過參照。勿在階段二代理分派完成前載入此檔。
+合併與綜合後——呈現存活者前——載入 `references/post-ideation-workflow.md`。此載入為非選擇性。該檔含對抗過濾評分標準、產物模板、品質門檻及正式階段六交接選單（Refine、HTML report、mini-IDE review、Principles、Decision tree、Implementation plan、Save and end）——這些選項不出現在此主體中任何地方。跳過載入會靜默退化每個後續步驟；代理憑記憶即興創作選單而非呈現文檔化選項。「快速」意味更少階段二子代理，非跳過參照。勿在階段二代理分派完成前載入此檔。

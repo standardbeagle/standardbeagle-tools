@@ -1,7 +1,7 @@
 {
   "name": "ideation",
-  "version": "0.3.2",
-  "description": "Idea-generation skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, and post-ideation handoff. Dispatches research:* agents for grounding.",
+  "version": "0.4.0",
+  "description": "Idea-generation and convergence skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, HTML presentation, mini-IDE review, and outputs for principles, decision trees, or implementation-plan drafts.",
   "author": {
     "name": "Standard Beagle",
     "url": "https://github.com/standardbeagle"
@@ -11,8 +11,13 @@
   "license": "MIT",
   "keywords": [
     "ideation",
-    "brainstorming",
     "divergent-thinking",
+    "convergence",
+    "html-report",
+    "mini-ide",
+    "decision-tree",
+    "principles",
+    "implementation-plan",
     "compound-engineering-port",
     "ce-port",
     "skill",

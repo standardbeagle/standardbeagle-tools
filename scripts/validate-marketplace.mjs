@@ -17,7 +17,7 @@
  *   node scripts/validate-marketplace.mjs --fix      # auto-fix what is safe
  */
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from "node:fs";
-import { join, basename, sep } from "node:path";
+import { join, basename } from "node:path";
 import { execFileSync } from "node:child_process";
 
 // Per dev-standards:skill-description-style — the canonical policy in this repo:

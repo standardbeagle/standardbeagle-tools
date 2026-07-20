@@ -2,7 +2,7 @@
 
 Loaded by `adversarial-quality-loop` when the executor enters Phase 5.5 (post-commit, pre-Done). Lightweight verifier — full 4-layer citation verification (Tier 3, including web URL fetching) is deferred to the dedicated `citation-verifier` agent (Dart task `qvd3VBUROdw2`).
 
-Cite: mcp-architect `citation-verification-pattern` skill (commit 44bf8e0), brainstorming PROVENANCE-CONTRACT (commit ebd136a), dev-standards `multi-source-for-load-bearing-claims` rule (commit 9ab9c47).
+Cite: mcp-architect `citation-verification-pattern` skill (commit 44bf8e0), standard provenance contract, dev-standards `multi-source-for-load-bearing-claims` rule (commit 9ab9c47).
 
 ## Task: Verify Citations in Commit Message and PR Body
 

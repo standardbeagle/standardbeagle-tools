@@ -116,9 +116,9 @@ export const CardsScreen = z.object({
 export const ConfidencePill = z.enum(["high", "med", "low"]);
 export type ConfidencePill = z.infer<typeof ConfidencePill>;
 
-// Provenance tag on each Phase 0 architect-summary bullet.
+// Provenance tag on each summary-confirm bullet.
 //
-// Valid forms (see brainstorming SKILL.md <PROVENANCE-CONTRACT>):
+// Valid forms:
 //   - "file:<path>:<line>"   codebase reference
 //   - "memory:<id>"          memory entry reference
 //   - "git:<sha>"            git commit reference

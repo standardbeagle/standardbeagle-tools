@@ -549,7 +549,7 @@ post_task_routing:
 
 **目標**：commit 已寫、PR body 已生，標記 Done 之前對引用作輕量核驗。完整四層核驗（Tier 3，含 URL 取回）為 `citation-verifier` 任務 `qvd3VBUROdw2` 之職責；此處僅捕顯然破損之引用。
 
-Cite: mcp-architect `citation-verification-pattern`（commit 44bf8e0）、brainstorming PROVENANCE-CONTRACT（commit ebd136a）、dev-standards `multi-source-for-load-bearing-claims`（commit 9ab9c47）。
+Cite: mcp-architect `citation-verification-pattern`（commit 44bf8e0）、standard provenance contract、dev-standards `multi-source-for-load-bearing-claims`（commit 9ab9c47）。
 
 **步驟**：
 1. 解析 commit message 與 PR body 中之所有引用

@@ -12,7 +12,7 @@ Project-level soft-guidance rule for the memory layer. Memory entries that lack 
 - **K2 design doc:** `docs/research/K2-knowledge-hygiene-from-papers.md` §3.4 (Temporal normalization — date-bearing claims must be tagged "as of date X" rather than ambient-present-tense)
 - **Source paper:** OmniMEM `(2604.01007)` — lifelong-multimodal-agent framing requires memory to survive across sessions, which requires temporal grounding to detect drift.
 - **Sibling plugin pattern:** `plugins/research/agents/learnings-researcher.md` `verified_at` + `verified_against` fields (commit `d3c4669`) and `plugins/research/agents/session-historian.md` `surfaced_from.{session_id, session_date}` shape (same commit). Those patterns are the upstream sibling discipline this rule formalizes for the memory layer.
-- **Reused contract:** brainstorming `<PROVENANCE-CONTRACT>` (commit `ebd136a`) defines the source-event tag vocabulary — `git:sha`, `memory:id`, `file:path:line`, `web:url`, literal `"guess"`. The source-event tag in this rule reuses that vocabulary, extended with `loop:<id>`, `task:<dart-id>`, and `conversation:<id>` for memory-specific sources.
+- **Reused contract:** ideation and `present:mini-ide` review flows define the source-event tag vocabulary — `git:sha`, `memory:id`, `file:path:line`, `web:url`, literal `"guess"`. The source-event tag in this rule reuses that vocabulary, extended with `loop:<id>`, `task:<dart-id>`, and `conversation:<id>` for memory-specific sources.
 
 ## The Soft-Guidance Rule
 
@@ -38,7 +38,7 @@ written_at: 2026-04-26T15:30:00Z
 
 ### Field 2 — `source_event`
 
-A tag identifying what produced this memory. Reuses the brainstorming `<PROVENANCE-CONTRACT>` vocabulary, extended for memory-layer specifics:
+A tag identifying what produced this memory. Reuses the standard provenance vocabulary, extended for memory-layer specifics:
 
 | Form | Example | When to use |
 |---|---|---|

@@ -388,8 +388,8 @@
     {
       "name": "present",
       "source": "./plugins/present",
-      "description": "Reusable browser presentation primitives: self-contained HTML reports and markdown/doc viewing. Shared UI layer consumed by other plugins.",
-      "version": "0.1.0",
+      "description": "Reusable browser presentation and editor primitives: self-contained HTML reports, markdown/doc viewing, and a mini-IDE for interactive review, annotation, card sorting, decisions, demos, and HITL feedback loops. Shared core UI layer consumed by other plugins and agents.",
+      "version": "0.2.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -402,6 +402,11 @@
         "presentation",
         "browser",
         "markdown",
+        "mini-ide",
+        "interactive-editor",
+        "artifact-annotation",
+        "card-sort",
+        "decision-review",
         "reusable-ui",
         "tailwind",
         "mermaid"
@@ -411,7 +416,7 @@
     {
       "name": "superpowers",
       "source": "./plugins/superpowers",
-      "description": "Wenyan port of core superpowers process skills — skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Brainstorming lives in the sibling brainstorming plugin.",
+      "description": "Wenyan port of core superpowers process skills — skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Ideation and presentation/editor flows live in the sibling ideation and present plugins.",
       "version": "0.1.0",
       "author": {
         "name": "Standard Beagle",
@@ -435,35 +440,10 @@
       "category": "development"
     },
     {
-      "name": "brainstorming",
-      "source": "./plugins/brainstorming",
-      "description": "Brainstorming skill + visual companion ported from superpowers. Mini-IDE web app for divergent-thinking sessions: question/demo/decision screens plus the SBT-S3 cards extension for card-sort and clustering. Bun + Preact + Vite stack runs against a session directory and emits events.jsonl for Claude to observe.",
-      "version": "0.3.1",
-      "author": {
-        "name": "Standard Beagle",
-        "url": "https://github.com/standardbeagle"
-      },
-      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
-      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
-      "license": "MIT",
-      "keywords": [
-        "brainstorming",
-        "ideation",
-        "visual-companion",
-        "mini-ide",
-        "card-sort",
-        "superpowers-port",
-        "sp-port",
-        "preact",
-        "bun"
-      ],
-      "category": "development"
-    },
-    {
       "name": "ideation",
       "source": "./plugins/ideation",
-      "description": "Idea-generation skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, and post-ideation handoff to brainstorming or planning. Dispatches research:* agents for grounding.",
-      "version": "0.3.1",
+      "description": "Idea-generation and convergence skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, HTML presentation, mini-IDE review, and outputs for principles, decision trees, or implementation-plan drafts.",
+      "version": "0.4.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -473,8 +453,13 @@
       "license": "MIT",
       "keywords": [
         "ideation",
-        "brainstorming",
         "divergent-thinking",
+        "convergence",
+        "html-report",
+        "mini-ide",
+        "decision-tree",
+        "principles",
+        "implementation-plan",
         "compound-engineering-port",
         "ce-port",
         "skill",

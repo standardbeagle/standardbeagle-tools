@@ -17,15 +17,15 @@ description: Use when starting any conversation — establishes how to find and 
 
 **於任何回應或動作前，調相關/請求之 skill** —— 含反問、探 codebase、查檔。若後證不合，不必續用。
 
-**入 plan mode 前：** 若未 brainstorm，先調 `brainstorming` skill。
+**入 plan mode 前：** 若任務仍需構想、設計收斂或策略選擇，先調 `ideation` skill。
 
 then 宣告 "Using [skill] to [purpose]"，遵 skill exact。有 checklist 則每項一 todo。
 
 ## Skill Priority
 
-多 skill 適時，**process skills 先** —— 定法，後由 implementation skills 執。`brainstorming` 與 `systematic-debugging` 為最常之 process skill，然此則通用於任一。
+多 skill 適時，**process skills 先** —— 定法，後由 implementation skills 執。`ideation` 與 `systematic-debugging` 為最常之 process skill，然此則通用於任一。
 
-- "Let's build X" → `brainstorming` 先，後 implementation skills。
+- "Let's build X" → `ideation` 先收斂目的、策略、principles/decision tree/plan draft，後 implementation skills。
 - "Fix this bug" → `systematic-debugging` 先，後 domain skills。
 - "Implement this feature" → `test-driven-development`（red→green→refactor）。
 
@@ -37,7 +37,7 @@ then 宣告 "Using [skill] to [purpose]"，遵 skill exact。有 checklist 則�
 - **驅動任務**：`/worktrack:start`（或 `/loop /worktrack:start --max-tasks 1` 乾隊）。
 - **單任務**：`/worktrack:task`。
 
-brainstorming 之 terminal handoff 指 `/worktrack:plan`，代舊 `writing-plans → executing-plans` 鏈。
+ideation 之 terminal handoff 可指 `/worktrack:plan`，代舊 `writing-plans → executing-plans` 鏈。
 
 ## Native Claude Code（勿造重複 skill）
 

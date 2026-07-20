@@ -1,9 +1,0 @@
-node_modules
-.DS_Store
-*.log
-.bun
-tmp-sessions/
-
-# Note: SP upstream ships pre-built dist via `!packages/web/dist/`.
-# SBT root .gitignore excludes dist/ globally; we follow SBT convention.
-# Users run `bun install && bun run build` once to produce dist locally.

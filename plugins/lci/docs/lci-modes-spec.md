@@ -140,7 +140,7 @@ Each step MUST keep older modes behaviorally identical (back-compat). Each step 
 - **K2 §3.4** (`docs/research/K2-knowledge-hygiene-from-papers.md`) — multiview retrieval rationale and Tier-2 framing.
 - **K2 §3.2** — conflict surfacing across sources; `--conflicts` flag is the lci surface for this pattern.
 - **K2 §4.4** — per-plugin update map for lci; `file:path:line` is the canonical SBT provenance shape.
-- **brainstorming `<PROVENANCE-CONTRACT>`** (commit `ebd136a`, `plugins/brainstorming/skills/brainstorming/SKILL.md`) — the upstream provenance contract that lci's native `file:line` results satisfy by default.
+- **Standard provenance contract** — ideation and `present:mini-ide` review flows consume the same `file:path:line` shape that lci's native results satisfy by default.
 - **dev-standards multi-source rule** (commit `9ab9c47`, `plugins/dev-standards/.../SKILL.md`) — load-bearing claims need ≥2 independent sources; this spec's load-bearing claims (mode rationale, conflict-surfacing failure mode) cite both K2 (synthesis) and the originating papers / commits (RAGSearch `2604.09666`, ConflictQA `2604.11209`, `ebd136a`).
 
 ---
