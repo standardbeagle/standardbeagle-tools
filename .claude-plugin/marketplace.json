@@ -85,7 +85,7 @@
       "name": "ux-design",
       "source": "./plugins/ux-design",
       "description": "UX design principles, color theory, typography systems, component library design, and usability heuristics. Comprehensive design guidance for creating exceptional user experiences with Adobe Color-inspired palette creation, type system design, and accessibility-first thinking.",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
