@@ -43,7 +43,7 @@ After determining mode, read the matching reference and follow it.
 Recognized pre-commit reviewer outputs that this skill consumes:
 
 - **`lci:pre-commit-review`** — staged-change quality analysis (duplication, naming, complexity)
-- **`compound-review` reviewer agents** — adversarial reviewer findings
+- **Self-contained local reviewer reports** — adversarial findings with file and line evidence
 - **`dartai:code-quality-reviewer` / `dartai:post-task-reviewer`** verdict YAML blocks (and `evidence_path` markdown they reference)
 - **`workflow:code-quality-reviewer` / `workflow:post-task-reviewer`** mirrors of the dartai reviewers
 - **Generic markdown reviewer reports** — any file with a list of findings keyed by file:line and a recommendation

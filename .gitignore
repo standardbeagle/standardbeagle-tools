@@ -39,3 +39,4 @@ coverage/
 !.claude/
 .claude/*
 !.claude/skills/
+.test-logs/

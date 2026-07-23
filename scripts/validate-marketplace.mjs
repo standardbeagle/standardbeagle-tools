@@ -31,7 +31,6 @@ const SECRET =
 const args = process.argv.slice(2);
 const FIX = args.includes("--fix");
 const STAGED = args.includes("--staged");
-const SELF_TEST = args.includes("--self-test");
 const repo = args.find((a) => !a.startsWith("--")) ?? process.cwd();
 
 const errors = [];
@@ -197,86 +196,6 @@ function checkMd(file, rel, kind) {
   return fm;
 }
 
-const REMOVED_REVIEWERS = [
-  "correctness-reviewer",
-  "testing-reviewer",
-  "maintainability-reviewer",
-  "typescript-strict-reviewer",
-  "cli-readiness-reviewer",
-  "rationalization-trap-reviewer",
-];
-
-function compoundReviewContractProblems({ agentFiles, skillDirs, text, manifestVersion, catalogVersion }) {
-  const problems = [];
-  if (agentFiles.join(",") !== "reviewer.md")
-    problems.push(`agents must contain only reviewer.md (found: ${agentFiles.join(", ") || "none"})`);
-  if (skillDirs.join(",") !== "recommender,review")
-    problems.push(`skills must contain only recommender and review (found: ${skillDirs.join(", ") || "none"})`);
-  for (const token of [
-    "One context body = one reviewer",
-    "compound_review_result_v1",
-    "Specification compliance",
-    "TypeScript strictness",
-    "CLI readiness",
-    "Do not launch one verifier per candidate",
-  ]) {
-    if (!text.includes(token)) problems.push(`unified review contract missing '${token}'`);
-  }
-  for (const token of ["dartai:", ".dartai/reports", ...REMOVED_REVIEWERS.map((name) => `compound-review:${name}`)]) {
-    if (text.includes(token)) problems.push(`removed review contract reference remains: '${token}'`);
-  }
-  if (manifestVersion !== catalogVersion)
-    problems.push(`plugin version ${manifestVersion} != catalog version ${catalogVersion}`);
-  return problems;
-}
-
-function checkCompoundReviewContract(pdir, rel) {
-  const agentDir = join(pdir, "agents");
-  const skillDir = join(pdir, "skills");
-  const agentFiles = isDir(agentDir)
-    ? readdirSync(agentDir).filter((name) => name.endsWith(".md")).sort()
-    : [];
-  const skillDirs = isDir(skillDir)
-    ? readdirSync(skillDir).filter((name) => isDir(join(skillDir, name))).sort()
-    : [];
-  const files = [
-    join(pdir, ".claude-plugin", "plugin.json"),
-    ...agentFiles.map((name) => join(agentDir, name)),
-    ...skillDirs.map((name) => join(skillDir, name, "SKILL.md")),
-  ];
-  const text = files.filter(existsSync).map((file) => readFileSync(file, "utf8")).join("\n");
-  const manifestVersion = readJson(join(pdir, ".claude-plugin", "plugin.json")).version;
-  const catalog = readJson(join(repo, ".claude-plugin", "marketplace.json"));
-  const catalogVersion = catalog.plugins.find((plugin) => plugin.name === "compound-review")?.version;
-  for (const problem of compoundReviewContractProblems({
-    agentFiles, skillDirs, text, manifestVersion, catalogVersion,
-  })) err(rel, problem);
-}
-
-function runCompoundReviewContractSelfTest() {
-  const valid = {
-    agentFiles: ["reviewer.md"],
-    skillDirs: ["recommender", "review"],
-    text: "One context body = one reviewer compound_review_result_v1 Specification compliance TypeScript strictness CLI readiness Do not launch one verifier per candidate",
-    manifestVersion: "0.3.5",
-    catalogVersion: "0.3.5",
-  };
-  if (compoundReviewContractProblems(valid).length)
-    throw new Error("valid compound-review contract fixture was rejected");
-  const stale = { ...valid, text: `${valid.text} compound-review:correctness-reviewer` };
-  if (!compoundReviewContractProblems(stale).some((problem) => problem.includes("removed review contract")))
-    throw new Error("removed persona reference was accepted");
-  const drift = { ...valid, catalogVersion: "0.3.4" };
-  if (!compoundReviewContractProblems(drift).some((problem) => problem.includes("catalog version")))
-    throw new Error("plugin/catalog version drift was accepted");
-  console.log("validate-marketplace: compound-review contract self-test passed (3 cases)");
-}
-
-if (SELF_TEST) {
-  runCompoundReviewContractSelfTest();
-  process.exit(0);
-}
-
 /**
  * @param name   plugin name
  * @param source path from marketplace.json (e.g. "./plugins/agnt" or "./math-physics-ml").
@@ -356,8 +275,6 @@ function checkPlugin(name, source) {
     for (const f of readdirSync(d).sort())
       if (f.endsWith(".md")) checkMd(join(d, f), `${rel}/${sub}/${f}`, kind);
   }
-
-  if (name === "compound-review") checkCompoundReviewContract(pdir, rel);
 }
 
 function checkMarketplace() {

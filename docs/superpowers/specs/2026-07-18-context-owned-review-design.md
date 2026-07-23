@@ -1,5 +1,7 @@
 # Context-owned review design
 
+> **Historical / Superseded (2026-07-20):** `compound-review` has been retired. Worktrack owns workflow-integrated review; other callers use a self-contained generic reviewer. This document records the superseded design only.
+
 ## Goal
 
 Replace compound-review's persona-per-lens execution with one public, context-owning review engine. Keep Worktrack's MCP integration deep while removing duplicated review intelligence from the private worktrack-loop plugin.

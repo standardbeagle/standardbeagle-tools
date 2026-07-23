@@ -468,31 +468,6 @@
       "category": "development"
     },
     {
-      "name": "compound-review",
-      "source": "./plugins/compound-review",
-      "description": "Context-owned code review: one reviewer reads one change packet once, applies conditional rubrics, and returns one provider-neutral structured result without persona fan-out.",
-      "version": "0.3.5",
-      "author": {
-        "name": "Standard Beagle",
-        "url": "https://github.com/standardbeagle"
-      },
-      "homepage": "https://github.com/standardbeagle/standardbeagle-tools",
-      "repository": "https://github.com/standardbeagle/standardbeagle-tools",
-      "license": "MIT",
-      "keywords": [
-        "code-review",
-        "context-owned-review",
-        "structured-findings",
-        "correctness",
-        "maintainability",
-        "testing",
-        "typescript-strict",
-        "cli-readiness",
-        "adversarial-review"
-      ],
-      "category": "development"
-    },
-    {
       "name": "research",
       "source": "./plugins/research",
       "description": "External and repo research agents ported from Compound Engineering. Web research, prior-art scanning, learnings search, best-practices and framework-docs research. Reachable via Task tool with structured research_report output.",
