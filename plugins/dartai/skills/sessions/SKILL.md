@@ -162,7 +162,7 @@ The dispatch prompt is the agent's input contract. Pass these fields:
   - Key decisions
   - Related context
   ```
-  When the caller (e.g., `compound-review:debug`) supplies a schema in the skill argument, pass it through verbatim.
+  When a caller supplies a schema in the skill argument, pass it through verbatim.
 
 Example dispatch shape:
 

@@ -1,11 +1,11 @@
 ---
 name: agnt-demo-flow
-description: "Record + replay interactive guided DEMO of shipped work — floating self-advancing walkthrough narrating each step, spotlighting live app element, advancing on timer, click, or app-state condition. 在瀏覽器疊層錄製可重播之互動導覽。 Use when: demo a feature, create walkthrough, run walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay."
+description: "Record + replay interactive guided DEMO of shipped work — floating self-advancing walkthrough narrating each step, spotlighting live app element with animated gesture affordances (hover/click/scroll/drag), advancing on timer, click, or app-state condition. 在瀏覽器疊層錄製可重播之互動導覽。 Use when: demo a feature, create walkthrough, run walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay."
 ---
 
 # 互動導覽技能 — Demo Flow / Walkthrough
 
-`walkthrough` 工具在瀏覽器疊層彈出浮動、自捲之步驟清單：逐步敘述、高亮對應 app 元素、按計時/點擊/狀態條件推進。把「我做了什麼」變成可點擊之導覽。已載入之腳本於疊層留重播啟動器，可日後重跑。
+`walkthrough` 工具在瀏覽器疊層彈出浮動、自捲之步驟清單：逐步敘述、高亮對應 app 元素、按計時/點擊/狀態條件推進。步可攜 `gesture`（hover/click/scroll/drag），於高亮上渲染動畫示意，步進自消；當前步敘述逐字顯現。把「我做了什麼」變成可點擊之導覽。已載入之腳本於疊層留重播啟動器，可日後重跑。
 
 所有動作經 agnt MCP `walkthrough` 工具，內部對 chrome-frame 之 `window.__devtool.walkthrough.*` 派發。
 
@@ -54,6 +54,7 @@ Parameters: {
       "title": "Open cart",
       "body": "Click the cart icon to review items.",
       "target": "#cart-button",
+      "gesture": "click",
       "advance": { "type": "click-target" }
     },
     {
@@ -79,12 +80,23 @@ Parameters: {
 
 `target`（選填）：高亮之 CSS 選擇器。略則步驟僅敘述、不高亮。
 
+### gesture 語意 — Gesture affordances
+
+`gesture`（選填，須配 `target`）：於高亮上渲染對應動畫示意，步進時自動消失。
+
+- `"hover"` — 脈動圓點於目標中心（示懸停）。
+- `"click"` — 雙漣漪環自中心擴散（示點擊）。
+- `"scroll"` — 滑鼠滾輪形，輪點上下滑動（示滾動）。
+- `"drag"` — 軌線上圓塊左右拖行（示拖拽）。
+
+未知 gesture 拒載（`load`/`start` 回 error）；`prefers-reduced-motion` 下渲染靜態形。當前步之 `body` 敘述逐字顯現（read-through 動畫），引觀者目光隨文而動。
+
+選 `advance` 訣：用戶須動作 → `click-target`；待非同步結果（路由變、元素現）→ `wait`；純敘述節奏 → `auto`。互動步宜配同義 `gesture`：`click-target` 配 `"click"`，待滾動之步配 `"scroll"`。
+
 ## 流程 — Workflow
 
 1. 確認代理運行且站點已連接（`agnt:current-page`）。
-2. 寫腳本：每步一 `title` + `body`，互動步配 `target` + 合宜 `advance`。
+2. 寫腳本：每步一 `title` + `body`，互動步配 `target` + 同義 `gesture` + 合宜 `advance`。
 3. `load` 預覽（留啟動器）或 `start` 直播。錄製/展示用 `manual`，無人值守演示用 `auto`。
 4. 直播中（`auto`/`wait` 推進）以 `proxylog {proxy_id, types:["walkthrough"]}` 追每步 `step`/`finish`/`warning` 事件即時知用戶所在，非只靠一次性 `status`。
 5. `status` / `list` 查態，`stop` 收尾。
-
-選 `advance` 訣：用戶須動作 → `click-target`；待非同步結果（路由變、元素現）→ `wait`；純敘述節奏 → `auto`。

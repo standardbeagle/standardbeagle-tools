@@ -149,17 +149,6 @@ Always-dispatched (workflow plugin mirrors):
 - `plugins/workflow/agents/code-quality-reviewer.md`
 - `plugins/workflow/agents/post-task-reviewer.md`
 
-Always-dispatched (compound-review plugin):
-- `plugins/compound-review/agents/correctness-reviewer.md`
-- `plugins/compound-review/agents/maintainability-reviewer.md`
-- `plugins/compound-review/agents/testing-reviewer.md`
-
-Conditional (compound-review plugin — dispatched when diff matches):
-- `plugins/compound-review/agents/typescript-strict-reviewer.md` (when diff touches `*.ts`/`*.tsx`)
-- `plugins/compound-review/agents/cli-readiness-reviewer.md` (when diff touches CLI paths)
-
-Not yet migrated (rationalization-trap-reviewer) — still emits structured JSON per its bespoke schema. Orchestrators treat absence of `verdict-file:` on stdout line 1 as legacy format and read the JSON body directly.
-
 ---
 
 ## Verdict File Delivery (file-streaming channel) 裁決檔派送
@@ -172,11 +161,6 @@ Reviewer subagents return their decision via a **verdict file written to disk**,
 | ----------------------------------------------- | --------------------------- | --------------------- |
 | `.dartai/reports/<task-id>/qa.md`               | qa-reviewer                 | loop driver (Monitor) |
 | `.dartai/reports/<task-id>/quality.md`          | code-quality-reviewer       | loop driver (Monitor) |
-| `.dartai/reports/<task-id>/correctness.md`      | correctness-reviewer        | loop driver (Monitor) |
-| `.dartai/reports/<task-id>/maintainability.md`  | maintainability-reviewer    | loop driver (Monitor) |
-| `.dartai/reports/<task-id>/testing.md`          | testing-reviewer            | loop driver (Monitor) |
-| `.dartai/reports/<task-id>/ts-strict.md`        | typescript-strict-reviewer  | loop driver (Monitor) |
-| `.dartai/reports/<task-id>/cli-readiness.md`    | cli-readiness-reviewer      | loop driver (Monitor) |
 | `.dartai/reports/<task-id>/security.md`         | post-task-reviewer          | loop driver (Monitor) |
 | `.dartai/reports/<task-id>/verdict-summary.kdl` | aggregator                  | final gate decision   |
 

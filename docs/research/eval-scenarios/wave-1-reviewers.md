@@ -1,5 +1,7 @@
 # Eval-Harness Scenarios — Wave-1 Reviewer Dispatch (INT1)
 
+> **Historical / Superseded (2026-07-20):** The reviewer personas and `compound-review` plugin targeted by these draft scenarios were retired. Preserve this file as research history; do not use it as an active eval specification.
+
 **Status:** Draft (per K1c)
 **Dart task:** [9ZGkhWRzdne2](https://app.dartai.com/task/9ZGkhWRzdne2)
 **Parent:** R3 eval-harness (`docs/research/R3-eval-harness-decision.md`) — adapted from skill-behavior eval to **reviewer dispatch verification**.

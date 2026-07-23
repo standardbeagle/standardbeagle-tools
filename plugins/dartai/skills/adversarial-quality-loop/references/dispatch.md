@@ -79,163 +79,6 @@ concurrent_agents:
       verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
       lines: verdict-file: <path> then verdict: <pass|fail|warn>.
 
-  # INT1 wave-1: always-on review personas (correctness, maintainability, testing).
-  # Diff-conditional dispatch per R2 §3 — these three are unconditional because
-  # their agent frontmatter is always-on (no Skip-when filter on file type).
-  correctness_reviewer:
-    subagent_type: "compound-review:correctness-reviewer"
-    description: "Correctness review for [task-title]"
-    prompt: |
-      Run correctness review for task [TASK_ID].
-
-      ## Task ID
-      [TASK_ID]
-
-      ## Changed Files
-      [list of files changed]
-
-      ## Acceptance Criteria
-      [criteria from task]
-
-      ## Risk Vector
-      [risk_vector dict from telemetry, if enabled]
-
-      ## Focus
-      Logic errors, edge cases, off-by-one, null/undefined propagation,
-      race conditions, state-transition bugs, swallowed errors,
-      intent-vs-implementation mismatch.
-
-      ## Output
-      Write verdict to .dartai/reports/[TASK_ID]/correctness.md per
-      verdict-schema "Verdict File Delivery" (line-oriented:
-      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
-      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
-
-  maintainability_reviewer:
-    subagent_type: "compound-review:maintainability-reviewer"
-    description: "Maintainability review for [task-title]"
-    prompt: |
-      Run maintainability review for task [TASK_ID].
-
-      ## Task ID
-      [TASK_ID]
-
-      ## Changed Files
-      [list of files changed]
-
-      ## Acceptance Criteria
-      [criteria from task]
-
-      ## Risk Vector
-      [risk_vector dict from telemetry, if enabled]
-
-      ## Focus
-      Premature abstraction, unnecessary indirection, dead code,
-      cross-module coupling, naming that obscures intent,
-      duplication (jscpd), YAGNI violations.
-
-      ## Output
-      Write verdict to .dartai/reports/[TASK_ID]/maintainability.md per
-      verdict-schema "Verdict File Delivery" (line-oriented:
-      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
-      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
-
-  testing_reviewer:
-    subagent_type: "compound-review:testing-reviewer"
-    description: "Testing review for [task-title]"
-    prompt: |
-      Run testing review for task [TASK_ID].
-
-      ## Task ID
-      [TASK_ID]
-
-      ## Changed Files
-      [list of files changed]
-
-      ## Acceptance Criteria
-      [criteria from task]
-
-      ## Risk Vector
-      [risk_vector dict from telemetry, if enabled]
-
-      ## Focus
-      Untested branches, weak/brittle assertions, implementation-coupled
-      tests, missing error-path coverage, behavior changes without tests.
-
-      ## Output
-      Write verdict to .dartai/reports/[TASK_ID]/testing.md per
-      verdict-schema "Verdict File Delivery" (line-oriented:
-      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
-      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
-
-  # Conditional reviewers — only dispatch when diff matches the trigger.
-  # Predicate syntax: JavaScript-expression evaluated against the changed-files
-  # list; `file` iterates each path. See R2 §6.1 for canonical form.
-  typescript_strict_reviewer:
-    enabled_when: "any(file.endsWith('.ts') || file.endsWith('.tsx'))"
-    subagent_type: "compound-review:typescript-strict-reviewer"
-    description: "TypeScript-strict review for [task-title]"
-    prompt: |
-      Run TypeScript-strict review for task [TASK_ID].
-
-      ## Task ID
-      [TASK_ID]
-
-      ## Changed Files
-      [list of *.ts / *.tsx files changed]
-
-      ## Acceptance Criteria
-      [criteria from task]
-
-      ## Risk Vector
-      [risk_vector dict from telemetry, if enabled]
-
-      ## Focus
-      Type-system loopholes (`any`, unchecked casts, broad `unknown as Foo`),
-      nullable narrowing, hidden regressions in refactors/deletions,
-      five-second-rule failures, hard-to-test structure-vs-behavior gaps.
-
-      ## Output
-      Write verdict to .dartai/reports/[TASK_ID]/ts-strict.md per
-      verdict-schema "Verdict File Delivery" (line-oriented:
-      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
-      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
-
-  cli_readiness_reviewer:
-    enabled_when: |
-      any(file.includes('/cli/') || file.includes('/commands/')
-          || file.includes('/bin/') || /\.cli\./.test(file)
-          || /docs\/plans\/.*cli.*\.md$/.test(file)
-          || /docs\/research\/.*cli.*\.md$/.test(file))
-    subagent_type: "compound-review:cli-readiness-reviewer"
-    description: "CLI agent-readiness review for [task-title]"
-    prompt: |
-      Run CLI agent-readiness review for task [TASK_ID].
-
-      ## Task ID
-      [TASK_ID]
-
-      ## Changed Files
-      [list of CLI source/spec/plan files changed]
-
-      ## Acceptance Criteria
-      [criteria from task]
-
-      ## Risk Vector
-      [risk_vector dict from telemetry, if enabled]
-
-      ## Focus
-      Non-interactive defaults (TTY guards, --yes flags), structured
-      output (--json/--format), actionable errors, idempotent retries,
-      bounded list output, stdout/stderr separation, help-text completeness.
-      Severity caps at P1; all findings advisory/manual.
-
-      ## Output
-      Write verdict to .dartai/reports/[TASK_ID]/cli-readiness.md per
-      verdict-schema "Verdict File Delivery" (line-oriented:
-      verdict:/confidence:/blocker:/advisory:/evidence:). Stdout ≤5
-      lines: verdict-file: <path> then verdict: <pass|fail|warn>.
-      All findings advisory (autofix_class: manual).
 ```
 
 ## Reading Verdicts (file-streaming via Monitor)
@@ -247,13 +90,8 @@ verdict_consumption:
   channel: "file"
   reads:
     - ".dartai/reports/<task-id>/quality.md"       # code-quality-reviewer
-    - ".dartai/reports/<task-id>/qa.md"             # qa-reviewer
-    - ".dartai/reports/<task-id>/correctness.md"    # correctness-reviewer (always-on)
-    - ".dartai/reports/<task-id>/maintainability.md" # maintainability-reviewer (always-on)
-    - ".dartai/reports/<task-id>/testing.md"        # testing-reviewer (always-on)
-    - ".dartai/reports/<task-id>/ts-strict.md"      # typescript-strict-reviewer (conditional: *.ts/*.tsx)
-    - ".dartai/reports/<task-id>/cli-readiness.md"  # cli-readiness-reviewer (conditional: CLI paths)
-    - ".dartai/reports/<task-id>/security.md"       # post-task-reviewer; written in Phase 5
+    - ".dartai/reports/<task-id>/qa.md"            # qa-reviewer
+    - ".dartai/reports/<task-id>/security.md"      # post-task-reviewer; written in Phase 5
 
   preferred_signal: "subagent-completion notification"
   why: "Completion notifications are the durable signal — file-system events alone can drop under load. Parse the verdict file at completion time."
@@ -295,29 +133,14 @@ result_handling:
     action: "Fix issues, re-dispatch ONLY the failing reviewer(s)"
     max_retries: 2
     escalate_after: "If still failing after 2 retries, RETURN with failure"
-
-  conditional_skip:
-    note: |
-      Reviewers gated by enabled_when (typescript_strict, cli_readiness)
-      are skipped when the diff does not match. Skipped reviewers do NOT
-      block pass_if — only dispatched reviewers' verdicts join the AND.
-      Skipped reviewers do not write a verdict file; absence is treated
-      as skipped, not failed.
 ```
 
 ## Verification Criteria
 
 ```yaml
 pass_if:
-  # Always-dispatched reviewers — verdicts must all be PASS
   - code_quality_reviewer_verdict: "PASS"
   - qa_reviewer_verdict: "PASS"
-  - correctness_reviewer_verdict: "PASS"
-  - maintainability_reviewer_verdict: "PASS"
-  - testing_reviewer_verdict: "PASS"
-  # Conditional reviewers — verdict must be PASS when dispatched, ignored when skipped
-  - typescript_strict_reviewer_verdict_if_dispatched: "PASS"
-  - cli_readiness_reviewer_verdict_if_dispatched: "PASS"
 fail_if:
   - any_dispatched_verdict_fail_after_retries: true
 ```

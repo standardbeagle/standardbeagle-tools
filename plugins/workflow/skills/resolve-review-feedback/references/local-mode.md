@@ -29,7 +29,7 @@ Recognized formats:
 
 - **dartai/workflow verdict YAML block**: `verdict: ...` plus a list of `blockers:` / `findings:` entries, optionally with an `evidence_path` markdown file. Read the evidence file too.
 - **`lci:pre-commit-review` output**: structured by category (duplicates, naming, complexity); each entry has file:line.
-- **`compound-review` reviewer markdown**: numbered findings, often with `## Finding N` headings.
+- **Self-contained reviewer markdown**: numbered findings, often with `## Finding N` headings.
 - **Generic markdown**: bulleted/numbered list with file references in backticks.
 
 When the schema is fully loose, default ids to `finding-1`, `finding-2`, ... in document order — the only requirement is stability across re-runs.
@@ -100,7 +100,7 @@ Spawn one resolver subagent per non-clustered new finding. Each agent receives:
 - The source reviewer file path (for context)
 - Feedback type: `local_review`
 
-If the project has a dedicated resolver agent (e.g. `compound-review:reviewer-resolver` or a project-local equivalent), use it. Otherwise dispatch a generic implementation subagent with the finding as its task brief.
+Dispatch a generic implementation subagent with the finding as its self-contained task brief, unless the project defines a project-local resolver agent.
 
 ### Cluster dispatch
 

@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 Ask each question via Claude Code's `AskUserQuestion` (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded). On harnesses lacking a blocking question tool, fall back to numbered list in chat. Never silently skip or auto-configure. For multiSelect, accept comma-separated numbers (e.g. `1, 3`).
 
-Interactive setup diagnoses environment health, cleans obsolete repo-local CE config, and helps configure required tools. Preventive review routes through the context-owned `compound-review:review`; project-specific review guidance belongs in `CLAUDE.md` or `AGENTS.md`.
+Interactive setup diagnoses environment health, cleans obsolete repo-local CE config, and helps configure required tools. Preventive review belongs to the active Worktrack workflow or a self-contained generic reviewer; project-specific review guidance belongs in `CLAUDE.md` or `AGENTS.md`.
 
 ## Phase 1: Diagnose
 
