@@ -1,11 +1,11 @@
 ---
 name: agnt-demo-flow
-description: "Record + replay interactive guided DEMO of shipped work — floating self-advancing walkthrough narrating each step, spotlighting live app element with animated gesture affordances (hover/click/scroll/drag), advancing on timer, click, or app-state condition. 在瀏覽器疊層錄製可重播之互動導覽。 Use when: demo a feature, create walkthrough, run walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay."
+description: "Record + replay interactive guided DEMO of shipped work — floating self-advancing walkthrough narrating each step, spotlighting live app element with labelled animated gesture affordances (hover/click/scroll/drag), advancing on timer, click, or app-state condition. 在瀏覽器疊層錄製可重播之互動導覽。 Use when: demo a feature, create walkthrough, run walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay."
 ---
 
 # 互動導覽技能 — Demo Flow / Walkthrough
 
-`walkthrough` 工具在瀏覽器疊層彈出浮動、自捲之步驟清單：逐步敘述、高亮對應 app 元素、按計時/點擊/狀態條件推進。步可攜 `gesture`（hover/click/scroll/drag），於高亮上渲染動畫示意，步進自消；當前步敘述逐字顯現。把「我做了什麼」變成可點擊之導覽。已載入之腳本於疊層留重播啟動器，可日後重跑。
+`walkthrough` 工具在瀏覽器疊層彈出浮動、自捲之步驟清單：逐步敘述、高亮對應 app 元素、按計時/點擊/狀態條件推進。步可攜 `gesture`（hover/click/scroll/drag），於高亮上渲染動畫示意並附文字標籤（`gesture_label` 具名此步實際動作），步進自消；當前步敘述逐字顯現。把「我做了什麼」變成可點擊之導覽。已載入之腳本於疊層留重播啟動器，可日後重跑。
 
 所有動作經 agnt MCP `walkthrough` 工具，內部對 chrome-frame 之 `window.__devtool.walkthrough.*` 派發。
 
@@ -55,12 +55,15 @@ Parameters: {
       "body": "Click the cart icon to review items.",
       "target": "#cart-button",
       "gesture": "click",
+      "gesture_label": "Click to open your cart",
       "advance": { "type": "click-target" }
     },
     {
       "title": "Apply coupon",
       "body": "Coupon field now validates inline.",
       "target": ".coupon-input",
+      "gesture": "hover",
+      "gesture_label": "Watch the inline check",
       "advance": { "type": "wait", "when": "element-visible", "value": ".coupon-success" }
     },
     {
@@ -91,12 +94,27 @@ Parameters: {
 
 未知 gesture 拒載（`load`/`start` 回 error）；`prefers-reduced-motion` 下渲染靜態形。當前步之 `body` 敘述逐字顯現（read-through 動畫），引觀者目光隨文而動。
 
+### gesture_label 語意 — Affordance text label
+
+示意下方恆有文字標籤，使動畫形讀作「指示」而非「可點控件」。
+
+`gesture_label`（選填，須配 `gesture`，上限 64 字元）：以此步真實動作命名，取代通用動詞短語。
+
+| gesture | 略 `gesture_label` 之預設 | 宜寫之 `gesture_label` |
+|---|---|---|
+| `hover` | `Hover here` | `Hover the price to see the breakdown` |
+| `click` | `Click here` | `Click to open your cart` |
+| `scroll` | `Scroll this area` | `Scroll to the shipping section` |
+| `drag` | `Drag to move` | `Drag the handle to reorder` |
+
+寫法訣：**動詞 + 受詞 + 果**（"Click to open your cart"），非裸動詞（"Click"）。指名畫面上真有之物，令觀者不必猜高亮框何指。超長拒載（`load`/`start` 回 error，不截斷）；含控制字元拒載；標籤為單行不換行，故宜短（一短句）。發佈之公開導覽同讀此欄，唯超長者截斷而非報錯（公開頁不得崩）。
+
 選 `advance` 訣：用戶須動作 → `click-target`；待非同步結果（路由變、元素現）→ `wait`；純敘述節奏 → `auto`。互動步宜配同義 `gesture`：`click-target` 配 `"click"`，待滾動之步配 `"scroll"`。
 
 ## 流程 — Workflow
 
 1. 確認代理運行且站點已連接（`agnt:current-page`）。
-2. 寫腳本：每步一 `title` + `body`，互動步配 `target` + 同義 `gesture` + 合宜 `advance`。
+2. 寫腳本：每步一 `title` + `body`，互動步配 `target` + 同義 `gesture` + 具名 `gesture_label` + 合宜 `advance`。
 3. `load` 預覽（留啟動器）或 `start` 直播。錄製/展示用 `manual`，無人值守演示用 `auto`。
 4. 直播中（`auto`/`wait` 推進）以 `proxylog {proxy_id, types:["walkthrough"]}` 追每步 `step`/`finish`/`warning` 事件即時知用戶所在，非只靠一次性 `status`。
 5. `status` / `list` 查態，`stop` 收尾。
