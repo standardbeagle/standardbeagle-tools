@@ -620,6 +620,27 @@
         "image-processing",
         "bundle"
       ]
+    },
+    {
+      "name": "tman",
+      "source": "./plugins/tman",
+      "description": "Supervised process runs for AI coding agents: wall-time and stall kills, opt-in memory and CPU culling of the whole process tree, automatic orphan reaping, dedup locks, parallelism caps, and per-project .tman.kdl aliases so every test, build, and dev-server command an agent launches is bounded",
+      "version": "0.1.0",
+      "author": {
+        "name": "Standard Beagle",
+        "url": "https://github.com/standardbeagle/tman"
+      },
+      "homepage": "https://github.com/standardbeagle/tman",
+      "repository": "https://github.com/standardbeagle/tman",
+      "license": "MIT",
+      "keywords": [
+        "supervised-runs",
+        "process-supervision",
+        "test-runner",
+        "timeout",
+        "orphan-reaper"
+      ],
+      "category": "development"
     }
   ]
 }
