@@ -54,6 +54,8 @@ function changedDirs(ref) {
 const sources = pluginSources();
 const changed = since ? changedDirs(since) : new Set();
 
+/** name -> new version, replayed onto marketplace.json once the loop is done. */
+const bumps = new Map();
 let bumped = 0;
 for (const [name, dir] of [...sources].sort()) {
   if (only && name !== only) continue;
@@ -79,7 +81,27 @@ for (const [name, dir] of [...sources].sort()) {
   if (!DRY) {
     writeFileSync(mp, raw.replace(/("version"\s*:\s*)"[^"]*"/, `$1"${next}"`));
   }
+  bumps.set(name, next);
   bumped++;
+}
+
+/**
+ * The listing states the version a second time, and Claude caches by THAT one.
+ * Bumping only the manifest therefore does not lift the cache — it just opens a
+ * gap between the two numbers while leaving every machine on the old build.
+ * Seventeen plugins had drifted this way before validate-marketplace started
+ * failing on it, all by exactly one patch: one bump each.
+ */
+if (bumps.size && !DRY) {
+  const mkp = join(repo, ".claude-plugin", "marketplace.json");
+  const data = JSON.parse(readFileSync(mkp, "utf8"));
+  for (const p of data.plugins ?? []) {
+    // a plain-string entry states no version, so there is nothing to keep in step
+    if (typeof p === "string" || !bumps.has(p.name)) continue;
+    p.version = bumps.get(p.name);
+  }
+  writeFileSync(mkp, JSON.stringify(data, null, 2) + "\n");
+  console.log(`  marketplace.json: ${bumps.size} listing version(s) updated to match`);
 }
 
 console.log(`\n${bumped} plugin(s) ${DRY ? "would be" : ""} bumped`);
