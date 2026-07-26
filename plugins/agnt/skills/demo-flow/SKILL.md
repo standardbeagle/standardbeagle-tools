@@ -1,6 +1,6 @@
 ---
 name: agnt-demo-flow
-description: "Record + replay interactive guided DEMO of shipped work — floating self-advancing walkthrough narrating each step, spotlighting live app element with labelled animated gesture affordances (hover/click/scroll/drag), advancing on timer, click, or app-state condition. 在瀏覽器疊層錄製可重播之互動導覽。 Use when: demo a feature, create walkthrough, run walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay."
+description: "Record + replay an interactive guided demo overlay on the live app — self-advancing walkthrough, labelled gesture affordances. 瀏覽器互動導覽。 Use when: demo a feature, create walkthrough, run walkthrough tool, guided product tour, replay a flow, show what was built, onboarding tour, step-by-step demo overlay."
 ---
 
 # 互動導覽技能 — Demo Flow / Walkthrough
