@@ -197,12 +197,13 @@ function checkMd(file, rel, kind) {
 }
 
 /**
- * @param name   plugin name
- * @param source path from marketplace.json (e.g. "./plugins/agnt" or "./math-physics-ml").
- *               Plugins do NOT have to live under plugins/ — the marketplace entry's
- *               `source` is authoritative.
+ * @param name  plugin name
+ * @param entry the marketplace.json entry. Its `source` is authoritative for the
+ *              directory — plugins do NOT have to live under plugins/ (e.g.
+ *              "./math-physics-ml"). A plain-string entry has no fields at all.
  */
-function checkPlugin(name, source) {
+function checkPlugin(name, entry) {
+  const source = entry?.source;
   const relDir = (source ?? `./plugins/${name}`).replace(/^\.\//, "");
   const pdir = join(repo, ...relDir.split("/"));
   const rel = relDir;
@@ -236,6 +237,24 @@ function checkPlugin(name, source) {
     err(rel, `plugin.json name '${manifest.name}' != directory '${name}' — \`claude plugin update ${name}\` will fail`);
   for (const f of ["version", "description"])
     if (!manifest[f]) err(rel, `plugin.json missing \`${f}\``);
+
+  // The version is stated TWICE — once in the plugin's own manifest, once in the
+  // marketplace listing — and Claude caches by the version it read from the
+  // listing. When the two disagree, `claude plugin update` compares the stale
+  // listing version against the installed one, decides there is nothing new, and
+  // every machine keeps serving the old copy: the bump is invisible, exactly the
+  // staleness bump-plugins exists to prevent. A plain-string entry states the
+  // version only once and so cannot drift.
+  if (entry && typeof entry === "object") {
+    if (!entry.version)
+      err(rel, "marketplace.json entry has no `version` — Claude caches by it, so updates go unnoticed");
+    else if (entry.version !== manifest.version)
+      err(
+        rel,
+        `version disagreement: plugin.json says '${manifest.version}', marketplace.json says ` +
+          `'${entry.version}' — set the marketplace entry to '${manifest.version}' (the manifest is the source of truth)`,
+      );
+  }
 
   checkHooks(pdir, manifest, rel);
 
@@ -294,11 +313,12 @@ function checkMarketplace() {
     err(".claude-plugin/marketplace.json", `does not parse: ${e.message}`);
     return onDisk;
   }
-  // name -> source path (authoritative; a plugin need not live under plugins/)
+  // name -> the whole entry; `source` is authoritative for the directory (a plugin
+  // need not live under plugins/) and `version` must match the plugin's manifest
   const listed = new Map();
   for (const p of data.plugins ?? []) {
     const n = typeof p === "string" ? p : p.name;
-    if (n) listed.set(n, typeof p === "string" ? undefined : p.source);
+    if (n) listed.set(n, typeof p === "string" ? undefined : p);
   }
   for (const n of onDisk.sort())
     if (!listed.has(n))
