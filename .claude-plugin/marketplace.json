@@ -38,7 +38,7 @@
       "name": "lci",
       "source": "./plugins/lci",
       "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents, with instant codebase navigation, symbol lookup, call-hierarchy analysis, and ~80% context reduction",
-      "version": "0.6.2",
+      "version": "0.6.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/lci"
@@ -518,7 +518,7 @@
       "name": "knowledge-hygiene",
       "source": "./plugins/knowledge-hygiene",
       "description": "Reasoning hygiene for AI agents: cross-source conflict detection, multi-source research with provenance, and rationalization-trap heuristics. Wave-1 Tier-2 consolidation so other plugins import skills/agents instead of duplicating. Implements provenance per claim (OmniMEM 2604.01007), cross-source conflict surfacing (ConflictQA 2604.11209), and the rationalization-trap value-rule per K2 design doc (docs/research/K2-knowledge-hygiene-from-papers.md).",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -543,7 +543,7 @@
       "name": "caveman",
       "source": "./plugins/caveman",
       "description": "Context compression for URLs, files, images, PDFs, git diffs, PRs, and logs via caveman-mcp. Two-pass compression (mechanical filler removal + classical Chinese ultra-compression) preserves code, identifiers, and numbers while slashing tokens. Skills cover URL fetching with smart routing (YouTube/GitHub/arXiv/HN/Reddit/RSS), local file ingestion (PDF/PPT/XLSX/audio), image OCR/description, git diff/PR summarization, log triage with deduplication, raw text compression, and a multi-source research workflow.",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
