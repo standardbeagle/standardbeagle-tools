@@ -32,7 +32,7 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title="Claude Code Plugins & MCP Servers"
+      title="Standard Beagle Tools - Claude Code Plugins & MCP Servers"
       description="Supercharge Claude Code with browser debugging, semantic code search, and workflow automation plugins. Install in seconds, boost productivity immediately.">
       <HomepageHeader />
       <main>
