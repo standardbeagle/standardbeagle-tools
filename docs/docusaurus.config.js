@@ -12,7 +12,7 @@ const config = {
   },
 
   // Production URL for GitHub Pages
-  url: 'https://standardbeagle.github.io',
+  url: 'https://dev.standardbeagle.com',
   baseUrl: '/standardbeagle-tools/',
 
   // GitHub pages deployment config
