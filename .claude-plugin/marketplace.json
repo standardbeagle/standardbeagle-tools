@@ -11,7 +11,7 @@
       "name": "agnt",
       "source": "./plugins/agnt",
       "description": "Browser superpowers for AI coding agents: dev-server and reverse proxy with traffic logging, a deduped priority error inbox, 50+ frontend diagnostic functions, accessibility/performance/security/SEO/responsive/API/loading audits, visual-regression snapshots, replay testing, tunnels, and sketch/design modes",
-      "version": "0.11.2",
+      "version": "0.11.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/agnt"
@@ -85,7 +85,7 @@
       "name": "ux-design",
       "source": "./plugins/ux-design",
       "description": "UX design principles, color theory, typography systems, component library design, and usability heuristics. Comprehensive design guidance for creating exceptional user experiences with Adobe Color-inspired palette creation, type system design, and accessibility-first thinking.",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -111,7 +111,7 @@
       "name": "ux-developer",
       "source": "./plugins/ux-developer",
       "description": "UX-driven development toolkit for building accessible, user-centered websites and applications. Integrates UX principles, accessibility verification (WCAG 2.2), Nielsen's heuristics, and usability best practices directly into the development workflow. Includes agents for comprehensive audits and component design.",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -170,7 +170,7 @@
       "name": "dart-query",
       "source": "./plugins/dart-query",
       "description": "dart-query MCP client skills - tool references for all 25 dart-query tools, task lifecycle workflows, project management recipes, recurring task patterns, and Claude Code loop integration for Dart AI task management",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/dart-query"
@@ -222,7 +222,7 @@
       "name": "slop-mcp",
       "source": "./plugins/slop-mcp",
       "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers. Includes Dart MCP tool reference skills for reduced get_metadata calls.",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -302,7 +302,7 @@
       "name": "figma-query",
       "source": "./plugins/figma-query",
       "description": "Token-efficient Figma integration with query-based data shaping, image export, design tokens, and adversarial design library extraction. Build production-ready component libraries with exact CSS, assets, HTML mockups, and comprehensive documentation using the Ralph Wiggum quality loop.",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -493,7 +493,7 @@
       "name": "photino",
       "source": "./plugins/photino",
       "description": "Photino.NET desktop app development: build workflows, cross-platform packaging, PowerShell SDK integration, dual-service development, and agent configuration for AI-assisted .NET desktop projects.",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -543,7 +543,7 @@
       "name": "caveman",
       "source": "./plugins/caveman",
       "description": "Context compression for URLs, files, images, PDFs, git diffs, PRs, and logs via caveman-mcp. Two-pass compression (mechanical filler removal + classical Chinese ultra-compression) preserves code, identifiers, and numbers while slashing tokens. Skills cover URL fetching with smart routing (YouTube/GitHub/arXiv/HN/Reddit/RSS), local file ingestion (PDF/PPT/XLSX/audio), image OCR/description, git diff/PR summarization, log triage with deduplication, raw text compression, and a multi-source research workflow.",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"

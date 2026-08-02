@@ -1,6 +1,6 @@
 {
   "name": "figma-query",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Token-efficient Figma integration with query-based data shaping, image export, design tokens, and adversarial design library extraction. Build production-ready component libraries with exact CSS, assets, HTML mockups, and comprehensive documentation.",
   "author": {
     "name": "Standard Beagle",

@@ -7,7 +7,25 @@ description: "Index + router for agnt browser skills — agnt drives real browse
 
 agnt 賦 Claude 於**真實運行瀏覽器**中之眼與手：經 reverse proxy 驅動 dev server、導航與檢視 live 頁（目標恆 iframe 包裹）、捕 JS/網絡錯誤、稽查品質、繪 UI、錄可點擊導覽、即時串流用戶互動。
 
-多數 agnt 技能設 `disable-model-invocation: true` 以省每輪 context。此索引常駐：辨需求 → 指明確技能，以 Skill 工具喚之。少數高頻技能（process-proxy、browser-debug、browser-diagnostics、check-errors、current-page、screenshot）仍自動可喚，無需經此。
+多數 agnt 技能設 `disable-model-invocation: true` 以省每輪 context。此索引常駐：辨需求 → 指明確技能，讀其 SKILL.md 而載之（見 Loading）。少數高頻技能（process-proxy、browser-debug、browser-diagnostics、check-errors、current-page、screenshot）仍自動可喚，無需經此。
+
+## Loading a routed skill (載法)
+
+多數目標技藝設 `disable-model-invocation: true` — 故**不可**以 `Skill` 工具喚之（喚則報
+`cannot be used with Skill tool due to disable-model-invocation`）。技藝之身即 markdown，
+**讀其檔**即載其令，效同而不佔常駐 context。
+
+例外：上列六高頻技能（process-proxy、browser-debug、browser-diagnostics、check-errors、
+current-page、screenshot）未設此旗，`Skill` 工具直喚即可，無需讀檔。
+
+餘者擇定後：
+
+1. Read `${CLAUDE_PLUGIN_ROOT}/skills/<skill>/SKILL.md`
+2. `CLAUDE_PLUGIN_ROOT` 未解或解至他 plugin（Windows 有此患）→ 改 glob
+   `~/.claude/plugins/cache/*/agnt/*/skills/<skill>/SKILL.md`，取版本最高者
+3. 依其身之令而行
+
+用戶欲親調者，仍提示 `/agnt:<skill>`（手動喚不受此限）。
 
 ## 何時喚哪個 — Route by intent
 

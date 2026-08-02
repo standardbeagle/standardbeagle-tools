@@ -7,12 +7,27 @@ description: "Routes any Figma / figma-query intent to the one right manual skil
 
 figma-query 逾 30 技藝之唯一**自動**網關。餘皆手動 — 本技藝據意圖導向其一，並化解重疊技藝之抉擇。
 
-> 職責：**判意圖 → 薦技藝 → 以 `Skill` 工具調之**。近義技藝眾多，故 Disambiguation 節尤要。
+> 職責：**判意圖 → 薦技藝 → 讀其 SKILL.md 而載之（見 Loading）**。近義技藝眾多，故 Disambiguation 節尤要。
+
+## Loading a routed skill (載法)
+
+諸目標技藝設 `disable-model-invocation: true` — 故**不可**以 `Skill` 工具喚之（喚則報
+`cannot be used with Skill tool due to disable-model-invocation`）。技藝之身即 markdown，
+**讀其檔**即載其令，效同而不佔常駐 context。
+
+擇定一技藝後：
+
+1. Read `${CLAUDE_PLUGIN_ROOT}/skills/<skill>/SKILL.md`
+2. `CLAUDE_PLUGIN_ROOT` 未解或解至他 plugin（Windows 有此患）→ 改 glob
+   `~/.claude/plugins/cache/*/figma-query/*/skills/<skill>/SKILL.md`，取版本最高者
+3. 依其身之令而行
+
+用戶欲親調者，仍提示 `/figma-query:<skill>`（手動喚不受此限）。
 
 ## Flow
 
 1. 辨意圖，對下表擇最近一行。
-2. 告知：「宜用 `figma-query:<skill>`」並調之（或提示 `/<skill>`）。
+2. 告知：「宜用 `figma-query:<skill>`」並讀其 SKILL.md 而載之（見 Loading；或提示 `/<skill>`）。
 3. 意圖含混（如「提取」未分組件/頁/庫）→ 先問範圍，再擇 Disambiguation 之對應行。
 
 ## Routing Table

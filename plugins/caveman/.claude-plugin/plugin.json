@@ -1,6 +1,6 @@
 {
   "name": "caveman",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "caveman-mcp client skills - context compression for URLs, files, images, PDFs, git diffs, PRs, logs, and raw text. Two-pass compression (mechanical filler removal + classical Chinese ultra-compression) preserves code, identifiers, and numbers while slashing tokens for research, code review, and log triage.",
   "author": {
     "name": "Standard Beagle",
