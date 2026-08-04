@@ -134,7 +134,7 @@ proxy {action: "exec", id: "form-review", code: "__devtool.inspect('form')"}
 proxy {action: "exec", id: "form-review", code: "__devtool.auditAccessibility()"}
 
 // Check for errors
-get_errors {proxy_id: "form-review"}
+get_incidents {proxy_id: "form-review"}
 ```
 
 評估：

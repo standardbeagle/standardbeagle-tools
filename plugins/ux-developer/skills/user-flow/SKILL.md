@@ -176,7 +176,7 @@ disable-model-invocation: true
 1. proxy {action: "start", id: "user-flow", target_url: "<URL>"}
 2. automation {action: "start", proxy_id: "user-flow"} then automation {action: "screenshot", session_id: "<id>", type: "viewport"} at each step
 3. currentpage {proxy_id: "user-flow", action: "summary"} to analyze each step
-4. get_errors {proxy_id: "user-flow"} to check for JavaScript errors at each step
+4. get_incidents {proxy_id: "user-flow"} to check for JavaScript errors at each step
 5. proxylog {proxy_id: "user-flow", action: "summary"} to check for failed requests
 ```
 

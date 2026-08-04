@@ -41,7 +41,7 @@ Parameters: {
 
 ### 參數命名規則（v0.13.9+）
 
-- **首選 (canonical)**：`proxy_id` / `process_id` for cross-referencing tools (`currentpage`, `proxylog`, `responsive_audit`, `channel_reply`, `get_errors`, `get_incidents`, `proc`, `snapshot screenshot`).
+- **首選 (canonical)**：`proxy_id` / `process_id` for cross-referencing tools (`currentpage`, `proxylog`, `responsive_audit`, `channel_reply`, `get_incidents`, `proc`, `snapshot screenshot`).
 - **別名 (alias)**：`id` accepted everywhere. Both canonical 與 alias 同時提供時，canonical 勝出。
 - **原生 `id` 工具**：`proxy`、`browser`、`tunnel`、`automation` use `id` for their own object ID. These tools may also take a separate `proxy_id` to reference a related proxy (e.g. `browser {action:"start", id:"b1", proxy_id:"dev"}`).
 
@@ -1189,70 +1189,53 @@ Parameters: {
 
 ---
 
-## 9. get_errors
+## 9. get_incidents
 
-跨所有代理與進程匯聚錯誤，含去重與過濾。
+事件收件匣（incident inbox）拉取：跨所有信號源之去重、優先排序錯誤視圖。每會話硬隔離（無 `global` — 收件匣隔離強於項目範圍）。
 
 ### 參數
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `proxy_id` | string | No | Filter to specific proxy (default: all) |
-| `process_id` | string | No | Filter to specific process (default: all) |
-| `since` | string | No | Time filter: `"5m"`, `"1h"`, or RFC3339 timestamp |
-| `include_warnings` | boolean | No | Include 4xx HTTP and warnings (default: true) |
-| `limit` | int | No | Max results (default: 25) |
-| `raw` | boolean | No | Return full JSON (default: false) |
+| `action` | string | No | `query` (default) / `pin` / `unpin` / `clear` |
+| `error_id` | string | No | Pin/unpin target: incident fingerprint (or id) from a prior result |
+| `tag` | string | No | Note stored with a pin |
+| `severity` | []string | No | Filter: `critical`/`error`/`warning`/`info` (default: all) |
+| `since` | string | No | Cursor from prior pull (RFC3339) or duration like `"5m"` |
+| `fingerprints` | []string | No | Retrieve specific incident fingerprints |
+| `sources` | []string | No | Filter: `browser_js`/`http_5xx`/`http_4xx`/`transport_err`/`proxy_diag`/`process_alert`/`process_crash`/`build_fail`/`port_conflict`/`shutdown`/`hook_stop_failure` |
+| `proxy_id` | string | No | Filter to specific proxy |
+| `process_id` | string | No | Filter to specific process |
+| `detail` | string | No | `summary` (default) or `full` (hydrate payload from blob store; best-effort) |
+| `mark_read` | boolean | No | Advance cursor, mark returned incidents read |
+| `limit` | int | No | Max results (default: 20, max: 100) |
+| `raw` | boolean | No | Return full JSON (default: compact text) |
 
-### 錯誤來源
+### 輸出要點
 
-| Source | Label | Captures |
-|--------|-------|----------|
-| Browser JS | `browser:js` | Runtime exceptions via `window.onerror` |
-| HTTP | `proxy:http` | 4xx (warning) and 5xx (error) responses |
-| Process | `process:<id>` | Compile errors, panics, exceptions |
-| Proxy | `proxy:diagnostic` | Transport and connection failures |
-| Custom | `browser:custom` | `__devtool.log("error", msg)` calls |
-
-### 輸出模式
-
-```json
-// Compact output (raw: false)
-"=== Errors (2) ===\n[browser:js] TypeError (3x) ..."
-
-// Raw output (raw: true)
-[
-  {
-    "source": "browser:js",
-    "severity": "error",
-    "category": "TypeError",
-    "message": "Cannot read property 'map' of undefined",
-    "location": "src/components/List.tsx:42:15",
-    "page": "http://localhost:3000/dashboard",
-    "count": 3,
-    "last_seen": "2024-01-15T10:30:05Z"
-  }
-]
-```
+- `incidents[]`：`fingerprint`、`severity`、`source`、`count`、`summary`、`context`（含 `location` `file:line:col` 與 `frame_id`）、`remediation`（下一步工具/技藝提示）。
+- `replay_cursor`：下次拉取傳入 `since` 以增量排空收件匣。
+- `inbox_after`：四優先帶（critical/error/warning/info）剩餘計數。
+- `collection_warnings`：視圖不全之明示（bus 溢出丟棄、blob 無法水合）— 非空即有事件缺席。
 
 ### 示例
 
-**查看所有錯誤：**
+**查看所有事件：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {}
 }
 ```
 
-**查看近期錯誤（最近5分鐘）：**
+**查看近期（最近5分鐘）：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "since": "5m"
   }
@@ -1264,9 +1247,9 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
-    "include_warnings": false
+    "severity": ["critical", "error"]
   }
 }
 ```
@@ -1276,7 +1259,7 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "proxy_id": "dev",
     "since": "5m"
@@ -1289,7 +1272,7 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "raw": true,
     "limit": 50

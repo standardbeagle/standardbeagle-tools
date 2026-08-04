@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # 錯誤監視技能
 
-持續串流錯誤（JS執行時、HTTP 5xx/4xx、進程編譯錯誤、代理診斷），在發生當下即響應，無需以 `get_errors` 輪詢。問題出現瞬間即通知Claude。
+持續串流錯誤（JS執行時、HTTP 5xx/4xx、進程編譯錯誤、代理診斷），在發生當下即響應，無需以 `get_incidents` 輪詢。問題出現瞬間即通知Claude。
 
 **模式：** `run`（或 `proxy start`）→ `watch` → `Monitor`。
 
@@ -69,7 +69,7 @@ Monitor({
 ```
 
 新行到達時：
-1. 若為JS錯誤，呼叫 `get_errors {proxy_id:"dev", since:"1m", raw:true}` 取完整堆疊。
+1. 若為JS錯誤，呼叫 `get_incidents {proxy_id:"dev", since:"1m", detail:"full", raw:true}` 取完整堆疊。
 2. 若為5xx，呼叫 `proxylog {proxy_id:"dev", types:["http"], status_codes:[500]}` 取請求/回應主體。
 3. 若為進程 `diagnostic`，呼叫 `proc {action:"output", process_id:"app", tail:200, grep:"error|panic"}`。
 4. 修復根因，然後保持Monitor運行——不要因看到錯誤就重啟它。
@@ -126,7 +126,7 @@ Monitor({ command: "<paste command from step 3>", cwd: "." })
 
 > Invoke the `Skill` tool with `skill: agnt:check-errors` — **快照**：單一代理 `proxylog` 點查。
 
-> Invoke the `Skill` tool with `skill: agnt:error-monitor` — **聚合**：`get_errors` 跨源去重（含輪詢備用）。
+> Invoke the `Skill` tool with `skill: agnt:error-monitor` — **聚合**：`get_incidents` 收件匣跨源去重（含輪詢備用）。
 
 > **名稱僅差一字**——`error-watch`（本技能）串流**錯誤**與診斷；`event-watch` 串流用戶**互動**（面板訊息、點擊、草圖）。二者為同一 `watch` + Monitor 模式之錯誤半與互動半，勿混淆。Invoke `Skill` with `skill: agnt:event-watch` 取互動半。
 

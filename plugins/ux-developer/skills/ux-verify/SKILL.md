@@ -28,7 +28,7 @@ Navigate to the changed pages/components
 proxy {action: "exec", id: "ux-verify", code: "__devtool.auditAccessibility()"}
 
 // Check for errors across processes and browser
-get_errors {proxy_id: "ux-verify"}
+get_incidents {proxy_id: "ux-verify"}
 
 // Performance and traffic summary
 proxylog {proxy_id: "ux-verify", action: "summary"}

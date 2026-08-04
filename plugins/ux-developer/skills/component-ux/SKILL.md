@@ -122,7 +122,7 @@ disable-model-invocation: true
    proxy {action: "start", id: "component-review", target_url: "<URL>"}
    proxy {action: "exec", id: "component-review", code: "__devtool.inspect()"}
    proxy {action: "exec", id: "component-review", code: "__devtool.auditAccessibility()"}
-   get_errors {proxy_id: "component-review"}
+   get_incidents {proxy_id: "component-review"}
    ```
 
 3. **Generate improvement report**

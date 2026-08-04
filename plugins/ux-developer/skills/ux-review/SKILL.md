@@ -68,7 +68,7 @@ proxy {action: "exec", id: "ux-review", code: "__devtool.auditAccessibility()"}
 
 通過agnt檢查：
 ```
-1. get_errors {proxy_id: "ux-review"}
+1. get_incidents {proxy_id: "ux-review"}
 2. proxylog {proxy_id: "ux-review", action: "summary"}
 3. currentpage {proxy_id: "ux-review", action: "summary"}
 ```

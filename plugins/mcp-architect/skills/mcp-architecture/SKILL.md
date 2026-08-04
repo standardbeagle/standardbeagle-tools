@@ -265,7 +265,7 @@ tail_output     - Get recent process output
 **Browser Integration Domain:**
 ```
 start_proxy      - Start reverse proxy
-get_errors       - Get JavaScript errors
+get_incidents    - Pull the deduped, priority-ordered incident inbox
 capture_screenshot - Capture browser screenshot
 inject_script    - Inject JavaScript code
 measure_performance - Get performance metrics

@@ -118,7 +118,7 @@ description: "Analyze, map, optimize, and test user journeys for friction and co
 1. proxy {action: "start", id: "flow-test", target_url: "<URL>"}
 2. automation {action: "start", proxy_id: "flow-test"} then automation {action: "screenshot", session_id: "<id>", type: "viewport"} at each step
 3. currentpage {proxy_id: "flow-test", action: "summary"} to record interactions and timings
-4. get_errors {proxy_id: "flow-test"} to check for JavaScript errors
+4. get_incidents {proxy_id: "flow-test"} to check for JavaScript errors
 5. proxylog {proxy_id: "flow-test", action: "query"} to monitor network requests
 6. proxylog {proxy_id: "flow-test", action: "summary"} to capture performance metrics
 ```

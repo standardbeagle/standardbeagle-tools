@@ -9,7 +9,7 @@ description: "Extract comprehensive browser page info - URL, content, navigation
 
 ## 參數命名規則
 
-- `currentpage`、`proxylog`、`responsive_audit`、`channel_reply`、`get_errors`、`get_incidents` 工具：用 `proxy_id`（首選）。`id` 為別名亦受支援。
+- `currentpage`、`proxylog`、`responsive_audit`、`channel_reply`、`get_incidents` 工具：用 `proxy_id`（首選）。`id` 為別名亦受支援。
 - `proxy`、`browser`、`tunnel`、`automation` 工具：用 `id`（其原生欄位指代該對象本身的 ID）。`proxy_id` 於 `browser`/`automation`/`tunnel` 中為輔助欄位（指定關聯代理）。
 - `proc`：用 `process_id`（首選）。`id` 為別名。`run` action 中 `id` 為新進程 ID（用途不同）。
 - 同時提供時，canonical 名稱（`proxy_id`/`process_id`）勝出。
@@ -41,8 +41,8 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
-  "parameters": {"proxy_id": "dev", "include_warnings": false}
+  "tool_name": "get_incidents",
+  "parameters": {"proxy_id": "dev", "severity": ["critical", "error"]}
 }
 ```
 

@@ -1,27 +1,27 @@
 ---
 name: agnt-error-monitor
-description: "Cross-proxy/process error check with aggregation, dedup, periodic monitoring — not bash grep -r error / tail -f / journalctl -f / curl probes. 跨代理進程聚合去重監控錯誤。 Use when: check errors, monitor errors, browser errors, HTTP errors, process errors, error summary/dashboard, before bash grep/tail on logs"
+description: "Cross-source incident inbox check with dedup, priority ordering, remediation hints, periodic monitoring — not bash grep -r error / tail -f / journalctl -f / curl probes. 跨源事件收件匣去重監控。 Use when: check errors, monitor errors, browser errors, HTTP errors, process errors, error summary/dashboard, before bash grep/tail on logs"
 disable-model-invocation: true
 ---
 
 # 錯誤監控技能
 
-一次查詢跨瀏覽器JavaScript、HTTP回應、進程輸出與代理診斷之錯誤。
+一次查詢跨瀏覽器JavaScript、HTTP回應、進程輸出與代理診斷之事件收件匣（incident inbox）。
 
 ## 代Bash之場景 — Instead of raw bash
 
-agnt聚合前端JS、HTTP回應、進程stderr、代理診斷於一查詢，去重堆疊、濾噪音、跨源關聯。bash分散檢索遺漏關聯且噪音滿溢。
+agnt聚合前端JS、HTTP回應、進程stderr、代理診斷於一收件匣，去重堆疊、優先排序、附修復提示、跨源關聯。bash分散檢索遺漏關聯且噪音滿溢。
 
 | Bash反模式 Anti-pattern | 代以agnt工具 Replacement |
 |---|---|
-| `grep -r 'error' logs/` | `get_errors {}` |
+| `grep -r 'error' logs/` | `get_incidents {}` |
 | `tail -f app.log \| grep -i error` | `watch {target: "errors"}` + `Monitor` 工具 |
 | `journalctl -f -u service` | `proc {action: "output", process_id, grep: "error", stream: "stderr"}` |
 | `curl -w '%{http_code}' http://localhost/...` | `proxylog {proxy_id, types: ["http"], status_codes: [500]}` |
-| 人工瀏覽console | `get_errors {proxy_id}` (捕 `window.onerror`) |
+| 人工瀏覽console | `get_incidents {proxy_id}` (捕 `window.onerror`) |
 | `grep -c FAIL test-output.log` | `proc {action: "output", grep: "FAIL\\|ERROR"}` |
 
-**為何棄bash**：agnt去重（相同錯誤合併計數）、精簡堆疊（跳過`node_modules`）、濾雜訊（忽略HMR/favicon/301）、標記來源（browser:js、proxy:http、process:<id>）。bash grep無此智慧。
+**為何棄bash**：agnt去重（相同事件合併計數、指紋定址）、優先分帶（critical/error/warning/info）、附修復提示（`next:` 工具與技藝）、標記來源（browser_js、http_5xx、process_crash…）。bash grep無此智慧。
 
 ## 快速檢查
 
@@ -29,7 +29,7 @@ agnt聚合前端JS、HTTP回應、進程stderr、代理診斷於一查詢，去�
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {}
 }
 ```
@@ -37,15 +37,25 @@ Parameters: {
 回傳精簡輸出：
 
 ```
-=== Errors (2) ===
+=== Incidents (2) === [inbox: crit=0 err=2 warn=0 info=0 new=2]
 
-[browser:js] TypeError (3x, latest 5s ago)
+[error:browser_js] TypeError (3x, 5s ago)
+  id: 3f9a1c07e2b4d886
   Cannot read property 'map' of undefined
-  → src/components/List.tsx:42:15
+  at: src/components/List.tsx:42:15
+  → http://localhost:3000/dashboard
+  next: currentpage {action:"get"}
 
-[proxy:http] 500 Internal Server Error (1x, 12s ago)
+[error:http_5xx] 500 (1x, 12s ago)
+  id: 9c22e0517ab3f1d4
   POST /api/users → "database connection timeout"
+  next: proxylog {proxy_id:"dev", types:["http"], status_codes:[500]}
+
+=== Next ===
+tool: proxylog {proxy_id:"dev"}
 ```
+
+`id:` 為指紋（fingerprint）— pin/unpin 之定址目標。輸出含 `!! PARTIAL VIEW` 段時，視圖不全（bus溢出或blob逐出），事件有缺席。
 
 ---
 
@@ -53,23 +63,30 @@ Parameters: {
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
+| `action` | `query` | `query` / `pin` / `unpin` / `clear`（保留與清退） |
+| `error_id` | none | pin/unpin 目標指紋 |
+| `severity` | all | 篩選：`["critical","error","warning","info"]` 任意子集 |
+| `since` | none | 前次拉取之游標（RFC3339）或時距 `"5m"` |
+| `sources` | all | 篩源：`browser_js`/`http_5xx`/`http_4xx`/`transport_err`/`proxy_diag`/`process_alert`/`process_crash`/`build_fail`/`port_conflict`/`shutdown`/`hook_stop_failure` |
 | `proxy_id` | all | 篩選至特定代理 |
 | `process_id` | all | 篩選至特定進程 |
-| `since` | none | 時間篩選：`"5m"`, `"1h"`, RFC3339時間戳 |
-| `include_warnings` | true | 含4xx HTTP及警告 |
-| `limit` | 25 | 最大結果數 |
+| `detail` | `summary` | `full` 自blob store水合完整payload（盡力而為） |
+| `mark_read` | false | 推進游標、標記已讀 |
+| `limit` | 20 | 最大結果數（上限100） |
 | `raw` | false | 回傳完整JSON |
+
+收件匣每會話硬隔離——無 `global` 參數；隔離保證強於項目範圍。
 
 ---
 
 ## 常見查詢
 
-**僅近期錯誤：**
+**僅近期事件：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "since": "5m"
   }
@@ -81,9 +98,9 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
-    "include_warnings": false
+    "severity": ["critical", "error"]
   }
 }
 ```
@@ -93,7 +110,7 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "proxy_id": "dev"
   }
@@ -105,7 +122,7 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "raw": true,
     "limit": 50
@@ -113,17 +130,37 @@ Parameters: {
 }
 ```
 
+**增量排空（游標循環）：** 每次回應含 `replay_cursor`；下次以 `since: "<cursor>"` + `mark_read: true` 拉取，僅得新事件。收件匣每帶上限100條，舊者被逐——輪詢須以游標排空。
+
+**保留重要事件：**
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "get_incidents",
+  "parameters": {
+    "action": "pin",
+    "error_id": "<fingerprint>",
+    "tag": "root-cause candidate"
+  }
+}
+```
+
+pin 使事件越過逐出與保留清退（build成功、proc停止、會話終了之自動清退）存活；`action: "clear"` 清退未pin事件。
+
 ---
 
-## 錯誤來源
+## 事件來源
 
-| Source | Label | Captures |
-|--------|-------|----------|
-| Browser JS | `browser:js` | 透過 `window.onerror` 之執行時異常 |
-| HTTP | `proxy:http` | 4xx（警告）與5xx（錯誤）回應 |
-| Process | `process:<id>` | 編譯錯誤、panic、異常 |
-| Proxy | `proxy:diagnostic` | 傳輸與連線失敗 |
-| Custom | `browser:custom` | `__devtool.log("error", msg)` 呼叫 |
+| Source | Severity | Captures |
+|--------|----------|----------|
+| `browser_js` | error | 透過 `window.onerror` 之執行時異常（含 `context.location` `file:line:col` 與 `frame_id`） |
+| `http_5xx` / `http_4xx` | error / warning | 代理HTTP回應 |
+| `transport_err` / `proxy_diag` | error | 傳輸與連線失敗、代理診斷 |
+| `process_alert` / `process_crash` / `build_fail` | warning–critical | 進程輸出告警、崩潰、編譯失敗 |
+| `port_conflict` / `shutdown` / `hook_stop_failure` | varies | 埠衝突、關停事件、hook失敗 |
+
+同一錯誤發於兩個content frame為兩事件（frame屬指紋之一部）。
 
 ---
 
@@ -150,7 +187,7 @@ Monitor({ command: "<command from step 1>", cwd: "." })
 
 ### 備用：排程輪詢
 
-客戶端無 `Monitor` 工具（v2.1.98前或非Claude Code客戶端），退而以 `schedule` 工具週期執行 `get_errors`：
+客戶端無 `Monitor` 工具（v2.1.98前或非Claude Code客戶端），退而以 `schedule` 工具週期執行 `get_incidents`：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
@@ -159,7 +196,7 @@ Parameters: {
   "tool_name": "schedule",
   "parameters": {
     "delay_seconds": 30,
-    "message": "Run get_errors {} and report any new errors found"
+    "message": "Run get_incidents {since: \"<last replay_cursor>\", mark_read: true} and report any new incidents found"
   }
 }
 ```
@@ -197,26 +234,27 @@ Parameters: {
    }
    ```
 
-2. **變更後檢查錯誤：**
+2. **變更後檢查事件：**
    ```
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
      "mcp_name": "agnt",
-     "tool_name": "get_errors",
+     "tool_name": "get_incidents",
      "parameters": {
        "since": "1m"
      }
    }
    ```
 
-3. **深入瀏覽器錯誤：**
+3. **深入瀏覽器錯誤（水合完整payload）：**
    ```
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
      "mcp_name": "agnt",
-     "tool_name": "get_errors",
+     "tool_name": "get_incidents",
      "parameters": {
        "proxy_id": "dev",
+       "detail": "full",
        "raw": true
      }
    }
@@ -227,10 +265,10 @@ Parameters: {
    mcp__plugin_slop-mcp_slop-mcp__execute_tool
    Parameters: {
      "mcp_name": "agnt",
-     "tool_name": "get_errors",
+     "tool_name": "get_incidents",
      "parameters": {
        "process_id": "app",
-       "include_warnings": false
+       "severity": ["critical", "error"]
      }
    }
    ```
@@ -239,11 +277,13 @@ Parameters: {
 
 ## 內建智慧
 
-**去重：** 相同錯誤合併。計數顯示發生次數。
+**去重：** 相同事件按指紋合併。計數顯示發生次數。
 
-**堆疊追蹤精簡：** 僅顯示第一個應用框架，略過 `node_modules/`、`webpack/`、執行時。
+**優先分帶：** critical/error/warning/info 四帶，各帶上限100條，臨界者先出。
 
-**雜訊過濾：** 忽略301/302/304、`.map` 404、favicon 404、webpack HMR。
+**修復提示：** 每事件附 `next:` 首選工具與 `skill:` 技藝提示；聚合 `=== Next ===` 段列主導修復路徑。
+
+**誠實不全：** `collection_warnings` 明示視圖缺失（bus溢出丟棄、blob無法水合）——靜默缺席禁絕。
 
 ---
 
@@ -251,15 +291,15 @@ Parameters: {
 
 ### 視覺診斷前
 
-先檢查錯誤：
+先檢查事件：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
-    "include_warnings": false
+    "severity": ["critical", "error"]
   }
 }
 ```
@@ -274,7 +314,7 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "proxy_id": "dev",
     "since": "2m"
@@ -284,36 +324,36 @@ Parameters: {
 
 ### 配合當前頁面
 
-檢查頁面時一併查錯誤：
+檢查頁面時一併查事件：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "proxy_id": "dev",
-    "include_warnings": false
+    "severity": ["critical", "error"]
   }
 }
 ```
 
 ### 完整稽核
 
-綜合稽核中含錯誤檢查：
+綜合稽核中含事件檢查：
 
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "limit": 50
   }
 }
 ```
 
-再透過proxy exec工具執行 `__devtool_audit.auditPageQuality()`。
+再透過proxy exec工具執行 `__devtool.auditPageQuality()`。
 
 ---
 
@@ -321,12 +361,12 @@ Parameters: {
 
 深入調查時：
 
-**聚合錯誤：**
+**收件匣事件：**
 ```
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
+  "tool_name": "get_incidents",
   "parameters": {
     "proxy_id": "dev"
   }
@@ -364,21 +404,32 @@ Parameters: {
 
 ## 原始JSON輸出
 
-`raw: true` 時：
+`raw: true` 時（要點欄位）：
 
 ```json
-[
-  {
-    "source": "browser:js",
-    "severity": "error",
-    "category": "TypeError",
-    "message": "Cannot read property 'map' of undefined",
-    "location": "src/components/List.tsx:42:15",
-    "page": "http://localhost:3000/dashboard",
-    "count": 3,
-    "last_seen": "2024-01-15T10:30:05Z"
-  }
-]
+{
+  "incidents": [
+    {
+      "id": "3f9a1c07e2b4d886",
+      "fingerprint": "3f9a1c07e2b4d886",
+      "severity": "error",
+      "source": "browser_js",
+      "category": "TypeError",
+      "summary": "Cannot read property 'map' of undefined",
+      "count": 3,
+      "context": {
+        "location": "src/components/List.tsx:42:15",
+        "url": "http://localhost:3000/dashboard",
+        "frame_id": "content-1"
+      },
+      "remediation": {"primary_tool": "currentpage"},
+      "read": false
+    }
+  ],
+  "inbox_after": {"critical": 0, "error": 1, "warning": 0, "info": 2},
+  "replay_cursor": "2026-08-04T21:00:00Z",
+  "collection_warnings": []
+}
 ```
 
 ---
@@ -387,19 +438,21 @@ Parameters: {
 
 | Query | Description | Tool + Key Parameters |
 |-------|-------------|----------------------|
-| 所有錯誤 | 查全部 | `get_errors` with `{}` |
-| 近期（5分鐘） | 5m前以來之錯誤 | `get_errors` with `since: "5m"` |
-| 僅錯誤 | 排除4xx警告 | `get_errors` with `include_warnings: false` |
-| 特定代理 | 限定某代理範圍 | `get_errors` with `proxy_id: "dev"` |
-| 完整詳情 | 原始JSON輸出 | `get_errors` with `raw: true` |
+| 所有事件 | 查全部 | `get_incidents` with `{}` |
+| 近期（5分鐘） | 5m前以來之事件 | `get_incidents` with `since: "5m"` |
+| 僅錯誤 | 排除警告帶 | `get_incidents` with `severity: ["critical","error"]` |
+| 特定代理 | 限定某代理範圍 | `get_incidents` with `proxy_id: "dev"` |
+| 完整詳情 | 原始JSON+payload水合 | `get_incidents` with `raw: true, detail: "full"` |
+| 保留事件 | 越過逐出存活 | `get_incidents` with `action: "pin", error_id` |
+| 增量排空 | 游標循環 | `get_incidents` with `since: "<replay_cursor>", mark_read: true` |
 
-所有查詢使用 `mcp__plugin_slop-mcp_slop-mcp__execute_tool`，`mcp_name: "agnt"`, `tool_name: "get_errors"`。
+所有查詢使用 `mcp__plugin_slop-mcp_slop-mcp__execute_tool`，`mcp_name: "agnt"`, `tool_name: "get_incidents"`。
 
 ---
 
 ## 相關技能
 
-錯誤技能三態軸：**快照 snapshot** / **聚合 aggregate** / **串流 stream**。此技能為**聚合**——`get_errors` 跨代理/進程去重堆疊。
+錯誤技能三態軸：**快照 snapshot** / **聚合 aggregate** / **串流 stream**。此技能為**聚合**——`get_incidents` 收件匣跨源去重、優先排序。
 
 > Invoke the `Skill` tool with `skill: agnt:check-errors` — **快照**：單一代理 `proxylog` 點查。
 

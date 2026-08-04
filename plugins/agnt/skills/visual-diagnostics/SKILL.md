@@ -35,8 +35,8 @@ Parameters: {
 mcp__plugin_slop-mcp_slop-mcp__execute_tool
 Parameters: {
   "mcp_name": "agnt",
-  "tool_name": "get_errors",
-  "parameters": {"proxy_id": "dev", "include_warnings": false}
+  "tool_name": "get_incidents",
+  "parameters": {"proxy_id": "dev", "severity": ["critical", "error"]}
 }
 ```
 

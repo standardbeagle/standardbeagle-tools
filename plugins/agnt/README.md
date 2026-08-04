@@ -131,7 +131,6 @@ Most detailed skills set `disable-model-invocation: true` and are reached throug
 | `tunnel` | Tunnel management (Cloudflare / ngrok) for mobile testing |
 | `currentpage` | View active page sessions |
 | `get_incidents` | Incident inbox: cursor-based, priority-ordered errors with remediation hints |
-| `get_errors` | Unified error view (legacy; superseded by `get_incidents`) |
 | `responsive_audit` | Responsive design audit across viewport sizes |
 | `api_audit` | API efficiency audit (waterfall, N+1, duplicate, chatty-load) |
 | `loading_audit` | Loading-UX audit (spinner cascade, concurrent fragmentation) |

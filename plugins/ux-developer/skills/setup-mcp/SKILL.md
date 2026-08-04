@@ -132,7 +132,7 @@ Parameters: { "query": "screenshot", "mcp_name": "agnt" }
 | `proxy` | Start reverse proxy to intercept traffic, execute JS in browser, send toast notifications |
 | `proxylog` | Query HTTP traffic logs, summarize errors, check performance metrics |
 | `currentpage` | Get page session data: resources, errors, interactions, DOM mutations |
-| `get_errors` | Collect all errors across processes and browser |
+| `get_incidents` | Deduped, priority-ordered incident inbox across processes and browser |
 | `automation` | Browser automation: screenshots (viewport/fullpage/element), navigation, JS evaluation |
 | `browser` | Launch and manage Chrome instances for testing |
 
@@ -162,4 +162,4 @@ Parameters: {
 2. **Installation method used**: slop-mcp or standard
 3. **Scope** (if slop-mcp): user/project/memory
 4. **Verification status**: tools available and working
-5. **UX tools available**: proxy, proxylog, currentpage, get_errors, automation, browser
+5. **UX tools available**: proxy, proxylog, currentpage, get_incidents, automation, browser
