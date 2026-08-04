@@ -34,7 +34,12 @@ agent: "agnt:browser-debugger"
    proxy {action: "exec", id: "dev", code: "__devtool.findStackingContexts()"}
    ```
 
-5. 從代理日誌查效能指標：
+5. 查合成器負載（GPU 幀泵 — JS profiler 盲區；風扇轉、電池耗而 profiler 靜默時首查此項）：
+   ```
+   proxy {action: "exec", id: "dev", code: "__devtool.audit.auditAnimations({sampleMs: 2000})"}
+   ```
+
+6. 從代理日誌查效能指標：
    ```
    proxylog {proxy_id: "dev", types: ["performance"], limit: 10}
    ```
@@ -65,6 +70,12 @@ agent: "agnt:browser-debugger"
 ### 堆疊上下文
 - 建立新堆疊上下文之元素
 - 原因：有z-index之定位、opacity < 1、transform、filter
+
+### 合成器負載（`audit.auditAnimations`）
+- `infinite-animation`：可見元素之無限動畫 — 頁面永不歸閒，高刷新屏上佔滿GPU進程
+- `layout-property-animation`：動畫觸及 width/top/margin 等 — 每幀主線程重排
+- amplifier 類（全視口噪點覆蓋、backdrop-filter）：幀泵活躍時每次提交倍增成本
+- `frameSample.effectiveFps` ≈ 刷新率而頁面靜態 → 幀泵確證；≤5 → 正常歸閒
 
 ## 效能最佳實踐
 

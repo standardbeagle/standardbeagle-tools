@@ -1,6 +1,6 @@
 ---
 name: agnt-quality-audits
-description: "Page quality audits for DOM complexity, CSS architecture, security vulnerabilities, and SEO/meta tag validation. 頁品稽查：DOM繁度、CSS構、安全漏洞、SEO元標。 Use when: audit page quality, check DOM complexity, audit CSS architecture, check security vulnerabilities, validate SEO meta tags, run pre-release quality check"
+description: "Page quality audits for DOM complexity, CSS architecture, security, SEO/meta tags, and GPU/compositor animation load. 頁品稽查：DOM繁度、CSS構、安全、SEO、合成器負載。 Use when: audit page quality, check DOM complexity, audit CSS architecture, check security vulnerabilities, validate SEO meta tags, diagnose GPU usage or infinite animations, run pre-release quality check"
 disable-model-invocation: true
 ---
 
@@ -459,6 +459,54 @@ Parameters: {
 
 ---
 
+## auditAnimations
+
+稽查合成器負載（compositor load）：JS profiler 盲區之效能缺陷。無限CSS動畫不觸DOM、不執腳本，卻迫合成器以顯示刷新率永續提交幀 — 高刷新HiDPI屏上，靜態頁面可佔滿瀏覽器GPU進程。
+
+**Signature**: `auditAnimations(options?)`
+
+**Parameters**:
+- `options.raw`: boolean - Return verbose output (default: false)
+- `options.sampleMs`: number - 若設，附加 rAF 幀採樣（audit 轉為 async，proxy exec 自動 await）。採樣證明頁面是否可歸閒（idle）。
+
+**Finding types**:
+
+| Type | Severity | Meaning |
+|------|----------|---------|
+| `infinite-animation` | warning | 可見元素上之無限動畫 — 幀泵（frame pump），頁面永不歸閒 |
+| `layout-property-animation` | error | 動畫觸及 layout 屬性（width/top/margin…）— 每幀主線程重排 |
+| `viewport-overlay-amplifier` | info→error* | 全視口固定紋理覆蓋層（noise/grain）— 每次提交重繪 |
+| `backdrop-filter-amplifier` | info→error* | 大面積 backdrop-filter/filter — 每次提交模糊通道 |
+| `will-change-overuse` | warning | will-change 元素過多 — 圖層爆炸 |
+
+\* amplifier 唯當幀泵活躍時升為 error：無泵時覆蓋層僅費一次繪製。
+
+### Invocation
+
+```
+mcp__plugin_slop-mcp_slop-mcp__execute_tool
+Parameters: {
+  "mcp_name": "agnt",
+  "tool_name": "proxy",
+  "parameters": {
+    "action": "exec",
+    "id": "dev",
+    "code": "__devtool.audit.auditAnimations({sampleMs: 2000})"
+  }
+}
+```
+
+**Response** (default mode): `{audit, score, grade, summary, frameSample: {frames, sampleMs, effectiveFps}, stats, findingsByType}`
+
+### 解讀
+
+- `frameSample.effectiveFps` ≈ 顯示刷新率且頁面視覺靜態 → 幀泵確證。≤5 fps → 頁面正常歸閒。
+- **rAF 採樣為一信號，非神諭**：純合成器動畫可不觸發頁面 rAF 而提交；GPU 進程 CPU 數值居於一切頁面 API 之外（瀏覽器任務管理器，人讀之）。
+- 修法：動畫以狀態閘控（僅活躍時運行）+ `prefers-reduced-motion`；覆蓋層紋理烘焙入背景資產；filter 唯留內容真變處。
+- **On-device 優勢**：經 proxy 注入，此稽查可在真機（手機、平板）瀏覽器上原樣執行 — desktop DevTools 遠端除錯不及之處。
+
+---
+
 ## Interpreting Audit Results
 
 ### Severity Levels
@@ -708,6 +756,7 @@ Parameters: {
 | `auditCSS(opts)` | CSS architecture audit | grade, score, issues by type |
 | `auditSecurity(opts)` | Security vulnerability check | grade, score, criticalIssues |
 | `auditPageQuality(opts)` | Comprehensive quality check | scores by category, grade, recommendations |
+| `audit.auditAnimations(opts)` | Compositor load / GPU frame-pump check | grade, frameSample, findingsByType |
 
 ---
 
@@ -719,6 +768,7 @@ Parameters: {
 | `auditCSS` | Moderate (100-500ms) | Analyzes stylesheets |
 | `auditSecurity` | Moderate (100-300ms) | Multiple sub-audits |
 | `auditPageQuality` | Slow (500-2000ms) | Runs all audits |
+| `audit.auditAnimations` | Fast (50-150ms; +sampleMs when sampling) | Scans animation registry + amplifier styles |
 
 **Tips**:
 - 各別稽查用於有目標之檢查
