@@ -11,7 +11,7 @@
       "name": "agnt",
       "source": "./plugins/agnt",
       "description": "Browser superpowers for AI coding agents: dev-server and reverse proxy with traffic logging, a deduped priority error inbox, 50+ frontend diagnostic functions, accessibility/performance/security/SEO/responsive/API/loading audits, visual-regression snapshots, replay testing, tunnels, and sketch/design modes",
-      "version": "0.11.3",
+      "version": "0.11.4",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/agnt"
@@ -62,7 +62,7 @@
       "name": "mcp-architect",
       "source": "./plugins/mcp-architect",
       "description": "Design high-quality MCP servers with progressive discovery, context compression, and token-efficient responses. Includes patterns for multi-tool MCPs, the info tool pattern, cross-tool IDs, and automation-friendly JSON formats.",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -111,7 +111,7 @@
       "name": "ux-developer",
       "source": "./plugins/ux-developer",
       "description": "UX-driven development toolkit for building accessible, user-centered websites and applications. Integrates UX principles, accessibility verification (WCAG 2.2), Nielsen's heuristics, and usability best practices directly into the development workflow. Includes agents for comprehensive audits and component design.",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -416,7 +416,7 @@
     {
       "name": "superpowers",
       "source": "./plugins/superpowers",
-      "description": "Wenyan port of core superpowers process skills — skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Ideation and presentation/editor flows live in the sibling ideation and present plugins.",
+      "description": "Wenyan port of core superpowers process skills \u2014 skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Ideation and presentation/editor flows live in the sibling ideation and present plugins.",
       "version": "0.1.0",
       "author": {
         "name": "Standard Beagle",

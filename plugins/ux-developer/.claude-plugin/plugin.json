@@ -1,6 +1,6 @@
 {
   "name": "ux-developer",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "UX-driven development toolkit for building accessible, user-centered websites and applications. Integrates UX principles, accessibility verification, and usability heuristics directly into the development workflow.",
   "author": {
     "name": "Standard Beagle",
