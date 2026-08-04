@@ -11,7 +11,7 @@ MCP server plugin for Claude Code that bridges your AI agent and the browser, ex
 - **Incident Pipeline** - Deduped, priority-ordered error inbox (`get_incidents`) so the agent acts on signal, not noise
 - **Process Management** - Run and manage dev servers with output capture and clean shutdown
 - **Reverse Proxy** - HTTP traffic logging with automatic frontend instrumentation
-- **Quality Audits** - Accessibility, performance, security, SEO, responsive, API efficiency, and loading-UX audits
+- **Quality Audits** - Accessibility, performance, security, SEO, responsive, API efficiency, loading-UX, and GPU/compositor animation-load audits
 - **Visual Regression** - Baseline/compare screenshots (`snapshot`)
 - **Replay Testing** - Record → worker-mock → replay front-end testing (`replaytest`, Pro)
 - **Tunnels** - Expose a local proxy via Cloudflare or ngrok
@@ -96,7 +96,7 @@ Most detailed skills set `disable-model-invocation: true` and are reached throug
 | `audit-performance` | Analyze page performance, load times, and network resources |
 | `audit-security` | Audit the page for security vulnerabilities |
 | `audit-seo` | Audit the page for SEO best practices |
-| `quality-audits` | Page quality audit: DOM complexity, CSS architecture, security, SEO meta |
+| `quality-audits` | Page quality audit: DOM complexity, CSS architecture, security, SEO meta, compositor load |
 | `analyze-frontend` | Comprehensive frontend analysis (DOM, CSS, layout, structure) |
 | `analyze-ux` | Analyze user experience, interactions, and usability |
 | `qa-test` | Run a comprehensive QA test suite on the current page |
