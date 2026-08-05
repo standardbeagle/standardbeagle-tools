@@ -757,6 +757,7 @@ Parameters: {
 | `auditSecurity(opts)` | Security vulnerability check | grade, score, criticalIssues |
 | `auditPageQuality(opts)` | Comprehensive quality check | scores by category, grade, recommendations |
 | `audit.auditAnimations(opts)` | Compositor load / GPU frame-pump check | grade, frameSample, findingsByType |
+| `audit.auditDesign(opts)` | AI-design-slop check (Impeccable, 59 rules; delay-loads ~366KB on first call) | grade, findingsByType |
 
 ---
 
@@ -769,6 +770,7 @@ Parameters: {
 | `auditSecurity` | Moderate (100-300ms) | Multiple sub-audits |
 | `auditPageQuality` | Slow (500-2000ms) | Runs all audits |
 | `audit.auditAnimations` | Fast (50-150ms; +sampleMs when sampling) | Scans animation registry + amplifier styles |
+| `audit.auditDesign` | First call slow (delay-loads detector); then fast | 59 deterministic design-tell rules on live DOM |
 
 **Tips**:
 - 各別稽查用於有目標之檢查
