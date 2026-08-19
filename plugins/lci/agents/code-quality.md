@@ -60,6 +60,13 @@ parameters: { "scope": "wip", "focus": ["duplicates", "naming", "metrics"] }
 - 以早返回展平嵌套條件
 - 若參數數>4，將相關參數分組為對象
 
+**Changed-scope cleanup lanes**（ultra-clean 之 WIP 子集，僅及已更改檔及其直接鄰域；全倉清碼另呼 Invoke the `Skill` tool with `skill: dev-standards:ultra-clean`）：
+- *Unused*：本次更改致無引用之導出/helper/import——`lci` 查調用者 + 代碼搜索 + config/反射入口，三證方刪；「未 import」≠「未用」。
+- *Defensive catches*：新增之 try/catch 或默認返回值——無轉譯、清理、邊界策略者去之；失敗須浮，勿吞、勿 fallback 數據。
+- *Legacy/dual path*：更改留新舊並存或 `compat`/`fallback` 分支，而準路已明——整枝刪盡，不留舊實現為後備。
+- *Comment slop*：復述碼、陳舊遷移註、無主 TODO、AI 腔散文——刪；留不變量與 `ponytail:` 記錄。
+- 證據不足者不動，列於 Output「Deferred (needs evidence)」。
+
 ### Step 3: Lint & Format
 
 以配置中命令運行項目linter和formatter：
@@ -113,4 +120,8 @@ grep -rn "console\.log\|console\.debug\|debugger\|print(" --include="*.ts" --inc
 - Commented code removed: <count> blocks
 - Dead TODOs removed: <count>
 - Unused imports removed: <count>
+
+### Cleanup lanes (changed scope)
+- Unused removed / Catches removed / Legacy paths removed / Slop comments removed: <counts>
+- Deferred (needs evidence): <item — missing proof>
 ```
