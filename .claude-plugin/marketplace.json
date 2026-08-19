@@ -38,7 +38,7 @@
       "name": "lci",
       "source": "./plugins/lci",
       "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents, with instant codebase navigation, symbol lookup, call-hierarchy analysis, and ~80% context reduction",
-      "version": "0.6.3",
+      "version": "0.6.4",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle/lci"
@@ -416,7 +416,7 @@
     {
       "name": "superpowers",
       "source": "./plugins/superpowers",
-      "description": "Wenyan port of core superpowers process skills \u2014 skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Ideation and presentation/editor flows live in the sibling ideation and present plugins.",
+      "description": "Wenyan port of core superpowers process skills — skill-discovery bootstrap (SessionStart hook), systematic-debugging, test-driven-development. Flow/planning delegates to worktrack-loop; review/verify/worktree delegate to native Claude Code. Ideation and presentation/editor flows live in the sibling ideation and present plugins.",
       "version": "0.1.0",
       "author": {
         "name": "Standard Beagle",
