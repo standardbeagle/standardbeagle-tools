@@ -80,6 +80,19 @@ description: "During planning after grill-task, decide whether preparatory refac
 
 領域用 `.claude/rules/glossary.md` 語彙，架構用 LANGUAGE.md 語彙。遵 `.claude/rules/architecture.md` + `docs/adr/` 中之 ADR；候選若與現有 ADR 相牴，標出之（勿靜默重議）。
 
+## Structural lanes at the touch point
+
+四檢之外，於 `scope.files_to_modify` 及其直接 import 鄰域探四結構道（全則見 `../ultra-clean/LANES.md`）；中者即預備重構步驟之信號，非機會性清理之後門：
+
+| Lane | 探 | 中則插步 |
+|---|---|---|
+| shared types (2) | 新碼將觸之概念是否已有 ≥2 漂移定義 | `Consolidate <concept> type to one owner` |
+| circular deps (4) | 新 import 是否閉環或經 barrel 生後邊 | `Break cycle <a>↔<b> (type-only import / move helper / drop barrel)` |
+| strong types (5) | 觸點簽名是否 `any`/`unknown`/鬆散 map 而契約已知 | `Type <boundary> from <schema/source of truth>` |
+| legacy & fallback (7) | 觸點是否雙路/`compat`/`fallback` 而準路已明 | `Delete <legacy path>; keep <canonical>` |
+
+唯證據足者入計劃（代碼搜索 + `lci:trace-symbol` 全調用者 + 有驗證路）；證不足者記於計劃註，交 Invoke the `Skill` tool with `skill: dev-standards:ultra-clean` 之獨立清碼任務，勿混入本任務。
+
 ## Discipline
 
 - 重構步驟必須在寫入新 RED 測試前通過現有測試。若重構破壞了現有測試，那是 bug——在重構步驟中修復，而非實現步驟。

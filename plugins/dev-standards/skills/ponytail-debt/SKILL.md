@@ -37,6 +37,7 @@ The ledger reports; it does not decide. Route findings, don't fix them inline:
 - **Ceiling crossed** (the named limit is now real — throughput exceeded, n grew, heuristic now wrong) → surface as a plan-update proposal via [[review-for-plan-updates]], or document the matured deferral via [[ce-compound]] (knowledge track) so the loop learns which deferrals pay off.
 - **`no-trigger` rows** → either add a real ceiling/upgrade to the comment, or delete the shortcut if it no longer earns its place.
 - **Still under ceiling** → leave it. A live, correctly-bounded shortcut is finished work, not debt to repay.
+- **Cluster of matured shortcuts** (several ceilings crossed in one area, or `no-trigger` rows that are really fallbacks / dual paths / swallowed errors) → that is a cleanup pass, not a plan tweak: Invoke the `Skill` tool with `skill: dev-standards:ultra-clean` — lanes 6 (defensive fallbacks) and 7 (legacy paths) own the removal, with its evidence standard. `ponytail:` comments that still name a live ceiling are not slop (lane 8 keeps them).
 
 ## Boundaries
 
