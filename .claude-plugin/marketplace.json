@@ -389,7 +389,7 @@
       "name": "present",
       "source": "./plugins/present",
       "description": "Reusable browser presentation and editor primitives: self-contained HTML reports, markdown/doc viewing, and a mini-IDE for interactive review, annotation, card sorting, decisions, demos, and HITL feedback loops. Shared core UI layer consumed by other plugins and agents.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
@@ -443,7 +443,7 @@
       "name": "ideation",
       "source": "./plugins/ideation",
       "description": "Idea-generation and convergence skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, HTML presentation, mini-IDE review, and outputs for principles, decision trees, or implementation-plan drafts.",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
