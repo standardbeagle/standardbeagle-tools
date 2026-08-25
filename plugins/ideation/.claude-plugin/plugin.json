@@ -1,6 +1,6 @@
 {
   "name": "ideation",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Idea-generation and convergence skill ported from Compound Engineering. Mode-aware divergent ideation with parallel sub-agent generation, adversarial critique, HTML presentation, mini-IDE review, and outputs for principles, decision trees, or implementation-plan drafts.",
   "author": {
     "name": "Standard Beagle",
