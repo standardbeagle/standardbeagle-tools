@@ -52,3 +52,32 @@ proxylog {proxy_id: "dev", types: ["screenshot"], limit: 1}
 - 兩者同時提供時，`proxy_id` 勝出
 
 注：若無瀏覽器連接至代理，此操作將失敗。確保用戶已在瀏覽器開啟代理URL。
+
+## WSLg 無頭 Chromium 停格 — 原始數據
+
+Symptom on a WSL2 host with WSLg (`DISPLAY=:0`, `WAYLAND_DISPLAY=wayland-0` set): a
+Playwright-launched Chromium records ~24 frames per take whatever its length and
+`page.screenshot` never returns. The binary is never the variable — headless shell,
+full chromium and system Chrome behave the same. Measured 2026-09-11, Playwright
+1.60, Chrome 148, 5 s take of a `requestAnimationFrame` page:
+
+| launch | display vars | frames |
+|---|---|---|
+| Playwright defaults | set | 24 |
+| Playwright defaults | unset (`env -u DISPLAY -u WAYLAND_DISPLAY`) | 138 |
+| `ignoreDefaultArgs: ['--enable-unsafe-swiftshader'], args: ['--disable-gpu']` | set | 148 |
+| raw `google-chrome --headless=new --disable-gpu` over CDP | set | 10.6 fps screenshots |
+
+Two Playwright defaults each cause it on their own: `--enable-unsafe-swiftshader`,
+and the absence of `--disable-gpu`. Removing only one changes nothing, so a
+single-flag bisect misses it. The agnt demo engine carries the fix as
+`CHROMIUM_LAUNCH_OPTIONS` (`docs-site/screenshots/engine/lib/util.mjs`) with a test
+that scans its launch sites. agnt's own browser launcher
+(`internal/browser/browser.go`) already runs `--headless=new --disable-gpu` and never
+passes the swiftshader flag, so `snapshot` screenshots are unaffected.
+
+Frame-yield check for any recorded take (expect about `fps × seconds`):
+
+```
+ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of csv=p=0 <take>.webm
+```
