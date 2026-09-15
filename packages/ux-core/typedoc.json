@@ -7,5 +7,6 @@
   "excludeInternal": true,
   "theme": "default",
   "name": "@standardbeagle/ux-core",
-  "includeVersion": true
+  "includeVersion": true,
+  "hostedBaseUrl": "https://dev.standardbeagle.com/standardbeagle-tools/"
 }
