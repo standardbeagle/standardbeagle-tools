@@ -1,6 +1,6 @@
 ---
 name: lci-setup-mcp
-description: "Install lci MCP server with intelligent detection - uses local binary if available, falls back to npx. 智能安裝LCI MCP伺服器，優先本地二進位，後備npx。 Use when: first-time lci setup, registering with slop-mcp, configuring mcp.json."
+description: "Install lci MCP server with intelligent detection - uses the local binary, installing it first when missing. 智能安裝LCI MCP伺服器，無本地二進位則先裝之。 Use when: first-time lci setup, registering with slop-mcp, configuring mcp.json."
 ---
 
 # LCI MCP Server Setup
@@ -13,9 +13,7 @@ LCI可以兩種方式登錄：
 1. **Via slop-mcp** — 集中管理，含搜索、發現、編排
 2. **Via standard mcp.json** — 直接配置於Claude Code設置
 
-MCP伺服器命令解析優先級：
-1. **Local binary** — `~/.local/bin/lci`、`~/go/bin/lci`或PATH中
-2. **npx @standardbeagle/lci** — 後備（始終可通過npm獲取）
+MCP伺服器命令：本地 `lci` binary（`~/.local/bin/lci`、`/usr/local/bin/lci`或PATH中）。無則以 lci-cpp 安裝腳本裝之。
 
 ## Installation Flow
 
@@ -25,7 +23,7 @@ MCP伺服器命令解析優先級：
 
 ```bash
 # Check common installation locations
-for loc in "$HOME/.local/bin/lci" "$HOME/go/bin/lci"; do
+for loc in "$HOME/.local/bin/lci" "/usr/local/bin/lci"; do
   if [ -x "$loc" ]; then
     echo "FOUND: $loc"
     "$loc" --version
@@ -38,13 +36,13 @@ if command -v lci &> /dev/null; then
   echo "FOUND: $(which lci)"
   lci --version
 else
-  echo "NOT FOUND locally - will use npx"
+  echo "NOT FOUND - install it: curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh"
 fi
 ```
 
 **記錄結果**供登錄使用：
 - 若找到：用完整路徑作命令
-- 若未找到：用`npx`，args為`["-y", "@standardbeagle/lci", "mcp"]`
+- 若未找到：先執行 `curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh`（Windows：`irm https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.ps1 | iex`），再用所得路徑
 
 ### Step 2: Detect slop-mcp Availability
 
@@ -91,19 +89,7 @@ Parameters: {
   "scope": "<user's choice>"
 }
 ```
-注：使用完整路徑（如`/home/username/.local/bin/lci`或`/home/username/go/bin/lci`）
-
-**若無本地二進位（使用npx）：**
-```
-Call: mcp__plugin_slop-mcp_slop-mcp__manage_mcps
-Parameters: {
-  "action": "register",
-  "name": "lci",
-  "command": "npx",
-  "args": ["-y", "@standardbeagle/lci", "mcp"],
-  "scope": "<user's choice>"
-}
-```
+注：使用完整路徑（如`/home/username/.local/bin/lci`或`/usr/local/bin/lci`）
 
 #### Verify Registration
 
@@ -118,45 +104,29 @@ Parameters: { "query": "search", "mcp_name": "lci" }
 
 slop-mcp不可用時，通過mcp.json配置。
 
-#### Install LCI Binary (Optional)
-
-提升性能，本地安裝lci：
+#### Install LCI Binary
 
 ```bash
-# Via npm (recommended)
-npm install -g @standardbeagle/lci
-
-# Via pip
-pip install lightning-code-index
-
-# Via Go
-go install github.com/standardbeagle/lci/cmd/lci@latest
-
-# Via GitHub releases (manual)
-# Download from: https://github.com/standardbeagle/lci/releases
-# Extract the tarball and move binary to ~/.local/bin/
+# Linux x86_64 / macOS arm64
+curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
 ```
+
+```powershell
+# Windows x86_64
+irm https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.ps1 | iex
+```
+
+更新：`lci update`。
 
 #### Configure mcp.json
 
 添加至Claude Code `.mcp.json`（或創建）：
 
-**With local binary:**
 ```json
 {
   "lci": {
     "command": "lci",
     "args": ["mcp"]
-  }
-}
-```
-
-**With npx (no local install needed):**
-```json
-{
-  "lci": {
-    "command": "npx",
-    "args": ["-y", "@standardbeagle/lci", "mcp"]
   }
 }
 ```
@@ -194,7 +164,7 @@ Parameters: { "pattern": "main", "max": 5 }
 
 設置後，向用戶提供：
 
-1. **Binary location**：本地路徑或npx後備
+1. **Binary location**：本地路徑
 2. **Installation method used**：slop-mcp或標準mcp.json
 3. **Scope**（若slop-mcp）：user/project/memory
 4. **Verification status**：工具可用且正常

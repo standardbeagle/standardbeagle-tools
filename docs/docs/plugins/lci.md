@@ -99,10 +99,10 @@ lci includes an MCP server providing tools for:
 - `get_context` - Get detailed context for symbols
 - `explore` - Explore codebase structure
 
-### NPM Package
+### Install
 
 ```bash
-npm install @standardbeagle/lci
+curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
 ```
 
 ### MCP Configuration
@@ -111,8 +111,8 @@ npm install @standardbeagle/lci
 {
   "mcpServers": {
     "lci": {
-      "command": "npx",
-      "args": ["-y", "@standardbeagle/lci@latest", "mcp"]
+      "command": "lci",
+      "args": ["mcp"]
     }
   }
 }
@@ -238,8 +238,7 @@ claude mcp list
 
 - [tools Plugin](./tools) - Combined agnt + lci
 - [MCP Server Documentation](/docs/mcp/lci-server)
-- [GitHub Repository](https://github.com/standardbeagle/lci)
-- [NPM Package](https://www.npmjs.com/package/@standardbeagle/lci)
+- [GitHub Repository](https://github.com/standardbeagle/lci-cpp)
 
 ## Version History
 

@@ -316,7 +316,7 @@ Updated cluster ordering for the epic:
 | 3 | `frontend-races-reviewer` | Major frontend feature lands (likely on agnt sketch-mode work) |
 | 4 | `data-migrations-reviewer` | Any DB / persistent-state work appears |
 | 5 | `repo-research-analyst` | New contributor onboarding, or repo refactor with convention drift |
-| 6 | `issue-intelligence-analyst` | GitHub Issues volume rises on `standardbeagle/agnt` or `standardbeagle/lci` |
+| 6 | `issue-intelligence-analyst` | GitHub Issues volume rises on `standardbeagle/agnt` or `standardbeagle/lci-cpp` |
 | 7 | `ce-pr-comment-resolver` | Same as #1 |
 
 ### Drop tier (cut from epic, do not port)

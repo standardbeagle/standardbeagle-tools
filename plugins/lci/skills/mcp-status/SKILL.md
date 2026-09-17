@@ -15,7 +15,7 @@ description: "Check LCI MCP server registration status across slop-mcp and stand
 
 ```bash
 # Check common installation locations
-for loc in "$HOME/.local/bin/lci" "$HOME/go/bin/lci"; do
+for loc in "$HOME/.local/bin/lci" "/usr/local/bin/lci"; do
   if [ -x "$loc" ]; then
     echo "Binary: $loc"
     "$loc" --version
@@ -28,7 +28,7 @@ if command -v lci &> /dev/null; then
   echo "Binary: $(which lci)"
   lci --version
 else
-  echo "Binary: npx @standardbeagle/lci (no local installation)"
+  echo "Binary: not installed"
 fi
 ```
 
@@ -83,9 +83,8 @@ Parameters: { "mode": "statistics" }
 | Location | Status | Version |
 |----------|--------|---------|
 | ~/.local/bin/lci | <found/not found> | <version if found> |
-| ~/go/bin/lci | <found/not found> | <version if found> |
+| /usr/local/bin/lci | <found/not found> | <version if found> |
 | System PATH | <found/not found> | <version if found> |
-| Fallback | npx @standardbeagle/lci | <always available> |
 
 **Active**: <which location is being used>
 
@@ -120,7 +119,7 @@ Parameters: { "mode": "statistics" }
 ### Check if lci binary is accessible
 ```bash
 # Check installation locations
-for loc in "$HOME/.local/bin/lci" "$HOME/go/bin/lci"; do
+for loc in "$HOME/.local/bin/lci" "/usr/local/bin/lci"; do
   if [ -x "$loc" ]; then
     echo "Found: $loc"
     "$loc" --version
@@ -132,16 +131,13 @@ if command -v lci &> /dev/null; then
   echo "Found in PATH: $(which lci)"
   lci --version
 else
-  echo "Not installed locally - using npx fallback"
-  npx -y @standardbeagle/lci --version
+  echo "Not installed - run: curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh"
 fi
 ```
 
 ### Check MCP server startup
 ```bash
 lci mcp --help
-# or if using npx:
-npx -y @standardbeagle/lci mcp --help
 ```
 
 ### Test MCP communication
@@ -161,10 +157,9 @@ Parameters: { "pattern": "test", "max": 1 }
 
 ### Binary Not Found
 
-若npx找不到二進位：
-1. 清npm緩存：`npm cache clean --force`
-2. 顯式安裝：`npm install -g @standardbeagle/lci`
-3. 驗：`npx @standardbeagle/lci --version`
+若找不到二進位：
+1. 安裝：`curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh`（Windows：`irm https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.ps1 | iex`）
+2. 驗：`lci --version`
 
 ### Duplicate Registration
 
@@ -183,12 +178,10 @@ Parameters: { "pattern": "test", "max": 1 }
 
 ## Migration Path
 
-### From npx to local binary
+### Pointing the registration at the local binary
 1. 本地安裝lci：
    ```bash
-   npm install -g @standardbeagle/lci
-   # or
-   go install github.com/standardbeagle/lci/cmd/lci@latest
+   curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
    ```
 2. 更新slop-mcp登錄，使用本地二進位路徑
 3. 驗：`lci --version`

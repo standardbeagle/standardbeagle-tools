@@ -19,19 +19,22 @@ The Model Context Protocol (MCP) is an open standard for connecting AI assistant
 
 ## Available Servers
 
-| Server | NPM Package | Description |
+| Server | Package | Description |
 |--------|-------------|-------------|
 | [agnt](/docs/mcp/agnt-server) | `@standardbeagle/agnt` | Browser debugging and automation |
-| [lci](/docs/mcp/lci-server) | `@standardbeagle/lci` | Lightning code intelligence |
+| [lci](/docs/mcp/lci-server) | `lci` binary ([lci-cpp](https://github.com/standardbeagle/lci-cpp)) | Lightning code intelligence |
 
 ## Installation
 
 ### Using NPX (Recommended)
 
 ```bash
-# Run directly with npx
+# Run agnt directly with npx
 npx @standardbeagle/agnt@latest mcp
-npx @standardbeagle/lci@latest mcp
+
+# lci ships as a binary
+curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
+lci mcp
 ```
 
 ### Using Plugins
@@ -47,7 +50,7 @@ claude mcp add lci --source ./plugins/lci
 ```bash
 # Install globally
 npm install -g @standardbeagle/agnt
-npm install -g @standardbeagle/lci
+curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
 
 # Run MCP server
 agnt mcp
@@ -68,8 +71,8 @@ Add to your Claude Code configuration:
       "args": ["-y", "@standardbeagle/agnt@latest", "mcp"]
     },
     "lci": {
-      "command": "npx",
-      "args": ["-y", "@standardbeagle/lci@latest", "mcp"]
+      "command": "lci",
+      "args": ["mcp"]
     }
   }
 }

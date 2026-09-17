@@ -12,12 +12,14 @@ The **lci MCP server** provides sub-millisecond semantic code search with intell
 ## Installation
 
 ```bash
-# Using npx (recommended)
-npx @standardbeagle/lci@latest mcp
-
-# Global installation
-npm install -g @standardbeagle/lci
+# Linux x86_64 / macOS arm64
+curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
 lci mcp
+```
+
+```powershell
+# Windows x86_64
+irm https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.ps1 | iex
 ```
 
 ## Configuration
@@ -28,11 +30,8 @@ lci mcp
 {
   "mcpServers": {
     "lci": {
-      "command": "npx",
-      "args": ["-y", "@standardbeagle/lci@latest", "mcp"],
-      "env": {
-        "LCI_INDEX_PATH": ".lci-index"
-      }
+      "command": "lci",
+      "args": ["mcp"]
     }
   }
 }
@@ -238,5 +237,4 @@ lci achieves 79.8% context reduction by:
 ## Related Resources
 
 - [lci Plugin](/docs/plugins/lci)
-- [NPM Package](https://www.npmjs.com/package/@standardbeagle/lci)
-- [GitHub Repository](https://github.com/standardbeagle/lci)
+- [GitHub Repository](https://github.com/standardbeagle/lci-cpp)

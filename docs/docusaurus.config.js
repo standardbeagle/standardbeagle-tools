@@ -192,8 +192,8 @@ const config = {
                 href: 'https://www.npmjs.com/package/@standardbeagle/agnt',
               },
               {
-                label: '@standardbeagle/lci',
-                href: 'https://www.npmjs.com/package/@standardbeagle/lci',
+                label: 'lci',
+                href: 'https://github.com/standardbeagle/lci-cpp',
               },
             ],
           },

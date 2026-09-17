@@ -74,7 +74,7 @@ graph TD
     B --> D[lci Plugin]
     B --> E[tools Plugin]
     C --> F[@standardbeagle/agnt MCP]
-    D --> G[@standardbeagle/lci MCP]
+    D --> G[lci MCP]
     E --> F
     E --> G
     F --> H[Browser Debugging]
@@ -85,7 +85,8 @@ graph TD
 
 - **GitHub**: [standardbeagle/standardbeagle-tools](https://github.com/standardbeagle/standardbeagle-tools)
 - **Issues**: [Report a bug](https://github.com/standardbeagle/standardbeagle-tools/issues)
-- **NPM**: [@standardbeagle/agnt](https://www.npmjs.com/package/@standardbeagle/agnt) | [@standardbeagle/lci](https://www.npmjs.com/package/@standardbeagle/lci)
+- **NPM**: [@standardbeagle/agnt](https://www.npmjs.com/package/@standardbeagle/agnt)
+- **lci**: [standardbeagle/lci-cpp](https://github.com/standardbeagle/lci-cpp) 
 
 ## License
 

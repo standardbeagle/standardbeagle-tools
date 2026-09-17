@@ -131,13 +131,13 @@ plugins/
 
 ### MCP Server Integration
 
-諸 plugin 皆用 **npx-based MCP servers**，取 published npm packages：
-- `agnt` → `npx @standardbeagle/agnt@latest mcp`
-- `lci` → `npx @standardbeagle/lci@latest mcp`
+諸 plugin 之 MCP servers：
+- `agnt` → `npx @standardbeagle/agnt@latest mcp`（published npm package）
+- `lci` → `lci mcp`（本地 binary，以 lci-cpp install.sh 裝之）
 
 實 MCP server implementations 在別 repo：
 - https://github.com/standardbeagle/agnt
-- https://github.com/standardbeagle/lci
+- https://github.com/standardbeagle/lci-cpp
 
 ### Session Management (agnt plugin)
 

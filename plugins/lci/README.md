@@ -12,45 +12,41 @@ Sub-millisecond semantic code search and code intelligence for AI coding agents.
 
 ## Installation
 
-### Via npm (recommended)
+Prebuilt binaries ship for Linux x86_64, macOS arm64 and Windows x86_64 (source: [lci-cpp](https://github.com/standardbeagle/lci-cpp)).
 
 ```bash
-npm install -g @standardbeagle/lci
+# Linux / macOS
+curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
 ```
 
-### Via pip
-
-```bash
-pip install lightning-code-index
+```powershell
+# Windows
+irm https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.ps1 | iex
 ```
 
-### Via Go
-
-```bash
-go install github.com/standardbeagle/lci/cmd/lci@latest
-```
+Update with `lci update`.
 
 ### MCP Registration
 
 **Option 1: Via slop-mcp** (if available)
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
-{ "action": "register", "name": "lci", "command": "npx", "args": ["-y", "@standardbeagle/lci", "mcp"], "scope": "user" }
+{ "action": "register", "name": "lci", "command": "lci", "args": ["mcp"], "scope": "user" }
 ```
 
 **Option 2: Add to `.mcp.json`**
 ```json
 {
   "lci": {
-    "command": "npx",
-    "args": ["-y", "@standardbeagle/lci", "mcp"]
+    "command": "lci",
+    "args": ["mcp"]
   }
 }
 ```
 
 ## Search Modes
 
-The `/lci:search-code` skill accepts a `--mode` argument selecting the retrieval strategy. Default is `dense`. Other modes are **specification only** at this time — the current lci server (`0.4.0`, see `marketplace.json`) implements `dense`; `bm25`, `symbolic`, and `multiview` are reserved for downstream server releases tracked in [github.com/standardbeagle/lci](https://github.com/standardbeagle/lci). The formal contract lives in `plugins/lci/docs/lci-modes-spec.md`.
+The `/lci:search-code` skill accepts a `--mode` argument selecting the retrieval strategy. Default is `dense`. Other modes are **specification only** at this time — the current lci server (`0.4.0`, see `marketplace.json`) implements `dense`; `bm25`, `symbolic`, and `multiview` are reserved for downstream server releases tracked in [github.com/standardbeagle/lci-cpp](https://github.com/standardbeagle/lci-cpp). The formal contract lives in `plugins/lci/docs/lci-modes-spec.md`.
 
 | Mode | What it returns | When to prefer |
 |---|---|---|

@@ -120,8 +120,8 @@ mcp "filesystem" {
 }
 
 mcp "lci" {
-  command "npx"
-  args "-y" "@standardbeagle/lci@latest" "mcp"
+  command "lci"
+  args "mcp"
 }
 
 mcp "github" {

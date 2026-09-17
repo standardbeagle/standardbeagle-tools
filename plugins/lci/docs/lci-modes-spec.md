@@ -1,6 +1,6 @@
 # lci `--mode` and `--conflicts` — server contract spec
 
-**Status:** Plugin-side specification. Server implementation is downstream — owned by [github.com/standardbeagle/lci](https://github.com/standardbeagle/lci). Authoritative pattern rationale lives in `docs/research/K2-knowledge-hygiene-from-papers.md` (K2). This document is the contract surface between the plugin command UI (`plugins/lci/commands/search.md`) and the lci server.
+**Status:** Plugin-side specification. Server implementation is downstream — owned by [github.com/standardbeagle/lci-cpp](https://github.com/standardbeagle/lci-cpp). Authoritative pattern rationale lives in `docs/research/K2-knowledge-hygiene-from-papers.md` (K2). This document is the contract surface between the plugin command UI (`plugins/lci/commands/search.md`) and the lci server.
 
 **Plugin baseline:** lci server `0.4.0` ships `dense` only. `bm25`, `symbolic`, `multiview`, and `--conflicts` are reserved surface; the plugin command spec is fixed here so consumers (other plugins, agent skills) can write against the contract before each mode lands server-side.
 
@@ -147,7 +147,7 @@ Each step MUST keep older modes behaviorally identical (back-compat). Each step 
 
 ## 7. Out of scope (explicit)
 
-- Server implementation — owned by `github.com/standardbeagle/lci`, not this repo.
+- Server implementation — owned by `github.com/standardbeagle/lci-cpp`, not this repo.
 - Knowledge-graph mode — K2 §3.4 names dense + bm25 + symbolic + KG as the four-axis pattern; KG is reserved for a separate epic (not `kx5Yf2ZTlxP6`).
 - Generative reasoning over retrieved results — lci is non-generative by design (K2 §4.4 explicit no-op for rationalization-trap and conflict-resolution generation).
 - Cross-mode reranking models — out of scope for v1; merge rule is documented per Step 3 server release.

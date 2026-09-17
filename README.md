@@ -59,14 +59,11 @@ Each MCP server package exposes tools to MCP clients (Claude Code, Cursor, etc.)
 ### Step 1: Install the binaries
 
 ```bash
-# Via npm (recommended)
-npm install -g @standardbeagle/agnt @standardbeagle/lci
+# agnt: via npm or pip
+npm install -g @standardbeagle/agnt   # or: pip install agnt
 
-# Via pip
-pip install agnt lightning-code-index
-
-# Via Go (lci only)
-go install github.com/standardbeagle/lci/cmd/lci@latest
+# lci: prebuilt binary (Linux x86_64, macOS arm64); Windows: irm https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.ps1 | iex
+curl -fsSL https://raw.githubusercontent.com/standardbeagle/lci-cpp/main/install.sh | sh
 ```
 
 ### Step 2: Register MCP servers
@@ -75,7 +72,7 @@ go install github.com/standardbeagle/lci/cmd/lci@latest
 ```
 mcp__plugin_slop-mcp_slop-mcp__manage_mcps
 { "action": "register", "name": "agnt", "command": "npx", "args": ["-y", "@standardbeagle/agnt", "mcp"], "scope": "user" }
-{ "action": "register", "name": "lci", "command": "npx", "args": ["-y", "@standardbeagle/lci", "mcp"], "scope": "user" }
+{ "action": "register", "name": "lci", "command": "lci", "args": ["mcp"], "scope": "user" }
 ```
 
 **Option B: Add to `.mcp.json`**
@@ -86,8 +83,8 @@ mcp__plugin_slop-mcp_slop-mcp__manage_mcps
     "args": ["-y", "@standardbeagle/agnt", "mcp"]
   },
   "lci": {
-    "command": "npx",
-    "args": ["-y", "@standardbeagle/lci", "mcp"]
+    "command": "lci",
+    "args": ["mcp"]
   }
 }
 ```
@@ -134,7 +131,7 @@ Sub-millisecond semantic code search and code intelligence:
 - **Context Manifests**: Save/load code context for agent handoff
 - **Side Effect Analysis**: Function purity and mutation tracking
 
-**Requirements**: `lci` binary via npm/pip/go or [GitHub releases](https://github.com/standardbeagle/lci)
+**Requirements**: `lci` binary from the [install script or GitHub releases](https://github.com/standardbeagle/lci-cpp)
 
 ### tools - Complete Toolkit
 

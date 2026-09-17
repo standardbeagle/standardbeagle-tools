@@ -178,7 +178,7 @@ Scope: user
 
 Migrated MCPs (2):
   filesystem - npx @modelcontextprotocol/server-filesystem /home/user
-  lci - npx @standardbeagle/lci@latest mcp
+  lci - lci mcp
 
 Skipped (1):
   github - already registered

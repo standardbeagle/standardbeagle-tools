@@ -119,8 +119,8 @@ The tools plugin includes both MCP servers:
       "args": ["-y", "@standardbeagle/agnt@latest", "mcp"]
     },
     "lci": {
-      "command": "npx",
-      "args": ["-y", "@standardbeagle/lci@latest", "mcp"]
+      "command": "lci",
+      "args": ["mcp"]
     }
   }
 }
@@ -208,9 +208,9 @@ Both MCP servers are optimized for speed:
 ### Both MCP Servers Not Starting
 
 ```bash
-# Check both packages are available
+# Check both servers are available
 npm view @standardbeagle/agnt
-npm view @standardbeagle/lci
+lci --version
 
 # Reinstall plugin
 claude mcp remove tools
