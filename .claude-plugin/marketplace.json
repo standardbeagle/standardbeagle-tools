@@ -38,13 +38,13 @@
       "name": "lci",
       "source": "./plugins/lci",
       "description": "Lightning Code Index - sub-millisecond semantic code search and code intelligence for AI agents, with instant codebase navigation, symbol lookup, call-hierarchy analysis, and ~80% context reduction",
-      "version": "0.6.4",
+      "version": "0.6.5",
       "author": {
         "name": "Standard Beagle",
-        "url": "https://github.com/standardbeagle/lci"
+        "url": "https://github.com/standardbeagle/lci-cpp"
       },
-      "homepage": "https://github.com/standardbeagle/lci",
-      "repository": "https://github.com/standardbeagle/lci",
+      "homepage": "https://github.com/standardbeagle/lci-cpp",
+      "repository": "https://github.com/standardbeagle/lci-cpp",
       "license": "MIT",
       "keywords": [
         "mcp",
@@ -222,7 +222,7 @@
       "name": "slop-mcp",
       "source": "./plugins/slop-mcp",
       "description": "SLOP (Simple Language Open Protocol) integration for MCP management. Migrate existing MCP setups, search and execute tools, manage resources, and orchestrate multiple MCP servers. Includes Dart MCP tool reference skills for reduced get_metadata calls.",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "author": {
         "name": "Standard Beagle",
         "url": "https://github.com/standardbeagle"
