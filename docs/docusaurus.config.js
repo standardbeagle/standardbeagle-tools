@@ -124,6 +124,9 @@ const config = {
         respectPrefersColorScheme: true,
       },
       metadata: [
+        // Google-only removal (2026-09-25): the whole dev host is disowned
+        // from Google; Bingbot ignores the googlebot name and indexes normally.
+        {name: 'googlebot', content: 'noindex, follow'},
         {name: 'description', content: 'Discover powerful Claude Code plugins for browser debugging, semantic code search, workflow automation, and MCP server management.'},
         {property: 'og:description', content: 'Supercharge Claude Code with browser debugging, code intelligence, and workflow automation plugins'},
       ],
