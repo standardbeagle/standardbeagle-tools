@@ -108,7 +108,13 @@ function parseToolJson(result: unknown): unknown {
   return JSON.parse(first.text);
 }
 
-describe('MCP server smoke (1 tool per server)', () => {
+// The case budget above is the real limit. The Vitest timeout must sit above
+// it in every runner: packages/e2e/vitest.config.ts sets 30s, but the root
+// `pnpm test` config does not, so without this the default 5s deadline killed
+// cold server starts under full-suite load before the 10s budget could apply.
+const CASE_TIMEOUT_MS = PER_CASE_BUDGET_MS * 3;
+
+describe('MCP server smoke (1 tool per server)', { timeout: CASE_TIMEOUT_MS }, () => {
   it('color: contrast_check black on white ≈ 21:1', async () => {
     await withinBudget(
       'color.contrast_check',
