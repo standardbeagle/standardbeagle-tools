@@ -190,12 +190,18 @@ dev-oidc {
 }
 ```
 
-- 應用之 OIDC authority 設為 `http://localhost:<代理埠>/__agnt/oidc`，client 設同上。
+- **二模式，同時僅一**（代理一次只有一個監聽）：
+  - **本機模式（預設，非 SSH 工作）**：代理 loopback 繫結；應用之 OIDC authority 設為 `http://localhost:<代理埠>/__agnt/oidc`；本機請求可為任一 persona，`default-persona` 自動登入。
+  - **tailnet 模式（經 SSH 於遠端機工作，瀏覽器在他機）**：代理加 `bind "tailscale"`；authority 為 `http://<MagicDNS 名>:<代理埠>/__agnt/oidc`；以 `tailscale whois` 所得之 Tailscale 登入（通常為郵箱）查 `allow`，僅授所列 persona；首次登入顯示選擇頁（`default-persona` 不適用）；標籤裝置不授。
+  - **`issuer` 宜留空**：預設隨繫結而變（loopback → localhost，tailnet → MagicDNS），切換模式時簽發者自隨。應用端之 issuer（與 NextAuth 之 `NEXTAUTH_URL` 等回調基址）須與當前模式一致。
+  - `redirect-uri` 二模式之回調皆登記（`http://localhost:*/...` 與 `http://<MagicDNS 名>:<埠>/...`），切換不必改。
+  - `allow` 僅作用於遠端（tailnet、Access 隧道）；本機模式不需。
+  - 切換：`:tailscale [proxy]` 入 tailnet 模式（若 `issuer` 仍釘 localhost 或 `allow` 為空則警示）；刪 `bind`／`status-url` 二行回本機模式。
 - 巢狀塊每節點一行；解析器拒 `} }` 同行。
 - `redirect-uri` 唯允整個埠為 `*`，且限 `localhost`/`127.0.0.1`/`[::1]`。
 - `secret` 為開發用字面值，僅護此簽發者，可入庫。
 - 與隧道並用：`issuer` 設為隧道主機名（`https://dev.example.com/__agnt/oidc`），`allow { "<Access 郵箱>" "standard" "admin" }` 決定經隧道之真實用戶可為何 persona；應用後端之 discovery 須指向代理本機 URL（Access 拒無登入之伺服器端請求）。
-- 簽發者僅於 loopback 繫結且無轉發標頭之本機請求，或經 Access 驗證之隧道請求答覆；餘皆 403。
+- 簽發者答覆者僅三：loopback 繫結且 Host 為本機、無轉發標頭之本機請求（全部 persona）；`bind "tailscale"` 代理上來自 tailnet 位址、Host 為本節點 tailnet 名、whois 得人之請求（`allow` 所列）；經 Access 驗證之命名隧道請求（`allow` 所列）。餘皆 403（含 `0.0.0.0`、臨時隧道、`allow-unauthenticated` 隧道）。
 
 完整鍵表：agnt 倉庫 `docs/configuration.md` § Named Cloudflare Tunnel、§ Auth Breakout、§ Dev OIDC。
 

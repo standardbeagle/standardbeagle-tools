@@ -1403,7 +1403,7 @@ tunnel {action: "stop", id: "dev"}
 
 ## 12. devauth
 
-以 `.agnt.kdl` `dev-oidc` 塊之 persona 登入開發中之應用。三操作皆呼代理本機 `/__agnt/oidc/` 端點。
+以 `.agnt.kdl` `dev-oidc` 塊之 persona 登入開發中之應用。三操作皆呼代理自身之 `/__agnt/oidc/` 端點，依代理實際監聽位址：本機模式走 `localhost`，tailnet 模式（`bind "tailscale"`）走 tailnet 位址（此時以本機之 Tailscale 登入查 `allow`）。
 
 ### 參數
 
@@ -1420,7 +1420,7 @@ tunnel {action: "stop", id: "dev"}
 |--------|------|
 | `personas` | 列 personas、當前 persona、issuer URL |
 | `as` | 於頁中提交切換表單（同指示器之 `as:` 晶片）：設 persona cookie、清應用會話 cookie、導至 `login-path`，應用即以新身分重新登入 |
-| `token` | 直接簽發 access token（僅本機），供 API 測試：`Authorization: Bearer <access_token>` |
+| `token` | 直接簽發 access token，供 API 測試：`Authorization: Bearer <access_token>`。本機模式任一 persona；tailnet 模式限 `allow` 所授；經 Access 隧道不可 |
 
 代理無 `dev-oidc` 塊時回錯並示應宣告之。
 
