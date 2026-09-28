@@ -12,7 +12,9 @@ allowed-tools: "[\"mcp__agnt__detect\", \"Read\", \"Write\", \"AskUserQuestion\"
 `.agnt.kdl` 配置agnt自動啟動開發環境所需之一切：
 
 - **`scripts {}`**：用 `run`、`command/args`、`autostart`、`url-matchers`、`env`、`cwd`、`depends-on`、`shell` 定義腳本
-- **`proxies {}`**：用 `url`/`port`、`script`（連結至腳本供URL偵測）、`url-pattern`、`bind`、`autostart`、`fallback-port` 定義反向代理
+- **`proxies {}`**：用 `url`/`port`、`script`（連結至腳本供URL偵測）、`url-pattern`、`bind`、`allow-external`、`autostart`、`fallback-port` 定義反向代理；`cloudflare-tunnel {}` 子塊令該代理以固定主機名經 Cloudflare Access 公開
+- **`auth-breakout {}`**：應用之 OAuth/OIDC 登入頁（Entra、Google、GitHub、Okta、Auth0、Figma）拒於 iframe 中顯示時，將其移出代理之內容框架而後將回調送回
+- **`dev-oidc {}`**：開發用 OIDC 簽發者，於每代理之 `/__agnt/oidc` 服務；以檔中 personas（如 standard／admin）登入應用，可於瀏覽器指示器、覆蓋選單 `:as` 或 `devauth` 工具切換
 - **`project {}`**：可選元資料（name、type）
 - **`hooks {}`**：瀏覽器通知配置（toast、indicator、sound）
 - **`toast {}`**：Toast通知設定（duration、position、max-visible）
@@ -67,7 +69,11 @@ detect {path: "."}
 若是，詢問：
 - **代理ID**：短名稱（如 "dev"、"app"）
 - **目標**：開發伺服器監聽之URL/埠，或連結至腳本供自動偵測
-- **繫結位址**：`127.0.0.1`（預設）或 `0.0.0.0` 供行動/Tailscale存取
+- **繫結位址**（暴露程度乃用戶之決定，須問，勿自擇）：
+  - `127.0.0.1`（預設）：僅本機
+  - `bind "tailscale"`：本節點之 tailnet 位址，僅 tailnet 內裝置可達（已驗證、加密）；無需 `allow-external`；本機亦改由 tailnet 位址訪問
+  - `0.0.0.0`：本機所在之一切網絡，須另加 `allow-external true`
+  - 需固定公網主機名（手機、他人、OAuth 回調）→ 見步驟 6 `cloudflare-tunnel`
 
 代理可為：
 - **明確目標**：`url "http://localhost:3000"` 或 `port 3000`
@@ -118,7 +124,82 @@ scripts {
 - **指示器閃爍**：閃爍浮動蟲子指示器
 - **聲音警報**：播放通知聲（需瀏覽器權限）
 
-### 6. 寫入.agnt.kdl配置
+### 6. 詢問對外存取與應用登入
+
+僅當應用需自他機訪問，或應用本身有登入時問。
+
+**問題**：「應用是否需從本機以外訪問？是否有 OAuth/OIDC 登入？」
+
+**A. 固定公網主機名（命名 Cloudflare 隧道）**。隧道、DNS、憑證檔須先於工作站以 Cloudflare 帳戶 token 建立（agnt 永不持此 token）；問用戶取：隧道 UUID、主機名、憑證檔路徑、Access 團隊網域與應用之 AUD。
+
+```kdl
+proxies {
+    dev {
+        script "dev"
+        cloudflare-tunnel {
+            id "6ff42ae2-765d-4adf-8112-31c55c1551ef"
+            hostname "dev.example.com"
+            credentials-file "~/.config/cloudflared/dev.json"
+            access {
+                team-domain "yourteam.cloudflareaccess.com"
+                aud "<Access application Audience tag>"
+            }
+        }
+    }
+}
+```
+
+- **無 `access` 亦無 `allow-unauthenticated true` 則解析失敗**（fail closed）。後者令開發代理無認證而公開，唯用戶明言方可寫。
+- 憑證檔須 `chmod 600`，否則隧道拒啟。
+- 隧道之請求經專屬 loopback 入口，逐一驗 `Cf-Access-Jwt-Assertion`；本機 `127.0.0.1` 瀏覽不受影響。
+- 隧道連線後，代理以 `X-Forwarded-Proto: https`、`X-Forwarded-Host: <hostname>` 轉發，故應用可組出正確之 `https://` 回調。
+
+**B. 應用用外部 IdP，但登入頁於 iframe 中空白**：加 `auth-breakout`（宣告此塊即啟用；預設涵蓋常見 IdP）：
+
+```kdl
+auth-breakout {
+    mode "popup"
+}
+```
+
+MSAL 應用另須於開發配置設 `system: { allowRedirectInIframe: true }`。
+
+**C. 欲以多個測試身分登入（如 standard／admin）而無需真 IdP 帳號**：加 `dev-oidc`。問：應用之 client id、回調路徑、是否 confidential（需 secret）、登入路徑、會話 cookie 名、各 persona 之 email 與 roles。
+
+```kdl
+dev-oidc {
+    clients {
+        my-app {
+            redirect-uri "http://localhost:*/auth/callback"
+            secret "dev-only"
+            login-path "/auth/login"
+            session-cookies "my-app.sid"
+        }
+    }
+    personas {
+        standard {
+            email "std@example.com"
+            roles "user"
+        }
+        admin {
+            email "admin@example.com"
+            roles "admin" "user"
+        }
+    }
+    default-persona "standard"
+}
+```
+
+- 應用之 OIDC authority 設為 `http://localhost:<代理埠>/__agnt/oidc`，client 設同上。
+- 巢狀塊每節點一行；解析器拒 `} }` 同行。
+- `redirect-uri` 唯允整個埠為 `*`，且限 `localhost`/`127.0.0.1`/`[::1]`。
+- `secret` 為開發用字面值，僅護此簽發者，可入庫。
+- 與隧道並用：`issuer` 設為隧道主機名（`https://dev.example.com/__agnt/oidc`），`allow { "<Access 郵箱>" "standard" "admin" }` 決定經隧道之真實用戶可為何 persona；應用後端之 discovery 須指向代理本機 URL（Access 拒無登入之伺服器端請求）。
+- 簽發者僅於 loopback 繫結且無轉發標頭之本機請求，或經 Access 驗證之隧道請求答覆；餘皆 403。
+
+完整鍵表：agnt 倉庫 `docs/configuration.md` § Named Cloudflare Tunnel、§ Auth Breakout、§ Dev OIDC。
+
+### 7. 寫入.agnt.kdl配置
 
 以KDL格式建立或更新專案根目錄之 `.agnt.kdl`。
 
@@ -172,7 +253,7 @@ toast {
 }
 ```
 
-### 7. 說明後續運作
+### 8. 說明後續運作
 
 建立配置後，告知用戶：
 
@@ -192,6 +273,8 @@ toast {
 4. **OAuth端口可見性**：狀態欄顯示開發伺服器埠與代理埠（如 "dev:3000 -> proxy:18080"）。兩者均加入OAuth重導向URL：
    - 開發伺服器：`http://localhost:3000`
    - 代理：`http://localhost:18080`（用於瀏覽器除錯）
+   - 有 `cloudflare-tunnel`：加 `https://<hostname>/<回調>`
+   - 用 `dev-oidc`：回調已於 `redirect-uri` 登記，無需外部 IdP 註冊；切換身分用指示器之 `as:` 晶片、覆蓋選單 `:as admin`，或 `devauth {action: "as", proxy_id: "dev", persona: "admin"}`
 
 5. **修改方式**：直接編輯 `.agnt.kdl`，或重新執行 `/setup-project`
 

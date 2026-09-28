@@ -414,8 +414,9 @@ Parameters: {
 | `target_url` | string | No* | Target URL to proxy (required for start) |
 | `port` | int | No | Listen port (default: stable hash of target URL) |
 | `max_log_size` | int | No | Maximum log entries (default: 1000) |
-| `bind_address` | string | No | Bind address: `127.0.0.1` (default) or `0.0.0.0` (all interfaces) |
-| `public_url` | string | No | Public URL for tunnel services |
+| `bind_address` | string | No | Bind address: `127.0.0.1` (default), `tailscale` (this node's tailnet address, tailnet-only), or `0.0.0.0` (all interfaces; needs `allow_external`) |
+| `allow_external` | boolean | No | Required for any non-loopback, non-`tailscale` bind. Acknowledges network exposure |
+| `public_url` | string | No | Public URL the proxy is served behind (link rewriting + WebSocket origin). The `tunnel` tool sets it for you |
 | `verify_tls` | boolean | No | Verify TLS certificates (default: false) |
 | `code` | string | No* | JavaScript code to execute (required for exec) |
 | `global` | boolean | No | For list: include proxies from all directories |
@@ -426,15 +427,7 @@ Parameters: {
 | `toast_message` | string | No* | For toast: notification message (required for toast) |
 | `toast_duration` | int | No | For toast: duration in milliseconds |
 
-### 隧道參數（start操作用）
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `tunnel` | string | Tunnel provider: ngrok, cloudflared, tailscale, or custom |
-| `tunnel_args` | string[] | Additional arguments for tunnel command |
-| `tunnel_token` | string | Authentication token for tunnel |
-| `tunnel_region` | string | Tunnel region |
-| `tunnel_command` | string | Custom tunnel command (use `{{PORT}}` as placeholder) |
+`proxy start` 不接受隧道參數。臨時隧道用 `tunnel` 工具（見 §11）；固定主機名 + Cloudflare Access 之命名隧道於 `.agnt.kdl` 之 `cloudflare-tunnel` 宣告（見 `agnt:setup-project` 步驟 6）。
 
 ### 輸出模式
 
@@ -510,21 +503,13 @@ Parameters: {
 }
 ```
 
-**帶隧道啟動代理：**
+**啟代理後開臨時隧道：**
 ```
-mcp__plugin_slop-mcp_slop-mcp__execute_tool
-Parameters: {
-  "mcp_name": "agnt",
-  "tool_name": "proxy",
-  "parameters": {
-    "action": "start",
-    "id": "dev",
-    "target_url": "http://localhost:3000",
-    "tunnel": "cloudflared",
-    "bind_address": "0.0.0.0"
-  }
-}
+proxy {action: "start", id: "dev", target_url: "http://localhost:3000"}
+tunnel {action: "start", id: "dev", provider: "cloudflare", local_port: <代理埠>, proxy_id: "dev"}
 ```
+
+隧道指向**代理埠**（`proxy status` 之 `listen_addr`），非開發服務器埠，否則繞過代理之儀器。
 
 **取得代理狀態：**
 ```
@@ -1382,6 +1367,72 @@ Parameters: {
 ```
 
 ---
+
+## 11. tunnel
+
+開臨時隧道於本地埠前（通常為代理埠）。
+
+### 參數
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `action` | string | Yes | `start`, `stop`, `status`, `list` |
+| `id` | string | No* | Tunnel ID (required for start/stop/status); use the proxy's id so `proxy list` shows the tunnel URL |
+| `provider` | string | No* | `cloudflare`, `ngrok`, or `tailscale` (required for start) |
+| `local_port` | int | No* | Port to expose (required for start) |
+| `local_host` | string | No | Default `localhost` |
+| `proxy_id` | string | No | Proxy whose URL rewriting follows the tunnel host |
+| `binary_path` | string | No | Override the provider binary |
+| `global` | boolean | No | For list: all projects |
+
+| Provider | 可達範圍 | 認證 |
+|----------|----------|------|
+| `cloudflare` | 公網，隨機 `*.trycloudflare.com` | 無 |
+| `ngrok` | 公網 | 無 |
+| `tailscale` | 僅 tailnet，`https://<node>.<tailnet>.ts.net`，每節點一服務 | Tailscale 裝置身分 |
+
+臨時 `cloudflare`/`ngrok` 隧道**無認證**：得 URL 者皆可訪問開發代理。需固定主機名與登入 → `.agnt.kdl` 之 `cloudflare-tunnel` + Cloudflare Access。
+
+### 示例
+
+```
+tunnel {action: "start", id: "dev", provider: "tailscale", local_port: 18080, proxy_id: "dev"}
+tunnel {action: "status", id: "dev"}
+tunnel {action: "stop", id: "dev"}
+```
+
+## 12. devauth
+
+以 `.agnt.kdl` `dev-oidc` 塊之 persona 登入開發中之應用。三操作皆呼代理本機 `/__agnt/oidc/` 端點。
+
+### 參數
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `action` | string | Yes | `personas`, `as`, `token` |
+| `proxy_id` | string | Yes | Proxy whose dev-oidc issuer to use |
+| `persona` | string | No* | Persona name (required for `as` and `token`) |
+| `client` | string | No* | Client id: required for `token`; for `as`, whose `login-path` to land on |
+
+### 操作
+
+| Action | 作用 |
+|--------|------|
+| `personas` | 列 personas、當前 persona、issuer URL |
+| `as` | 於頁中提交切換表單（同指示器之 `as:` 晶片）：設 persona cookie、清應用會話 cookie、導至 `login-path`，應用即以新身分重新登入 |
+| `token` | 直接簽發 access token（僅本機），供 API 測試：`Authorization: Bearer <access_token>` |
+
+代理無 `dev-oidc` 塊時回錯並示應宣告之。
+
+### 示例
+
+```
+devauth {action: "personas", proxy_id: "dev"}
+devauth {action: "as", proxy_id: "dev", persona: "admin"}
+devauth {action: "token", proxy_id: "dev", persona: "standard", client: "my-app"}
+```
+
+權限測試流程：`as standard` → 驗受限 → `as admin` → 驗可行。覆蓋選單同效：`:as admin [proxy]`。
 
 ## 常用工作流
 

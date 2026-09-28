@@ -563,8 +563,9 @@ proc {action: "autorestart", process_id: "dev-server", max_restarts: 3}
 | `id` | string | No* | Proxy ID |
 | `target_url` | string | No* | URL to proxy (for start) |
 | `port` | int | No | Listen port (default: hash-based) |
-| `bind_address` | string | No | `127.0.0.1` (default) or `0.0.0.0` |
-| `public_url` | string | No | Public URL for tunnels |
+| `bind_address` | string | No | `127.0.0.1` (default), `tailscale` (tailnet-only), or `0.0.0.0` (needs `allow_external`) |
+| `allow_external` | boolean | No | Required for non-loopback, non-`tailscale` binds |
+| `public_url` | string | No | Public URL the proxy is served behind (the `tunnel` tool sets it) |
 | `verify_tls` | boolean | No | Verify TLS certificates |
 | `code` | string | No* | JavaScript code (for exec) |
 | `global` | boolean | No | Include all directories |
@@ -587,6 +588,14 @@ proc {action: "autorestart", process_id: "dev-server", max_restarts: 3}
 | `toast` | Show browser notification | `id`, `toast_message` |
 
 **重要**：代理可在 `.agnt.kdl` 的 `proxies {}` 塊中配置，含 `url`/`port`、`script`（腳本鏈接用於URL探測）、`url-pattern`、`bind`、`autostart`、`fallback-port`。有明確目標或 `autostart true` 之代理自動啟動。鏈接腳本之代理在腳本URL於輸出中探測到時啟動。
+
+**對外存取與登入**（皆於 `.agnt.kdl` 宣告；暴露程度為用戶決定，勿自行放寬）：
+- `bind "tailscale"`：僅 tailnet 可達
+- `cloudflare-tunnel { id hostname credentials-file access { team-domain aud } }`：命名 Cloudflare 隧道，固定主機名，經 Access 驗證後方入；隨代理啟停
+- `auth-breakout`：應用之 OAuth 登入頁拒於 iframe 顯示時啟用
+- `dev-oidc`：開發用 OIDC personas（如 standard／admin），以 `devauth` 工具或覆蓋選單 `:as` 切換
+
+配置細節見 `agnt:setup-project` 步驟 6；工具參數見 `agnt:mcp-tools` §11 tunnel、§12 devauth。
 
 ### 啟動代理
 
@@ -1701,7 +1710,7 @@ Parameters: {
 | Setting | Default | Notes |
 |---------|---------|-------|
 | Port | Hash-based | Stable across restarts |
-| Bind Address | `127.0.0.1` | Use `0.0.0.0` for LAN |
+| Bind Address | `127.0.0.1` | `tailscale` for tailnet-only; `0.0.0.0` + `allow-external` for LAN |
 | Log Buffer | 1000 entries | Circular buffer |
 | Max Body Log | 10KB | Truncated in logs |
 

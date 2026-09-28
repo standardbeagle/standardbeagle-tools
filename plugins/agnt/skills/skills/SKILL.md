@@ -31,7 +31,7 @@ current-page、screenshot）未設此旗，`Skill` 工具直喚即可，無需�
 
 ### 啟動與生命週期 — Setup & lifecycle
 - **`agnt:setup-mcp`** — 安裝 agnt MCP server（本地二進制 / npx / slop-mcp）。
-- **`agnt:setup-project`** — 配置 scripts/proxies 開項目自啟。
+- **`agnt:setup-project`** — 配置 scripts/proxies 開項目自啟；並對外存取（tailnet、命名 Cloudflare 隧道 + Access）與應用登入（auth-breakout、dev-oidc personas）。
 - **`agnt:dev-proxy`** — 啟 dev server + reverse proxy 以調試（process-proxy 多覆蓋之）。
 - **`agnt:stop-all`** — 殺所有進程與代理。
 
@@ -72,7 +72,7 @@ current-page、screenshot）未設此旗，`Skill` 工具直喚即可，無需�
 - **`agnt:workflow`** — 任務完成工作流，強制審查循環。
 
 ### 參考 — Reference
-- **`agnt:mcp-tools`** — 全部 agnt MCP 工具精確參數模式 + 可複製示例。
+- **`agnt:mcp-tools`** — 全部 agnt MCP 工具精確參數模式 + 可複製示例（含 `tunnel`、以 persona 登入應用之 `devauth`）。
 - **`agnt:lci-companion`** — 需語義代碼搜索時導向 sibling lci plugin。
 
 ## 用法
