@@ -12,6 +12,7 @@ export function ScreenView({ params }: { params: { id: string } }) {
   const [screen, setScreen] = useState<any>(null);
   const [values, setValues] = useState<Record<string, unknown>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,8 +30,14 @@ export function ScreenView({ params }: { params: { id: string } }) {
 
   async function onSubmit(e: Event) {
     e.preventDefault();
-    await submitAnswer(fm.id, values);
-    setSubmitted(true);
+    setSubmitError(null);
+    try {
+      await submitAnswer(fm.id, values);
+      setSubmitted(true);
+    } catch (err) {
+      // A failed save must be visible: the old submit swallowed it and the answer was lost.
+      setSubmitError(err instanceof Error ? err.message : String(err));
+    }
   }
 
   return (
@@ -49,6 +56,7 @@ export function ScreenView({ params }: { params: { id: string } }) {
           }
         })}
         <button type="submit" disabled={submitted}>{submitted ? "Submitted" : "Submit"}</button>
+        {submitError && <p class="submit-error" role="alert">{submitError}</p>}
       </form>
     </article>
   );

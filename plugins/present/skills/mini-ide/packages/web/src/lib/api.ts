@@ -1,3 +1,5 @@
+import { newSubmissionId } from "./submission-id";
+
 export interface ScreenSummary { id: string; kind: "question"|"demo"|"decision"|"cards"|"summary-confirm"|"strategy-card"|"annotate-artifact"; title: string; pinned: boolean; }
 
 export interface ArtifactTarget {
@@ -78,11 +80,13 @@ export async function getDoc(path: string): Promise<string> {
   return (await fetch(`/api/docs/file?path=${encodeURIComponent(path)}`)).text();
 }
 export async function submitAnswer(screenId: string, inputs: Record<string, unknown>) {
-  const client_submission_id = crypto.randomUUID();
-  return (await fetch("/api/answer", {
+  const client_submission_id = newSubmissionId();
+  const res = await fetch("/api/answer", {
     method: "POST", headers: { "content-type": "application/json" },
     body: JSON.stringify({ screen_id: screenId, client_submission_id, inputs }),
-  })).json();
+  });
+  if (!res.ok) throw new Error(`answer not saved: ${res.status} ${await res.text()}`);
+  return res.json();
 }
 export async function privateSave(screenId: string, name: string, path: string, contents: string) {
   return (await fetch("/api/private-save", {
