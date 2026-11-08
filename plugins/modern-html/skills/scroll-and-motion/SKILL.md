@@ -2,6 +2,7 @@
 name: modern-html-scroll-and-motion
 description: "Scroll snap, scroll-driven animations, view transitions same-doc/cross-doc, smooth-scroll — scroll-snap-type, animation-timeline scroll()/view(), startViewTransition, @view-transition MPA, ::scroll-button/::scroll-marker, prefers-reduced-motion. Use when: carousel, snap scroller, page transitions SPA/MPA, scroll-position effects, sticky reveal/hide. Skip: no scrollable region, motion disabled."
 paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
+disable-model-invocation: true
 ---
 
 # Scroll and Motion

@@ -1,6 +1,7 @@
 ---
 name: dev-standards-grill-task
 description: "Interrogate any new task before it is persisted — extract intent, flow, domain terms, design patterns, scope, and verification with tier-gated depth. 任務創建時審問之，層層深掘以求精確。 Use when: plugin creates task, schedule work, grill request, interrogate task before planning, task intake, dartai task creation"
+disable-model-invocation: true
 ---
 
 # Grill-Task

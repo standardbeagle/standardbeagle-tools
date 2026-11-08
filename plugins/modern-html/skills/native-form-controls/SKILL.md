@@ -2,6 +2,7 @@
 name: modern-html-native-form-controls
 description: "Native form/input/validation/picker/auto-size — constraint validation (required, pattern, type-inputs), :user-valid/:user-invalid, accent-color, color-scheme, customizable select Limited, field-sizing:content. Use when: login/signup/search/data-entry forms, validation styling, tinting checkbox/radio/range/progress, auto-grow textarea, replacing JS form libs. Skip: read-only display, no inputs."
 paths: "[\"**/*.{html,jsx,tsx,vue,svelte,astro,erb,php}\"]"
+disable-model-invocation: true
 ---
 
 # Native Form Controls

@@ -2,6 +2,7 @@
 name: modern-html-css-architecture
 description: "Cascade layers (@layer), @scope at-rule, native CSS nesting for stylesheet structure, specificity, component scoping, replacing BEM/CSS-Modules. Use when: new design system, migrating off Sass mixins, organizing token layers, specificity battles, scoping component CSS sans build step. Skip: single-file demo or prototype, architecture overhead not worth it."
 paths: "[\"**/*.{css,scss,sass,less}\"]"
+disable-model-invocation: true
 ---
 
 # CSS Architecture

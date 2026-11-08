@@ -2,6 +2,7 @@
 name: modern-html-performance-and-containment
 description: "content-visibility:auto, contain-intrinsic-size, contain property, will-change discipline, container queries to reduce layout thrash for long lists/articles/dashboards/off-screen content. Use when: long article archives, chat logs, infinite-scroll feeds, dashboards with off-screen widgets, before virtual-scrolling lib. Skip: short page, above-fold only, already virtualized."
 paths: "[\"**/*.{css,scss,html,jsx,tsx,vue,svelte,astro}\"]"
+disable-model-invocation: true
 ---
 
 # Performance and Containment

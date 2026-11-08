@@ -1,6 +1,7 @@
 ---
 name: dev-standards-diagnose
 description: "Feedback-loop-first debug discipline for hard bugs + perf regressions: reproduce→minimise→hypothesise→instrument→fix→regression-test. Use when: diagnose this, debug this, bug, broken, throwing, failing, perf regression, flaky test"
+disable-model-invocation: true
 ---
 
 # Diagnose

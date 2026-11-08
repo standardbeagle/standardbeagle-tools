@@ -2,6 +2,7 @@
 name: modern-html-js-replacement-patterns
 description: "Replace JS UI libs with native HTML/CSS — modal, tooltip, popover, dropdown, accordion, tabs, carousel, sticky, smooth-scroll, form-validation, lazy-load, line-clamp. Use when: replacing/evaluating Floating UI, Popper, Headless UI, Radix, Reach, Tippy, Swiper, GSAP, Framer Motion, IntersectionObserver libs; building UI primitives; removing JS from frontend. Skip: backend code, non-UI domain."
 when_to_use: "\"replacing JS UI library, building modal/tooltip/dropdown/menu/accordion/tabs/carousel/sticky/scroll-effect/form-validation, removing dependencies\""
+disable-model-invocation: true
 ---
 
 # JS Replacement Patterns

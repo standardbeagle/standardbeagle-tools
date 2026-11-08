@@ -2,6 +2,7 @@
 name: modern-html-theming-and-color
 description: "Dark mode, color tokens, palettes, dynamic color — color-scheme, light-dark(), prefers-color-scheme, oklch/oklab, color-mix, relative color syntax, @property for animatable color tokens, @supports gating Newly features. Use when: dark mode toggle, brand color tokens, tonal scales, animating colors, interpolating brand/neutral. Skip: sRGB-hex-only mandate, no theming."
 paths: "[\"**/*.{css,scss,sass,less,html,jsx,tsx,vue,svelte,astro}\"]"
+disable-model-invocation: true
 ---
 
 # Theming and Color

@@ -1,6 +1,7 @@
 ---
 name: dev-standards-load-bearing-sources
 description: "Architecture/security/performance claims need >=2 independent sources or escalate. Load-bearing = wrong cascades downstream. Use when: spec/ADR architectural decisions, security primitive choice, performance characteristic assertion, PR with load-bearing claim, subagent design doc. Skip: typos/comments, single authoritative source documented, exploratory hypothesis."
+disable-model-invocation: true
 ---
 
 # Multi-Source Required For Load-Bearing Claims

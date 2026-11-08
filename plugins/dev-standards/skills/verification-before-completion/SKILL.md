@@ -1,6 +1,7 @@
 ---
 name: dev-standards-verification-before-completion
 description: "聲稱完成/修復/通過前必驗證。Run verification commands + confirm output before claiming complete/fixed/passing — evidence before assertions. Use when: about to claim done/fixed/passing, before commit or PR, before delegating downstream, dartai:task-executor Phase 9 final validation. Skip: reporting in-progress with no completion claim; no verification command exists for change type."
+disable-model-invocation: true
 ---
 
 <!--

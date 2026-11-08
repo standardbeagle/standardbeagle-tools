@@ -1,6 +1,7 @@
 ---
 name: dev-standards-config
 description: "dev-standards 設定網關，導向正確之手動配置技藝。Routes project-setup / config-CRUD intent to the right manual dev-standards skill. Use when: bootstrap project dev standards, re-detect tech stack, refresh CLAUDE.md/hooks, add/edit/remove project rules, create project-specific skill, SKILL.md description style, diagnose/configure compound-engineering env, /ce-setup, unsure which config skill."
+disable-model-invocation: true
 ---
 
 # dev-standards Config Recommender
