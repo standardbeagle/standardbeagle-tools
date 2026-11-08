@@ -1,6 +1,7 @@
 ---
 name: dev-standards-perf-ceiling
 description: "Performance is measured against the theoretical maximum, not the previous version. 以理論極限度性能，非以前版。 Use when: make this faster, optimize, slow, latency, throughput, hot path, profiling, benchmark, perf budget, claiming a speedup. Skip: prototype, cold path with no stated budget."
+disable-model-invocation: true
 ---
 
 # Performance Ceiling
