@@ -1,0 +1,13 @@
+{
+  "name": "ps-bash",
+  "version": "0.1.0",
+  "description": "Build on ps-bash, the bash-to-PowerShell shell whose commands return typed objects: consume and produce PsBash.* objects, write browse workbenches, prompt/cd hooks and ls providers, style output with CSS, embed the transpiler and runtime in a .NET app, and drive named sessions from agents and front ends",
+  "author": {
+    "name": "Standard Beagle",
+    "url": "https://github.com/standardbeagle/ps-bash"
+  },
+  "homepage": "https://github.com/standardbeagle/ps-bash",
+  "repository": "https://github.com/standardbeagle/ps-bash",
+  "license": "MIT",
+  "keywords": ["ps-bash", "bash", "powershell", "typed-objects", "transpiler", "shell"]
+}
