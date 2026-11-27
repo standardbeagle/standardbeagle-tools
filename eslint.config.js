@@ -8,6 +8,7 @@ export default ts.config(
       '**/node_modules/**',
       '**/dist/**',
       'docs/**',
+      'site/**',
       '**/docs-api/**',
       'plugins/**',
       '.dartai/**',

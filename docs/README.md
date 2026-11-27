@@ -1,41 +1,14 @@
-# Website
+# docs/
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+Durable reference for standardbeagle-tools:
 
-## Installation
+- `research/` holds the research reports and decision records behind the plugin consolidation: the
+  manifest audit, the dartai sub-dispatch interface, the eval-harness decision and the DartQL case
+  study.
+- `solutions/` is the compound-engineering learnings store (`ce-compound` writes to it).
 
-```bash
-yarn
-```
+The website (Docusaurus) is in `site/`. The ux-core API docs are generated into
+`packages/ux-core/docs-api`.
 
-## Local Development
-
-```bash
-yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
-
-```bash
-yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
-
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Plans and specs that have landed are removed and stay in git history. A plan that an open worktrack
+task cites is committed under `docs/plans/` while the task is open, and removed once it lands.

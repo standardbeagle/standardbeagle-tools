@@ -89,7 +89,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/standardbeagle/standardbeagle-tools/tree/main/docs/',
+          editUrl: 'https://github.com/standardbeagle/standardbeagle-tools/tree/main/site/',
         },
         blog: false,
         theme: {
